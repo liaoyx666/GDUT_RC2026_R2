@@ -6,15 +6,13 @@
 
 extern "C" void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	uint32_t fifo = CAN_RX_FIFO0;
-	can::Can::All_Can_Rx_It_Process(hcan, fifo);
+	can::Can::All_Can_Rx_It_Process(hcan, CAN_RX_FIFO0);
 }
 
 
 extern "C" void HAL_CAN_RxFifo1MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
-	uint32_t fifo = CAN_RX_FIFO1;
-	can::Can::All_Can_Rx_It_Process(hcan, fifo);
+	can::Can::All_Can_Rx_It_Process(hcan, CAN_RX_FIFO1);
 }
 
 
@@ -68,6 +66,7 @@ namespace can
 														  
 		if (HAL_CAN_ConfigFilter(hcan, &filter_init) != HAL_OK) Error_Handler();// 配置失败处理
 	}
+	
 	
 	void Can::Can_Start()
 	{

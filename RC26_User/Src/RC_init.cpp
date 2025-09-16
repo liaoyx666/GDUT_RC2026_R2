@@ -32,6 +32,7 @@ void test(void *argument)
 		
 		
 		uart_printf("%f,%f,%f\n", target, m3508_1.pos, m3508_1.rpm);
+		
 		m3508_1.Set_Pos(target);
 		m3508_2.Set_Pos(target);
 		m3508_3.Set_Pos(target);

@@ -14,9 +14,9 @@ namespace m3508
 	public:
 		M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_);
 		virtual ~M3508() {}
-			
+		
 		pid::Pid pid_spd, pid_pos;
-			
+		
 	protected:
 		void CanHandler_Register() override;
 		void Tim_It_Process() override;

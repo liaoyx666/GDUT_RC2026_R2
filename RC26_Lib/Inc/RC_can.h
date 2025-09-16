@@ -71,10 +71,6 @@ namespace can
 		CAN_HandleTypeDef *hcan;
 		uint8_t can_list_dx;
 		
-		
-
-		
-		
 		static uint8_t can_num;
 		static Can *can_list[MAX_CAN_NUM];
 		

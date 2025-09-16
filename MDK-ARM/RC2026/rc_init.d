@@ -36,6 +36,9 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_tim_ex.h \
   ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_uart.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h \
+  ..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h \
   ..\RC26_Lib\Inc\RC_can.h ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h \
   ..\RC26_Lib\Inc\RC_m3508.h ..\RC26_Lib\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \

@@ -11,7 +11,7 @@ namespace m3508
 		// 登记can设备
 		CanHandler_Register();
 		
-		// 	m3508默认pid参数
+		// m3508默认pid参数
 		pid_spd.Pid_Mode_Init(true, false, 0);
 		pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 10000, 10000, 5000, 5000, 5000);// 1ms
 		
