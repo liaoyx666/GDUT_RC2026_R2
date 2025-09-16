@@ -29,6 +29,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "RC_tim.h"
+#include "RC_init.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,7 +101,7 @@ int main(void)
   MX_TIM7_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-
+	All_Init();
   /* USER CODE END 2 */
 
   /* Init scheduler */

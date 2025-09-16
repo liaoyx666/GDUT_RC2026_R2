@@ -2,8 +2,8 @@
 
 namespace task
 {
-
-		
+	
+	
 	TaskCreator::TaskCreator(
 		const char *name_, 
 		uint8_t priority_, 
@@ -64,8 +64,6 @@ namespace task
 		ticks = ticks_;
 		
 		task_type = task_type_;
-		
-		
 	}
 
 

@@ -2,6 +2,8 @@
 
 namespace m3508
 {
+	
+	
 	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_), motor::Motor()
 	{
 		// 初始化id
@@ -18,6 +20,8 @@ namespace m3508
 		pid_pos.Pid_Mode_Init(false, false, 0);
 		pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 1000, 1000, 500, 500, 500);// 1ms
 	}
+	
+	
 	
 	void M3508::CanHandler_Register()
 	{

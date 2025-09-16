@@ -4,9 +4,11 @@
 #include "RC_tim.h"
 #include "RC_m3508.h"
 #include "RC_serial.h"
+#include "RC_wave_generator.h"
+#include "RC_timer.h"
+
 #include "can.h"
 #include "tim.h"
-#include "RC_wave_generator.h"
 
 
 #ifdef __cplusplus

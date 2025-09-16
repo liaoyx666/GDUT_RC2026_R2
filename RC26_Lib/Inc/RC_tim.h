@@ -27,14 +27,14 @@ namespace tim
 		
 		static void All_Tim_It_Process(TIM_HandleTypeDef *htim);
 		
-			
+		TIM_HandleTypeDef *htim;
 	protected:
 		
 	private:
 		static uint8_t tim_num;// 定时器数量
 		static Tim *tim_list[MAX_TIM_NUM];// 所有定时器
 	
-		TIM_HandleTypeDef *htim;
+		
 	
 		uint16_t hd_num = 0;// 处理函数数量
 		TimHandler *hd_list[MAX_TIM_HANDLE_NUM] = {nullptr};// 处理对象
@@ -52,7 +52,7 @@ namespace tim
 		virtual void Tim_It_Process() = 0;
 		
 	protected:
-
+		Tim *tim;
 	private:
 
 	};

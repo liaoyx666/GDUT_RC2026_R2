@@ -1,23 +1,27 @@
 #include "RC_init.h"
 
-tim::Tim tim7(htim7);
-tim::Tim tim4(htim4);
+tim::Tim tim7_1khz(htim7);
+tim::Tim tim4_1hz(htim4);
 
 can::Can can1(hcan1);
 can::Can can2(hcan2);
 
+m3508::M3508 m3508_5(5, can1, tim7_1khz);
+m3508::M3508 m3508_1(1, can1, tim7_1khz);
+m3508::M3508 m3508_4(4, can1, tim7_1khz);
+m3508::M3508 m3508_2(2, can1, tim7_1khz);
+							
+m3508::M3508 m3508_3(3, can1, tim7_1khz);
+m3508::M3508 m3508_6(6, can1, tim7_1khz);
+m3508::M3508 m3508_7(7, can1, tim7_1khz);
+m3508::M3508 m3508_8(8, can1, tim7_1khz);
 
-m3508::M3508 m3508_5(5, can1, tim7);
-m3508::M3508 m3508_1(1, can1, tim7);
-m3508::M3508 m3508_4(4, can1, tim7);
-m3508::M3508 m3508_2(2, can1, tim7);
 
-m3508::M3508 m3508_3(3, can1, tim7);
-m3508::M3508 m3508_6(6, can1, tim7);
-m3508::M3508 m3508_7(7, can1, tim7);
-m3508::M3508 m3508_8(8, can1, tim7);
+timer::Timer timer_us(tim4_1hz);
+
 
 SquareWave wave(1000, 3000);
+
 
 float target = 0;
 float a = 30;
@@ -59,10 +63,15 @@ task::TaskCreator test_task("test", 20, 256, test, NULL);
 void All_Init()
 {
 	can1.Can_Filter_Init(1, CAN_RX_FIFO0, 0, 0, 0, 0);
+	can1.Can_Filter_Init(1, CAN_RX_FIFO1, 0, 0, 0, 0);
 	can1.Can_Start();
 	
-	tim4.Tim_It_Start();
-	tim7.Tim_It_Start();
+	//tim4_1hz.Tim_It_Start();
+	tim7_1khz.Tim_It_Start();
+	
+	
+	
+	
 	
 	
 	

@@ -42,4 +42,9 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Core\Inc\usart.h ..\USB_DEVICE\App\usb_device.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \
   ..\USB_DEVICE\Target\usbd_conf.h ..\Core\Inc\gpio.h \
-  ..\RC26_Lib\Inc\RC_tim.h
+  ..\RC26_Lib\Inc\RC_tim.h ..\RC26_User\Inc\RC_init.h \
+  ..\RC26_Lib\Inc\RC_task.h ..\RC26_Lib\Inc\RC_can.h \
+  ..\RC26_Lib\Inc\RC_m3508.h ..\RC26_Lib\Inc\RC_motor.h \
+  ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
+  ..\Drivers\CMSIS\Include\cmsis_compiler.h ..\RC26_Lib\Inc\RC_serial.h \
+  ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_timer.h

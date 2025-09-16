@@ -76,7 +76,7 @@ namespace tim
 
 	/*------------------------------------------------------------*/
 	
-	TimHandler::TimHandler(Tim &tim_)
+	TimHandler::TimHandler(Tim &tim_) : tim(&tim_)
 	{
 		tim_.Add_TimHandle(this);
 	}
