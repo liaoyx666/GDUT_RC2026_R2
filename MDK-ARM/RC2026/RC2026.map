@@ -8462,7 +8462,7 @@ Image component sizes
       2604          0          0          0         64      17264   queue.o
       1264          0        276          0         13       7993   rc_can.o
       1166          0         27          0         52      10289   rc_flysky.o
-      1562          4         26          4       3324      23434   rc_init.o
+      1562          4         26          4       3324      23432   rc_init.o
       2070         64         96          0          0      21113   rc_m3508.o
        102          0         16          0          0      15593   rc_motor.o
       1944         16          0          0          0      16984   rc_pid.o
@@ -8502,7 +8502,7 @@ Image component sizes
        246          0          0          0          0       4210   usbd_ioreq.o
 
     ----------------------------------------------------------------------
-     59542        238       1140        260      31532     485467   Object Totals
+     59542        238       1140        260      31532     485465   Object Totals
          0          0         32          0          0          0   (incl. Generated)
        448         12          3         11         23          0   (incl. Padding)
 
@@ -8651,8 +8651,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     69588        690       1692        260      31628     488287   Grand Totals
-     69588        690       1692        260      31628     488287   ELF Image Totals
+     69588        690       1692        260      31628     488285   Grand Totals
+     69588        690       1692        260      31628     488285   ELF Image Totals
      69588        690       1692        260          0          0   ROM Totals
 
 ==============================================================================

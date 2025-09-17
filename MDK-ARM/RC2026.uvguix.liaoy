@@ -3777,9 +3777,9 @@
       </Doc>
       <Doc>
         <Name>..\RC26_User\Src\RC_init.cpp</Name>
-        <ColumnNumber>8</ColumnNumber>
-        <TopLine>28</TopLine>
-        <CurrentLine>48</CurrentLine>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>13</TopLine>
+        <CurrentLine>26</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -3806,7 +3806,7 @@
         <Name>..\RC26_Lib\Src\RC_serial.cpp</Name>
         <ColumnNumber>0</ColumnNumber>
         <TopLine>1</TopLine>
-        <CurrentLine>10</CurrentLine>
+        <CurrentLine>8</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -3903,9 +3903,9 @@
       </Doc>
       <Doc>
         <Name>..\RC26_Lib\Src\RC_flysky.cpp</Name>
-        <ColumnNumber>9</ColumnNumber>
-        <TopLine>52</TopLine>
-        <CurrentLine>122</CurrentLine>
+        <ColumnNumber>15</ColumnNumber>
+        <TopLine>45</TopLine>
+        <CurrentLine>78</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>

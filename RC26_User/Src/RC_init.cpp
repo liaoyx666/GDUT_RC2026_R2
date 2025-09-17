@@ -17,14 +17,14 @@ m3508::M3508 m3508_7(7, can1, tim7_1khz);
 m3508::M3508 m3508_8(8, can1, tim7_1khz);
 
 
-timer::Timer timer_us(tim4_timer);
+timer::Timer timer_us(tim4_timer);// 用于获取时间戳
 
 
-flysky::FlySky remote_ctrl(GPIO_PIN_7);
+flysky::FlySky remote_ctrl(GPIO_PIN_7);// 遥控
 
 
 
-SquareWave wave(1000, 3000);
+SquareWave wave(1000, 3000);// 用于调pid
 
 
 
@@ -44,7 +44,7 @@ void test(void *argument)
 		//uart_printf("%f,%f,%f\n", target, m3508_1.pos, m3508_1.rpm);
 		
 		
-		uart_printf("%4d,%4d,%4d,%4d\n", remote_ctrl.left_x, remote_ctrl.left_y, remote_ctrl.right_x, remote_ctrl.right_y);
+		uart_printf("%4d,%4d,%4d,%4d\n", remote_ctrl.left_x, remote_ctrl.left_y, remote_ctrl.right_x, remote_ctrl.right_y);// 打印遥控数据
 		
 		m3508_1.Set_Rpm(target);
 		m3508_2.Set_Pos(target);
@@ -80,14 +80,5 @@ void All_Init()
 	
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

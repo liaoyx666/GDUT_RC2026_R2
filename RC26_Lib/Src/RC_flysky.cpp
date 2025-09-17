@@ -75,7 +75,7 @@ namespace flysky
 	
 	void FlySky::Task_Process()
 	{
-		// 检测断链
+		// 检测断连
 		if (timer::Timer::Get_DeltaTime(last_time) < 80000)
 		{
 			int16_t temp_left_x = data_buf[2] - 1500;
@@ -84,6 +84,7 @@ namespace flysky
 			int16_t temp_right_x = data_buf[1] - 1500;
 			int16_t temp_right_y = data_buf[3] - 1500;
 			
+			// 消抖
 			if (temp_left_y > -50 && temp_left_y < 50) left_y = 0;
 			else if (temp_left_y >= 50) left_y = temp_left_y - 50;
 			else left_y = temp_left_y + 50;
@@ -99,6 +100,7 @@ namespace flysky
 			if (temp_right_y > -50 && temp_right_y < 50) right_y = 0;
 			else if (temp_right_y >= 50) right_y = temp_right_y - 50;
 			else right_y = temp_right_y + 50;
+			
 			
 			swa = data_buf[4] <= 1500 ? 0 : 1;
 		
