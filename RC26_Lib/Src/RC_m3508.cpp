@@ -2,8 +2,6 @@
 
 namespace m3508
 {
-	
-	
 	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_), motor::Motor()
 	{
 		// 初始化id
@@ -168,5 +166,4 @@ namespace m3508
 		
 		last_angle = angle;
 	}
-	
 }

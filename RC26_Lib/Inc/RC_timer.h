@@ -6,6 +6,7 @@
 namespace timer
 {
 	// 用1hz的定时器初始化
+	// 只能实例化一次
 	class Timer : tim::TimHandler
     {
     public:

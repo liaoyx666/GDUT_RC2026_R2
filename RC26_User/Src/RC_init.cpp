@@ -1,7 +1,7 @@
 #include "RC_init.h"
 
 tim::Tim tim7_1khz(htim7);
-tim::Tim tim4_1hz(htim4);
+tim::Tim tim4_timer(htim4);
 
 can::Can can1(hcan1);
 can::Can can2(hcan2);
@@ -17,10 +17,16 @@ m3508::M3508 m3508_7(7, can1, tim7_1khz);
 m3508::M3508 m3508_8(8, can1, tim7_1khz);
 
 
-timer::Timer timer_us(tim4_1hz);
+timer::Timer timer_us(tim4_timer);
+
+
+flysky::FlySky remote_ctrl(GPIO_PIN_7);
+
 
 
 SquareWave wave(1000, 3000);
+
+
 
 
 float target = 0;
@@ -35,9 +41,12 @@ void test(void *argument)
 		target = wave.Get_Signal();
 		
 		
-		uart_printf("%f,%f,%f\n", target, m3508_1.pos, m3508_1.rpm);
+		//uart_printf("%f,%f,%f\n", target, m3508_1.pos, m3508_1.rpm);
 		
-		m3508_1.Set_Pos(target);
+		
+		uart_printf("%4d,%4d,%4d,%4d\n", remote_ctrl.left_x, remote_ctrl.left_y, remote_ctrl.right_x, remote_ctrl.right_y);
+		
+		m3508_1.Set_Rpm(target);
 		m3508_2.Set_Pos(target);
 		m3508_3.Set_Pos(target);
 		m3508_4.Set_Pos(target);
@@ -63,10 +72,13 @@ task::TaskCreator test_task("test", 20, 256, test, NULL);
 void All_Init()
 {
 	can1.Can_Filter_Init(1, CAN_RX_FIFO0, 0, 0, 0, 0);
-	can1.Can_Filter_Init(1, CAN_RX_FIFO1, 0, 0, 0, 0);
-	can1.Can_Start();
+	can1.Can_Filter_Init(2, CAN_RX_FIFO1, 0, 0, 0, 0);
+	//can1.Can_Start();
 	
-	//tim4_1hz.Tim_It_Start();
+	
+	
+	
+	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
 	
 	

@@ -6,6 +6,7 @@
 #include "RC_serial.h"
 #include "RC_wave_generator.h"
 #include "RC_timer.h"
+#include "RC_flysky.h"
 
 #include "can.h"
 #include "tim.h"

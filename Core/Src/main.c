@@ -28,6 +28,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "stm32f4xx.h"
 #include "RC_tim.h"
 #include "RC_init.h"
 /* USER CODE END Includes */

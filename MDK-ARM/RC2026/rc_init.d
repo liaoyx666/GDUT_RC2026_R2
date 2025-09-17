@@ -44,4 +44,5 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h ..\RC26_Lib\Inc\RC_serial.h \
   ..\Core\Inc\usart.h ..\RC26_Lib\Inc\RC_wave_generator.h \
-  ..\RC26_Lib\Inc\RC_timer.h ..\Core\Inc\can.h
+  ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_flysky.h \
+  ..\Core\Inc\gpio.h ..\Core\Inc\can.h

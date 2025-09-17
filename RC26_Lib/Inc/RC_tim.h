@@ -9,11 +9,10 @@
 #define MAX_TIM_NUM 13
 
 
-
 namespace tim
 {
-	class TimHandler;
 	
+	class TimHandler;
 	
 	class Tim
 	{
@@ -28,6 +27,7 @@ namespace tim
 		static void All_Tim_It_Process(TIM_HandleTypeDef *htim);
 		
 		TIM_HandleTypeDef *htim;
+		
 	protected:
 		
 	private:
@@ -53,6 +53,7 @@ namespace tim
 		
 	protected:
 		Tim *tim;
+	
 	private:
 
 	};
@@ -61,10 +62,6 @@ namespace tim
 }
 
 #endif
-
-
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif

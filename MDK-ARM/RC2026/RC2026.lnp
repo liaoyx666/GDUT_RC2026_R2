@@ -58,6 +58,7 @@
 "rc2026\rc_serial.o"
 "rc2026\rc_wava_generator.o"
 "rc2026\rc_timer.o"
+"rc2026\rc_flysky.o"
 "rc2026\rc_init.o"
 "..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4lf_math.lib"
 --strict --scatter "RC2026\RC2026.sct"

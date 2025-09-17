@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -338,7 +338,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F407xx</Define>
+              <Define>USE_HAL_DRIVER,STM32F407xx,__FPU_PRESENT = 1U,ARM_MATH_CM4</Define>
               <Undefine></Undefine>
               <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Middlewares/ST/ARM/DSP/Inc;../RC26_Lib/Inc;../RC26_User/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
             </VariousControls>
@@ -1532,6 +1532,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_timer.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_flysky.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_flysky.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_flysky.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_flysky.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1548,9 +1558,6 @@
               <FilePath>..\RC26_User\Inc\RC_init.h</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
           <GroupName>Middlewares/Library/DSP Library/DSP Library</GroupName>
@@ -1649,6 +1656,9 @@
               </FileOption>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>

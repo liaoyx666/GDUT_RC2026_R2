@@ -47,4 +47,5 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Lib\Inc\RC_m3508.h ..\RC26_Lib\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h ..\RC26_Lib\Inc\RC_serial.h \
-  ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_timer.h
+  ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_timer.h \
+  ..\RC26_Lib\Inc\RC_flysky.h
