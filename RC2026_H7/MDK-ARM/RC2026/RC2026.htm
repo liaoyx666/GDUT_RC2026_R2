@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu Sep 18 21:09:47 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Sep 19 09:52:55 2025
 <BR><P>
 <H3>Maximum Stack Usage =        568 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3495,7 +3495,7 @@ Global Symbols
 <P><STRONG><a name="[5]"></a>UsageFault_Handler</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32h7xx_it.o(.text.UsageFault_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[a1]"></a>test(void*)</STRONG> (Thumb, 162 bytes, Stack size 32 bytes, rc_init.o(.text._Z4testPv))
+<P><STRONG><a name="[a1]"></a>test(void*)</STRONG> (Thumb, 188 bytes, Stack size 32 bytes, rc_init.o(.text._Z4testPv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248 + Unknown Stack Size
 <LI>Call Chain = test(void*) &rArr; uart_printf &rArr; vsnprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
@@ -3583,7 +3583,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_can.o(.rodata._ZTVN3can10CanHandlerE)
 </UL>
-<P><STRONG><a name="[ab]"></a>can::Can::Task_Process()</STRONG> (Thumb, 430 bytes, Stack size 64 bytes, rc_can.o(.text._ZN3can3Can12Task_ProcessEv))
+<P><STRONG><a name="[ab]"></a>can::Can::Task_Process()</STRONG> (Thumb, 454 bytes, Stack size 64 bytes, rc_can.o(.text._ZN3can3Can12Task_ProcessEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 180<LI>Call Chain = can::Can::Task_Process() &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick &rArr; vListInsertEnd
 </UL>
 <BR>[Calls]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
@@ -5432,7 +5432,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[24c]"></a>__cxx_global_var_init.7</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, rc_init.o(.text.__cxx_global_var_init.7))
+<P><STRONG><a name="[24c]"></a>__cxx_global_var_init.7</STRONG> (Thumb, 48 bytes, Stack size 16 bytes, rc_init.o(.text.__cxx_global_var_init.7))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = __cxx_global_var_init.7 &rArr; flysky::FlySky::FlySky(unsigned short) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; task::TaskCreator::TaskCreator__sub_object(char const*, unsigned char, unsigned short, void (*)(void*), void*)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_atexit

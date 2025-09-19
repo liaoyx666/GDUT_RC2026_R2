@@ -22,10 +22,6 @@ extern "C" void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hcan, uint32_t Rx
 }
 
 
-
-
-
-
 namespace can
 {
 
@@ -148,15 +144,15 @@ namespace can
 				can_tx_hdr.IdType = FDCAN_EXTENDED_ID;
 			}
 			
+			if (tx_frame_list[i].dlc > 8) break;
 			can_tx_hdr.DataLength = tx_frame_list[i].dlc;// 数据长度
+			
 			can_tx_hdr.TxFrameType = FDCAN_DATA_FRAME;// 数据帧
 			can_tx_hdr.BitRateSwitch = FDCAN_BRS_OFF;// 关闭速率切换
 			can_tx_hdr.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
 			can_tx_hdr.TxEventFifoControl = FDCAN_NO_TX_EVENTS;// 无发送事件
 			can_tx_hdr.FDFormat = FDCAN_CLASSIC_CAN;// 传统CAN模式
 			can_tx_hdr.MessageMarker = 0;
-			
-			
 			
 			bool send_success = false;
 			uint16_t retry_count = 0;
@@ -167,7 +163,7 @@ namespace can
 			{
 				uint8_t mailbox_free_level = HAL_FDCAN_GetTxFifoFreeLevel(hcan);
 				
-				// 等待邮箱有空闲
+				// 等待fifo有空闲
 				if (mailbox_free_level != 0)
 				{
 					status = HAL_FDCAN_AddMessageToTxFifoQ(hcan, &can_tx_hdr, tx_frame_list[i].data);// 发送数据

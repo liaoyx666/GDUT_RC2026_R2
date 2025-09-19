@@ -78,11 +78,11 @@ namespace flysky
 		// 检测断连
 		if (timer::Timer::Get_DeltaTime(last_time) < 80000)
 		{
-			int16_t temp_left_x = data_buf[2] - 1500;
-			int16_t temp_left_y = data_buf[0] - 1500;
+			int16_t temp_left_x = data_buf[0] - 1500;
+			int16_t temp_left_y = data_buf[2] - 1500;
 			
-			int16_t temp_right_x = data_buf[1] - 1500;
-			int16_t temp_right_y = data_buf[3] - 1500;
+			int16_t temp_right_x = data_buf[3] - 1500;
+			int16_t temp_right_y = data_buf[1] - 1500;
 			
 			// 消抖
 			if (temp_left_y > -50 && temp_left_y < 50) left_y = 0;

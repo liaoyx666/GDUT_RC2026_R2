@@ -190,6 +190,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>a</ItemText>
         </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>remote_ctrl</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
