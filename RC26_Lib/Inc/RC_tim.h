@@ -40,9 +40,6 @@ namespace tim
 		TimHandler *hd_list[MAX_TIM_HANDLE_NUM] = {nullptr};// 处理对象
 	};
 
-
-
-
 	class TimHandler
 	{
 	public:

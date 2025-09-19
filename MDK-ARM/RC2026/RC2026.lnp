@@ -1,4 +1,4 @@
---cpu=Cortex-M4.fp.sp
+--cpu=Cortex-M4.fp
 "rc2026\startup_stm32f407xx.o"
 "rc2026\stm32f4xx_hal_tim.o"
 "rc2026\stm32f4xx_hal_tim_ex.o"
@@ -39,6 +39,7 @@
 "rc2026\usbd_ctlreq.o"
 "rc2026\usbd_ioreq.o"
 "rc2026\usbd_cdc.o"
+"../Middlewares/ST/ARM/DSP/Lib/arm_cortexM4lf_math.lib"
 "rc2026\main.o"
 "rc2026\gpio.o"
 "rc2026\freertos.o"
@@ -49,18 +50,21 @@
 "rc2026\stm32f4xx_it.o"
 "rc2026\stm32f4xx_hal_msp.o"
 "rc2026\stm32f4xx_hal_timebase_tim.o"
+"rc2026\vector2d.o"
 "rc2026\rc_task.o"
 "rc2026\rc_can.o"
 "rc2026\rc_tim.o"
 "rc2026\rc_pid.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_m3508.o"
-"rc2026\rc_serial.o"
 "rc2026\rc_wava_generator.o"
+"rc2026\rc_serial.o"
 "rc2026\rc_timer.o"
 "rc2026\rc_flysky.o"
+"rc2026\rc_path_plan.o"
+"rc2026\rc_speed_plan.o"
+"rc2026\rc_chassis.o"
 "rc2026\rc_init.o"
-"..\Middlewares\ST\ARM\DSP\Lib\arm_cortexM4lf_math.lib"
 --strict --scatter "RC2026\RC2026.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

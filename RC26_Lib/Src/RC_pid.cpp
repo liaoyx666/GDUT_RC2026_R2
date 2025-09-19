@@ -1,5 +1,22 @@
 #include "RC_pid.h"
 
+
+/*
+*Mode:
+*	incremental = true -> 增量式PID   False ->位置式PID
+*	differential_prior = true ->反馈值微分  False -> 误差微分
+*	differential_lowpass_alpha 微分低通滤波 （0~1）  为上一微分项置信度
+*Param:
+*	kp,ki,kd
+*	kf:前馈系数
+*	delta_time:时间微分
+*   deadzone:死区
+*   out_limit:输出限幅
+*	integral_limit_:积分限幅
+*	integral_separation_:积分分离
+*	differential_limit_:微分限幅
+*	feed_forward_limit_:前馈限幅
+*/
 namespace pid
 {
 
@@ -37,10 +54,6 @@ namespace pid
 		if (delta_time_ == 0) delta_time_ = 0.001;
 		else delta_time = delta_time_;// 时间差
 	}
-
-
-
-
 
 	float Pid::Pid_Calculate(bool normalization, float unit)
 	{

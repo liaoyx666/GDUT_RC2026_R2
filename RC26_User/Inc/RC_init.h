@@ -7,6 +7,10 @@
 #include "RC_wave_generator.h"
 #include "RC_timer.h"
 #include "RC_flysky.h"
+#include "RC_speed_plan.h"
+#include "RC_chassis.h"
+
+#include "Vector2D.h"
 
 #include "can.h"
 #include "tim.h"

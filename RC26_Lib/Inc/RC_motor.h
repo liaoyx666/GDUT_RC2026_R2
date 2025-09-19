@@ -29,8 +29,6 @@ namespace motor
     public:
 		Motor();
 		virtual ~Motor() {}
-		
-		
 		void Set_Pos_limit(float pos_limit_)
 		{
 			pos_limit_ = fabsf(pos_limit_);
@@ -38,13 +36,11 @@ namespace motor
 			else pos_limit = pos_limit_;
 		}
 		
-		
 		void Set_Rpm(float target_rpm_)
 		{
 			motor_mode = RPM_MODE;
 			target_rpm = target_rpm_;
 		}
-		
 		
 		void Set_Angle(float target_angle_, MoveMode move_mode_ = SHORTEST)
 		{
@@ -56,7 +52,6 @@ namespace motor
 			target_angle = target_angle_;
 			move_mode = move_mode_;
 		}
-		
 		
 		void Set_Pos(float target_pos_, MoveMode move_mode_ = NORMAL)
 		{

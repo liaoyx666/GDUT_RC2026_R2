@@ -7,25 +7,23 @@
 #define TASK_NAME(var) #var
 #define MAX_TASK_NUM 12// 最大可管理任务数量
 
-
 namespace task
 {
 
-
-	typedef enum TaskType
+	typedef enum TaskType//任务类型
 	{
 		TASK_DELAY,// 延时任务
 		TASK_PERIOD// 周期任务
 	} TaskType;
 
-	class TaskCreator
+	class TaskCreator//任务创建
 	{
 	public:
 		TaskCreator(
-			const char *name, 
-			uint8_t priority, 
-			uint16_t stack_size, 
-			osThreadFunc_t func, 
+			const char *name,//名称 
+			uint8_t priority,//优先级 
+			uint16_t stack_size,//堆栈大小
+			osThreadFunc_t func, //任务函数
 			void *argument
 		);
 		virtual ~TaskCreator() {}
@@ -39,7 +37,7 @@ namespace task
 
 
 
-	class ManagedTask : public TaskCreator
+	class ManagedTask : public TaskCreator//任务管理
 	{
 	public:
 		ManagedTask(
@@ -66,5 +64,6 @@ namespace task
 
 
 }
+
 
 #endif

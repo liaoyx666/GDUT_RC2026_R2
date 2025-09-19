@@ -36,7 +36,6 @@ namespace can
 		
 		taskEXIT_CRITICAL();
 	}
-
 	
 	void Can::Can_Filter_Init(
 		uint32_t bank, uint32_t fifo, 

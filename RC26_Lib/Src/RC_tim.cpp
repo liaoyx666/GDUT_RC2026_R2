@@ -1,19 +1,10 @@
 #include "RC_tim.h"
 
-
-
-
 // C语言接口（.c文件不支持c++语法）（放入hal库定时器中断函数中）
 extern "C" void All_Tim_It_Process(TIM_HandleTypeDef *htim)
 {
 	tim::Tim::All_Tim_It_Process(htim);
 }
-
-
-
-
-
-
 
 namespace tim
 {
@@ -35,10 +26,6 @@ namespace tim
 		
 		taskEXIT_CRITICAL();
 	}
-
-
-
-	
 
 	// 所有定时器中断函数
 	void Tim::All_Tim_It_Process(TIM_HandleTypeDef *htim)
