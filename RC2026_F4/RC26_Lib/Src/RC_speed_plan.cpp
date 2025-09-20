@@ -66,7 +66,7 @@ namespace speed_plan {
                 } else {
                     // 进入匀速阶段
                     current_state = CRUISING;
-                    V_current = direction * this->V_max;
+                    V_current = direction * V_current.magnitude();
                 }
                 break;
             case CRUISING:
@@ -77,28 +77,32 @@ namespace speed_plan {
                 }
                 break;
             case DECELERATING:
+				{//内部定义了变量要用大括号
                 // 减速阶段
-                if (moved_distance < total_distance) {
-                    // 计算剩余距离
-                    float32_t remaining_distance = total_distance - moved_distance;
+                float32_t remaining_distance = total_distance - moved_distance;
                     
-                    // 计算所需减速度
-                    float32_t required_deceleration = (V_current.magnitude() * V_current.magnitude()) / (2 * remaining_distance);
-                    float32_t deceleration = max_d < required_deceleration ? max_d : required_deceleration;
-                    // 应用减速度
-                    if (V_current.magnitude() > deceleration*dt) {// 防止速度反向
-                        V_current = V_current - direction * deceleration*dt;
-                    } else {
-                        V_current = Vector2D::Vector2D(0, 0);
-                    }
-                } else {
-                    // 到达终点
-                    V_current = Vector2D::Vector2D(0, 0);
-                    current_state = FINISHED;
-                    is_arrive = true;
-                }
+                // 计算所需减速度
+                float32_t required_deceleration = (V_current.magnitude() * V_current.magnitude()) / (2 * remaining_distance);
+                float32_t deceleration = max_d < required_deceleration ? max_d : required_deceleration;
+						
+			    // 计算理论减速后的速度
+				Vector2D::Vector2D new_velocity = V_current - direction * deceleration * dt;
+    
+				// 检查是否即将到达终点（考虑微小误差）
+				if (remaining_distance < V_current.magnitude() * dt || new_velocity.magnitude() < 0.1f) {
+				// 平滑过渡到终点
+					V_current = direction * (remaining_distance / dt); // 刚好到达终点的速度
+				} else {
+					V_current = new_velocity;
+				}
+				// 检查是否到达终点
+				if (remaining_distance < epsilon) {
+					V_current = Vector2D::Vector2D(0, 0);
+					current_state = FINISHED;
+					is_arrive = true;
+				}
                 break;
-                
+				}
             case FINISHED:
                 // 已完成
                 V_current = Vector2D::Vector2D(0, 0);

@@ -155,6 +155,7 @@ namespace speed_plan {
 		inline void write_Point(Vector2D::Vector2D  point){
 			this->now_point = point;
 		}
+		inline float32_t get_dt() const {return this->dt;}
         // 获取当前位置
         inline Vector2D::Vector2D get_position() const {return this->now_point;}
         // 获取当前速度

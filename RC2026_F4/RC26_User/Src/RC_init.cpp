@@ -30,22 +30,23 @@ float a = 30;
 Vector2D::Vector2D VOUT_For_chassis;//用于接收速度规划给的速度值
 speed_plan::Trapezoid2D_speedplan my_speed_plan;//实例化速度规划对象
 Vector2D::Vector2D start_point(0,0);//设置起点
-Vector2D::Vector2D end_point(5,5);//设置终点
+Vector2D::Vector2D end_point(2500,3000);//设置终点
 Vector2D::Vector2D now_point(0,0);//设置当前位置
 float32_t max_a = 1;//设置加速度
 float32_t max_d = 1;//设置减速度
-float32_t V_max = 1000;//设置最大速度
+float32_t V_max = 100;//设置最大速度
 float32_t epsilon = 0.01f;//设置速度规划容忍误差大小
-RC_chassis::chassis_info my_chassis_info(0, 0, 0, 0);//设置底盘参数 
+RC_chassis::chassis_info my_chassis_info(0, 0, 0, 5);//设置底盘参数 
 RC_chassis::omni4_Chassis<float> my_chassis(my_chassis_info);//实例化底盘解算对象
 float wheel_speed[4];//用于存储解算后的速度值
 void my_test(void *argument){
 	my_speed_plan.start_plan(start_point,end_point,max_a,max_d,V_max,epsilon);
 	for (;;)
-	{
-		my_speed_plan.step(0.01);//设置为0.01s执行一次，要根据实际来
+	{	
+		my_speed_plan.step(0.1);//设置为0.01s执行一次，要根据实际来
 		my_speed_plan.write_Point(now_point);//写入当前位置
 		VOUT_For_chassis = my_speed_plan.get_velocity();//读取速度规划得到的Vx,Vy
+		now_point = VOUT_For_chassis*my_speed_plan.get_dt() + now_point;
 		my_chassis.omni4_chassis_calc(wheel_speed,VOUT_For_chassis.x,VOUT_For_chassis.y,0);//写入底盘，解算成电机输出
 		//输入给电机
 		m3508_1.Set_Rpm(wheel_speed[0]);
@@ -55,7 +56,7 @@ void my_test(void *argument){
 		osDelay(10);
 	}
 }
-//task::TaskCreator test2_task("test2", 21, 256, my_test, NULL);//创建test2任务
+task::TaskCreator test2_task("test2", 21, 256, my_test, NULL);//创建test2任务
 
 
 void test(void *argument)
