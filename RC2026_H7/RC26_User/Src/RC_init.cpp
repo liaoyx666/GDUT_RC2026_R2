@@ -7,6 +7,8 @@ can::Can can1(hfdcan1);
 can::Can can2(hfdcan2);
 can::Can can3(hfdcan3);
 
+
+
 //m3508::M3508 m3508_5(5, can1, tim7_1khz);
 //m3508::M3508 m3508_1(1, can1, tim7_1khz);
 //m3508::M3508 m3508_4(4, can1, tim7_1khz);
@@ -17,16 +19,14 @@ m3508::M3508 m3508_6(6, can1, tim7_1khz);
 //m3508::M3508 m3508_7(7, can1, tim7_1khz);
 //m3508::M3508 m3508_8(8, can1, tim7_1khz);
 
-
 timer::Timer timer_us(tim4_timer);// 用于获取时间戳
-
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
 
+cdc::CDC CDC_HS;// 虚拟串口
 
 SquareWave wave(1000, 3000);// 用于调pid
-
 
 float target = 0;
 float a = 30;
@@ -55,6 +55,27 @@ void test(void *argument)
 //		m3508_8.Set_Pos(target);
 
 		
+		uint8_t ccc[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+		
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);// 虚拟串口发送
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		
+		
 		
 		osDelay(1);
 	}
@@ -62,10 +83,6 @@ void test(void *argument)
 
 
 task::TaskCreator test_task("test", 20, 256, test, NULL);
-
-
-
-
 
 
 void All_Init()
@@ -83,11 +100,7 @@ void All_Init()
 	can3.Can_Start();
 	
 
-	
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
-	
-	
-	
 	
 }

@@ -7,14 +7,22 @@
 #ifdef __cplusplus
 
 
+namespace serial
+{
+	class Serial
+    {
+    public:
+		
+    protected:
+    
+    private:
+    
+    };
 
 
 
 
-
-
-
-
+}
 
 
 

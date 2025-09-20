@@ -690,6 +690,16 @@
           <GroupName>RC26_Lib</GroupName>
           <Files>
             <File>
+              <FileName>RC_task.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_task.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_task.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_can.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_can.cpp</FilePath>
@@ -700,14 +710,24 @@
               <FilePath>..\RC26_Lib\Inc\RC_can.h</FilePath>
             </File>
             <File>
-              <FileName>RC_flysky.cpp</FileName>
+              <FileName>RC_tim.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_flysky.cpp</FilePath>
+              <FilePath>..\RC26_Lib\Src\RC_tim.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_flysky.h</FileName>
+              <FileName>RC_tim.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_flysky.h</FilePath>
+              <FilePath>..\RC26_Lib\Inc\RC_tim.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_motor.h</FilePath>
             </File>
             <File>
               <FileName>RC_m3508.cpp</FileName>
@@ -720,14 +740,14 @@
               <FilePath>..\RC26_Lib\Inc\RC_m3508.h</FilePath>
             </File>
             <File>
-              <FileName>RC_motor.cpp</FileName>
+              <FileName>RC_timer.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_motor.cpp</FilePath>
+              <FilePath>..\RC26_Lib\Src\RC_timer.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_motor.h</FileName>
+              <FileName>RC_timer.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_motor.h</FilePath>
+              <FilePath>..\RC26_Lib\Inc\RC_timer.h</FilePath>
             </File>
             <File>
               <FileName>RC_pid.cpp</FileName>
@@ -750,34 +770,14 @@
               <FilePath>..\RC26_Lib\Inc\RC_serial.h</FilePath>
             </File>
             <File>
-              <FileName>RC_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_task.cpp</FileName>
+              <FileName>RC_flysky.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_task.cpp</FilePath>
+              <FilePath>..\RC26_Lib\Src\RC_flysky.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_tim.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_tim.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_tim.h</FileName>
+              <FileName>RC_flysky.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_tim.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_timer.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_timer.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_timer.h</FilePath>
+              <FilePath>..\RC26_Lib\Inc\RC_flysky.h</FilePath>
             </File>
             <File>
               <FileName>RC_wava_generator.cpp</FileName>
@@ -788,6 +788,16 @@
               <FileName>RC_wave_generator.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_wave_generator.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_cdc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_cdc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_cdc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_cdc.h</FilePath>
             </File>
           </Files>
         </Group>

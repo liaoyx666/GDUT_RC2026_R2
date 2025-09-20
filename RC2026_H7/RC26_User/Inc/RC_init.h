@@ -7,6 +7,7 @@
 #include "RC_wave_generator.h"
 #include "RC_timer.h"
 #include "RC_flysky.h"
+#include "RC_cdc.h"
 
 #include "fdcan.h"
 #include "tim.h"

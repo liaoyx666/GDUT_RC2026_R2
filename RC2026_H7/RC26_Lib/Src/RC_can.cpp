@@ -1,3 +1,8 @@
+/*适用STM32H723 FDCAN
+ *
+ *
+ *
+ */
 #include "RC_can.h"
 
 #define MAX_RETRY_COUNT 20 // 最大重试次数

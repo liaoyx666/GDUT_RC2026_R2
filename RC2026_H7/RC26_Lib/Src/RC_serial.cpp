@@ -1,6 +1,40 @@
 #include "RC_serial.h"
 
 
+
+
+extern "C" void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+
+}
+
+extern "C" void HAL_UART_IdleCallback(UART_HandleTypeDef *huart)
+{
+
+}
+
+
+namespace serial
+{
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+}
+
+
+
+
+
 void uart_puts(const char *str)
 {
     HAL_UART_Transmit(&huart1, (uint8_t*)str, strlen(str), HAL_MAX_DELAY);
@@ -29,3 +63,5 @@ int uart_printf(const char *format, ...)
     
     return ret;
 }
+
+

@@ -1,3 +1,8 @@
+/*适用STM32H723 FDCAN
+ *
+ *
+ *
+ */
 #pragma once
 #include "RC_task.h"
 
