@@ -10,15 +10,15 @@ can::Can can3(hfdcan3);
 
 
 
-//m3508::M3508 m3508_5(5, can1, tim7_1khz);
-//m3508::M3508 m3508_1(1, can1, tim7_1khz);
-//m3508::M3508 m3508_4(4, can1, tim7_1khz);
-//m3508::M3508 m3508_2(2, can1, tim7_1khz);
+m3508::M3508 m3508_5(5, can1, tim7_1khz);
+m3508::M3508 m3508_1(1, can1, tim7_1khz);
+m3508::M3508 m3508_4(4, can1, tim7_1khz);
+m3508::M3508 m3508_2(2, can1, tim7_1khz);
 
-//m3508::M3508 m3508_3(3, can1, tim7_1khz);
+m3508::M3508 m3508_3(3, can1, tim7_1khz);
 m3508::M3508 m3508_6(6, can1, tim7_1khz);
-//m3508::M3508 m3508_7(7, can1, tim7_1khz);
-//m3508::M3508 m3508_8(8, can1, tim7_1khz);
+m3508::M3508 m3508_7(7, can1, tim7_1khz);
+m3508::M3508 m3508_8(8, can1, tim7_1khz);
 
 timer::Timer timer_us(tim4_timer);// 用于获取时间戳
 
@@ -59,28 +59,13 @@ void test(void *argument)
 //		m3508_8.Set_Pos(target);
 
 		
-		uint8_t ccc[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+//		uint8_t ccc[8] = {1, 2, 3, 4, 5, 6, 7, 8};
 //		
-		float x = 3.14f;
+//		float x = 3.14f;
 		
-		CDC_HS.CDC_Send_Pkg(1, (uint8_t*)&x, sizeof(x), 1);
+//		CDC_HS.CDC_Send_Pkg(1, (uint8_t*)&x, sizeof(x), 1);// 虚拟串口打包发送
 //		CDC_HS.CDC_AddToBuf(ccc, 8, 1);// 虚拟串口发送
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+
 		
 		
 		
@@ -108,6 +93,7 @@ void All_Init()
 	
 
 	tim4_timer.Tim_It_Start();
+	
 	tim7_1khz.Tim_It_Start();
 	
 }

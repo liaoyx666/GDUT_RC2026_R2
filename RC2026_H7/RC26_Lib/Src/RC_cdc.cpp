@@ -60,16 +60,15 @@ namespace cdc
 			} while (result != USBD_OK && retry_count < MAX_RETRY_COUNT);
 			
 			send_buf_used[sending_buf_dx] = 0;// 清空已发送的缓冲区
-			
-			
+
 		}
-		
+
 		if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE)// 获取互斥锁
 		{
 			writing_buf_dx = sending_buf_dx;// 切换缓冲区
 			xSemaphoreGive(xMutex); // 释放互斥锁
-		}	
-		
+		}
+
 	}
 	
 	
@@ -202,7 +201,7 @@ namespace cdc
 			
 			receive_buf_head = (receive_buf_head + 1) % MAX_RECEIVE_BUF_SIZE;
 			
-			/*------------------处理数据--------------------*/
+			/*-----------------------------------------处理数据--------------------*/
 			
 			switch (receive_flag)
 			{
@@ -212,6 +211,7 @@ namespace cdc
 				
 			case WAIT_HEAD_2:// 0x55
 				if (data == 0x55) receive_flag = WAIT_ID;
+				else receive_flag = WAIT_HEAD_1;
 				break;
 				
 			case WAIT_ID:// 1~MAX
@@ -269,11 +269,12 @@ namespace cdc
 				break;
 			
 			default:
+				receive_flag = WAIT_HEAD_1;
 				break;
 			}
 				
 
-			/*------------------处理数据--------------------*/
+			/*-------------------------------------处理数据--------------------*/
 		}
 	}
 	
