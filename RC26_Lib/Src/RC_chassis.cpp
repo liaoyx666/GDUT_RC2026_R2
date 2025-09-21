@@ -2,8 +2,9 @@
 
 namespace chassis
 {
+			
     // 构造函数
-    RC_Chassis::RC_Chassis(
+				RC_Chassis::RC_Chassis(
         m3508::M3508* m3508_1, 
         m3508::M3508* m3508_2, 
         m3508::M3508* m3508_3, 
@@ -79,7 +80,7 @@ namespace chassis
         last_x_spd = current_x_spd;
         last_y_spd = current_y_spd;
         last_yaw_spd = current_yaw_spd;
-
+				
         // 运动学解算
         float motor_rpm[4] = 
         {
