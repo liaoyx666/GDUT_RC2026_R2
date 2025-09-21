@@ -22,7 +22,7 @@
 #include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-
+#include "RC_cdc.h"
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -266,7 +266,7 @@ static int8_t CDC_Receive_HS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 11 */
 	
 	
-	//CDC_Transmit_HS(Buf, *Len);
+	CDC_It_Receive_HS(Buf, *Len);
 	
 	
   USBD_CDC_SetRxBuffer(&hUsbDeviceHS, &Buf[0]);

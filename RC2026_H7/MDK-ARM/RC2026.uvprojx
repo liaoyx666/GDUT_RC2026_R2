@@ -814,6 +814,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_init.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_ros_interface.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_User\Src\RC_ros_interface.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_ros_interface.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_User\Inc\RC_ros_interface.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

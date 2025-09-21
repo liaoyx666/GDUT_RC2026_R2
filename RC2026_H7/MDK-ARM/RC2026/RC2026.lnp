@@ -64,6 +64,7 @@
 "rc2026\rc_wava_generator.o"
 "rc2026\rc_cdc.o"
 "rc2026\rc_init.o"
+"rc2026\rc_ros_interface.o"
 --strict --scatter "RC2026\RC2026.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

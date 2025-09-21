@@ -3,6 +3,7 @@
 tim::Tim tim7_1khz(htim7);
 tim::Tim tim4_timer(htim4);
 
+
 can::Can can1(hfdcan1);
 can::Can can2(hfdcan2);
 can::Can can3(hfdcan3);
@@ -24,7 +25,10 @@ timer::Timer timer_us(tim4_timer);// 用于获取时间戳
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
 
-cdc::CDC CDC_HS;// 虚拟串口
+cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口
+
+ros::Radar radar(CDC_HS, 1);
+
 
 SquareWave wave(1000, 3000);// 用于调pid
 
@@ -56,24 +60,27 @@ void test(void *argument)
 
 		
 		uint8_t ccc[8] = {1, 2, 3, 4, 5, 6, 7, 8};
+//		
+		float x = 3.14f;
 		
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);// 虚拟串口发送
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
-		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+		CDC_HS.CDC_Send_Pkg(1, (uint8_t*)&x, sizeof(x), 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);// 虚拟串口发送
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
+//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);
 		
 		
 		

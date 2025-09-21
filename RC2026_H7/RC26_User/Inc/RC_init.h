@@ -8,6 +8,7 @@
 #include "RC_timer.h"
 #include "RC_flysky.h"
 #include "RC_cdc.h"
+#include "RC_ros_interface.h"
 
 #include "fdcan.h"
 #include "tim.h"
