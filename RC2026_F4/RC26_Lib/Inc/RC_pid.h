@@ -47,15 +47,6 @@ namespace pid
 		
 		void Set_integral_limit(float integral_limit_){integral_limit = fabsf(integral_limit_);}
 		void Set_output_limit(float output_limit_){output_limit = fabsf(output_limit_);}
-
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		float kp = 0, ki = 0, kd = 0, kf = 0;
 		float integral_separation = 0;
@@ -75,9 +66,6 @@ namespace pid
 		
 		float differential_lowpass_alpha = 0;
 
-
-
-		
 	protected:
 		
 	private:

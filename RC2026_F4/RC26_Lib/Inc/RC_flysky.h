@@ -3,17 +3,10 @@
 #include "gpio.h"
 #include "RC_task.h"
 
-
 #include "RC_serial.h"
-
-
 #ifdef __cplusplus
 
-
 #define CHANNEL_NUM 8// 8通道
-
-
-
 
 namespace flysky
 {
@@ -32,16 +25,12 @@ namespace flysky
 		volatile static int16_t left_x, left_y, right_x, right_y;
 		volatile static uint16_t data_buf[CHANNEL_NUM];
     protected:
-		void Task_Process() override;
-	
+		void Task_Process() override;//任务处理
 		static uint16_t GPIO_Pin;
 		static bool is_init;
-	
     private:
 		static uint32_t last_time;
-	
     };
-
 }
 
 #endif

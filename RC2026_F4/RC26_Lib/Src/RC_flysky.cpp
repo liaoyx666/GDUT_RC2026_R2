@@ -1,15 +1,9 @@
 #include "RC_flysky.h"
 
-
-
 extern "C" void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     flysky::FlySky::EXTI_Prosess(GPIO_Pin);
 }
-
-
-
-
 
 namespace flysky
 {
@@ -22,14 +16,12 @@ namespace flysky
 	volatile uint8_t FlySky::swa = 0, FlySky::swb = 0, FlySky::swc = 0, FlySky::swd = 0;
 	volatile int16_t FlySky::left_x = 0, FlySky::left_y = 0, FlySky::right_x = 0, FlySky::right_y = 0;
 	
-	
+	//构造函数
 	FlySky::FlySky(uint16_t GPIO_Pin_) : task::ManagedTask("Flysky", 39, 128, task::TASK_DELAY, 1)
 	{
 		GPIO_Pin = GPIO_Pin_;
 		is_init = true;
 	}
-
-	
 	
 	// 上升沿触发
 	void FlySky::EXTI_Prosess(uint16_t GPIO_Pin_)

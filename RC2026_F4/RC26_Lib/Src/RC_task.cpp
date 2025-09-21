@@ -2,8 +2,7 @@
 
 namespace task
 {
-	
-	
+	//优先级最低为8，最高为55
 	TaskCreator::TaskCreator(
 		const char *name_, 
 		uint8_t priority_, 
@@ -21,11 +20,10 @@ namespace task
 		  .stack_size = (uint32_t)stack_size_ * 4,
 		  .priority = (osPriority_t) priority_,
 		};
-
 		// 创建任务
 		TaskHandle = osThreadNew(func_, argument_, &Task_attributes);
 		
-		if (TaskHandle == NULL) Error_Handler();
+		if (TaskHandle == NULL) Error_Handler();//创建失败
 	}
 
 	/*--------------------------------------------------------------------------*/
