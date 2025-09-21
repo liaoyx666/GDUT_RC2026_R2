@@ -5,16 +5,24 @@
 #include "RC_m3508.h"
 #include "RC_task.h"
 
+
 #ifdef __cplusplus
 
 namespace chassis
 {
-    const float COS45 = sqrt(2.0f) / 2.0f;  // ≈0.7071（保证计算精度）
+    // 三轮全向轮三角函数常量（120°均匀分布）
+    const float COS0   = 1.0f;           // cos(0°)
+    const float SIN0   = 0.0f;           // sin(0°)
+    const float COS120 = -0.5f;          // cos(120°)
+    const float SIN120 = sqrt(3.0f)/2.0f;// sin(120°)
+    const float COS240 = -0.5f;          // cos(240°)
+    const float SIN240 = -sqrt(3.0f)/2.0f;// sin(240°)
 
     class RC_Chassis
     {
     public:
-        RC_Chassis(m3508::M3508* m3508_1, m3508::M3508* m3508_2, m3508::M3508* m3508_3, m3508::M3508* m3508_4);
+        // 构造函数：接收3个电机指针（三轮）
+        RC_Chassis(m3508::M3508* m3508_1, m3508::M3508* m3508_2, m3508::M3508* m3508_3);
         
         void chassis_init();
         void Set_Target_Pos(float x, float y, float yaw);
@@ -25,15 +33,15 @@ namespace chassis
         float target_x_spd, target_y_spd, target_yaw_spd;
 
     private:
-        // 电机与机械参数
-        m3508::M3508* motor[4];
+        // 电机与机械参数（三轮）
+        m3508::M3508* motor[3];  // 改为3个电机
         const float L = 0.641f / 2.0f;    // 轮子到底盘中心距离
         const float R = 0.152f / 2.0f;    // 轮半径
         const int ratio = 19;             // M3508减速比
-        const float k = (60.0f * ratio) / (2.0f * PI * R);  
+        const float k = (60.0f * ratio) / (2.0f * PI * R);  // 速度转转速系数
         const float MAX_RPM = 6000.0f;    // M3508最大转速
 
-        // 加速度控制相关（核心新增）
+        // 加速度控制相关
         const float MAX_ACC_X = 2.0f;     // X方向最大线加速度（m/s²）
         const float MAX_ACC_Y = 2.0f;     // Y方向最大线加速度（m/s²）
         const float MAX_ACC_YAW = 1.0f;   // Yaw轴最大角加速度（rad/s²）
@@ -66,3 +74,4 @@ private:
 };
 
 #endif
+    
