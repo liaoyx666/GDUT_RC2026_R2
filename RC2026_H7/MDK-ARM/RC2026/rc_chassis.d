@@ -1,4 +1,9 @@
-rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
+rc2026/rc_chassis.o: ..\RC26_Lib\Src\RC_chassis.cpp \
+  ..\RC26_Lib\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_m3508.h \
+  ..\RC26_Lib\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
+  ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
+  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
+  ..\Drivers\CMSIS\Include\cmsis_armclang.h ..\RC26_Lib\Inc\RC_can.h \
   ..\RC26_Lib\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
@@ -43,21 +48,4 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Lib\Inc\RC_can.h ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h \
-  ..\RC26_Lib\Inc\RC_m3508.h ..\RC26_Lib\Inc\RC_motor.h \
-  ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h ..\RC26_Lib\Inc\RC_serial.h \
-  ..\Core\Inc\usart.h ..\RC26_Lib\Inc\RC_wave_generator.h \
-  ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_flysky.h \
-  ..\Core\Inc\gpio.h ..\RC26_Lib\Inc\RC_cdc.h \
-  ..\USB_DEVICE\App\usbd_cdc_if.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \
-  ..\USB_DEVICE\Target\usbd_conf.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
-  ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
-  ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-  ..\RC26_User\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_chassis.h \
-  ..\Core\Inc\fdcan.h
+  ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Lib\Inc\RC_timer.h

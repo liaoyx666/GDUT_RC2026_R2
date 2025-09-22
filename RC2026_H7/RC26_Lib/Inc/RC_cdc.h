@@ -11,7 +11,8 @@
 
 #define MAX_RECEIVE_BUF_SIZE 512// 接收缓冲区大小
 
-#define MAX_RECEIVE_ID 10
+#define MAX_RECEIVE_ID 10// 最大id
+
 #define MAX_RECEIVE_DATA_LEN 64
 
 
@@ -27,10 +28,10 @@ namespace cdc
 	{
 		WAIT_HEAD_1,// 0xaa
 		WAIT_HEAD_2,// 0x55
-		WAIT_ID,
-		WAIT_LEN,
+		WAIT_ID,// 1~max
+		WAIT_LEN,// 1~64
 		WAIT_DATA,
-		WAIT_CHECK,
+		WAIT_CHECK,//xor
 		WAIT_TAIL// 0xff
 	} RECEIVE_FLAG;
 

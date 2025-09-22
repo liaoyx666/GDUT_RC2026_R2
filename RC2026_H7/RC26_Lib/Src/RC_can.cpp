@@ -5,7 +5,7 @@
  */
 #include "RC_can.h"
 
-#define MAX_RETRY_COUNT 20 // 最大重试次数
+#define MAX_CAN_RETRY_COUNT 20 // 最大重试次数
 
 
 
@@ -195,7 +195,7 @@ namespace can
 				
 				if (send_success == true) break;
 				
-				if (retry_count > MAX_RETRY_COUNT) break;
+				if (retry_count > MAX_CAN_RETRY_COUNT) break;
 
 			} while (send_success == false);
 		}

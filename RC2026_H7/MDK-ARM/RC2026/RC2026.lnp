@@ -63,6 +63,7 @@
 "rc2026\rc_flysky.o"
 "rc2026\rc_wava_generator.o"
 "rc2026\rc_cdc.o"
+"rc2026\rc_chassis.o"
 "rc2026\rc_init.o"
 "rc2026\rc_ros_interface.o"
 --strict --scatter "RC2026\RC2026.sct"

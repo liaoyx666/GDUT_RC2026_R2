@@ -1,7 +1,7 @@
 #include "RC_cdc.h"
 
 
-#define MAX_RETRY_COUNT 10
+#define MAX_CDC_RETRY_COUNT 10
 
 
 extern "C" void CDC_It_Receive_HS(uint8_t* buf, uint32_t len)// C语言接口函数
@@ -57,7 +57,7 @@ namespace cdc
 					result = CDC_Transmit_HS(send_buf[sending_buf_dx], send_buf_used[sending_buf_dx]);// 发送
 				}
 				retry_count++;
-			} while (result != USBD_OK && retry_count < MAX_RETRY_COUNT);
+			} while (result != USBD_OK && retry_count < MAX_CDC_RETRY_COUNT);
 			
 			send_buf_used[sending_buf_dx] = 0;// 清空已发送的缓冲区
 
@@ -315,7 +315,7 @@ namespace cdc
 uint8_t xor_check(const uint8_t *data, uint32_t length)
 {
 	uint8_t xor_val = 0;
-	for (uint32_t i = 0; i < length; i++)
+	for (uint16_t i = 0; i < length; i++)
 	{
 		xor_val ^= data[i]; // 仅异或，运算成本极低
 	}
