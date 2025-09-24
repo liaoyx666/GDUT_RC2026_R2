@@ -6,12 +6,9 @@
 
 #include <math.h>
 
-
 #ifdef __cplusplus
-
 namespace motor
 {
-
 	class DjiMotor : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:
@@ -20,7 +17,6 @@ namespace motor
 		
 		pid::Pid pid_spd, pid_pos;
 
-		
     protected:
 		virtual void Dji_Id_Init(uint8_t id_) = 0;
 
@@ -31,30 +27,9 @@ namespace motor
 
 		bool can_rx_is_first = true;
 		uint8_t id;
+	
     private:
 		
     };
-
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif

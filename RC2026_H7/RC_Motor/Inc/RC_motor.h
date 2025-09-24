@@ -4,11 +4,7 @@
 #include "RC_can.h"
 #include "RC_tim.h"
 
-
-
 #ifdef __cplusplus
-
-
 namespace motor
 {
 	typedef enum MotorMode
@@ -17,7 +13,6 @@ namespace motor
 		POS_MODE,// 位置模式
 		ANGLE_MODE// 角度模式（-pi~pi）
 	} MotorMode;
-
 	
 	class Motor
     {
@@ -48,18 +43,5 @@ namespace motor
     private:
 		
     };
-	
-	
-
-	
-	
-
-	
-	
-	
-	
-
 }
-
-
 #endif

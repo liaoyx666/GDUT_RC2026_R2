@@ -100,16 +100,37 @@ namespace can
 				
 				if (HAL_FDCAN_GetRxMessage(hcan, fifo, &can_rx_hdr, rx_data) != HAL_OK) break;
 				
+				// 检查ID匹配
+				bool id_matched = false;
+				
 				// 查找对应rx帧id的设备
 				for (uint16_t j = 0; j < can_list[i]->hd_num; j++)
 				{
 					if (can_list[i]->hd_list[j] == nullptr) continue;
 					
-					// 检查ID匹配
-					bool id_matched = false;
-					
-					if (can_rx_hdr.IdType == FDCAN_EXTENDED_ID) id_matched = (can_rx_hdr.Identifier == can_list[i]->hd_list[j]->rx_id) && (can_list[i]->hd_list[j]->can_frame_type == FRAME_EXT);
-					else id_matched = (can_rx_hdr.Identifier == can_list[i]->hd_list[j]->rx_id) && (can_list[i]->hd_list[j]->can_frame_type == FRAME_STD);
+					if (can_rx_hdr.IdType == FDCAN_EXTENDED_ID)
+					{
+						if (can_list[i]->hd_list[j]->can_frame_type == FRAME_EXT)
+						{
+							if ((can_rx_hdr.Identifier & can_list[i]->hd_list[j]->rx_mask) == can_list[i]->hd_list[j]->rx_id)
+							{
+								id_matched = true;
+							}
+							else continue;
+						}
+						else continue;
+					}
+					else
+					{
+						if (can_list[i]->hd_list[j]->can_frame_type == FRAME_STD)
+						{
+							if ((can_rx_hdr.Identifier & can_list[i]->hd_list[j]->rx_mask) == can_list[i]->hd_list[j]->rx_id)
+							{
+								id_matched = true;
+							} else continue;
+						}
+						else continue;
+					}
 					
 					if (id_matched == true)
 					{
@@ -149,7 +170,7 @@ namespace can
 				can_tx_hdr.IdType = FDCAN_EXTENDED_ID;
 			}
 			
-			if (tx_frame_list[i].dlc > 8) break;
+			if (tx_frame_list[i].dlc > 8) break;// 标准can都小于等于8
 			can_tx_hdr.DataLength = tx_frame_list[i].dlc;// 数据长度
 			
 			can_tx_hdr.TxFrameType = FDCAN_DATA_FRAME;// 数据帧
@@ -218,7 +239,7 @@ namespace can
 
 	CanHandler::CanHandler(Can &can_) : can(&can_)
 	{
-		hd_list_dx = can->Add_CanHandler(this);// 
+		hd_list_dx = can->Add_CanHandler(this);// 保存设备列表索引
 	}
 
 }

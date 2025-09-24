@@ -1,9 +1,7 @@
 #include "RC_dji_motor.h"
 
-
 namespace motor
 {	
-	
 	DjiMotor::DjiMotor(can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_)
 	{
 		
@@ -140,7 +138,5 @@ namespace motor
 		
 		last_angle = angle;
 	}
-	
-	
 }
 	

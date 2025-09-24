@@ -88,17 +88,18 @@ namespace can
 		CanHandler(Can &can_);
 		virtual ~CanHandler() {}
 
-		
 		Can *can = nullptr;
 		uint8_t tx_frame_dx;
 		uint8_t hd_list_dx;
-		
+		/*------------------------需要被其子类初始化----------------------------*/
 		CanFrameType can_frame_type;
 		uint32_t tx_id = 0;
+			
+		uint32_t rx_mask = 0;// 掩码
 		uint32_t rx_id = 0;
-		
-		virtual void Can_Tx_Process() = 0;
-		virtual void Can_Rx_It_Process(uint8_t *rx_data) = 0;
+		/*-------------------------需要被其子类初始化---------------------------*/
+		virtual void Can_Tx_Process() = 0;// 发送前处理函数
+		virtual void Can_Rx_It_Process(uint8_t *rx_data) = 0;// 中断接收处理函数
 		
 	protected:
 		virtual void CanHandler_Register() = 0;

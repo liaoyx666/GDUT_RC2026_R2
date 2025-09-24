@@ -28,8 +28,9 @@ namespace motor
 		if (id <= 4) tx_id = 0x200;
 		else tx_id = 0x1ff;
 		
-		// 设置接收帧id
+		// 设置接收帧id和mask
+		rx_mask = 0xfff;
 		rx_id = 0x200 + id;
 	}
-	
+
 }

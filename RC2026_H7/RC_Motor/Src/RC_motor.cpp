@@ -1,14 +1,11 @@
 #include "RC_motor.h"
 
-
 namespace motor
 {
-
 	Motor::Motor()
 	{
 		
 	}
-	
 	
 	void Motor::Set_Pos_limit(float pos_limit_)
 	{
@@ -45,13 +42,4 @@ namespace motor
 		motor_mode = POS_MODE;
 		target_pos = target_pos_;
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 }

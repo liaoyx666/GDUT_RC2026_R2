@@ -2,10 +2,8 @@
 #include "RC_dji_motor.h"
 
 #ifdef __cplusplus
-
 namespace motor
 {
-	
 	class M3508 : public DjiMotor
 	{
 	public:
@@ -18,7 +16,5 @@ namespace motor
 	private:
 
 	};
-
-
 }
 #endif
