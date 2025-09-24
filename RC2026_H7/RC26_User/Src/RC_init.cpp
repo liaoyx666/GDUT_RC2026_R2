@@ -3,21 +3,16 @@
 tim::Tim tim7_1khz(htim7);
 tim::Tim tim4_timer(htim4);
 
-
 can::Can can1(hfdcan1);
 can::Can can2(hfdcan2);
 can::Can can3(hfdcan3);
 
 
+motor::M6020 m6020_1(1, can1, tim7_1khz);
 
-
-m3508::M3508 m3508_1(1, can1, tim7_1khz);
-m3508::M3508 m3508_2(2, can1, tim7_1khz);
-m3508::M3508 m3508_3(3, can1, tim7_1khz);
-
-
-
-
+//motor::M3508 m3508_1(1, can1, tim7_1khz);
+//motor::M3508 m3508_2(2, can1, tim7_1khz);
+//motor::M3508 m3508_3(3, can1, tim7_1khz);
 
 
 timer::Timer timer_us(tim4_timer);// 用于获取时间戳
@@ -30,49 +25,43 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口
 ros::Radar radar(CDC_HS, 1);
 
 
-chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 2, 2);
+//chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 2, 2);
 
 
 
 SquareWave wave(1000, 3000);// 用于调pid
 
 float target = 0;
-float a = 30;
+float a = 0;
+float p = 400, i = 0, d = 0.01;
 
 void test(void *argument)
 {
+	m6020_1.pid_pos.Pid_Mode_Init(false, false, 0);
+	m6020_1.pid_pos.Pid_Param_Init(400, 0, 0.01, 0, 0.001, 0, 300, 200, 200, 200, 200);
+	
+	
 	wave.Init();
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 		
-		
-		//uart_printf("%f,%f,%f\n", target, m3508_1.pos, m3508_1.rpm);
-		
-		
-//		uart_printf("%4d,%4d,%4d,%4d\n", remote_ctrl.left_x, remote_ctrl.left_y, remote_ctrl.right_x, remote_ctrl.right_y);// 打印遥控数据
-		
-//		m3508_1.Set_Rpm(target);
-//		m3508_2.Set_Pos(target);
-//		m3508_3.Set_Pos(target);
-//		m3508_4.Set_Pos(target);
-//		m3508_5.Set_Pos(target);
-//		m3508_6.Set_Pos(remote_ctrl.left_y / 100);
-//		m3508_7.Set_Pos(target);
-//		m3508_8.Set_Pos(target);
 
-		
-//		uint8_t ccc[8] = {1, 2, 3, 4, 5, 6, 7, 8};
-//		
-//		float x = 3.14f;
-		
-//		CDC_HS.CDC_Send_Pkg(1, (uint8_t*)&x, sizeof(x), 1);// 虚拟串口打包发送
-//		CDC_HS.CDC_AddToBuf(ccc, 8, 1);// 虚拟串口发送
-
+		//m3508_1.Set_Pos(target);
+		//omni_chassis.Set_Chassis_Spd(remote_ctrl.left_x / 100.f, remote_ctrl.left_y / 100.f, remote_ctrl.right_x / 100.f);
 		
 		
-		omni_chassis.Set_Chassis_Spd(remote_ctrl.left_x / 100.f, remote_ctrl.left_y / 100.f, remote_ctrl.right_x / 100.f);
+		uart_printf("%f,%f\n", m6020_1.angle, target);
+		
+		m6020_1.pid_pos.Set_Kp(p);
+		m6020_1.pid_pos.Set_Ki(i);
+		m6020_1.pid_pos.Set_Kd(d);
+		
+		
+		m6020_1.Set_Angle(a);
+		
+		
 		
 		
 		osDelay(1);

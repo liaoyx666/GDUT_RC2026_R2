@@ -1,4 +1,5 @@
-rc2026/rc_motor.o: ..\RC_Motor\Src\RC_motor.cpp \
+rc2026/rc_m6020_1.o: ..\RC_Motor\Src\RC_m6020.cpp \
+  ..\RC_Motor\Inc\RC_m6020.h ..\RC_Motor\Inc\RC_dji_motor.h \
   ..\RC_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
   ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \

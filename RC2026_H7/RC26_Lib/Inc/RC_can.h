@@ -92,10 +92,10 @@ namespace can
 		Can *can = nullptr;
 		uint8_t tx_frame_dx;
 		uint8_t hd_list_dx;
-		CanFrameType can_frame_type;
 		
-		uint32_t tx_id;
-		uint32_t rx_id;
+		CanFrameType can_frame_type;
+		uint32_t tx_id = 0;
+		uint32_t rx_id = 0;
 		
 		virtual void Can_Tx_Process() = 0;
 		virtual void Can_Rx_It_Process(uint8_t *rx_data) = 0;

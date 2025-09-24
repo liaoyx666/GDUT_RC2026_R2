@@ -1,7 +1,7 @@
 rc2026/rc_chassis.o: ..\RC26_Lib\Src\RC_chassis.cpp \
-  ..\RC26_Lib\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_m3508.h \
-  ..\RC26_Lib\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
-  ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
+  ..\RC26_Lib\Inc\RC_chassis.h ..\RC_Motor\Inc\RC_m3508.h \
+  ..\RC_Motor\Inc\RC_dji_motor.h ..\RC_Motor\Inc\RC_motor.h \
+  ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   ..\Drivers\CMSIS\Include\cmsis_armclang.h ..\RC26_Lib\Inc\RC_can.h \
   ..\RC26_Lib\Inc\RC_task.h \

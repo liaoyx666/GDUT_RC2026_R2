@@ -252,16 +252,10 @@ namespace cdc
 				if (data == 0xee)
 				{
 					/*-----------------------分发数据-------------------------*/
-					
-					for (uint8_t i = 0; i < hd_num; i++)// 查找对应id句柄
+					if (hd_list[receive_id - 1] != nullptr)
 					{
-						if (receive_id == hd_list[i]->rx_id)
-						{
-							hd_list[i]->CDC_Receive_Process(receive_data, receive_len);
-							break;
-						}
+						hd_list[receive_id - 1]->CDC_Receive_Process(receive_data, receive_len);
 					}
-
 					/*-----------------------分发数据-------------------------*/
 					receive_flag = WAIT_HEAD_1;
 				}
@@ -279,18 +273,15 @@ namespace cdc
 	}
 	
 	
-	uint8_t CDC::CDC_Register_Handler(CDCHandler *hd)
+	void CDC::CDC_Register_Handler(CDCHandler *hd)
 	{
 		if (hd != nullptr)
 		{
-			hd_num++;
-			if (hd_num <= MAX_RECEIVE_ID)
+			if (hd->hd_list_dx <= MAX_RECEIVE_ID && hd->hd_list_dx >= 1)
 			{
-				hd_list[hd_num - 1] = hd;
-				return hd_num - 1;
+				hd_list[hd->hd_list_dx] = hd;
 			}
 		}
-		return NULL;
 	}
 	
 	
@@ -304,7 +295,8 @@ namespace cdc
 		{
 			rx_id = rx_id_;
 			cdc = &cdc_;
-			hd_list_dx = cdc->CDC_Register_Handler(this);
+			hd_list_dx = rx_id_ - 1;
+			cdc->CDC_Register_Handler(this);
 		}
 	}
 	

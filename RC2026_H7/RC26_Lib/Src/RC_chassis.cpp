@@ -3,7 +3,7 @@
 namespace chassis
 {
     // 构造函数（三轮）
-    OmniChassis::OmniChassis(m3508::M3508 &wheel_left, m3508::M3508 &wheel_mid, m3508::M3508 &wheel_right, float max_xy_spd_, float max_yaw_spd_) : ManagedTask("ChassisTask", 15, 128, task::TASK_PERIOD, 1)
+    OmniChassis::OmniChassis(motor::M3508 &wheel_left, motor::M3508 &wheel_mid, motor::M3508 &wheel_right, float max_xy_spd_, float max_yaw_spd_) : ManagedTask("ChassisTask", 15, 128, task::TASK_PERIOD, 1)
     {
 		motor[0] = &wheel_left;// 60
         motor[1] = &wheel_mid;// 180

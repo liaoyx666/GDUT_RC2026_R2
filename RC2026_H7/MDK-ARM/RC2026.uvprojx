@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Middlewares/ST/ARM/DSP/Inc;../RC26_Lib/Inc;../RC26_User/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Middlewares/ST/ARM/DSP/Inc;../RC26_Lib/Inc;../RC26_User/Inc;..\RC_Motor\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -720,26 +720,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_tim.h</FilePath>
             </File>
             <File>
-              <FileName>RC_motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_motor.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_motor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_motor.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_m3508.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_m3508.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_m3508.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_m3508.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_timer.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_timer.cpp</FilePath>
@@ -808,6 +788,61 @@
               <FileName>RC_chassis.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_chassis.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RC_Motor</GroupName>
+          <Files>
+            <File>
+              <FileName>RC_motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC_Motor\Src\RC_motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC_Motor\Inc\RC_motor.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dji_motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC_Motor\Src\RC_dji_motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dji_motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC_Motor\Inc\RC_dji_motor.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_m3508.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC_Motor\Src\RC_m3508.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_m3508.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC_Motor\Inc\RC_m3508.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_m6020.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC_Motor\Src\RC_m6020.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_m6020.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC_Motor\Inc\RC_m6020.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_go.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC_Motor\Src\RC_go.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_go.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_User\Inc\RC_go.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -23,7 +23,7 @@ namespace chassis
     class OmniChassis : public task::ManagedTask
     {
     public:
-        OmniChassis(m3508::M3508 &wheel_left, m3508::M3508 &wheel_mid, m3508::M3508 &wheel_right, float max_xy_spd_, float max_yaw_spd_);
+        OmniChassis(motor::M3508 &wheel_left, motor::M3508 &wheel_mid, motor::M3508 &wheel_right, float max_xy_spd_, float max_yaw_spd_);
         
 	
         void Chassis_Init();
@@ -45,7 +45,7 @@ namespace chassis
 		uint32_t last_time = 0;
 		
         // 电机与机械参数（三轮）
-        m3508::M3508* motor[3];
+        motor::M3508* motor[3];
         float L = 0.641f / 2.0f;    // 轮子到底盘中心距离
         float R = 0.152f / 2.0f;    // 轮半径
         float ratio = 19;             // M3508减速比

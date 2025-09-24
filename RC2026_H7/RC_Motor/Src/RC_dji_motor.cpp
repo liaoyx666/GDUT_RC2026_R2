@@ -1,39 +1,20 @@
-#include "RC_m3508.h"
+#include "RC_dji_motor.h"
 
-namespace m3508
-{
-	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_), motor::Motor()
+
+namespace motor
+{	
+	
+	DjiMotor::DjiMotor(can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_)
 	{
-		// 初始化id
-		if (id_ <= 8 && id_ != 0) id = id_;
-		else Error_Handler();
 		
-		// 登记can设备
-		CanHandler_Register();
-		
-		// m3508默认pid参数
-		pid_spd.Pid_Mode_Init(true, false, 0);
-		pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 15000, 10000, 5000, 5000, 5000);// 1ms
-		
-		pid_pos.Pid_Mode_Init(false, false, 0);
-		pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 1000, 1000, 500, 500, 500);// 1ms
 	}
 	
-	
-	
-	void M3508::CanHandler_Register()
+	void DjiMotor::CanHandler_Register()
 	{
 		if (can->hd_num > 8) Error_Handler();// 设备数量超过8
 	
 		can_frame_type = can::FRAME_STD;// 标准帧
-		
-		// 设置发送帧id
-		if (id <= 4) tx_id = 0x200;
-		else tx_id = 0x1ff;
-		
-		// 设置接收帧id
-		rx_id = 0x200 + id;
-
+	
 		if (can->tx_frame_num == 0)// can上还没有挂载帧
 		{
 			tx_frame_dx = 0;
@@ -86,8 +67,7 @@ namespace m3508
 	
 	
 	
-	
-	void M3508::Tim_It_Process()
+	void DjiMotor::Tim_It_Process()
 	{
 		float temp_target_rpm = 0;// 目标速度
 		
@@ -97,12 +77,9 @@ namespace m3508
 		}
 		else if (motor_mode == motor::POS_MODE)// 位置模式
 		{
-			bool normalize = false;
-			if (move_mode == motor::SHORTEST) normalize = true;
-			
 			pid_pos.Update_Real(pos);
 			pid_pos.Update_Target(target_pos);
-			temp_target_rpm = pid_pos.Pid_Calculate(normalize, pos_limit);
+			temp_target_rpm = pid_pos.Pid_Calculate();
 		}
 		else if (motor_mode == motor::ANGLE_MODE)// 角度模式
 		{
@@ -118,10 +95,7 @@ namespace m3508
 	
 	
 	
-	
-	
-	
-	void M3508::Can_Tx_Process()
+	void DjiMotor::Can_Tx_Process()
 	{
 		uint16_t dx = ((id - 1) % 4) * 2;
 	
@@ -144,9 +118,9 @@ namespace m3508
 	}
 	
 	
-	void M3508::Can_Rx_It_Process(uint8_t *rx_data)
+	void DjiMotor::Can_Rx_It_Process(uint8_t *rx_data)
 	{
-		angle = ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8191.f * TWO_PI;
+		angle = ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;
 		rpm = (float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3]);
 		current = (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);
 		temperature = (float)(int8_t)rx_data[6];
@@ -166,4 +140,7 @@ namespace m3508
 		
 		last_angle = angle;
 	}
+	
+	
 }
+	

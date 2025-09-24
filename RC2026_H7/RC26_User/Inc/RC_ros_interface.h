@@ -34,10 +34,10 @@ namespace ros
 		Map(cdc::CDC &cdc_, uint8_t rx_id_);
 		virtual ~Map() {}
 		
-		int8_t map[4][3] = {{0}};
+		int8_t map[12] = {0};
 		
     protected:
-		
+		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;
 		
 		
     private:

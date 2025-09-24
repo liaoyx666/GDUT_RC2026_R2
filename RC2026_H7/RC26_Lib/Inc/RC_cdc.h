@@ -89,9 +89,8 @@ namespace cdc
 		
 		
 		/*-----------------------------接收句柄管理---------------------------------------*/
-		uint8_t CDC_Register_Handler(CDCHandler *hd);
+		void CDC_Register_Handler(CDCHandler *hd);
 		CDCHandler *hd_list[MAX_RECEIVE_ID] = {nullptr};
-		uint8_t hd_num = 0;
 		/*-----------------------------接收句柄管理---------------------------------------*/
 		
 		
@@ -119,14 +118,13 @@ namespace cdc
 		virtual ~CDCHandler() {}
 		
 		virtual void CDC_Receive_Process(uint8_t *buf, uint16_t len) = 0;
-			
+		uint8_t hd_list_dx;
 		uint8_t rx_id;
     protected:
-    
-    private:
 		
+    private:
 		CDC *cdc = nullptr;
-		uint8_t hd_list_dx;
+		
 	
     };
 	
