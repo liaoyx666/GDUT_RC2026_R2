@@ -116,7 +116,7 @@ namespace motor
 	}
 	
 	
-	void DjiMotor::Can_Rx_It_Process(uint8_t *rx_data)
+	void DjiMotor::Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data)
 	{
 		angle = ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;
 		rpm = (float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3]);
@@ -126,8 +126,8 @@ namespace motor
 		
 		if (can_rx_is_first != true)
 		{
-			if (last_angle < HALF_PI && angle > THREE_THIRD_PI) cycle--;
-			else if (last_angle > THREE_THIRD_PI && angle < HALF_PI) cycle++;
+			if (last_angle < HALF_PI && angle > TWO_THIRD_PI) cycle--;
+			else if (last_angle > TWO_THIRD_PI && angle < HALF_PI) cycle++;
 		}
 		else can_rx_is_first = false;
 		

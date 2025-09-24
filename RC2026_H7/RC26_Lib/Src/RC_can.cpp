@@ -134,7 +134,7 @@ namespace can
 					
 					if (id_matched == true)
 					{
-						can_list[i]->hd_list[j]->Can_Rx_It_Process(rx_data);// 调用设备接收处理函数
+						can_list[i]->hd_list[j]->Can_Rx_It_Process(can_rx_hdr.Identifier, rx_data);// 调用设备接收处理函数
 						break;// 每个ID只对应一个设备
 					}
 				}
@@ -227,6 +227,7 @@ namespace can
 	uint8_t Can::Add_CanHandler(CanHandler *CanHandler)
 	{
 		hd_num++;
+		if (hd_num > MAX_CAN_HANDLER_NUM) Error_Handler();
 		uint8_t dx = hd_num - 1;
 		
 		hd_list[dx] = CanHandler;

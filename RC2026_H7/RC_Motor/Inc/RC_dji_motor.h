@@ -23,7 +23,7 @@ namespace motor
 		void CanHandler_Register() override;
 		void Tim_It_Process() override;
 		void Can_Tx_Process() override;
-		void Can_Rx_It_Process(uint8_t *rx_data) override;
+		void Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data) override;
 
 		bool can_rx_is_first = true;
 		uint8_t id;
