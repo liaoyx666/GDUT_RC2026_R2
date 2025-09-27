@@ -4,7 +4,7 @@ namespace motor
 {
 	/**
 	* @brief 
-	* @note 
+	* @note !!!go电机的canh和canl是反的，和大疆电机不一样!!!
 	* @param id_:电机id
 	* @param module_id_:can转485模块id
 	* @param can_:挂载的can外设类
@@ -12,7 +12,6 @@ namespace motor
 	* @param torque_only_:是否只使用力矩控制（速度环，位置环在stm32实现，只发送力矩）（建议true）
 	* @param k_spd_:阻尼系数（只使用力矩时给0）
 	* @param k_pos_:刚度系数（只使用力矩时给0）
-	* @retval 
 	*/
 	Go::Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool torque_only_, float k_spd_, float k_pos_)
 		: can::CanHandler(can_), tim::TimHandler(tim_), torque_only(torque_only_)
@@ -160,7 +159,7 @@ namespace motor
 	{
 		if (torque_only == true)
 		{
-			if (motor_mode != TORQUE_MODE)			//> 电流模式
+			if (motor_mode != TORQUE_MODE)			//> 力矩模式
 			{
 				// 目标速度
 				float temp_target_rpm = 0;

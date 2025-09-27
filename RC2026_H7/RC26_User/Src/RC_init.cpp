@@ -7,7 +7,6 @@ can::Can can1(hfdcan1);
 can::Can can2(hfdcan2);
 can::Can can3(hfdcan3);
 
-
 motor::M6020 m6020_1(1, can1, tim7_1khz);
 
 motor::Go go_1(0, 3, can2, tim7_1khz);
@@ -21,8 +20,6 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口
 ros::Radar radar(CDC_HS, 1);
 
 //chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 2, 2);
-
-
 
 SquareWave wave(1000, 3000);// 用于调pid
 SinWave sin_wave(1000, 3000);
