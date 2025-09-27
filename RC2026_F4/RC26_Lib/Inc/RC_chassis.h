@@ -3,7 +3,7 @@
 
 #ifdef __cplusplus
 
-namespace RC_chassis {//name_space
+namespace RC_chassis {//namespace
 	#define sin45   0.707106
 	#define cos45   0.707106
 	
@@ -109,9 +109,7 @@ namespace RC_chassis {//name_space
     template <typename chassis_t>
     class omni3_Chassis : public chassis_base<chassis_t> {// 三轮全向底盘类型
     public:
-        omni3_Chassis(const chassis_info& config) : chassis_base<chassis_t>(config, omni3_chassis) {
-			
-		}
+        omni3_Chassis(const chassis_info& config) : chassis_base<chassis_t>(config, omni3_chassis) {}
         void omni3_chassis_calc(float wheel_speeds[3], float vx, float vy, float wz);
     };
 

@@ -1601,6 +1601,16 @@
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_attitude_control.cpp</FilePath>
             </File>
+            <File>
+              <FileName>RC_WheelFoot_Chassis.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_WheelFoot_Chassis.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_WheelFoot_Chassis.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_WheelFoot_Chassis.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

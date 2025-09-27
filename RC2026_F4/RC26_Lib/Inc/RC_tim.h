@@ -3,15 +3,11 @@
 #include "cmsis_os.h"
 
 #ifdef __cplusplus
-
-
 #define MAX_TIM_HANDLE_NUM 16
 #define MAX_TIM_NUM 13
 
-
 namespace tim
 {
-	
 	class TimHandler;
 	
 	class Tim

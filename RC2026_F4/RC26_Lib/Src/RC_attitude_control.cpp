@@ -34,6 +34,6 @@ namespace RC_atitude{
 		this->now_yaw = now_yaw;
 		this->target_yaw = target_yaw;
 		this->err_calc();//取最短调整路径
-		return this->angle_err;
+		return this->angle_err;//这里可以直接PID处理
 	}
 }

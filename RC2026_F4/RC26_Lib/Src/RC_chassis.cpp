@@ -3,6 +3,12 @@
 
 namespace RC_chassis{
 
+	//1，设置底盘参数，类型
+	//2，姿态控制模式，运动模式
+	//3，输入底盘Vx,Vy,W
+	//4,解算至各轮上
+	
+	
     template <typename chassis_t>
     void omni3_Chassis<chassis_t>::omni3_chassis_calc(float wheel_speeds[3], float vx, float vy, float wz){
         // 计算三轮全向轮底盘的轮子速度

@@ -9,6 +9,7 @@
 #include "RC_flysky.h"
 #include "RC_speed_plan.h"
 #include "RC_chassis.h"
+#include "RC_WheelFoot_Chassis.h"
 
 #include "Vector2D.h"
 

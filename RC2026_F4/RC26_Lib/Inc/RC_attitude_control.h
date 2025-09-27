@@ -15,7 +15,7 @@ namespace RC_atitude{
 			float angle_err;
 			void err_calc();
 	};
-
+	
 
 }
 
