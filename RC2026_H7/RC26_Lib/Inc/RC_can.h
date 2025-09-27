@@ -78,10 +78,6 @@ namespace can
 	};
 
 
-
-
-
-
 	class CanHandler
 	{
 	public:

@@ -2,7 +2,6 @@
 
 namespace pid
 {
-
 	void Pid::Pid_Mode_Init(bool incremental_, bool differential_prior_, float differential_lowpass_alpha_)
 	{
 		incremental = incremental_;
@@ -39,17 +38,14 @@ namespace pid
 	}
 
 
-
-
-
 	float Pid::Pid_Calculate(bool normalization, float unit)
 	{
 		if (unit < 0) unit = -unit;
-		
+		/*------------------------------------------------------------------------------------*/
 		// 前馈控制
 		feed_forward = target - last_target;
 		
-		if (normalization == true)
+		if (normalization == true)// 归一化
 		{
 			if (feed_forward > unit) feed_forward = feed_forward - 2 * unit;
 			else if (feed_forward < -unit) feed_forward = feed_forward + 2 * unit;
@@ -68,8 +64,7 @@ namespace pid
 		// 误差
 		error = target - real;
 		
-		
-		if (normalization == true)
+		if (normalization == true)// 归一化
 		{
 			if (error > unit) error = error - 2 * unit;
 			else if (error < -unit) error = error + 2 * unit;
@@ -123,7 +118,7 @@ namespace pid
 			{
 				differential = real - last_real;
 				
-				if (normalization == true)
+				if (normalization == true)// 归一化
 				{
 					if (differential > unit) differential = differential - 2 * unit;
 					else if (differential < -unit) differential = differential + 2 * unit;
@@ -158,6 +153,10 @@ namespace pid
 			output = proportion + integral + differential + feed_forward;
 		}
 		
+		// 输出滤波
+		output = output_lowpass_alpha * last_output + (1 - output_lowpass_alpha) * output;
+		
+
 		// 输出限幅
 		if (output_limit != 0)
 		{
@@ -180,10 +179,8 @@ namespace pid
 		last_differential = differential;
 		last_proportion = proportion;
 		
-		
 		return output;
 	}
-	
 	
 	
 	
@@ -202,15 +199,11 @@ namespace pid
 		return data;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	void Limit(float *input, float limit)
+	{
+		if (*input > limit) *input = limit;
+		else if (*input < -limit) *input = -limit;
+	}
 }
+
 

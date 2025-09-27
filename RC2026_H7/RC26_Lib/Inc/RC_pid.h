@@ -8,10 +8,8 @@
 
 #ifdef __cplusplus
 
-
 namespace pid
 {
-		
 	class Pid
 	{
 	public:
@@ -31,32 +29,19 @@ namespace pid
 		void Update_Target(float target_){target = target_;}
 		float Get_Output(){return output;}
 		
-		
 		void Set_Kp(float kp_){kp = kp_;}
 		void Set_Ki(float ki_){ki = ki_;}
 		void Set_Kd(float kd_){kd = kd_;}
 		void Set_Kf(float kf_){kf = kf_;}
-		
-		
 		void Set_Differential_lowpass_alpha(float differential_lowpass_alpha_)
 		{
 			differential_lowpass_alpha_ = fabsf(differential_lowpass_alpha_);
 			if (differential_lowpass_alpha_ >= 1) differential_lowpass_alpha = 0;
 			else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
 		}
-		
 		void Set_integral_limit(float integral_limit_){integral_limit = fabsf(integral_limit_);}
 		void Set_output_limit(float output_limit_){output_limit = fabsf(output_limit_);}
 
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		float kp = 0, ki = 0, kd = 0, kf = 0;
 		float integral_separation = 0;
 		float integral_limit = 0, output_limit = 0, differential_limit = 0, feed_forward_limit = 0;
@@ -74,16 +59,20 @@ namespace pid
 		float previous_error = 0;
 		
 		float differential_lowpass_alpha = 0;
+		float output_lowpass_alpha = 0;
 
-
-
-		
 	protected:
 		
 	private:
 		
 	};
 
+	void Limit(float *input, float limit);
+	float Normalize(float data, float unit);
+	
 }
+
+
+
 
 #endif

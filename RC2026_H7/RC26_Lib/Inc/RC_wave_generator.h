@@ -1,5 +1,6 @@
 #pragma once
 #include "tim.h"
+#include "RC_pid.h"
 
 #ifdef __cplusplus
 
@@ -25,6 +26,32 @@ private:
 	uint32_t half_cycle;// ms
 	uint32_t start_time;
 
+
+};
+
+
+class SinWave
+{
+public:
+	SinWave(float amplitude_, uint32_t cycle_);
+	virtual ~SinWave() {}
+		
+	float Get_Signal();
+	void Init();
+		
+	void Set_Amplitude(float amplitude_) {amplitude = amplitude_;}
+	void Set_half_cycle(uint32_t cycle_) {cycle = cycle_;}
+	
+protected:
+	
+
+
+private:
+	bool is_init = false;
+
+	float amplitude;
+	uint32_t cycle;// ms
+	uint32_t start_time;
 
 };
 

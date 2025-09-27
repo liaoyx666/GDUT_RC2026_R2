@@ -4,20 +4,18 @@
 
 #ifdef __cplusplus
 
-#define TASK_NAME(var) #var
+#define TASK_NAME(var) #var// 函数名转字符串
 #define MAX_TASK_NUM 12// 最大可管理任务数量
-
 
 namespace task
 {
-
-
 	typedef enum TaskType
 	{
 		TASK_DELAY,// 延时任务
 		TASK_PERIOD// 周期任务
 	} TaskType;
 
+	
 	class TaskCreator
 	{
 	public:
@@ -36,9 +34,7 @@ namespace task
 		
 	};
 
-
-
-
+	
 	class ManagedTask : public TaskCreator
 	{
 	public:
@@ -63,8 +59,5 @@ namespace task
 		static ManagedTask *task_list[MAX_TASK_NUM];// 可管理任务列表
 		static uint8_t task_num;// 可管理任务数量
 	};
-
-
 }
-
 #endif

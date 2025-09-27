@@ -1,8 +1,6 @@
 #include "RC_cdc.h"
 
-
-#define MAX_CDC_RETRY_COUNT 10
-
+#define MAX_CDC_RETRY_COUNT 10// 最大重试次数
 
 extern "C" void CDC_It_Receive_HS(uint8_t* buf, uint32_t len)// C语言接口函数
 {
@@ -15,15 +13,11 @@ extern "C" void CDC_It_Receive_FS(uint8_t* buf, uint32_t len)// C语言接口函
 	cdc::CDC::CDC_It_Receive(buf, len, cdc::USB_CDC_FS);
 }
 
-
-
 namespace cdc
 {
-	
 	CDC *CDC::cdc_list[2] = {nullptr};
 	
 	
-
 	CDC::CDC(CDCType cdc_type_) : 
 		cdc_type(cdc_type_), 
 		task::ManagedTask("Cdc", 30, 128, task::TASK_PERIOD, 1), 
@@ -40,7 +34,6 @@ namespace cdc
             Error_Handler();
         }
 	}
-	
 	
 	void CDC::Task_Process()
 	{
@@ -70,9 +63,6 @@ namespace cdc
 		}
 
 	}
-	
-	
-	
 	
 	bool CDC::CDC_AddToBuf(uint8_t *data, uint16_t len, uint16_t max_wait_time)
 	{
@@ -164,17 +154,9 @@ namespace cdc
 					
 					cdc_list[dx]->receive_buf_tail = second_part % MAX_RECEIVE_BUF_SIZE;
 				}
-				
 			}
-
 		}
-		
-		
 	}
-	
-	
-	
-	
 	
 	void CDC::CDC_All_Task_Receive_Process(void *argument)
 	{
@@ -189,9 +171,6 @@ namespace cdc
 			osDelay(1);
 		}
 	}
-	
-	
-	
 	
 	void CDC::CDC_Task_Receive_Process()
 	{
@@ -272,7 +251,6 @@ namespace cdc
 		}
 	}
 	
-	
 	void CDC::CDC_Register_Handler(CDCHandler *hd)
 	{
 		if (hd != nullptr)
@@ -283,12 +261,8 @@ namespace cdc
 			}
 		}
 	}
-	
-	
+
 	/*---------------------------------------------CDCHandler----------------------------------------------------------*/
-	
-	
-	
 	CDCHandler::CDCHandler(CDC &cdc_, uint8_t rx_id_)
 	{
 		if (rx_id_ <= MAX_RECEIVE_ID && rx_id_ >= 1)
@@ -299,9 +273,8 @@ namespace cdc
 			cdc->CDC_Register_Handler(this);
 		}
 	}
-	
-	
 }
+
 
 // XOR校验
 uint8_t xor_check(const uint8_t *data, uint32_t length)

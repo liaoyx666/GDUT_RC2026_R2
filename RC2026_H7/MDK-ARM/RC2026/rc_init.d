@@ -61,4 +61,4 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
   ..\RC26_User\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_chassis.h \
-  ..\Core\Inc\fdcan.h
+  ..\RC26_User\Inc\RC_go.h ..\Core\Inc\fdcan.h

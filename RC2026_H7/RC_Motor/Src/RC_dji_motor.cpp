@@ -67,28 +67,31 @@ namespace motor
 	
 	void DjiMotor::Tim_It_Process()
 	{
-		float temp_target_rpm = 0;// 目标速度
-		
-		if (motor_mode == motor::RPM_MODE)// 速度模式
+		if (motor_mode != CURRENT_MODE)			//> 电流模式
 		{
-			temp_target_rpm = target_rpm;
+			float temp_target_rpm = 0;// 目标速度
+			
+			if (motor_mode == RPM_MODE)			//> 速度模式
+			{
+				temp_target_rpm = target_rpm;
+			}
+			else if (motor_mode == POS_MODE)	//> 位置模式
+			{
+				pid_pos.Update_Real(pos);
+				pid_pos.Update_Target(target_pos);
+				temp_target_rpm = pid_pos.Pid_Calculate();
+			}
+			else if (motor_mode == ANGLE_MODE)	//> 角度模式
+			{
+				pid_pos.Update_Real(angle);
+				pid_pos.Update_Target(target_angle);
+				temp_target_rpm = pid_pos.Pid_Calculate(true, PI);
+			}
+			
+			pid_spd.Update_Target(temp_target_rpm);
+			pid_spd.Update_Real(rpm);
+			target_current = pid_spd.Pid_Calculate();
 		}
-		else if (motor_mode == motor::POS_MODE)// 位置模式
-		{
-			pid_pos.Update_Real(pos);
-			pid_pos.Update_Target(target_pos);
-			temp_target_rpm = pid_pos.Pid_Calculate();
-		}
-		else if (motor_mode == motor::ANGLE_MODE)// 角度模式
-		{
-			pid_pos.Update_Real(angle);
-			pid_pos.Update_Target(target_angle);
-			temp_target_rpm = pid_pos.Pid_Calculate(true, PI);
-		}
-		
-		pid_spd.Update_Target(temp_target_rpm);
-		pid_spd.Update_Real(rpm);
-		target_current = pid_spd.Pid_Calculate();
 	}
 	
 	
@@ -118,9 +121,9 @@ namespace motor
 	
 	void DjiMotor::Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data)
 	{
-		angle = ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;
-		rpm = (float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3]);
-		current = (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);
+		angle 		= ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;
+		rpm 		= (float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3]);
+		current 	= (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);
 		temperature = (float)(int8_t)rx_data[6];
 		
 		

@@ -1,15 +1,9 @@
 #include "RC_flysky.h"
 
-
-
 extern "C" void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
     flysky::FlySky::EXTI_Prosess(GPIO_Pin);
 }
-
-
-
-
 
 namespace flysky
 {

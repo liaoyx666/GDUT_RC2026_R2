@@ -27,9 +27,5 @@ namespace timer
     private:
     
     };
-
-	
-	
-
 }
 #endif

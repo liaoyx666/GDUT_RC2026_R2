@@ -14,13 +14,11 @@ namespace motor
 		else pos_limit = pos_limit_;
 	}
 	
-	
 	void Motor::Set_Rpm(float target_rpm_)
 	{
 		motor_mode = RPM_MODE;
 		target_rpm = target_rpm_;
 	}
-	
 	
 	void Motor::Set_Angle(float target_angle_)
 	{
@@ -32,7 +30,6 @@ namespace motor
 		target_angle = target_angle_;
 	}
 	
-	
 	void Motor::Set_Pos(float target_pos_)
 	{
 		if (target_pos_ > pos_limit) target_pos = pos_limit;
@@ -41,5 +38,17 @@ namespace motor
 		
 		motor_mode = POS_MODE;
 		target_pos = target_pos_;
+	}
+	
+	void Motor::Set_Current(float target_current_)
+	{
+		motor_mode = CURRENT_MODE;
+		target_current_ = target_current_;
+	}
+	
+	void Motor::Set_Torque(float target_torque_)
+	{
+		motor_mode = TORQUE_MODE;
+		target_torque_ = target_torque_;
 	}
 }

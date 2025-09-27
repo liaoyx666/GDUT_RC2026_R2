@@ -31,4 +31,6 @@ rc2026/rc_wava_generator.o: ..\RC26_Lib\Src\RC_wava_generator.cpp \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_uart_ex.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
-  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h
+  ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
+  ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
+  ..\Drivers\CMSIS\Include\cmsis_compiler.h

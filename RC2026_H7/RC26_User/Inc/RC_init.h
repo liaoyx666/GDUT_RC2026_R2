@@ -11,6 +11,7 @@
 #include "RC_cdc.h"
 #include "RC_ros_interface.h"
 #include "RC_chassis.h"
+#include "RC_go.h"
 
 #include "fdcan.h"
 #include "tim.h"

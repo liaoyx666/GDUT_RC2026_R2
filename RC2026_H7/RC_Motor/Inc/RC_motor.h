@@ -11,7 +11,9 @@ namespace motor
 	{
 		RPM_MODE,// 转速模式
 		POS_MODE,// 位置模式
-		ANGLE_MODE// 角度模式（0~2pi）
+		ANGLE_MODE,// 角度模式（0~2pi）
+		CURRENT_MODE,//电流模式
+		TORQUE_MODE//力矩模式
 	} MotorMode;
 	
 	class Motor
@@ -19,11 +21,14 @@ namespace motor
     public:
 		Motor();
 		virtual ~Motor() {}
-			
+		
 		void Set_Pos_limit(float pos_limit_);
+		
 		void Set_Rpm(float target_rpm_);
-		void Set_Angle(float target_angle_);
+		virtual void Set_Angle(float target_angle_);//有些电机没有角度控制
 		void Set_Pos(float target_pos_);
+		virtual void Set_Current(float target_current_);//有些电机没有电流控制
+		virtual void Set_Torque(float target_torque_);// 有些电机没有力矩控制
 		
 		float rpm = 0, angle = 0, pos = 0, current = 0, temperature = 0, torque = 0;// 真实参数
 		

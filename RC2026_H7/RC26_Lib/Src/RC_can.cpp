@@ -7,8 +7,6 @@
 
 #define MAX_CAN_RETRY_COUNT 20 // 最大重试次数
 
-
-
 extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hcan, uint32_t RxFifo0ITs)
 {
 	if (RxFifo0ITs == FDCAN_IT_RX_FIFO0_NEW_MESSAGE)
@@ -16,7 +14,6 @@ extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hcan, uint32_t Rx
 		can::Can::All_Can_Rx_It_Process(hcan, FDCAN_RX_FIFO0);
 	}
 }
-
 
 extern "C" void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hcan, uint32_t RxFifo1ITs)
 {
@@ -26,10 +23,8 @@ extern "C" void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hcan, uint32_t Rx
 	}
 }
 
-
 namespace can
 {
-
 	Can *Can::can_list[MAX_CAN_NUM] = {nullptr};// 初始化can列表指针
 	uint8_t Can::can_num = 0;// 初始化can数量为0
 
@@ -47,7 +42,6 @@ namespace can
 		taskEXIT_CRITICAL();
 	}
 
-	
 	void Can::Can_Filter_Init(
 		uint32_t idType,
 		uint32_t bank, 
@@ -72,7 +66,6 @@ namespace can
 		if (HAL_FDCAN_ConfigFilter(hcan, &filter_init) != HAL_OK) Error_Handler();// 配置失败处理
 	}
 	
-	
 	void Can::Can_Start()
 	{
 		// 使能CAN接收FIFO0消息挂起中断
@@ -86,8 +79,6 @@ namespace can
 		
 	}
 	
-	
-
 	void Can::All_Can_Rx_It_Process(FDCAN_HandleTypeDef *hcan, uint32_t fifo)
 	{
 		// 查找对应can对象
@@ -142,7 +133,6 @@ namespace can
 			}
 		}
 	}
-
 
 	void Can::Task_Process()
 	{
@@ -221,8 +211,6 @@ namespace can
 			} while (send_success == false);
 		}
 	}
-
-
 	
 	uint8_t Can::Add_CanHandler(CanHandler *CanHandler)
 	{
@@ -234,13 +222,9 @@ namespace can
 		return dx;
 	}
 	
-	
-	
 	/*-------------------------------------------------------------*/
-
 	CanHandler::CanHandler(Can &can_) : can(&can_)
 	{
 		hd_list_dx = can->Add_CanHandler(this);// 保存设备列表索引
 	}
-
 }

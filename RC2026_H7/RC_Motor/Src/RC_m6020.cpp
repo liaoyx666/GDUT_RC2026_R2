@@ -12,10 +12,10 @@ namespace motor
 		
 		// m6020默认pid参数
 		pid_spd.Pid_Mode_Init(true, false, 0);
-		pid_spd.Pid_Param_Init(15, 0.1, 0, 0, 0.001, 0, 16384, 10000, 5000, 5000, 5000);
+		pid_spd.Pid_Param_Init(8, 1, 0, 0, 0.001, 0, 16384, 10000, 5000, 5000, 5000);
 		
-		
-		
+		pid_pos.Pid_Mode_Init(false, false, 0.4);
+		pid_pos.Pid_Param_Init(500, 0, 5, 0, 0.001, 0, 300, 150, 150, 150, 150);
 	}
 	
 	

@@ -66,8 +66,6 @@ namespace task
 		task_type = task_type_;
 	}
 
-
-
 	void ManagedTask::All_Task_Process(void *argument)
 	{
 		uint8_t dx = *(uint8_t*)(argument);// 获取任务索引

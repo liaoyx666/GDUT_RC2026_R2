@@ -10,7 +10,6 @@ namespace timer
 		timer_tim = &tim_;
 	}
 
-
 	void Timer::Tim_It_Process()
 	{
 		cycle++;
@@ -32,5 +31,4 @@ namespace timer
 	{
 		return Get_TimeStamp() - last_time_stamp;
 	}
-	
 }

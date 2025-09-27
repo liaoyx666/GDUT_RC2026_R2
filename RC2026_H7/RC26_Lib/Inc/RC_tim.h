@@ -4,14 +4,11 @@
 
 #ifdef __cplusplus
 
-
 #define MAX_TIM_HANDLE_NUM 16
 #define MAX_TIM_NUM 13
 
-
 namespace tim
 {
-	
 	class TimHandler;
 	
 	class Tim
@@ -41,8 +38,6 @@ namespace tim
 	};
 
 
-
-
 	class TimHandler
 	{
 	public:
@@ -57,8 +52,6 @@ namespace tim
 	private:
 
 	};
-
-
 }
 
 #endif
