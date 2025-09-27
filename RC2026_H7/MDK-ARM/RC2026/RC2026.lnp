@@ -65,6 +65,7 @@
 "rc2026\rc_motor.o"
 "rc2026\rc_dji_motor.o"
 "rc2026\rc_m3508.o"
+"rc2026\rc_m2006.o"
 "rc2026\rc_m6020_1.o"
 "rc2026\rc_go.o"
 "rc2026\rc_init.o"

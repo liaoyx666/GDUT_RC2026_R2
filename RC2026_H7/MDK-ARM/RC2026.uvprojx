@@ -825,6 +825,16 @@
               <FilePath>..\RC_Motor\Inc\RC_m3508.h</FilePath>
             </File>
             <File>
+              <FileName>RC_m2006.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC_Motor\Src\RC_m2006.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_m2006.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC_Motor\Inc\RC_m2006.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_m6020.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC_Motor\Src\RC_m6020.cpp</FilePath>
