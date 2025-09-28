@@ -26,13 +26,9 @@ SinWave sin_wave(1000, 3000);
 
 float target = 0;
 float a = 0;
-//float p = 400, i = 0, d = 0.01;
 
 void test(void *argument)
 {
-	m6020_1.pid_pos.Pid_Mode_Init(false, false, 0.4);
-	m6020_1.pid_pos.Pid_Param_Init(500, 0, 5, 0, 0.001, 0, 300, 150, 150, 150, 150);
-	
 	sin_wave.Init();
 	wave.Init();
 	for (;;)
@@ -51,19 +47,13 @@ void test(void *argument)
 //		m6020_1.pid_pos.Set_Ki(i);
 //		m6020_1.pid_pos.Set_Kd(d);
 		
-		
 		go_1.Set_Pos(target);
-		
-		
-		
 		
 		osDelay(1);
 	}
 }
 
-
 task::TaskCreator test_task("test", 20, 256, test, NULL);
-
 
 void All_Init()
 {
@@ -79,8 +69,6 @@ void All_Init()
 	can3.Can_Filter_Init(FDCAN_EXTENDED_ID, 6, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
 	can3.Can_Start();
 
-
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
-	
 }

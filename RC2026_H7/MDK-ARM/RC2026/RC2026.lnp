@@ -62,6 +62,7 @@
 "rc2026\rc_wava_generator.o"
 "rc2026\rc_cdc.o"
 "rc2026\rc_chassis.o"
+"rc2026\rc_wheel_leg.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dji_motor.o"
 "rc2026\rc_m3508.o"

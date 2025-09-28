@@ -789,6 +789,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_chassis.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_wheel_leg.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_wheel_leg.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_wheel_leg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_wheel_leg.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -852,7 +862,7 @@
             <File>
               <FileName>RC_go.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_User\Inc\RC_go.h</FilePath>
+              <FilePath>..\RC_Motor\Inc\RC_go.h</FilePath>
             </File>
           </Files>
         </Group>

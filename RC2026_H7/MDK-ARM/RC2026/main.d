@@ -62,4 +62,4 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
   ..\RC26_User\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_chassis.h \
-  ..\RC26_User\Inc\RC_go.h
+  ..\RC_Motor\Inc\RC_go.h

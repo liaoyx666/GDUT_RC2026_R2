@@ -6,7 +6,6 @@
 
 #ifdef __cplusplus
 
-
 enum GoControlMode : uint8_t
 {
 	GO_CONTROL_MODE_1 = 10,// 每控制一次电机CAN就返回一次电机数据
@@ -30,7 +29,6 @@ enum GoError : uint8_t
 	GO_OVER_VOLTAGE = 3,// 过压
 	GO_ENCODER_ERROR = 4// 编码器故障
 };
-
 
 namespace motor
 {
