@@ -1,5 +1,5 @@
-rc2026/rc_dji_motor.o: ..\RC_Motor\Src\RC_dji_motor.cpp \
-  ..\RC_Motor\Inc\RC_dji_motor.h ..\RC_Motor\Inc\RC_motor.h \
+rc2026/rc_dji_motor.o: ..\RC26_Motor\Src\RC_dji_motor.cpp \
+  ..\RC26_Motor\Inc\RC_dji_motor.h ..\RC26_Motor\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   ..\Drivers\CMSIS\Include\cmsis_armclang.h ..\RC26_Lib\Inc\RC_can.h \

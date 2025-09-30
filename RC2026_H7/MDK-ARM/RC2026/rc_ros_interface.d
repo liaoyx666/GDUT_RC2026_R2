@@ -1,5 +1,5 @@
-rc2026/rc_ros_interface.o: ..\RC26_User\Src\RC_ros_interface.cpp \
-  ..\RC26_User\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_cdc.h \
+rc2026/rc_ros_interface.o: ..\RC26_Lib\Src\RC_ros_interface.cpp \
+  ..\RC26_Lib\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_cdc.h \
   ..\RC26_Lib\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \

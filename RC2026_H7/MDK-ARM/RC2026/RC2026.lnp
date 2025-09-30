@@ -65,12 +65,14 @@
 "rc2026\rc_wheel_leg.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dji_motor.o"
-"rc2026\rc_m3508.o"
 "rc2026\rc_m2006.o"
-"rc2026\rc_m6020_1.o"
+"rc2026\rc_m3508.o"
+"rc2026\rc_m6020.o"
 "rc2026\rc_go.o"
+"rc2026\rc_ladar.o"
+"rc2026\rc_map.o"
 "rc2026\rc_init.o"
-"rc2026\rc_ros_interface.o"
+"rc2026\rc_data_pool.o"
 --strict --scatter "RC2026\RC2026.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

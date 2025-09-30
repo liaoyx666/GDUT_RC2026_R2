@@ -48,10 +48,10 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\USB_DEVICE\Target\usbd_conf.h ..\Core\Inc\gpio.h \
   ..\RC26_User\Inc\RC_init.h ..\RC26_Lib\Inc\RC_task.h \
   ..\RC26_Lib\Inc\RC_can.h ..\RC26_Lib\Inc\RC_tim.h \
-  ..\RC_Motor\Inc\RC_m3508.h ..\RC_Motor\Inc\RC_dji_motor.h \
-  ..\RC_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
+  ..\RC26_Motor\Inc\RC_m3508.h ..\RC26_Motor\Inc\RC_dji_motor.h \
+  ..\RC26_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
   ..\Middlewares\ST\ARM\DSP\Inc\arm_math.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h ..\RC_Motor\Inc\RC_m6020.h \
+  ..\Drivers\CMSIS\Include\cmsis_compiler.h ..\RC26_Motor\Inc\RC_m6020.h \
   ..\RC26_Lib\Inc\RC_serial.h ..\RC26_Lib\Inc\RC_wave_generator.h \
   ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_flysky.h \
   ..\RC26_Lib\Inc\RC_cdc.h ..\USB_DEVICE\App\usbd_cdc_if.h \
@@ -61,5 +61,5 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-  ..\RC26_User\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_chassis.h \
-  ..\RC_Motor\Inc\RC_go.h
+  ..\RC26_Lib\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_chassis.h \
+  ..\RC26_Motor\Inc\RC_go.h

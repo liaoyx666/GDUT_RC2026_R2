@@ -12,6 +12,9 @@ namespace serial
 	class Serial
     {
     public:
+		Serial();
+		virtual ~Serial() {}
+		
 		
     protected:
     

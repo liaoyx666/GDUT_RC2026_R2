@@ -1,7 +1,6 @@
 #pragma once
 #include "RC_tim.h"
 
-
 #ifdef __cplusplus
 namespace timer
 {
@@ -19,7 +18,7 @@ namespace timer
 		static uint32_t Get_TimeStamp();
 		
 		static uint32_t Get_DeltaTime(uint32_t last_time_stamp);
-	 
+		
 		static tim::Tim *timer_tim;
     protected:
 		void Tim_It_Process() override;

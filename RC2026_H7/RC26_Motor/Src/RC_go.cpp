@@ -35,10 +35,10 @@ namespace motor
 		
 		can_frame_type = can::FRAME_EXT;
 		
-		// ！！！unitree文档错误，读取k模式时id25，26位返回3而非1！！！//
+		// ！！！unitree文档错误，读取k模式时id25，26位返回2而非1！！！//
 		rx_mask = (3 << 27) | (1 << 26) | (15 << 8);
 		rx_id = (module_id << 27) | (1 << 26) | (id << 8);
-		// ！！！unitree文档错误，读取k模式时id25，26位返回3而非1！！！//
+		// ！！！unitree文档错误，读取k模式时id25，26位返回2而非1！！！//
 		
 		tx_id = (module_id << 27) | (0 << 26) | (0 << 24) | ((uint8_t)GO_CONTROL_WRITE_K << 16) | (id << 8) | ((uint8_t)GO_STATUS_FOC << 12);
 		

@@ -32,5 +32,10 @@ namespace motor
 		rx_mask = 0xfff;
 		rx_id = 0x200 + id;
 	}
+	
+	void M3508::Set_Torque(float target_torque_)
+	{
+		Set_Current(target_torque_ * 3640.89f);
+	}
 
 }

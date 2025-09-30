@@ -19,9 +19,9 @@ namespace motor
 
     protected:
 		virtual void Dji_Id_Init(uint8_t id_) = 0;// 初始化发送和接受帧的id
-	
+		
 		void Set_Torque(float target_torque_) override {};// 不进行操作
-
+		
 		void CanHandler_Register() override;
 		void Tim_It_Process() override;
 		void Can_Tx_Process() override;

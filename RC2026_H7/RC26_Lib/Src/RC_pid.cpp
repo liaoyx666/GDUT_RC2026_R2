@@ -33,7 +33,7 @@ namespace pid
 		deadzone = fabsf(deadzone_);// 死区
 
 		delta_time_ = fabsf(delta_time_);
-		if (delta_time_ == 0) delta_time_ = 0.001;
+		if (delta_time_ == 0) delta_time_ = 0.001f;
 		else delta_time = delta_time_;// 时间差
 	}
 
@@ -47,8 +47,8 @@ namespace pid
 		
 		if (normalization == true)// 归一化
 		{
-			if (feed_forward > unit) feed_forward = feed_forward - 2 * unit;
-			else if (feed_forward < -unit) feed_forward = feed_forward + 2 * unit;
+			if (feed_forward > unit) feed_forward = feed_forward - 2.f * unit;
+			else if (feed_forward < -unit) feed_forward = feed_forward + 2.f * unit;
 		}
 		
 		feed_forward =  feed_forward / delta_time * kf;
@@ -66,8 +66,8 @@ namespace pid
 		
 		if (normalization == true)// 归一化
 		{
-			if (error > unit) error = error - 2 * unit;
-			else if (error < -unit) error = error + 2 * unit;
+			if (error > unit) error = error - 2.f * unit;
+			else if (error < -unit) error = error + 2.f * unit;
 		}
 
 		if (fabsf(error) < deadzone) error = 0;// 死区
@@ -90,12 +90,12 @@ namespace pid
 			{
 				if (fabsf(error) < integral_separation)
 				{
-					integral += (error + last_error) * delta_time * 0.5 * ki;// 梯形积分
+					integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
 				}
 			}
 			else
 			{
-				integral += (error + last_error) * delta_time * 0.5 * ki;// 梯形积分
+				integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
 			}
 			
 			// 积分限幅
@@ -120,8 +120,8 @@ namespace pid
 				
 				if (normalization == true)// 归一化
 				{
-					if (differential > unit) differential = differential - 2 * unit;
-					else if (differential < -unit) differential = differential + 2 * unit;
+					if (differential > unit) differential = differential - 2.f * unit;
+					else if (differential < -unit) differential = differential + 2.f * unit;
 				}
 				
 				differential = differential / delta_time * kd;// 微分先行
@@ -132,7 +132,7 @@ namespace pid
 			}
 			
 			// 微分滤波
-			differential = differential_lowpass_alpha * last_differential + (1 - differential_lowpass_alpha) * differential;
+			differential = differential_lowpass_alpha * last_differential + (1.f - differential_lowpass_alpha) * differential;
 			
 			// 微分限幅
 			if (differential_limit != 0)
@@ -154,7 +154,7 @@ namespace pid
 		}
 		
 		// 输出滤波
-		output = output_lowpass_alpha * last_output + (1 - output_lowpass_alpha) * output;
+		output = output_lowpass_alpha * last_output + (1.f - output_lowpass_alpha) * output;
 		
 
 		// 输出限幅
@@ -193,11 +193,14 @@ namespace pid
 		if (isnan(data) || isnan(unit) || isinf(data) || isinf(unit)) return 0;
 		
 		while(data > unit)
-			data = data - 2 * unit;
+			data = data - 2.f * unit;
 		while(data < -unit)
-			data = data + 2 * unit;
+			data = data + 2.f * unit;
 		return data;
 	}
+	
+	
+	
 	
 	void Limit(float *input, float limit)
 	{

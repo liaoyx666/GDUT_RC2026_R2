@@ -338,9 +338,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx</Define>
+              <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx,__FPU_PRESENT = 1U,__VFP_FP__ = 1,ARM_MATH_CM7</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Middlewares/ST/ARM/DSP/Inc;../RC26_Lib/Inc;../RC26_User/Inc;../RC_Motor/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../Middlewares/ST/ARM/DSP/Inc;../RC26_Lib/Inc;../RC26_User/Inc;..\RC26_Motor\Inc;..\RC26_Ros_Interface\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -802,67 +802,92 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>RC_Motor</GroupName>
+          <GroupName>RC26_Motor</GroupName>
           <Files>
             <File>
               <FileName>RC_motor.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC_Motor\Src\RC_motor.cpp</FilePath>
+              <FilePath>..\RC26_Motor\Src\RC_motor.cpp</FilePath>
             </File>
             <File>
               <FileName>RC_motor.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC_Motor\Inc\RC_motor.h</FilePath>
+              <FilePath>..\RC26_Motor\Inc\RC_motor.h</FilePath>
             </File>
             <File>
               <FileName>RC_dji_motor.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC_Motor\Src\RC_dji_motor.cpp</FilePath>
+              <FilePath>..\RC26_Motor\Src\RC_dji_motor.cpp</FilePath>
             </File>
             <File>
               <FileName>RC_dji_motor.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC_Motor\Inc\RC_dji_motor.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_m3508.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC_Motor\Src\RC_m3508.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_m3508.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC_Motor\Inc\RC_m3508.h</FilePath>
+              <FilePath>..\RC26_Motor\Inc\RC_dji_motor.h</FilePath>
             </File>
             <File>
               <FileName>RC_m2006.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC_Motor\Src\RC_m2006.cpp</FilePath>
+              <FilePath>..\RC26_Motor\Src\RC_m2006.cpp</FilePath>
             </File>
             <File>
               <FileName>RC_m2006.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC_Motor\Inc\RC_m2006.h</FilePath>
+              <FilePath>..\RC26_Motor\Inc\RC_m2006.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_m3508.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_m3508.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_m3508.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_m3508.h</FilePath>
             </File>
             <File>
               <FileName>RC_m6020.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC_Motor\Src\RC_m6020.cpp</FilePath>
+              <FilePath>..\RC26_Motor\Src\RC_m6020.cpp</FilePath>
             </File>
             <File>
               <FileName>RC_m6020.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC_Motor\Inc\RC_m6020.h</FilePath>
+              <FilePath>..\RC26_Motor\Inc\RC_m6020.h</FilePath>
             </File>
             <File>
               <FileName>RC_go.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC_Motor\Src\RC_go.cpp</FilePath>
+              <FilePath>..\RC26_Motor\Src\RC_go.cpp</FilePath>
             </File>
             <File>
               <FileName>RC_go.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC_Motor\Inc\RC_go.h</FilePath>
+              <FilePath>..\RC26_Motor\Inc\RC_go.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RC26_Ros_Interface</GroupName>
+          <Files>
+            <File>
+              <FileName>RC_ladar.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_ladar.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_ladar.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_ladar.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_map.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_map.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_map.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_map.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -880,14 +905,14 @@
               <FilePath>..\RC26_User\Inc\RC_init.h</FilePath>
             </File>
             <File>
-              <FileName>RC_ros_interface.cpp</FileName>
+              <FileName>RC_data_pool.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC26_User\Src\RC_ros_interface.cpp</FilePath>
+              <FilePath>..\RC26_User\Src\RC_data_pool.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_ros_interface.h</FileName>
+              <FileName>RC_data_pool.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_User\Inc\RC_ros_interface.h</FilePath>
+              <FilePath>..\RC26_User\Inc\RC_data_pool.h</FilePath>
             </File>
           </Files>
         </Group>
