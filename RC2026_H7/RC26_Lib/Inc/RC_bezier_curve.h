@@ -9,6 +9,7 @@
 #define GOLDEN_RATIO (sqrtf(5.f) - 1.f) / 2.f  // 黄金分割比例 (~0.618)
 
 
+
 namespace curve
 {
 	typedef enum BezierOrder : uint8_t
@@ -39,6 +40,10 @@ namespace curve
 		vector2d::Vector2D Get_Tangent_Vector(float t);
 		
 		vector2d::Vector2D Get_Normal_Vector(const vector2d::Vector2D& point, const float t);
+			
+		vector2d::Vector2D Get_Start_Point() {return start_point;}
+		vector2d::Vector2D Get_End_Point() {return end_point;}
+		
 		
 		float Get_len() {return len;}
     protected:

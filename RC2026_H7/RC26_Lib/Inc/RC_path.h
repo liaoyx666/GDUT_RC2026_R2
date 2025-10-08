@@ -85,17 +85,19 @@ namespace path
 		
 		
 		
-		float Get_Error_And_Vector(
-			vector2d::Vector2D point_, 
+		bool Get_Error_And_Vector(
+			vector2d::Vector2D location_, 
+			float yaw,
+			float* target_yaw,
 			float* normal_error, 
 			float* tangent_error, 
 			vector2d::Vector2D* normal_vector, 
 			vector2d::Vector2D* tangent_vector
 		);
 		
-			
-			
-			
+		
+		bool Is_End() {return is_end;}
+
     protected:
 		bool Generate_Curve(vector2d::Vector2D point_, float smoothness_);
 	
@@ -111,17 +113,33 @@ namespace path
 		bool have_start_angle = 0;
 		float start_angle = 0;
 		float end_angle = 0;
-		float total_len = 0;
-
+		float total_len = 0;// 路线总长度
+		
+		float currnet_target_angle = 0;
+	
+	
+	
+	
+	
+		bool is_init = false;
+		
+		uint8_t current_bezier_curve_dx = 0;// 
+		float current_t = 0;// 
+		
+		float current_finished_len = 0;// 已完成的曲线的总长度
+		float current_curve_len = 0;// 当前曲线走过的长度
+		
 		float last_smoothness;
     private:
+		bool is_end = false;
+		bool is_start = false;
     
     };
 	
 	
 	
 
-#define MAX_PATH_POINT_NUM	20
+//#define MAX_PATH_POINT_NUM	20
 	
 	// 路径规划器
 	class PathPlan
@@ -143,20 +161,15 @@ namespace path
 		
 		
     protected:
-		PathPoint path_point_list[MAX_PATH_POINT_NUM];
+//		PathPoint path_point_list[MAX_PATH_POINT_NUM];
+//	
+//		uint8_t path_point_head = 0;
+//		uint8_t path_point_tail = 0;
+//	
+//		uint8_t current_target_point_dx = 0;
+//		
+//		uint8_t Get_Point_Space();
 	
-		uint8_t path_point_head = 0;
-		uint8_t path_point_tail = 0;
-	
-		uint8_t current_target_point_dx = 0;
-		
-		uint8_t Get_Point_Space();
-	
-	
-		
-		float current_max_speed;
-		float current_distance;
-		float total_distance;
 	
 	
 	

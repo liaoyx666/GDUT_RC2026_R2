@@ -118,6 +118,8 @@ namespace path
 	{
 		end_angle = end_angle_;
 		
+		is_init = true;
+		
 		return Generate_Curve(point_, 0);
 	}
 	
@@ -224,13 +226,108 @@ namespace path
 	
 	
 	
+	#define CURVE_FINISHED_THRESHOLD  0.1f// m
+	#define START_ANGLE_THRESHOLD 2.f / 360.f * TWO_PI// 4度
 	
 	
 	
+	bool Path::Get_Error_And_Vector(
+		vector2d::Vector2D location_, 
+		float yaw,
+		float* target_yaw, 
+		float* normal_error, 
+		float* tangent_error, 
+		vector2d::Vector2D* normal_vector, 
+		vector2d::Vector2D* tangent_vector
+	)
+	{
+		if (is_init == false) return false;
+		
+		
+		/*--------------------------------------------------------------------------------------------------------------------------------*/
+		
+		if (have_start_angle == true)// 
+		{
+			if (is_start == false && fabsf(yaw - start_angle) > START_ANGLE_THRESHOLD)
+			{
+				currnet_target_angle = start_angle;
+			}
+			else
+			{
+				is_start = true;
+			}
+		}
+		else
+		{
+			is_start = true;
+		}
+		
+		if (is_start == true)
+		{
+			currnet_target_angle = end_angle;
+		}
+		
+		*target_yaw = currnet_target_angle;
+		
+		/*--------------------------------------------------------------------------------------------------------------------------------*/
+		
+		*normal_error = bezier_curve_list[current_bezier_curve_dx].Get_Nearest_Distance(location_, &current_t);// 获取最近点的t值和最近点距离
+		current_curve_len = bezier_curve_list[current_bezier_curve_dx].Get_Current_Len(current_t);
+		
+		
+		while (bezier_curve_list[current_bezier_curve_dx].Get_len() - current_curve_len < CURVE_FINISHED_THRESHOLD && is_end == false)
+		{
+			if (current_bezier_curve_dx < bezier_curve_num - 1)
+			{
+				current_finished_len += bezier_curve_list[current_bezier_curve_dx].Get_len();
+				
+				current_bezier_curve_dx++;// 切换路线
+				
+				*normal_error = bezier_curve_list[current_bezier_curve_dx].Get_Nearest_Distance(location_, &current_t);// 重新获取最近点的t值和最近点距离
+				current_curve_len = bezier_curve_list[current_bezier_curve_dx].Get_Current_Len(current_t);
+			}
+			else// 路径结束
+			{
+				is_end = true;
+			}
+		}
+		
+		
+		if (is_start == false)// 直接锁定起点
+		{
+			*normal_error = 0;
+			*normal_vector = vector2d::Vector2D(0, 0);
+			
+			*tangent_vector = bezier_curve_list[current_bezier_curve_dx].Get_Start_Point() - location_;
+			
+			*tangent_error = (*tangent_vector).length();
+			*tangent_vector = (*tangent_vector).normalize();
+		}
+		else if (current_t >= 1)// 直接锁定终点
+		{
+			*normal_error = 0;
+			*normal_vector = vector2d::Vector2D(0, 0);
+			
+			*tangent_vector = bezier_curve_list[current_bezier_curve_dx].Get_End_Point() - location_;
+			
+			*tangent_error = (*tangent_vector).length();
+			*tangent_vector = (*tangent_vector).normalize();
+		}
+		else
+		{
+			current_curve_len = bezier_curve_list[current_bezier_curve_dx].Get_Current_Len(current_t);
+			
+			*tangent_error = total_len - current_curve_len;
+			*tangent_vector = bezier_curve_list[current_bezier_curve_dx].Get_Tangent_Vector(current_t);
+			
+			*normal_vector = bezier_curve_list[current_bezier_curve_dx].Get_Normal_Vector(location_, current_t);
+		}
+		
+		return true;
+	}
 	
 	
-	
-	
+
 	
 	
 	/*--------------------------------------------------------------------------*/
@@ -251,58 +348,58 @@ namespace path
 		float leave_angle_
 	)
 	{
-		if (Get_Point_Space() < 1)
-		{
-			return false;
-		}
-		else
-		{
-			path_point_list[path_point_tail].Path_Point_Update(
-				point_, 
-				stop_on_arrival_, 
-				smoothness_,
-				arrive_angle_, 
-				have_leave_angle_, 
-				leave_angle_
-			);
-			
-			if (path_point_tail == MAX_PATH_POINT_NUM - 1)
-			{
-				path_point_tail = 0;
-			}
-			else
-			{
-				path_point_tail++;
-			}
+//		if (Get_Point_Space() < 1)
+//		{
+//			return false;
+//		}
+//		else
+//		{
+//			path_point_list[path_point_tail].Path_Point_Update(
+//				point_, 
+//				stop_on_arrival_, 
+//				smoothness_,
+//				arrive_angle_, 
+//				have_leave_angle_, 
+//				leave_angle_
+//			);
+//			
+//			if (path_point_tail == MAX_PATH_POINT_NUM - 1)
+//			{
+//				path_point_tail = 0;
+//			}
+//			else
+//			{
+//				path_point_tail++;
+//			}
 
 			return true;
-		}
+//		}
 	}
 	
 	
-	void PathPlan::Delete_Path_Point()
-	{
-		if (path_point_head == MAX_PATH_POINT_NUM - 1)
-		{
-			path_point_head = 0;
-		}
-		else
-		{
-			path_point_head++;
-		}
-	}
-	
-	
-	// 获取剩余路径点存放空间
-	uint8_t PathPlan::Get_Point_Space()
-	{
-		if (path_point_head <= path_point_tail)
-		{
-			return MAX_PATH_POINT_NUM - (path_point_tail - path_point_head) - 1;// - 1防止首尾相遇
-		}
-		else
-		{
-			return path_point_head - path_point_tail - 1;// - 1防止首尾相遇
-		}
-	}
+//	void PathPlan::Delete_Path_Point()
+//	{
+//		if (path_point_head == MAX_PATH_POINT_NUM - 1)
+//		{
+//			path_point_head = 0;
+//		}
+//		else
+//		{
+//			path_point_head++;
+//		}
+//	}
+//	
+//	
+//	// 获取剩余路径点存放空间
+//	uint8_t PathPlan::Get_Point_Space()
+//	{
+//		if (path_point_head <= path_point_tail)
+//		{
+//			return MAX_PATH_POINT_NUM - (path_point_tail - path_point_head) - 1;// - 1防止首尾相遇
+//		}
+//		else
+//		{
+//			return path_point_head - path_point_tail - 1;// - 1防止首尾相遇
+//		}
+//	}
 }
