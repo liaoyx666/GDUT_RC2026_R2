@@ -21,6 +21,10 @@ namespace vector2d
 		float& x() { return data_[0]; }
 		float& y() { return data_[1]; }
 
+		
+		
+		
+		
 		// 获取内部数据指针（用于DSP函数）
 		const float32_t* data() const { return data_; }
 		float32_t* data() { return data_; }
@@ -66,6 +70,9 @@ namespace vector2d
 		
 		// 计算两点之间的距离平方
 		static float distanceSquared(const Vector2D& a, const Vector2D& b);
+		
+		// 计算向量夹角-pi~pi
+		static float angleBetween(const Vector2D& a, const Vector2D& b);
 
     protected:
 		float32_t data_[2];  // 存储x和y分量，适配DSP库函数

@@ -20,6 +20,8 @@ namespace curve
 		Bezier_Update(start_point_, control_point_, end_point_);
 	}
 	
+	
+	// 重置一阶贝塞尔曲线
 	void BezierCurve::Bezier_Update(vector2d::Vector2D start_point_, vector2d::Vector2D end_point_)
 	{
 		order = FIRST_ORDER_BEZIER;
@@ -35,7 +37,7 @@ namespace curve
 		len = vector2d::Vector2D::distance(start_point, end_point);
 	}
 	
-	
+	// 重置二阶贝塞尔曲线
 	void BezierCurve::Bezier_Update(vector2d::Vector2D start_point_, vector2d::Vector2D control_point_, vector2d::Vector2D end_point_)
 	{
 		order = SECOND_ORDER_BEZIER;
@@ -302,4 +304,70 @@ namespace curve
 			return vector2d::Vector2D(0, 0);
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	float BezierCurve::Get_Curvature(float t)
+	{
+		// 处理t值边界情况
+		if (t < 0.f) t = 0.f;
+		else if (t > 1.f) t = 1.f;
+		
+		// 一阶贝塞尔曲线(直线)的曲率恒为0
+		if (order == FIRST_ORDER_BEZIER)
+		{
+			return 0.0f;
+		}
+		// 二阶贝塞尔曲线曲率计算
+		else
+		{
+			 // 获取控制点
+			const vector2d::Vector2D p0 = start_point;
+			const vector2d::Vector2D p1 = control_point;
+			const vector2d::Vector2D p2 = end_point;
+			
+			// 修正：正确的导数系数
+			// 一阶导数：B'(t) = 2(1-t)(P₁-P₀) + 2t(P₂-P₁) = 2(P₁-P₀) + 2t(P₂-2P₁+P₀)
+			vector2d::Vector2D A = (p1 - p0) * 2.f;
+			vector2d::Vector2D B = (p2 - p1 * 2.f + p0) * 2.f;  // 修正这里！
+			
+			// 计算t处的一阶导数(dx, dy)
+			vector2d::Vector2D first_deriv = A + B * t;
+			float dx = first_deriv.data()[0];
+			float dy = first_deriv.data()[1];
+			
+			// 计算二阶导数(ddx, ddy) - 二阶导数是常数
+			vector2d::Vector2D second_deriv = (p2 - p1 * 2.f + p0) * 2.f;  // B''(t) = 2(P₂-2P₁+P₀)
+			float ddx = second_deriv.data()[0];
+			float ddy = second_deriv.data()[1];
+			
+			// 曲率公式分子: |dx*ddy - dy*ddx|
+			float numerator = fabsf(dx * ddy - dy * ddx);
+			
+			// 曲率公式分母: (dx² + dy²)^(3/2)
+			float len_squared = dx * dx + dy * dy;
+			
+			// 避免除以零 (处理奇点情况)
+			if (len_squared < 1e-12f)
+			{
+				return 1e12f;  // 返回一个大数表示曲率很大
+			}
+			
+			// 修正：正确的分母计算
+			float denominator = powf(len_squared, 1.5f);
+			
+			// 返回曲率值
+			return numerator / denominator;
+		}
+	}
+	
+	
 }

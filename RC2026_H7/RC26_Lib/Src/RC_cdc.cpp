@@ -255,7 +255,7 @@ namespace cdc
 	{
 		if (hd != nullptr)
 		{
-			if (hd->hd_list_dx <= MAX_RECEIVE_ID && hd->hd_list_dx >= 1)
+			if (hd->hd_list_dx < MAX_RECEIVE_ID && hd->hd_list_dx >= 0)
 			{
 				hd_list[hd->hd_list_dx] = hd;
 			}

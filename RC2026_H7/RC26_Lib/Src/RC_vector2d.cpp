@@ -104,7 +104,9 @@ namespace vector2d
 	Vector2D Vector2D::rotate(float theta) const
 	{
 		float32_t sinTheta, cosTheta;
-		arm_sin_cos_f32(theta, &sinTheta, &cosTheta);
+		
+		sinTheta = arm_sin_f32(theta);
+		cosTheta = arm_cos_f32(theta);
 		
 		return Vector2D(
 			data_[0] * cosTheta - data_[1] * sinTheta,
@@ -138,4 +140,22 @@ namespace vector2d
 	{
 		return (b - a).lengthSquared();
 	}
+	
+	
+	// -pi~pi
+	float Vector2D::angleBetween(const Vector2D& a, const Vector2D& b)
+	{
+		float cross_val = a.cross(b);
+		float dot_val = a.dot(b);
+
+		if (isZero(dot_val) && isZero(cross_val))
+		{
+			return 0.f;
+		}
+
+		float result;
+		arm_atan2_f32(cross_val, dot_val, &result);
+		return result;
+	}
+	
 }

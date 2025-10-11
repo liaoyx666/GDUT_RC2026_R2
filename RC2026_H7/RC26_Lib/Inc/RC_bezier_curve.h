@@ -4,7 +4,7 @@
 
 #ifdef __cplusplus
 
-#define FIND_NEAREST_DISTANCE_STEP_COUNT 7// 查找次数
+#define FIND_NEAREST_DISTANCE_STEP_COUNT 10// 查找次数
 #define DISTANCE_SAMPLE_NUM	10// 不包含起点
 #define GOLDEN_RATIO (sqrtf(5.f) - 1.f) / 2.f  // 黄金分割比例 (~0.618)
 
@@ -18,7 +18,7 @@ namespace curve
 		SECOND_ORDER_BEZIER
 	} BezierOrder;
 
-	
+
 	class BezierCurve
     {
     public:
@@ -44,8 +44,11 @@ namespace curve
 		vector2d::Vector2D Get_Start_Point() {return start_point;}
 		vector2d::Vector2D Get_End_Point() {return end_point;}
 		
+		float Get_Curvature(const float t);
 		
-		float Get_len() {return len;}
+		
+		float Get_len() const {return len;}
+		
     protected:
 		float distance_list[DISTANCE_SAMPLE_NUM];
 		const float distance_sample_step = 1.f / (float)DISTANCE_SAMPLE_NUM;// 采样步长
