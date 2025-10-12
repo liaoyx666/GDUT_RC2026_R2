@@ -158,4 +158,45 @@ namespace vector2d
 		return result;
 	}
 	
+
+	float Vector2D::curvatureFromThreePoints(const Vector2D& p0, const Vector2D& p1, const Vector2D& p2)
+	{
+		// 计算向量
+		const Vector2D v0 = p1 - p0;  // 从p0到p1的向量
+		const Vector2D v1 = p2 - p1;  // 从p1到p2的向量
+
+		// 计算分子：2*(v0 × v1)（叉积的2倍，用于计算三角形面积的2倍）
+		const float cross = v0.cross(v1);
+		const float numerator = fabsf(2.f * cross);
+
+		// 若叉积为0，三点共线（直线），曲率为0
+		if (isZero(numerator))
+		{
+			return 0.f;
+		}
+
+		// 计算分母：|v0| * |v1| * |v0 + v1|（三边长度乘积）
+		const float len0 = v0.length();
+		const float len1 = v1.length();
+		const float len2 = (v0 + v1).length();  // p2 - p0的长度
+
+		// 避免分母为0（三点中任意两点重合）
+		if (isZero(len0) || isZero(len1) || isZero(len2))
+		{
+			return 0.f;  // 视为直线
+		}
+
+		const float denominator = len0 * len1 * len2;
+
+		// 曲率 = 分子 / 分母（曲率 = 1/半径）
+		float curvature = numerator / denominator;
+        
+		// 限制曲率在合理范围内
+		if (curvature > 1e6f) curvature = 1e6f;
+		if (curvature < 0.f) curvature = 0.f;
+		
+		return curvature;
+	}
+	
+
 }

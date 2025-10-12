@@ -25,7 +25,7 @@ namespace vector2d
 		
 		
 		
-		// 获取内部数据指针（用于DSP函数）
+		// 获取内部数据指针
 		const float32_t* data() const { return data_; }
 		float32_t* data() { return data_; }
 
@@ -73,13 +73,17 @@ namespace vector2d
 		
 		// 计算向量夹角-pi~pi
 		static float angleBetween(const Vector2D& a, const Vector2D& b);
+		
+		// 已知三点计算曲率
+		static float curvatureFromThreePoints(const Vector2D& p0, const Vector2D& p1, const Vector2D& p2);
 
     protected:
 		float32_t data_[2];  // 存储x和y分量，适配DSP库函数
 
     private:
 		// 辅助函数：检查标量是否接近零
-		static bool isZero(float scalar) {
+		static bool isZero(float scalar)
+		{
 			return (scalar < 0 ? -scalar : scalar) < 1e-6f;
 		}
     };

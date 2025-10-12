@@ -13,6 +13,11 @@ namespace flysky
 	uint16_t FlySky::GPIO_Pin = 0;
 	uint32_t FlySky::last_time = 0;
 	
+	bool FlySky::is_last_init = false;
+	uint8_t FlySky::last_swa = 0;
+	uint8_t FlySky::last_swd = 0;
+	
+	
 	volatile uint8_t FlySky::swa = 0, FlySky::swb = 0, FlySky::swc = 0, FlySky::swd = 0;
 	volatile int16_t FlySky::left_x = 0, FlySky::left_y = 0, FlySky::right_x = 0, FlySky::right_y = 0;
 	
@@ -30,6 +35,9 @@ namespace flysky
 	{
 		if (GPIO_Pin_ == GPIO_Pin && is_init == true)
 		{
+			
+			
+			
 			static uint8_t flag = 0;
 			
 			uint32_t delta_time = timer::Timer::Get_DeltaTime(last_time);
@@ -63,12 +71,15 @@ namespace flysky
 					data_buf[i] = channel_list[i];
 				}
 			}
+			
+		
 		}
 	}
 	
 	
 	void FlySky::Task_Process()
 	{
+
 		// 检测断连
 		if (timer::Timer::Get_DeltaTime(last_time) < 80000)
 		{
@@ -102,6 +113,16 @@ namespace flysky
 			swc = data_buf[6] <= 1250 ? 0 : data_buf[6] <= 1750 ? 1 : 2;
 			
 			swd = data_buf[7] <= 1500 ? 0 : 1;
+			
+			
+			
+			if (is_last_init == false)
+			{
+				last_swa = swa;
+				last_swd = swd;
+				is_last_init = true;
+			}
+
 		}
 		else
 		{
@@ -117,4 +138,37 @@ namespace flysky
 			swd = 0;
 		}
 	}
+	
+	
+	
+	
+	
+	bool FlySky::signal_swa()
+	{
+		if (swa != last_swa)
+		{
+			last_swa = swa;
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	bool FlySky::signal_swd()
+	{
+		if (swd != last_swd)
+		{
+			last_swd = swd;
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
 }

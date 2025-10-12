@@ -40,12 +40,17 @@ namespace path
 			float* normal_error, 
 			float* tangent_error, 
 			vector2d::Vector2D* normal_vector, 
-			vector2d::Vector2D* tangent_vector
+			vector2d::Vector2D* tangent_vector,
+			float* max_vel
 		);
 		
 		bool Is_End() {return is_end;}
 		
 		void Reset();
+		
+		
+		void Calc_End_Vel();
+		
 		
     protected:
 		bool Generate_Curve(vector2d::Vector2D point_, float smoothness_);
@@ -77,7 +82,7 @@ namespace path
     private:
 		bool is_end = false;
 		bool is_start = false;
-    
+	
     };
 	
 	
@@ -99,7 +104,7 @@ namespace path
 	class PathPlan
     {
     public:
-		PathPlan(float max_speed_, float max_accel_, float max_decel_);
+		PathPlan(float max_speed_, float max_accel_);
 		virtual ~PathPlan() {}
 		
 		bool Add_Path_Point(
@@ -132,8 +137,9 @@ namespace path
 		uint8_t current_planning_path = 0;
 	
 		bool is_init = false;
-		
-		float current_max_spd = 0;// 当前最大速度限制
+	
+		float max_speed = 0;
+		float max_accel = 0;
 	
     private:
 		vector2d::Vector2D current_tangent_vector;// 切向量
@@ -146,6 +152,9 @@ namespace path
 		uint8_t Get_Path_Space();
 		
 		Planning_Path_Status planning_status = PLANNING_WAIT_START_POINT;
+	
+		float current_max_tangent_spd = 0;
+	
     };
 }
 #endif

@@ -31,6 +31,11 @@ namespace flysky
 		volatile static uint8_t swa, swb, swc, swd;
 		volatile static int16_t left_x, left_y, right_x, right_y;
 		volatile static uint16_t data_buf[CHANNEL_NUM];
+			
+		static bool signal_swa();
+		static bool signal_swd();
+		
+		
     protected:
 		void Task_Process() override;
 	
@@ -40,6 +45,8 @@ namespace flysky
     private:
 		static uint32_t last_time;
 	
+		static uint8_t last_swa, last_swd;
+		static bool is_last_init;
     };
 
 }

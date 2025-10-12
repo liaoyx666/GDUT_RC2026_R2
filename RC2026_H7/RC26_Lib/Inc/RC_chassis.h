@@ -28,10 +28,10 @@ namespace chassis
 
 
 	// 加速度控制相关
-	const float MAX_ACC_SPEED = 2.0f;     // 最大线加速度（m/s²）
+	const float MAX_ACC_SPEED = 3.0f;     // 最大线加速度（m/s²）
 	const float MAX_ACC_YAW = 5.0f;   // Yaw轴最大角加速度（rad/s²）
 
-	const float MAX_DEC_SPEED = 1.0f;
+	
 	
 	
     class OmniChassis : public task::ManagedTask
