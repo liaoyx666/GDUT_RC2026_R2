@@ -13,6 +13,7 @@
 #include "RC_chassis.h"
 #include "RC_go.h"
 #include "RC_path.h"
+#include "RC_dm4310.h"
 
 #include "fdcan.h"
 #include "tim.h"
