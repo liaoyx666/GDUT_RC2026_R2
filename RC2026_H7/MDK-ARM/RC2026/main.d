@@ -82,6 +82,8 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-  ..\RC26_Lib\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_chassis.h \
-  ..\RC26_Lib\Inc\RC_vector2d.h ..\RC26_Motor\Inc\RC_go.h \
-  ..\RC26_Lib\Inc\RC_path.h ..\RC26_Lib\Inc\RC_bezier_curve.h
+  ..\RC26_Lib\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_vector2d.h \
+  ..\RC26_Motor\Inc\RC_go.h ..\RC26_Lib\Inc\RC_path.h \
+  ..\RC26_Lib\Inc\RC_bezier_curve.h ..\RC26_Lib\Inc\RC_best_path.h \
+  ..\RC26_Ros_Interface\Inc\RC_map.h \
+  ..\RC26_Ros_Interface\Inc\RC_ladar.h

@@ -41,27 +41,29 @@ namespace pid
 	float Pid::Pid_Calculate(bool normalization, float unit)
 	{
 		if (unit < 0) unit = -unit;
-		/*------------------------------------------------------------------------------------*/
-		// 前馈控制
-		feed_forward = target - last_target;
 		
-		if (normalization == true)// 归一化
+		/*-----------------------------------------前馈-------------------------------------------*/
+		if (kf != 0.f)
 		{
-			if (feed_forward > unit) feed_forward = feed_forward - 2.f * unit;
-			else if (feed_forward < -unit) feed_forward = feed_forward + 2.f * unit;
+			feed_forward = target - last_target;
+			
+			if (normalization == true)// 归一化
+			{
+				if (feed_forward > unit) feed_forward = feed_forward - 2.f * unit;
+				else if (feed_forward < -unit) feed_forward = feed_forward + 2.f * unit;
+			}
+			
+			feed_forward =  feed_forward / delta_time * kf;
+			
+			// 前馈限幅
+			if (feed_forward_limit != 0.f)
+			{
+				if (feed_forward > feed_forward_limit) feed_forward = feed_forward_limit;
+				else if (feed_forward < -feed_forward_limit) feed_forward = -feed_forward_limit;
+			}
 		}
 		
-		feed_forward =  feed_forward / delta_time * kf;
-		
-		// 前馈限幅
-		if (feed_forward_limit != 0)
-		{
-			if (feed_forward > feed_forward_limit) feed_forward = feed_forward_limit;
-			else if (feed_forward < -feed_forward_limit) feed_forward = -feed_forward_limit;
-		}
-		
-		/*------------------------------------------------------------------------------------*/
-		// 误差
+		/*---------------------------------------误差---------------------------------------------*/
 		error = target - real;
 		
 		if (normalization == true)// 归一化
@@ -72,78 +74,83 @@ namespace pid
 
 		if (fabsf(error) < deadzone) error = 0;// 死区
 		
-		/*------------------------------------------------------------------------------------*/
-		// 比例
-		if (incremental == true) proportion = (error - last_error) * kp;
-		else proportion = error * kp;
-		
-		/*------------------------------------------------------------------------------------*/
-		// 积分
-		if (incremental == true)
+		/*-----------------------------------------比例-------------------------------------------*/
+		if (kp != 0.f)
 		{
-			integral = error * ki;
+			if (incremental == true) proportion = (error - last_error) * kp;
+			else proportion = error * kp;
 		}
-		else
+		
+		/*----------------------------------------积分--------------------------------------------*/
+		if (ki != 0.f)
 		{
-			// 积分分离
-			if (integral_separation != 0)
+			if (incremental == true)
 			{
-				if (fabsf(error) < integral_separation)
+				integral = error * ki;
+			}
+			else
+			{
+				// 积分分离
+				if (integral_separation != 0.f)
+				{
+					if (fabsf(error) < integral_separation)
+					{
+						integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
+					}
+				}
+				else
 				{
 					integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
 				}
-			}
-			else
-			{
-				integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
-			}
-			
-			// 积分限幅
-			if (integral_limit != 0)
-			{
-				if (integral > integral_limit) integral = integral_limit;
-				else if (integral < -integral_limit) integral = -integral_limit;
+				
+				// 积分限幅
+				if (integral_limit != 0.f)
+				{
+					if (integral > integral_limit) integral = integral_limit;
+					else if (integral < -integral_limit) integral = -integral_limit;
+				}
 			}
 		}
 		
-		/*------------------------------------------------------------------------------------*/
-		// 微分
-		if (incremental == true)
+		/*-----------------------------------------微分-------------------------------------------*/
+		if (kd != 0.f)
 		{
-			differential = (error - 2 * last_error + previous_error) * kd;// 普通微分
-		}
-		else
-		{
-			if (differential_prior == true)
+			if (incremental == true)
 			{
-				differential = real - last_real;
-				
-				if (normalization == true)// 归一化
+				differential = (error - 2.f * last_error + previous_error) * kd;// 普通微分
+			}
+			else
+			{
+				if (differential_prior == true)
 				{
-					if (differential > unit) differential = differential - 2.f * unit;
-					else if (differential < -unit) differential = differential + 2.f * unit;
+					differential = real - last_real;
+					
+					if (normalization == true)// 归一化
+					{
+						if (differential > unit) differential = differential - 2.f * unit;
+						else if (differential < -unit) differential = differential + 2.f * unit;
+					}
+					
+					differential = differential / delta_time * kd;// 微分先行
+				}
+				else
+				{
+					differential = (error - last_error) / delta_time * kd;// 普通微分
 				}
 				
-				differential = differential / delta_time * kd;// 微分先行
-			}
-			else
-			{
-				differential = (error - last_error) / delta_time * kd;// 普通微分
-			}
-			
-			// 微分滤波
-			differential = differential_lowpass_alpha * last_differential + (1.f - differential_lowpass_alpha) * differential;
-			
-			// 微分限幅
-			if (differential_limit != 0)
-			{
-				if (differential > differential_limit) differential = differential_limit;
-				else if (differential < -differential_limit) differential = -differential_limit;
+				// 微分滤波
+				differential = differential_lowpass_alpha * last_differential + (1.f - differential_lowpass_alpha) * differential;
+				
+				// 微分限幅
+				if (differential_limit != 0.f)
+				{
+					if (differential > differential_limit) differential = differential_limit;
+					else if (differential < -differential_limit) differential = -differential_limit;
+				}
 			}
 		}
 		
-		/*------------------------------------------------------------------------------------*/
-		// 输出
+		/*--------------------------------------- 输出---------------------------------------------*/
 		if (incremental == true)
 		{
 			output = proportion + integral + differential + last_output + feed_forward;
@@ -164,18 +171,13 @@ namespace pid
 			else if (output < -output_limit) output = -output_limit;
 		}
 		
-		
-		/*------------------------------------------------------------------------------------*/
-		// 更新
+		/*----------------------------------------更新--------------------------------------------*/
 		previous_error = last_error;
+		
 		last_error = error;
-		
 		last_output = output;
-		
 		last_real = real;
-		
 		last_target = target;
-		
 		last_differential = differential;
 		last_proportion = proportion;
 		

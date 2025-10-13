@@ -24,12 +24,17 @@ motor::M3508 m3508_3(3, can1, tim7_1khz);
 /*-------------------------------软件模块初始化---------------------------------------*/
 timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
 
-path::PathPlan path_plan(1, 1);
+path::PathPlan path_plan(2, 1);
+
+
 
 /*--------------------------------硬件模块初始化--------------------------------------*/
 ros::Radar radar(CDC_HS, 1);// 雷达数据接收
+ros::BestPath MF_path(CDC_HS, 3);
+ros::Map map(CDC_HS, 2);
 
-chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 2.5, 2.5);
+
+chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
@@ -78,22 +83,8 @@ float sx, sy, sa;
 
 void path_teat(void *argument)
 {
-	path_plan.Add_Path_Point(vector2d::Vector2D(0, 0), false);// 起点
-	
-	path_plan.Add_Path_Point(vector2d::Vector2D(0, 2), false, 0.5);
-	
-	path_plan.Add_Path_Point(vector2d::Vector2D(4, 3), true, 0, 0, true, 0);
-	
-	path_plan.Add_Path_Point(vector2d::Vector2D(2, 3), true, 0);
-	
-	
-	/*-------------------------------------------------------------------*/
-	
-	
-	
-	
-	//osDelay(10000);
-	
+	MF_path.MF_Best_Path_Plan(map, path_plan);
+
 	for (;;)
 	{
 		path_plan.Get_Speed(
@@ -111,17 +102,28 @@ void path_teat(void *argument)
 		}
 		else if (remote_ctrl.swb == 1)
 		{
-			omni_chassis.Set_Chassis_World_Spd(remote_ctrl.left_x / 400.f, remote_ctrl.left_y / 400.f, remote_ctrl.right_x / 400.f, -radar.yaw / 180.f * PI);
+			omni_chassis.Set_Chassis_World_Spd(remote_ctrl.left_x / 300.f, remote_ctrl.left_y / 300.f, remote_ctrl.right_x / 300.f, -radar.yaw / 180.f * PI);
 		}
 		else
 		{
 			omni_chassis.Set_Chassis_World_Spd(sx, sy, sa, -radar.yaw / 180.f * PI);
 		}
 		
-		if (remote_ctrl.signal_swa())
+		
+		static uint8_t flag = 0;
+		static uint32_t last_time = 0;
+		
+		if (path_plan.Is_End() == true && flag == 0)
+		{
+			last_time = timer_us.Get_TimeStamp();
+			flag = 1;
+		}
+		else if (flag == 1 && timer_us.Get_DeltaTime(last_time) >= 3000000)// 延时3s
 		{
 			path_plan.Next_Path();
+			flag = 0;
 		}
+		
 		
 		
 		osDelay(1);
@@ -134,6 +136,7 @@ task::TaskCreator path_task("test", 27, 512, path_teat, NULL);
 /*---------------------------————-----初始化函数—————------------------------------------------*/
 void All_Init()
 {
+	/*------------------------------------外设初始化------------------------------------------*/
 	can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
 	can1.Can_Filter_Init(FDCAN_EXTENDED_ID, 2, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
 	can1.Can_Start();
@@ -148,6 +151,13 @@ void All_Init()
 
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
+	
+	
+	/*------------------------------------------------------------------------------*/
+	
+	
+	
+	
 }
 
 

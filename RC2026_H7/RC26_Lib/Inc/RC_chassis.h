@@ -28,8 +28,8 @@ namespace chassis
 
 
 	// 加速度控制相关
-	const float MAX_ACC_SPEED = 3.0f;     // 最大线加速度（m/s²）
-	const float MAX_ACC_YAW = 5.0f;   // Yaw轴最大角加速度（rad/s²）
+	const float MAX_ACC_SPEED = 2.5f;     // 最大线加速度（m/s²）
+	const float MAX_ACC_YAW = 4.5f;   // Yaw轴最大角加速度（rad/s²）
 
 	
 	
@@ -70,10 +70,13 @@ namespace chassis
 	
 	
 
-        float Limit_Accel(float delta_spd, float max_acc, float dt);
+        
     };
-}
+	
+	
+	float Limit_Accel(float delta_spd, float max_acc, float dt);
 
+}
 
 
 

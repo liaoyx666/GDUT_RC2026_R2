@@ -22,7 +22,7 @@ namespace pid
 			float kp_, float ki_, float kd_, float kf_ = 0, float delta_time_ = 0.001, float deadzone_ = 0, float output_limit_ = 0, 
 			float integral_limit_ = 0, float integral_separation_ = 0, float differential_limit_ = 0, float feed_forward_limit_ = 0
 		);
-							
+		
 		float Pid_Calculate(bool normalization = false, float unit = PI);
 		
 		void Update_Real(float real_){real = real_;}
@@ -42,6 +42,10 @@ namespace pid
 		void Set_integral_limit(float integral_limit_){integral_limit = fabsf(integral_limit_);}
 		void Set_output_limit(float output_limit_){output_limit = fabsf(output_limit_);}
 
+
+	protected:
+		
+	private:
 		float kp = 0, ki = 0, kd = 0, kf = 0;
 		float integral_separation = 0;
 		float integral_limit = 0, output_limit = 0, differential_limit = 0, feed_forward_limit = 0;
@@ -60,11 +64,6 @@ namespace pid
 		
 		float differential_lowpass_alpha = 0;
 		float output_lowpass_alpha = 0;
-
-	protected:
-		
-	private:
-		
 	};
 
 	void Limit(float *input, float limit);

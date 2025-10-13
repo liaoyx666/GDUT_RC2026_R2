@@ -59,7 +59,7 @@ namespace chassis
 
 	
     // 加速度限制
-    float OmniChassis::Limit_Accel(float delta, float max_acc, float dt)
+    float Limit_Accel(float delta, float max_acc, float dt)
     {
         float max_delta = max_acc * dt;  // 最大速度增量
       
@@ -79,21 +79,34 @@ namespace chassis
 		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
 		last_time = timer::Timer::Get_TimeStamp();
 		
-		/*-----------------------------------------------------------------------------------------*/
 		
-		float target_delta_spd;// 目标变化量
-		float current_delta_spd;// 实际变化量
+		
+		
+		
+		
+		
 		
 		/*-----------------------------------------yaw加速度限制------------------------------------------------*/
-		
+		float target_delta_spd;// 目标变化量
+		float current_delta_spd;// 实际变化量
+
 		target_delta_spd = target_spd_yaw - last_spd_yaw;
 		
 		current_delta_spd = Limit_Accel(target_delta_spd, MAX_ACC_YAW, dt);
 		
 		current_spd_yaw = last_spd_yaw + current_delta_spd;
 		
-		/*-------------------------------------------xy加速度限制----------------------------------------------*/
 		
+		
+		
+		
+		/*------------------------------------------前馈----------------------------------------------*/
+		target_spd = target_spd.rotate(current_spd_yaw * 0.1f);
+
+
+
+		/*-------------------------------------------xy加速度限制----------------------------------------------*/
+
 		float delta_yaw = (last_spd_yaw + current_spd_yaw) * 0.5f * dt;// 计算上一周期到现在，底盘转动角度
 		
 		vector2d::Vector2D real_last_spd = last_spd.rotate(delta_yaw);// 计算上一周期相对当前机器人坐标系的速度向量

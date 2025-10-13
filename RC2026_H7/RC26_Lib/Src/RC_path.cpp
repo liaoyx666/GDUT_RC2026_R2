@@ -354,15 +354,15 @@ namespace path
 		
 		
 		normal_pid.Pid_Mode_Init(false, false, 0);
-		normal_pid.Pid_Param_Init(3, 0, 0, 0, 0.001, 0, 2, 2, 1, 1, 1);
+		normal_pid.Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 2, 2, 1, 1, 1);
 		
 
 		tangent_pid.Pid_Mode_Init(false, false, 0);
-		tangent_pid.Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 2, 2, 1, 1, 1);
+		tangent_pid.Pid_Param_Init(1.8, 0, 0, 0, 0.001, 0, 2.5, 2.5, 1, 1, 1);
 		
 		
 		angle_pid.Pid_Mode_Init(false, false, 0);
-		angle_pid.Pid_Param_Init(3, 0, 0, 0, 0.001, 0, 2, 2, 1, 1, 1);
+		angle_pid.Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 1.5, 1.5, 0.5, 0.5, 0.5);
 		
 	}
 	
@@ -452,6 +452,56 @@ namespace path
 		return true;
 	}
 
+	// 机器人启动点，只有一个
+	bool PathPlan::Add_Start_Point(vector2d::Vector2D point_)
+	{
+		static bool have_start_point = false;
+		
+		if (have_start_point == false)
+		{
+			have_start_point = true;
+			
+			return PathPlan::Add_Path_Point(
+				point_, 
+				false, 
+				0.f,
+				0.f, 
+				false, 
+				0.f
+			);
+		}
+		
+		return false;
+	}
+	
+	// 途径点
+	bool PathPlan::Add_Point(vector2d::Vector2D point_, float smoothness_)
+	{
+		return PathPlan::Add_Path_Point(
+			point_, 
+			false, 
+			smoothness_,
+			0.f, 
+			false, 
+			0.f
+		);
+	}
+	
+	
+	// 结束点，下一段起始点
+	bool PathPlan::Add_End_Point(vector2d::Vector2D point_, float end_angle_, bool have_start_angle_, float start_angle_)
+	{
+		return PathPlan::Add_Path_Point(
+			point_, 
+			true, 
+			0.f,
+			end_angle_, 
+			have_start_angle_, 
+			start_angle_
+		);
+	}
+	
+	
 	
 	// 获取底盘速度
 	//////////////////////////
@@ -476,7 +526,11 @@ namespace path
 			&current_max_tangent_spd
 		);
 		
-		float target_normal_spd, target_tangent_spd;
+		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
+		last_time = timer::Timer::Get_TimeStamp();
+		
+		
+		
 		
 		// 计算法向速度
 		normal_pid.Update_Real(-current_normal_error);
@@ -488,10 +542,23 @@ namespace path
 		tangent_pid.Update_Target(0);
 		target_tangent_spd = tangent_pid.Pid_Calculate();
 		
+		
+		
+		float target_delta = chassis::Limit_Accel(target_tangent_spd - last_target_tangent_spd, max_accel, dt);
+		
+		if (target_delta < 0)
+		{
+			// 不限制减速
+		}
+		else
+		{
+			target_tangent_spd = last_target_tangent_spd + target_delta;// 限制加速
+		}
+		
 		// 计算角速度
 		angle_pid.Update_Real(angle);
 		angle_pid.Update_Target(target_angle);
-		*speed_angle = angle_pid.Pid_Calculate();
+		*speed_angle = angle_pid.Pid_Calculate(true, PI);
 		
 		
 		current_max_tangent_spd = current_max_tangent_spd * sqrtf(max_accel);
@@ -515,6 +582,10 @@ namespace path
 		return true;
 	}
 	
+	bool PathPlan::Is_End()
+	{
+		return path_list[current_path].Is_End();
+	}
 	
 	// 切换下一条路径
 	bool PathPlan::Next_Path()

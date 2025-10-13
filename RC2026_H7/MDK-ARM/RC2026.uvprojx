@@ -800,16 +800,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_wheel_leg.h</FilePath>
             </File>
             <File>
-              <FileName>RC_path.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_path.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_path.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_vector2d.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_vector2d.cpp</FilePath>
@@ -828,6 +818,36 @@
               <FileName>RC_bezier_curve.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_bezier_curve.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_path.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_path.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_MF_path.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_MF_path.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_MF_path.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_MF_path.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_adrc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_adrc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_adrc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_adrc.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -918,6 +938,16 @@
               <FileName>RC_map.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Ros_Interface\Inc\RC_map.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_best_path.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_best_path.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_best_path.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_best_path.h</FilePath>
             </File>
           </Files>
         </Group>
