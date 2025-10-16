@@ -924,6 +924,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_dm4310.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_j606.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_j606.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_j606.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_j606.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
