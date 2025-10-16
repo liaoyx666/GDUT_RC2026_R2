@@ -358,7 +358,7 @@ namespace path
 		
 
 		tangent_pid.Pid_Mode_Init(false, false, 0);
-		tangent_pid.Pid_Param_Init(1.8, 0, 0, 0, 0.001, 0, 2.5, 2.5, 1, 1, 1);
+		tangent_pid.Pid_Param_Init(1.8, 0, 0, 0, 0.001, 0, 2.3, 2.3, 1, 1, 1);
 		
 		
 		angle_pid.Pid_Mode_Init(false, false, 0);
@@ -526,6 +526,9 @@ namespace path
 			&current_max_tangent_spd
 		);
 		
+		
+		
+		
 		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
 		last_time = timer::Timer::Get_TimeStamp();
 		
@@ -554,6 +557,10 @@ namespace path
 		{
 			target_tangent_spd = last_target_tangent_spd + target_delta;// 限制加速
 		}
+		
+		last_target_tangent_spd = target_tangent_spd;
+		
+		
 		
 		// 计算角速度
 		angle_pid.Update_Real(angle);

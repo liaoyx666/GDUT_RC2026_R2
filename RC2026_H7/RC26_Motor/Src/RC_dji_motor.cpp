@@ -80,6 +80,12 @@ namespace motor
 				pid_pos.Update_Real(pos);
 				pid_pos.Update_Target(target_pos);
 				temp_target_rpm = pid_pos.Pid_Calculate();
+				
+				
+//				pos_adrc.Update_Real(pos);
+//				pos_adrc.Update_Target(target_pos);
+//				target_current = pos_adrc.ADRC_Calculate();
+				
 			}
 			else if (motor_mode == ANGLE_MODE)	//> 角度模式
 			{

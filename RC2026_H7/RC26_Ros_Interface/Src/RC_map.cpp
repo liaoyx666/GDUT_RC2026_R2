@@ -1,9 +1,12 @@
 #include "RC_map.h"
 
 
-
+extern cdc::CDC CDC_HS;
 namespace ros
 {
+	
+	
+	
 	Map::Map(cdc::CDC &cdc_, uint8_t rx_id_) : cdc::CDCHandler(cdc_, rx_id_)
 	{
 		//memset(map, -1, 12);// 初始化为未知
@@ -14,9 +17,14 @@ namespace ros
 		if (len == 12 && is_init == false)
 		{
 			memcpy(map, buf, 12);
-			
+
 			is_init = true;
 		}
+		
+		uint8_t s = 1;
+		CDC_HS.CDC_Send_Pkg(2, &s, 1, 1000);
+		
+		
 	}
 	
 	int8_t Map::Get_MF(uint8_t n)

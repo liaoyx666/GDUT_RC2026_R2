@@ -74,6 +74,7 @@
 "rc2026\rc_m3508.o"
 "rc2026\rc_m6020.o"
 "rc2026\rc_go.o"
+"rc2026\rc_dm4310.o"
 "rc2026\rc_ladar.o"
 "rc2026\rc_map.o"
 "rc2026\rc_best_path.o"

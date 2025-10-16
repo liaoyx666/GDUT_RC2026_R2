@@ -1,8 +1,11 @@
 #include "RC_best_path.h"
 
-
+extern cdc::CDC CDC_HS;
 namespace ros
 {
+	
+	
+	
 	BestPath::BestPath(cdc::CDC &cdc_, uint8_t rx_id_) : cdc::CDCHandler(cdc_, rx_id_)
 	{
 	
@@ -16,8 +19,12 @@ namespace ros
 		if (len <= 6 && is_init == false)
 		{
 			memcpy(step, buf, len);
+
 			is_init = true;
 		}
+		
+		uint8_t s = 1;
+		CDC_HS.CDC_Send_Pkg(3, &s, 1, 1000);
 	}
 	
 	vector2d::Vector2D BestPath::Get_MF_Location(uint8_t n)
@@ -115,11 +122,13 @@ namespace ros
 						0.f, 
 						false
 					);// 去拿取
+						
+					MF_map.Set_MF(step[i], 4);// 已拿取，变空格
 				}
 				else
 				{
 					path_plan.Add_Point(
-						vector2d::Vector2D(Get_MF_Location(step[i]).data()[0], Get_MF_Location(step[i]).data()[1] - 1.2f), 
+						vector2d::Vector2D(Get_MF_Location(step[i]).data()[0], Get_MF_Location(step[i]).data()[1] - 1.5f), 
 						0.5f
 					);// 过渡
 					

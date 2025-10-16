@@ -914,6 +914,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_go.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_dm4310.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_dm4310.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dm4310.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_dm4310.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

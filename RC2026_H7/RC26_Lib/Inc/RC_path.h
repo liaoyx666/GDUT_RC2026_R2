@@ -181,7 +181,7 @@ namespace path
 
 		float current_max_tangent_spd = 0;// 当前最大切向速度
 	
-		uint8_t last_time = 0;
+		uint32_t last_time = 0;
 		
 		float target_normal_spd, target_tangent_spd;
 		float last_target_tangent_spd = 0;

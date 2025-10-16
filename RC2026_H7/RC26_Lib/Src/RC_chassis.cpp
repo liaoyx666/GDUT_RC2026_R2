@@ -101,7 +101,7 @@ namespace chassis
 		
 		
 		/*------------------------------------------前馈----------------------------------------------*/
-		target_spd = target_spd.rotate(current_spd_yaw * 0.1f);
+		target_spd = target_spd.rotate(current_spd_yaw * 0.09f);
 
 
 
