@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_)
+	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.f)
 	{
 		id = id_;
 		
@@ -16,7 +16,7 @@ namespace motor
 	}
 	
 	void DM4310::CanHandler_Register()
-	{	
+	{
 		if(id > 3)
 		{
 			tx_id = 0x4FE;
@@ -89,7 +89,7 @@ namespace motor
 	
 		int16_t current_int;
 		
-		if (target_current >= 0)// 四舍五入 计算当前值
+		if (target_current >= 0)// 四舍五入
 		{
 			current_int = (int16_t)(target_current + 0.5f);
 		}
@@ -115,13 +115,11 @@ namespace motor
 	
 	void DM4310::Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data)
 	{
-		angle = ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;	//计算实际角度
-		
-		rpm = ((float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3])) / 100.f;	//计算实际转速
-		
-		current = (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);	//计算扭矩电流
-		wire_temperature = (float)(int8_t)rx_data[6];	//线圈温度
-		pcb_tempterture = (float)(int8_t)rx_data[7];	//错误状态
+		angle 		= ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;	//计算实际角度
+		rpm 		= ((float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3])) / 100.f;	//计算实际转速
+		current 	= (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);	//计算扭矩电流
+		temperature = (float)(int8_t)rx_data[6];	//线圈温度
+		error_code 	= (uint8_t)rx_data[7];	//错误状态
 		
 		
 		if (can_rx_is_first != true)	//若不为第一次上发
@@ -138,6 +136,7 @@ namespace motor
 		else can_rx_is_first = false;
 		
 		pos = cycle * TWO_PI + angle + pos_offset;
+		out_pos = pos / gear_ratio;
 		
 		if (pos > 6434) pos = 6434;
 		else if (pos < -6434) pos = -6434;

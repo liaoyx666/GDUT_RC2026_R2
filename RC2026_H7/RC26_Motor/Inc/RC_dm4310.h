@@ -14,11 +14,8 @@ namespace motor
 		DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_);
 		virtual ~DM4310() {}
 		
-		float wire_temperature;
-		float pcb_tempterture;
+		uint8_t error_code;
 		
-		float rpm_average[10];
-		float sum_rpm_average;
 		pid::Pid pid_spd, pid_pos;
 	protected:
 	

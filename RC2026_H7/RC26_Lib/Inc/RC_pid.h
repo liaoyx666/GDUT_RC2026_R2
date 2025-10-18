@@ -2,6 +2,7 @@
 #include <math.h>
 #include <arm_math.h>
 #include "RC_adrc.h"
+#include "RC_filter.h"
 
 #define TWO_PI 6.2831853071795864769f
 #define HALF_PI 1.570796326794896619f
@@ -17,11 +18,12 @@ namespace pid
 		Pid(){};
 		virtual	~Pid(){};
 			
-		void Pid_Mode_Init(bool incremental_ = true, bool differential_prior_ = true, float differential_lowpass_alpha_ = 0);
-			
+		void Pid_Mode_Init(bool incremental_ = true, bool differential_prior_ = true, float differential_lowpass_alpha_ = 0, bool use_td_ = false);
+		
 		void Pid_Param_Init(
 			float kp_, float ki_, float kd_, float kf_ = 0, float delta_time_ = 0.001, float deadzone_ = 0, float output_limit_ = 0, 
-			float integral_limit_ = 0, float integral_separation_ = 0, float differential_limit_ = 0, float feed_forward_limit_ = 0
+			float integral_limit_ = 0, float integral_separation_ = 0, float differential_limit_ = 0, float feed_forward_limit_ = 0,
+			float r_ = 50
 		);
 		
 		float Pid_Calculate(bool normalization = false, float unit = PI);
@@ -65,6 +67,10 @@ namespace pid
 		
 		float differential_lowpass_alpha = 0;
 		float output_lowpass_alpha = 0;
+	
+		bool use_td = false;
+		filter::TD td;
+	
 	};
 
 	void Limit(float *input, float limit);

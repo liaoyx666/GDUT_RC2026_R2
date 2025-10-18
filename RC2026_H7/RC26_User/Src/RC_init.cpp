@@ -14,12 +14,16 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口
 
 /*----------------------------------电机初始化----------------------------------------*/
 //motor::M6020 m6020_1(1, can2, tim7_1khz);
-motor::Go go_1(0, 3, can2, tim7_1khz);
+motor::Go go_1(0, 3, can3, tim7_1khz);
 motor::M3508 m3508_1(1, can1, tim7_1khz);
 motor::M3508 m3508_2(2, can1, tim7_1khz);
 motor::M3508 m3508_3(3, can1, tim7_1khz);
 
 motor::M2006 m2006_4(4, can1, tim7_1khz);
+
+motor::DM4310 dm4310(1, can3, tim7_1khz);
+
+
 
 
 /*-------------------------------软件模块初始化---------------------------------------*/
@@ -65,9 +69,9 @@ void test(void *argument)
 		//uint8_t aaa[8] = {1,2,3};
 		//CDC_HS.CDC_AddToBuf(aaa, 8, 1);
 		
-		uart_printf("%f,%f\n", go_1.Get_Out_Pos(), a);
+		uart_printf("%f,%f\n", dm4310.Get_Rpm(), target);
 		
-		go_1.Set_Out_Pos(a);
+		dm4310.Set_Rpm(a);
 		
 		
 		
@@ -77,7 +81,7 @@ void test(void *argument)
 }
 
 task::TaskCreator test_task("test", 20, 512, test, NULL);
-    
+   
 
 
 vector2d::Vector2D location(0, 0);

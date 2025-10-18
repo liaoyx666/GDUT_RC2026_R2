@@ -130,6 +130,27 @@ namespace adrc
 	
 	
 	
+	
+	float fhan(float x1, float x2, float r, float h)
+	{
+		float d = r * h * h;
+		float a0 = h * x2;
+		float y = x1 + a0;
+		float a1 = sqrtf(d * (d + 8.f * fabsf(y)));
+		float a2 = a0 + sgn(y) * (a1 - d) / 2.f;
+		return -r * (a2 / d) * (fabsf(a2) <= d) + -r * sgn(a2) * (fabsf(a2) > d);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
     * @brief  饱和函数
     * @note 

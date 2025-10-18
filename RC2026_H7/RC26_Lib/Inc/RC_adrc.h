@@ -97,6 +97,6 @@ namespace adrc
 	float fal(float e_, float alpha_, float delta_);
 	float fst(float x1_, float x2_, float r_, float h_);
 	float sgn(float x_);
-
+	float fhan(float x1, float x2, float r, float h);
 }
 #endif

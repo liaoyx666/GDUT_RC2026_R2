@@ -4,7 +4,7 @@
 
 namespace pid
 {
-	void Pid::Pid_Mode_Init(bool incremental_, bool differential_prior_, float differential_lowpass_alpha_)
+	void Pid::Pid_Mode_Init(bool incremental_, bool differential_prior_, float differential_lowpass_alpha_, bool use_td_)
 	{
 		incremental = incremental_;
 		
@@ -14,11 +14,14 @@ namespace pid
 		if (differential_lowpass_alpha_ >= 1) differential_lowpass_alpha = 0;
 		else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
 		
+		use_td = use_td_;// 是否使用td
+		
 	}
 
 	void Pid::Pid_Param_Init(
 		float kp_, float ki_, float kd_, float kf_, float delta_time_, float deadzone_, float output_limit_, 
-		float integral_limit_, float integral_separation_, float differential_limit_, float feed_forward_limit_
+		float integral_limit_, float integral_separation_, float differential_limit_, float feed_forward_limit_,
+		float r_
 	)
 	{
 		kp = kp_;
@@ -37,6 +40,8 @@ namespace pid
 		delta_time_ = fabsf(delta_time_);
 		if (delta_time_ == 0) delta_time_ = 0.001f;
 		else delta_time = delta_time_;// 时间差
+		
+		td.TD_Init(r_, delta_time_);
 	}
 
 
@@ -44,10 +49,21 @@ namespace pid
 	{
 		if (unit < 0) unit = -unit;
 		
+		float temp_target;
+		
+		if (use_td == true)
+		{
+			temp_target = td.TD_Calculate(target);
+		}
+		else
+		{
+			temp_target = target;
+		}
+
 		/*-----------------------------------------前馈-------------------------------------------*/
 		if (kf != 0.f)
 		{
-			feed_forward = target - last_target;
+			feed_forward = temp_target - last_target;
 			
 			if (normalization == true)// 归一化
 			{
@@ -66,10 +82,7 @@ namespace pid
 		}
 		
 		/*---------------------------------------误差---------------------------------------------*/
-		error = target - real;
-		
-		
-		
+		error = temp_target - real;
 		
 		if (normalization == true)// 归一化
 		{
@@ -184,7 +197,7 @@ namespace pid
 		last_error = error;
 		last_output = output;
 		last_real = real;
-		last_target = target;
+		last_target = temp_target;
 		last_differential = differential;
 		last_proportion = proportion;
 		

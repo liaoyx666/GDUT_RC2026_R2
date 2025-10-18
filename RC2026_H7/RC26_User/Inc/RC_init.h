@@ -5,6 +5,7 @@
 #include "RC_m3508.h"
 #include "RC_m2006.h"
 #include "RC_m6020.h"
+#include "RC_dm4310.h"
 #include "RC_serial.h"
 #include "RC_wave_generator.h"
 #include "RC_timer.h"
