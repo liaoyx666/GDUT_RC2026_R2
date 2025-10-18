@@ -2,7 +2,7 @@
 
 namespace motor
 {	
-	DjiMotor::DjiMotor(can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_)
+	DjiMotor::DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_) : can::CanHandler(can_), tim::TimHandler(tim_), Motor(gear_ratio_)
 	{
 		
 	}
@@ -81,7 +81,6 @@ namespace motor
 				pid_pos.Update_Target(target_pos);
 				temp_target_rpm = pid_pos.Pid_Calculate();
 				
-				
 //				pos_adrc.Update_Real(pos);
 //				pos_adrc.Update_Target(target_pos);
 //				target_current = pos_adrc.ADRC_Calculate();
@@ -97,6 +96,10 @@ namespace motor
 			pid_spd.Update_Target(temp_target_rpm);
 			pid_spd.Update_Real(rpm);
 			target_current = pid_spd.Pid_Calculate();
+			
+//			pos_adrc.Update_Real(rpm);
+//			pos_adrc.Update_Target(temp_target_rpm);
+//			target_current = pos_adrc.ADRC_Calculate();
 		}
 	}
 	
@@ -140,8 +143,11 @@ namespace motor
 		}
 		else can_rx_is_first = false;
 		
-		pos = cycle * TWO_PI + angle;
 		
+		pos = cycle * TWO_PI + angle + pos_offset;
+		out_pos = pos / gear_ratio;
+		
+		// 防止nan
 		if (pos > 6434) pos = 6434;
 		else if (pos < -6434) pos = -6434;
 		

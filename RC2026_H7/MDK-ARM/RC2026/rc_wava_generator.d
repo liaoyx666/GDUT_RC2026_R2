@@ -54,4 +54,5 @@ rc2026/rc_wava_generator.o: ..\RC26_Lib\Src\RC_wava_generator.cpp \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\transform_functions.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\filtering_functions.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\quaternion_math_functions.h \
-  D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h
+  D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
+  ..\RC26_Lib\Inc\RC_adrc.h

@@ -203,6 +203,9 @@ void J60::Can_Tx_Process() {
             tx_len_ = 8;
             break;
         } // end of MOTOR_CONTROL case
+		
+		default:
+			break;
     }
 
     // ---------------------- 生成CAN ID ----------------------

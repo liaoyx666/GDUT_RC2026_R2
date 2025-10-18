@@ -42,9 +42,7 @@ namespace adrc
 		);
 			
     protected:
-		void TD();
-		void NLSEF();
-		void ESO();
+
 	
     private:
 		float output_limit = 0;// 输出限幅
@@ -78,13 +76,18 @@ namespace adrc
 		float v2_last = 0;
 		
 		float u = 0;
-//		float e1 = 0;
-//		float e2 = 0;
+		float u0 = 0;
 		
 		float z1 = 0;
 		float z2 = 0;
 		float z3 = 0;
 
+
+		float e1 = 0;
+        float e2 = 0;
+		float e2_last  = 0;
+
+		float u0_last = 0;
 		
 		float y = 0;// 反馈值
 

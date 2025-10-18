@@ -268,7 +268,12 @@
         <Ww>
           <count>22</count>
           <WinNumber>1</WinNumber>
-          <ItemText>b0</ItemText>
+          <ItemText>e</ItemText>
+        </Ww>
+        <Ww>
+          <count>23</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>m2006_4</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -1589,30 +1594,6 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>100</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_j606.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_j606.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>101</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Inc\RC_j606.h</PathWithFileName>
-      <FilenameWithoutPath>RC_j606.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
   </Group>
 
   <Group>
@@ -1623,7 +1604,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>11</GroupNumber>
-      <FileNumber>102</FileNumber>
+      <FileNumber>100</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1635,7 +1616,7 @@
     </File>
     <File>
       <GroupNumber>11</GroupNumber>
-      <FileNumber>103</FileNumber>
+      <FileNumber>101</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1647,7 +1628,7 @@
     </File>
     <File>
       <GroupNumber>11</GroupNumber>
-      <FileNumber>104</FileNumber>
+      <FileNumber>102</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1659,7 +1640,7 @@
     </File>
     <File>
       <GroupNumber>11</GroupNumber>
-      <FileNumber>105</FileNumber>
+      <FileNumber>103</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1671,7 +1652,7 @@
     </File>
     <File>
       <GroupNumber>11</GroupNumber>
-      <FileNumber>106</FileNumber>
+      <FileNumber>104</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1683,7 +1664,7 @@
     </File>
     <File>
       <GroupNumber>11</GroupNumber>
-      <FileNumber>107</FileNumber>
+      <FileNumber>105</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1703,7 +1684,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>12</GroupNumber>
-      <FileNumber>108</FileNumber>
+      <FileNumber>106</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1715,7 +1696,7 @@
     </File>
     <File>
       <GroupNumber>12</GroupNumber>
-      <FileNumber>109</FileNumber>
+      <FileNumber>107</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1727,7 +1708,7 @@
     </File>
     <File>
       <GroupNumber>12</GroupNumber>
-      <FileNumber>110</FileNumber>
+      <FileNumber>108</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1739,13 +1720,37 @@
     </File>
     <File>
       <GroupNumber>12</GroupNumber>
-      <FileNumber>111</FileNumber>
+      <FileNumber>109</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\RC26_User\Inc\RC_data_pool.h</PathWithFileName>
       <FilenameWithoutPath>RC_data_pool.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>110</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Src\RC_arm_task.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_arm_task.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>111</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Inc\RC_arm_task.h</PathWithFileName>
+      <FilenameWithoutPath>RC_arm_task.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

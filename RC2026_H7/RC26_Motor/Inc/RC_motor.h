@@ -13,32 +13,82 @@ namespace motor
 		POS_MODE,// 位置模式
 		ANGLE_MODE,// 角度模式（0~2pi）
 		CURRENT_MODE,//电流模式
-		TORQUE_MODE//力矩模式
+		TORQUE_MODE,//力矩模式
+		MIT_MODE,// mit模式
 	} MotorMode;
 	
 	class Motor
     {
     public:
-		Motor();
+		Motor(float gear_ratio_ = 1.f);
 		virtual ~Motor() {}
 		
-		void Set_Pos_limit(float pos_limit_);
+		// 设置参数
+		void Set_Pos_limit(float pos_max_, float pos_min_);
+		void Set_Out_Pos_limit(float out_pos_max_, float out_pos_min_);
 		
 		void Set_Rpm(float target_rpm_);
-		virtual void Set_Angle(float target_angle_);//有些电机没有角度控制
 		void Set_Pos(float target_pos_);
+		virtual void Set_Angle(float target_angle_);//有些电机没有角度控制
 		virtual void Set_Current(float target_current_);//有些电机没有电流控制
 		virtual void Set_Torque(float target_torque_);// 有些电机没有力矩控制
 		
-		float rpm = 0, angle = 0, pos = 0, current = 0, temperature = 0, torque = 0;// 真实参数
+		
+		void Set_Out_Rpm(float target_out_rpm_);// 设置输出轴转速
+		void Set_Out_Pos(float target_out_pos_);// 设置输出轴位置
+		
+		virtual void Set_K_Pos(float target_k_pos_);// 设置刚度系数kp
+		virtual void Set_K_Spd(float target_k_spd_);// 设置阻尼系数kd
+		
+		void Reset_Out_Pos(float out_pos_);// 重置输出轴位置
+		void Reset_Pos(float pos_);// 重置转子位置
+		
+		
+		// 获取参数
+		float Get_Rpm() const {return rpm;}
+		float Get_Pos() const {return pos;}
+		float Get_Out_Pos() const {return out_pos;}
+		float Get_Angle() const {return angle;}
+		float Get_Current() const {return current;}
+		float Get_Torque() const {return torque;}
+		float Get_Temperature() const {return temperature;}
+		
 		
     protected:
-		float target_rpm = 0, target_angle = 0, target_pos = 0, target_current = 0, target_torque = 0;// 目标参数
-		int32_t cycle = 0;// 圈数
-		float last_angle = 0;
-		float pos_limit = 6434;
+		// 真实参数
+		float rpm = 0;// r/minute
+		float angle = 0;// rad 0 ~ 2pi
+		float pos = 0;// rad
+		float current = 0;
+		float temperature = 0;
+		float torque = 0;// N*m
+		float k_spd = 0;// 阻尼系数
+		float k_pos = 0;// 刚度系数
 		
-		MotorMode motor_mode = RPM_MODE;
+		// 目标参数
+		float target_rpm = 0;
+		float target_angle = 0;
+		float target_pos = 0;
+		float target_current = 0;
+		float target_torque = 0;
+		float target_k_spd = 0;
+		float target_k_pos = 0;
+	
+		float out_pos = 0;// 输出轴位置
+	
+		float pos_offset = 0;// 位置偏移量 pos = 电机读取位置 + pos_offset
+	
+		int32_t cycle = 0;// 转子累计旋转圈数
+	
+		float last_angle = 0;
+
+		float pos_max = 6000;
+		float pos_min = -6000;
+	
+	
+		float gear_ratio = 1.f;// 减速比
+
+		MotorMode motor_mode = RPM_MODE;// 模式
 
     private:
 		

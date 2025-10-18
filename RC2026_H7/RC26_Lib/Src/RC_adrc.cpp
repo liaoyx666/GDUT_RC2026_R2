@@ -1,7 +1,7 @@
 #include "RC_adrc.h"
 
 
-float b0 = 1;
+
 
 
 namespace adrc
@@ -44,87 +44,53 @@ namespace adrc
 	}
 	
 	
-	// 跟踪微分器
-	void ADRC::TD()
+
+	float ADRC::ADRC_Calculate(bool normalization, float unit)
 	{
+	
+		// 跟踪微分器TD
 		v1 = v1_last + h * v2_last;
 		v2 = v2_last + h * fst(v1_last - v, v2_last, r, h);
 		
 		v1_last = v1;
 		v2_last = v2;
-	}
-	
-	// 非线性组合
-	void ADRC::NLSEF()
-	{
-		float e1 = v1 - z1;
 		
-		float e2 = v2 - z2;
-		
-		//u = beta_1 * fal(e1, alpha_1, delta) + beta_2 * fal(e2, alpha_2, delta);
-		u = beta_1 * e1 + beta_2 * e2;
-	}
-	
-	
-	
-	
-	
-	
-	// 扩张观测器
-	void ADRC::ESO()
-	{
+
+		// 扩张观测器ESO
 		float e = z1 - y;
 		
 		z1 = z1 + h * (z2 - beta_01 * e);
+		z2 = z2 + h * (z3 - beta_02 * fal(e, alpha_1, delta) + b * u);
+		z3 = z3 - h * beta_03 * fal(e, alpha_2, delta);
 		
-		z2 = z2 + h * (z3 - beta_02 * e + b * u);
 		
-		z3 = z3 - h * beta_03 * e;
-		
-		u = u - z3 / (b * b0);
+		// 非线性组合NLSEF
+		e1 = v1 - z1;
+		e2 = v2 - z2;
+
+		e2 = e2_last * 0.3f + e2 * 0.7f;
+
+		e2_last = e2;
 
 
-	}
-
-	float ADRC::ADRC_Calculate(bool normalization, float unit)
-	{
-		// 归一化
-		if (normalization == true)
-		{
-			if (unit == 0) return 0;
-
-			if (unit < 0) unit = -unit;
-			
-			if (isnan(v) || isinf(v)) return 0;
-			if (isnan(y) || isinf(y)) return 0;
-			
-			while(v > unit)
-				v = v - 2.f * unit;
-			while(v < -unit)
-				v = v + 2.f * unit;
-			
-			while(y > unit)
-				y = y - 2.f * unit;
-			while(y < -unit)
-				y = y + 2.f * unit;
-		}
-	
-		// 跟踪微分器
-		TD();
+		u = beta_1 * fal(e1, alpha_1, delta) + beta_2 * fal(e2, alpha_2, delta);
 		
-		// 扩张观测器
-		ESO();
 		
-		// 非线性组合
-		NLSEF();
 		
+		// 扰动补偿
+		u0 = u - z3 / b;
 		
 		
 		// 输出限幅
-		if (u > output_limit) u = output_limit;
-		else if (u < -output_limit) u = -output_limit;
+		if (u0 > output_limit) u0 = output_limit;
+		else if (u0 < -output_limit) u0 = -output_limit;
 		
-		return u;
+		
+		u0 = u0_last * 0.3f + u0 * 0.7f;
+		
+		u0_last = u0;
+		
+		return u0;
 	}
 	
 	

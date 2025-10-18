@@ -13,33 +13,33 @@ namespace motor
 	* @param k_spd_:阻尼系数（只使用力矩时给0）
 	* @param k_pos_:刚度系数（只使用力矩时给0）
 	*/
-	Go::Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool torque_only_, float k_spd_, float k_pos_)
-		: can::CanHandler(can_), tim::TimHandler(tim_), torque_only(torque_only_)
+	Go::Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_)
+		: can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_), Motor(6.33f)
 	{
 		if (module_id_ > 3) Error_Handler();
 		if (id_ > 14) Error_Handler();
 		
-		if (torque_only == true)
+		if (use_mit_ != true)
 		{
 			k_spd = 0;// 阻尼系数
 			k_pos = 0;// 刚度系数
 		}
 		else
 		{
-			Set_K_Spd(k_spd_);
-			Set_K_Pos(k_pos_);
+			Set_K_Spd(k_spd_);// 阻尼系数
+			Set_K_Pos(k_pos_);// 刚度系数
 		}
 		
-		id = id_;
-		module_id = module_id_;
+		id = id_;// 电机id
+		module_id = module_id_;// 模块id
 		
 		can_frame_type = can::FRAME_EXT;
 		
-		// ！！！unitree文档错误，读取k模式时id25，26位返回2而非1！！！//
+		//!!!unitree文档错误，读取k模式时id的25，26位返回2而非1!!!
 		rx_mask = (3 << 27) | (1 << 26) | (15 << 8);
 		rx_id = (module_id << 27) | (1 << 26) | (id << 8);
-		// ！！！unitree文档错误，读取k模式时id25，26位返回2而非1！！！//
-		
+
+		// 第一次通讯先设置k值
 		tx_id = (module_id << 27) | (0 << 26) | (0 << 24) | ((uint8_t)GO_CONTROL_WRITE_K << 16) | (id << 8) | ((uint8_t)GO_STATUS_FOC << 12);
 		
 		CanHandler_Register();
@@ -49,7 +49,7 @@ namespace motor
 		pid_spd.Pid_Param_Init(0.004, 0.0001, 0, 0, 0.001, 0, 127, 60, 60, 60, 60);
 		
 		pid_pos.Pid_Mode_Init(false, false, 0);
-		pid_pos.Pid_Param_Init(200, 0, 0.01, 0, 0.001, 0, 200, 100, 100, 100, 100);
+		pid_pos.Pid_Param_Init(300, 0, 5, 0, 0.001, 0, 100, 50, 50, 50, 50);
 	}
 
 	
@@ -82,12 +82,12 @@ namespace motor
 			
 			int16_t tor_int = (int16_t)(target_torque * 256.f);
 			
-			if (torque_only == true)// 只使用力矩控制（建议）
+			if (use_mit != true)// 只使用前馈力矩控制
 			{
 				memset(&can->tx_frame_list[tx_frame_dx].data[0], 0, 6);
 				memcpy(&can->tx_frame_list[tx_frame_dx].data[6], &tor_int, 2);
 			}
-			else
+			else// 使用mit
 			{
 				pid::Limit(&target_pos, 6000);
 				pid::Limit(&target_rpm, 7677);
@@ -144,9 +144,11 @@ namespace motor
 			{
 				temperature = (int8_t)(rx_id_ & 0xff);
 				air = (uint8_t)(rx_id_ >> 8);
-				pos = ((float)(int32_t)(((uint32_t)rx_data[3] << 24) | ((uint32_t)rx_data[2] << 16) | ((uint32_t)rx_data[1] << 8) | (uint32_t)rx_data[0])) / 32768.f * TWO_PI;
+				pos = ((float)(int32_t)(((uint32_t)rx_data[3] << 24) | ((uint32_t)rx_data[2] << 16) | ((uint32_t)rx_data[1] << 8) | (uint32_t)rx_data[0])) / 32768.f * TWO_PI + pos_offset;
 				rpm = ((float)(int16_t)(((uint16_t)rx_data[5] << 8) | (uint16_t)rx_data[4])) / 256.f * 60.f;
 				torque = ((float)(int16_t)(((uint16_t)rx_data[7] << 8) | (uint16_t)rx_data[6])) / 256.f;
+				
+				out_pos = pos / gear_ratio;
 			}
 		}
 	}
@@ -157,7 +159,7 @@ namespace motor
 	// 定时器中断计算pid
 	void Go::Tim_It_Process()
 	{
-		if (torque_only == true)
+		if (use_mit != true)// 不使用mit
 		{
 			if (motor_mode != TORQUE_MODE)			//> 力矩模式
 			{
@@ -179,6 +181,32 @@ namespace motor
 				pid_spd.Update_Real(rpm);
 				target_torque = pid_spd.Pid_Calculate();
 			}
+		}
+	}
+	
+	
+	
+	void Go::Set_K_Pos(float target_k_pos_)
+	{
+		if (use_mit == true)
+		{
+			if (target_k_pos_ < 0) target_k_pos = 0;
+			else if (target_k_pos_ > 25.599f) target_k_pos = 25.599f;
+			else target_k_pos = target_k_pos_;
+			
+			control_mode = GO_CONTROL_WRITE_K;
+		}
+	}
+	
+	void Go::Set_K_Spd(float target_k_spd_)
+	{
+		if (use_mit == true)
+		{
+			if (target_k_spd_ < 0) target_k_spd = 0;
+			else if (target_k_spd_ > 25.599f) target_k_spd = 25.599f;
+			else target_k_spd = target_k_spd_;
+			
+			control_mode = GO_CONTROL_WRITE_K;
 		}
 	}
 }

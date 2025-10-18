@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>2</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -924,16 +924,6 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_dm4310.h</FilePath>
             </File>
-            <File>
-              <FileName>RC_j606.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Motor\Src\RC_j606.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_j606.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Motor\Inc\RC_j606.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -993,6 +983,16 @@
               <FileName>RC_data_pool.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_data_pool.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_arm_task.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_User\Src\RC_arm_task.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_arm_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_User\Inc\RC_arm_task.h</FilePath>
             </File>
           </Files>
         </Group>

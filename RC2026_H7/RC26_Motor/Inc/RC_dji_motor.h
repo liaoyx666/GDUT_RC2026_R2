@@ -13,11 +13,11 @@ namespace motor
 	class DjiMotor : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:
-		DjiMotor(can::Can &can_, tim::Tim &tim_);
+		DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 1.f);
 		virtual ~DjiMotor() {}
 		
 		pid::Pid pid_spd, pid_pos;
-		adrc::ADRC pos_adrc;
+		//adrc::ADRC pos_adrc;
 
     protected:
 		virtual void Dji_Id_Init(uint8_t id_) = 0;// 初始化发送和接受帧的id

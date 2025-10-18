@@ -25,7 +25,8 @@ rc2026/rc_chassis.o: ..\RC26_Lib\Src\RC_chassis.cpp \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\filtering_functions.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\quaternion_math_functions.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
-  ..\RC26_Lib\Inc\RC_can.h ..\RC26_Lib\Inc\RC_task.h \
+  ..\RC26_Lib\Inc\RC_adrc.h ..\RC26_Lib\Inc\RC_can.h \
+  ..\RC26_Lib\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \
@@ -69,5 +70,5 @@ rc2026/rc_chassis.o: ..\RC26_Lib\Src\RC_chassis.cpp \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Lib\Inc\RC_adrc.h \
-  ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_vector2d.h
+  ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Lib\Inc\RC_timer.h \
+  ..\RC26_Lib\Inc\RC_vector2d.h

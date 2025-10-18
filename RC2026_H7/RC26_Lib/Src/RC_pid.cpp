@@ -1,5 +1,7 @@
 #include "RC_pid.h"
 
+
+
 namespace pid
 {
 	void Pid::Pid_Mode_Init(bool incremental_, bool differential_prior_, float differential_lowpass_alpha_)
@@ -66,6 +68,9 @@ namespace pid
 		/*---------------------------------------误差---------------------------------------------*/
 		error = target - real;
 		
+		
+		
+		
 		if (normalization == true)// 归一化
 		{
 			if (error > unit) error = error - 2.f * unit;
@@ -87,6 +92,8 @@ namespace pid
 			if (incremental == true)
 			{
 				integral = error * ki;
+					
+				
 			}
 			else
 			{

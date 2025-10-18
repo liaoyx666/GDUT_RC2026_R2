@@ -117,16 +117,6 @@ namespace motor
 	{
 		angle = ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;	//计算实际角度
 		
-//		sum_rpm_average = 0;
-//		for(int i = 9; i > 0; i--)
-//		{
-//			rpm_average[i] = rpm_average[i - 1];
-//			sum_rpm_average += rpm_average[i];
-//		}
-//		rpm_average[0] = ((float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3])) / 100.f;	//计算实际转速
-//		sum_rpm_average += rpm_average[0];
-//		rpm = sum_rpm_average / 10;
-		
 		rpm = ((float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3])) / 100.f;	//计算实际转速
 		
 		current = (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);	//计算扭矩电流
@@ -147,7 +137,7 @@ namespace motor
 		}
 		else can_rx_is_first = false;
 		
-		pos = cycle * TWO_PI + angle;
+		pos = cycle * TWO_PI + angle + pos_offset;
 		
 		if (pos > 6434) pos = 6434;
 		else if (pos < -6434) pos = -6434;

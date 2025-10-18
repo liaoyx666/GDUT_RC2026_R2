@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_) : DjiMotor(can_, tim_)
+	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_) : DjiMotor(can_, tim_, 3591.f / 187.f)
 	{
 		// 设置tx，rx和m3508的id
 		Dji_Id_Init(id_);

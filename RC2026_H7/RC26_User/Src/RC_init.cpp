@@ -13,12 +13,13 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口
 
 
 /*----------------------------------电机初始化----------------------------------------*/
-motor::M6020 m6020_1(1, can2, tim7_1khz);
-//motor::Go go_1(0, 3, can2, tim7_1khz);
+//motor::M6020 m6020_1(1, can2, tim7_1khz);
+motor::Go go_1(0, 3, can2, tim7_1khz);
 motor::M3508 m3508_1(1, can1, tim7_1khz);
 motor::M3508 m3508_2(2, can1, tim7_1khz);
 motor::M3508 m3508_3(3, can1, tim7_1khz);
 
+motor::M2006 m2006_4(4, can1, tim7_1khz);
 
 
 /*-------------------------------软件模块初始化---------------------------------------*/
@@ -47,51 +48,26 @@ SquareWave wave(1000, 3000);// 用于调pid
 
 float target = 0;
 float a = 0;
-float w = 30;
+float w = 70;
 
 void test(void *argument)
 {
 	//sin_wave.Init();
 	wave.Init();
 	
-	m6020_1.pos_adrc.ADRC_Param_Init(
-			15000,				// 输出限幅
-			30,         		// 快速跟踪因子
-			0.001,     		 	// 滤波因子，系统调用步长
-			3,         			// 系统系数
-			0.01,          		// fal函数的线性区间宽度
-			3 * w,          	// 扩张状态观测器反馈增益1
-			3 * w * w,          // 扩张状态观测器反馈增益2
-			w * w * w,          // 扩张状态观测器反馈增益3
-			0.5,          		// 非线性因子1
-			0.25,          		// 非线性因子2
-			0,          		// 跟踪输入信号增益kp
-			0           		// 跟踪微分信号增益kd
-		);
-	
+	go_1.Reset_Out_Pos(0);
 	
 	for (;;)
 	{
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 		
 		//uint8_t aaa[8] = {1,2,3};
-		//omni_chassis.Set_Chassis_World_Spd(remote_ctrl.left_x / 100.f, remote_ctrl.left_y / 100.f, remote_ctrl.right_x / 100.f, -radar.yaw / 180.f * PI);
-		
 		//CDC_HS.CDC_AddToBuf(aaa, 8, 1);
 		
-		uart_printf("%f,%f\n", m6020_1.pos, target);
+		uart_printf("%f,%f\n", go_1.Get_Out_Pos(), a);
 		
-		m6020_1.Set_Pos(target);
+		go_1.Set_Out_Pos(a);
 		
 		
 		

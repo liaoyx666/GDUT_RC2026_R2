@@ -1,6 +1,7 @@
 #pragma once
 #include <math.h>
 #include <arm_math.h>
+#include "RC_adrc.h"
 
 #define TWO_PI 6.2831853071795864769f
 #define HALF_PI 1.570796326794896619f
