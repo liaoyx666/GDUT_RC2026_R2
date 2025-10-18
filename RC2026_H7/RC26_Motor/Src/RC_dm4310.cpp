@@ -2,9 +2,16 @@
 
 namespace motor
 {
-	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.f)
+	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_) : can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.f)
 	{
 		id = id_;
+		
+		tx_id = id;
+
+		rx_id = 0x300 + id;
+		rx_mask = 0xfff;
+		
+		can_frame_type = can::FRAME_STD;
 		
 		CanHandler_Register();
 		
@@ -17,69 +24,15 @@ namespace motor
 	
 	void DM4310::CanHandler_Register()
 	{
-		if(id > 3)
-		{
-			tx_id = 0x4FE;
-		}
-		else
-		{
-			tx_id = 0x3FE;
-		}
+		can->tx_frame_num++;// 帧加一
+		tx_frame_dx = can->tx_frame_num - 1;// 帧索引后移一位
 		
-		rx_id = 0x300 + id;
-		can_frame_type = can::FRAME_STD;
-		rx_mask = 0xfff;
-		
-		if (can->tx_frame_num == 0)// can上还没有挂载帧
-		{
-			tx_frame_dx = 0;	//帧编号
-			can->tx_frame_num = 1;// 第一个帧
-			
-			can->tx_frame_list[tx_frame_dx].frame_type = can_frame_type;
-			can->tx_frame_list[tx_frame_dx].id = tx_id;
-			can->tx_frame_list[tx_frame_dx].dlc = 8;
-			
-			can->tx_frame_list[tx_frame_dx].hd_num = 1;	//登记挂载第一个
-			can->tx_frame_list[tx_frame_dx].hd_dx[0] = hd_list_dx;	//将设备总编号登记到此CAN帧的设备列表
-		}
-		else// can上已经有帧
-		{
-			bool have_same_tx_id = false;// 是否有同样帧id的帧
-			
-			// 查询是否有帧id相同的帧
-			for (uint16_t i = 0; i < can->tx_frame_num; i++)
-			{
-				if (can->tx_frame_list[i].frame_type == can_frame_type && can->tx_frame_list[i].id == tx_id)// 帧种类和帧id相同
-				{
-					have_same_tx_id = true;
-					tx_frame_dx = i;// 合并相同帧id的帧（索引相同）
-					
-					can->tx_frame_list[tx_frame_dx].hd_num++;
-					
-					if (can->tx_frame_list[tx_frame_dx].hd_num > 4)// 一个帧最多挂载4个设备
-					{
-						Error_Handler();
-					}
-					
-					can->tx_frame_list[tx_frame_dx].hd_dx[can->tx_frame_list[tx_frame_dx].hd_num - 1] = hd_list_dx;
-					break;
-				}
-			}
-			
-			// 无相同帧id的帧
-			if (have_same_tx_id == false)
-			{
-				can->tx_frame_num++;// 帧总数加一
-				tx_frame_dx = can->tx_frame_num - 1;	//登记帧的编号
-				
-				can->tx_frame_list[tx_frame_dx].frame_type = can_frame_type;
-				can->tx_frame_list[tx_frame_dx].id = tx_id;
-				can->tx_frame_list[tx_frame_dx].dlc = 8;
-		
-				can->tx_frame_list[tx_frame_dx].hd_num = 1;
-				can->tx_frame_list[tx_frame_dx].hd_dx[0] = hd_list_dx;	//登记设备编号到此帧的设备列表
-			}
-		}
+		can->tx_frame_list[tx_frame_dx].frame_type = can_frame_type;
+		can->tx_frame_list[tx_frame_dx].id = tx_id;
+		can->tx_frame_list[tx_frame_dx].dlc = 8;
+
+		can->tx_frame_list[tx_frame_dx].hd_num = 1;
+		can->tx_frame_list[tx_frame_dx].hd_dx[0] = hd_list_dx;
 	}
 	
 	

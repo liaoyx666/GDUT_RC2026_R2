@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat Oct 18 16:09:32 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat Oct 18 16:50:34 2025
 <BR><P>
 <H3>Maximum Stack Usage =        360 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1147,7 +1147,7 @@ Global Symbols
 <P><STRONG><a name="[239]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_Init
-<LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::DjiMotor__sub_object(can::Can&, tim::Tim&, float)
 <LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Motor::Motor(float)
@@ -1669,7 +1669,6 @@ Global Symbols
 <LI><a href="#[223]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_FDCAN3_Init
 <LI><a href="#[222]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_FDCAN2_Init
 <LI><a href="#[221]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_FDCAN1_Init
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::CanHandler_Register()
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[263]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M3508::M3508(unsigned char, can::Can&, tim::Tim&)
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M3508::Dji_Id_Init(unsigned char)
@@ -3330,7 +3329,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
 </UL>
-<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::DjiMotor__sub_object(can::Can&, tim::Tim&, float)
 </UL>
@@ -3492,7 +3491,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[290]"></a>pid::Pid::Pid_Mode_Init(bool, bool, float, bool)</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, rc_pid.o(.text._ZN3pid3Pid13Pid_Mode_InitEbbfb))
-<BR><BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<BR><BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[263]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M3508::M3508(unsigned char, can::Can&, tim::Tim&)
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M2006::M2006(unsigned char, can::Can&, tim::Tim&)
@@ -3502,7 +3501,7 @@ Global Symbols
 <P><STRONG><a name="[287]"></a>pid::Pid::Pid_Param_Init(float, float, float, float, float, float, float, float, float, float, float, float)</STRONG> (Thumb, 104 bytes, Stack size 0 bytes, rc_pid.o(.text._ZN3pid3Pid14Pid_Param_InitEffffffffffff))
 <BR><BR>[Calls]<UL><LI><a href="#[288]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[263]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M3508::M3508(unsigned char, can::Can&, tim::Tim&)
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M2006::M2006(unsigned char, can::Can&, tim::Tim&)
@@ -3601,7 +3600,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
 </UL>
-<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::DjiMotor__sub_object(can::Can&, tim::Tim&, float)
 <LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer::Timer::Timer(tim::Tim&)
@@ -3886,12 +3885,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_m3508.o(.rodata._ZTVN5motor5M3508E)
 </UL>
-<P><STRONG><a name="[c6]"></a>motor::Motor::Set_Torque(float)</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rc_motor.o(.text._ZN5motor5Motor10Set_TorqueEf))
+<P><STRONG><a name="[c6]"></a>motor::Motor::Set_Torque(float)</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, rc_motor.o(.text._ZN5motor5Motor10Set_TorqueEf))
 <BR>[Address Reference Count : 3]<UL><LI> rc_motor.o(.rodata._ZTVN5motor5MotorE)
 <LI> rc_go.o(.rodata._ZTVN5motor2GoE)
 <LI> rc_dm4310.o(.rodata._ZTVN5motor6DM4310E)
 </UL>
-<P><STRONG><a name="[d8]"></a>motor::Motor::Set_Current(float)</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rc_motor.o(.text._ZN5motor5Motor11Set_CurrentEf))
+<P><STRONG><a name="[d8]"></a>motor::Motor::Set_Current(float)</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, rc_motor.o(.text._ZN5motor5Motor11Set_CurrentEf))
 <BR>[Address Reference Count : 5]<UL><LI> rc_dji_motor.o(.rodata._ZTVN5motor8DjiMotorE)
 <LI> rc_motor.o(.rodata._ZTVN5motor5MotorE)
 <LI> rc_m2006.o(.rodata._ZTVN5motor5M2006E)
@@ -3935,7 +3934,7 @@ Global Symbols
 <P><STRONG><a name="[294]"></a>motor::Motor::Motor__sub_object(float)</STRONG> (Thumb, 72 bytes, Stack size 16 bytes, rc_motor.o(.text._ZN5motor5MotorC2Ef))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = motor::Motor::Motor__sub_object(float)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::DjiMotor__sub_object(can::Can&, tim::Tim&, float)
 </UL>
@@ -3967,18 +3966,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_dm4310.o(.rodata._ZTVN5motor6DM4310E)
 </UL>
-<P><STRONG><a name="[f4]"></a>motor::DM4310::CanHandler_Register()</STRONG> (Thumb, 214 bytes, Stack size 8 bytes, rc_dm4310.o(.text._ZN5motor6DM431019CanHandler_RegisterEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = motor::DM4310::CanHandler_Register()
-</UL>
-<BR>[Calls]<UL><LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
-</UL>
-<BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;non-virtual thunk to motor::DM4310::CanHandler_Register()
-</UL>
+<P><STRONG><a name="[f4]"></a>motor::DM4310::CanHandler_Register()</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, rc_dm4310.o(.text._ZN5motor6DM431019CanHandler_RegisterEv))
 <BR>[Address Reference Count : 1]<UL><LI> rc_dm4310.o(.rodata._ZTVN5motor6DM4310E)
 </UL>
-<P><STRONG><a name="[265]"></a>motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)</STRONG> (Thumb, 364 bytes, Stack size 64 bytes, rc_dm4310.o(.text._ZN5motor6DM4310C2EhRN3can3CanERN3tim3TimE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80 + Unknown Stack Size
-<LI>Call Chain = motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&) &rArr; motor::Motor::Motor__sub_object(float)
+<P><STRONG><a name="[265]"></a>motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)</STRONG> (Thumb, 392 bytes, Stack size 72 bytes, rc_dm4310.o(.text._ZN5motor6DM4310C2EhRN3can3CanERN3tim3TimEbff))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88 + Unknown Stack Size
+<LI>Call Chain = motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float) &rArr; motor::Motor::Motor__sub_object(float)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[294]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Motor::Motor__sub_object(float)
 <LI><a href="#[28f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD()
@@ -3991,7 +3984,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[31f]"></a>motor::DM4310::DM4310__sub_object(unsigned char, can::Can&, tim::Tim&)</STRONG> (Thumb, 364 bytes, Stack size 64 bytes, rc_dm4310.o(.text._ZN5motor6DM4310C2EhRN3can3CanERN3tim3TimE), UNUSED)
+<P><STRONG><a name="[31f]"></a>motor::DM4310::DM4310__sub_object(unsigned char, can::Can&, tim::Tim&, bool, float, float)</STRONG> (Thumb, 392 bytes, Stack size 72 bytes, rc_dm4310.o(.text._ZN5motor6DM4310C2EhRN3can3CanERN3tim3TimEbff), UNUSED)
 
 <P><STRONG><a name="[f3]"></a>motor::DM4310::~DM4310__deallocating()</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rc_dm4310.o(.text._ZN5motor6DM4310D0Ev))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = motor::DM4310::~DM4310__deallocating() &rArr; operator delete(void*, unsigned int) &rArr; operator delete(void*) &rArr; free
@@ -4107,7 +4100,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[28f]"></a>filter::TD::TD()</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, rc_filter.o(.text._ZN6filter2TDC2Ev))
-<BR><BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<BR><BR>[Called By]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::DjiMotor__sub_object(can::Can&, tim::Tim&, float)
 <LI><a href="#[267]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan::PathPlan(float, float)
@@ -4372,11 +4365,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_dm4310.o(.rodata._ZTVN5motor6DM4310E)
 </UL>
-<P><STRONG><a name="[fc]"></a>non-virtual thunk to motor::DM4310::CanHandler_Register()</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rc_dm4310.o(.text._ZThn96_N5motor6DM431019CanHandler_RegisterEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = non-virtual thunk to motor::DM4310::CanHandler_Register() &rArr; motor::DM4310::CanHandler_Register()
-</UL>
-<BR>[Calls]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::CanHandler_Register()
-</UL>
+<P><STRONG><a name="[fc]"></a>non-virtual thunk to motor::DM4310::CanHandler_Register()</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, rc_dm4310.o(.text._ZThn96_N5motor6DM431019CanHandler_RegisterEv))
 <BR>[Address Reference Count : 1]<UL><LI> rc_dm4310.o(.rodata._ZTVN5motor6DM4310E)
 </UL>
 <P><STRONG><a name="[f9]"></a>non-virtual thunk to motor::DM4310::~DM4310__deallocating()</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, rc_dm4310.o(.text._ZThn96_N5motor6DM4310D0Ev))
@@ -5355,14 +5344,14 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> usbd_cdc.o(.data.USBD_CDC)
 </UL>
-<P><STRONG><a name="[10e]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 520 bytes, Stack size 56 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
+<P><STRONG><a name="[10e]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 528 bytes, Stack size 56 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336 + Unknown Stack Size
 <LI>Call Chain = _GLOBAL__sub_I_RC_init.cpp &rArr; chassis::OmniChassis::OmniChassis(motor::M3508&, motor::M3508&, motor::M3508&, float, float) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::BestPath::BestPath(cdc::CDC&, unsigned char)
 <LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Map::Map(cdc::CDC&, unsigned char)
 <LI><a href="#[268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Radar::Radar(cdc::CDC&, unsigned char)
-<LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&)
+<LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4310::DM4310(unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Go::Go(unsigned char, unsigned char, can::Can&, tim::Tim&, bool, float, float)
 <LI><a href="#[263]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M3508::M3508(unsigned char, can::Can&, tim::Tim&)
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M2006::M2006(unsigned char, can::Can&, tim::Tim&)

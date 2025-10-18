@@ -81,7 +81,7 @@ namespace motor
 	{
 		// 设置模式
 		motor_mode = CURRENT_MODE;
-		target_current_ = target_current_;
+		target_current = target_current_;
 	}
 	
 	/**
@@ -93,7 +93,7 @@ namespace motor
 	{
 		// 设置模式
 		motor_mode = TORQUE_MODE;
-		target_torque_ = target_torque_;
+		target_torque = target_torque_;
 	}
 	
 	
