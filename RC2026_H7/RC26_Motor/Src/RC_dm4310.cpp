@@ -114,7 +114,7 @@ namespace motor
 		{
 			// 使能帧
 			memset(can->tx_frame_list[tx_frame_dx].data, 0xff, 7);
-			can->tx_frame_list[tx_frame_dx].data[7] = 0xFC;
+			can->tx_frame_list[tx_frame_dx].data[7] = DM_ENABLE_FRAME_TAIL;
 		}
 	}
 	

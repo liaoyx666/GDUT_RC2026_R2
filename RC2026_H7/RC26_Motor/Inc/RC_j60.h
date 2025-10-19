@@ -23,6 +23,8 @@ namespace motor
 		void Tim_It_Process() override;
 		void Can_Rx_It_Process(uint32_t rx_id_, uint8_t* rx_data) override;
 		void Can_Tx_Process() override;
+		void Set_Current(float target_current_) override {} 
+		void Set_Angle(float target_angle_) override {}  
 
 		uint8_t id;                  
 		
