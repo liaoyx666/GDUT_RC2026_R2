@@ -9,7 +9,7 @@ namespace motor
 	* @param module_id_:can转485模块id
 	* @param can_:挂载的can外设类
 	* @param tim_:挂载的tim定时器中断外设类
-	* @param torque_only_:是否只使用力矩控制（速度环，位置环在stm32实现，只发送力矩）（建议true）
+	* @param use_mit_:是否使用mit控制（如果不用速度环，位置环在stm32实现，只发送力矩）
 	* @param k_spd_:阻尼系数（只使用力矩时给0）
 	* @param k_pos_:刚度系数（只使用力矩时给0）
 	*/
@@ -18,17 +18,6 @@ namespace motor
 	{
 		if (module_id_ > 3) Error_Handler();
 		if (id_ > 14) Error_Handler();
-		
-		if (use_mit_ != true)
-		{
-			k_spd = 0;// 阻尼系数
-			k_pos = 0;// 刚度系数
-		}
-		else
-		{
-			Set_K_Spd(k_spd_);// 阻尼系数
-			Set_K_Pos(k_pos_);// 刚度系数
-		}
 		
 		id = id_;// 电机id
 		module_id = module_id_;// 模块id
@@ -43,6 +32,17 @@ namespace motor
 		tx_id = (module_id << 27) | (0 << 26) | (0 << 24) | ((uint8_t)GO_CONTROL_WRITE_K << 16) | (id << 8) | ((uint8_t)GO_STATUS_FOC << 12);
 		
 		CanHandler_Register();
+		
+		if (use_mit_ != true)
+		{
+			k_spd = 0;// 阻尼系数
+			k_pos = 0;// 刚度系数
+		}
+		else
+		{
+			Set_K_Spd(k_spd_);// 阻尼系数
+			Set_K_Pos(k_pos_);// 刚度系数
+		}
 		
 		// go默认pid参数
 		pid_spd.Pid_Mode_Init(true, false, 0);
