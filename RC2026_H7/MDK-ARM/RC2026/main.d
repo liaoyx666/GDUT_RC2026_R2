@@ -88,4 +88,5 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Motor\Inc\RC_go.h ..\RC26_Lib\Inc\RC_path.h \
   ..\RC26_Lib\Inc\RC_bezier_curve.h ..\RC26_Lib\Inc\RC_best_path.h \
   ..\RC26_Ros_Interface\Inc\RC_map.h \
-  ..\RC26_Ros_Interface\Inc\RC_ladar.h ..\RC26_Motor\Inc\RC_j60.h
+  ..\RC26_Ros_Interface\Inc\RC_ladar.h ..\RC26_Motor\Inc\RC_j60.h \
+  ..\RC26_Lib\Inc\RC_arm.h

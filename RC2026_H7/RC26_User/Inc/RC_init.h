@@ -17,6 +17,7 @@
 #include "RC_best_path.h"
 #include "RC_ladar.h"
 #include "RC_j60.h"
+#include "RC_arm.h"
 
 #include "fdcan.h"
 #include "tim.h"

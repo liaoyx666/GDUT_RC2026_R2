@@ -69,6 +69,7 @@
 "rc2026\rc_mf_path.o"
 "rc2026\rc_adrc.o"
 "rc2026\rc_filter.o"
+"rc2026\rc_arm.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dji_motor.o"
 "rc2026\rc_m2006.o"

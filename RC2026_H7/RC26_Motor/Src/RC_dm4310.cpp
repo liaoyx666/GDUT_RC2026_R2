@@ -26,7 +26,7 @@
 namespace motor
 {
 	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_)
-		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.f)
+		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.5f)
 	{
 		id = id_;// 电机id
 
@@ -52,10 +52,10 @@ namespace motor
 		
 		// dm4310没人参数
 		pid_spd.Pid_Mode_Init(true, false, 0.4);
-		pid_spd.Pid_Param_Init(0.03, 0.0004, 0, 0, 0.001, 0, 10, 5, 5, 5, 5);
+		pid_spd.Pid_Param_Init(0.025, 0.0007, 0, 0, 0.001, 0, 10, 5, 5, 5, 5);
 		
 		pid_pos.Pid_Mode_Init(false, false, 0.4, true);
-		pid_pos.Pid_Param_Init(100, 0, 0, 0, 0.001, 0, 200, 100, 100 ,100 ,100, 20);
+		pid_pos.Pid_Param_Init(150, 0, 10, 0, 0.001, 0, 10, 5, 5 ,5 ,5, 2, 1.f);
 	}
 	
 	void DM4310::CanHandler_Register()
@@ -97,9 +97,11 @@ namespace motor
 				kd_int  = float_to_uint(target_k_spd, KD_MIN, KD_MAX, 12);
 			}
 			
-			pid::Limit(&target_torque, T_MAX);
+			float temp_target_torque = target_torque + feedforward;// 加上前馈力矩
+			
+			pid::Limit(&temp_target_torque, T_MAX);
 
-			tor_int = float_to_uint(target_torque, T_MIN, T_MAX, 12);
+			tor_int = float_to_uint(temp_target_torque, T_MIN, T_MAX, 12);
 
 			can->tx_frame_list[tx_frame_dx].data[0] = (pos_int >> 8);
 			can->tx_frame_list[tx_frame_dx].data[1] = pos_int;

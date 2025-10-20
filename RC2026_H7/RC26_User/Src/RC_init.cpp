@@ -14,24 +14,24 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口
 
 /*----------------------------------电机初始化----------------------------------------*/
 //motor::M6020 m6020_1(1, can2, tim7_1khz);
-//motor::Go go_1(0, 3, can3, tim7_1khz);
+
+// 底盘
 motor::M3508 m3508_1(1, can1, tim7_1khz);
 motor::M3508 m3508_2(2, can1, tim7_1khz);
 motor::M3508 m3508_3(3, can1, tim7_1khz);
 
-motor::M2006 m2006_4(4, can1, tim7_1khz);
-
-//motor::DM4310 dm4310(1, can3, tim7_1khz);
-
-motor::J60 j60_1(1, can3, tim7_1khz);
-
+// 机械臂
+motor::M2006 	m2006_4(4, can1, tim7_1khz);
+motor::DM4310 	dm4310_1(1, can2, tim7_1khz);
+motor::J60 		j60_1(1, can1, tim7_1khz);
+motor::Go 		go_1(0, 3, can2, tim7_1khz);
 
 /*-------------------------------软件模块初始化---------------------------------------*/
 timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
 
 path::PathPlan path_plan(2, 1.f);
 
-
+arm::ArmDynamics arm_gravity;
 
 /*--------------------------------硬件模块初始化--------------------------------------*/
 ros::Radar radar(CDC_HS, 1);// 雷达数据接收
@@ -54,23 +54,44 @@ float target = 0;
 float a = 0;
 float w = 70;
 
+float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
+
+
 void test(void *argument)
 {
 	//sin_wave.Init();
 	wave.Init();
+	
 	j60_1.Reset_Out_Pos(0);
+	dm4310_1.Reset_Out_Pos(0);
+	m2006_4.Reset_Out_Pos(0);
+	go_1.Reset_Out_Pos(0);
 	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 		
+		//uart_printf("%f,%f\n", dm4310_1.Get_Rpm(), target);
+		
+		
+		go_1.Set_Out_Pos(a1);
+		j60_1.Set_Out_Pos(a2);
+		dm4310_1.Set_Out_Pos(a3);
+		m2006_4.Set_Out_Pos(a4);
+		
+		
+		arm_gravity.motor_angle.theta1 = j60_1.Get_Out_Pos();
+		arm_gravity.motor_angle.theta2 = dm4310_1.Get_Out_Pos();
+		arm_gravity.motor_angle.theta3 = m2006_4.Get_Out_Pos();
+		
+		
+		arm_gravity.gravity_compensation();
+		
+		
+		j60_1.Set_Feedforward(-arm_gravity.joint_gravity_compensation.joint1);
+		dm4310_1.Set_Feedforward(arm_gravity.joint_gravity_compensation.joint2);
 
-		uart_printf("%f,%f\n", j60_1.Get_Out_Pos(), target);
-		
-		j60_1.Set_Out_Pos(a);
-		
-		
 		
 		
 		osDelay(1);

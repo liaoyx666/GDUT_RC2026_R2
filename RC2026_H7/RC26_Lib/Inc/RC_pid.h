@@ -23,7 +23,7 @@ namespace pid
 		void Pid_Param_Init(
 			float kp_, float ki_, float kd_, float kf_ = 0, float delta_time_ = 0.001, float deadzone_ = 0, float output_limit_ = 0, 
 			float integral_limit_ = 0, float integral_separation_ = 0, float differential_limit_ = 0, float feed_forward_limit_ = 0,
-			float r_ = 50
+			float r_ = 50, float v2_max_ = 0.f
 		);
 		
 		float Pid_Calculate(bool normalization = false, float unit = PI);

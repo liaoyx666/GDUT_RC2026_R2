@@ -36,6 +36,8 @@ namespace motor
 		
 		void Set_Out_Rpm(float target_out_rpm_);// 设置输出轴转速
 		void Set_Out_Pos(float target_out_pos_);// 设置输出轴位置
+			
+		void Set_Feedforward(float feedforward_);// 设置前馈量
 		
 		virtual void Set_K_Pos(float target_k_pos_);// 设置刚度系数kp
 		virtual void Set_K_Spd(float target_k_spd_);// 设置阻尼系数kd
@@ -73,6 +75,10 @@ namespace motor
 		float target_torque = 0;
 		float target_k_spd = 0;
 		float target_k_pos = 0;
+	
+	
+		float feedforward = 0;// 前馈量，可以是电流，可以是力矩，根据不同电机确定
+	
 	
 		float out_pos = 0;// 输出轴位置
 	

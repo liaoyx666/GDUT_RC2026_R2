@@ -168,6 +168,12 @@ namespace motor
 	
 	
 	
+	void Motor::Set_Feedforward(float feedforward_)
+	{
+		feedforward = feedforward_;
+	}
+	
+	
 	
 	
 	int float_to_uint(float x_float, float x_min, float x_max, int bits)

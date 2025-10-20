@@ -859,6 +859,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_filter.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_arm.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_arm.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_arm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_arm.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

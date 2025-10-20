@@ -21,7 +21,7 @@ namespace pid
 	void Pid::Pid_Param_Init(
 		float kp_, float ki_, float kd_, float kf_, float delta_time_, float deadzone_, float output_limit_, 
 		float integral_limit_, float integral_separation_, float differential_limit_, float feed_forward_limit_,
-		float r_
+		float r_, float v2_max_
 	)
 	{
 		kp = kp_;
@@ -41,7 +41,7 @@ namespace pid
 		if (delta_time_ == 0) delta_time_ = 0.001f;
 		else delta_time = delta_time_;// 时间差
 		
-		td.TD_Init(r_, delta_time_);
+		td.TD_Init(r_, delta_time_, v2_max_);
 	}
 
 

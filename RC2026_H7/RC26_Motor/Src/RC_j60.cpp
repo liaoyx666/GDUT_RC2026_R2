@@ -58,7 +58,7 @@ namespace motor
 		pid_spd.Pid_Param_Init(0.1, 0.0006, 0, 0, 0.001, 0, 40, 20, 20, 20, 20);
 			
 		pid_pos.Pid_Mode_Init(false, false, 0.1, true); 
-		pid_pos.Pid_Param_Init(350, 0, 0, 0, 0.001, 0, 150, 100, 50, 50, 50, 20);
+		pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 10, 5, 5, 5, 5, 2, 0.5f);
 	}
 
 
@@ -131,9 +131,11 @@ namespace motor
 				kd_int  = float_to_uint(target_k_spd, KD_MIN, KD_MAX, 8);
 			}
 			
-			pid::Limit(&target_torque, T_MAX);// 限幅
+			float temp_target_torque = target_torque + feedforward;// 加上前馈力矩
+			
+			pid::Limit(&temp_target_torque, T_MAX);
 
-			tor_int = float_to_uint(target_torque, T_MIN, T_MAX, 16);
+			tor_int = float_to_uint(temp_target_torque, T_MIN, T_MAX, 16);
 			
 			can->tx_frame_list[tx_frame_dx].data[0] = pos_int;
 			can->tx_frame_list[tx_frame_dx].data[1] = (pos_int >> 8);
