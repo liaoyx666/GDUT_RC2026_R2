@@ -1,6 +1,10 @@
 #pragma once
 #include "tim.h"
 #include "RC_pid.h"
+// Header: 信号发生器
+// File Name: 
+// Author:
+// Date:
 
 #ifdef __cplusplus
 

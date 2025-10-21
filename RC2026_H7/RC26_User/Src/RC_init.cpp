@@ -1,14 +1,14 @@
 #include "RC_init.h"
 
 /*--------------------------------外设初始化------------------------------------------*/
-tim::Tim tim7_1khz(htim7);
+tim::Tim tim7_1khz(htim7);// 定时中断
 tim::Tim tim4_timer(htim4);
 
-can::Can can1(hfdcan1);
+can::Can can1(hfdcan1);// can通讯
 can::Can can2(hfdcan2);
 can::Can can3(hfdcan3);
 
-cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口
+cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口通讯
 
 
 
@@ -29,17 +29,17 @@ motor::Go 		go_1(0, 3, can2, tim7_1khz);
 /*-------------------------------软件模块初始化---------------------------------------*/
 timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
 
-path::PathPlan path_plan(2, 1.f);
+path::PathPlan path_plan(2, 1.f);// 路径规划
 
-arm::ArmDynamics arm_gravity;
+arm::ArmDynamics arm_gravity;// 机械臂重力补偿
 
 /*--------------------------------硬件模块初始化--------------------------------------*/
 ros::Radar radar(CDC_HS, 1);// 雷达数据接收
-ros::BestPath MF_path(CDC_HS, 3);
-ros::Map map(CDC_HS, 2);
+ros::BestPath MF_path(CDC_HS, 3);// 路径数据接收
+ros::Map map(CDC_HS, 2);// 地图数据接收
 
 
-chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);
+chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向轮底盘
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 

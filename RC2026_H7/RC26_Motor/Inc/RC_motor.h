@@ -3,6 +3,10 @@
 #include "RC_pid.h"
 #include "RC_can.h"
 #include "RC_tim.h"
+// Header: 电机基类
+// File Name: 
+// Author:
+// Date:
 
 #ifdef __cplusplus
 namespace motor

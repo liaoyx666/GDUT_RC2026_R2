@@ -1,5 +1,9 @@
 #pragma once
 #include "RC_pid.h"
+// Header: 机械臂
+// File Name: 
+// Author:
+// Date:
 
 #ifdef __cplusplus
 namespace arm
@@ -33,6 +37,7 @@ namespace arm
 		Joint_gravity_compensation joint_gravity_compensation{0, 0, 0};//关节重力补偿值（扭矩 N/m）
 
 		void gravity_compensation();
+		
 	private:
 
 	};
