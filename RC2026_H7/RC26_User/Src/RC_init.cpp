@@ -89,8 +89,8 @@ void test(void *argument)
 		arm_gravity.gravity_compensation();
 		
 		
-		j60_1.Set_Feedforward(-arm_gravity.joint_gravity_compensation.joint1);
-		dm4310_1.Set_Feedforward(arm_gravity.joint_gravity_compensation.joint2);
+//		j60_1.Set_Feedforward(-arm_gravity.joint_gravity_compensation.joint1);
+//		dm4310_1.Set_Feedforward(arm_gravity.joint_gravity_compensation.joint2);
 
 		
 		

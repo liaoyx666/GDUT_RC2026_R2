@@ -8,6 +8,7 @@
 #ifdef __cplusplus
 namespace filter
 {
+	// 跟踪微分器TD
 	class TD
     {
     public:

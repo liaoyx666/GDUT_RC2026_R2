@@ -26,7 +26,7 @@
 namespace motor
 {
 	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_)
-		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.5f)
+		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.5f), use_mit(use_mit_)
 	{
 		id = id_;// 电机id
 
@@ -87,11 +87,11 @@ namespace motor
 			}
 			else
 			{
-				pid::Limit(&target_angle, P_MAX);
+				pid::Limit(&target_pos, P_MAX);
 				pid::Limit(&target_rpm, V_MAX * 9.54929658551f);
 				
 				
-				pos_int = float_to_uint(target_angle, P_MIN, P_MAX, 16);// rad
+				pos_int = float_to_uint(target_pos, P_MIN, P_MAX, 16);// rad
 				vel_int = float_to_uint(target_rpm / 9.54929658551f, V_MIN, V_MAX, 12);// rpm to rad
 				kp_int  = float_to_uint(target_k_pos, KP_MIN, KP_MAX, 12);
 				kd_int  = float_to_uint(target_k_spd, KD_MIN, KD_MAX, 12);
