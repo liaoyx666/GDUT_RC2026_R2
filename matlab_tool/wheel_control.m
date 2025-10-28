@@ -32,7 +32,15 @@ B = [ 0 ;
      b21;
       0 ;
      b41];
-Q_diag = [20 18 14 22]; %x x_d theta theta_d
+C = [1 0 0 0;
+     0 1 0 0;
+     0 0 1 0;
+     0 0 0 1];
+D = [0;
+    0;
+    0;
+    0];
+Q_diag = [30 18 14 22]; %x x_d theta theta_d
 Q = diag(Q_diag);
 R = 1;
 K = lqr(A, B, Q, R);

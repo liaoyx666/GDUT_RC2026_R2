@@ -17,11 +17,12 @@ function result = inverseKinematics(X, Y)
     disp(double(rad2deg(angle_out1)));
     disp(double(rad2deg(angle_out2)));
 
-    if -0.089<angle_out1<-1.226
+    if -0.089>angle_out1 >1.226
         angle_out = -angle_out1;
     else
         angle_out = -angle_out2;
-    
+    end
+
     disp('角度制输出');
     disp(double(rad2deg(angle_out)));
     disp('弧度制输出');

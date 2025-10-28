@@ -66,46 +66,7 @@ void my_test(void *argument){
 *轮足平衡测试
 */
 /***************************************************************************************************/
-RC_WheelFoot_Chassis::State_data my_State = {0,0,0,0};//传感器得
-RC_WheelFoot_Chassis::State_U    my_Accel = {0,0};
-RC_WheelFoot_Chassis::State_K    my_K = {0,0,0,0};//matlab建模计算得
-RC_WheelFoot_Chassis::State_Target my_target = {0,0,0};//速度设置，以及平衡的机械零点
-float my_dt = 0;//间隔时间
-float my_Ratio = 0;//输出的比例系数
-float my_wheel_base = 0.5f;//轮距
-float my_Turn_Ratio = 1;//转动系数
-RC_WheelFoot_Chassis::WheelFoot_LQR my_WheelFoot(my_State,my_K,my_target,my_dt,my_wheel_base,my_Turn_Ratio);//实例化对象
 
-void my_test2(void *argument){
-	RC_WheelFoot_Chassis::State_K    my_K = {0,0,0,0};
-	RC_WheelFoot_Chassis::Output_Velocity my_Output = {0,0};//速度输出
-	RC_WheelFoot_Chassis::State_U    my_Accel = {0,0};//加速度
-	RC_WheelFoot_Chassis::State_Target my_target = {0,0,0};
-	float h =0;
-	for(;;){
-		//h根据传感器计算得
-		//类似这样，这个是随便搞得，实际要matlab计算生成
-		my_K.K1 = 0.000687*h*h-0.247225*h+6.542786;
-		my_K.K2 = 0.000005*h*h-0.010043*h-0.658127;
-		my_K.K3 = -0.000000*h*h+-0.000000*h+0.000000;
-		my_K.K4 = 0.000058*h*h-0.020423*h-2.622680; 
-		my_WheelFoot.Set_K(my_K);//设置K，主要是为了根据轮足不同高度设置不同的反馈系数
-		//遥控输入参数，或上位机输入参数
-		my_target.target_Pitch = 0;
-		my_target.target_speed = 100;
-		my_target.target_turn = 0;
-		my_WheelFoot.input_data(my_target);
-		
-		my_State.X_Pose += my_State.X_speed*my_dt;//两轮几何中心位移
-		my_State.X_speed = 0;//底盘两轮几何中心速度，左轮速度加右轮速度之和除于2
-		my_State.Pitch = 0;//俯仰角,传感器获取
-		my_State.Gyro = 0;//绕轮毂的角速度
-		my_WheelFoot.Update_State(my_State);//更新状态
-		my_Accel = my_WheelFoot.accel_calc();//计算反馈输入
-		my_Output = my_WheelFoot.Get_Robot_Out();//获取电机输入
-		osDelay(10);
-	}
-}
 //task::TaskCreator test3_task("test2", 21, 256, my_test2, NULL);//创建test3任务
 /***************************************************************************************************/
 

@@ -22,8 +22,6 @@ namespace motor
 		NORMAL// 正常路径
 	} MoveMode;
 	
-	
-	
 	class Motor
     {
     public:

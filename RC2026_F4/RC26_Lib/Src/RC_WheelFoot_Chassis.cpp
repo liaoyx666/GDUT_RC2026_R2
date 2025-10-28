@@ -1,47 +1,60 @@
 #include "RC_WheelFoot_Chassis.h"
 
 namespace RC_WheelFoot_Chassis{
-	//K的获取需要车身的转动惯量，转轴到车身质心的距离，轮子半径，腿部质量和 通过matlab求取
-	State_U WheelFoot_LQR::accel_calc(void){
+	//joint_angle涓哄姬搴﹀埗
+	void WheelFoot_control::WheelFoot_ChassisControl(L_target target_L,State_data state,Joint_angle joint_angle,State_data target_state){
+		L_target now_L = this->Get_Now_L(joint_angle);
+		K_data K = this->K_calc(now_L);
+		this->Joint_Control(target_L,now_L);
+		this->Wheel_Control(state,K,target_state);
+	}
+	L_target WheelFoot_control::Get_Now_L(Joint_angle joint_angle){
+		L_target now_L;
+		//宸﹁吙y,鍗曚綅m,鍧愭爣涓鸿礋鍊硷紝杩愮畻鐢眒atlab鐢熸垚
+		now_L.Left_L = 235.0*sin(joint_angle.Left_angle + acos((0.00877193*(51831.6*cos(joint_angle.Left_angle - 0.785398) - 12214.0))/sqrt(68501.0 - 51831.6*cos(joint_angle.Left_angle - 0.785398))) + acos((0.00210084*(51831.6*cos(joint_angle.Left_angle - 0.785398) - 113288.0))/sqrt(68501.0 - 51831.6*cos(joint_angle.Left_angle - 0.785398)))) + 238.0*sin(joint_angle.Left_angle);
+		now_L.Left_L  = -now_L.Left_L; //宸﹁吙y鍙栨
+		//鍙宠吙y
+		now_L.Right_L = 235.0*sin(joint_angle.Right_angle + acos((0.00877193*(51831.6*cos(joint_angle.Right_angle  - 0.785398) - 12214.0))/sqrt(68501.0 - 51831.6*cos(joint_angle.Right_angle  - 0.785398))) + acos((0.00210084*(51831.6*cos(joint_angle.Right_angle  - 0.785398) - 113288.0))/sqrt(68501.0 - 51831.6*cos(joint_angle.Right_angle  - 0.785398)))) + 238.0*sin(joint_angle.Right_angle);
+		now_L.Right_L = -now_L.Right_L; //鍙宠吙y鍙栨
+		return now_L;
+	}
+
+	K_data WheelFoot_control::K_calc(L_target now_L){
+		K_data K_out;
+		//杩愮畻鐢眒atlab鐢熸垚
+		//宸﹁疆K
+		K_out.K1[0]=-2.449490; 
+		K_out.K2[0]=-13.468329*(now_L.Left_L*now_L.Left_L)+21.016063*now_L.Left_L+213.504559; 
+		K_out.K3[0]= 0.435572*(now_L.Left_L*now_L.Left_L)-0.664364*now_L.Left_L-7.862820; 
+		K_out.K4[0]=-18.354839*(now_L.Left_L*now_L.Left_L)+32.810958*now_L.Left_L+2.510728; 
+		//鍙宠疆K
+		K_out.K1[1]=-2.449490; 
+		K_out.K2[1]=-13.468329*(now_L.Right_L*now_L.Right_L)+21.016063*now_L.Right_L+213.504559; 
+		K_out.K3[1]=0.435572*(now_L.Right_L*now_L.Right_L)-0.664364*now_L.Right_L-7.862820; 
+		K_out.K4[1]=-18.354839*(now_L.Right_L*now_L.Right_L)+32.810958*now_L.Right_L+2.510728; 
+		return K_out;
+	}
+	void WheelFoot_control::Joint_Control(L_target L,L_target now_L){
+		//鐩存帴PID鎺у埗鍏宠妭鐢垫満
+		//宸﹁吙鎺у埗
+		//鍙宠吙鎺у埗
+		//鍏宠妭杈撳嚭锛岃緭鍑轰负鎵煩
+	}
+	void WheelFoot_control::Wheel_Control(State_data state,K_data K,State_data target_state){
+		//鐘舵�佸崱灏旀浖婊ゆ尝
 		
-		//计算车体加速度
-		float base_accel = -(Robot_K.K1 * Robot_State.X_Pose + 
-		                     Robot_K.K2 * (Robot_State.X_speed - Robot_target.target_speed) + 
-		                     Robot_K.K3 * (Robot_State.Pitch - Robot_target.target_Pitch) + 
-		                     Robot_K.K4 * Robot_State.Gyro);
+		//宸﹁疆鎺у埗
+		uint16_t Left_out = K.K1[0]*(state.X_Pose[0]-target_state.X_Pose[0])
+							+K.K2[0]*(state.Pitch[0]-target_state.Pitch[0])
+							+K.K3[0]*(state.X_speed[0]-target_state.X_speed[0])
+							+K.K4[0]*(state.Gyro[0]-target_state.Gyro[0]);
+		//鍙宠疆鎺у埗
+		uint16_t Right_out = K.K1[1]*(state.X_Pose[1]-target_state.X_Pose[1])
+							+K.K2[1]*(state.Pitch[1]-target_state.Pitch[1])
+							+K.K3[1]*(state.X_speed[1]-target_state.X_speed[1])
+							+K.K4[1]*(state.Gyro[1]-target_state.Gyro[1]);
+		//鐢垫満杈撳嚭(娉ㄦ剰杈撳嚭鏄疐)
 		
-		//计算转向差速加速度
-		float turn_diff = this->Turn_Ratio * Robot_target.target_turn;
-		
-		//左右轮加速度 = 基础加速度 ± 转向差速（实现差速转向）
-		Robot_Accel.Left_accel = base_accel - turn_diff;
-		Robot_Accel.Right_accel = base_accel + turn_diff;
-		
-		return this->Robot_Accel;
 	}
-	
-	Output_Velocity WheelFoot_LQR::Get_Robot_Out(void){
-		this->Robot_Output.Velocity_Left = this->Ratio *(this->Robot_State.X_speed + this->Robot_Accel.Left_accel*this->dt);
-		this->Robot_Output.Velocity_Right = this->Ratio *(this->Robot_State.X_speed + this->Robot_Accel.Right_accel*this->dt) ;
-		return this->Robot_Output;
-	}
-	
-	void WheelFoot_LQR::Update_State(State_data my_State){
-		this->Robot_State.X_Pose = my_State.X_Pose;
-		this->Robot_State.X_speed = my_State.X_speed;
-		this->Robot_State.Pitch = my_State.Pitch;
-		this->Robot_State.Gyro  = my_State.Gyro;
-	}
-	
-	void WheelFoot_LQR::input_data(State_Target my_target){
-		this->Robot_target.target_Pitch = my_target.target_Pitch;
-		this->Robot_target.target_speed = my_target.target_speed;
-		this->Robot_target.target_turn = my_target.target_turn;
-	}
-	void WheelFoot_LQR::Set_K(State_K my_K){
-		this->Robot_K.K1 = my_K.K1;
-		this->Robot_K.K2 = my_K.K2;
-		this->Robot_K.K3 = my_K.K3;
-		this->Robot_K.K4 = my_K.K4;
-	}
+
 }

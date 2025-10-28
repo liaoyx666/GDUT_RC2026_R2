@@ -52,7 +52,6 @@ namespace tim
 		hd_list[hd_num - 1] = hd;
 	}
 
-
 	// 开启定时器中断
 	void Tim::Tim_It_Start()
 	{

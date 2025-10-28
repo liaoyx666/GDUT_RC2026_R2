@@ -1607,9 +1607,14 @@
               <FilePath>..\RC26_Lib\Src\RC_WheelFoot_Chassis.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_WheelFoot_Chassis.h</FileName>
+              <FileName>RC_KalmanFilter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_KalmanFilter.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_KalmanFilter.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_WheelFoot_Chassis.h</FilePath>
+              <FilePath>..\RC26_Lib\Inc\RC_KalmanFilter.h</FilePath>
             </File>
           </Files>
         </Group>
