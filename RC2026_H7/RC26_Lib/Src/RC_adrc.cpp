@@ -94,6 +94,84 @@ namespace adrc
 	}
 	
 	
+	
+	
+	void FirstADRC::ADRC_Param_Init(
+		float output_limit_,// 输出限幅
+		float h_,// 滤波因子，系统调用步长
+		float b_,// 系统系数
+		float delta_,// fal函数的线性区间宽度
+		float beta_01_,// 扩张状态观测器反馈增益1
+		float beta_02_,// 扩张状态观测器反馈增益2
+		float alpha_1_,// 非线性因子1
+		float beta_1_// 跟踪输入信号增益1
+	)
+	{
+		output_limit = output_limit_;	
+
+		h = h_;
+
+		b = b_;
+		delta = delta_;
+		beta_01 = beta_01_;
+		beta_02 = beta_02_;
+						  
+		alpha_1 = alpha_1_;
+		beta_1 = beta_1_;
+	}
+	
+	FirstADRC::FirstADRC()
+	{
+	
+	}
+
+	float FirstADRC::ADRC_Calculate(bool normalization, float unit)
+	{
+		// 扩张观测器ESO
+		float e = z1 - y;
+		
+		z1 = z1 + h * (z2 + b * u - beta_01 * e);
+		z2 = z2 + h * (-beta_02 * fal(e, alpha_1, delta));
+		
+		
+		// 非线性组合NLSEF
+		e1 = v - z1;
+
+		u = beta_1 * fal(e1, alpha_1, delta);
+		
+		// 扰动补偿
+		u0 = u - z2 / b;
+		
+		
+		// 输出限幅
+		if (u0 > output_limit) u0 = output_limit;
+		else if (u0 < -output_limit) u0 = -output_limit;
+		
+		
+		return u0;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
     * @brief 最速控制综合函数
     * @note 

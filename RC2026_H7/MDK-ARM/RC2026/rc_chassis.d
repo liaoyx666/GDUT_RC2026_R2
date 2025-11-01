@@ -70,5 +70,5 @@ rc2026/rc_chassis.o: ..\RC26_Lib\Src\RC_chassis.cpp \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Lib\Inc\RC_timer.h \
-  ..\RC26_Lib\Inc\RC_vector2d.h
+  ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Lib\Inc\RC_SMC.h \
+  ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_vector2d.h

@@ -50,7 +50,7 @@ namespace motor
 			Set_K_Pos(k_pos_);// 刚度系数
 		}
 		
-		// dm4310没人参数
+		// dm4310默认参数
 		pid_spd.Pid_Mode_Init(true, false, 0.4);
 		pid_spd.Pid_Param_Init(0.025, 0.0007, 0, 0, 0.001, 0, 10, 5, 5, 5, 5);
 		

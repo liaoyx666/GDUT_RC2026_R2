@@ -89,10 +89,12 @@ namespace motor
 			}
 			else// 使用mit
 			{
-				pid::Limit(&target_pos, 6000);
+				float temp_target_pos = target_pos - pos_offset;
+				
+				pid::Limit(&temp_target_pos, 6000);
 				pid::Limit(&target_rpm, 7677);
 				
-				int32_t pos_int = (int32_t)(target_pos / TWO_PI * 32768.f);
+				int32_t pos_int = (int32_t)(temp_target_pos / TWO_PI * 32768.f);
 				int16_t spd_int = (int16_t)(target_rpm * 256.f / 60.f);
 				
 				memcpy(&can->tx_frame_list[tx_frame_dx].data[0], &pos_int, 4);

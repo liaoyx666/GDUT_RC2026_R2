@@ -114,5 +114,12 @@ namespace motor
 	
 	int float_to_uint(float x_float, float x_min, float x_max, int bits);
 	float uint_to_float(int x_int, float x_min, float x_max, int bits);
+	
+	float rpm_to_radps(float rpm_);
+	float radps_to_rpm(float radps_);
+	
+	
+	
+	
 }
 #endif

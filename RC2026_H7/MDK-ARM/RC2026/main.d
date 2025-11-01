@@ -73,11 +73,11 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\quaternion_math_functions.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
   ..\RC26_Lib\Inc\RC_adrc.h ..\RC26_Lib\Inc\RC_filter.h \
-  ..\RC26_Motor\Inc\RC_m2006.h ..\RC26_Motor\Inc\RC_m6020.h \
-  ..\RC26_Motor\Inc\RC_dm4310.h ..\RC26_Lib\Inc\RC_serial.h \
-  ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_timer.h \
-  ..\RC26_Lib\Inc\RC_flysky.h ..\RC26_Lib\Inc\RC_cdc.h \
-  ..\USB_DEVICE\App\usbd_cdc_if.h \
+  ..\RC26_Lib\Inc\RC_SMC.h ..\RC26_Motor\Inc\RC_m2006.h \
+  ..\RC26_Motor\Inc\RC_m6020.h ..\RC26_Motor\Inc\RC_dm4310.h \
+  ..\RC26_Lib\Inc\RC_serial.h ..\RC26_Lib\Inc\RC_wave_generator.h \
+  ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_flysky.h \
+  ..\RC26_Lib\Inc\RC_cdc.h ..\USB_DEVICE\App\usbd_cdc_if.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h \

@@ -18,6 +18,15 @@ namespace motor
 		pid_pos.Pid_Mode_Init(false, false, 0.2);
 		pid_pos.Pid_Param_Init(500, 0, 5, 0, 0.001, 0, 300, 150, 150, 150, 150);
 		
+		
+//		spd_smc.SMC_Init(
+//			16000,
+//			1,
+//			2,
+//			0.1,
+//			0.001
+//		);
+		
 	}
 	
 	

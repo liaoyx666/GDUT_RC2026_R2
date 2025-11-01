@@ -181,7 +181,7 @@ namespace motor
 		/* Converts a float to an unsigned int, given range and number of bits */
 		float span = x_max - x_min;
 		float offset = x_min;
-		return (int) ((x_float-offset)*((float)((1<<bits)-1))/span);
+		return (int) ((x_float - offset) * ((float)((1 << bits) - 1)) / span);
 	}
 	
 	
@@ -192,11 +192,39 @@ namespace motor
 		/* converts unsigned int to float, given range and number of bits */
 		float span = x_max - x_min;
 		float offset = x_min;
-		return ((float)x_int)*span/((float)((1<<bits)-1)) + offset;
+		return ((float)x_int) * span / ((float)((1 << bits) - 1)) + offset;
 	}
 	
 	
+	// 预计算转换系数，避免重复计算
+	#ifndef RPM_TO_RADPS_RATIO
+	#define RPM_TO_RADPS_RATIO 	((2.0f * PI) / 60.0f)
+	#endif
+
+	#ifndef RADPS_TO_RPM_RATIO
+	#define RADPS_TO_RPM_RATIO 	(60.0f / (2.0f * PI))
+	#endif
 	
+	
+	/**
+	 * @brief 将转速从RPM(转/分钟)转换为rad/s(弧度/秒)
+	 * @param rpm 转速，单位：转/分钟
+	 * @return 角速度，单位：弧度/秒
+	 */
+	float rpm_to_radps(float rpm)
+	{
+		return rpm * RPM_TO_RADPS_RATIO;
+	}
+
+	/**
+	 * @brief 将角速度从rad/s(弧度/秒)转换为RPM(转/分钟)
+	 * @param radps 角速度，单位：弧度/秒
+	 * @return 转速，单位：转/分钟
+	 */
+	float radps_to_rpm(float radps)
+	{
+		return radps * RADPS_TO_RPM_RATIO;
+	}
 	
 	
 }

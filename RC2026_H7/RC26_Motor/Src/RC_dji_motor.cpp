@@ -80,11 +80,6 @@ namespace motor
 				pid_pos.Update_Real(pos);
 				pid_pos.Update_Target(target_pos);
 				temp_target_rpm = pid_pos.Pid_Calculate();
-				
-//				pos_adrc.Update_Real(pos);
-//				pos_adrc.Update_Target(target_pos);
-//				target_current = pos_adrc.ADRC_Calculate();
-				
 			}
 			else if (motor_mode == ANGLE_MODE)	//> 角度模式
 			{
@@ -97,9 +92,9 @@ namespace motor
 			pid_spd.Update_Real(rpm);
 			target_current = pid_spd.Pid_Calculate();
 			
-//			pos_adrc.Update_Real(rpm);
-//			pos_adrc.Update_Target(temp_target_rpm);
-//			target_current = pos_adrc.ADRC_Calculate();
+//			spd_smc.Update_Target_Spd(temp_target_rpm);
+//			spd_smc.Update_Real_Spd(rpm);
+//			target_current = spd_smc.SMC_calculate();
 		}
 	}
 	

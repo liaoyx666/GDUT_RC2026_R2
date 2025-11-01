@@ -1,4 +1,3 @@
-//位置式非常不建议使用
 #pragma once
 #include "RC_motor.h"
 #include "RC_can.h"
@@ -7,12 +6,12 @@
 
 #ifdef __cplusplus
 
-enum vesc_mode {
-    vesc_current,
-    vesc_rpm,
-	vesc_pos,
-	vesc_duty
-};
+//enum vesc_mode {
+//    vesc_current,
+//    vesc_rpm,
+//	vesc_pos,
+//	vesc_duty
+//};
 typedef enum {
 	CAN_PACKET_SET_DUTY						= 0,
 	CAN_PACKET_SET_CURRENT					= 1,
@@ -80,38 +79,26 @@ typedef enum {
 }
 CAN_PACKET_ID;
 
-namespace vesc {
+namespace motor {
     class Vesc : public motor::Motor, public can::CanHandler, public tim::TimHandler {
     public:
         Vesc(uint8_t id_, can::Can &can_, tim::Tim &tim_);
         virtual ~Vesc() {}
 
-        
-        void Set_Rpm(float target_rpm_);
-        void Set_Current(float target_c_);
-		void Set_Pos(float target_pos_);
-		void Set_Duty(float target_duty_);
-        void UpdateTxId();
         pid::Pid pid_spd, pid_pos;
 
     protected:
         void CanHandler_Register() override;
         void Tim_It_Process() override;
         void Can_Tx_Process() override;
-        void Can_Rx_It_Process(uint8_t *rx_data) override;
+        void Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data) override;
 
     private:
         uint8_t id;
-        float gear_ratio = 1;
-        int motor_polse = 7;
-        float erpm = 0;
-		float duty = 0;
-		float target_duty = 0;
         int32_t send_current = 0;
         int32_t send_rpm = 0;
-        int32_t send_pos = 0;
-		int32_t send_duty = 0;
-        vesc_mode vesc_motor_mode = vesc_current;  // Ĭ�ϵ���ģʽ
+		int32_t send_pos = 0;
+		
 
        
     };

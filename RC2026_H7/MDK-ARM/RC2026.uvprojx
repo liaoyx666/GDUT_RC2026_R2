@@ -869,6 +869,36 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_arm.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_SMC.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_SMC.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_SMC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_SMC.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_vector3d.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_vector3d.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_vector3d.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_vector3d.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_arm_path.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_arm_path.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_arm_path.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_arm_path.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -953,6 +983,16 @@
               <FileName>RC_j60.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_j60.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_vesc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_vesc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_vesc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_vesc.h</FilePath>
             </File>
           </Files>
         </Group>

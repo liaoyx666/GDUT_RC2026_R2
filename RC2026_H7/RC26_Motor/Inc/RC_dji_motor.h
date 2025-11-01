@@ -4,6 +4,7 @@
 #include "RC_can.h"
 #include "RC_tim.h"
 #include "RC_adrc.h"
+#include "RC_SMC.h"
 
 #include <math.h>
 
@@ -17,7 +18,8 @@ namespace motor
 		virtual ~DjiMotor() {}
 		
 		pid::Pid pid_spd, pid_pos;
-		//adrc::ADRC pos_adrc;
+		//adrc::FirstADRC spd_adrc;
+		//smc::SMC spd_smc;
 
     protected:
 		virtual void Dji_Id_Init(uint8_t id_) = 0;// 初始化发送和接受帧的id

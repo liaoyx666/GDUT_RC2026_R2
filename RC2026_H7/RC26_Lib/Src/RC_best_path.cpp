@@ -27,6 +27,7 @@ namespace ros
 		CDC_HS.CDC_Send_Pkg(3, &s, 1, 1000);
 	}
 	
+	
 	vector2d::Vector2D BestPath::Get_MF_Location(uint8_t n)
 	{
 		if (n >= 1 && n <= 12)
@@ -119,10 +120,10 @@ namespace ros
 				{
 					path_plan.Add_End_Point(vector2d::Vector2D(
 						Get_MF_Location(step[i]).data()[0], Get_MF_Location(step[i]).data()[1] - MF_SIZE + CHASSIS_MOVE), 
-						0.f, 
+						0.f,
 						false
 					);// 去拿取
-						
+					
 					MF_map.Set_MF(step[i], 4);// 已拿取，变空格
 				}
 				else
@@ -174,7 +175,6 @@ namespace ros
 						vector2d::Vector2D(Get_MF_Location(step[i - 1]).data()[0] + x, Get_MF_Location(step[i - 1]).data()[1] + y),
 						Dir_To_Yaw(d)
 					);// 去拿取
-					
 					
 					
 					
@@ -255,6 +255,6 @@ namespace ros
 			vector2d::Vector2D(Get_MF_Location(step[step_num - 1]).data()[0], Get_MF_Location(step[step_num - 1]).data()[1] + MF_SIZE), 
 			0.f
 		);// 出MF
-	}
 	
+	}
 }
