@@ -1,0 +1,19 @@
+<launch>
+  <!-- 可选：固定坐标系，默认用 dummy_link（URDF/Xacro 根） -->
+  <arg name="fixed_frame" default="dummy_link"/>
+  <!-- 当未运行 Gazebo 时，设 standalone:=true 将自行加载模型与 TF -->
+  <arg name="standalone" default="false"/>
+
+  <!-- standalone 模式：加载与 Gazebo 相同的 xacro，启动 TF 发布器 -->
+  <group if="$(arg standalone)">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find arm_all)/urdf/gazebo/arm_all.xacro'" />
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen" />
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
+      <param name="use_tf2" value="true"/>
+      <param name="publish_frequency" value="50.0"/>
+    </node>
+  </group>
+
+  <!-- 启动 RViz，加载预置配置，若 Gazebo 已跑则直接使用其 TF -->
+  <node name="rviz" pkg="rviz" type="rviz" output="screen" />
+</launch>

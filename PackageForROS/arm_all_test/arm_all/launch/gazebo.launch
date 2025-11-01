@@ -1,0 +1,80 @@
+<launch>
+  <!-- 启动 Gazebo 空世界，可通过传参替换 world 文件或是否显示 GUI -->
+  <arg name="world" default="$(find urdf_gazebo)/worlds/arm_stable.world"/>
+  <arg name="gui" default="true"/>
+  <arg name="paused" default="false"/>
+  <arg name="with_sliders" default="true"/>
+  <!-- 真空吸盘命名空间前缀：与 xacro 宏 plugin.robotNamespace 对齐，默认 /arm，可改为 /sunday 等 -->
+  <arg name="vacuum_prefix" default="/arm"/>
+  <!-- 是否在启动时一起生成轻量测试方块 -->
+  <arg name="spawn_test_box" default="true"/>
+
+  <!-- 使用仿真时钟 -->
+  <param name="use_sim_time" value="true"/>
+
+  <!-- 启动 Gazebo 服务器与客户端 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="paused" value="$(arg paused)"/>
+  </include>
+
+  <!-- 可选：一起生成一个轻量动态方块，便于测试吸盘吸附 -->
+  <group if="$(arg spawn_test_box)">
+    <include file="$(find urdf_gazebo)/launch/spawn_light_box.launch">
+      <!-- 将方块生成在机械臂前方上方，便于直接靠近吸附 -->
+      <arg name="x" value="0.4"/>
+      <arg name="y" value="0.0"/>
+      <arg name="z" value="0.25"/>
+      <arg name="yaw" value="0.0"/>
+    </include>
+  </group>
+
+  <!-- 发布 robot_description：切换到带 ros_control 的 xacro 版本 -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find arm_all)/urdf/gazebo/arm_all.xacro' vacuum_prefix:=$(arg vacuum_prefix)" />
+
+  <!-- TF 发布器 -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+    <param name="publish_frequency" value="50.0"/>
+    <param name="use_tf2" value="true"/>
+    <!-- 关键：将 joint_states 重映射到控制器命名空间下的主题 -->
+    <remap from="joint_states" to="/arm_all/joint_states"/>
+  </node>
+
+  <!-- 注意：dummy_link 作为固定根，joint1 为可旋转基座关节，因此不需要发布 dummy_link->base_link 静态 TF -->
+
+  <!-- 将模型从 robot_description 注入 Gazebo -->
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_arm_all" output="screen"
+    args="-param robot_description -urdf -model arm_all -x 0 -y 0 -z 0.05 -Y 0"/>
+
+  <!-- 加载控制器配置 -->
+  <rosparam file="$(find arm_all)/config/controllers.yaml" command="load" ns="/arm_all"/>
+  <!-- gazebo_ros_control 的 PID 增益：保持与 controllers.yaml 一致（降低P、去掉I、增大D） -->
+  <rosparam ns="/arm_all/gazebo_ros_control" command="load">
+    pid_gains:
+      joint1: {p: 20.0, i: 0.0, d: 4.0, i_clamp: 0.0}
+      joint2: {p: 18.0, i: 0.0, d: 4.0, i_clamp: 0.0}
+      joint3: {p: 18.0, i: 0.0, d: 4.0, i_clamp: 0.0}
+      joint4: {p: 18.0, i: 0.0, d: 4.0, i_clamp: 0.0}
+      joint5: {p: 12.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+      joint6: {p: 12.0, i: 0.0, d: 2.0, i_clamp: 0.0}
+  </rosparam>
+
+  <!-- 启动 joint_state 与每关节位置控制器 -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+    args="joint_state_controller joint1_position_controller joint2_position_controller joint3_position_controller joint4_position_controller joint5_position_controller joint6_position_controller" ns="/arm_all"/>
+
+  <!-- 发布吸盘关节的 joint_states（恒为 0），用于生成 vacuum_gripper* 的 TF -->
+  <node pkg="arm_all" type="gripper_joint_state_publisher.py" name="gripper_jsp" output="screen">
+    <param name="topic" value="/arm_all/joint_states"/>
+    <param name="rate" value="20.0"/>
+    <param name="position" value="0.0"/>
+  </node>
+
+  <!-- 可选：启动一个最简滑块 GUI（仅 5 个关节的 command 话题） -->
+  <group if="$(arg with_sliders)">
+    <node pkg="arm_all" type="joint_sliders.py" name="joint_sliders" output="screen">
+      <param name="vacuum_prefix" value="$(arg vacuum_prefix)"/>
+    </node>
+  </group>
+</launch>

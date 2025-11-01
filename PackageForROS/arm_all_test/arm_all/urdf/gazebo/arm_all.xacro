@@ -1,0 +1,474 @@
+<?xml version="1.0"?>
+<robot name="arm_all" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- 全局可配置：真空吸盘命名空间前缀，默认 /arm，可由 launch 传参覆盖（xacro arg: vacuum_prefix） -->
+  <xacro:arg name="vacuum_prefix" default="/arm"/>
+  <xacro:property name="vacuum_prefix" value="$(arg vacuum_prefix)"/>
+
+  <!-- 原始 URDF 内容（从 arm_all.urdf 迁移），并加入关节 limit、transmission 与 Gazebo 控制插件 -->
+
+  <link name="base_link">
+    <inertial>
+      <origin xyz="-1.88965214434326E-05 0.0211283085658793 2.88501980018766E-05" rpy="0 0 0" />
+      <mass value="0.65713178608687" />
+      <inertia ixx="0.00126176729018005" ixy="2.52839018847434E-08" ixz="-3.62884926508966E-07"
+               iyy="0.00249239605965953" iyz="-3.06356495865232E-08" izz="0.00125428302491633" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/base_link.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.847058823529412 0.847058823529412 0.847058823529412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="link1">
+    <inertial>
+      <origin xyz="-6.50420272596414E-06 -0.0220639376985768 -0.00046997962461109" rpy="0 0 0" />
+      <mass value="0.333784886280084" />
+      <inertia ixx="0.000351722248401474" ixy="1.36600184498728E-12" ixz="-1.33484971668896E-10"
+               iyy="0.000499503930329465" iyz="-1.63022774448878E-08" izz="0.000289258919735572" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link1.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.847058823529412 0.847058823529412 0.847058823529412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint1" type="continuous">
+    <origin xyz="0 0 0.0413" rpy="-1.5708 0 -1.6235" />
+    <parent link="base_link" />
+    <child link="link1" />
+    <axis xyz="0 1 0" />
+  <limit effort="60.0" velocity="1.5"/>
+    <!-- 增加数值阻尼，缓解吸附瞬间的冲击与后仰 -->
+    <dynamics damping="0.0" friction="10.0"/>
+  </joint>
+
+  <link name="link2">
+    <inertial>
+      <origin xyz="0.134772098555545 0.226393581441748 0.00612814215173783" rpy="0 0 0" />
+      <mass value="0.827122048748664" />
+      <inertia ixx="0.00408491785355023" ixy="-0.00229408604342064" ixz="-1.21881927334501E-10"
+               iyy="0.00160055805144718" iyz="-1.67553014233216E-08" izz="0.00555583774732216" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link2.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint2" type="continuous">
+    <origin xyz="0 -0.0449999999999999 0" rpy="3.14159265358979 0 0.0776243284743282" />
+    <parent link="link1" />
+    <child link="link2" />
+    <axis xyz="0 0 1" />
+    <!-- Gazebo/ros_control 需要努力与速度限制 -->
+  <limit effort="60.0" velocity="1.5"/>
+    <dynamics damping="0.0" friction="10.0"/>
+  </joint>
+
+  <link name="link3">
+    <inertial>
+      <origin xyz="0.14609262858064 0.0573447220053238 -1.32103128163748E-05" rpy="0 0 0" />
+      <mass value="0.322775937743134" />
+      <inertia ixx="0.000125581010505456" ixy="-0.000175503683436308" ixz="-1.0080412736428E-11"
+               iyy="0.00102950672738152" iyz="6.86215120964268E-11" izz="0.00111046718193839" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link3.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint3" type="continuous">
+    <origin xyz="0.234710656582035 0.393966153099294 0" rpy="0 0 -0.0458697032339479" />
+    <parent link="link2" />
+    <child link="link3" />
+    <axis xyz="0 0 1" />
+  <limit effort="60.0" velocity="1.5"/>
+    <dynamics damping="0.0" friction="10.0"/>
+  </joint>
+
+  <link name="link4">
+    <inertial>
+      <origin xyz="-0.0483821633151282 -0.0245616027376705 1.07514025356192E-05" rpy="0 0 0" />
+      <mass value="0.377132174594097" />
+      <inertia ixx="0.000259104564788337" ixy="-3.47286921823512E-05" ixz="-6.33132149766361E-09"
+               iyy="0.000192115538025694" iyz="2.31982726278168E-07" izz="0.000221724975669375" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link4.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.647058823529412 0.619607843137255 0.588235294117647 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint4" type="continuous">
+    <origin xyz="0.399188356386981 0.112595227473441 0" rpy="0 0 1.80974775191367" />
+    <parent link="link3" />
+    <child link="link4" />
+    <axis xyz="0 0 1" />
+  <limit effort="60.0" velocity="1.5"/>
+    <dynamics damping="0.0" friction="10.0"/>
+  </joint>
+
+  <link name="left_end">
+    <inertial>
+      <origin xyz="0.165934470985643 0.0326110187543487 -0.0559999994890883" rpy="0 0 0" />
+      <mass value="0.0230133687347436" />
+      <inertia ixx="1.91581568607213E-06" ixy="1.58592840958828E-07" ixz="-4.59298269044332E-13"
+               iyy="1.08150257266556E-05" iyz="-6.52852556405479E-14" izz="1.18994762991137E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/left_end.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.847058823529412 0.847058823529412 0.847058823529412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/left_end.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint5" type="continuous">
+    <origin xyz="0 0 -0.0066881981068947" rpy="-1.5707963267949 -0.0524449607991221 -1.54351099917729" />
+    <parent link="link4" />
+    <child link="left_end" />
+    <axis xyz="0 0 1" />
+  <limit effort="30.0" velocity="2.0"/>
+    <dynamics damping="0.0" friction="10.0"/>
+  </joint>
+
+  <link name="right_end">
+    <inertial>
+      <origin xyz="0.149189877500569 -0.0829023910248987 0.0559999993539835" rpy="0 0 0" />
+      <mass value="0.0230133523586075" />
+      <inertia ixx="1.91581658865105E-06" ixy="1.58594185971336E-07" ixz="4.13809191819123E-13"
+               iyy="1.08149990275717E-05" iyz="1.72820988049209E-13" izz="1.18994508373215E-05" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/right_end.STL" />
+      </geometry>
+      <material name="">
+        <color rgba="0.847058823529412 0.847058823529412 0.847058823529412 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://arm_all/meshes/right_end.STL" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="joint6" type="continuous">
+    <origin xyz="0 0 0.01744" rpy="1.5708 -0.7251 -1.5435" />
+    <parent link="link4" />
+    <child link="right_end" />
+    <axis xyz="0 0 -1" />
+  <limit effort="30.0" velocity="2.0"/>
+    <dynamics damping="0.0" friction="10.0"/>
+  </joint>
+
+  <!-- 虚拟根节点 dummy_link 与固定关节 joint0 -->
+  <link name="dummy_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+  </link>
+
+  <joint name="joint0" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="dummy_link"/>
+    <child link="base_link"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+
+  <!-- 注意：URDF 中不能直接引用 Gazebo 的 world 作为关节父链接，已移除无效的 world_joint -->
+
+  <!-- Gazebo: 将 dummy_link 设为静态，作为世界锚点（通过固定关节 joint0 约束 base_link） -->
+  <gazebo reference="dummy_link">
+    <static>true</static>
+    <kinematic>true</kinematic>
+  </gazebo>
+
+  <!-- 基座可受重力与碰撞（保持正常物理效果）；如需悬空展示可再关闭 gravity -->
+  <gazebo reference="base_link">
+    <selfCollide>false</selfCollide>
+    <!-- 基座通过 joint0 与 dummy_link 相连；去除 kinematic 以允许关节控制生效 -->
+    <gravity>false</gravity>
+  </gazebo>
+
+  <!-- Gazebo ros_control 插件 -->
+  <gazebo>
+    <!-- 避免 Gazebo 合并固定关节导致子链接消失（URDF->SDF 转换时生效） -->
+    <preserveFixedJoint>true</preserveFixedJoint>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/arm_all</robotNamespace>
+      <controlPeriod>0.001</controlPeriod>
+      <legacyModeNS>true</legacyModeNS>
+    </plugin>
+  </gazebo>
+
+  <!-- 为各关节提供反馈（可选） -->
+  <gazebo reference="joint1"><provideFeedback>true</provideFeedback></gazebo>
+  <gazebo reference="joint2"><provideFeedback>true</provideFeedback></gazebo>
+  <gazebo reference="joint3"><provideFeedback>true</provideFeedback></gazebo>
+  <gazebo reference="joint4"><provideFeedback>true</provideFeedback></gazebo>
+  <gazebo reference="joint5"><provideFeedback>true</provideFeedback></gazebo>
+  <gazebo reference="joint6"><provideFeedback>true</provideFeedback></gazebo>
+
+  <!-- 启用隐式弹簧阻尼，减少数值震荡 -->
+  <gazebo reference="joint1"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="joint2"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="joint3"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="joint4"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="joint5"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+  <gazebo reference="joint6"><implicitSpringDamper>true</implicitSpringDamper></gazebo>
+
+  <!-- transmissions：为 ros_control 映射硬件接口（位置控制） -->
+  <transmission name="trans_joint1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_joint1">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="trans_joint2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_joint2">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_joint3">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_joint3">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_joint4">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_joint4">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_joint5">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint5">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_joint5">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trans_joint6">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint6">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_joint6">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <!-- transmissions for suction gripper joints (so joint_state_controller publishes them) -->
+  <xacro:macro name="add_gripper_transmission" params="suffix:=''">
+    <transmission name="${'trans_gripper_joint' + suffix}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${'gripper_joint' + suffix}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${'motor_gripper_joint' + suffix}">
+        <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:add_gripper_transmission suffix=""/>
+  <xacro:add_gripper_transmission suffix="_1"/>
+  <xacro:add_gripper_transmission suffix="_2"/>
+  <xacro:add_gripper_transmission suffix="_3"/>
+  <xacro:add_gripper_transmission suffix="_4"/>
+  <xacro:add_gripper_transmission suffix="_5"/>
+  <xacro:add_gripper_transmission suffix="_6"/>
+  <xacro:add_gripper_transmission suffix="_7"/>
+  <xacro:add_gripper_transmission suffix="_8"/>
+
+   <!-- 使用 xacro 宏简化吸盘定义与实例化 -->
+  <xacro:macro name="add_suction_cup" params="suffix:='' parent:=link4 x:=-0.133 y:=0 z:=0.00 roll:=0 pitch:=1.5708 yaw:=0 ns:=${vacuum_prefix}/vacuum_gripper topic:=grasping radius:=0.005 length:=0.003 mass:=0.0001 mu:=15 kp:=12000.0 kd:=200.0 maxForce:=0.001 maxDistance:=0.003 minDistance:=0.0028">
+    <!-- 统一名称前缀：vacuum_gripper{suffix} / gripper_joint{suffix} / gazebo_ros_vacuum_gripper{suffix} -->
+    <link name="${'vacuum_gripper' + suffix}">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${mass}"/>
+        <inertia ixx="1e-08" ixy="0" ixz="0" iyy="1e-08" iyz="0" izz="1e-08"/>
+      </inertial>
+      <visual>
+        <!-- 将圆柱的一个端面对齐到链接原点，便于将原点贴在目标表面进行吸附 -->
+        <origin xyz="0 0 ${length/2.0}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${radius}" length="${length}"/>
+        </geometry>
+        <material name="semi_transparent_debug">
+          <color rgba="0 1 0 0.25"/>
+        </material>
+      </visual>
+      <collision>
+        <!-- 碰撞体同样前移，使链接原点即为吸盘端面位置 -->
+        <origin xyz="0 0 ${length/2.0}" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="${radius}" length="${length}"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- 注意：使用极小行程的转动关节代替固定关节，避免 Gazebo 将其与父链接合并（fixed joint lumping），
+         这样插件可通过 bodyName 找到独立的吸盘链接。关节范围足够小，运动上等效固定。 -->
+    <joint name="${'gripper_joint' + suffix}" type="revolute">
+      <parent link="${parent}"/>
+      <child link="${'vacuum_gripper' + suffix}"/>
+      <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}"/>
+      <axis xyz="1 0 0"/>
+      <!-- 极小非零范围，避免被视作固定关节而被 lumping；高阻尼抑制运动，行为近似固定 -->
+  <limit lower="-1e-6" upper="1e-6" effort="50" velocity="50"/>
+  <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+
+    <gazebo>
+      <plugin name="${'gazebo_ros_vacuum_gripper' + suffix}" filename="libgazebo_ros_vacuum_gripper.so">
+        <robotNamespace>${ns + (suffix if suffix else '')}</robotNamespace>
+        <!-- 兼容不同实现：有的读取 bodyName，有的读取 linkName/link_name -->
+        <bodyName>${'vacuum_gripper' + suffix}</bodyName>
+        <linkName>${'vacuum_gripper' + suffix}</linkName>
+        <link_name>${'vacuum_gripper' + suffix}</link_name>
+        <!-- 兼容不同实现：topicName 或 topic_name -->
+        <topicName>${topic + (suffix if suffix else '')}</topicName>
+        <topic_name>${topic + (suffix if suffix else '')}</topic_name>
+        <maxForce>${maxForce}</maxForce>
+        <maxDistance>${maxDistance}</maxDistance>
+        <minDistance>${minDistance}</minDistance>
+      </plugin>
+    </gazebo>
+
+    <gazebo reference="${'vacuum_gripper' + suffix}">
+      <gravity>false</gravity>
+      <!-- 提升接触稳定性：更高阻尼、更厚的表面层、更小的校正速度 -->
+      <maxContacts>50</maxContacts>
+      <collideWithoutContact>false</collideWithoutContact>
+  <contactMaxCorrectingVel>0.01</contactMaxCorrectingVel>
+  <contactSurfaceLayer>0.008</contactSurfaceLayer>
+      <mu1>${mu}</mu1>
+      <mu2>${mu}</mu2>
+  <minDepth>0.001</minDepth>
+      <maxVel>0</maxVel>
+      <kp>${kp}</kp>
+      <kd>${kd}</kd>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+  </xacro:macro>
+
+  <!-- 9 个吸盘实例：中心 + 8 个环绕 -->
+  <!-- 统一基准位姿（修改这三处可整体移动所有吸盘） -->
+  <xacro:property name="cup_base_x" value="-0.133"/>
+  <xacro:property name="cup_base_y" value="0"/>
+  <xacro:property name="cup_base_z" value="0.00"/>
+
+  <!-- 中心 -->
+  <xacro:add_suction_cup suffix=""  x="${cup_base_x}" y="${cup_base_y}"        z="${cup_base_z}"/>
+  <!-- 半径 0.03 m 的环绕布局（相对基准位姿的偏移） -->
+  <xacro:add_suction_cup suffix="_1" x="${cup_base_x}" y="${cup_base_y + 0.03}"     z="${cup_base_z}"/>
+  <xacro:add_suction_cup suffix="_2" x="${cup_base_x}" y="${cup_base_y + 0.021213}" z="${cup_base_z + 0.021213}"/>
+  <xacro:add_suction_cup suffix="_3" x="${cup_base_x}" y="${cup_base_y}"            z="${cup_base_z + 0.03}"/>
+  <xacro:add_suction_cup suffix="_4" x="${cup_base_x}" y="${cup_base_y - 0.021213}" z="${cup_base_z + 0.021213}"/>
+  <xacro:add_suction_cup suffix="_5" x="${cup_base_x}" y="${cup_base_y - 0.03}"     z="${cup_base_z}"/>
+  <xacro:add_suction_cup suffix="_6" x="${cup_base_x}" y="${cup_base_y - 0.021213}" z="${cup_base_z - 0.021213}"/>
+  <xacro:add_suction_cup suffix="_7" x="${cup_base_x}" y="${cup_base_y}"            z="${cup_base_z - 0.03}"/>
+  <xacro:add_suction_cup suffix="_8" x="${cup_base_x}" y="${cup_base_y + 0.021213}" z="${cup_base_z - 0.021213}"/>
+
+</robot>

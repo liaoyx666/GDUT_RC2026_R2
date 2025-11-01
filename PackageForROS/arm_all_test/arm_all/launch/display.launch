@@ -1,0 +1,24 @@
+<launch>
+  <!-- 1. 加载URDF文件（保持原路径，确保URDF文件路径正确） -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find arm_all)/urdf/arm_all.urdf'" />
+
+  <!-- 2. 启动关节状态发布器（新增初始关节角度，避免姿态错乱） -->
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui">
+    <!-- 为5个可动关节设置初始角度（单位：弧度），可根据需求调整 -->
+    <param name="joint2" value="0.0" />
+    <param name="joint3" value="0.0" />
+    <param name="joint4" value="0.0" />
+    <param name="joint5" value="90.0" />
+    <param name="joint6" value="90.0" />
+  </node>
+
+  <!-- 3. 启动机器人状态发布器（适配ROS Noetic+/TF2，避免坐标转换错误） -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="use_tf2" value="true" />
+    <param name="publish_frequency" value="50.0" /> <!-- 提高发布频率，优化显示流畅度 -->
+  </node>
+
+  <!-- 4. 启动RViz（若原配置文件报错，可先使用空配置调试） -->
+  <!-- 若arm_all.rviz报错，可替换为 args="-d $(find rviz)/rviz/config/default.rviz" 先验证模型加载 -->
+  <node name="rviz" pkg="rviz" type="rviz"/>
+</launch>
