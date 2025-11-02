@@ -40,9 +40,9 @@ path::PathPlan path_plan(2, 1.f);// 路径规划
 arm::ArmDynamics arm_gravity;// 机械臂重力补偿
 
 /*--------------------------------硬件模块初始化--------------------------------------*/
-ros::Radar radar(CDC_HS, 1);// 雷达数据接收
-ros::BestPath MF_path(CDC_HS, 3);// 路径数据接收
-ros::Map map(CDC_HS, 2);// 地图数据接收
+ros::Radar 		radar(CDC_HS, 1);// 雷达数据接收
+ros::Map 		map(CDC_HS, 2);// 地图数据接收
+ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
 
 chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向轮底盘
@@ -88,7 +88,6 @@ void test(void *argument)
 		
 		
 		
-		
 //		go_0_3.Set_Out_Pos(a1);
 //		j60_1.Set_Out_Pos(a2);
 //		dm4310_1.Set_Out_Pos(a3);
@@ -119,64 +118,6 @@ void test(void *argument)
 task::TaskCreator test_task("test", 20, 512, test, NULL);
    
 
-
-vector2d::Vector2D location(0, 0);
-float yaw = 0;
-float sx, sy, sa;
-
-void path_teat(void *argument)
-{
-	MF_path.MF_Best_Path_Plan(map, path_plan);
-
-	for (;;)
-	{
-		
-		
-		
-		if (remote_ctrl.swb == 0)
-		{
-			omni_chassis.Set_Chassis_World_Spd(0, 0, 0, -radar.yaw / 180.f * PI);
-		}
-		else if (remote_ctrl.swb == 1)
-		{
-			omni_chassis.Set_Chassis_World_Spd(remote_ctrl.left_x / 300.f, remote_ctrl.left_y / 300.f, remote_ctrl.right_x / 300.f, -radar.yaw / 180.f * PI);
-		}
-		else
-		{
-			path_plan.Get_Speed(
-				vector2d::Vector2D(radar.x, radar.y),
-				-radar.yaw / 180.f * PI,
-				&sx,
-				&sy,
-				&sa
-			);
-
-			omni_chassis.Set_Chassis_World_Spd(sx, sy, sa, -radar.yaw / 180.f * PI);
-		}
-		
-		
-		static uint8_t flag = 0;
-		static uint32_t last_time = 0;
-		
-		if (path_plan.Is_End() == true && flag == 0)
-		{
-			last_time = timer_us.Get_TimeStamp();
-			flag = 1;
-		}
-		else if (flag == 1 && timer_us.Get_DeltaTime(last_time) >= 3000000)// 延时3s
-		{
-			path_plan.Next_Path();
-			flag = 0;
-		}
-		
-		
-		
-		osDelay(1);
-	}
-}
-
-
-//task::TaskCreator path_task("test", 27, 512, path_teat, NULL);
 
 /*---------------------------————-----初始化函数—————------------------------------------------*/
 void All_Init()

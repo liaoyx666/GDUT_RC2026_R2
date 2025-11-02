@@ -197,6 +197,4 @@ namespace vector2d
 		
 		return curvature;
 	}
-	
-
 }

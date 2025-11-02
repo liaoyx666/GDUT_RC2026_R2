@@ -21,10 +21,7 @@ namespace vector2d
 		float& x() { return data_[0]; }
 		float& y() { return data_[1]; }
 
-		
-		
-		
-		
+
 		// 获取内部数据指针
 		const float32_t* data() const { return data_; }
 		float32_t* data() { return data_; }

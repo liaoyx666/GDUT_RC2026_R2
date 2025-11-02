@@ -1000,16 +1000,6 @@
           <GroupName>RC26_Ros_Interface</GroupName>
           <Files>
             <File>
-              <FileName>RC_ladar.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Ros_Interface\Src\RC_ladar.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_ladar.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Ros_Interface\Inc\RC_ladar.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_map.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Ros_Interface\Src\RC_map.cpp</FilePath>
@@ -1020,14 +1010,24 @@
               <FilePath>..\RC26_Ros_Interface\Inc\RC_map.h</FilePath>
             </File>
             <File>
+              <FileName>RC_radar.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_radar.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_radar.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_radar.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_best_path.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_best_path.cpp</FilePath>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_best_path.cpp</FilePath>
             </File>
             <File>
               <FileName>RC_best_path.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_best_path.h</FilePath>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_best_path.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1063,6 +1063,16 @@
               <FileName>RC_arm_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_arm_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path_task.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_User\Src\RC_path_task.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_User\Inc\RC_path_task.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,7 +1,5 @@
 #include "RC_pid.h"
 
-
-
 namespace pid
 {
 	void Pid::Pid_Mode_Init(bool incremental_, bool differential_prior_, float differential_lowpass_alpha_, bool use_td_)
@@ -220,8 +218,6 @@ namespace pid
 			data = data + 2.f * unit;
 		return data;
 	}
-	
-	
 	
 	
 	void Limit(float *input, float limit)

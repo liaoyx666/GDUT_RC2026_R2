@@ -34,7 +34,6 @@ namespace motor
 		float mos_temperature = 0;
 						
 	protected:
-				
 		
 	};
 }  

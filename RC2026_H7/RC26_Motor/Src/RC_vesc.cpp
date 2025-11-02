@@ -27,9 +27,6 @@ namespace motor
 		
         // 注册CAN设备
         CanHandler_Register();
-        
-      
-       
     }
     
 	
@@ -45,8 +42,6 @@ namespace motor
 		can->tx_frame_list[tx_frame_dx].hd_num = 1;
 		can->tx_frame_list[tx_frame_dx].hd_dx[0] = hd_list_dx;
     }
-	
-	
 	
     void Vesc::Tim_It_Process()
 	{

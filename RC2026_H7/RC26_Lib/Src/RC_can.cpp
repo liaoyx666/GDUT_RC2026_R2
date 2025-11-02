@@ -52,7 +52,6 @@ namespace can
 	{
 		FDCAN_FilterTypeDef  filter_init = {0};
 		
-		
 		filter_init.FilterConfig = fifo;
 		filter_init.FilterID1 = id;
 		filter_init.FilterID2 = maskId;
@@ -61,8 +60,7 @@ namespace can
 		filter_init.IdType = idType;// 标准帧或拓展帧
 		filter_init.IsCalibrationMsg = 0;
 		filter_init.RxBufferIndex = 0;
-
-														  
+						  
 		if (HAL_FDCAN_ConfigFilter(hcan, &filter_init) != HAL_OK) Error_Handler();// 配置失败处理
 	}
 	
@@ -76,7 +74,6 @@ namespace can
 		
 		// 启动CAN外设
 		if (HAL_FDCAN_Start(hcan) != HAL_OK) Error_Handler();
-		
 	}
 	
 	void Can::All_Can_Rx_It_Process(FDCAN_HandleTypeDef *hcan, uint32_t fifo)
@@ -223,6 +220,7 @@ namespace can
 	}
 	
 	/*-------------------------------------------------------------*/
+	
 	CanHandler::CanHandler(Can &can_) : can(&can_)
 	{
 		hd_list_dx = can->Add_CanHandler(this);// 保存设备列表索引

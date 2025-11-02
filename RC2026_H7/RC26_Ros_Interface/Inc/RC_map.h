@@ -35,8 +35,8 @@ namespace ros
 		int8_t Kfs_On_Dir(uint8_t n, Dir d);
 
     protected:
-		int8_t map[12] = {
-			2,1,4,2,4,1,2,4,1,4,3,2
+		uint8_t map[12] = {
+			1,1,2,1,2,3,2,4,2,4,4,4
 		};
 	
 		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;

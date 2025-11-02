@@ -6,24 +6,19 @@
 #pragma once
 #include "RC_task.h"
 
-#ifdef __cplusplus
-
-
 #define MAX_CAN_TX_FRAME_NUM 8
 #define MAX_CAN_HANDLER_NUM 8
 #define MAX_CAN_NUM 3
 
-
+#ifdef __cplusplus
 namespace can
 {
-	
 	typedef enum CanFrameType
 	{
 		FRAME_STD,  // 标准帧
 		FRAME_EXT   // 扩展帧
 	} CanFrameType;
 
-	
 	typedef struct CanTxFrame
 	{
 		uint32_t id;
@@ -36,9 +31,7 @@ namespace can
 		CanFrameType frame_type;
 	} CanTxFrame;
 
-
 	class CanHandler;// 向前声明
-
 
 	class Can : public task::ManagedTask
 	{
@@ -62,6 +55,7 @@ namespace can
 		CanTxFrame tx_frame_list[MAX_CAN_TX_FRAME_NUM] = {0};// 发送帧列表
 		uint8_t hd_num = 0;// 设备总数
 		uint8_t tx_frame_num = 0;// 发送帧总数
+		
 	protected:
 		
 	private:
@@ -87,6 +81,7 @@ namespace can
 		Can *can = nullptr;
 		uint8_t tx_frame_dx;
 		uint8_t hd_list_dx;
+			
 		/*------------------------需要被其子类初始化----------------------------*/
 		CanFrameType can_frame_type;
 		uint32_t tx_id = 0;
@@ -94,6 +89,7 @@ namespace can
 		uint32_t rx_mask = 0;// 掩码
 		uint32_t rx_id = 0;
 		/*-------------------------需要被其子类初始化---------------------------*/
+			
 		virtual void Can_Tx_Process() = 0;// 发送前处理函数
 		virtual void Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data) = 0;// 中断接收处理函数
 		
@@ -102,8 +98,6 @@ namespace can
 		
 	private:
 		
-		
 	};
 }
-
 #endif

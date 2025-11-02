@@ -1,7 +1,5 @@
 #include "RC_map.h"
 
-
-extern cdc::CDC CDC_HS;
 namespace ros
 {
 	
@@ -21,10 +19,9 @@ namespace ros
 			is_init = true;
 		}
 		
-		uint8_t s = 1;
-		CDC_HS.CDC_Send_Pkg(2, &s, 1, 1000);
-		
-		
+		// 应答
+		uint8_t ack = 1;
+		cdc->CDC_Send_Pkg(2, &ack, 1, 1000);
 	}
 	
 	int8_t Map::Get_MF(uint8_t n)
@@ -95,6 +92,5 @@ namespace ros
 			return 0;
 		}
 	}
-	
 	
 }

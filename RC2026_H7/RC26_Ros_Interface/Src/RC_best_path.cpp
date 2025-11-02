@@ -1,11 +1,7 @@
 #include "RC_best_path.h"
 
-extern cdc::CDC CDC_HS;
 namespace ros
 {
-	
-	
-	
 	BestPath::BestPath(cdc::CDC &cdc_, uint8_t rx_id_) : cdc::CDCHandler(cdc_, rx_id_)
 	{
 	
@@ -23,8 +19,9 @@ namespace ros
 			is_init = true;
 		}
 		
-		uint8_t s = 1;
-		CDC_HS.CDC_Send_Pkg(3, &s, 1, 1000);
+		// 应答
+		uint8_t ack = 1;
+		cdc->CDC_Send_Pkg(3, &ack, 1, 1000);
 	}
 	
 	
@@ -175,8 +172,6 @@ namespace ros
 						vector2d::Vector2D(Get_MF_Location(step[i - 1]).data()[0] + x, Get_MF_Location(step[i - 1]).data()[1] + y),
 						Dir_To_Yaw(d)
 					);// 去拿取
-					
-					
 					
 					MF_map.Set_MF(step[i], 4);// 已拿取，变空格
 				}

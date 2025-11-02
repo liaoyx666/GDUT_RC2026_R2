@@ -85,7 +85,8 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
   ..\RC26_Lib\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_vector2d.h \
   ..\RC26_Motor\Inc\RC_go.h ..\RC26_Lib\Inc\RC_path.h \
-  ..\RC26_Lib\Inc\RC_bezier_curve.h ..\RC26_Lib\Inc\RC_best_path.h \
+  ..\RC26_Lib\Inc\RC_bezier_curve.h \
+  ..\RC26_Ros_Interface\Inc\RC_best_path.h \
   ..\RC26_Ros_Interface\Inc\RC_map.h \
-  ..\RC26_Ros_Interface\Inc\RC_ladar.h ..\RC26_Motor\Inc\RC_j60.h \
+  ..\RC26_Ros_Interface\Inc\RC_radar.h ..\RC26_Motor\Inc\RC_j60.h \
   ..\RC26_Lib\Inc\RC_arm.h ..\Core\Inc\fdcan.h

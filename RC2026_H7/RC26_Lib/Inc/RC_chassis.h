@@ -23,17 +23,10 @@ namespace chassis
 	const float ratio = 19;             // M3508减速比
 	const float k = (60.0f * ratio) / (2.0f * PI * R);  // 速度转转速系数
 
-
-
-
-
 	// 加速度控制相关
 	const float MAX_ACC_SPEED = 2.5f;     // 最大线加速度（m/s²）
 	const float MAX_ACC_YAW = 4.5f;   // Yaw轴最大角加速度（rad/s²）
 
-	
-	
-	
     class OmniChassis : public task::ManagedTask
     {
     public:
@@ -51,7 +44,6 @@ namespace chassis
 		float target_spd_yaw = 0;   
 		float last_spd_yaw = 0;// 上一周期Yaw轴实际角速度
 
-
 		void Task_Process() override {Chassis_Calc();}
 
     private:
@@ -62,22 +54,13 @@ namespace chassis
 
         // 电机与机械参数（三轮）
         motor::M3508* motor[3];
-	
-	
-	
+
 		vector2d::Vector2D current_spd;
 		float current_spd_yaw = 0;
-	
-	
 
-        
     };
 	
-	
 	float Limit_Accel(float delta_spd, float max_acc, float dt);
-
+	
 }
-
-
-
 #endif

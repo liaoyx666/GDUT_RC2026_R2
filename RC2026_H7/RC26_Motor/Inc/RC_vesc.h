@@ -6,12 +6,6 @@
 
 #ifdef __cplusplus
 
-//enum vesc_mode {
-//    vesc_current,
-//    vesc_rpm,
-//	vesc_pos,
-//	vesc_duty
-//};
 typedef enum {
 	CAN_PACKET_SET_DUTY						= 0,
 	CAN_PACKET_SET_CURRENT					= 1,
@@ -98,9 +92,7 @@ namespace motor {
         int32_t send_current = 0;
         int32_t send_rpm = 0;
 		int32_t send_pos = 0;
-		
 
-       
     };
 }
 #endif

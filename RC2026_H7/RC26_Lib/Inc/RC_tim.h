@@ -9,7 +9,7 @@
 
 namespace tim
 {
-	class TimHandler;
+	class TimHandler;// 向前声明
 	
 	class Tim
 	{
@@ -53,15 +53,13 @@ namespace tim
 
 	};
 }
-
 #endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-
 void All_Tim_It_Process(TIM_HandleTypeDef *htim);// 放在main.c中的定时中断函数
-
 
 #ifdef __cplusplus
 }

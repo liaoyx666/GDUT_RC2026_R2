@@ -121,6 +121,7 @@ namespace path
 					total_len += bezier_curve_list[bezier_curve_num].Get_len();
 					bezier_curve_num++;
 					
+					point_list[0] = point_;
 					generate_status = GENERATE_FINISHED_STRAIGHT;
 				}
 				else

@@ -28,16 +28,11 @@ namespace flysky
 		is_init = true;
 	}
 
-	
-	
 	// 上升沿触发
 	void FlySky::EXTI_Prosess(uint16_t GPIO_Pin_)
 	{
 		if (GPIO_Pin_ == GPIO_Pin && is_init == true)
 		{
-			
-			
-			
 			static uint8_t flag = 0;
 			
 			uint32_t delta_time = timer::Timer::Get_DeltaTime(last_time);
@@ -76,10 +71,8 @@ namespace flysky
 		}
 	}
 	
-	
 	void FlySky::Task_Process()
 	{
-
 		// 检测断连
 		if (timer::Timer::Get_DeltaTime(last_time) < 80000)
 		{
@@ -139,10 +132,6 @@ namespace flysky
 		}
 	}
 	
-	
-	
-	
-	
 	bool FlySky::signal_swa()
 	{
 		if (swa != last_swa)
@@ -153,8 +142,6 @@ namespace flysky
 		return false;
 	}
 	
-	
-	
 	bool FlySky::signal_swd()
 	{
 		if (swd != last_swd)
@@ -164,11 +151,4 @@ namespace flysky
 		}
 		return false;
 	}
-	
-	
-	
-	
-	
-	
-	
 }

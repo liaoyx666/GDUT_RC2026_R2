@@ -32,7 +32,7 @@ namespace cdc
 		WAIT_LEN,// 1~64
 		WAIT_DATA,
 		WAIT_CHECK,//xor
-		WAIT_TAIL// 0xff
+		WAIT_TAIL// 0xee
 	} RECEIVE_FLAG;
 
 	
@@ -115,16 +115,13 @@ namespace cdc
 		uint8_t hd_list_dx;
 		uint8_t rx_id;
     protected:
-		
-    private:
 		CDC *cdc = nullptr;
+    private:
 		
-	
     };
-	
 }
-
 #endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -132,11 +129,8 @@ extern "C" {
 void CDC_It_Receive_HS(uint8_t* buf, uint32_t len);
 void CDC_It_Receive_FS(uint8_t* buf, uint32_t len);
 
-	
 uint8_t xor_check(const uint8_t *data, uint32_t length);
-
 
 #ifdef __cplusplus
 }
 #endif
-

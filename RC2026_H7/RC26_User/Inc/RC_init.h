@@ -15,7 +15,7 @@
 #include "RC_go.h"
 #include "RC_path.h"
 #include "RC_best_path.h"
-#include "RC_ladar.h"
+#include "RC_radar.h"
 #include "RC_j60.h"
 #include "RC_arm.h"
 
@@ -28,20 +28,12 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif
+
+
+
+
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -50,16 +42,6 @@ extern "C" {
 void All_Init();
 
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 #ifdef __cplusplus
 }

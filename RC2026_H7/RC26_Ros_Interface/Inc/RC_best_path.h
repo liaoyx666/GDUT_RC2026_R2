@@ -18,8 +18,8 @@ namespace ros
 		BestPath(cdc::CDC &cdc_, uint8_t rx_id_);
 		virtual ~BestPath() {}
 		
-		uint8_t step[6] = {2, 5, 8, 9, 12};
-		uint8_t step_num = 5;
+		uint8_t step[6] = {2,5,8,11};
+		uint8_t step_num = 4;
 		
 		
 		vector2d::Vector2D Get_MF_Location(uint8_t n);

@@ -9,7 +9,6 @@
 #define TWO_THIRD_PI 4.71238898038468985769f
 
 #ifdef __cplusplus
-
 namespace pid
 {
 	class Pid
@@ -77,8 +76,4 @@ namespace pid
 	float Normalize(float data, float unit);
 	
 }
-
-
-
-
 #endif
