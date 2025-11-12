@@ -1,5 +1,5 @@
 rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
-  ..\RC26_Lib\Inc\RC_task.h \
+  ..\RC26_Api\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \
@@ -43,7 +43,7 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Lib\Inc\RC_can.h ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h \
+  ..\RC26_Api\Inc\RC_can.h ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h \
   ..\RC26_Motor\Inc\RC_m3508.h ..\RC26_Motor\Inc\RC_dji_motor.h \
   ..\RC26_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
@@ -71,10 +71,11 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Lib\Inc\RC_adrc.h ..\RC26_Lib\Inc\RC_filter.h \
   ..\RC26_Lib\Inc\RC_SMC.h ..\RC26_Motor\Inc\RC_m2006.h \
   ..\RC26_Motor\Inc\RC_m6020.h ..\RC26_Motor\Inc\RC_dm4310.h \
-  ..\RC26_Lib\Inc\RC_serial.h ..\Core\Inc\usart.h \
+  ..\RC26_Api\Inc\RC_serial.h ..\Core\Inc\usart.h \
   ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_timer.h \
   ..\RC26_Lib\Inc\RC_flysky.h ..\Core\Inc\gpio.h \
-  ..\RC26_Lib\Inc\RC_cdc.h ..\USB_DEVICE\App\usbd_cdc_if.h \
+  ..\RC26_Api\Inc\RC_gpio_exti.h ..\RC26_Api\Inc\RC_cdc.h \
+  ..\USB_DEVICE\App\usbd_cdc_if.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \

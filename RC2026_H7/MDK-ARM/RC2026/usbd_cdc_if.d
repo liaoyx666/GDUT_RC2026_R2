@@ -38,7 +38,7 @@ rc2026/usbd_cdc_if.o: ..\USB_DEVICE\App\usbd_cdc_if.c \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
-  ..\RC26_Lib\Inc\RC_cdc.h ..\RC26_Lib\Inc\RC_task.h \
+  ..\RC26_Api\Inc\RC_cdc.h ..\RC26_Api\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \

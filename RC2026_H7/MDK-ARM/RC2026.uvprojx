@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx,__FPU_PRESENT = 1U,__VFP_FP__ = 1,ARM_MATH_CM7</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc;..\RC26_Api\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -746,36 +746,6 @@
           <GroupName>RC26_Lib</GroupName>
           <Files>
             <File>
-              <FileName>RC_task.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_task.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_can.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_can.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_can.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_can.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_tim.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_tim.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_tim.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_tim.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_timer.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_timer.cpp</FilePath>
@@ -796,16 +766,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_pid.h</FilePath>
             </File>
             <File>
-              <FileName>RC_serial.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_serial.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_serial.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_serial.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_flysky.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_flysky.cpp</FilePath>
@@ -824,16 +784,6 @@
               <FileName>RC_wave_generator.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_wave_generator.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_cdc.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_cdc.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_cdc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_cdc.h</FilePath>
             </File>
             <File>
               <FileName>RC_chassis.cpp</FileName>
@@ -1139,6 +1089,71 @@
               <FileName>RC_path_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_path_task.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RC26_Api</GroupName>
+          <Files>
+            <File>
+              <FileName>RC_can.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_can.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_can.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_can.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_cdc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_cdc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_cdc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_cdc.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_gpio_exti.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_gpio_exti.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_gpio_exti.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_gpio_exti.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_serial.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_serial.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_serial.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_task.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_task.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_tim.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_tim.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_tim.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_tim.h</FilePath>
             </File>
           </Files>
         </Group>

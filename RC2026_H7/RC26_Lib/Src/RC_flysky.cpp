@@ -1,37 +1,17 @@
 #include "RC_flysky.h"
 
-extern "C" void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-    flysky::FlySky::EXTI_Prosess(GPIO_Pin);
-}
 
 namespace flysky
 {
-	bool FlySky::is_init = false;
-	volatile uint16_t FlySky::channel_list[CHANNEL_NUM] = {0};
-	volatile uint16_t FlySky::data_buf[CHANNEL_NUM];
-	uint16_t FlySky::GPIO_Pin = 0;
-	uint32_t FlySky::last_time = 0;
-	
-	bool FlySky::is_last_init = false;
-	uint8_t FlySky::last_swa = 0;
-	uint8_t FlySky::last_swd = 0;
-	
-	
-	volatile uint8_t FlySky::swa = 0, FlySky::swb = 0, FlySky::swc = 0, FlySky::swd = 0;
-	volatile int16_t FlySky::left_x = 0, FlySky::left_y = 0, FlySky::right_x = 0, FlySky::right_y = 0;
-	
-	
-	FlySky::FlySky(uint16_t GPIO_Pin_) : task::ManagedTask("Flysky", 39, 128, task::TASK_DELAY, 1)
+	FlySky::FlySky(uint16_t gpio_pin_) : task::ManagedTask("Flysky", 39, 128, task::TASK_DELAY, 1), gpio::GpioExti(gpio_pin_)
 	{
-		GPIO_Pin = GPIO_Pin_;
 		is_init = true;
 	}
 
 	// 上升沿触发
-	void FlySky::EXTI_Prosess(uint16_t GPIO_Pin_)
+	void FlySky::EXTI_Prosess()
 	{
-		if (GPIO_Pin_ == GPIO_Pin && is_init == true)
+		if (is_init == true)
 		{
 			static uint8_t flag = 0;
 			
@@ -66,8 +46,6 @@ namespace flysky
 					data_buf[i] = channel_list[i];
 				}
 			}
-			
-		
 		}
 	}
 	
