@@ -245,7 +245,6 @@ namespace cdc
 				receive_flag = WAIT_HEAD_1;
 				break;
 			}
-				
 
 			/*-------------------------------------处理数据--------------------*/
 		}
@@ -282,7 +281,7 @@ uint8_t xor_check(const uint8_t *data, uint32_t length)
 	uint8_t xor_val = 0;
 	for (uint16_t i = 0; i < length; i++)
 	{
-		xor_val ^= data[i]; // 仅异或，运算成本极低
+		xor_val ^= data[i]; // 异或
 	}
 	return xor_val;
 }

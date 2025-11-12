@@ -109,7 +109,7 @@ namespace ros
 		
 		path_plan.Add_Start_Point(vector2d::Vector2D(0, 0));// 启动点
 		
-		for (uint8_t i = 0; i < step_num; i++)
+		for (uint8_t i = 0; i < step_num + 1; i++)
 		{
 			if (i == 0)
 			{
@@ -135,45 +135,47 @@ namespace ros
 			}
 			else
 			{
-				if (MF_map.Get_MF(step[i]) == 2)// 先拿路径上挡路的（顺路）
+				if (i < step_num)
 				{
-					Dir d = Dir_From_To(step[i - 1], step[i]);
-					
-					float x = 0.f, y = 0.f;
-					
-					switch (d)
+					if (MF_map.Get_MF(step[i]) == 2)// 先拿路径上挡路的（顺路）
 					{
-						case Dir::F:
-							x = 0.f;
-							y = CHASSIS_MOVE;
-							break;
+						Dir d = Dir_From_To(step[i - 1], step[i]);
 						
-						case Dir::B:
-							x = 0.f;
-							y = -CHASSIS_MOVE;
-							break;
+						float x = 0.f, y = 0.f;
 						
-						case Dir::L:
-							x = -CHASSIS_MOVE;
-							y = 0.f;
-							break;
-						
-						case Dir::R:
-							x = CHASSIS_MOVE;
-							y = 0.f;
-							break;
-						
-						default:
+						switch (d)
+						{
+							case Dir::F:
+								x = 0.f;
+								y = CHASSIS_MOVE;
+								break;
 							
-							break;
+							case Dir::B:
+								x = 0.f;
+								y = -CHASSIS_MOVE;
+								break;
+							
+							case Dir::L:
+								x = -CHASSIS_MOVE;
+								y = 0.f;
+								break;
+							
+							case Dir::R:
+								x = CHASSIS_MOVE;
+								y = 0.f;
+								break;
+							
+							default:
+								break;
+						}
+					
+						path_plan.Add_End_Point(
+							vector2d::Vector2D(Get_MF_Location(step[i - 1]).data()[0] + x, Get_MF_Location(step[i - 1]).data()[1] + y),
+							Dir_To_Yaw(d)
+						);// 去拿取
+						
+						MF_map.Set_MF(step[i], 4);// 已拿取，变空格
 					}
-					
-					path_plan.Add_End_Point(
-						vector2d::Vector2D(Get_MF_Location(step[i - 1]).data()[0] + x, Get_MF_Location(step[i - 1]).data()[1] + y),
-						Dir_To_Yaw(d)
-					);// 去拿取
-					
-					MF_map.Set_MF(step[i], 4);// 已拿取，变空格
 				}
 				
 				
@@ -238,18 +240,19 @@ namespace ros
 					);// 拿完回到中心
 				}
 
-				path_plan.Add_Point(
-					Get_MF_Location(step[i]), 
-					0.f
-				);// 前往下一格子中心
+				if (i < step_num)
+				{
+					path_plan.Add_Point(
+						Get_MF_Location(step[i]), 
+						0.f
+					);// 前往下一格子中心
+				}
 			}
 		}
-		
 		
 		path_plan.Add_End_Point(
 			vector2d::Vector2D(Get_MF_Location(step[step_num - 1]).data()[0], Get_MF_Location(step[step_num - 1]).data()[1] + MF_SIZE), 
 			0.f
 		);// 出MF
-	
 	}
 }

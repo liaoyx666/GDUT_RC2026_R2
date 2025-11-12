@@ -36,13 +36,13 @@ namespace ros
 
     protected:
 		uint8_t map[12] = {
-			1,1,2,1,2,3,2,4,2,4,4,4
+			0
 		};
 	
 		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;
 
     private:
-		bool is_init = true;/// 
+		bool is_init = false;/// 
     };
 	
 	

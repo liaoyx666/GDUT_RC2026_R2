@@ -8,8 +8,6 @@
 #define BEZIER_SAMPLE_NUM	10// 不包含起点
 #define GOLDEN_RATIO (sqrtf(5.f) - 1.f) / 2.f  // 黄金分割比例 (~0.618)
 
-
-
 namespace curve
 {
 	typedef enum BezierOrder : uint8_t

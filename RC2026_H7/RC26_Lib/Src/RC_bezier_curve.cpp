@@ -367,7 +367,6 @@ namespace curve
 			// p0 = start_point;
 			// p1 = control_point;
 			// p2 = end_point;
-	
 			// 一阶导数：B'(t) = 2(1-t)(P₁-P₀) + 2t(P₂-P₁) = 2(P₁-P₀) + 2t(P₂-2P₁+P₀)
 			vector2d::Vector2D A = (control_point - start_point) * 2.f;
 			vector2d::Vector2D B = (end_point - (control_point * 2.f) + start_point) * 2.f;

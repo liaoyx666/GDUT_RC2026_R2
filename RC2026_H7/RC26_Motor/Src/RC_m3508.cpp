@@ -37,5 +37,4 @@ namespace motor
 	{
 		Set_Current(target_torque_ * 3640.89f);
 	}
-
 }

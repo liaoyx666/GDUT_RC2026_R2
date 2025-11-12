@@ -45,7 +45,7 @@ namespace motor
 	
     void Vesc::Tim_It_Process()
 	{
-		
+		//
     }
 
     void Vesc::Can_Tx_Process()

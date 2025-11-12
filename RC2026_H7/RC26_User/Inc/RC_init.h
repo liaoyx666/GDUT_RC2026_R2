@@ -18,6 +18,7 @@
 #include "RC_radar.h"
 #include "RC_j60.h"
 #include "RC_arm.h"
+#include "RC_JY901S.h"
 
 #include "fdcan.h"
 #include "tim.h"

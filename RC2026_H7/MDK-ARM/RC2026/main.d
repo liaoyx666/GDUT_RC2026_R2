@@ -42,8 +42,8 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h \
-  ..\Core\Inc\fdcan.h ..\Core\Inc\tim.h ..\Core\Inc\usart.h \
-  ..\USB_DEVICE\App\usb_device.h \
+  ..\Core\Inc\dma.h ..\Core\Inc\fdcan.h ..\Core\Inc\tim.h \
+  ..\Core\Inc\usart.h ..\USB_DEVICE\App\usb_device.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \
   ..\USB_DEVICE\Target\usbd_conf.h ..\Core\Inc\gpio.h \
   ..\RC26_User\Inc\RC_init.h ..\RC26_Lib\Inc\RC_task.h \
@@ -90,4 +90,4 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h \
   ..\RC26_Ros_Interface\Inc\RC_map.h \
   ..\RC26_Ros_Interface\Inc\RC_radar.h ..\RC26_Motor\Inc\RC_j60.h \
-  ..\RC26_Lib\Inc\RC_arm.h
+  ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\RC_JY901S.h

@@ -1,24 +1,25 @@
 #include "RC_init.h"
 
 /*--------------------------------外设初始化------------------------------------------*/
-tim::Tim tim7_1khz(htim7);// 定时中断
+// 定时中断
+tim::Tim tim7_1khz(htim7);
 tim::Tim tim4_timer(htim4);
 
-can::Can can1(hfdcan1);// can通讯
+// can通讯
+can::Can can1(hfdcan1);
 can::Can can2(hfdcan2);
 can::Can can3(hfdcan3);
 
-cdc::CDC CDC_HS(cdc::USB_CDC_HS);// 虚拟串口通讯
-
-
+// 虚拟串口通讯
+cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 
 /*----------------------------------电机初始化----------------------------------------*/
 motor::M6020 m6020_1(1, can2, tim7_1khz);
 
 // 底盘
-motor::M3508 m3508_1(1, can1, tim7_1khz);
-motor::M3508 m3508_2(2, can1, tim7_1khz);
-motor::M3508 m3508_3(3, can1, tim7_1khz);
+motor::M3508 m3508_1(1, can3, tim7_1khz);
+motor::M3508 m3508_2(2, can3, tim7_1khz);
+motor::M3508 m3508_3(3, can3, tim7_1khz);
 
 // 机械臂
 motor::M2006 	m2006_4(4, can1, tim7_1khz);
@@ -49,7 +50,7 @@ chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向�
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
-
+imu::JY901S jy901s(huart1);
 
 /*---------------------------————-----DeBug------------------------------------------*/
 SquareWave wave(1000, 3000);// 用于调pid
@@ -89,7 +90,7 @@ void test(void *argument)
 		
 		
 //		go_0_3.Set_Out_Pos(a1);
-//		j60_1.Set_Out_Pos(a2);
+		j60_1.Set_Out_Pos(a2);
 //		dm4310_1.Set_Out_Pos(a3);
 //		m2006_4.Set_Out_Pos(a4);
 		
@@ -106,8 +107,8 @@ void test(void *argument)
 //		dm4310_1.Set_Feedforward(arm_gravity.joint_gravity_compensation.joint2);
 
 		
-		go_0_3.Set_Out_Pos(wl1);
-		go_0_0.Set_Out_Pos(wl2);
+		//go_0_3.Set_Out_Pos(wl1);
+		//go_0_0.Set_Out_Pos(wl2);
 		
 		
 		
@@ -140,11 +141,9 @@ void All_Init()
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
 	
-	
+	jy901s.Uart_Rx_Start();
+
 	/*------------------------------------------------------------------------------*/
-	
-	
-	
 	
 }
 

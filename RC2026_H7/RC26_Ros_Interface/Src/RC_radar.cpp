@@ -25,7 +25,7 @@ namespace ros
 	{
 		uint32_t delta_time = timer::Timer::Get_DeltaTime(latest_receive_time);
 		
-		if (delta_time > 10000)
+		if (delta_time > 200000)
 		{
 			return false;
 		}
