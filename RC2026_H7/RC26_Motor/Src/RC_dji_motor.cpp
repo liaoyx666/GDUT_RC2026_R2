@@ -67,34 +67,36 @@ namespace motor
 	
 	void DjiMotor::Tim_It_Process()
 	{
-		if (motor_mode != CURRENT_MODE)			//> 电流模式
+		if (motor_mode != CURRENT_MODE)				//> 电流模式
 		{
 			float temp_target_rpm = 0;// 目标速度
 			
-			if (motor_mode == RPM_MODE)			//> 速度模式
+			if (motor_mode == RPM_MODE)				//> 速度模式
 			{
 				temp_target_rpm = target_rpm;
 			}
-			else if (motor_mode == POS_MODE)	//> 位置模式
+			else if (motor_mode == POS_MODE)		//> 位置模式
 			{
 				pid_pos.Update_Real(pos);
 				pid_pos.Update_Target(target_pos);
 				temp_target_rpm = pid_pos.Pid_Calculate();
 			}
-			else if (motor_mode == ANGLE_MODE)	//> 角度模式
+			else if (motor_mode == ANGLE_MODE)		//> 角度模式
 			{
 				pid_pos.Update_Real(angle);
 				pid_pos.Update_Target(target_angle);
 				temp_target_rpm = pid_pos.Pid_Calculate(true, PI);
 			}
+			else if (motor_mode == OUT_ANGLE_MODE)	//> 输出轴角度模式
+			{
+				pid_pos.Update_Real(out_angle);
+				pid_pos.Update_Target(target_pos);
+				temp_target_rpm = pid_pos.Pid_Calculate(true, PI * gear_ratio);
+			}
 			
 			pid_spd.Update_Target(temp_target_rpm);
 			pid_spd.Update_Real(rpm);
 			target_current = pid_spd.Pid_Calculate();
-			
-//			spd_smc.Update_Target_Spd(temp_target_rpm);
-//			spd_smc.Update_Real_Spd(rpm);
-//			target_current = spd_smc.SMC_calculate();
 		}
 	}
 	
@@ -105,15 +107,7 @@ namespace motor
 		uint16_t dx = ((id - 1) % 4) * 2;
 	
 		int16_t current_int;
-		
-		if (target_current >= 0)// 四舍五入
-		{
-			current_int = (int16_t)(target_current + 0.5f);
-		}
-		else
-		{
-			current_int = (int16_t)(target_current - 0.5f);
-		};
+		current_int = (int16_t)roundf(target_current);
 		
 		if (current_int > 16384) current_int = 16384;
 		else if (current_int < -16384) current_int = -16384;
@@ -130,23 +124,54 @@ namespace motor
 		current 	= (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);
 		temperature = (float)(int8_t)rx_data[6];
 		
-		
+		// 计算转子旋转圈数
 		if (can_rx_is_first != true)
 		{
-			if (last_angle < HALF_PI && angle > TWO_THIRD_PI) cycle--;
-			else if (last_angle > TWO_THIRD_PI && angle < HALF_PI) cycle++;
+			if (last_angle < HALF_PI && angle > TWO_THIRD_PI)
+			{
+				cycle--;
+				rotor_cycle--;
+			}
+			else if (last_angle > TWO_THIRD_PI && angle < HALF_PI)
+			{
+				cycle++;
+				rotor_cycle++;
+			}
 		}
-		else can_rx_is_first = false;
+		else
+		{
+			can_rx_is_first = false;
+		}
 		
+		// 更新
+		last_angle = angle;
 		
+		// 计算转子位置
 		pos = cycle * TWO_PI + angle + pos_offset;
 		out_pos = pos / gear_ratio;
 		
 		// 防止nan
 		if (pos > 6434) pos = 6434;
 		else if (pos < -6434) pos = -6434;
+
+		rotor_pos = rotor_cycle * TWO_PI + angle + out_angle_offset;
 		
-		last_angle = angle;
+		// 归一化
+		if (rotor_pos >= 0.f)
+		{
+			out_angle = fmodf(rotor_pos, TWO_PI * gear_ratio);
+		}
+		else
+		{
+			out_angle = fmodf(rotor_pos, TWO_PI * gear_ratio) + TWO_PI * gear_ratio;
+		}
+		
+		// 重置rotor_cycle防止float精度丢失
+		if (rotor_pos > 2000.f || rotor_pos < -2000.f)
+		{
+			rotor_cycle = 0;
+			out_angle_offset = out_angle - angle;
+		}
 	}
 }
 	

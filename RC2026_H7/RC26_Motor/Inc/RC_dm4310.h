@@ -43,6 +43,8 @@ namespace motor
 		bool use_mit = false;
 		bool is_enable = false;
 	
+		int32_t cycle = 0;// 转子累计旋转圈数(用于计算pos)
+		float last_angle = 0;// 上一次转子角度(0 ~ 2pi)
 	};
 	
 	

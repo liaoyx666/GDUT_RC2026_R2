@@ -743,6 +743,71 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>RC26_Api</GroupName>
+          <Files>
+            <File>
+              <FileName>RC_can.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_can.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_can.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_can.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_cdc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_cdc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_cdc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_cdc.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_gpio_exti.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_gpio_exti.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_gpio_exti.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_gpio_exti.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_serial.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_serial.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_serial.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_task.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_task.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_task.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_tim.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_tim.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_tim.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_tim.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>RC26_Lib</GroupName>
           <Files>
             <File>
@@ -1089,71 +1154,6 @@
               <FileName>RC_path_task.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_path_task.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>RC26_Api</GroupName>
-          <Files>
-            <File>
-              <FileName>RC_can.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_can.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_can.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_can.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_cdc.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_cdc.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_cdc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_cdc.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_gpio_exti.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_gpio_exti.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_gpio_exti.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_gpio_exti.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_serial.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_serial.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_serial.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_serial.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_task.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_task.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_tim.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_tim.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_tim.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_tim.h</FilePath>
             </File>
           </Files>
         </Group>

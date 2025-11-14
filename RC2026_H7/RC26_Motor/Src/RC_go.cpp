@@ -80,7 +80,7 @@ namespace motor
 		{
 			pid::Limit(&target_torque, 127.99f);
 			
-			int16_t tor_int = (int16_t)(target_torque * 256.f);
+			int16_t tor_int = (int16_t)roundf(target_torque * 256.f);
 			
 			if (use_mit != true)// 只使用前馈力矩控制
 			{

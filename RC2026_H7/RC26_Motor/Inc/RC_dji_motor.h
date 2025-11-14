@@ -35,7 +35,15 @@ namespace motor
 		
 		uint8_t id;
 		
+		
+		int32_t cycle = 0;// 转子累计旋转圈数(用于计算pos)
+		float last_angle = 0;// 上一次转子角度(0 ~ 2pi)
+			
+		float rotor_pos = 0;
+		int32_t rotor_cycle = 0;// 转子累计旋转圈数(用于计算out_angle)
+		float out_angle_offset = 0;
     private:
+		
 		
     };
 }

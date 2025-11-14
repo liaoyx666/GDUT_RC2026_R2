@@ -10,7 +10,7 @@ can::Can can1(hfdcan1);
 can::Can can2(hfdcan2);
 can::Can can3(hfdcan3);
 
-// 虚拟串口通讯
+// 虚拟串口上位机通讯
 cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 
 /*----------------------------------电机初始化----------------------------------------*/
@@ -20,6 +20,9 @@ motor::M6020 m6020_1(1, can2, tim7_1khz);
 motor::M3508 m3508_1(1, can3, tim7_1khz);
 motor::M3508 m3508_2(2, can3, tim7_1khz);
 motor::M3508 m3508_3(3, can3, tim7_1khz);
+
+motor::M3508 m3508_2_c1(2, can1, tim7_1khz);
+
 
 // 机械臂
 motor::M2006 	m2006_4(4, can1, tim7_1khz);
@@ -84,33 +87,35 @@ void test(void *argument)
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 		
+		
+		
+		m3508_2_c1.Set_Out_Angle(a);
+		
+		
+		
+		
+		
+		
+		
 		uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);
-		
-		
-		
+
 //		go_0_3.Set_Out_Pos(a1);
 		j60_1.Set_Out_Pos(a2);
 //		dm4310_1.Set_Out_Pos(a3);
 //		m2006_4.Set_Out_Pos(a4);
 		
-		
 //		arm_gravity.motor_angle.theta1 = j60_1.Get_Out_Pos();
 //		arm_gravity.motor_angle.theta2 = dm4310_1.Get_Out_Pos();
 //		arm_gravity.motor_angle.theta3 = m2006_4.Get_Out_Pos();
 		
-		
 		arm_gravity.gravity_compensation();
-		
 		
 //		j60_1.Set_Feedforward(-arm_gravity.joint_gravity_compensation.joint1);
 //		dm4310_1.Set_Feedforward(arm_gravity.joint_gravity_compensation.joint2);
 
-		
 		//go_0_3.Set_Out_Pos(wl1);
 		//go_0_0.Set_Out_Pos(wl2);
-		
-		
 		
 		osDelay(1);
 	}
@@ -146,6 +151,3 @@ void All_Init()
 	/*------------------------------------------------------------------------------*/
 	
 }
-
-
-

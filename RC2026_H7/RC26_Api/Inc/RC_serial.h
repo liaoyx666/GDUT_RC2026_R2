@@ -3,12 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-
 #ifdef __cplusplus
 
-
 #define MAX_UART_NUM 20
-
 
 namespace serial
 {
@@ -41,7 +38,7 @@ namespace serial
 	
 	
 	
-	
+
 	class UartTx
     {
     public:

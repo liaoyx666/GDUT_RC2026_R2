@@ -5,7 +5,7 @@
 #ifdef __cplusplus
 
 #define TASK_NAME(var) #var// 函数名转字符串
-#define MAX_TASK_NUM 12// 最大可管理任务数量
+#define MAX_TASK_NUM 20// 最大可管理任务数量
 
 namespace task
 {
@@ -15,7 +15,7 @@ namespace task
 		TASK_PERIOD// 周期任务
 	} TaskType;
 
-	
+
 	class TaskCreator
 	{
 	public:
@@ -27,11 +27,9 @@ namespace task
 			void *argument
 		);
 		virtual ~TaskCreator() {}
-		
 	protected:
 		osThreadId_t TaskHandle;// 任务句柄
 	private:
-		
 	};
 
 	
@@ -47,7 +45,6 @@ namespace task
 		);
 		virtual ~ManagedTask() {}
 	protected:
-		
 	private:
 		uint8_t ticks;
 		TaskType task_type;

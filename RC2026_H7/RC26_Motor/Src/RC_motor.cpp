@@ -4,9 +4,8 @@ namespace motor
 {
 	Motor::Motor(float gear_ratio_) : gear_ratio(gear_ratio_)
 	{
-		
+		//
 	}
-	
 	
 	/**
     * @brief 设置位置范围
@@ -17,14 +16,11 @@ namespace motor
 	void Motor::Set_Pos_limit(float pos_max_, float pos_min_)
 	{
 		if (pos_min_ > pos_max_) return;
-		
 		if (pos_max_ > 6000) pos_max_ = 6000;
 		if (pos_min_ < -6000) pos_min_ = -6000;
-		
 		pos_max = pos_max_;
 		pos_min = pos_min_;
 	}
-	
 	
 	/**
     * @brief 设置目标转速
@@ -38,7 +34,6 @@ namespace motor
 		target_rpm = target_rpm_;
 	}
 	
-	
 	/**
     * @brief 设置目标角度
     * @note 0 rad ~ 2pi rad
@@ -46,12 +41,9 @@ namespace motor
     */
 	void Motor::Set_Angle(float target_angle_)
 	{
-		if (target_angle_ >= TWO_PI) target_angle = 0;
-		else if (target_angle_ <= 0) target_angle = 0;
-		else target_angle = target_angle_;
-		
 		// 设置模式
-		motor_mode = ANGLE_MODE;
+		motor_mode = ANGLE_MODE;		
+		if (target_angle_ >= TWO_PI || target_angle_ <= 0) target_angle_ = 0;
 		target_angle = target_angle_;
 	}
 	
@@ -62,15 +54,12 @@ namespace motor
     */
 	void Motor::Set_Pos(float target_pos_)
 	{
-		if (target_pos_ > pos_max) target_pos = pos_max;
-		else if (target_pos_ < pos_min) target_pos = pos_min;
-		else target_pos = target_pos_;
-		
 		// 设置模式
-		motor_mode = POS_MODE;
+		motor_mode = POS_MODE;	
+		if (target_pos_ > pos_max) target_pos_ = pos_max;
+		else if (target_pos_ < pos_min) target_pos_ = pos_min;
 		target_pos = target_pos_;
 	}
-	
 	
 	/**
     * @brief 设置目标电流
@@ -96,7 +85,6 @@ namespace motor
 		target_torque = target_torque_;
 	}
 	
-	
 	/**
     * @brief 重置电机位置
     * @note rad
@@ -106,11 +94,7 @@ namespace motor
 	{
 		pos_offset = pos_ - pos;
 	}
-	
-	
-	
-	
-	
+
 	/**
     * @brief 设置输出轴转速
     * @note rpm
@@ -120,9 +104,7 @@ namespace motor
 	{
 		Set_Rpm(target_out_rpm_ * gear_ratio);
 	}
-	
-	
-	
+
 	/**
     * @brief 设置输出轴位置
     * @note rad
@@ -133,7 +115,6 @@ namespace motor
 		Set_Pos(target_out_pos_ * gear_ratio);
 	}
 
-	
 	/**
     * @brief 设置刚度系数kp
     * @note 
@@ -141,10 +122,9 @@ namespace motor
     */
 	void Motor::Set_K_Pos(float target_k_pos_)
 	{
-		
+		//
 	}
-	
-	
+
 	/**
     * @brief 设置阻尼系数kd
     * @note 
@@ -152,10 +132,9 @@ namespace motor
     */
 	void Motor::Set_K_Spd(float target_k_spd_)
 	{
-
+		//
 	}
 
-	
 	/**
     * @brief 重置输出轴位置
     * @note rad
@@ -166,36 +145,47 @@ namespace motor
 		Reset_Pos(out_pos_ * gear_ratio);
 	}
 	
-	
-	
+	/**
+    * @brief 设置前馈量
+    * @note 
+    * @param feedforward_:电流或扭矩(根据不同电机确定)
+    */
 	void Motor::Set_Feedforward(float feedforward_)
 	{
 		feedforward = feedforward_;
 	}
 	
-	
-	
-	
+	/**
+    * @brief 设置输出轴角度
+    * @note 0 ~ 2pi
+    * @param target_out_angle_:出轴角度
+    */
+	void Motor::Set_Out_Angle(float target_out_angle_)
+	{
+		// 设置模式
+		motor_mode = OUT_ANGLE_MODE;
+		if (target_out_angle_ < 0.f || target_out_angle_ >= TWO_PI) target_out_angle_ = 0.f;
+		target_pos = target_out_angle_ * gear_ratio;
+	}
+
+	/*----------------------------------工具函数------------------------------------------*/
 	int float_to_uint(float x_float, float x_min, float x_max, int bits)
 	{
-		/* Converts a float to an unsigned int, given range and number of bits */
+		if (x_float > x_max) x_float = x_max;
+		else if (x_float < x_min) x_float = x_min;
+		
 		float span = x_max - x_min;
 		float offset = x_min;
 		return (int) ((x_float - offset) * ((float)((1 << bits) - 1)) / span);
 	}
-	
-	
-	
-	
+
 	float uint_to_float(int x_int, float x_min, float x_max, int bits)
 	{
-		/* converts unsigned int to float, given range and number of bits */
 		float span = x_max - x_min;
 		float offset = x_min;
 		return ((float)x_int) * span / ((float)((1 << bits) - 1)) + offset;
 	}
-	
-	
+
 	// 预计算转换系数，避免重复计算
 	#ifndef RPM_TO_RADPS_RATIO
 	#define RPM_TO_RADPS_RATIO 	((2.0f * PI) / 60.0f)
@@ -204,8 +194,7 @@ namespace motor
 	#ifndef RADPS_TO_RPM_RATIO
 	#define RADPS_TO_RPM_RATIO 	(60.0f / (2.0f * PI))
 	#endif
-	
-	
+
 	/**
 	 * @brief 将转速从RPM(转/分钟)转换为rad/s(弧度/秒)
 	 * @param rpm 转速，单位：转/分钟
@@ -225,6 +214,4 @@ namespace motor
 	{
 		return radps * RADPS_TO_RPM_RATIO;
 	}
-	
-	
 }
