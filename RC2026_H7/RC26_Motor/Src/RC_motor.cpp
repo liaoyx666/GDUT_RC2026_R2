@@ -167,7 +167,17 @@ namespace motor
 		if (target_out_angle_ < 0.f || target_out_angle_ >= TWO_PI) target_out_angle_ = 0.f;
 		target_pos = target_out_angle_ * gear_ratio;
 	}
-
+	
+	/**
+    * @brief 重置输出轴角度
+    * @note 0 ~ 2pi
+    * @param out_angle_:出轴角度
+    */
+	void Motor::Reset_Out_Angle(float out_angle_)
+	{
+		//
+	}
+	
 	/*----------------------------------工具函数------------------------------------------*/
 	int float_to_uint(float x_float, float x_min, float x_max, int bits)
 	{

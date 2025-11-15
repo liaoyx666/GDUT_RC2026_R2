@@ -137,8 +137,6 @@ namespace serial
 			}
 		}
 	}
-
-
 }
 
 

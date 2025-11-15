@@ -45,6 +45,7 @@ namespace motor
 		
 		void Reset_Out_Pos(float out_pos_);// 重置输出轴位置
 		void Reset_Pos(float pos_);// 重置转子位置
+		virtual void Reset_Out_Angle(float out_angle_);
 		
 		// 获取参数
 		float Get_Rpm() const {return rpm;}

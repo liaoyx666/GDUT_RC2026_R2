@@ -156,7 +156,7 @@ namespace motor
 
 		rotor_pos = rotor_cycle * TWO_PI + angle + out_angle_offset;
 		
-		// 归一化
+		// 归一化[0, TWO_PI * gear_ratio)
 		if (rotor_pos >= 0.f)
 		{
 			out_angle = fmodf(rotor_pos, TWO_PI * gear_ratio);
@@ -172,6 +172,15 @@ namespace motor
 			rotor_cycle = 0;
 			out_angle_offset = out_angle - angle;
 		}
+	}
+	
+	
+	// 重置输出轴角度
+	void DjiMotor::Reset_Out_Angle(float out_angle_)
+	{
+		if (out_angle_ < 0.f || out_angle_ >= TWO_PI) out_angle_ = 0.f;
+		rotor_cycle = 0;
+		out_angle_offset = out_angle_ * gear_ratio - angle;
 	}
 }
 	

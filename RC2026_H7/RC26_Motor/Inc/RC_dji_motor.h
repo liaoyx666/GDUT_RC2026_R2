@@ -16,10 +16,9 @@ namespace motor
     public:
 		DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 1.f);
 		virtual ~DjiMotor() {}
-		
+
 		pid::Pid pid_spd, pid_pos;
-		//adrc::FirstADRC spd_adrc;
-		//smc::SMC spd_smc;
+		void Reset_Out_Angle(float out_angle_) override;
 
     protected:
 		virtual void Dji_Id_Init(uint8_t id_) = 0;// 初始化发送和接受帧的id
