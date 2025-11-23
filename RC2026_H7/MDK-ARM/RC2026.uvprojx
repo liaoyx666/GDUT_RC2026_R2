@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx,__FPU_PRESENT = 1U,__VFP_FP__ = 1,ARM_MATH_CM7</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc;..\RC26_Api\Inc</IncludePath>
+              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc;../RC26_Api/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -980,6 +980,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_JY901S.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_path2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_path2.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path2.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_path2.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1074,6 +1084,16 @@
               <FileName>RC_vesc.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_vesc.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_rs04.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_rs04.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_rs04.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_rs04.h</FilePath>
             </File>
           </Files>
         </Group>

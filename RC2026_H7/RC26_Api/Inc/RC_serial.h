@@ -50,8 +50,6 @@ namespace serial
     private:
 		UART_HandleTypeDef *huart = NULL;
     };
-
-
 }
 
 

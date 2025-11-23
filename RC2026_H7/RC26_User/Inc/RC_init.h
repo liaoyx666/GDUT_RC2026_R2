@@ -19,6 +19,7 @@
 #include "RC_j60.h"
 #include "RC_arm.h"
 #include "RC_JY901S.h"
+#include "RC_rs04.h"
 
 #include "fdcan.h"
 #include "tim.h"

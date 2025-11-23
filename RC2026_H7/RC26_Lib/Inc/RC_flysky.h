@@ -17,8 +17,6 @@
 
 namespace flysky
 {
-
-	// 只能实例化一次
 	class FlySky : public task::ManagedTask, gpio::GpioExti
     {
     public:
@@ -27,14 +25,12 @@ namespace flysky
 		
 		volatile uint16_t channel_list[CHANNEL_NUM];// 取值范围1000~2000
 		
-		
 		volatile uint8_t swa, swb, swc, swd;
 		volatile int16_t left_x, left_y, right_x, right_y;
 		volatile uint16_t data_buf[CHANNEL_NUM];
 		
 		bool signal_swa();
 		bool signal_swd();
-		
 		
     protected:
 		void Task_Process() override;

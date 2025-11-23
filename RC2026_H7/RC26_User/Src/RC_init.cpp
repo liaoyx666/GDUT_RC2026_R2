@@ -14,27 +14,28 @@ can::Can can3(hfdcan3);
 cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 
 /*----------------------------------电机初始化----------------------------------------*/
-motor::M6020 m6020_1(1, can2, tim7_1khz);
+//motor::M6020 m6020_1(1, can2, tim7_1khz);
 
 // 底盘
 motor::M3508 m3508_1(1, can3, tim7_1khz);
 motor::M3508 m3508_2(2, can3, tim7_1khz);
 motor::M3508 m3508_3(3, can3, tim7_1khz);
 
-motor::M3508 m3508_2_c1(2, can1, tim7_1khz);
-
-
 // 机械臂
 motor::M2006 	m2006_4(4, can1, tim7_1khz);
-motor::DM4310 	dm4310_1(1, can2, tim7_1khz);
+//motor::DM4310 	dm4310_1(1, can2, tim7_1khz);
+motor::M3508 m3508_2_c1(2, can1, tim7_1khz, 51.f * 1.2f);
+
 motor::J60 		j60_1(1, can1, tim7_1khz);
 //motor::Go 		go_0_3(0, 3, can2, tim7_1khz);
-
 
 //轮腿
 motor::Go 		go_0_0(0, 0, can2, tim7_1khz, true, 0.15, 5);
 motor::Go 		go_0_3(0, 3, can2, tim7_1khz, true, 0.15, 5);
 
+
+motor::RS04 	rs04_120(120, can3, tim7_1khz, true, 0, 0);
+motor::RS04 	rs04_127(127, can3, tim7_1khz, true, 0, 0);
 
 /*-------------------------------软件模块初始化---------------------------------------*/
 timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
@@ -77,33 +78,42 @@ void test(void *argument)
 	wave.Init();
 	
 	j60_1.Reset_Out_Pos(0);
-	dm4310_1.Reset_Out_Pos(0);
+	//dm4310_1.Reset_Out_Pos(0);
 	m2006_4.Reset_Out_Pos(0);
-	go_0_3.Reset_Out_Pos(0);
+	//go_0_3.Reset_Out_Pos(0);
+	m3508_2_c1.Reset_Out_Pos(0);
 	
-	go_0_0.Reset_Out_Pos(0);
+	//go_0_0.Reset_Out_Pos(0);
+	
+	rs04_120.Set_ZeroPos();
+	rs04_120.Set_K_Pos(50);
+	rs04_120.Set_K_Spd(10);
+	
+	rs04_127.Set_ZeroPos();
+	rs04_127.Set_K_Pos(50);
+	rs04_127.Set_K_Spd(10);
+
+	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 		
-		
-		
-		m3508_2_c1.Set_Out_Angle(a);
-		
+//		m3508_2_c1.Set_Out_Angle(a);
 		
 		
 		
+		rs04_120.Set_Torque(a);
+		rs04_127.Set_Torque(a);
 		
 		
-		
-		uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
+		//uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);
 
 //		go_0_3.Set_Out_Pos(a1);
 		j60_1.Set_Out_Pos(a2);
-//		dm4310_1.Set_Out_Pos(a3);
-//		m2006_4.Set_Out_Pos(a4);
+		m3508_2_c1.Set_Out_Pos(a3);
+		m2006_4.Set_Out_Pos(a4);
 		
 //		arm_gravity.motor_angle.theta1 = j60_1.Get_Out_Pos();
 //		arm_gravity.motor_angle.theta2 = dm4310_1.Get_Out_Pos();

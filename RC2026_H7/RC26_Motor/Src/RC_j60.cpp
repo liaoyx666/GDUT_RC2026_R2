@@ -28,8 +28,8 @@
 namespace motor
 {
 	J60::J60(uint8_t id_, can::Can& can_, tim::Tim& tim_, bool use_mit_, float k_spd_, float k_pos_)
-		: motor::Motor(1.f), can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_)
-	{  
+		: motor::Motor(4.f), can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_)
+	{
 		if (id_ > 15) Error_Handler();
 		id = id_;
 
@@ -57,8 +57,8 @@ namespace motor
 		pid_spd.Pid_Mode_Init(true, true, 0.1);
 		pid_spd.Pid_Param_Init(0.1, 0.0006, 0, 0, 0.001, 0, 40, 20, 20, 20, 20);
 			
-		pid_pos.Pid_Mode_Init(false, false, 0.1, true); 
-		pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 10, 5, 5, 5, 5, 2, 0.5f);
+		pid_pos.Pid_Mode_Init(false, false, 0.1, true);
+		pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 50, 5, 5, 5, 5, 10, 30);
 	}
 
 

@@ -77,7 +77,6 @@ namespace flysky
 			else if (temp_right_y >= 50) right_y = temp_right_y - 50;
 			else right_y = temp_right_y + 50;
 			
-			
 			swa = data_buf[4] <= 1500 ? 0 : 1;
 		
 			swb = data_buf[5] <= 1250 ? 0 : data_buf[5] <= 1750 ? 1 : 2;
@@ -85,15 +84,12 @@ namespace flysky
 			
 			swd = data_buf[7] <= 1500 ? 0 : 1;
 			
-			
-			
 			if (is_last_init == false)
 			{
 				last_swa = swa;
 				last_swd = swd;
 				is_last_init = true;
 			}
-
 		}
 		else
 		{

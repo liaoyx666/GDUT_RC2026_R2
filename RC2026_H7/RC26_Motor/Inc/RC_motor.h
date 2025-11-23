@@ -42,10 +42,9 @@ namespace motor
 		void Set_Feedforward(float feedforward_);// 设置前馈量
 		virtual void Set_K_Pos(float target_k_pos_);// 设置刚度系数kp
 		virtual void Set_K_Spd(float target_k_spd_);// 设置阻尼系数kd
-		
 		void Reset_Out_Pos(float out_pos_);// 重置输出轴位置
 		void Reset_Pos(float pos_);// 重置转子位置
-		virtual void Reset_Out_Angle(float out_angle_);
+		virtual void Reset_Out_Angle(float out_angle_);// 重置输出轴角度0 ~ 2pi
 		
 		// 获取参数
 		float Get_Rpm() const {return rpm;}
@@ -86,7 +85,7 @@ namespace motor
 		float pos_max = 6000;
 		float pos_min = -6000;
 		float gear_ratio = 1.f;// 减速比
-		MotorMode motor_mode = RPM_MODE;// 模式
+		MotorMode motor_mode = RPM_MODE;// 电机模式
 
     private:
 		
