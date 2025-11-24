@@ -1,5 +1,4 @@
 #include "RC_init.h"
-
 /*--------------------------------外设初始化------------------------------------------*/
 // 定时中断
 tim::Tim tim7_1khz(htim7);
@@ -33,7 +32,6 @@ motor::J60 		j60_1(1, can1, tim7_1khz);
 motor::Go 		go_0_0(0, 0, can2, tim7_1khz, true, 0.15, 5);
 motor::Go 		go_0_3(0, 3, can2, tim7_1khz, true, 0.15, 5);
 
-
 motor::RS04 	rs04_120(120, can3, tim7_1khz, true, 0, 0);
 motor::RS04 	rs04_127(127, can3, tim7_1khz, true, 0, 0);
 
@@ -49,7 +47,6 @@ ros::Radar 		radar(CDC_HS, 1);// 雷达数据接收
 ros::Map 		map(CDC_HS, 2);// 地图数据接收
 ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
-
 chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向轮底盘
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
@@ -60,17 +57,13 @@ imu::JY901S jy901s(huart1);
 SquareWave wave(1000, 3000);// 用于调pid
 //SinWave sin_wave(1000, 3000);
 
-
 float target = 0;
 float a = 0;
 float w = 70;
 
 float wl1 = 0, wl2 = 0;
 
-
-
 float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
-
 
 void test(void *argument)
 {
@@ -93,7 +86,6 @@ void test(void *argument)
 	rs04_127.Set_K_Pos(50);
 	rs04_127.Set_K_Spd(10);
 
-	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
@@ -132,8 +124,6 @@ void test(void *argument)
 }
 
 task::TaskCreator test_task("test", 20, 512, test, NULL);
-   
-
 
 /*---------------------------————-----初始化函数—————------------------------------------------*/
 void All_Init()

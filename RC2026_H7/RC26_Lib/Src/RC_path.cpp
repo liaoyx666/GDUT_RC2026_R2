@@ -19,7 +19,6 @@ namespace path
 		last_smoothness = 0;
 	}
 
-	
 	// 增加途径点
 	bool Path::Add_Point(
 		vector2d::Vector2D point_, 
@@ -86,7 +85,6 @@ namespace path
 					bezier_curve_list[bezier_curve_num].Bezier_Update(point_list[0], point_);// 直线（一阶贝塞尔）// !!!
 					total_len += bezier_curve_list[bezier_curve_num].Get_len();
 					bezier_curve_num++;
-					
 					
 					point_list[0] = point_;
 					
@@ -167,9 +165,7 @@ namespace path
 		}
 		return true;
 	}
-	
-	
-	
+
 	#define CURVE_FINISHED_THRESHOLD  0.05f// m
 	#define START_ANGLE_THRESHOLD 2.f / 360.f * TWO_PI// 4度
 	
@@ -187,8 +183,7 @@ namespace path
 	)
 	{
 		if (is_init == false) return false;
-		
-		
+
 		/*--------------------------------------------------------------------------------------------------------------------------------*/
 		
 		if (have_start_angle == true)// 
@@ -276,8 +271,7 @@ namespace path
 		
 		return true;
 	}
-	
-	
+
 	#define CURVATURE_SAMPLE_STEP 0.02// m 计算曲率时的三个点采样步长
 	
 	// 计算每一段结束时最大速度
@@ -314,9 +308,7 @@ namespace path
 			}
 		}
 	}
-	
-	
-	
+
 	// 重置路径
 	void Path::Reset()
 	{
@@ -344,8 +336,7 @@ namespace path
 		is_end = false;
 		is_start = false;
 	}
-	
-	
+
 	/*--------------------------------------------------------------------------*/
 	
 	PathPlan::PathPlan(float max_speed_, float max_accel_)
@@ -366,8 +357,7 @@ namespace path
 		angle_pid.Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 1.5, 1.5, 0.5, 0.5, 0.5);
 		
 	}
-	
-	
+
 	// 增加路径点
 	bool PathPlan::Add_Path_Point(
 		vector2d::Vector2D point_, 
@@ -488,7 +478,6 @@ namespace path
 		);
 	}
 	
-	
 	// 结束点，下一段起始点
 	bool PathPlan::Add_End_Point(vector2d::Vector2D point_, float end_angle_, bool have_start_angle_, float start_angle_)
 	{
@@ -501,9 +490,7 @@ namespace path
 			start_angle_
 		);
 	}
-	
-	
-	
+
 	// 获取底盘速度
 	//////////////////////////
 	bool PathPlan::Get_Speed(
@@ -526,16 +513,10 @@ namespace path
 			&current_tangent_vector,
 			&current_max_tangent_spd
 		);
-		
-		
-		
-		
+
 		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
 		last_time = timer::Timer::Get_TimeStamp();
-		
-		
-		
-		
+
 		// 计算法向速度
 		normal_pid.Update_Real(-current_normal_error);
 		normal_pid.Update_Target(0);
@@ -545,9 +526,7 @@ namespace path
 		tangent_pid.Update_Real(-current_tangent_error);
 		tangent_pid.Update_Target(0);
 		target_tangent_spd = tangent_pid.Pid_Calculate();
-		
-		
-		
+
 		float target_delta = chassis::Limit_Accel(target_tangent_spd - last_target_tangent_spd, max_accel, dt);
 		
 		if (target_delta < 0)
@@ -560,18 +539,14 @@ namespace path
 		}
 		
 		last_target_tangent_spd = target_tangent_spd;
-		
-		
-		
+
 		// 计算角速度
 		angle_pid.Update_Real(angle);
 		angle_pid.Update_Target(target_angle);
 		*speed_angle = angle_pid.Pid_Calculate(true, PI);
-		
-		
+
 		current_max_tangent_spd = current_max_tangent_spd * sqrtf(max_accel);
-		
-		
+
 		// 限制切向速度
 		if (target_tangent_spd > current_max_tangent_spd) target_tangent_spd = current_max_tangent_spd;
 		if (target_tangent_spd > max_speed) target_tangent_spd = max_speed;
@@ -583,9 +558,6 @@ namespace path
 		// 计算x, y速度
 		*speed_x = current_normal_vector.data()[0] + current_tangent_vector.data()[0];
 		*speed_y = current_normal_vector.data()[1] + current_tangent_vector.data()[1];
-		
-
-
 
 		return true;
 	}
@@ -617,7 +589,6 @@ namespace path
 		return true;
 	}
 
-	
 	// 获取剩余路径存放空间
 	uint8_t PathPlan::Get_Path_Space()
 	{

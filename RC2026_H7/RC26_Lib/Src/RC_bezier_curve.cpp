@@ -2,10 +2,7 @@
 
 namespace curve
 {
-	BezierCurve::BezierCurve()
-	{
-		
-	}
+	BezierCurve::BezierCurve() {}
 	
 	// 一阶贝塞尔直线初始化
 	BezierCurve::BezierCurve(vector2d::Vector2D start_point_, vector2d::Vector2D end_point_)
@@ -13,14 +10,12 @@ namespace curve
 		Bezier_Update(start_point_, end_point_);
 	}
 	
-	
 	// 二阶贝塞尔曲线初始化
 	BezierCurve::BezierCurve(vector2d::Vector2D start_point_, vector2d::Vector2D control_point_, vector2d::Vector2D end_point_)
 	{
 		Bezier_Update(start_point_, control_point_, end_point_);
 	}
-	
-	
+
 	// 重置一阶贝塞尔曲线
 	void BezierCurve::Bezier_Update(vector2d::Vector2D start_point_, vector2d::Vector2D end_point_)
 	{
@@ -73,7 +68,6 @@ namespace curve
 		max_curvature_max_vel = max_vel_list[0];
 		/*----------------------------------------------*/	
 		
-		
 		for (uint8_t i = 0; i < BEZIER_SAMPLE_NUM; i++)
 		{
 			/*---------------------------------------------------------*/
@@ -92,7 +86,6 @@ namespace curve
 				temp_curature = Get_Curvature(1.f);// 默认加速度为1，后期可以缩放
 			}
 			
-			
 			len += temp_len;
 			
 			// 提前储存一些点走过的长度
@@ -108,7 +101,7 @@ namespace curve
 			{
 				max_vel_list[i + 1] = 0.1f;  // 曲率很大，限制速度
 			}
-			else 
+			else
 			{
 				arm_sqrt_f32(1.f / temp_curature, &max_vel_list[i + 1]);
 			}
@@ -122,8 +115,6 @@ namespace curve
 			/*---------------------------------------------------------*/
 		}
 	}
-	
-	
 	
 	// 获取点
 	vector2d::Vector2D BezierCurve::Get_Point(const float t)
@@ -271,7 +262,6 @@ namespace curve
 		}
 	}
 	
-	
 	// 获取当前位置走过的长度
 	float BezierCurve::Get_Current_Len(float t)
 	{
@@ -349,14 +339,12 @@ namespace curve
 		}
 	}
 	
-	
-	
+	// 获取曲率
 	float BezierCurve::Get_Curvature(float t)
 	{
 		// 处理t值边界情况
 		if (t < 0.f) t = 0.f;
 		else if (t > 1.f) t = 1.f;
-		
 		
 		if (order == FIRST_ORDER_BEZIER)
 		{
@@ -411,8 +399,7 @@ namespace curve
 		}
 	}
 	
-	
-	
+	// 获取最大速度
 	float BezierCurve::Get_Max_Vel(float t)
 	{
 		if (t < 0.f) t = 0.f;
@@ -456,6 +443,4 @@ namespace curve
 		
 		return current_max_vel;
 	}
-	
-	
 }

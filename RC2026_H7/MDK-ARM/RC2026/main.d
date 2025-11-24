@@ -91,5 +91,5 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h \
   ..\RC26_Ros_Interface\Inc\RC_map.h \
   ..\RC26_Ros_Interface\Inc\RC_radar.h ..\RC26_Motor\Inc\RC_j60.h \
-  ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\RC_JY901S.h \
-  ..\RC26_Motor\Inc\RC_rs04.h
+  ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\arm_matrix.h \
+  ..\RC26_Lib\Inc\RC_JY901S.h ..\RC26_Motor\Inc\RC_rs04.h
