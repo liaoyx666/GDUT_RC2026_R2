@@ -62,13 +62,13 @@ PARAMS = {
     'r1_radius': 0.3,  # R1 车体半径（米）
     'r2_radius': 0.2,  # R2 车体半径（米）
     # R1 通道与相邻地面规则
-    'r1_left_channel_x': 1.0,    # 左侧通道 X
-    'r1_right_channel_x': 5.0,   # 右侧通道 X
+    'r1_left_channel_x': 1.0,  # 左侧通道 X
+    'r1_right_channel_x': 5.0,  # 右侧通道 X
     'r1_middle_channel_x': 3.0,  # 中间通道 X（用于中列特殊拾取）
     'r1_middle_pick_rows': (1, 4),  # 允许在中通道邻接拾取的行（仅中列）
     # 相邻地面细化
-    'row1_ground_y': 0.7,       # 行1下方相邻地面Y（低于行1台阶底边1.4，确保在地面）
-    'row4_above_offset': 0.7,   # 行4上方相邻地面相对台阶中心的Δy（>0.6 才能在台阶上边之外）
+    'row1_ground_y': 0.7,  # 行1下方相邻地面Y（低于行1台阶底边1.4，确保在地面）
+    'row4_above_offset': 0.7,  # 行4上方相邻地面相对台阶中心的Δy（>0.6 才能在台阶上边之外）
     'r1_pickup_clearance_above': 0.25,  # 台阶上方拾取时，相比台阶上边缘(中心+0.6)的额外安全距离
     'r1_pickup_clearance_below': 0.25,  # 台阶下方拾取时，相比台阶下边缘(中心-0.6)的额外安全距离
 
@@ -97,6 +97,7 @@ PARAMS = {
 # 地图变体与主题（red | blue）
 MAP_VARIANT = 'red'  # 默认 red；可通过 --map 覆盖
 
+
 def get_theme(map_variant: str):
     """返回当前地图主题的颜色配置。"""
     mv = (map_variant or 'red').lower()
@@ -106,8 +107,8 @@ def get_theme(map_variant: str):
         return {
             'background_top': '#FF9999',
             'background_bottom': 'pink',
-            'accent': 'red',              # 高亮（路径、R1 机器人颜色等）
-            'accent_alt': 'red',          # 起止点标注
+            'accent': 'red',  # 高亮（路径、R1 机器人颜色等）
+            'accent_alt': 'red',  # 起止点标注
             'title_suffix': ' (map=red)'
         }
     else:  # blue
@@ -124,6 +125,7 @@ def get_theme(map_variant: str):
 _MP_STEPS_BASE = None
 _MP_R2_CAPS = None
 
+
 def _mp_enum_init(steps_base, r2_caps):
     """进程池初始化器：在子进程中设置只读全局数据。"""
     global _MP_STEPS_BASE, _MP_R2_CAPS
@@ -133,6 +135,7 @@ def _mp_enum_init(steps_base, r2_caps):
         PARAMS['quiet'] = True
     except Exception:
         pass
+
 
 def _mp_enum_worker(manual_indices):
     """子进程工作函数：对一个放置组合运行规划并返回输出行列表。"""
@@ -549,20 +552,20 @@ class Planner:
                 manual_pos = manual.original_pos
                 manual_step = next((s for s in self.steps if np.allclose(s['center'], manual_pos)), None)
 
-                # 查找拾取时的路径段
-                pickup_path_segment = []
+                # 查找拾取时的位置
+                r1_pos_at_pickup = None
                 for i in range(len(self.best_plan['r1_timestamps'])):
-                    if self.best_plan['r1_timestamps'][i] <= pickup_time:
-                        pickup_path_segment.append(self.best_plan['r1_path'][i])
-
-                # 查找通道位置
-                channel_x_pos = None
-                for pos in reversed(pickup_path_segment):
-                    if np.isclose(pos[0], 1.0) or np.isclose(pos[0], 5.0):
-                        channel_x_pos = pos
+                    if np.isclose(self.best_plan['r1_timestamps'][i], pickup_time):
+                        r1_pos_at_pickup = self.best_plan['r1_path'][i]
                         break
 
-                r1_loc_str = f"从通道 {np.round(channel_x_pos, 2)} 移动至" if channel_x_pos is not None else ""
+                r1_loc_str = ""
+                if r1_pos_at_pickup is not None:
+                    # 反算网格坐标: x = 0.6 + c * 1.2, y = 0.8 + r * 1.2
+                    c = int(round((r1_pos_at_pickup[0] - 0.6) / 1.2))
+                    r = int(round((r1_pos_at_pickup[1] - 0.8) / 1.2))
+                    r1_loc_str = f"在 [网格 (row:{r}, col:{c})] "
+
                 manual_loc_str = f"台阶 {manual_step['logic_index']} (row:{manual_step['row']}, col:{manual_step['col']})"
                 print(f"时间 {pickup_time:.2f}s: R1 {r1_loc_str}拾取位于 [{manual_loc_str}] 的秘籍")
 
@@ -657,8 +660,9 @@ class Planner:
         print(f"\n      -- 正在评估R2组合: {[f'台阶{idx}' for idx in r2_manuals_to_get]}")
         # 诊断：打印伪台阶与legacy状态，便于确认逻辑是否生效
         try:
-            print(f"      [伪台阶] 状态检查: pseudo_count={len(getattr(self, 'pseudo_indices', set()))}, legacy_ground_pick={getattr(self, 'enable_legacy_entry_ground_pick', None)}",
-                  flush=True)
+            print(
+                f"      [伪台阶] 状态检查: pseudo_count={len(getattr(self, 'pseudo_indices', set()))}, legacy_ground_pick={getattr(self, 'enable_legacy_entry_ground_pick', None)}",
+                flush=True)
         except Exception:
             pass
 
@@ -675,6 +679,14 @@ class Planner:
         feasible_orders_full = []
 
         orders = list(permutations(r2_manuals_to_get))
+        
+        # 新增约束：若待拾取列表中包含第一行（row=4）的台阶（即1,2,3号），
+        # 则必须首先拾取其中之一（强制起始点为第一行台阶）
+        row4_indices = {idx for idx in r2_manuals_to_get if self.logic_index_to_step[idx]['row'] == 4}
+        if row4_indices:
+            orders = [o for o in orders if o[0] in row4_indices]
+            print(f"      [约束] 检测到第一行台阶{row4_indices}，已过滤顺序，仅保留以第一行台阶开头的路径", flush=True)
+
         print(f"      >> 本R2组合共有 {len(orders)} 种顺序将被评估", flush=True)
         for order_idx, order in enumerate(orders, start=1):
             print(f"        >> 开始评估顺序 {order_idx}/{len(orders)}: {[f'台阶{idx}' for idx in order]}", flush=True)
@@ -709,9 +721,11 @@ class Planner:
                 legal_neighbor_rows = {n: self.logic_index_to_step[n]['row'] for n in legal_neighbors}
                 min_legal_row = min(legal_neighbor_rows.values()) if legal_neighbors else None
                 fallback_same_row_candidate = None  # (idx, pth2, t3)
+
                 # 打印时标注伪台阶
                 def fmt_idx(i):
                     return f"{i}{'(伪)' if i in getattr(self, 'pseudo_indices', set()) else ''}"
+
                 ln_str = [fmt_idx(i) for i in sorted(legal_neighbors)]
                 ban_str = [fmt_idx(i) for i in sorted(dynamic_obstacles)]
                 print(
@@ -1044,7 +1058,7 @@ class Planner:
         if (best_path is None or best_pickup_schedule is None or best_order is None) and feasible_orders_full:
             fallback = min(feasible_orders_full, key=lambda x: x[1])
             best_order, best_total_time, best_path, best_pickup_schedule = fallback[0], fallback[1], fallback[2], \
-            fallback[3]
+                fallback[3]
             print(
                 f"      >> [回退] 使用可行顺序中的最优方案：{[f'台阶{idx}' for idx in best_order]}，拾取耗时={best_total_time:.2f}s",
                 flush=True)
@@ -1087,7 +1101,8 @@ class Planner:
         # 去掉起点（与拾取末位置相同），只保留实际移动段
         exit_path = path_astar[1:] if len(path_astar) >= 2 else []
         if exit_path:
-            print(f"    [出口路径] 使用 A* 规划，共 {len(exit_path)} 段，出口用时(相对拾取末时刻)={exit_time:.2f}", flush=True)
+            print(f"    [出口路径] 使用 A* 规划，共 {len(exit_path)} 段，出口用时(相对拾取末时刻)={exit_time:.2f}",
+                  flush=True)
         else:
             print(f"    [出口路径] 起点已在终点，无需额外移动", flush=True)
 
@@ -1193,71 +1208,133 @@ class Planner:
             r1_end_time = phase1_end_time
             r1_final_pos = r1_forest_entry
         if not np.allclose(r1_final_pos, PARAMS['ramp_pos'], atol=1e-2):
-            # 用“通道 + 行1地面”方式收束到终点，避免穿越台阶区域的直切
-            try:
-                LEFT_CHANNEL_X = float(PARAMS.get('r1_left_channel_x', 1.0))
-                RIGHT_CHANNEL_X = float(PARAMS.get('r1_right_channel_x', 5.0))
-                MIDDLE_CHANNEL_X = float(PARAMS.get('r1_middle_channel_x', 3.0))
-                CHANNELS = (LEFT_CHANNEL_X, MIDDLE_CHANNEL_X, RIGHT_CHANNEL_X)
-                CROSS_Y = 7.0  # 约定的横向换道线
-                GROUND_Y = 0.7 # 行1地面高度（与相邻地面一致）
+            # --- 使用 5x6 网格系统规划回程路径 ---
+            # 定义网格参数 (需与 _plan_r1_path 保持一致)
+            GRID_ORIGIN_X = 0.6
+            GRID_ORIGIN_Y = 0.8
+            GRID_STEP = 1.2
+            GRID_COLS = 5
+            GRID_ROWS = 6
 
-                curr = np.array(r1_final_pos, dtype=float)
-                ramp = np.array(PARAMS['ramp_pos'], dtype=float)
+            def grid_to_pos(r, c):
+                return np.array([GRID_ORIGIN_X + c * GRID_STEP, GRID_ORIGIN_Y + r * GRID_STEP])
 
-                def _append_move(dst: np.ndarray):
-                    nonlocal r1_end_time, curr
-                    if not np.allclose(curr, dst, atol=1e-6):
-                        r1_end_time += _dist(curr, dst) / PARAMS['v1s']
-                        r1_path.append(tuple(dst))
-                        r1_ts.append(r1_end_time)
-                        curr = dst
+            def pos_to_grid(pos):
+                c = int(round((pos[0] - GRID_ORIGIN_X) / GRID_STEP))
+                r = int(round((pos[1] - GRID_ORIGIN_Y) / GRID_STEP))
+                c = max(0, min(GRID_COLS - 1, c))
+                r = max(0, min(GRID_ROWS - 1, r))
+                return (r, c)
 
-                # 若不在通道上，先回到 y=CROSS_Y，再横向对齐到最近通道
-                on_channel = any(np.isclose(curr[0], cx) for cx in CHANNELS)
-                if not on_channel:
-                    _append_move(np.array([curr[0], CROSS_Y]))
-                    # 选择最近通道
-                    near_ch_x = min(CHANNELS, key=lambda cx: abs(curr[0] - cx))
-                    _append_move(np.array([near_ch_x, CROSS_Y]))
+            # 定义可行走区域（外围一圈）
+            valid_grids = set()
+            for r in range(GRID_ROWS):
+                for c in range(GRID_COLS):
+                    if r == 0 or r == GRID_ROWS - 1 or c == 0 or c == GRID_COLS - 1:
+                        valid_grids.add((r, c))
 
-                # 若当前在中通道，先到达 CROSS_Y 再切换到更靠近终点的左右通道，避免沿中通道下切
-                if np.isclose(curr[0], MIDDLE_CHANNEL_X):
-                    if not np.isclose(curr[1], CROSS_Y):
-                        _append_move(np.array([curr[0], CROSS_Y]))
-                    side_target = min((LEFT_CHANNEL_X, RIGHT_CHANNEL_X), key=lambda cx: abs(cx - ramp[0]))
-                    if not np.isclose(curr[0], side_target):
-                        _append_move(np.array([side_target, CROSS_Y]))
+            # 构建邻接图（4邻域 - 曼哈顿）
+            adj = {}
+            for r, c in valid_grids:
+                neighbors = []
+                for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                    nr, nc = r + dr, c + dc
+                    if (nr, nc) in valid_grids:
+                        dist = math.hypot(dr * GRID_STEP, dc * GRID_STEP)
+                        neighbors.append(((nr, nc), dist))
+                adj[(r, c)] = neighbors
 
-                # 从当前通道下到行1地面
-                # 保持当前通道 X 不变，降到地面高度
-                _append_move(np.array([curr[0], GROUND_Y]))
+            # A* 寻路
+            def astar_grid(start_node, end_node):
+                if start_node == end_node:
+                    return [start_node], 0.0
+                pq = [(0, 0, start_node, [start_node])]
+                visited = {}
+                while pq:
+                    f, g, curr, p = heapq.heappop(pq)
+                    if curr in visited and visited[curr] <= g: continue
+                    visited[curr] = g
+                    if curr == end_node: return p, g
+                    for next_node, dist in adj.get(curr, []):
+                        new_g = g + dist
+                        # 曼哈顿距离启发
+                        h = abs(end_node[0] - next_node[0]) * GRID_STEP + abs(end_node[1] - next_node[1]) * GRID_STEP
+                        heapq.heappush(pq, (new_g + h, new_g, next_node, p + [next_node]))
+                return None, float('inf')
 
-                # 在地面水平移动到更接近终点的通道
-                ramp_ch_x = min(CHANNELS, key=lambda cx: abs(ramp[0] - cx))
-                _append_move(np.array([ramp_ch_x, GROUND_Y]))
+            # 执行回程规划
+            start_grid = pos_to_grid(r1_final_pos)
+            ramp_pos = np.array(PARAMS['ramp_pos'])
+            
+            # 找到离出口最近的合法网格点
+            target_grid = min(valid_grids, key=lambda g: _dist(ramp_pos, grid_to_pos(*g)))
+            
+            # 如果起点不在合法网格中（例如从非网格点出发），先找到最近的合法网格
+            if start_grid not in valid_grids:
+                start_grid = min(valid_grids, key=lambda g: _dist(r1_final_pos, grid_to_pos(*g)))
 
-                # 从地面到斜坡终点
-                _append_move(ramp)
+            curr_pos = np.array(r1_final_pos)
+            
+            # 1. 规划网格路径
+            grid_path, _ = astar_grid(start_grid, target_grid)
+            
+            if grid_path:
+                # 如果当前位置离起点网格有距离，先走到起点网格
+                start_grid_pos = grid_to_pos(*start_grid)
+                if not np.allclose(curr_pos, start_grid_pos, atol=1e-2):
+                     dist = _dist(curr_pos, start_grid_pos)
+                     r1_end_time += dist / PARAMS['v1s']
+                     r1_path.append(tuple(start_grid_pos))
+                     r1_ts.append(r1_end_time)
+                     curr_pos = start_grid_pos
 
-                r1_final_pos = tuple(curr)
-            except Exception:
-                # 兜底：若异常，退回为直线段（保证可达）
-                move_time = _dist(r1_final_pos, PARAMS['ramp_pos']) / PARAMS['v1s']
-                r1_path.append(PARAMS['ramp_pos'])
-                r1_ts.append(r1_end_time + move_time)
-                r1_end_time = r1_ts[-1]
-                r1_final_pos = PARAMS['ramp_pos']
+                # 沿网格路径移动
+                for g_node in grid_path[1:]: # 跳过第一个点（即start_grid）
+                    next_pos = grid_to_pos(*g_node)
+                    dist = _dist(curr_pos, next_pos)
+                    r1_end_time += dist / PARAMS['v1s']
+                    r1_path.append(tuple(next_pos))
+                    r1_ts.append(r1_end_time)
+                    curr_pos = next_pos
+            
+            # 2. 从最后一个网格点走到斜坡终点
+            dist_ramp = _dist(curr_pos, ramp_pos)
+            r1_end_time += dist_ramp / PARAMS['v1s']
+            r1_path.append(tuple(ramp_pos))
+            r1_ts.append(r1_end_time)
+            
+            r1_final_pos = tuple(ramp_pos)
         r1_final_time = r1_end_time
 
         try:
             total_time = r2_final_time
-            print(f"    - 此方案总耗时: {total_time:.2f}s (R2: {r2_final_time:.2f}s)")
+            print(f"    - 此方案总耗时: {total_time:.2f}s (R2: {r2_final_time:.2f}s, R1: {r1_final_time:.2f}s)")
         except Exception as e:
             print(f"[DEBUG] 跳过无效方案: r2_final_time={r2_final_time}, error={e}")
             return global_best_time, self.best_plan
 
-        if total_time < global_best_time:
+        # 决策逻辑：优先 R2 时间，若 R2 时间相差在 0.05s 以内，则对比 R1 时间
+        is_better = False
+        if self.best_plan is None:
+            is_better = True
+        else:
+            current_best_r2 = self.best_plan['r2_final_time']
+            current_best_r1 = self.best_plan['r1_final_time']
+            
+            if r2_final_time < current_best_r2 - 0.05:
+                is_better = True
+            elif r2_final_time > current_best_r2 + 0.05:
+                is_better = False
+            else:
+                # R2 时间相近，比较 R1 时间
+                if r1_final_time < current_best_r1:
+                    is_better = True
+                elif abs(r1_final_time - current_best_r1) < 1e-3:
+                    # R1 也相近，则取 R2 更小的那个
+                    if r2_final_time < current_best_r2:
+                        is_better = True
+
+        if is_better:
             global_best_time = total_time
             self.best_plan = {
                 'r1_path': initial_r1_path + r1_path,
@@ -1348,145 +1425,194 @@ class Planner:
         return r1_path, r1_ts, r2_path, r2_ts, phase1_end_time, r1_forest_entry, r2_pos
 
     def _plan_r1_path(self, start_pos, start_time, manuals_to_collect, r2_first_arrival: dict | None = None):
-        """为R1规划拾取秘籍的路径"""
+        """为R1规划拾取秘籍的路径（基于5x6网格的A*搜索与全排列枚举）"""
         path, timestamps, pickup_schedule = [], [], {}
         if not manuals_to_collect:
             return path, timestamps, pickup_schedule
 
-        current_pos, current_time = np.array(start_pos), start_time
-        # 通道参数（支持中通道）
-        LEFT_CHANNEL_X = float(PARAMS.get('r1_left_channel_x', 1.0))
-        RIGHT_CHANNEL_X = float(PARAMS.get('r1_right_channel_x', 5.0))
-        MIDDLE_CHANNEL_X = float(PARAMS.get('r1_middle_channel_x', 3.0))
-        MIDDLE_PICK_ROWS = tuple(PARAMS.get('r1_middle_pick_rows', (1, 4)))
-        # 确定初始通道（按当前位置靠近哪侧通道）
-        current_channel_x = LEFT_CHANNEL_X if current_pos[0] < (LEFT_CHANNEL_X + RIGHT_CHANNEL_X) / 2.0 else RIGHT_CHANNEL_X
-        CROSS_Y = 7.0
-        # 若起点不在通道上，则先垂直到 CROSS_Y，再横向对齐至最近通道，避免对角穿越
-        if not (np.isclose(current_pos[0], LEFT_CHANNEL_X) or np.isclose(current_pos[0], RIGHT_CHANNEL_X) or np.isclose(current_pos[0], MIDDLE_CHANNEL_X)):
-            speed0 = PARAMS['v1']
-            p_v = np.array([current_pos[0], CROSS_Y])
-            current_time += _dist(current_pos, p_v) / speed0
-            current_pos = p_v
-            path.append(tuple(current_pos))
-            timestamps.append(current_time)
-            near_ch_x = min((LEFT_CHANNEL_X, MIDDLE_CHANNEL_X, RIGHT_CHANNEL_X), key=lambda cx: abs(current_pos[0] - cx))
-            if not np.isclose(current_pos[0], near_ch_x):
-                p_h = np.array([near_ch_x, CROSS_Y])
-                current_time += _dist(current_pos, p_h) / speed0
-                current_pos = p_h
-                path.append(tuple(current_pos))
+        # --- 1. 定义 5x6 网格系统 ---
+        # 坐标系：Row 0..5 (y), Col 0..4 (x)
+        # 物理坐标公式：x = 0.6 + c * 1.2, y = 0.8 + r * 1.2
+        GRID_ORIGIN_X = 0.6
+        GRID_ORIGIN_Y = 0.8
+        GRID_STEP = 1.2
+        GRID_COLS = 5
+        GRID_ROWS = 6
+
+        def grid_to_pos(r, c):
+            return np.array([GRID_ORIGIN_X + c * GRID_STEP, GRID_ORIGIN_Y + r * GRID_STEP])
+
+        def pos_to_grid(pos):
+            # 找最近的网格中心
+            c = int(round((pos[0] - GRID_ORIGIN_X) / GRID_STEP))
+            r = int(round((pos[1] - GRID_ORIGIN_Y) / GRID_STEP))
+            c = max(0, min(GRID_COLS - 1, c))
+            r = max(0, min(GRID_ROWS - 1, r))
+            return (r, c)
+
+        # --- 2. 定义可行走区域（外围一圈） ---
+        # 台阶区在中间：Row 1..4, Col 1..3
+        # 可行走：Row 0, Row 5, Col 0, Col 4
+        valid_grids = set()
+        for r in range(GRID_ROWS):
+            for c in range(GRID_COLS):
+                if r == 0 or r == GRID_ROWS - 1 or c == 0 or c == GRID_COLS - 1:
+                    valid_grids.add((r, c))
+
+        # --- 3. 构建邻接图（4邻域 - 曼哈顿） ---
+        adj = {}
+        for r, c in valid_grids:
+            neighbors = []
+            # 仅允许上下左右移动，不允许斜向
+            for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                nr, nc = r + dr, c + dc
+                if (nr, nc) in valid_grids:
+                    dist = math.hypot(dr * GRID_STEP, dc * GRID_STEP)
+                    neighbors.append(((nr, nc), dist))
+            adj[(r, c)] = neighbors
+
+        # --- 4. A* 寻路 (Grid -> Grid) ---
+        def astar_grid(start_node, end_node, speed):
+            if start_node == end_node:
+                return [start_node], 0.0
+
+            # (f, g, current_node, path_list)
+            pq = [(0, 0, start_node, [start_node])]
+            visited = {}
+
+            while pq:
+                f, g, curr, p = heapq.heappop(pq)
+
+                if curr in visited and visited[curr] <= g:
+                    continue
+                visited[curr] = g
+
+                if curr == end_node:
+                    return p, g
+
+                for next_node, dist in adj.get(curr, []):
+                    new_g = g + dist / speed
+                    # 启发式：欧氏距离
+                    h_dist = math.hypot((end_node[0] - next_node[0]) * GRID_STEP,
+                                        (end_node[1] - next_node[1]) * GRID_STEP)
+                    h = h_dist / speed
+                    heapq.heappush(pq, (new_g + h, new_g, next_node, p + [next_node]))
+            return None, float('inf')
+
+        # --- 5. 确定起点与目标点 ---
+        start_grid = pos_to_grid(start_pos)
+        # 若起点不在合法网格（如在支撑点），找最近的合法入口
+        if start_grid not in valid_grids:
+            start_grid = min(valid_grids, key=lambda g: _dist(start_pos, grid_to_pos(*g)))
+
+        # 映射每个秘籍到最佳站位点
+        manual_targets = []
+        for m in manuals_to_collect:
+            step_idx = getattr(m, 'step_index', -1)
+            target_grid = None
+            if step_idx != -1 and step_idx in self.logic_index_to_step:
+                step = self.logic_index_to_step[step_idx]
+                # 直接使用台阶物理坐标计算其所在的网格坐标
+                step_grid_r, step_grid_c = pos_to_grid(step['center'])
+                
+                # 在该网格的4邻域中寻找合法的站位点（valid_grids）
+                candidates = []
+                for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                    nr, nc = step_grid_r + dr, step_grid_c + dc
+                    if (nr, nc) in valid_grids:
+                        candidates.append((nr, nc))
+                
+                if candidates:
+                    # 如果有多个候选，优先选择距离当前位置最近的，或者简单地选第一个
+                    # 这里为了确定性，可以选距离台阶中心最近的（虽然逻辑上都一样近，都是1格距离）
+                    # 或者优先选左右通道（col=0或4），其次上下通道
+                    def sort_key(g):
+                        # 优先 col=0 或 col=4 (左右通道)
+                        is_side = (g[1] == 0 or g[1] == GRID_COLS - 1)
+                        return (0 if is_side else 1, g)
+                    
+                    candidates.sort(key=sort_key)
+                    target_grid = candidates[0]
+
+            # 兜底：找最近的合法网格
+            if target_grid is None:
+                target_grid = min(valid_grids, key=lambda g: _dist(m.pos, grid_to_pos(*g)))
+
+            manual_targets.append((m, target_grid))
+
+        # --- 6. 全排列枚举寻找最优顺序 ---
+        best_total_time = float('inf')
+        best_path_points = []
+        best_timestamps = []
+        best_schedule = {}
+
+        # 初始移动段（从 start_pos 到 start_grid）
+        # 注意：这段是公共的，但为了方便放在循环里或者单独算
+        # 这里简单处理：先算好这一小段
+        grid_start_pos = grid_to_pos(*start_grid)
+        initial_move_time = 0.0
+        initial_path = [tuple(start_pos)]
+        initial_ts = [start_time]
+
+        if not np.allclose(start_pos, grid_start_pos, atol=1e-2):
+            dt = _dist(start_pos, grid_start_pos) / PARAMS['v1']
+            initial_move_time = dt
+            initial_path.append(tuple(grid_start_pos))
+            initial_ts.append(start_time + dt)
+
+        base_time = start_time + initial_move_time
+
+        for perm in permutations(manual_targets):
+            current_grid = start_grid
+            current_time = base_time
+
+            # 复制初始路径
+            path_points = list(initial_path)
+            timestamps = list(initial_ts)
+            local_schedule = {}
+            valid_perm = True
+
+            for i, (manual, target_grid) in enumerate(perm):
+                # 第一本之后加速
+                speed = PARAMS['v1'] if i == 0 else PARAMS['v1s']
+
+                # A* 规划
+                grid_path, _ = astar_grid(current_grid, target_grid, speed)
+                if grid_path is None:
+                    valid_perm = False
+                    break
+
+                # 转换路径点（跳过起点，因为起点就是 current_grid）
+                for g_node in grid_path[1:]:
+                    pos = grid_to_pos(*g_node)
+                    prev_pos = grid_to_pos(*grid_path[grid_path.index(g_node) - 1])
+                    dt = _dist(prev_pos, pos) / speed
+                    current_time += dt
+                    path_points.append(tuple(pos))
+                    timestamps.append(current_time)
+
+                # 拾取停留
+                dwell = float(PARAMS.get('r1_pickup_dwell', 1.0))
+                current_time += dwell
+                path_points.append(tuple(grid_to_pos(*target_grid)))
                 timestamps.append(current_time)
-            current_channel_x = current_pos[0]
+                local_schedule[manual] = current_time
 
-        # 排序规则：优先按 R2 首次到达顺序（若在 R2 路径上），否则按 y 从高到低
-        def sort_key(m):
-            idx = getattr(m, 'step_index', None)
-            if r2_first_arrival and isinstance(idx, int) and idx in r2_first_arrival:
-                return (0, float(r2_first_arrival[idx]))
-            # fallback: y 由高到低 -> 使用负号
-            return (1, -float(m.pos[1]))
-        sorted_manuals = sorted(manuals_to_collect, key=sort_key)
+                current_grid = target_grid
 
-        # 标记是否已经完成第一本R1秘籍拾取
-        first_pick_done = False
+            if valid_perm:
+                if current_time < best_total_time:
+                    best_total_time = current_time
+                    best_path_points = path_points
+                    best_timestamps = timestamps
+                    best_schedule = local_schedule
 
-        # 依次前往每个秘籍位置
-        for manual in sorted_manuals:
-            # 确定目标通道：中列(2列)且行在允许集合，走中通道；否则按列左右通道；最后兜底按几何左右
-            target_channel_x = None
-            step_meta = None
-            try:
-                if hasattr(manual, 'step_index') and manual.step_index in self.logic_index_to_step:
-                    step_meta = self.logic_index_to_step[manual.step_index]
-            except Exception:
-                step_meta = None
-            is_middle_special = False
-            if step_meta is not None:
-                col = step_meta.get('col')
-                row = step_meta.get('row')
-                mv = (MAP_VARIANT or 'red').lower()
-                if col == 2 and (row in MIDDLE_PICK_ROWS):
-                    target_channel_x = MIDDLE_CHANNEL_X
-                    is_middle_special = True
-                elif col == 1:
-                    # blue 地图左右镜像：逻辑1列在物理右侧
-                    target_channel_x = LEFT_CHANNEL_X if mv == 'red' else RIGHT_CHANNEL_X
-                elif col == 3:
-                    # blue 地图左右镜像：逻辑3列在物理左侧
-                    target_channel_x = RIGHT_CHANNEL_X if mv == 'red' else LEFT_CHANNEL_X
-            if target_channel_x is None:
-                target_channel_x = LEFT_CHANNEL_X if manual.pos[0] < (LEFT_CHANNEL_X + RIGHT_CHANNEL_X) / 2.0 else RIGHT_CHANNEL_X
-            # 如果需要切换通道
-            if not np.isclose(current_channel_x, target_channel_x):
-                # 经过交叉线 y=CROSS_Y 切换通道（先到交叉线，再横移到目标通道）
-                speed = PARAMS['v1'] if not first_pick_done else PARAMS['v1s']
-                p_c1 = np.array([current_channel_x, CROSS_Y])
-                if not np.allclose(current_pos, p_c1):
-                    current_time += _dist(current_pos, p_c1) / speed
-                    current_pos = p_c1
-                    path.append(tuple(current_pos))
-                    timestamps.append(current_time)
-                p_c2 = np.array([target_channel_x, CROSS_Y])
-                if not np.allclose(current_pos, p_c2):
-                    current_time += _dist(current_pos, p_c2) / speed
-                    current_pos = p_c2
-                    path.append(tuple(current_pos))
-                    timestamps.append(current_time)
-                current_channel_x = target_channel_x
-
-            # 计算对齐点（相邻地面，始终保持在“目标通道 X”上，不靠近台阶边）：
-            # - 行4任意列：目标通道X + 台阶正上方相邻地面（y=台阶中心y+0.6）
-            # - 中列行1：中通道X + 台阶正下方相邻地面（y=0.7）
-            # - 其他：目标通道X 与秘籍 y 对齐
-            align_pos = None
-            if step_meta is not None and step_meta.get('row') == 4:
-                _, sy = step_meta['center']
-                # 优先使用 row4_above_offset（旧参数），否则用“上方安全间隙”定义：中心+0.6+clearance
-                if 'row4_above_offset' in PARAMS:
-                    align_y = float(sy) + float(PARAMS.get('row4_above_offset', 0.7))
-                    if align_y <= float(sy) + 0.6:
-                        align_y = float(sy) + 0.61
-                else:
-                    clearance = max(0.0, float(PARAMS.get('r1_pickup_clearance_above', 0.25)))
-                    align_y = float(sy) + 0.6 + clearance
-                # 不要跨过交叉线（y=7）的上方，留一点余量
-                align_y = min(CROSS_Y - 0.05, align_y)
-                align_pos = np.array([float(target_channel_x), align_y])
-            elif is_middle_special and (step_meta is not None) and step_meta.get('row') == 1:
-                sy = float(step_meta['center'][1])
-                if 'row1_ground_y' in PARAMS:
-                    align_y = float(PARAMS['row1_ground_y'])
-                else:
-                    clear_b = max(0.0, float(PARAMS.get('r1_pickup_clearance_below', 0.25)))
-                    align_y = max(0.05, (sy - 0.6) - clear_b)
-                align_pos = np.array([MIDDLE_CHANNEL_X, align_y])
-            else:
-                align_pos = np.array([float(target_channel_x), manual.pos[1]])
-            speed = PARAMS['v1'] if not first_pick_done else PARAMS['v1s']
-            current_time += _dist(current_pos, align_pos) / speed
-            current_pos = align_pos
-            path.append(tuple(current_pos))
-            timestamps.append(current_time)
-
-            # 不登上台阶：在对齐点原地停留完成拾取
-            dwell = float(PARAMS.get('r1_pickup_dwell', 1.0))
-            current_time += dwell
-            path.append(tuple(current_pos))  # 位置不变，仅时间推进表示停留拾取
-            timestamps.append(current_time)
-            pickup_schedule[manual] = current_time
-
-            # 完成第一次拾取后，后续均使用 v1s
-            if not first_pick_done:
-                first_pick_done = True
-
-            # 无需返回通道（已在通道对齐点），直接进入下一目标
-
-        return path, timestamps, pickup_schedule
+        return best_path_points, best_timestamps, best_schedule
 
     def _find_path_to_target(self, start_pos, start_time, r1_primary_manuals, manuals_to_ignore, goal_func,
                              goal_pos=None, remaining_r2_indices=None, is_exit_path=False, max_iterations=10000,
-                             v_override=None, debug=False, include_exit_future: bool = True, exit_future_weight: float = 1.0,
+                             v_override=None, debug=False, include_exit_future: bool = True,
+                             exit_future_weight: float = 1.0,
                              exit_bias_g_weight: float = 2.0,
                              goal_context_key=None, preferred_row_key=None):
         """A*算法实现的路径搜索函数，寻找从起点到目标的最优路径"""
@@ -1812,7 +1938,8 @@ class Planner:
                         if t_col is not None:
                             extra_exit_bias_ground = exit_bias_g_weight * max(0.0, t_col - min_row1_ground_time)
                             if PARAMS.get('debug_exit_bias'):
-                                print(f"[偏置] 台阶->地面 行1列{current_step['col']} 额外代价 {extra_exit_bias_ground:.3f}")
+                                print(
+                                    f"[偏置] 台阶->地面 行1列{current_step['col']} 额外代价 {extra_exit_bias_ground:.3f}")
                     new_g = g + move_cost + climb_penalty + extra_exit_bias_ground
                     h = heuristic_idx(ground_pos, -1)
                     new_is_inside = False
@@ -1872,7 +1999,8 @@ class Planner:
             legal_pickup_indices = legal_pickup_indices.intersection(set(allowed_pickup_indices))
         # 若指定preferred_row，则进一步限定为该行的邻居
         if preferred_row is not None:
-            legal_pickup_indices = {n for n in legal_pickup_indices if self.logic_index_to_step[n]['row'] == preferred_row}
+            legal_pickup_indices = {n for n in legal_pickup_indices if
+                                    self.logic_index_to_step[n]['row'] == preferred_row}
 
         def is_pickup_spot(pos, idx):
             # 禁止在有未被拾取R2秘籍的台阶上拾取任何秘籍
@@ -2023,7 +2151,7 @@ class Simulation:
         """设置地图基础元素"""
         self.ax.set_aspect('equal')
         theme = get_theme(MAP_VARIANT)
-        self.ax.set_title(f"R2能力: {self.r2_max_step_height}m{theme.get('title_suffix','')}")
+        self.ax.set_title(f"R2能力: {self.r2_max_step_height}m{theme.get('title_suffix', '')}")
         self.ax.set_xlabel("X")
         self.ax.set_ylabel("Y")
         self.ax.grid(True, linestyle='--', alpha=0.6)
@@ -2031,17 +2159,34 @@ class Simulation:
         self.ax.set_ylim(-1.5, 10)  # 调整y轴范围
 
         # 绘制区域背景
-        self.ax.add_patch(patches.Rectangle((0, 7.3), 6, 2, facecolor=theme['background_top'], zorder=0, alpha=0.5))  # 上方区域
-        self.ax.add_patch(patches.Rectangle((0, 0), 6, 7.3, facecolor=theme['background_bottom'], zorder=0, alpha=0.5))  # 下方区域
+        self.ax.add_patch(
+            patches.Rectangle((0, 7.3), 6, 2, facecolor=theme['background_top'], zorder=0, alpha=0.5))  # 上方区域
+        self.ax.add_patch(
+            patches.Rectangle((0, 0), 6, 7.3, facecolor=theme['background_bottom'], zorder=0, alpha=0.5))  # 下方区域
 
         # 绘制网格
         grid_size = 1.2
-        for i in range(6):
-            for j in range(7):
-                is_step_area = (i >= 1 and i <= 3) and (j >= 1 and j <= 4)
+        # 绘制 5x6 网格线 (Row 0..5, Col 0..4)
+        # 物理范围：x: 0.6 ~ 0.6+4*1.2=5.4; y: 0.8 ~ 0.8+5*1.2=6.8
+        # 扩展一点显示范围
+        for r in range(6):
+            for c in range(5):
+                # 判断是否为台阶区 (Row 1..4, Col 1..3)
+                is_step_area = (r >= 1 and r <= 4) and (c >= 1 and c <= 3)
+
+                # 计算格子左下角
+                gx = 0.6 + c * 1.2 - 0.6  # 格子中心是 0.6+c*1.2，左下角减半宽
+                gy = 0.8 + r * 1.2 - 0.6
+
+                # 仅绘制外围可行走区域的网格
                 if not is_step_area:
-                    self.ax.add_patch(patches.Rectangle((i * grid_size, (j - 1) * grid_size), grid_size, grid_size,
-                                                        facecolor='#E0E0E0', edgecolor='white', zorder=-1))
+                    rect = patches.Rectangle((gx, gy), 1.2, 1.2,
+                                             facecolor='#E0E0E0', edgecolor='white',
+                                             linestyle=':', zorder=-1)
+                    self.ax.add_patch(rect)
+                    # 可选：显示网格坐标
+                    # self.ax.text(gx+0.6, gy+0.6, f"{r},{c}", ha='center', va='center', 
+                    #              fontsize=8, color='gray', alpha=0.5)
 
         # 添加时间文本
         self.time_text = self.ax.text(6.5, 9.5, 'Time: 0.0s', ha='right', va='top', fontsize=12)
@@ -2094,7 +2239,7 @@ def render_base_map(ax, steps, manuals, title="地图布局"):
     """在给定的Axes上绘制底图、台阶与秘籍。"""
     ax.set_aspect('equal')
     theme = get_theme(MAP_VARIANT)
-    ax.set_title(title + theme.get('title_suffix',''))
+    ax.set_title(title + theme.get('title_suffix', ''))
     ax.set_xlabel("X")
     ax.set_ylabel("Y")
     ax.grid(True, linestyle='--', alpha=0.6)
@@ -2168,7 +2313,8 @@ def draw_map_with_r2_path(steps, manuals, r2_path_points, filename):
     print(f"地图已保存为: {filename}")
 
 
-def draw_map_with_paths(steps, manuals, r2_path_points, r1_path_points, filename, title_suffix: str | None = None, show_r1: bool = True):
+def draw_map_with_paths(steps, manuals, r2_path_points, r1_path_points, filename, title_suffix: str | None = None,
+                        show_r1: bool = True):
     """绘制地图并叠加R2与R1路径。
     - R2: 橙色
     - R1: 主题强调色（red/blue），可通过 show_r1=False 关闭绘制
@@ -2206,6 +2352,7 @@ def draw_map_with_paths(steps, manuals, r2_path_points, r1_path_points, filename
     plt.savefig(filename)
     plt.close(fig)
     print(f"地图已保存为: {filename}")
+
 
 def create_base_scenario(seed, map_variant: str = None):
     """创建基础场景（台阶和随机放置的秘籍）"""
@@ -2268,7 +2415,8 @@ def create_base_scenario(seed, map_variant: str = None):
     fake_manual_logic = random.choice(sorted(list(non_entry_logic_indices)))
 
     # 放置R1秘籍
-    available_for_r1_logic = {s['logic_index'] for s in steps if (s['col'] != 2) or (s['row'] in [1, 4] and s['col'] == 2)} - {fake_manual_logic}
+    available_for_r1_logic = {s['logic_index'] for s in steps if
+                              (s['col'] != 2) or (s['row'] in [1, 4] and s['col'] == 2)} - {fake_manual_logic}
     if len(available_for_r1_logic) < PARAMS['r1_manual_total']:
         print("R1秘籍可用台阶数量不足")
         return None, None
@@ -2417,41 +2565,58 @@ def encode_placement_and_path(steps, manuals, best_plan):
 
     path_str = ''
     if best_plan and best_plan.get('r2_path'):
-        # 在不创建 Planner 的情况下将路径位置映射为基础台阶(1..12)的逻辑索引
-        base_steps = [s for s in steps if not s.get('is_pseudo')]
-        pos_to_logic_index = {tuple(np.round(s['center'], 2)): s['logic_index'] for s in base_steps}
-        logic_to_step = {s['logic_index']: s for s in base_steps}
-
-        # 1) 生成不重复的路径台阶序列（ordered）
-        seq = []
+        # 1) 建立位置到台阶信息的映射（包含伪台阶）
+        # key: (x, y) -> {'index': logic_index, 'is_pseudo': bool, 'row': row, 'col': col}
+        pos_to_info = {}
+        for s in steps:
+            key = tuple(np.round(s['center'], 2))
+            pos_to_info[key] = {
+                'index': s['logic_index'],
+                'is_pseudo': s.get('is_pseudo', False),
+                'row': s.get('row'),
+                'col': s.get('col'),
+                'center': s['center']
+            }
+        
+        # 2) 生成路径序列（区分伪台阶与普通台阶）
+        # 序列元素为 (logic_index, is_pseudo)
+        raw_seq = []
         for p in best_plan['r2_path']:
             key = tuple(np.round(p, 2))
-            idx = pos_to_logic_index.get(key)
-            if idx is None:
-                # 回退到几何匹配（忽略伪台阶与地面点）
-                for s in base_steps:
+            info = pos_to_info.get(key)
+            if info is None:
+                # 几何回退匹配
+                for s in steps:
                     if np.allclose(s['center'], p, atol=1e-2):
-                        idx = s['logic_index']
+                        info = {
+                            'index': s['logic_index'],
+                            'is_pseudo': s.get('is_pseudo', False),
+                            'row': s.get('row'),
+                            'col': s.get('col'),
+                            'center': s['center']
+                        }
                         break
-            if isinstance(idx, int) and 1 <= idx <= 12:
-                seq.append(idx)
+            
+            if info and 1 <= info['index'] <= 12:
+                raw_seq.append((info['index'], info['is_pseudo']))
+        
+        # 去重（保留顺序，区分伪台阶与真台阶）
         seen = set()
         ordered = []
-        for i in seq:
-            if i not in seen:
-                seen.add(i)
-                ordered.append(i)
+        for item in raw_seq:
+            if item not in seen:
+                seen.add(item)
+                ordered.append(item)
 
-        # 2) 建立“拾取事件 -> 拾取台阶”的映射
-        picks_by_pickstep: dict[int, list[int]] = {}
+        # 3) 建立“拾取事件 -> (台阶索引, 是否伪台阶)”的映射
+        picks_by_loc: dict[tuple[int, bool], list[int]] = {}
         try:
             r2_ts = list(best_plan.get('r2_timestamps') or [])
             r2_path = list(best_plan.get('r2_path') or [])
-            # 将路径时刻定位到最近的“台阶中心”索引（向左优先）
-            def _time_to_pick_step_idx(t: float) -> int | None:
+
+            def _time_to_loc_key(t: float) -> tuple[int, bool] | None:
                 if not r2_ts:
                     return None
-                # 找到 t 之前（含）最后一个索引
                 i = None
                 for k in range(len(r2_ts) - 1, -1, -1):
                     if float(r2_ts[k]) <= float(t) + 1e-6:
@@ -2459,59 +2624,93 @@ def encode_placement_and_path(steps, manuals, best_plan):
                         break
                 if i is None:
                     i = 0
-                # 从 i 往前、往后各检查少量点，找到第一个能映射到台阶的点
+                
+                # 搜索最近的台阶点
                 for off in range(0, 4):
                     for sgn in (-1, 1):
                         j = i + sgn * off
                         if j < 0 or j >= len(r2_path):
                             continue
                         key = tuple(np.round(r2_path[j], 2))
-                        idx = pos_to_logic_index.get(key)
-                        if isinstance(idx, int):
-                            return idx
-                        # 再做一次几何回退
-                        for st in base_steps:
-                            if np.allclose(st['center'], r2_path[j], atol=1e-2):
-                                return st['logic_index']
+                        info = pos_to_info.get(key)
+                        if info:
+                            return (info['index'], info['is_pseudo'])
+                        # 几何回退
+                        for s in steps:
+                            if np.allclose(s['center'], r2_path[j], atol=1e-2):
+                                return (s['logic_index'], s.get('is_pseudo', False))
                 return None
 
             r2_pick_sched = best_plan.get('r2_pickup_schedule') or {}
-            # 以时间顺序聚合：同一拾取台阶的多本合并
             if r2_pick_sched:
-                # 先按时间排序
                 items = sorted(
-                    [(getattr(m, 'step_index', None), float(t)) for m, t in r2_pick_sched.items() if hasattr(m, 'step_index')],
+                    [(getattr(m, 'step_index', None), float(t)) for m, t in r2_pick_sched.items() if
+                     hasattr(m, 'step_index')],
                     key=lambda x: x[1]
                 )
                 for manual_idx, t in items:
-                    pick_step = _time_to_pick_step_idx(t)
-                    if not isinstance(pick_step, int):
-                        continue
-                    picks_by_pickstep.setdefault(pick_step, []).append(int(manual_idx))
+                    loc_key = _time_to_loc_key(t)
+                    if loc_key:
+                        picks_by_loc.setdefault(loc_key, []).append(int(manual_idx))
 
-                # 按“同行优先、低行靠后”对同一步中的多本进行排序
-                for pick_step, m_list in picks_by_pickstep.items():
-                    pick_row = logic_to_step.get(pick_step, {}).get('row')
+                # 排序：同行优先、低行靠后
+                # 使用所有台阶（含伪台阶）建立索引映射
+                idx_to_step_info = {s['logic_index']: s for s in steps}
+                
+                for (step_idx, is_pseudo), m_list in picks_by_loc.items():
+                    # 获取当前所在台阶的行（用于判断同行）
+                    base_info = idx_to_step_info.get(step_idx, {})
+                    pick_row = base_info.get('row')
+
                     def sort_key(mid: int):
-                        st = logic_to_step.get(mid, {})
+                        st = idx_to_step_info.get(mid, {})
                         r = st.get('row')
                         c = st.get('col')
-                        return (0 if (pick_row is not None and r == pick_row) else 1, -(r if r is not None else 0), (c if c is not None else 0))
+                        return (0 if (pick_row is not None and r == pick_row) else 1, -(r if r is not None else 0),
+                                (c if c is not None else 0))
+
                     m_list.sort(key=sort_key)
         except Exception:
-            # 标注失败不影响原有路径输出
-            picks_by_pickstep = {}
+            picks_by_loc = {}
 
-        # 3) 生成带标注的路径字符串
+        # 4) 生成 Token 字符串
         tokens = []
-        for step_idx in ordered:
-            pick_list = picks_by_pickstep.get(step_idx)
-            if pick_list:
-                inner = ' '.join(str(x) for x in pick_list)
-                tokens.append(f"{step_idx}({inner})")
+        for (step_idx, is_pseudo) in ordered:
+            pick_list = picks_by_loc.get((step_idx, is_pseudo))
+            
+            if is_pseudo:
+                # 伪台阶逻辑：
+                # 1. 若有拾取，按顺序输出 (m1) (m2) ...
+                # 2. 若无拾取，不输出任何内容（隐式经过）
+                if pick_list:
+                    for m in pick_list:
+                        tokens.append(f"({m})")
             else:
-                tokens.append(str(step_idx))
+                # 真台阶逻辑：
+                # 输出 step_idx
+                # 若有拾取，追加 (m1 m2 ...)
+                if pick_list:
+                    inner = ' '.join(str(x) for x in pick_list)
+                    tokens.append(f"{step_idx}({inner})")
+                else:
+                    tokens.append(str(step_idx))
+        
         path_str = ' '.join(tokens)
+
+        # 5) 追加 R1 拾取信息
+        # 格式：0 <R1拾取台阶1> <R1拾取台阶2> ...
+        r1_pick_sched = best_plan.get('r1_pickup_schedule') or {}
+        if r1_pick_sched:
+            # 按时间排序
+            r1_items = sorted(
+                [(getattr(m, 'step_index', None), float(t)) for m, t in r1_pick_sched.items() if
+                 hasattr(m, 'step_index')],
+                key=lambda x: x[1]
+            )
+            r1_tokens = [str(int(idx)) for idx, _ in r1_items if idx is not None]
+            if r1_tokens:
+                path_str += f" 0 {' '.join(r1_tokens)}"
+
     return code12, path_str
 
 
@@ -2526,18 +2725,24 @@ def _is_placement_legal(steps, manual_indices, step_meta: dict | None = None):
         rows = step_meta['rows']  # 1-based 索引 -> row
         cols = step_meta['cols']  # 1-based 索引 -> col
         valid_idx = step_meta['valid']
+
         def _row(i):
             return rows[i]
+
         def _col(i):
             return cols[i]
+
         def _is_valid(i):
             return i in valid_idx
     else:
         logic_to_step = {s['logic_index']: s for s in steps if not s.get('is_pseudo')}
+
         def _row(i):
             return logic_to_step[i]['row']
+
         def _col(i):
             return logic_to_step[i]['col']
+
         def _is_valid(i):
             return i in logic_to_step
     # 1) 假秘籍不在入口行
@@ -2557,7 +2762,8 @@ def _is_placement_legal(steps, manual_indices, step_meta: dict | None = None):
     return True
 
 
-def enumerate_all_placements_and_write(seed, r2_capabilities=(0.4,), out_file=None, show_progress=False, flush_every=200, max_tasks=None, processes=8, map_variant: str = None):
+def enumerate_all_placements_and_write(seed, r2_capabilities=(0.4,), out_file=None, show_progress=False,
+                                       flush_every=200, max_tasks=None, processes=8, map_variant: str = None):
     """枚举所有“合法放置”，求每个放置在指定 R2 能力下的最优路径，输出到 txt。
     合法口径：当前实现为“假不在入口行、R1 中列限制（除行1/4外禁 col=2）”。如需加严/放宽请说明。
     输出格式（默认仅 0.4m 能力）：每行 "<12位编码> <路径序列>"；若无可行路径则仅输出 "<12位编码>"。
@@ -2611,7 +2817,8 @@ def enumerate_all_placements_and_write(seed, r2_capabilities=(0.4,), out_file=No
 
     # 采用流式写入，避免在内存中累积所有结果
     lines_written = 0
-    pbar = tqdm(total=total_placements, desc='枚举放置方案', unit='placement', leave=False, disable=not show_progress) if show_progress else None
+    pbar = tqdm(total=total_placements, desc='枚举放置方案', unit='placement', leave=False,
+                disable=not show_progress) if show_progress else None
     f = None
     try:
         if not out_file:
@@ -2660,6 +2867,7 @@ def enumerate_all_placements_and_write(seed, r2_capabilities=(0.4,), out_file=No
 # === 验证并行支持（Windows 需顶层定义） ===
 _VAL_BASE_STEPS = None
 
+
 def _validate_init(steps):
     """子进程初始化：共享基础台阶，并开启静默模式。"""
     global _VAL_BASE_STEPS
@@ -2668,6 +2876,7 @@ def _validate_init(steps):
         PARAMS['quiet'] = True
     except Exception:
         pass
+
 
 def _validate_job_worker(args):
     """子进程工作：对一个(摆放,能力)实例计算是否需要等待，并返回摘要。
@@ -2704,16 +2913,17 @@ def _validate_job_worker(args):
         pos_to_logic_index = {tuple(np.round(s['center'], 2)): s['logic_index'] for s in base_steps}
         logic_to_step = {s['logic_index']: s for s in base_steps}
         # R1拾取时刻
-        r1_pick = {int(m.step_index): float(t) for m, t in (plan.get('r1_pickup_schedule') or {}).items() if hasattr(m, 'step_index')}
+        r1_pick = {int(m.step_index): float(t) for m, t in (plan.get('r1_pickup_schedule') or {}).items() if
+                   hasattr(m, 'step_index')}
         # R1 拾取停留事件：通过相邻同坐标点识别 (t_start, t_end)
         r1_path = plan.get('r1_path') or []
         r1_ts = plan.get('r1_timestamps') or []
         r1_stops = []  # [{'pos': (x,y), 't_start': t0, 't_end': t1}]
         if r1_path and r1_ts and len(r1_path) == len(r1_ts):
             for i in range(1, len(r1_path)):
-                p0, p1 = r1_path[i-1], r1_path[i]
+                p0, p1 = r1_path[i - 1], r1_path[i]
                 if np.allclose(p0, p1, atol=1e-6):
-                    t0, t1 = float(r1_ts[i-1]), float(r1_ts[i])
+                    t0, t1 = float(r1_ts[i - 1]), float(r1_ts[i])
                     if t1 > t0:
                         r1_stops.append({'pos': tuple(np.round(p1, 6)), 't_start': t0, 't_end': t1})
         # R2首次到达时刻（原始时间线）
@@ -2759,9 +2969,9 @@ def _validate_job_worker(args):
 
             new_ts = [float(r2_ts[0])]
             for j in range(1, len(r2_path)):
-                p0 = np.array(r2_path[j-1], dtype=float)
+                p0 = np.array(r2_path[j - 1], dtype=float)
                 p1 = np.array(r2_path[j], dtype=float)
-                t0_orig, t1_orig = float(r2_ts[j-1]), float(r2_ts[j])
+                t0_orig, t1_orig = float(r2_ts[j - 1]), float(r2_ts[j])
                 t0 = float(new_ts[-1])
                 dur_orig = max(1e-9, t1_orig - t0_orig)
                 seg = p1 - p0
@@ -2791,7 +3001,8 @@ def _validate_job_worker(args):
                 if t_block_end_needed is not None and t_block_end_needed > t0:
                     delay = t_block_end_needed - t0
                     new_ts.append(t_block_end_needed + dur_orig)
-                    r2_delay_events.append({'at_index': j, 'delay': delay, 't_block_end': t_block_end_needed, 'r1_idx': block_with_idx})
+                    r2_delay_events.append(
+                        {'at_index': j, 'delay': delay, 't_block_end': t_block_end_needed, 'r1_idx': block_with_idx})
                 else:
                     new_ts.append(t0 + dur_orig)
             r2_visit_time_blocked = {}
@@ -2823,7 +3034,7 @@ def _validate_job_worker(args):
             step_idx = pos_to_logic_index.get(key)
             step_seq.append(step_idx)
         for k in range(1, len(step_seq)):
-            i_prev, i_curr = step_seq[k-1], step_seq[k]
+            i_prev, i_curr = step_seq[k - 1], step_seq[k]
             if i_prev is None or i_curr is None:
                 continue
             if not isinstance(i_prev, int) or not isinstance(i_curr, int):
@@ -2854,7 +3065,8 @@ def _validate_job_worker(args):
             'cap': cap,
             'manual_indices': manual_indices,
             'r1_pick': r1_pick,
-            'r2_pick': {int(m.step_index): float(t) for m, t in (plan.get('r2_pickup_schedule') or {}).items() if hasattr(m, 'step_index')},
+            'r2_pick': {int(m.step_index): float(t) for m, t in (plan.get('r2_pickup_schedule') or {}).items() if
+                        hasattr(m, 'step_index')},
             'r2_events': r2_events,
             'wait_points': wait_points,
             # 新增：R2 首次到达各 R1 主任务台阶的时刻（用于对比三种情况）
@@ -2873,7 +3085,11 @@ def _validate_job_worker(args):
         return (False, False, None, None)
 
 
-def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r2_capabilities=(0.4,), map_variant: str | None = None, processes: int = 8, plot_maps: bool = False, plots_dir: str | None = None, plot_show_r1_path: bool = True, enable_r1_block_check: bool = True, r1_radius: float | None = None, r2_radius: float | None = None):
+def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r2_capabilities=(0.4,),
+                                          map_variant: str | None = None, processes: int = 8, plot_maps: bool = False,
+                                          plots_dir: str | None = None, plot_show_r1_path: bool = True,
+                                          enable_r1_block_check: bool = True, r1_radius: float | None = None,
+                                          r2_radius: float | None = None):
     """验证在当前参数与任意（合法）秘籍摆放下，R2是否“无需等待”R1清理主任务R1秘籍。
     判据（非侵入、事后计算）：若 R2 在时间线上“首次进入某主任务R1台阶”的时刻早于 R1 对该台阶的拾取时刻，
     则该实例在“必须等待”规则下会产生等待，记为 wait_required=True；否则为 False。
@@ -2937,7 +3153,8 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
 
     # 构造任务列表：(manual_indices, cap)
     jobs = [
-        (mi, cap, bool(enable_r1_block_check), r1_radius if r1_radius is not None else PARAMS.get('r1_radius', 0.5), r2_radius if r2_radius is not None else PARAMS.get('r2_radius', 0.4))
+        (mi, cap, bool(enable_r1_block_check), r1_radius if r1_radius is not None else PARAMS.get('r1_radius', 0.5),
+         r2_radius if r2_radius is not None else PARAMS.get('r2_radius', 0.4))
         for mi in tasks for cap in r2_capabilities
     ]
 
@@ -2949,7 +3166,8 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
             with Pool(processes=processes, initializer=_validate_init, initargs=(steps,)) as pool:
                 base = len(jobs) // (processes * 64) if processes else 1
                 chunk = max(8, min(64, base if base > 0 else 1))
-                for feasible, wait, t_total, summary in pool.imap_unordered(_validate_job_worker, jobs, chunksize=chunk):
+                for feasible, wait, t_total, summary in pool.imap_unordered(_validate_job_worker, jobs,
+                                                                            chunksize=chunk):
                     checked += 1
                     if not feasible:
                         infeasible += 1
@@ -2963,7 +3181,8 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
                                         summary['wait_points'],
                                         key=lambda w: max(0.0, float(w['t_r1_pick']) - float(w['t_r2_arrive']))
                                     )
-                                    local_dt = max(0.0, float(local_point['t_r1_pick']) - float(local_point['t_r2_arrive']))
+                                    local_dt = max(0.0,
+                                                   float(local_point['t_r1_pick']) - float(local_point['t_r2_arrive']))
                                     if local_dt > worst_wait['wait_dt']:
                                         worst_wait['wait_dt'] = local_dt
                                         worst_wait['summary'] = summary
@@ -3029,7 +3248,7 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
     print(f"需等待实例数: {wait_required_cases}，不需等待实例数: {max(0, feasible - wait_required_cases)}")
 
     # 通用详情打印函数（与“最耗时实例详情”一致的版式）
-    def _print_full_details(title: str, ws: dict, t_total = None, extra_prefix_lines: list | None = None):
+    def _print_full_details(title: str, ws: dict, t_total=None, extra_prefix_lines: list | None = None):
         if ws is None:
             return
         print(f"\n=== {title} ===")
@@ -3071,6 +3290,7 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
                         equal.append((idx, t1, t2))
                     else:
                         later.append((idx, t1, t2))
+
             def _print_group(title2, arr):
                 print(title2)
                 if not arr:
@@ -3086,6 +3306,7 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
                                 print(f"  台阶{idx}: R1={t1:.2f}s, R2(阻塞)={t2:.2f}s, R2(原始)={t2_raw:.2f}s")
                             else:
                                 print(f"  台阶{idx}: R1={t1:.2f}s, R2={t2:.2f}s")
+
             _print_group("-- R1 拾取时间戳：R1 先于 R2 到达", earlier)
             _print_group("-- R1 拾取时间戳：R1 与 R2 同时(容差)到达", equal)
             _print_group("-- R1 拾取时间戳：R1 晚于 R2 到达/或R2未到达", later)
@@ -3096,7 +3317,9 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
                 info = []
                 if ev.get('r1_idx'):
                     info.append(f"受 R1 台阶{ev['r1_idx']} 停留影响")
-                print(f"  段#{ev['at_index']}: 延迟 {float(ev['delay']):.2f}s, 解封 t={float(ev['t_block_end']):.2f}s" + (" (" + ", ".join(info) + ")" if info else ""))
+                print(
+                    f"  段#{ev['at_index']}: 延迟 {float(ev['delay']):.2f}s, 解封 t={float(ev['t_block_end']):.2f}s" + (
+                        " (" + ", ".join(info) + ")" if info else ""))
         # R2拾取
         if ws.get('r2_pick'):
             print("-- R2 拾取时间戳(按时序)：")
@@ -3115,7 +3338,8 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
             print("-- R2 等待点：")
             for w in ws['wait_points']:
                 dt = max(0.0, float(w['t_r1_pick']) - float(w['t_r2_arrive']))
-                print(f"  台阶{w['step']}: R2到达 t={w['t_r2_arrive']:.2f}s, R1拾取 t={w['t_r1_pick']:.2f}s (等待时长={dt:.2f}s)")
+                print(
+                    f"  台阶{w['step']}: R2到达 t={w['t_r2_arrive']:.2f}s, R1拾取 t={w['t_r1_pick']:.2f}s (等待时长={dt:.2f}s)")
 
     # 确保输出目录
     if plot_maps:
@@ -3153,7 +3377,8 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
             cap_str = f"{cap:.1f}m".replace('.0', '')
             ttag = f"{t_total:.2f}s" if isinstance(t_total, (int, float)) else "NA"
             fname = os.path.join(plots_dir or 'validation_plots', f"{mv}_seed{seed}_cap{cap_str}_{label}_{ttag}.png")
-            draw_map_with_paths(steps2, manuals2, r2_pts, r1_pts, filename=fname, title_suffix=f"{label}", show_r1=bool(plot_show_r1_path))
+            draw_map_with_paths(steps2, manuals2, r2_pts, r1_pts, filename=fname, title_suffix=f"{label}",
+                                show_r1=bool(plot_show_r1_path))
         except Exception as e:
             print(f"[WARN] 绘制 {label} 地图失败: {e}")
 
@@ -3174,8 +3399,10 @@ def validate_r2_no_wait_across_placements(seed: int, limit: int | None = None, r
             f"最长等待时长: {worst_wait['wait_dt']:.2f}s @ 台阶{wp['step']}",
             f"  细节: R2到达 t={float(wp['t_r2_arrive']):.2f}s, R1拾取 t={float(wp['t_r1_pick']):.2f}s"
         ]
-        _print_full_details("需等待实例中的最长等待实例详情", worst_wait['summary'], worst_wait.get('time'), extra_prefix_lines=extra)
+        _print_full_details("需等待实例中的最长等待实例详情", worst_wait['summary'], worst_wait.get('time'),
+                            extra_prefix_lines=extra)
         _rebuild_and_plot(worst_wait['summary'], label='wait_group_longest_delay', t_total=worst_wait.get('time'))
+
 
 def run_simulation_planning(args):
     """多进程执行规划的函数"""
@@ -3240,17 +3467,17 @@ if __name__ == '__main__':
     plt.rcParams['axes.unicode_minus'] = False
 
     simulation_seed = 54  # 随机种子（可修改）
-    run_full_enumeration = True   # 设为 True 运行“遍历所有合法放置并输出txt”模式
+    run_full_enumeration = True  # 设为 True 运行“遍历所有合法放置并输出txt”模式
     use_manual_placement = False  # 设置为 True 启用手动放置，False 为随机
     # 验证开关（简单True/False）：开启后将对“任意合法摆放”执行验证，统计是否存在R2需要等待R1的迹象
     run_validate_r2_no_wait = False
     # 验证样本上限（None 表示全部合法摆放；调小可做快速验证）
-    validate_sample_limit = 30
+    validate_sample_limit = None
     # 手动放置秘籍的位置（使用 1-based 逻辑编号 logic_index）
     manual_indices = {
-        'R1': [1, 2, 4],     # 3个 R1 秘籍（逻辑编号）
-        'R2': [3, 8, 7, 12], # 4个 R2 秘籍（逻辑编号）
-        'fake': 5            # 假秘籍（逻辑编号）
+        'R1': [1, 2, 4],  # 3个 R1 秘籍（逻辑编号）
+        'R2': [3, 8, 7, 12],  # 4个 R2 秘籍（逻辑编号）
+        'fake': 5  # 假秘籍（逻辑编号）
     }
 
     # 轻量命令行参数：--enum-sample N（只跑前N个合法放置）；--enum-processes P；--enum-out file；--map red|blue
@@ -3258,33 +3485,34 @@ if __name__ == '__main__':
     # 如需恢复命令行控制，可自行改回 argparse 或将这些字段与外部参数对齐
     INTERNAL_ARGS = {
         # 枚举相关
-        'enum_sample': None,         # 仅枚举前 N 个合法放置（None 表示不限制）
-        'enum_processes': 8,         # 枚举时的并行进程数
-        'enum_out': None,            # 输出文件名（None 使用默认）
+        'enum_sample': None,  # 仅枚举前 N 个合法放置（None 表示不限制）
+        'enum_processes': 8,  # 枚举时的并行进程数
+        'enum_out': None,  # 输出文件名（None 使用默认）
 
         # 地图主题（None 表示由 use_blue_map 决定；也可强制 'red' 或 'blue'）
         'map': None,
 
         # 验证相关
-        'validate_r2_no_wait': True, # 是否开启“R2无需等待”验证
-        'validate_plots': True,     # 是否在验证报告中导出三张关键实例地图
+        'validate_r2_no_wait': False,  # 是否开启“R2无需等待”验证
+        'validate_plots': True,  # 是否在验证报告中导出三张关键实例地图
         'validate_plots_dir': None,  # 地图输出目录（None=validation_plots）
-        'validate_processes': 8,     # 验证并行进程数
-        'plot_r1_path': False,        # 地图中是否绘制 R1 路径（仅影响验证报告中的静态图）
+        'validate_processes': 8,  # 验证并行进程数
+        'plot_r1_path': True,  # 地图中是否绘制 R1 路径（仅影响验证报告中的静态图）
         # 是否在验证中同时包含 0.2m 能力（默认仅 0.4m）
         'validate_include_02': False,
         # 验证期的碰撞/阻塞考虑（不影响规划，仅改变“是否需要等待”的判定）
         'enable_r1_block_check': True,
-        'r1_radius': None,           # 覆盖 R1 半径，None=使用 PARAMS
-        'r2_radius': None,           # 覆盖 R2 半径，None=使用 PARAMS
+        'r1_radius': None,  # 覆盖 R1 半径，None=使用 PARAMS
+        'r2_radius': None,  # 覆盖 R2 半径，None=使用 PARAMS
 
         # 行为参数覆盖
-        'r1_pickup_dwell': None,     # 覆盖 R1 每次拾取停留秒数，None 表示使用 PARAMS 中的默认值
+        'r1_pickup_dwell': None,  # 覆盖 R1 每次拾取停留秒数，None 表示使用 PARAMS 中的默认值
 
         # 是否在遍历中同时包含 0.2m 能力（默认仅 0.4m）
         'enum_include_02': False,
     }
     from types import SimpleNamespace
+
     args = SimpleNamespace(**INTERNAL_ARGS)
 
     # 应用地图变体参数或本地布尔开关
@@ -3298,8 +3526,12 @@ if __name__ == '__main__':
     # 在 blue 模式下：将启动区/对接区/支架/矛头/终点等关键点的 X 坐标做镜像
     if (MAP_VARIANT or 'red').lower() == 'blue':
         mirror_axis_x = 3.0  # 按新公式中列中心 x = 3.0
+
+
         def _mx(p):
             return (2 * mirror_axis_x - p[0], p[1])
+
+
         # 启动区
         PARAMS['r1_start_pos'] = _mx(PARAMS['r1_start_pos'])
         PARAMS['r2_start_pos'] = _mx(PARAMS['r2_start_pos'])
@@ -3411,9 +3643,10 @@ if __name__ == '__main__':
             if sim.plan and sim.plan.get('r2_path') and sim.plan.get('r2_timestamps'):
                 all_failed = False
                 r2_path_points = sim.plan['r2_path']
-                print("将输出含R2完整路径的静态地图（来源：规划结果）")
-                out_name = f"map_with_r2_{suffix}.png"
-                draw_map_with_r2_path(steps, manuals, r2_path_points, filename=out_name)
+                r1_path_points = sim.plan.get('r1_path', [])
+                print("将输出含R1/R2完整路径的静态地图（来源：规划结果）")
+                out_name = f"map_with_paths_{suffix}.png"
+                draw_map_with_paths(steps, manuals, r2_path_points, r1_path_points, filename=out_name, show_r1=True)
             else:
                 print(f"场景 {suffix} 无法生成有效计划，仅输出底图")
                 out_name = f"map_{suffix}.png"
