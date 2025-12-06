@@ -11,6 +11,7 @@ namespace vector2d
 		Vector2D();
 		Vector2D(float x, float y);
 		Vector2D(const float32_t* data);  // 从数组初始化
+		Vector2D(float theta_rad);        // 输入角度（弧度），初始化单位向量
 		
 		// 析构函数
 		virtual ~Vector2D() {}
@@ -20,7 +21,6 @@ namespace vector2d
 		float y() const { return data_[1]; }
 		float& x() { return data_[0]; }
 		float& y() { return data_[1]; }
-
 
 		// 获取内部数据指针
 		const float32_t* data() const { return data_; }
@@ -46,6 +46,9 @@ namespace vector2d
 
 		// 向量长度（模）
 		float length() const;
+		
+		// 向量角度pi  ~-pi
+		float angle() const;
 
 		// 向量长度的平方（避免开方运算）
 		float lengthSquared() const;
@@ -73,16 +76,24 @@ namespace vector2d
 		
 		// 已知三点计算曲率
 		static float curvatureFromThreePoints(const Vector2D& p0, const Vector2D& p1, const Vector2D& p2);
+		
+		// 将当前向量投影到目标向量other上
+		vector2d::Vector2D project(const Vector2D& other) const;
+		
+		// 计算当前向量在目标向量other上的投影长度（标量）
+		float projectLength(const Vector2D& other) const;
 
-    protected:
-		float32_t data_[2];  // 存储x和y分量，适配DSP库函数
-
-    private:
 		// 辅助函数：检查标量是否接近零
 		static bool isZero(float scalar)
 		{
 			return (scalar < 0 ? -scalar : scalar) < 1e-6f;
 		}
+		
+    protected:
+		float32_t data_[2];  // 存储x和y分量，适配DSP库函数
+
+    private:
+		
     };
 }
 #endif

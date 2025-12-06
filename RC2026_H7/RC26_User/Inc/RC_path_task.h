@@ -5,6 +5,7 @@
 #include "RC_radar.h"
 #include "RC_best_path.h"
 #include "RC_timer.h"
+#include "RC_omni_chassis.h"
 
 #ifdef __cplusplus
 

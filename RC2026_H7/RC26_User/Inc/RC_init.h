@@ -11,7 +11,7 @@
 #include "RC_timer.h"
 #include "RC_flysky.h"
 #include "RC_cdc.h"
-#include "RC_chassis.h"
+#include "RC_omni_chassis.h"
 #include "RC_go.h"
 #include "RC_path.h"
 #include "RC_best_path.h"

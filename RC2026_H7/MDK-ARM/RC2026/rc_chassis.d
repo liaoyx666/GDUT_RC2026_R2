@@ -1,6 +1,5 @@
-rc2026/rc_chassis.o: ..\RC26_Lib\Src\RC_chassis.cpp \
-  ..\RC26_Lib\Inc\RC_chassis.h ..\RC26_Motor\Inc\RC_m3508.h \
-  ..\RC26_Motor\Inc\RC_dji_motor.h ..\RC26_Motor\Inc\RC_motor.h \
+rc2026/rc_chassis.o: ..\RC26_Api\Src\RC_chassis.cpp \
+  ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Motor\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
@@ -70,5 +69,5 @@ rc2026/rc_chassis.o: ..\RC26_Lib\Src\RC_chassis.cpp \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Lib\Inc\RC_SMC.h \
-  ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_vector2d.h
+  ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Lib\Inc\RC_timer.h \
+  ..\RC26_Lib\Inc\RC_vector2d.h

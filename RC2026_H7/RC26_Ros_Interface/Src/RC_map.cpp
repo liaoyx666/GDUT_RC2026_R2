@@ -2,9 +2,6 @@
 
 namespace ros
 {
-	
-	
-	
 	Map::Map(cdc::CDC &cdc_, uint8_t rx_id_) : cdc::CDCHandler(cdc_, rx_id_)
 	{
 		//memset(map, -1, 12);// 初始化为未知

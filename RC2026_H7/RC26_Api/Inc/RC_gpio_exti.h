@@ -1,7 +1,7 @@
 #pragma once
 #include "gpio.h"
 
-#define MAX_GPIO_EXTI_NUM 20
+#define MAX_GPIO_EXTI_NUM 16
 
 #ifdef __cplusplus
 namespace gpio
@@ -20,7 +20,6 @@ namespace gpio
     private:
 		uint16_t gpio_pin;
 	
-		static uint16_t gpio_exti_num;
 		static GpioExti* gpio_exti_list[MAX_GPIO_EXTI_NUM];
     };
 }

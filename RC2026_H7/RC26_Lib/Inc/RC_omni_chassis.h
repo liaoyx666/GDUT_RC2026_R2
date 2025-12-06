@@ -3,8 +3,7 @@
 #include "RC_task.h"
 #include "RC_timer.h"
 #include "RC_vector2d.h"
-
-#include <math.h>
+#include "RC_chassis.h"
 
 #ifdef __cplusplus
 
@@ -30,7 +29,8 @@ namespace chassis
     class OmniChassis : public task::ManagedTask
     {
     public:
-        OmniChassis(motor::M3508 &wheel_left, motor::M3508 &wheel_mid, motor::M3508 &wheel_right, float max_xy_spd_, float max_yaw_spd_);
+        OmniChassis(motor::M3508 &wheel_left, motor::M3508 &wheel_mid, motor::M3508 &wheel_right, 
+			float max_xy_spd_, float max_yaw_spd_);
 
         void Chassis_Init();
 
@@ -60,7 +60,6 @@ namespace chassis
 
     };
 	
-	float Limit_Accel(float delta_spd, float max_acc, float dt);
-	
+
 }
 #endif

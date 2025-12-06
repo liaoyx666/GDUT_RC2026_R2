@@ -1,4 +1,4 @@
-#include "RC_chassis.h"
+#include "RC_omni_chassis.h"
 
 namespace chassis
 {
@@ -27,7 +27,6 @@ namespace chassis
        
     }
 
-
 	void OmniChassis::Set_Chassis_World_Spd(float target_x, float target_y, float target_yaw, float yaw)
 	{
 		vector2d::Vector2D spd = vector2d::Vector2D(target_x, target_y);
@@ -36,8 +35,7 @@ namespace chassis
 		
 		Set_Chassis_Spd(world_spd.data()[0], world_spd.data()[1], target_yaw);
 	}
-	
-	
+
     // 设置速度目标
     void OmniChassis::Set_Chassis_Spd(float x, float y, float yaw)
     {
@@ -56,19 +54,7 @@ namespace chassis
 		else if (yaw < -max_yaw_spd) target_spd_yaw = -max_yaw_spd;
 		else target_spd_yaw = yaw;
     }
-
 	
-    // 加速度限制
-    float Limit_Accel(float delta, float max_acc, float dt)
-    {
-        float max_delta = max_acc * dt;  // 最大速度增量
-      
-        // 限制速度增量
-        if (delta > max_delta)  delta = max_delta;
-        else if (delta < -max_delta) delta = -max_delta;
-        
-        return delta;
-    }
 
 
     // 运动控制（三轮全向轮解算）
@@ -78,14 +64,7 @@ namespace chassis
 		
 		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
 		last_time = timer::Timer::Get_TimeStamp();
-		
-		
-		
-		
-		
-		
-		
-		
+
 		/*-----------------------------------------yaw加速度限制------------------------------------------------*/
 		float target_delta_spd;// 目标变化量
 		float current_delta_spd;// 实际变化量
@@ -95,15 +74,9 @@ namespace chassis
 		current_delta_spd = Limit_Accel(target_delta_spd, MAX_ACC_YAW, dt);
 		
 		current_spd_yaw = last_spd_yaw + current_delta_spd;
-		
-		
-		
-		
-		
+
 		/*------------------------------------------前馈----------------------------------------------*/
 		target_spd = target_spd.rotate(current_spd_yaw * 0.09f);
-
-
 
 		/*-------------------------------------------xy加速度限制----------------------------------------------*/
 
@@ -135,7 +108,6 @@ namespace chassis
             (current_spd.data()[0] * COS180 - current_spd.data()[1] * SIN180 + L * current_spd_yaw) * k,// 180
             (current_spd.data()[0] * COS300 - current_spd.data()[1] * SIN300 + L * current_spd_yaw) * k // 300
         };
-
 
         // 设置电机转速
         for (int i = 0; i < 3; i++)

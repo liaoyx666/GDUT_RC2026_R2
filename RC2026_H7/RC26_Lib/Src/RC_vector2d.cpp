@@ -7,6 +7,13 @@ namespace vector2d
 	Vector2D::Vector2D(float x, float y) : data_{x, y} {}
 
 	Vector2D::Vector2D(const float32_t* data) : data_{data[0], data[1]} {}
+		
+	Vector2D::Vector2D(float theta_rad)
+	{
+		// 逆时针
+        data_[0] = arm_cos_f32(theta_rad);
+        data_[1] = arm_sin_f32(theta_rad);
+	}
 	/*----------------------------------------------------------------------------------*/
 	Vector2D Vector2D::operator+(const Vector2D& other) const
 	{
@@ -83,6 +90,19 @@ namespace vector2d
 		float32_t lenSq = lengthSquared();
 		float32_t result;
 		arm_sqrt_f32(lenSq, &result);
+		return result;
+	}
+
+	// 向量角度pi ~ -pi
+	float Vector2D::angle() const
+	{
+		if (isZero(lengthSquared()))
+		{
+			return 0.0f;
+		}
+		
+		float result;
+		arm_atan2_f32(data_[1], data_[0], &result);
 		return result;
 	}
 
@@ -196,5 +216,35 @@ namespace vector2d
 		if (curvature < 0.f) curvature = 0.f;
 		
 		return curvature;
+	}
+	
+	// 将当前向量投影到目标向量other上
+	Vector2D Vector2D::project(const Vector2D& other) const
+	{
+		// 目标向量为零向量时，返回零向量
+		float otherLenSq = other.lengthSquared();
+		if (isZero(otherLenSq))
+		{
+			return Vector2D(0.0f, 0.0f);
+		}
+		
+		// 计算投影系数：(a·b)/|b|²
+		float projScalar = this->dot(other) / otherLenSq;
+		
+		// 计算投影向量：系数 × 目标向量
+		return other * projScalar;
+	}
+	
+	// 计算当前向量在目标向量other上的投影长度（标量）
+	float Vector2D::projectLength(const Vector2D& other) const
+	{
+		float otherLenSq = other.lengthSquared();
+		if (isZero(otherLenSq))
+		{
+			return 0.0f;
+		}
+		// 投影长度 = (a·b)/|b|
+		float projScalar = this->dot(other) / sqrtf(otherLenSq);
+		return projScalar;
 	}
 }
