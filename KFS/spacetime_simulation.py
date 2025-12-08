@@ -126,11 +126,18 @@ _MP_STEPS_BASE = None
 _MP_R2_CAPS = None
 
 
-def _mp_enum_init(steps_base, r2_caps):
+def _mp_enum_init(steps_base, r2_caps, params_dict=None, map_variant_str=None):
     """进程池初始化器：在子进程中设置只读全局数据。"""
-    global _MP_STEPS_BASE, _MP_R2_CAPS
+    global _MP_STEPS_BASE, _MP_R2_CAPS, PARAMS, MAP_VARIANT
     _MP_STEPS_BASE = steps_base
     _MP_R2_CAPS = tuple(r2_caps)
+
+    # 同步主进程的全局参数（修复多进程下 Blue 地图镜像参数丢失问题）
+    if params_dict:
+        PARAMS.update(params_dict)
+    if map_variant_str:
+        MAP_VARIANT = map_variant_str
+
     try:
         PARAMS['quiet'] = True
     except Exception:
@@ -149,7 +156,8 @@ def _mp_enum_worker(manual_indices):
             for cap in _MP_R2_CAPS:
                 sim = Simulation(copy.deepcopy(steps_placement), manuals, cap, run_planner=True)
                 best_plan = sim.plan
-                code12, path_str = encode_placement_and_path(steps_placement, manuals, best_plan)
+                # 必须传入 sim.steps 以便 encode 函数能识别伪台阶（sim.steps 包含了 _init_pseudo_steps 生成的伪台阶）
+                code12, path_str = encode_placement_and_path(sim.steps, manuals, best_plan)
                 line = f"{code12} {path_str}" if path_str else code12
                 lines.append(line)
         return lines
@@ -344,7 +352,7 @@ class Planner:
                     'center': pseudo_center,
                     'row': 4,
                     'col': s['col'],
-                    'height': s['height'],
+                    'height': 0.0,  # 伪台阶位于地面，高度为0
                     'manual': None,
                     'neighbors': [base_idx],
                     'is_pseudo': True,
@@ -354,6 +362,31 @@ class Planner:
                 new_steps.append(pseudo_step)
                 self.pseudo_indices.add(pseudo_idx)
                 self.entry_to_pseudo[base_idx] = pseudo_idx
+        
+        # --- 新增：建立伪台阶之间的横向连接 ---
+        # 伪台阶之间视为平地连通，只要它们的基台阶物理相邻
+        if new_steps:
+            base_logic_to_step = {s['logic_index']: s for s in self.steps if not s.get('is_pseudo')}
+            for p1 in new_steps:
+                base1_idx = p1['neighbors'][0]  # 伪台阶创建时只加了一个邻居：基台阶
+                if base1_idx not in base_logic_to_step: continue
+                base1 = base_logic_to_step[base1_idx]
+                
+                for p2 in new_steps:
+                    if p1['logic_index'] == p2['logic_index']:
+                        continue
+                    base2_idx = p2['neighbors'][0]
+                    if base2_idx not in base_logic_to_step: continue
+                    base2 = base_logic_to_step[base2_idx]
+
+                    # 判断基台阶是否相邻
+                    is_adj = (abs(base1['row'] - base2['row']) == 1 and base1['col'] == base2['col']) or \
+                             (abs(base1['col'] - base2['col']) == 1 and base1['row'] == base2['row'])
+                    
+                    if is_adj:
+                        if p2['logic_index'] not in p1['neighbors']:
+                            p1['neighbors'].append(p2['logic_index'])
+
         if new_steps:
             self.steps.extend(new_steps)
             if not self.quiet:
@@ -447,25 +480,46 @@ class Planner:
             all_r2_indices = {m.step_index for m in self.r2_manuals}
             r2_combos = list(combinations(all_r2_indices, PARAMS['r2_manual_needed']))
 
+            # --- 新增约束：若全局存在 Row 4 的 R2 秘籍，则必须选择包含 Row 4 秘籍的组合 ---
+            row4_global = {idx for idx in all_r2_indices if self.logic_index_to_step[idx]['row'] == 4}
+            if row4_global:
+                # 过滤：保留那些与 row4_global 有交集的组合
+                original_count = len(r2_combos)
+                r2_combos = [c for c in r2_combos if not row4_global.isdisjoint(set(c))]
+                if not self.quiet and len(r2_combos) < original_count:
+                    print(f"    [约束] 全局存在Row4秘籍{row4_global}，强制过滤R2组合（必须包含Row4），剩余 {len(r2_combos)}/{original_count}")
+
             if not self.quiet:
                 print(f"    - 将为R1主任务评估 {len(r2_combos)} 种R2秘籍组合...")
 
             # 遍历所有可选入口行台阶
-            # 新增限制：入口行台阶必须满足“与出口同款”的能力约束——其高度不超过 R2 的越障能力
-            # 入口规则：
-            # - 当 r2_max_step_height == 0.2 时，仅允许中列（col=2）
-            # - 当 r2_max_step_height >= 0.4 时，入口行为行4的任意列
+            # 修改：对于Row 4台阶，只要存在伪台阶（即地面可达），均可作为入口（第一站），
+            # 无需受限于物理爬升高度（height）或特定列（col=2）。
+            # A*算法会在后续规划中处理从伪台阶进入真台阶的物理限制。
+            valid_entries = []
+            # 提前定义 allow_any_col，供后续日志或逻辑使用
             allow_any_col = self.r2_max_step_height >= 0.4 - 1e-9
-            valid_entries = [
-                idx for idx in self.logic_index_to_step
-                if not self.logic_index_to_step[idx].get('is_pseudo', False)
-                   and self.logic_index_to_step[idx]['row'] == 4
-                   and (allow_any_col or self.logic_index_to_step[idx]['col'] == 2)
-                   and self.logic_index_to_step[idx]['height'] <= self.r2_max_step_height
-                   and idx not in r1_non_primary_indices
-                   and ((idx not in all_r2_indices) or (idx in self.entry_to_pseudo))
-                   and (not self.fake_manual or idx != self.fake_manual.step_index)
-            ]
+            
+            for idx, step in self.logic_index_to_step.items():
+                if step.get('is_pseudo', False): continue
+                if step['row'] != 4: continue
+                
+                # 排除被R1非主任务占据的台阶
+                if idx in r1_non_primary_indices: continue
+                # 排除假秘籍台阶
+                if self.fake_manual and idx == self.fake_manual.step_index: continue
+                # 如果台阶上有R2秘籍，必须有伪台阶才能作为入口（实际上Row4都有）
+                if (idx in all_r2_indices) and (idx not in self.entry_to_pseudo): continue
+
+                # 核心判断：
+                # 1. 如果有伪台阶，说明可以通过地面到达，总是合法入口
+                if idx in self.entry_to_pseudo:
+                    valid_entries.append(idx)
+                # 2. 如果没有伪台阶（异常情况），则回退到旧的物理限制检查
+                else:
+                    if (allow_any_col or step['col'] == 2) and step['height'] <= self.r2_max_step_height:
+                        valid_entries.append(idx)
+            
             if not valid_entries:
                 print("    - 无法找到任何本身无秘籍的入口行台阶，跳过此方案。")
                 continue
@@ -607,9 +661,10 @@ class Planner:
         if entry_step in self.logic_index_to_step:
             step_obj = self.logic_index_to_step[entry_step]
             use_pseudo = False
-            if step_obj.get('manual') is not None and getattr(step_obj['manual'], 'label', None) == 'R2':
-                if entry_step in self.entry_to_pseudo:
-                    use_pseudo = True
+            # 修改：只要存在伪台阶（即Row4台阶），就优先进入伪台阶，避免不必要的爬升
+            if entry_step in self.entry_to_pseudo:
+                use_pseudo = True
+            
             if use_pseudo:
                 pseudo_idx = self.entry_to_pseudo[entry_step]
                 entry_center = self.logic_index_to_step[pseudo_idx]['center']
@@ -686,19 +741,87 @@ class Planner:
         if row4_indices:
             orders = [o for o in orders if o[0] in row4_indices]
             print(f"      [约束] 检测到第一行台阶{row4_indices}，已过滤顺序，仅保留以第一行台阶开头的路径", flush=True)
-
+            
+            # 额外修正：如果过滤后，首个任务是 Row4 台阶，则必须确保初始路径进入的是该台阶的伪台阶
+            # 否则后续的 step_no=1 约束虽然会强制选伪台阶，但如果初始位置已经在真台阶上（由 _adjust_entry_path 决定），
+            # 就会导致“就地拾取”逻辑触发，从而绕过伪台阶约束。
+            # 因此，这里需要根据 order[0] 动态调整 initial_r2_path 的终点。
+            # 注意：由于 orders 可能有多个，且首个台阶不同，这里无法统一修改 initial_r2_path。
+            # 解决方案：在循环内部，针对每个 order，如果首个是 Row4，则临时修正 current_pos 为伪台阶位置。
+        
         print(f"      >> 本R2组合共有 {len(orders)} 种顺序将被评估", flush=True)
         for order_idx, order in enumerate(orders, start=1):
             print(f"        >> 开始评估顺序 {order_idx}/{len(orders)}: {[f'台阶{idx}' for idx in order]}", flush=True)
+            
+            # --- 动态修正起点逻辑 ---
+            # 如果首个目标是 Row4，且当前起点是该目标的真台阶，则强制将起点视为伪台阶（模拟从伪台阶进入）
+            # 这通常发生在 _adjust_entry_path 默认选择了真台阶作为入口时。
             current_pos = initial_r2_path[-1]
-            current_idx = self.find_step_by_pos(current_pos)
             current_time = initial_r2_ts[-1]
+            
+            first_target = order[0]
+            if first_target in row4_indices:
+                # 检查当前位置是否就是目标真台阶
+                curr_step_idx = self.find_step_by_pos(current_pos)
+                if curr_step_idx == first_target:
+                    # 强制修正为伪台阶位置
+                    pseudo_idx = self.entry_to_pseudo.get(first_target)
+                    if pseudo_idx:
+                        pseudo_pos = self.logic_index_to_step[pseudo_idx]['center']
+                        print(f"            [修正] 首个目标{first_target}在Row4，强制将起点从真台阶修正为伪台阶{pseudo_idx}", flush=True)
+                        current_pos = pseudo_pos
+                        # 时间可能需要微调（移动到伪台阶），但通常伪台阶就在旁边，且作为入口点，时间差异可忽略或视为包含在 entry 过程中
+                        # 这里保持时间不变，假设 R2 是直接走到伪台阶的
+            
+            current_idx = self.find_step_by_pos(current_pos)
+            print(f"            [起点] 台阶{current_idx} at {np.round(current_pos, 2)}, t={current_time:.2f}s",
+                  flush=True)
+        
+        print(f"      >> 本R2组合共有 {len(orders)} 种顺序将被评估", flush=True)
+        for order_idx, order in enumerate(orders, start=1):
+            print(f"        >> 开始评估顺序 {order_idx}/{len(orders)}: {[f'台阶{idx}' for idx in order]}", flush=True)
+            
+            # --- 动态修正起点逻辑 ---
+            # 如果首个目标是 Row4，且当前起点是该目标的真台阶，则强制将起点视为伪台阶（模拟从伪台阶进入）
+            # 这通常发生在 _adjust_entry_path 默认选择了真台阶作为入口时。
+            current_pos = initial_r2_path[-1]
+            current_time = initial_r2_ts[-1]
+            
+            # 初始化路径列表（提前到这里，以便记录修正移动）
+            path = []
+            
+            first_target = order[0]
+            # 修正条件放宽：只要首个目标是 Row4，且当前位置在 Row4 的任何真台阶上（不一定是目标台阶本身），
+            # 都强制修正为目标台阶对应的伪台阶。
+            # 场景：R2 从台阶 3 进入，但首个目标是台阶 2。此时 R2 站在 3 上，应被视为站在 3 的伪台阶或直接瞬移到 2 的伪台阶（作为入口选择的修正）。
+            # 最稳妥的方式：如果首个目标在 Row4，直接强制起点为该目标的伪台阶（覆盖 _adjust_entry_path 的选择）。
+            if first_target in row4_indices:
+                pseudo_idx = self.entry_to_pseudo.get(first_target)
+                if pseudo_idx:
+                    pseudo_pos = self.logic_index_to_step[pseudo_idx]['center']
+                    # 仅当当前位置确实在 Row4 区域（真台阶或伪台阶）时才修正，避免从远处瞬移
+                    curr_step_idx = self.find_step_by_pos(current_pos)
+                    curr_step = self.logic_index_to_step.get(curr_step_idx)
+                    if curr_step and curr_step['row'] == 4:
+                        print(f"            [修正] 首个目标{first_target}在Row4，强制将起点从{curr_step_idx}修正为伪台阶{pseudo_idx}", flush=True)
+                        
+                        # [修复] 计算移动时间并记录路径，消除“免费瞬移”Bug
+                        dist_corr = _dist(current_pos, pseudo_pos)
+                        # 使用 v2 (正常速度) 或 v2s (加速)？此处为短途调整，使用 v2 较稳妥
+                        time_corr = dist_corr / PARAMS['v2']
+                        current_time += time_corr
+                        # 记录这段修正路径，确保可视化连续
+                        path.append((pseudo_pos, current_time))
+                        
+                        current_pos = pseudo_pos
+            
+            current_idx = self.find_step_by_pos(current_pos)
             print(f"            [起点] 台阶{current_idx} at {np.round(current_pos, 2)}, t={current_time:.2f}s",
                   flush=True)
 
             picked_indices = []
             pickup_schedule = {}
-            path = []
+            # path = []  <-- 已移至上方初始化
             valid = True
             order_failed = False
             illegal_found = False
@@ -717,6 +840,22 @@ class Planner:
                 dynamic_obstacles.update(all_unpicked_r2_global_except_current)
                 goal_step = self.logic_index_to_step[manual_idx]
                 legal_neighbors = [n for n in goal_step['neighbors'] if n not in dynamic_obstacles]
+
+                # 新增约束：若第一行（row=4）有R2KFS，则R2必须从R2伪台阶收集它的第一个KFS
+                # 仅针对第一步且目标在Row4的情况，强制过滤合法邻居为伪台阶
+                if step_no == 1 and goal_step['row'] == 4:
+                    pseudo_neighbors = [n for n in legal_neighbors if n in getattr(self, 'pseudo_indices', set())]
+                    if pseudo_neighbors:
+                        legal_neighbors = pseudo_neighbors
+                        print(f"            [约束] 第1步目标在Row4，强制限制在伪台阶拾取，候选: {legal_neighbors}", flush=True)
+                    else:
+                        # 如果没有伪台阶邻居（例如被阻挡），则此路不通
+                        valid = False
+                        order_failed = True
+                        order_failed_reason = "Row4首个目标无可用伪台阶拾取点"
+                        order_failed_context = {'manual_idx': manual_idx}
+                        break
+
                 # 新增：拾取优先级 —— 若存在多个合法邻居，优先选择“行数更低（row 更小）”的台阶
                 legal_neighbor_rows = {n: self.logic_index_to_step[n]['row'] for n in legal_neighbors}
                 min_legal_row = min(legal_neighbor_rows.values()) if legal_neighbors else None
@@ -749,15 +888,15 @@ class Planner:
                     # 记录路径时间点（与其他分支保持一致，写入完成时刻即可）
                     path.append((current_pos, t3_here))
                     current_time = t3_here
-                    # 伪台阶使用次数限制
-                    if current_idx in getattr(self, 'pseudo_indices', set()):
-                        if used_pseudo_pick:
-                            valid = False
-                            order_failed = True
-                            order_failed_reason = "伪台阶拾取已使用一次"
-                            order_failed_context = {'manual_idx': manual_idx, 'current_idx': current_idx}
-                            break
-                        used_pseudo_pick = True
+                    # 伪台阶使用次数限制 - 已移除
+                    # if current_idx in getattr(self, 'pseudo_indices', set()):
+                    #     if used_pseudo_pick:
+                    #         valid = False
+                    #         order_failed = True
+                    #         order_failed_reason = "伪台阶拾取已使用一次"
+                    #         order_failed_context = {'manual_idx': manual_idx, 'current_idx': current_idx}
+                    #         break
+                    #     used_pseudo_pick = True
                     print(
                         f"                [到达]（就地）拾取点台阶{fmt_idx(current_idx)}，完成拾取目标{fmt_idx(manual_idx)} (t={current_time:.2f}s)",
                         flush=True
@@ -833,13 +972,14 @@ class Planner:
                 current_idx = self.find_step_by_pos(final_pos)
                 current_time = pickup_finish_time
                 if current_idx in getattr(self, 'pseudo_indices', set()):
-                    if used_pseudo_pick:
-                        valid = False
-                        order_failed = True
-                        order_failed_reason = "伪台阶拾取已使用一次"
-                        order_failed_context = {'manual_idx': manual_idx, 'current_idx': current_idx}
-                        break
-                    used_pseudo_pick = True
+                    # if used_pseudo_pick:
+                    #     valid = False
+                    #     order_failed = True
+                    #     order_failed_reason = "伪台阶拾取已使用一次"
+                    #     order_failed_context = {'manual_idx': manual_idx, 'current_idx': current_idx}
+                    #     break
+                    # used_pseudo_pick = True
+                    pass
                 print(
                     f"                [到达]（A*一致）拾取点台阶{fmt_idx(current_idx)}，完成拾取目标{fmt_idx(manual_idx)} (t={current_time:.2f}s)",
                     flush=True
@@ -1857,21 +1997,24 @@ class Planner:
 
                     neighbor_step = self.logic_index_to_step[neighbor_idx]
 
+                    # --- 新增：伪台阶之间无视高度差与爬坡惩罚 ---
+                    is_pseudo_move = current_step.get('is_pseudo') and neighbor_step.get('is_pseudo')
+
                     # 检查高度差是否在R2能力范围内
                     dz = abs(neighbor_step['height'] - current_step['height'])
-                    if dz > self.r2_max_step_height:
+                    if not is_pseudo_move and dz > self.r2_max_step_height:
                         continue
 
                     # 计算爬升成本（只有在停顿状态下才计算）
                     climb_penalty = 0
-                    if is_paused:
+                    if is_paused and not is_pseudo_move:
                         if np.isclose(dz, 0.2, atol=0.05):
                             climb_penalty = PARAMS['s8']
                         elif np.isclose(dz, 0.4, atol=0.05):
                             climb_penalty = PARAMS['s9']
 
                     # 如果没停顿且有高度差，则不能移动
-                    if not is_paused and dz > 0.01:
+                    if not is_paused and not is_pseudo_move and dz > 0.01:
                         continue
 
                     # 计算移动成本
@@ -1884,6 +2027,8 @@ class Planner:
 
                     # 计算转向惩罚（新规则）：向“同行”台阶移动时直接施加惩罚
                     turn_penalty = PARAMS.get('s7', 0) if neighbor_step['row'] == current_step['row'] else 0
+                    if is_pseudo_move:
+                        turn_penalty = 0
 
                     # 行1列偏置：把“该列地面->斜坡时间”差额加到真实代价上，确保偏向更近列
                     extra_exit_bias = 0.0
@@ -2597,8 +2742,11 @@ def encode_placement_and_path(steps, manuals, best_plan):
                         }
                         break
             
-            if info and 1 <= info['index'] <= 12:
-                raw_seq.append((info['index'], info['is_pseudo']))
+            if info:
+                # 允许伪台阶进入序列（index > 12），以便后续挂载拾取事件
+                # 但仅当它是 1..12 或者是伪台阶时才记录
+                if (1 <= info['index'] <= 12) or info['is_pseudo']:
+                    raw_seq.append((info['index'], info['is_pseudo']))
         
         # 去重（保留顺序，区分伪台阶与真台阶）
         seen = set()
@@ -2823,7 +2971,9 @@ def enumerate_all_placements_and_write(seed, r2_capabilities=(0.4,), out_file=No
     try:
         if not out_file:
             mv = (map_variant or MAP_VARIANT).lower()
-            out_file = f"placements_and_paths_{mv}.txt"
+            # 根据能力集自动调整文件名后缀
+            cap_suffix = "0.2m" if r2_capabilities == (0.2,) else "0.4m"
+            out_file = f"placements_and_paths_{mv}_{cap_suffix}.txt"
         f = open(out_file, 'w', encoding='utf-8')
         # 并行计算：仅主进程维护一个进度条与文件写入，子进程只返回结果
         from multiprocessing import Pool
@@ -2834,10 +2984,10 @@ def enumerate_all_placements_and_write(seed, r2_capabilities=(0.4,), out_file=No
                 processes = max(1, min(8, os.cpu_count() or 8))
             except Exception:
                 processes = 8
-        with Pool(processes=processes, initializer=_mp_enum_init, initargs=(steps, r2_capabilities)) as pool:
+        with Pool(processes=processes, initializer=_mp_enum_init, initargs=(steps, r2_capabilities, PARAMS, MAP_VARIANT)) as pool:
             # 使用较小的 chunksize 以提升进度条响应度（性能与体验折中）
-            base = len(tasks) // (processes * 64) if processes else 1
-            chunk = max(8, min(64, base if base > 0 else 1))
+            # 调小 chunksize 以获得更平滑的进度更新
+            chunk = 32
             for lines in pool.imap_unordered(_mp_enum_worker, tasks, chunksize=chunk):
                 if lines:
                     for line in lines:
@@ -2848,6 +2998,8 @@ def enumerate_all_placements_and_write(seed, r2_capabilities=(0.4,), out_file=No
                                 f.flush()
                             except Exception:
                                 pass
+                if pbar:
+                    pbar.update(1)
     finally:
         if pbar:
             try:
@@ -3475,9 +3627,9 @@ if __name__ == '__main__':
     validate_sample_limit = None
     # 手动放置秘籍的位置（使用 1-based 逻辑编号 logic_index）
     manual_indices = {
-        'R1': [1, 2, 4],  # 3个 R1 秘籍（逻辑编号）
-        'R2': [3, 8, 7, 12],  # 4个 R2 秘籍（逻辑编号）
-        'fake': 5  # 假秘籍（逻辑编号）
+        'R1': [1, 2, 3],  # 3个 R1 秘籍（逻辑编号）
+        'R2': [4, 8, 11, 7],  # 4个 R2 秘籍（逻辑编号）
+        'fake': 9  # 假秘籍（逻辑编号）
     }
 
     # 轻量命令行参数：--enum-sample N（只跑前N个合法放置）；--enum-processes P；--enum-out file；--map red|blue
@@ -3508,8 +3660,8 @@ if __name__ == '__main__':
         # 行为参数覆盖
         'r1_pickup_dwell': None,  # 覆盖 R1 每次拾取停留秒数，None 表示使用 PARAMS 中的默认值
 
-        # 是否在遍历中同时包含 0.2m 能力（默认仅 0.4m）
-        'enum_include_02': False,
+        # 遍历能力选择：True=仅0.2m，False=仅0.4m
+        'enum_include_02': True,
     }
     from types import SimpleNamespace
 
@@ -3575,8 +3727,8 @@ if __name__ == '__main__':
         sys.exit(0)
     elif run_full_enumeration or args.enum_sample:
         # 遍历模式：不输出地图、不输出调试，仅显示总进度条并生成txt
-        # 根据开关决定遍历能力集
-        caps_enum = (0.4, 0.2) if bool(getattr(args, 'enum_include_02', False)) else (0.4,)
+        # 根据开关决定遍历能力集：True=仅0.2m，False=仅0.4m
+        caps_enum = (0.2,) if bool(getattr(args, 'enum_include_02', False)) else (0.4,)
         enumerate_all_placements_and_write(
             simulation_seed,
             r2_capabilities=caps_enum,
