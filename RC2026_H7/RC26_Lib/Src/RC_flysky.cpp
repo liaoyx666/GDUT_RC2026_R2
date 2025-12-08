@@ -6,6 +6,16 @@ namespace flysky
 	FlySky::FlySky(uint16_t gpio_pin_) : task::ManagedTask("Flysky", 39, 128, task::TASK_DELAY, 1), gpio::GpioExti(gpio_pin_)
 	{
 		is_init = true;
+		
+		data_buf[0] = 1500;
+		data_buf[1] = 1500;
+		data_buf[2] = 1500;
+		data_buf[3] = 1500;
+		
+		channel_list[0] = 1500;
+		channel_list[1] = 1500;
+		channel_list[2] = 1500;
+		channel_list[3] = 1500;
 	}
 
 	// 上升沿触发
@@ -49,6 +59,8 @@ namespace flysky
 		}
 	}
 	
+#define FLY_SKY_DEADZONE 65
+	
 	void FlySky::Task_Process()
 	{
 		// 检测断连
@@ -61,21 +73,21 @@ namespace flysky
 			int16_t temp_right_y = data_buf[1] - 1500;
 			
 			// 消抖
-			if (temp_left_y > -50 && temp_left_y < 50) left_y = 0;
-			else if (temp_left_y >= 50) left_y = temp_left_y - 50;
-			else left_y = temp_left_y + 50;
+			if (temp_left_y > -FLY_SKY_DEADZONE && temp_left_y < FLY_SKY_DEADZONE) left_y = 0;
+			else if (temp_left_y >= FLY_SKY_DEADZONE) left_y = temp_left_y - FLY_SKY_DEADZONE;
+			else left_y = temp_left_y + FLY_SKY_DEADZONE;
 			
-			if (temp_left_x > -50 && temp_left_x < 50) left_x = 0;
-			else if (temp_left_x >= 50) left_x = temp_left_x - 50;
-			else left_x = temp_left_x + 50;
+			if (temp_left_x > -FLY_SKY_DEADZONE && temp_left_x < FLY_SKY_DEADZONE) left_x = 0;
+			else if (temp_left_x >= FLY_SKY_DEADZONE) left_x = temp_left_x - FLY_SKY_DEADZONE;
+			else left_x = temp_left_x + FLY_SKY_DEADZONE;
 			
-			if (temp_right_x > -50 && temp_right_x < 50) right_x = 0;
-			else if (temp_right_x >= 50) right_x = temp_right_x - 50;
-			else right_x = temp_right_x + 50;
+			if (temp_right_x > -FLY_SKY_DEADZONE && temp_right_x < FLY_SKY_DEADZONE) right_x = 0;
+			else if (temp_right_x >= FLY_SKY_DEADZONE) right_x = temp_right_x - FLY_SKY_DEADZONE;
+			else right_x = temp_right_x + FLY_SKY_DEADZONE;
 			
-			if (temp_right_y > -50 && temp_right_y < 50) right_y = 0;
-			else if (temp_right_y >= 50) right_y = temp_right_y - 50;
-			else right_y = temp_right_y + 50;
+			if (temp_right_y > -FLY_SKY_DEADZONE && temp_right_y < FLY_SKY_DEADZONE) right_y = 0;
+			else if (temp_right_y >= FLY_SKY_DEADZONE) right_y = temp_right_y - FLY_SKY_DEADZONE;
+			else right_y = temp_right_y + FLY_SKY_DEADZONE;
 			
 			swa = data_buf[4] <= 1500 ? 0 : 1;
 		

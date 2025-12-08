@@ -2,8 +2,10 @@
 
 namespace motor
 {
-    Vesc::Vesc(uint8_t id_, can::Can &can_, tim::Tim &tim_) : can::CanHandler(can_), tim::TimHandler(tim_), Motor()
+    Vesc::Vesc(uint8_t id_, can::Can &can_, tim::Tim &tim_, float pole_pairs_) : can::CanHandler(can_), tim::TimHandler(tim_), Motor(pole_pairs_)
 	{
+		pole_pairs = pole_pairs_;
+		
 		motor_mode = CURRENT_MODE;
         // 初始化ID（1-255有效）
         if (id_ <= 255 && id_ != 0)
@@ -83,7 +85,7 @@ namespace motor
 				tx_id = (CAN_PACKET_SET_POS << 8) | id;
 				can->tx_frame_list[tx_frame_dx].id = tx_id;
                 // POS值直接转换为32位整数
-                send_pos = (int32_t)(target_pos*1000000);
+                send_pos = (int32_t)(target_pos * 1000000);
                 // 填充CAN数据（大端模式）
                 can->tx_frame_list[tx_frame_dx].data[0] = (send_pos >> 24) & 0xFF;
                 can->tx_frame_list[tx_frame_dx].data[1] = (send_pos >> 16) & 0xFF;
@@ -107,8 +109,8 @@ namespace motor
 		}
 		else if(((rx_id_ >> 8) & 0xff) == 0x10)
 		{
-			temperature = ((int16_t)((rx_data[0] << 8) | rx_data[1]))/10.0f;
-			pos = ((int16_t)((rx_data[6] << 8) | rx_data[7]))/50.0f;
+			temperature = ((int16_t)((rx_data[0] << 8) | rx_data[1])) / 10.0f;
+			pos = ((int16_t)((rx_data[6] << 8) | rx_data[7])) / 50.0f;
 		}
     }
 }

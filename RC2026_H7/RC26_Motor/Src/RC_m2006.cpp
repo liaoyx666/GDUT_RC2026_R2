@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	M2006::M2006(uint8_t id_, can::Can &can_, tim::Tim &tim_) : DjiMotor(can_, tim_, 36.f * 2.f)
+	M2006::M2006(uint8_t id_, can::Can &can_, tim::Tim &tim_, float gear_ratio_) : DjiMotor(can_, tim_, gear_ratio_)
 	{
 		// 设置tx，rx和m2006的id
 		Dji_Id_Init(id_);

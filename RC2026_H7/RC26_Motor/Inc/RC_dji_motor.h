@@ -17,7 +17,6 @@ namespace motor
 		DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 1.f);
 		virtual ~DjiMotor() {}
 
-		pid::Pid pid_spd, pid_pos;
 		void Reset_Out_Angle(float out_angle_) override;
 
     protected:

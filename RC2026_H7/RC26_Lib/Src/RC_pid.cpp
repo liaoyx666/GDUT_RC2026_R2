@@ -13,7 +13,6 @@ namespace pid
 		else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
 		
 		use_td = use_td_;// 是否使用td
-		
 	}
 
 	void Pid::Pid_Param_Init(
@@ -45,13 +44,15 @@ namespace pid
 
 	float Pid::Pid_Calculate(bool normalization, float unit)
 	{
-		if (unit < 0) unit = -unit;
+		unit = fabsf(unit);
+		
+		float period = 2.f * unit;
 		
 		float temp_target;
 		
 		if (use_td == true)
 		{
-			temp_target = td.TD_Calculate(target);
+			temp_target = td.TD_Calculate(target, normalization, unit);
 		}
 		else
 		{
@@ -65,8 +66,8 @@ namespace pid
 			
 			if (normalization == true)// 归一化
 			{
-				if (feed_forward > unit) feed_forward = feed_forward - 2.f * unit;
-				else if (feed_forward < -unit) feed_forward = feed_forward + 2.f * unit;
+				if (feed_forward > unit) feed_forward = feed_forward - period;
+				else if (feed_forward < -unit) feed_forward = feed_forward + period;
 			}
 			
 			feed_forward =  feed_forward / delta_time * kf;
@@ -84,8 +85,8 @@ namespace pid
 		
 		if (normalization == true)// 归一化
 		{
-			if (error > unit) error = error - 2.f * unit;
-			else if (error < -unit) error = error + 2.f * unit;
+			if (error > unit) error = error - period;
+			else if (error < -unit) error = error + period;
 		}
 
 		if (fabsf(error) < deadzone) error = 0;// 死区
@@ -145,8 +146,8 @@ namespace pid
 					
 					if (normalization == true)// 归一化
 					{
-						if (differential > unit) differential = differential - 2.f * unit;
-						else if (differential < -unit) differential = differential + 2.f * unit;
+						if (differential > unit) differential = differential - period;
+						else if (differential < -unit) differential = differential + period;
 					}
 					
 					differential = differential / delta_time * kd;// 微分先行

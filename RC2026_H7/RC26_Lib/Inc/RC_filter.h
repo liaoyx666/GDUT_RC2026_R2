@@ -14,7 +14,7 @@ namespace filter
     public:
 		TD(float r_, float h_, float v2_max_ = 0.f);
 		TD();
-		float TD_Calculate(float v);
+		float TD_Calculate(float v, bool normalization = false, float unit = PI);
 		void TD_Init(float r_, float h_, float v2_max_ = 0.f);
 	
     protected:
@@ -44,7 +44,7 @@ namespace filter
 		void TD3rd_Init(float r_, float h_, float v2_max_ = 0.f, float v3_max_ = 0.f);
 		
 			
-		float TD_Calculate(float v);
+		float TD_Calculate(float v, bool normalization = false, float unit = PI);
     protected:
 		
     private:

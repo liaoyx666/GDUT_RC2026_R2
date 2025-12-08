@@ -60,6 +60,18 @@ void Error_Handler(void);
 #define flysky_Pin GPIO_PIN_8
 #define flysky_GPIO_Port GPIOF
 #define flysky_EXTI_IRQn EXTI9_5_IRQn
+#define photogate_1_Pin GPIO_PIN_12
+#define photogate_1_GPIO_Port GPIOD
+#define photogate_1_EXTI_IRQn EXTI15_10_IRQn
+#define photogate_2_Pin GPIO_PIN_13
+#define photogate_2_GPIO_Port GPIOD
+#define photogate_2_EXTI_IRQn EXTI15_10_IRQn
+#define photogate_3_Pin GPIO_PIN_14
+#define photogate_3_GPIO_Port GPIOD
+#define photogate_3_EXTI_IRQn EXTI15_10_IRQn
+#define photogate_4_Pin GPIO_PIN_15
+#define photogate_4_GPIO_Port GPIOD
+#define photogate_4_EXTI_IRQn EXTI15_10_IRQn
 
 /* USER CODE BEGIN Private defines */
 

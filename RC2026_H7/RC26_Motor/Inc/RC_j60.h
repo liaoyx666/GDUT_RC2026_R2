@@ -13,8 +13,6 @@ namespace motor
 		
 		void Set_K_Pos(float target_k_pos_) override;
 		void Set_K_Spd(float target_k_spd_) override;
-	
-		pid::Pid pid_pos, pid_spd;   
 
 	private:
 		void CanHandler_Register() override;

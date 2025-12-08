@@ -16,24 +16,31 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 //motor::M6020 m6020_1(1, can2, tim7_1khz);
 
 // 底盘
-motor::M3508 m3508_1(1, can3, tim7_1khz);
-motor::M3508 m3508_2(2, can3, tim7_1khz);
-motor::M3508 m3508_3(3, can3, tim7_1khz);
+//motor::M3508 m3508_1(1, can3, tim7_1khz);
+//motor::M3508 m3508_2(2, can3, tim7_1khz);
+//motor::M3508 m3508_3(3, can3, tim7_1khz);
+motor::M2006 m2006_1_can3(1, can3, tim7_1khz, 4.f * 36.f);
+motor::M2006 m2006_2_can3(2, can3, tim7_1khz, 4.f * 36.f);
+motor::M2006 m2006_3_can3(3, can3, tim7_1khz, 4.f * 36.f);
+motor::M2006 m2006_4_can3(4, can3, tim7_1khz, 4.f * 36.f);
+
+motor::Vesc vesc_101_can3(104, can3, tim7_1khz, 21);
+motor::Vesc vesc_102_can3(102, can3, tim7_1khz, 21);
+motor::Vesc vesc_103_can3(103, can3, tim7_1khz, 21);
+motor::Vesc vesc_104_can3(101, can3, tim7_1khz, 21);
 
 // 机械臂
-motor::M2006 	m2006_4(4, can1, tim7_1khz);
-//motor::DM4310 	dm4310_1(1, can2, tim7_1khz);
-motor::M3508 m3508_2_c1(2, can1, tim7_1khz, 51.f * 1.2f);
-
-motor::J60 		j60_1(1, can1, tim7_1khz);
-//motor::Go 		go_0_3(0, 3, can2, tim7_1khz);
+motor::M2006 	m2006_4_can1(4, can1, tim7_1khz);
+motor::M3508 	m3508_2_can1(2, can1, tim7_1khz, 51.f * 1.2f);
+motor::J60 		j60_1_can1(1, can1, tim7_1khz);
+motor::Go 		go_0_3_can2(0, 3, can2, tim7_1khz);
 
 //轮腿
-motor::Go 		go_0_0(0, 0, can2, tim7_1khz, true, 0.15, 5);
-motor::Go 		go_0_3(0, 3, can2, tim7_1khz, true, 0.15, 5);
+//motor::Go 		go_0_0(0, 0, can2, tim7_1khz, true, 0.15, 5);
+//motor::Go 		go_0_3(0, 3, can2, tim7_1khz, true, 0.15, 5);
 
-motor::RS04 	rs04_120(120, can3, tim7_1khz, true, 0, 0);
-motor::RS04 	rs04_127(127, can3, tim7_1khz, true, 0, 0);
+//motor::RS04 	rs04_120(120, can3, tim7_1khz, true, 0, 0);
+//motor::RS04 	rs04_127(127, can3, tim7_1khz, true, 0, 0);
 
 /*-------------------------------软件模块初始化---------------------------------------*/
 timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
@@ -47,7 +54,15 @@ ros::Radar 		radar(CDC_HS, 1);// 雷达数据接收
 ros::Map 		map(CDC_HS, 2);// 地图数据接收
 ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
-chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向轮底盘
+//chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向轮底盘
+
+chassis::Swerve4Chassis swerve_4_chassis(
+	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
+	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
+	3, 1, 1,
+	1, 1, 1,
+	GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15
+);
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
@@ -59,7 +74,6 @@ SquareWave wave(1000, 3000);// 用于调pid
 
 float target = 0;
 float a = 0;
-float w = 70;
 
 float wl1 = 0, wl2 = 0;
 
@@ -70,42 +84,44 @@ void test(void *argument)
 	//sin_wave.Init();
 	wave.Init();
 	
-	j60_1.Reset_Out_Pos(0);
-	//dm4310_1.Reset_Out_Pos(0);
-	m2006_4.Reset_Out_Pos(0);
-	//go_0_3.Reset_Out_Pos(0);
-	m3508_2_c1.Reset_Out_Pos(0);
+	j60_1_can1.Reset_Out_Pos(0);
+	m2006_4_can1.Reset_Out_Pos(0);
+	go_0_3_can2.Reset_Out_Pos(0);
+	m3508_2_can1.Reset_Out_Pos(0);
 	
 	//go_0_0.Reset_Out_Pos(0);
 	
-	rs04_120.Set_ZeroPos();
-	rs04_120.Set_K_Pos(50);
-	rs04_120.Set_K_Spd(10);
-	
-	rs04_127.Set_ZeroPos();
-	rs04_127.Set_K_Pos(50);
-	rs04_127.Set_K_Spd(10);
+//	rs04_120.Set_ZeroPos();
+//	rs04_120.Set_K_Pos(50);
+//	rs04_120.Set_K_Spd(10);
+//	
+//	rs04_127.Set_ZeroPos();
+//	rs04_127.Set_K_Pos(50);
+//	rs04_127.Set_K_Spd(10);
+//	m2006_4_can3.pid_pos.Pid_Mode_Init(false, false, 0, false);
+//	m2006_4_can3.pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 12000, 10000, 10000, 10000, 10000);
 
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 		
-//		m3508_2_c1.Set_Out_Angle(a);
+
+//		m2006_3_can3.Set_Out_Pos(a);
+//		m2006_4_can3.Set_Out_Pos(a);
 		
+//		rs04_120.Set_Torque(a);
+//		rs04_127.Set_Torque(a);
 		
-		
-		rs04_120.Set_Torque(a);
-		rs04_127.Set_Torque(a);
-		
+		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 400.f, -remote_ctrl.left_x / 400.f), remote_ctrl.right_x / 400.f);
 		
 		//uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);
 
-//		go_0_3.Set_Out_Pos(a1);
-		j60_1.Set_Out_Pos(a2);
-		m3508_2_c1.Set_Out_Pos(a3);
-		m2006_4.Set_Out_Pos(a4);
+		go_0_3_can2.Set_Out_Pos(a1);
+		j60_1_can1.Set_Out_Pos(a2);
+		m3508_2_can1.Set_Out_Pos(a3);
+		m2006_4_can1.Set_Out_Pos(a4);
 		
 //		arm_gravity.motor_angle.theta1 = j60_1.Get_Out_Pos();
 //		arm_gravity.motor_angle.theta2 = dm4310_1.Get_Out_Pos();

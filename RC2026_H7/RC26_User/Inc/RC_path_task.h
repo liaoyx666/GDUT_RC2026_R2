@@ -10,12 +10,12 @@
 #ifdef __cplusplus
 
 
-extern path::PathPlan path_plan;// 路径规划
-extern flysky::FlySky remote_ctrl;// 遥控
-extern chassis::OmniChassis omni_chassis;// 三全向轮底盘
-extern ros::Radar radar;// 雷达数据接收
-extern ros::BestPath MF_path;// 路径数据接收
-extern ros::Map map;// 地图数据接收
-extern timer::Timer timer_us;// 用于获取us级时间戳
+//extern path::PathPlan path_plan;// 路径规划
+//extern flysky::FlySky remote_ctrl;// 遥控
+//extern chassis::OmniChassis omni_chassis;// 三全向轮底盘
+//extern ros::Radar radar;// 雷达数据接收
+//extern ros::BestPath MF_path;// 路径数据接收
+//extern ros::Map map;// 地图数据接收
+//extern timer::Timer timer_us;// 用于获取us级时间戳
 
 #endif

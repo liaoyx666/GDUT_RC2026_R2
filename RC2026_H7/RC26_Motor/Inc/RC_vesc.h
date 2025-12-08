@@ -76,10 +76,8 @@ CAN_PACKET_ID;
 namespace motor {
     class Vesc : public motor::Motor, public can::CanHandler, public tim::TimHandler {
     public:
-        Vesc(uint8_t id_, can::Can &can_, tim::Tim &tim_);
+        Vesc(uint8_t id_, can::Can &can_, tim::Tim &tim_, float pole_pairs_ = 1);
         virtual ~Vesc() {}
-
-        pid::Pid pid_spd, pid_pos;
 
     protected:
         void CanHandler_Register() override;
@@ -92,6 +90,8 @@ namespace motor {
         int32_t send_current = 0;
         int32_t send_rpm = 0;
 		int32_t send_pos = 0;
+	
+		float pole_pairs = 1;
 
     };
 }

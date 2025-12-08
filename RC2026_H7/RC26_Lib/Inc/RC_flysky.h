@@ -17,6 +17,7 @@
 
 namespace flysky
 {
+	// 浮空输入
 	class FlySky : public task::ManagedTask, gpio::GpioExti
     {
     public:

@@ -32,9 +32,7 @@ namespace motor
 			
 		void Set_Can_Id(uint8_t id_);
 		void Set_ZeroPos();
-		
-		pid::Pid pid_pos, pid_spd;
-		
+
     protected:
 		void CanHandler_Register() override;
 		void Tim_It_Process() override;

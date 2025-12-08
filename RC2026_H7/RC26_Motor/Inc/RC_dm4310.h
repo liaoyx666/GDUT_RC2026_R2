@@ -21,8 +21,6 @@ namespace motor
 		DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0);
 		virtual ~DM4310() {}
 
-		pid::Pid pid_spd, pid_pos;
-			
 		void Set_K_Pos(float target_k_pos_) override;
 		void Set_K_Spd(float target_k_spd_) override;
 		

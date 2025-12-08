@@ -63,8 +63,6 @@ namespace motor
 		}
 	}
 	
-	
-	
 	void DjiMotor::Tim_It_Process()
 	{
 		if (motor_mode != CURRENT_MODE)				//> 电流模式
@@ -127,12 +125,25 @@ namespace motor
 		// 计算转子旋转圈数
 		if (can_rx_is_first != true)
 		{
-			if (last_angle < HALF_PI && angle > TWO_THIRD_PI)
+//			if (last_angle < HALF_PI && angle > TWO_THIRD_PI)
+//			{
+//				cycle--;
+//				rotor_cycle--;
+//			}
+//			else if (last_angle > TWO_THIRD_PI && angle < HALF_PI)
+//			{
+//				cycle++;
+//				rotor_cycle++;
+//			}
+	
+			float delta_angle = angle - last_angle;
+			
+			if (delta_angle > PI)
 			{
 				cycle--;
 				rotor_cycle--;
 			}
-			else if (last_angle > TWO_THIRD_PI && angle < HALF_PI)
+			else if (delta_angle < -PI)
 			{
 				cycle++;
 				rotor_cycle++;
@@ -167,7 +178,7 @@ namespace motor
 		}
 		
 		// 重置rotor_cycle防止float精度丢失
-		if (rotor_pos > 2000.f || rotor_pos < -2000.f)
+		if (rotor_pos > 4000.f || rotor_pos < -4000.f)
 		{
 			rotor_cycle = 0;
 			out_angle_offset = out_angle - angle;

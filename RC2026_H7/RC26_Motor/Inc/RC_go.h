@@ -53,8 +53,7 @@ namespace motor
 		void Tim_It_Process() override;
 		
     private:
-		pid::Pid pid_spd, pid_pos;
-	
+
 		uint8_t air = 0;// 气压参数
 		
 		uint8_t id;// 电机id

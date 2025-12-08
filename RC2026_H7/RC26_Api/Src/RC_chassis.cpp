@@ -5,7 +5,7 @@ namespace chassis
 	Chassis::Chassis(
 		float max_linear_vel_, float linear_accel_, float linear_decel_,
 		float max_angular_vel_, float angular_accel_, float angular_decel_
-	) : ManagedTask("ChassisTask", 15, 128, task::TASK_PERIOD, 1)
+	) : ManagedTask("ChassisTask", 15, 256, task::TASK_PERIOD, 1)
 	{
 		max_linear_vel = fabsf(max_linear_vel_);
 		linear_accel = fabsf(linear_accel_);
@@ -16,24 +16,30 @@ namespace chassis
 		angular_decel = fabsf(angular_decel_);
 		
 		is_init = false;
-		is_enable = false;
+		is_enable = true;
 		
 		last_time = 0;
-		
 	}
 	
 	void Chassis::Task_Process()
 	{
+		/*************************************************/
+		if (is_init == false || is_enable == false)
+		{
+			target_v = vector2d::Vector2D(0, 0);
+			target_vw = 0;
+		}
+		
 		/************************速度限幅*************************/
 		float v_length = target_v.length();
-		float vw_lenght = fabsf(target_vw);
+		float vw_length = fabsf(target_vw);
 		
 		if (v_length > max_linear_vel)
 		{
 			target_v = target_v / v_length * max_linear_vel;
 		}
 		
-		if (vw_lenght > max_angular_vel)
+		if (vw_length > max_angular_vel)
 		{
 			if (target_vw > 0)
 			{
@@ -129,15 +135,31 @@ namespace chassis
 		last_v = v;
 		last_vw = vw;
 
-		// 解算设置电机
-		Kinematics_calc();
+		if (is_init == false && vector2d::Vector2D::isZero(v.lengthSquared()) && fabsf(vw) < 1e-6)
+		{
+			// 初始化底盘（底盘需静止）
+			Chassis_Init();
+		}
+		else
+		{
+			// 运动学解算并设置电机
+			Kinematics_calc(v, vw);
+		}
 		/*************************************************/
 	}
 	
 	void Chassis::Set_Robot_Vel(vector2d::Vector2D v_, float vw_)
 	{
-		target_v = v_;
-		target_vw = vw_;
+		if (is_init == false || is_enable == false)
+		{
+			target_v = vector2d::Vector2D(0, 0);
+			target_vw = 0;
+		}
+		else
+		{
+			target_v = v_;
+			target_vw = vw_;
+		}
 	}
 	
 	void Chassis::Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_)
