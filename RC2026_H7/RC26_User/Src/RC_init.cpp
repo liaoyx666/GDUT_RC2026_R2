@@ -56,11 +56,12 @@ ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
 //chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向轮底盘
 
+// 4舵轮底盘
 chassis::Swerve4Chassis swerve_4_chassis(
 	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
-	3, 1, 1,
-	1, 1, 1,
+	5, 10, 10,
+	2, 10, 10,
 	GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15
 );
 
@@ -81,7 +82,7 @@ float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
 
 void test(void *argument)
 {
-	//sin_wave.Init();
+//	sin_wave.Init();
 	wave.Init();
 	
 	j60_1_can1.Reset_Out_Pos(0);
@@ -89,8 +90,8 @@ void test(void *argument)
 	go_0_3_can2.Reset_Out_Pos(0);
 	m3508_2_can1.Reset_Out_Pos(0);
 	
-	//go_0_0.Reset_Out_Pos(0);
-	
+//	go_0_0.Reset_Out_Pos(0);
+
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
 //	rs04_120.Set_K_Spd(10);
@@ -115,7 +116,7 @@ void test(void *argument)
 		
 		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 400.f, -remote_ctrl.left_x / 400.f), remote_ctrl.right_x / 400.f);
 		
-		//uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
+//		uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);
 
 		go_0_3_can2.Set_Out_Pos(a1);
@@ -132,8 +133,8 @@ void test(void *argument)
 //		j60_1.Set_Feedforward(-arm_gravity.joint_gravity_compensation.joint1);
 //		dm4310_1.Set_Feedforward(arm_gravity.joint_gravity_compensation.joint2);
 
-		//go_0_3.Set_Out_Pos(wl1);
-		//go_0_0.Set_Out_Pos(wl2);
+//		go_0_3.Set_Out_Pos(wl1);
+//		go_0_0.Set_Out_Pos(wl2);
 		
 		osDelay(1);
 	}
