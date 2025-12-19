@@ -77,7 +77,7 @@ namespace serial
 						HAL_UART_Receive_IT(uart_rx_list[i]->huart, uart_rx_list[i]->buf, uart_rx_list[i]->buf_size);
 					}
 				}
-				break;
+				return;
 			}
 		}
 	}

@@ -1025,6 +1025,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_photogate.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_speed_plan.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_speed_plan.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_speed_plan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_speed_plan.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -86,7 +86,7 @@ namespace can
 				FDCAN_RxHeaderTypeDef can_rx_hdr;
 				uint8_t rx_data[8];
 				
-				if (HAL_FDCAN_GetRxMessage(hcan, fifo, &can_rx_hdr, rx_data) != HAL_OK) break;
+				if (HAL_FDCAN_GetRxMessage(hcan, fifo, &can_rx_hdr, rx_data) != HAL_OK) return;
 				
 				// 检查ID匹配
 				bool id_matched = false;
@@ -123,10 +123,10 @@ namespace can
 					if (id_matched == true)
 					{
 						can_list[i]->hd_list[j]->Can_Rx_It_Process(can_rx_hdr.Identifier, rx_data);// 调用设备接收处理函数
-						break;// 每个ID只对应一个设备
+						return;// 每个ID只对应一个设备
 					}
 				}
-				break;
+				return;
 			}
 		}
 	}

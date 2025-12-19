@@ -14,10 +14,10 @@ namespace chassis
 		max_angular_vel_, angular_accel_, angular_decel_
 	), 
 	photogate_reposotion{
-		photogate::PhoGateRepos(&steer_motor_1_, &is_reposition[0], 0, gpio_pin_1_), 
-		photogate::PhoGateRepos(&steer_motor_2_, &is_reposition[1], 0, gpio_pin_2_),
-		photogate::PhoGateRepos(&steer_motor_3_, &is_reposition[2], 0, gpio_pin_3_),
-		photogate::PhoGateRepos(&steer_motor_4_, &is_reposition[3], 0, gpio_pin_4_),
+		photogate::PhoGateRepos(&steer_motor_1_, &is_reposition[0], TWO_THIRD_PI, gpio_pin_1_, 30), 
+		photogate::PhoGateRepos(&steer_motor_2_, &is_reposition[1], HALF_PI, gpio_pin_2_, 30),
+		photogate::PhoGateRepos(&steer_motor_3_, &is_reposition[2], TWO_THIRD_PI, gpio_pin_3_, 30),
+		photogate::PhoGateRepos(&steer_motor_4_, &is_reposition[3], TWO_THIRD_PI, gpio_pin_4_, 30),
 	}
 	{
 		tangent_vector[0] = vector2d::Vector2D(SWERVE4_CHASSIS_THETA1 + HALF_PI);
@@ -33,9 +33,7 @@ namespace chassis
 		for (uint8_t i = 0; i < 4; i++)
 		{
 			steer_motor[i]->pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 14000, 10000, 10000, 10000, 10000, 20000.f, 14000);
-			is_reposition[i] = true;////
-			
+			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 12000, 10000, 10000, 10000, 10000, 16000.f, 12000);
 			steer_motor[i]->Reset_Out_Angle(0);
 		}
 		
@@ -48,10 +46,10 @@ namespace chassis
 	void Swerve4Chassis::Kinematics_calc(vector2d::Vector2D v_, float vw_)
 	{
 		/*************************底盘解算************************/
-		vel_vector[0] = tangent_vector[0] * vw_ * SWERVE4_CHASSIS_L1 + v_;
-		vel_vector[1] = tangent_vector[1] * vw_ * SWERVE4_CHASSIS_L2 + v_;
-		vel_vector[2] = tangent_vector[2] * vw_ * SWERVE4_CHASSIS_L3 + v_;
-		vel_vector[3] = tangent_vector[3] * vw_ * SWERVE4_CHASSIS_L4 + v_;
+		vel_vector[0] = (tangent_vector[0] * (vw_ * SWERVE4_CHASSIS_L1)) + v_;
+		vel_vector[1] = (tangent_vector[1] * (vw_ * SWERVE4_CHASSIS_L2)) + v_;
+		vel_vector[2] = (tangent_vector[2] * (vw_ * SWERVE4_CHASSIS_L3)) + v_;
+		vel_vector[3] = (tangent_vector[3] * (vw_ * SWERVE4_CHASSIS_L4)) + v_;
 		
 		for (uint8_t i = 0; i < 4; i++)
 		{
@@ -94,14 +92,14 @@ namespace chassis
 			}
 			else
 			{
-				drive_motor_sign[i] = 1; 
+				drive_motor_sign[i] = 1;
 			}
 			
 			// 设置舵向电机角度
 			steer_motor[i]->Set_Out_Angle(angle[i]);
 			
 			// 设置航向电机速度
-			drive_motor[i]->Set_Out_Rpm((float)drive_motor_sign[i] * vel[i] * vel_to_rpm);
+			drive_motor[i]->Set_Out_Rpm(vel[i] * vel_to_rpm * ((float)drive_motor_sign[i]));
 		}
 		
 		/*************************************************/
@@ -119,7 +117,7 @@ namespace chassis
 		is_reposition[3] = false;
 	}
 
-#define STEER_MOTOR_INIT_RPM 6
+#define STEER_MOTOR_INIT_RPM 50
 
 	// 底盘初始化
 	void Swerve4Chassis::Chassis_Init()

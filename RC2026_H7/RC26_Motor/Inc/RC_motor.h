@@ -49,6 +49,7 @@ namespace motor
 		// 获取参数
 		float Get_Rpm() const {return rpm;}
 		float Get_Pos() const {return pos;}
+		float Get_Out_Rpm() const {return rpm / gear_ratio;}
 		float Get_Out_Pos() const {return out_pos;}
 		float Get_Angle() const {return angle;}
 		float Get_Current() const {return current;}

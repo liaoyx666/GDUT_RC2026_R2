@@ -62,7 +62,7 @@ namespace chassis
 		float vel[4] = {0};// 电机速度
 		float angle[4] = {0};// 电机角度
 		
-		int8_t drive_motor_sign[4] = {0};
+		int8_t drive_motor_sign[4] = {1, 1, 1, 1};
 
 		const float vel_to_rpm = (1.f / SWERVE4_CHASSIS_WHEEL_RADIUS) * (60.0f / (2.0f * PI));
 

@@ -37,7 +37,7 @@ namespace tim
 				{
 					tim_list[i]->hd_list[j]->Tim_It_Process();
 				}
-				break;// 退出中断
+				return;// 退出中断
 			}
 		}
 	}

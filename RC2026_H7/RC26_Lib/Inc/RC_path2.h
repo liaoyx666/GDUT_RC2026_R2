@@ -1,15 +1,29 @@
 #pragma once
 #include "RC_bezier_curve.h"
+#include "RC_vector2d.h"
 
 #ifdef __cplusplus
 namespace path
 {
-	typedef struct Path2
-	{
-		curve::BezierCurve bezier_curve;
+	class PathPoint2
+    {
+    public:
 		
-	} Path2;
+    protected:
+		
+    private:
+		
+    };
 	
+	class Path2
+    {
+    public:
+		
+    protected:
+		
+    private:
+		
+    };
 	
 	class PathPlan2
     {

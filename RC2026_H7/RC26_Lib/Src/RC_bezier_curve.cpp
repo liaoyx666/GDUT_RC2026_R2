@@ -3,19 +3,19 @@
 namespace curve
 {
 	BezierCurve::BezierCurve() {}
-	
+	/*********************************************************************************************************************************/
 	// 一阶贝塞尔直线初始化
 	BezierCurve::BezierCurve(vector2d::Vector2D start_point_, vector2d::Vector2D end_point_)
 	{
 		Bezier_Update(start_point_, end_point_);
 	}
-	
+	/*********************************************************************************************************************************/
 	// 二阶贝塞尔曲线初始化
 	BezierCurve::BezierCurve(vector2d::Vector2D start_point_, vector2d::Vector2D control_point_, vector2d::Vector2D end_point_)
 	{
 		Bezier_Update(start_point_, control_point_, end_point_);
 	}
-
+	/*********************************************************************************************************************************/
 	// 重置一阶贝塞尔曲线
 	void BezierCurve::Bezier_Update(vector2d::Vector2D start_point_, vector2d::Vector2D end_point_)
 	{
@@ -31,7 +31,7 @@ namespace curve
 		
 		len = vector2d::Vector2D::distance(start_point, end_point);
 	}
-	
+	/*********************************************************************************************************************************/
 	// 重置二阶贝塞尔曲线
 	void BezierCurve::Bezier_Update(vector2d::Vector2D start_point_, vector2d::Vector2D control_point_, vector2d::Vector2D end_point_)
 	{
@@ -115,7 +115,7 @@ namespace curve
 			/*---------------------------------------------------------*/
 		}
 	}
-	
+	/*********************************************************************************************************************************/
 	// 获取点
 	vector2d::Vector2D BezierCurve::Get_Point(const float t)
 	{
@@ -135,7 +135,7 @@ namespace curve
 			); 
 		}
 	}
-	
+	/*********************************************************************************************************************************/
 	// 求最近点距离并输出对应t值
 	float BezierCurve::Get_Nearest_Distance(const vector2d::Vector2D point, float* t)
 	{
@@ -261,7 +261,7 @@ namespace curve
 			return sqrtf(d1);
 		}
 	}
-	
+	/*********************************************************************************************************************************/
 	// 获取当前位置走过的长度
 	float BezierCurve::Get_Current_Len(float t)
 	{
@@ -292,7 +292,7 @@ namespace curve
 			}
 		}
 	}
-	
+	/*********************************************************************************************************************************/
 	// 获取单位切向量
 	vector2d::Vector2D BezierCurve::Get_Tangent_Vector(const float t)
 	{
@@ -304,8 +304,7 @@ namespace curve
 		
 		return tangent_vector;
 	}
-	
-	
+	/*********************************************************************************************************************************/
 	// 获取单位法向量
 	vector2d::Vector2D BezierCurve::Get_Normal_Vector(const vector2d::Vector2D& point, const float t)
 	{
@@ -338,7 +337,7 @@ namespace curve
 			return vector2d::Vector2D(0, 0);
 		}
 	}
-	
+	/*********************************************************************************************************************************/
 	// 获取曲率
 	float BezierCurve::Get_Curvature(float t)
 	{
@@ -398,7 +397,7 @@ namespace curve
 			return curvature;
 		}
 	}
-	
+	/*********************************************************************************************************************************/
 	// 获取最大速度
 	float BezierCurve::Get_Max_Vel(float t)
 	{
@@ -408,7 +407,6 @@ namespace curve
 		float temp_current_len = Get_Current_Len(t);
 		
 		arm_sqrt_f32(fabsf((len - temp_current_len) * 2.f + end_vel * end_vel), &current_max_vel);// 获取当前规划到结束点的最大速度
-		
 		
 		if (order == FIRST_ORDER_BEZIER)
 		{
@@ -443,4 +441,5 @@ namespace curve
 		
 		return current_max_vel;
 	}
+	/*********************************************************************************************************************************/
 }

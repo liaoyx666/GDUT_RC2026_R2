@@ -67,7 +67,7 @@ namespace chassis
 			vw = last_vw + Limit_Accel(target_vw - last_vw, angular_accel, dt);
 		}	
 		/************************真实前一次速度方向*************************/
-		last_v = last_v.rotate(-(vw + last_vw) / 2.f);
+		last_v = last_v.rotate(-(vw + last_vw) / 2.f * dt);
 		
 		/************************线加速度限制*************************/
 		vector2d::Vector2D normal_v = target_v.perpendicular();// 获取垂直法向量（逆时针90度）

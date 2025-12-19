@@ -80,6 +80,7 @@
 "rc2026\rc_swerve_chassis.o"
 "rc2026\rc_omni_chassis.o"
 "rc2026\rc_photogate.o"
+"rc2026\rc_speed_plan.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dji_motor.o"
 "rc2026\rc_m2006.o"
