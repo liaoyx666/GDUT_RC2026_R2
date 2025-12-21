@@ -19,6 +19,26 @@ motor::M3508 m3508_1(1, can1, tim7_1khz);
 motor::M3508 m3508_2(2, can1, tim7_1khz);
 motor::M3508 m3508_3(3, can1, tim7_1khz);
 
+<<<<<<< Updated upstream
+=======
+// 底盘
+//motor::M3508 m3508_1(1, can3, tim7_1khz);
+//motor::M3508 m3508_2(2, can3, tim7_1khz);
+//motor::M3508 m3508_3(3, can3, tim7_1khz);
+// motor::M2006 m2006_1_can3(1, can3, tim7_1khz, 4.f * 36.f);
+// motor::M2006 m2006_2_can3(2, can3, tim7_1khz, 4.f * 36.f);
+// motor::M2006 m2006_3_can3(3, can3, tim7_1khz, 4.f * 36.f);
+// motor::M2006 m2006_4_can3(4, can3, tim7_1khz, 4.f * 36.f);
+
+
+//jack test
+motor::M3508 m3508_left_front_can2(1, can2, tim7_1khz, 10 * 3591.f / 187.f);
+motor::M3508 m3508_left_behind_can2(2, can2, tim7_1khz, 99.506f);
+motor::M3508 m3508_right_behind_can2(3, can2, tim7_1khz, 99.506f);
+motor::M3508 m3508_right_front_can2(4, can2, tim7_1khz, 10 * 3591.f / 187.f);
+//
+
+>>>>>>> Stashed changes
 
 
 /*-------------------------------软件模块初始化---------------------------------------*/
@@ -29,24 +49,95 @@ path::PathPlan path_plan(1, 1, 1);
 /*--------------------------------硬件模块初始化--------------------------------------*/
 ros::Radar radar(CDC_HS, 1);// 雷达数据接收
 
+<<<<<<< Updated upstream
 chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 1.5, 2);
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
 
+=======
+//chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 3, 3);// 三全向轮底盘
+
+// chassis::Swerve4Chassis swerve_4_chassis(
+// 	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
+// 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
+// 	3, 1, 1,
+// 	1, 1, 1,
+// 	GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15
+// );
+
+flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
+
+imu::JY901S jy901s(huart1);
+liDAR::LiDAR LiDAR_1(huart3);
+
+//jack test
+chassis_jack::Chassis_jack chassis_jack_test(m3508_left_front_can2, m3508_left_behind_can2, m3508_right_front_can2, m3508_right_behind_can2, LiDAR_1);
+>>>>>>> Stashed changes
 
 /*---------------------------————-----DeBug------------------------------------------*/
 //SquareWave wave(1000, 3000);// 用于调pid
 //SinWave sin_wave(1000, 3000);
 
+<<<<<<< Updated upstream
 
 //float target = 0;
 //float a = 0;
+=======
+float target = 0;
+float a = 0;
+uint8_t c = 0;
+
+	
+float wl1 = 0, wl2 = 0;
+
+float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
+>>>>>>> Stashed changes
 
 void test(void *argument)
 {
 	//sin_wave.Init();
+<<<<<<< Updated upstream
 	//wave.Init();
+=======
+	wave.Init();
+	
+	j60_1_can1.Reset_Out_Pos(0);
+	m2006_4_can1.Reset_Out_Pos(0);
+	go_0_3_can2.Reset_Out_Pos(0);
+	m3508_2_can1.Reset_Out_Pos(0);
+	
+	//
+	m3508_left_front_can2.Reset_Out_Pos(0);
+	m3508_left_front_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_left_front_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 3000, 7000);// 1ms
+	
+	m3508_right_front_can2.Reset_Out_Pos(0);
+	m3508_right_front_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_right_front_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 3000, 7000);
+	
+	m3508_right_behind_can2.Reset_Out_Pos(0);
+	m3508_right_behind_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_right_behind_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 3000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
+	
+	m3508_left_behind_can2.Reset_Out_Pos(0);
+	m3508_left_behind_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_left_behind_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 3000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
+	//
+	
+	//go_0_0.Reset_Out_Pos(0);
+	
+//	rs04_120.Set_ZeroPos();
+//	rs04_120.Set_K_Pos(50);
+//	rs04_120.Set_K_Spd(10);
+//	
+//	rs04_127.Set_ZeroPos();
+//	rs04_127.Set_K_Pos(50);
+//	rs04_127.Set_K_Spd(10);
+//	m2006_4_can3.pid_pos.Pid_Mode_Init(false, false, 0, false);
+//	m2006_4_can3.pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 12000, 10000, 10000, 10000, 10000);
+
+>>>>>>> Stashed changes
 	for (;;)
 	{
 		//wave.Set_Amplitude(a);
@@ -57,13 +148,53 @@ void test(void *argument)
 		
 		//CDC_HS.CDC_AddToBuf(aaa, 8, 1);
 		
+<<<<<<< Updated upstream
 		//uart_printf("%f,%f\n", go_1.pos, target);
 		
 		//go_1.Set_Pos(target);
 		
+=======
+//		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 400.f, -remote_ctrl.left_x / 400.f), remote_ctrl.right_x / 400.f);
+		
+		//uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
+//		m6020_1.Set_Rpm(target);
+
+		
+		go_0_3_can2.Set_Out_Pos(a1);
+		j60_1_can1.Set_Out_Pos(a2);
+		m3508_2_can1.Set_Out_Pos(a3);
+		m2006_4_can1.Set_Out_Pos(a4);
+		
+		//m3508_5_can1.Set_Out_Pos(a);
+		//m3508_left_front_can2.Set_Out_Pos(a);
+		//m3508_right_front_can2.Set_Out_Pos(-a);
+		//m3508_left_behind_can2.Set_Out_Pos(a);
+		//m3508_right_behind_can2.Set_Out_Pos(-a);
+		//chassis_jack_test.chassis_up();
+		
+		if(remote_ctrl.signal_swd() == true)
+		{
+			chassis_jack_test.chassis_up_test();
+		}
 		
 		
 		
+//		arm_gravity.motor_angle.theta1 = j60_1.Get_Out_Pos();
+//		arm_gravity.motor_angle.theta2 = dm4310_1.Get_Out_Pos();
+//		arm_gravity.motor_angle.theta3 = m2006_4.Get_Out_Pos();
+>>>>>>> Stashed changes
+		
+		
+<<<<<<< Updated upstream
+		
+=======
+//		j60_1.Set_Feedforward(-arm_gravity.joint_gravity_compensation.joint1);
+//		dm4310_1.Set_Feedforward(arm_gravity.joint_gravity_compensation.joint2);
+
+		//go_0_3.Set_Out_Pos(wl1);
+		//go_0_0.Set_Out_Pos(wl2);
+		c = HAL_GPIO_ReadPin(GPIOG, GPIO_PIN_3);
+>>>>>>> Stashed changes
 		osDelay(1);
 	}
 }
@@ -142,6 +273,14 @@ void All_Init()
 
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
+<<<<<<< Updated upstream
+=======
+	
+	jy901s.Uart_Rx_Start();
+	LiDAR_1.Uart_Rx_Start();
+	/*------------------------------------------------------------------------------*/
+	
+>>>>>>> Stashed changes
 }
 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ProjectOpt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_optx.xsd">
 
   <SchemaVersion>1.0</SchemaVersion>
@@ -45,7 +45,7 @@
         <PageWidth>79</PageWidth>
         <PageLength>66</PageLength>
         <TabStop>8</TabStop>
-        <ListingPath></ListingPath>
+        <ListingPath />
       </OPTLEX>
       <ListingPage>
         <CreateCListing>1</CreateCListing>
@@ -104,6 +104,7 @@
         <bSchkAxf>0</bSchkAxf>
         <bTchkAxf>0</bTchkAxf>
         <nTsel>3</nTsel>
+<<<<<<< Updated upstream
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -114,6 +115,18 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
+=======
+        <sDll />
+        <sDllPa />
+        <sDlgDll />
+        <sDlgPa />
+        <sIfile />
+        <tDll />
+        <tDllPa />
+        <tDlgDll />
+        <tDlgPa />
+        <tIfile />
+>>>>>>> Stashed changes
         <pMon>BIN\CMSIS_AGDI.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
@@ -130,12 +143,12 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ARMDBGFLAGS</Key>
-          <Name></Name>
+          <Name />
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name></Name>
+          <Name />
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -153,7 +166,7 @@
           <Name>-U-O142 -O2254 -S0 -C0 -N00("ARM CoreSight SW-DP") -D00(5BA02477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC1000 -FN1 -FF0STM32H72x-73x_1024.FLM -FS08000000 -FL0100000 -FP0($$Device:STM32H723ZGTx$CMSIS\Flash\STM32H72x-73x_1024.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint />
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -265,6 +278,26 @@
           <WinNumber>1</WinNumber>
           <ItemText>target_tangent_spd</ItemText>
         </Ww>
+        <Ww>
+          <count>36</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>LiDAR_1</ItemText>
+        </Ww>
+        <Ww>
+          <count>37</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>chassis_jack_test</ItemText>
+        </Ww>
+        <Ww>
+          <count>38</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>m3508_left_front_can2,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>39</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>c</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>
@@ -295,19 +328,19 @@
         <newCpu>0</newCpu>
         <uProt>0</uProt>
       </DebugFlag>
-      <LintExecutable></LintExecutable>
-      <LintConfigFile></LintConfigFile>
+      <LintExecutable />
+      <LintConfigFile />
       <bLintAuto>0</bLintAuto>
       <bAutoGenD>0</bAutoGenD>
       <LntExFlags>0</LntExFlags>
-      <pMisraName></pMisraName>
-      <pszMrule></pszMrule>
-      <pSingCmds></pSingCmds>
-      <pMultCmds></pMultCmds>
-      <pMisraNamep></pMisraNamep>
-      <pszMrulep></pszMrulep>
-      <pSingCmdsp></pSingCmdsp>
-      <pMultCmdsp></pMultCmdsp>
+      <pMisraName />
+      <pszMrule />
+      <pSingCmds />
+      <pMultCmds />
+      <pMisraNamep />
+      <pszMrulep />
+      <pSingCmdsp />
+      <pMultCmdsp />
       <DebugDescription>
         <Enable>1</Enable>
         <EnableFlashSeq>1</EnableFlashSeq>
@@ -1384,134 +1417,8 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-  </Group>
-
-  <Group>
-    <GroupName>RC26_Motor</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>84</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_motor.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_motor.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>85</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Inc\RC_motor.h</PathWithFileName>
-      <FilenameWithoutPath>RC_motor.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>86</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_dji_motor.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_dji_motor.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>87</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Inc\RC_dji_motor.h</PathWithFileName>
-      <FilenameWithoutPath>RC_dji_motor.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>88</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_m2006.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_m2006.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>89</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Inc\RC_m2006.h</PathWithFileName>
-      <FilenameWithoutPath>RC_m2006.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>90</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_m3508.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_m3508.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>91</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Inc\RC_m3508.h</PathWithFileName>
-      <FilenameWithoutPath>RC_m3508.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>92</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_m6020.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_m6020.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>93</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Inc\RC_m6020.h</PathWithFileName>
-      <FilenameWithoutPath>RC_m6020.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
+<<<<<<< Updated upstream
+=======
     <File>
       <GroupNumber>10</GroupNumber>
       <FileNumber>94</FileNumber>
@@ -1519,8 +1426,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_go.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_go.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Lib\Src\RC_SMC.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_SMC.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1531,8 +1438,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Inc\RC_go.h</PathWithFileName>
-      <FilenameWithoutPath>RC_go.h</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_SMC.h</PathWithFileName>
+      <FilenameWithoutPath>RC_SMC.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1543,8 +1450,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Motor\Src\RC_dm4310.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_dm4310.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Lib\Src\RC_vector3d.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_vector3d.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1555,11 +1462,525 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_vector3d.h</PathWithFileName>
+      <FilenameWithoutPath>RC_vector3d.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>98</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_arm_path.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_arm_path.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>99</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_arm_path.h</PathWithFileName>
+      <FilenameWithoutPath>RC_arm_path.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>100</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_JY901S.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_JY901S.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>101</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_JY901S.h</PathWithFileName>
+      <FilenameWithoutPath>RC_JY901S.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>102</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_path2.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_path2.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>103</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_path2.h</PathWithFileName>
+      <FilenameWithoutPath>RC_path2.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>104</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_swerve_chassis.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_swerve_chassis.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>105</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_swerve_chassis.h</PathWithFileName>
+      <FilenameWithoutPath>RC_swerve_chassis.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>106</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_omni_chassis.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_omni_chassis.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>107</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_omni_chassis.h</PathWithFileName>
+      <FilenameWithoutPath>RC_omni_chassis.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>108</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_photogate.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_photogate.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>109</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_photogate.h</PathWithFileName>
+      <FilenameWithoutPath>RC_photogate.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>110</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_chassis_jack.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_chassis_jack.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>111</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_chassis_jack.h</PathWithFileName>
+      <FilenameWithoutPath>RC_chassis_jack.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>112</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_LiDAR.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_LiDAR.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>113</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_LiDAR.h</PathWithFileName>
+      <FilenameWithoutPath>RC_LiDAR.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+>>>>>>> Stashed changes
+  </Group>
+
+  <Group>
+    <GroupName>RC26_Motor</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>84</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>114</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_motor.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_motor.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>85</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>115</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_motor.h</PathWithFileName>
+      <FilenameWithoutPath>RC_motor.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>86</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>116</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_dji_motor.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_dji_motor.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>87</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>117</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_dji_motor.h</PathWithFileName>
+      <FilenameWithoutPath>RC_dji_motor.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>88</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>118</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_m2006.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_m2006.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>89</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>119</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_m2006.h</PathWithFileName>
+      <FilenameWithoutPath>RC_m2006.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>90</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>120</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_m3508.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_m3508.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>91</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>121</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_m3508.h</PathWithFileName>
+      <FilenameWithoutPath>RC_m3508.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>92</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>122</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_m6020.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_m6020.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>93</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>123</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_m6020.h</PathWithFileName>
+      <FilenameWithoutPath>RC_m6020.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>94</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>124</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_go.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_go.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>95</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>125</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_go.h</PathWithFileName>
+      <FilenameWithoutPath>RC_go.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>96</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>126</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_dm4310.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_dm4310.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+<<<<<<< Updated upstream
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>97</FileNumber>
+=======
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>127</FileNumber>
+>>>>>>> Stashed changes
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
       <PathWithFileName>..\RC26_Motor\Inc\RC_dm4310.h</PathWithFileName>
       <FilenameWithoutPath>RC_dm4310.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+<<<<<<< Updated upstream
+=======
+    <File>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>128</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_j60.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_j60.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>129</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_j60.h</PathWithFileName>
+      <FilenameWithoutPath>RC_j60.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>130</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_vesc.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_vesc.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>131</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_vesc.h</PathWithFileName>
+      <FilenameWithoutPath>RC_vesc.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>132</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Src\RC_rs04.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_rs04.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>11</GroupNumber>
+      <FileNumber>133</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Motor\Inc\RC_rs04.h</PathWithFileName>
+      <FilenameWithoutPath>RC_rs04.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+>>>>>>> Stashed changes
   </Group>
 
   <Group>
@@ -1569,6 +1990,7 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>11</GroupNumber>
       <FileNumber>98</FileNumber>
       <FileType>8</FileType>
@@ -1595,6 +2017,10 @@
     <File>
       <GroupNumber>11</GroupNumber>
       <FileNumber>100</FileNumber>
+=======
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>134</FileNumber>
+>>>>>>> Stashed changes
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1605,8 +2031,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>11</GroupNumber>
       <FileNumber>101</FileNumber>
+=======
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>135</FileNumber>
+>>>>>>> Stashed changes
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1616,6 +2047,81 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+<<<<<<< Updated upstream
+=======
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>136</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Src\RC_radar.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_radar.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>137</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Inc\RC_radar.h</PathWithFileName>
+      <FilenameWithoutPath>RC_radar.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>138</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Src\RC_best_path.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_best_path.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>139</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Inc\RC_best_path.h</PathWithFileName>
+      <FilenameWithoutPath>RC_best_path.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>140</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Src\RC_ros_arm.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_ros_arm.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>12</GroupNumber>
+      <FileNumber>141</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Inc\RC_ros_arm.h</PathWithFileName>
+      <FilenameWithoutPath>RC_ros_arm.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+>>>>>>> Stashed changes
   </Group>
 
   <Group>
@@ -1625,8 +2131,13 @@
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>12</GroupNumber>
       <FileNumber>102</FileNumber>
+=======
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>142</FileNumber>
+>>>>>>> Stashed changes
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1637,8 +2148,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>12</GroupNumber>
       <FileNumber>103</FileNumber>
+=======
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>143</FileNumber>
+>>>>>>> Stashed changes
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1649,8 +2165,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>12</GroupNumber>
       <FileNumber>104</FileNumber>
+=======
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>144</FileNumber>
+>>>>>>> Stashed changes
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1661,8 +2182,13 @@
       <bShared>0</bShared>
     </File>
     <File>
+<<<<<<< Updated upstream
       <GroupNumber>12</GroupNumber>
       <FileNumber>105</FileNumber>
+=======
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>145</FileNumber>
+>>>>>>> Stashed changes
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1672,6 +2198,57 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+<<<<<<< Updated upstream
+=======
+    <File>
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>146</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Src\RC_arm_task.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_arm_task.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>147</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Inc\RC_arm_task.h</PathWithFileName>
+      <FilenameWithoutPath>RC_arm_task.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>148</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Src\RC_path_task.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_path_task.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>13</GroupNumber>
+      <FileNumber>149</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Inc\RC_path_task.h</PathWithFileName>
+      <FilenameWithoutPath>RC_path_task.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+>>>>>>> Stashed changes
   </Group>
 
   <Group>

@@ -13,7 +13,20 @@
 #include "RC_chassis.h"
 #include "RC_go.h"
 #include "RC_path.h"
+<<<<<<< Updated upstream
 #include "RC_dm4310.h"
+=======
+#include "RC_best_path.h"
+#include "RC_radar.h"
+#include "RC_j60.h"
+#include "RC_arm.h"
+#include "RC_JY901S.h"
+#include "RC_rs04.h"
+#include "RC_vesc.h"
+#include "RC_swerve_chassis.h"
+#include "RC_LiDAR.h"
+#include "RC_chassis_jack.h"
+>>>>>>> Stashed changes
 
 #include "fdcan.h"
 #include "tim.h"
