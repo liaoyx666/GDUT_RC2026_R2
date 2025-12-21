@@ -1045,6 +1045,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_chassis_jack.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_LiDAR.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_LiDAR.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_LiDAR.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_LiDAR.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
