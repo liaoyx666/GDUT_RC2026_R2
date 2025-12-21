@@ -66,6 +66,9 @@ path::PathPlan path_plan(2, 1.f);// 路径规划
 
 arm::ArmDynamics arm_gravity;// 机械臂重力补偿
 
+
+
+
 /*--------------------------------硬件模块初始化--------------------------------------*/
 ros::Radar 		radar(CDC_HS, 1);// 雷达数据接收
 ros::Map 		map(CDC_HS, 2);// 地图数据接收
@@ -129,34 +132,11 @@ void test(void *argument)
 //	rs04_127.Set_K_Pos(50);
 //	rs04_127.Set_K_Spd(10);
 	
-
-	m3508_left_front_can2.Reset_Out_Pos(0);
-	m3508_left_front_can2.Reset_Out_Angle(0);
-	m3508_left_front_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-	m3508_left_front_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 4000, 7000);// 1ms
-	
-	m3508_right_front_can2.Reset_Out_Pos(0);
-	m3508_right_front_can2.Reset_Out_Angle(0);
-	m3508_right_front_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-	m3508_right_front_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 4000, 7000);
-	
-	m3508_right_behind_can2.Reset_Out_Pos(0);
-	m3508_right_behind_can2.Reset_Out_Angle(0);
-	m3508_right_behind_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-	m3508_right_behind_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 4000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
-	
-	m3508_left_behind_can2.Reset_Out_Pos(0);
-	m3508_left_behind_can2.Reset_Out_Angle(0);
-	m3508_left_behind_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-	m3508_left_behind_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 4000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
-
-
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 		
-
 //		m2006_3_can3.Set_Out_Pos(a);
 //		m2006_4_can3.Set_Out_Pos(a);
 		

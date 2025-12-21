@@ -2,15 +2,36 @@
 
 namespace chassis_jack
 {
-    Chassis_jack::Chassis_jack( motor::Motor& left_front_motor_, 
-                                motor::Motor& left_behind_motor_, 
-                                motor::Motor& right_front_motor_, 
-                                motor::Motor& right_behind_motor_)
-							  : left_front_motor(left_front_motor_),
-							    left_behind_motor(left_behind_motor_),
-								right_front_motor(right_front_motor_),
-								right_behind_motor(right_behind_motor_)
-                                {}
+    Chassis_jack::Chassis_jack( 
+		motor::Motor& left_front_motor_, 
+		motor::Motor& left_behind_motor_, 
+		motor::Motor& right_front_motor_, 
+		motor::Motor& right_behind_motor_
+	) : left_front_motor(left_front_motor_),
+		left_behind_motor(left_behind_motor_),
+		right_front_motor(right_front_motor_),
+		right_behind_motor(right_behind_motor_)
+	{
+		left_front_motor.Reset_Out_Pos(0);
+		left_front_motor.Reset_Out_Angle(0);
+		left_front_motor.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+		left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 4000, 7000);
+		
+		right_front_motor.Reset_Out_Pos(0);
+		right_front_motor.Reset_Out_Angle(0);
+		right_front_motor.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+		right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 4000, 7000);
+		
+		right_behind_motor.Reset_Out_Pos(0);
+		right_behind_motor.Reset_Out_Angle(0);
+		right_behind_motor.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+		right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 4000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
+		
+		left_behind_motor.Reset_Out_Pos(0);
+		left_behind_motor.Reset_Out_Angle(0);
+		left_behind_motor.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+		left_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 4000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
+	}
 
 	void Chassis_jack::chassis_up()
     {
