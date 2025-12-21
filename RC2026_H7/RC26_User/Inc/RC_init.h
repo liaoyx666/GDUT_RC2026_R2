@@ -22,6 +22,7 @@
 #include "RC_rs04.h"
 #include "RC_vesc.h"
 #include "RC_swerve_chassis.h"
+#include "RC_chassis_jack.h"
 
 #include "fdcan.h"
 #include "tim.h"

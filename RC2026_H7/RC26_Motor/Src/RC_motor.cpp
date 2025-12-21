@@ -2,10 +2,7 @@
 
 namespace motor
 {
-	Motor::Motor(float gear_ratio_) : gear_ratio(gear_ratio_)
-	{
-		//
-	}
+	Motor::Motor(float gear_ratio_) : gear_ratio(gear_ratio_) {}
 	
 	/**
     * @brief 设置位置范围

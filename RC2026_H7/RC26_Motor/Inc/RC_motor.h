@@ -57,7 +57,8 @@ namespace motor
 		float Get_Temperature() const {return temperature;}
 		float Get_Out_Angle() const {return out_angle / gear_ratio;}// 0 ~ 2pi
 		
-		pid::Pid pid_pos, pid_spd;
+		// 速度环pid，位置环pid
+		pid::Pid pid_spd, pid_pos;
 		
     protected:
 		// 真实参数

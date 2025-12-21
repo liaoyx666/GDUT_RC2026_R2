@@ -27,14 +27,20 @@ namespace curve
 		BezierCurve(vector2d::Vector2D start_point_, vector2d::Vector2D control_point_, vector2d::Vector2D end_point_);
 	
 		virtual ~BezierCurve() {}
-			
-		// 更新曲线
+		
+		// 更新曲线（一阶）
 		void Bezier_Update(vector2d::Vector2D start_point_, vector2d::Vector2D end_point_);
+		
+		// 更新曲线（二阶）
 		void Bezier_Update(vector2d::Vector2D start_point_, vector2d::Vector2D control_point_, vector2d::Vector2D end_point_);
 		
-		// 获取起始，控制，结束点坐标
+		// 获取控制点坐标
 		vector2d::Vector2D Get_Control_Point() const {return control_point;}
+		
+		// 获取起始点坐标
 		vector2d::Vector2D Get_Start_Point() {return start_point;}
+		
+		// 获取结束点坐标
 		vector2d::Vector2D Get_End_Point() {return end_point;}		
 		
 		// 获取点坐标
@@ -46,8 +52,10 @@ namespace curve
 		// 获取当前路程
 		float Get_Current_Len(float t);
 		
-		// 获取切向量，法向量
+		// 获取切向量
 		vector2d::Vector2D Get_Tangent_Vector(float t);
+		
+		// 获取法向量
 		vector2d::Vector2D Get_Normal_Vector(const vector2d::Vector2D& point, const float t);
 			
 		// 获取曲率
@@ -60,10 +68,7 @@ namespace curve
 		BezierOrder Get_Bezier_Order() {return order;}
 		
 		// 设置结束速度
-		void Set_End_Vel(float end_vel_)
-		{
-			end_vel = fabsf(end_vel_);
-		}
+		void Set_End_Vel(float end_vel_) {end_vel = fabsf(end_vel_);}
 		
 		// 获取当前最大速度
 		float Get_Max_Vel(float t);

@@ -13,8 +13,6 @@ can::Can can3(hfdcan3);
 cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 
 /*----------------------------------电机初始化----------------------------------------*/
-//motor::M6020 m6020_1(1, can2, tim7_1khz);
-
 
 // 3全向轮底盘电机-------------------------------------------
 //motor::M3508 m3508_1(1, can3, tim7_1khz);
@@ -49,6 +47,18 @@ motor::Go 		go_0_3_can2(0, 3, can2, tim7_1khz);
 //motor::RS04 	rs04_127(127, can3, tim7_1khz, true, 0, 0);
 // -----------------------------------------------------------
 
+
+// 4撑杆电机-------------------------------------------------
+motor::M3508 m3508_left_front_can2(1, can2, tim7_1khz, 10 * 3591.f / 187.f);
+motor::M3508 m3508_left_behind_can2(2, can2, tim7_1khz, 99.506f);
+motor::M3508 m3508_right_behind_can2(3, can2, tim7_1khz, 99.506f);
+motor::M3508 m3508_right_front_can2(4, can2, tim7_1khz, 10 * 3591.f / 187.f);
+// -----------------------------------------------------------
+
+
+
+
+
 /*-------------------------------软件模块初始化---------------------------------------*/
 timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
 
@@ -76,6 +86,15 @@ chassis::Swerve4Chassis swerve_4_chassis(
 	4, 8, 8,
 	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
 );
+
+// 4撑杆
+chassis_jack::Chassis_jack chassis_jack_test(
+	m3508_left_front_can2, 
+	m3508_left_behind_can2, 
+	m3508_right_front_can2,
+	m3508_right_behind_can2
+);
+
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
@@ -109,6 +128,28 @@ void test(void *argument)
 //	rs04_127.Set_ZeroPos();
 //	rs04_127.Set_K_Pos(50);
 //	rs04_127.Set_K_Spd(10);
+	
+
+	m3508_left_front_can2.Reset_Out_Pos(0);
+	m3508_left_front_can2.Reset_Out_Angle(0);
+	m3508_left_front_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_left_front_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 4000, 7000);// 1ms
+	
+	m3508_right_front_can2.Reset_Out_Pos(0);
+	m3508_right_front_can2.Reset_Out_Angle(0);
+	m3508_right_front_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_right_front_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 4000, 7000);
+	
+	m3508_right_behind_can2.Reset_Out_Pos(0);
+	m3508_right_behind_can2.Reset_Out_Angle(0);
+	m3508_right_behind_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_right_behind_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 4000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
+	
+	m3508_left_behind_can2.Reset_Out_Pos(0);
+	m3508_left_behind_can2.Reset_Out_Angle(0);
+	m3508_left_behind_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	m3508_left_behind_can2.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 4000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
+
 
 	for (;;)
 	{
@@ -122,7 +163,13 @@ void test(void *argument)
 //		rs04_120.Set_Torque(a);
 //		rs04_127.Set_Torque(a);
 		
-		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 100.f, -remote_ctrl.left_x / 100.f), -remote_ctrl.right_x / 100.f);
+		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f);
+		
+		
+		if(remote_ctrl.signal_swd() == true)
+		{
+			chassis_jack_test.chassis_test();
+		}
 		
 //		uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);
@@ -145,7 +192,7 @@ void test(void *argument)
 //		go_0_0.Set_Out_Pos(wl2);
 		
 		osDelay(1);
-	}
+	} 
 }
 
 task::TaskCreator test_task("test", 20, 512, test, NULL);

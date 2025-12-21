@@ -12,9 +12,6 @@
 
 #define CHANNEL_NUM 8// 8通道
 
-
-
-
 namespace flysky
 {
 	// 浮空输入
