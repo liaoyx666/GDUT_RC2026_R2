@@ -123,14 +123,8 @@ namespace cdc
 			uint16_t head = cdc_list[dx]->receive_buf_head;
 			uint16_t tail = cdc_list[dx]->receive_buf_tail;
 			
-			if (head <= tail)
-			{
-				free_space = MAX_RECEIVE_BUF_SIZE - (tail - head) - 1; // 保留一个字节作为边界
-			}
-			else
-			{
-				free_space = head - tail - 1; // 保留一个字节作为边界
-			}
+			// 通用公式：自动处理 head <= tail 和 head > tail 两种情况
+			free_space = (head - tail - 1 + MAX_RECEIVE_BUF_SIZE) % MAX_RECEIVE_BUF_SIZE;
 			
 			if (len <= free_space)
 			{

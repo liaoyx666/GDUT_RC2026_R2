@@ -24,8 +24,6 @@ namespace chassis
 		// 设置世界坐标送速度
 		void Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_);
 		
-		
-		
 		// 使能
 		void Chassis_Enable() {is_enable = true;}
 		

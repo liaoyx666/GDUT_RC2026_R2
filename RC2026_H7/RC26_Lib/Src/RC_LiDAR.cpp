@@ -4,6 +4,7 @@ namespace lidar
 {
     LiDAR::LiDAR(UART_HandleTypeDef &huart_) : serial::UartRx(huart_, rx_buf, LiDAR_RX_BUFFER_SIZE, true, true)
     {
+		
     }
 
     void LiDAR::Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_)
@@ -30,5 +31,4 @@ namespace lidar
 		
         last_address = (last_address + len_) % 50;
     }
-
 }

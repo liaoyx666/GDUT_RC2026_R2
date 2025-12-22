@@ -117,7 +117,7 @@ namespace curve
 	}
 	/*********************************************************************************************************************************/
 	// 获取点
-	vector2d::Vector2D BezierCurve::Get_Point(const float t)
+	vector2d::Vector2D BezierCurve::Get_Point(const float t) const
 	{
 		if (t <= 0.f) return start_point;
 		else if (t >= 1.f) return end_point;
@@ -137,7 +137,7 @@ namespace curve
 	}
 	/*********************************************************************************************************************************/
 	// 求最近点距离并输出对应t值
-	float BezierCurve::Get_Nearest_Distance(const vector2d::Vector2D point, float* t)
+	float BezierCurve::Get_Nearest_Distance(const vector2d::Vector2D point, float* t) const
 	{
 		if (order == FIRST_ORDER_BEZIER)
 		{
@@ -263,7 +263,7 @@ namespace curve
 	}
 	/*********************************************************************************************************************************/
 	// 获取当前位置走过的长度
-	float BezierCurve::Get_Current_Len(float t)
+	float BezierCurve::Get_Current_Len(float t) const
 	{
 		if (t <= 0.f) return 0.f;
 		else if (t >= 1.f) return len;
@@ -339,7 +339,7 @@ namespace curve
 	}
 	/*********************************************************************************************************************************/
 	// 获取曲率
-	float BezierCurve::Get_Curvature(float t)
+	float BezierCurve::Get_Curvature(float t) const
 	{
 		// 处理t值边界情况
 		if (t < 0.f) t = 0.f;
@@ -403,6 +403,8 @@ namespace curve
 	{
 		if (t < 0.f) t = 0.f;
 		else if (t > 1.f) t = 1.f;
+		
+		float current_max_vel;// 当前最大速度
 		
 		float temp_current_len = Get_Current_Len(t);
 		
