@@ -53,10 +53,13 @@
 "rc2026\stm32h7xx_hal_msp.o"
 "rc2026\stm32h7xx_hal_timebase_tim.o"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 "rc2026\rc_task.o"
 "rc2026\rc_can.o"
 "rc2026\rc_tim.o"
 =======
+=======
+>>>>>>> Stashed changes
 "rc2026\rc_can.o"
 "rc2026\rc_cdc.o"
 "rc2026\rc_gpio_exti.o"

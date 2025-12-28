@@ -66,11 +66,18 @@ extern TIM_HandleTypeDef htim7;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart2_rx;
+<<<<<<< Updated upstream
+=======
+extern DMA_HandleTypeDef hdma_usart2_tx;
+>>>>>>> Stashed changes
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern DMA_HandleTypeDef hdma_usart3_tx;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 extern TIM_HandleTypeDef htim6;
 
@@ -214,7 +221,11 @@ void DMA1_Stream2_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream2_IRQn 0 */
 
   /* USER CODE END DMA1_Stream2_IRQn 0 */
+<<<<<<< Updated upstream
   HAL_DMA_IRQHandler(&hdma_usart2_rx);
+=======
+  HAL_DMA_IRQHandler(&hdma_usart3_rx);
+>>>>>>> Stashed changes
   /* USER CODE BEGIN DMA1_Stream2_IRQn 1 */
 
   /* USER CODE END DMA1_Stream2_IRQn 1 */
@@ -228,7 +239,11 @@ void DMA1_Stream3_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream3_IRQn 0 */
 
   /* USER CODE END DMA1_Stream3_IRQn 0 */
+<<<<<<< Updated upstream
   HAL_DMA_IRQHandler(&hdma_usart3_rx);
+=======
+  HAL_DMA_IRQHandler(&hdma_usart3_tx);
+>>>>>>> Stashed changes
   /* USER CODE BEGIN DMA1_Stream3_IRQn 1 */
 
   /* USER CODE END DMA1_Stream3_IRQn 1 */
@@ -242,10 +257,31 @@ void DMA1_Stream4_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream4_IRQn 0 */
 
   /* USER CODE END DMA1_Stream4_IRQn 0 */
+<<<<<<< Updated upstream
   HAL_DMA_IRQHandler(&hdma_usart3_tx);
+=======
+  HAL_DMA_IRQHandler(&hdma_usart2_rx);
+>>>>>>> Stashed changes
   /* USER CODE BEGIN DMA1_Stream4_IRQn 1 */
 
   /* USER CODE END DMA1_Stream4_IRQn 1 */
+}
+
+/**
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+  * @brief This function handles DMA1 stream5 global interrupt.
+  */
+void DMA1_Stream5_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream5_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart2_tx);
+  /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream5_IRQn 1 */
 }
 
 /**

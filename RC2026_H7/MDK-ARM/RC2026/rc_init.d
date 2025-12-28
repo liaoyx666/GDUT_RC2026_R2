@@ -47,6 +47,7 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Motor\Inc\RC_m3508.h ..\RC26_Motor\Inc\RC_dji_motor.h \
   ..\RC26_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
@@ -77,6 +78,11 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
+=======
+  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
+  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
+  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
+>>>>>>> Stashed changes
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_memory.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\none.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\utils.h \
@@ -125,6 +131,11 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\arm_matrix.h \
   ..\RC26_Lib\Inc\RC_JY901S.h ..\RC26_Motor\Inc\RC_rs04.h \
   ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Lib\Inc\RC_swerve_chassis.h \
+<<<<<<< Updated upstream
   ..\RC26_Lib\Inc\RC_photogate.h ..\RC26_Lib\Inc\RC_LiDAR.h \
   ..\RC26_Lib\Inc\RC_chassis_jack.h ..\Core\Inc\fdcan.h
+>>>>>>> Stashed changes
+=======
+  ..\RC26_Lib\Inc\RC_photogate.h ..\RC26_Lib\Inc\RC_chassis_jack.h \
+  ..\RC26_Lib\Inc\RC_LiDAR.h ..\Core\Inc\fdcan.h
 >>>>>>> Stashed changes

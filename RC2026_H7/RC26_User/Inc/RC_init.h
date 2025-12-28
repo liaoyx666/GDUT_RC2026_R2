@@ -26,6 +26,10 @@
 #include "RC_swerve_chassis.h"
 #include "RC_LiDAR.h"
 #include "RC_chassis_jack.h"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+#include "RC_LiDAR.h"
 >>>>>>> Stashed changes
 
 #include "fdcan.h"

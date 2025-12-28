@@ -36,7 +36,13 @@ motor::M3508 m3508_left_front_can2(1, can2, tim7_1khz, 10 * 3591.f / 187.f);
 motor::M3508 m3508_left_behind_can2(2, can2, tim7_1khz, 99.506f);
 motor::M3508 m3508_right_behind_can2(3, can2, tim7_1khz, 99.506f);
 motor::M3508 m3508_right_front_can2(4, can2, tim7_1khz, 10 * 3591.f / 187.f);
+<<<<<<< Updated upstream
 //
+=======
+// -----------------------------------------------------------
+
+lidar::LiDAR LiDAR_1(huart3);
+>>>>>>> Stashed changes
 
 >>>>>>> Stashed changes
 
@@ -47,11 +53,43 @@ timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
 path::PathPlan path_plan(1, 1, 1);
 
 /*--------------------------------硬件模块初始化--------------------------------------*/
+<<<<<<< Updated upstream
 ros::Radar radar(CDC_HS, 1);// 雷达数据接收
 
 <<<<<<< Updated upstream
 chassis::OmniChassis omni_chassis(m3508_3, m3508_1, m3508_2, 1.5, 2);
 
+=======
+ros::Radar 		radar(CDC_HS, 1);// 雷达数据接收
+ros::Map 		map(CDC_HS, 2);// 地图数据接收
+ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
+
+
+// 3全向轮底盘
+//chassis::OmniChassis omni_chassis(
+//	m3508_3, m3508_1, m3508_2, 3, 3
+//);
+
+
+// 4舵轮底盘
+chassis::Swerve4Chassis swerve_4_chassis(
+	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
+	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
+	0.5, 6, 6,
+	4, 8, 8,
+	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
+);
+
+// 4撑杆
+chassis_jack::Chassis_jack chassis_jack_test(
+	m3508_left_front_can2, 
+	m3508_left_behind_can2, 
+	m3508_right_front_can2,
+	m3508_right_behind_can2,
+	LiDAR_1
+);
+
+>>>>>>> Stashed changes
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
 
@@ -106,6 +144,7 @@ void test(void *argument)
 	m2006_4_can1.Reset_Out_Pos(0);
 	go_0_3_can2.Reset_Out_Pos(0);
 	m3508_2_can1.Reset_Out_Pos(0);
+<<<<<<< Updated upstream
 	
 	//
 	m3508_left_front_can2.Reset_Out_Pos(0);
@@ -127,6 +166,21 @@ void test(void *argument)
 	
 	//go_0_0.Reset_Out_Pos(0);
 	
+=======
+
+	m3508_left_front_can2.Reset_Out_Pos(0);
+	m3508_left_front_can2.Reset_Out_Angle(0);
+		
+	m3508_right_front_can2.Reset_Out_Pos(0);
+	m3508_right_front_can2.Reset_Out_Angle(0);
+		
+	m3508_right_behind_can2.Reset_Out_Pos(0);
+	m3508_right_behind_can2.Reset_Out_Angle(0);
+
+	m3508_left_behind_can2.Reset_Out_Pos(0);
+	m3508_left_behind_can2.Reset_Out_Angle(0);
+
+>>>>>>> Stashed changes
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
 //	rs04_120.Set_K_Spd(10);
@@ -134,9 +188,13 @@ void test(void *argument)
 //	rs04_127.Set_ZeroPos();
 //	rs04_127.Set_K_Pos(50);
 //	rs04_127.Set_K_Spd(10);
+<<<<<<< Updated upstream
 //	m2006_4_can3.pid_pos.Pid_Mode_Init(false, false, 0, false);
 //	m2006_4_can3.pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 12000, 10000, 10000, 10000, 10000);
 
+>>>>>>> Stashed changes
+=======
+	osDelay(10);
 >>>>>>> Stashed changes
 	for (;;)
 	{
@@ -153,8 +211,15 @@ void test(void *argument)
 		
 		//go_1.Set_Pos(target);
 		
+<<<<<<< Updated upstream
 =======
 //		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 400.f, -remote_ctrl.left_x / 400.f), remote_ctrl.right_x / 400.f);
+=======
+
+
+		chassis_jack_test.chassis_test(remote_ctrl.signal_swd());
+
+>>>>>>> Stashed changes
 		
 		//uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);
@@ -278,6 +343,10 @@ void All_Init()
 	
 	jy901s.Uart_Rx_Start();
 	LiDAR_1.Uart_Rx_Start();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	/*------------------------------------------------------------------------------*/
 	
 >>>>>>> Stashed changes

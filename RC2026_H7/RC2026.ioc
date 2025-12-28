@@ -8,10 +8,18 @@ CORTEX_M7.default_mode_Activation=1
 =======
 Dma.Request0=USART1_RX
 Dma.Request1=USART1_TX
+<<<<<<< Updated upstream
 Dma.Request2=USART2_RX
 Dma.Request3=USART3_RX
 Dma.Request4=USART3_TX
 Dma.RequestsNb=5
+=======
+Dma.Request2=USART3_RX
+Dma.Request3=USART3_TX
+Dma.Request4=USART2_RX
+Dma.Request5=USART2_TX
+Dma.RequestsNb=6
+>>>>>>> Stashed changes
 Dma.USART1_RX.0.Direction=DMA_PERIPH_TO_MEMORY
 Dma.USART1_RX.0.EventEnable=DISABLE
 Dma.USART1_RX.0.FIFOMode=DMA_FIFOMODE_DISABLE
@@ -48,6 +56,7 @@ Dma.USART1_TX.1.SyncEnable=DISABLE
 Dma.USART1_TX.1.SyncPolarity=HAL_DMAMUX_SYNC_NO_EVENT
 Dma.USART1_TX.1.SyncRequestNumber=1
 Dma.USART1_TX.1.SyncSignalID=NONE
+<<<<<<< Updated upstream
 Dma.USART2_RX.2.Direction=DMA_PERIPH_TO_MEMORY
 Dma.USART2_RX.2.EventEnable=DISABLE
 Dma.USART2_RX.2.FIFOMode=DMA_FIFOMODE_DISABLE
@@ -102,6 +111,80 @@ Dma.USART3_TX.4.SyncEnable=DISABLE
 Dma.USART3_TX.4.SyncPolarity=HAL_DMAMUX_SYNC_NO_EVENT
 Dma.USART3_TX.4.SyncRequestNumber=1
 Dma.USART3_TX.4.SyncSignalID=NONE
+>>>>>>> Stashed changes
+=======
+Dma.USART2_RX.4.Direction=DMA_PERIPH_TO_MEMORY
+Dma.USART2_RX.4.EventEnable=DISABLE
+Dma.USART2_RX.4.FIFOMode=DMA_FIFOMODE_DISABLE
+Dma.USART2_RX.4.Instance=DMA1_Stream4
+Dma.USART2_RX.4.MemDataAlignment=DMA_MDATAALIGN_BYTE
+Dma.USART2_RX.4.MemInc=DMA_MINC_ENABLE
+Dma.USART2_RX.4.Mode=DMA_NORMAL
+Dma.USART2_RX.4.PeriphDataAlignment=DMA_PDATAALIGN_BYTE
+Dma.USART2_RX.4.PeriphInc=DMA_PINC_DISABLE
+Dma.USART2_RX.4.Polarity=HAL_DMAMUX_REQ_GEN_RISING
+Dma.USART2_RX.4.Priority=DMA_PRIORITY_LOW
+Dma.USART2_RX.4.RequestNumber=1
+Dma.USART2_RX.4.RequestParameters=Instance,Direction,PeriphInc,MemInc,PeriphDataAlignment,MemDataAlignment,Mode,Priority,FIFOMode,SignalID,Polarity,RequestNumber,SyncSignalID,SyncPolarity,SyncEnable,EventEnable,SyncRequestNumber
+Dma.USART2_RX.4.SignalID=NONE
+Dma.USART2_RX.4.SyncEnable=DISABLE
+Dma.USART2_RX.4.SyncPolarity=HAL_DMAMUX_SYNC_NO_EVENT
+Dma.USART2_RX.4.SyncRequestNumber=1
+Dma.USART2_RX.4.SyncSignalID=NONE
+Dma.USART2_TX.5.Direction=DMA_MEMORY_TO_PERIPH
+Dma.USART2_TX.5.EventEnable=DISABLE
+Dma.USART2_TX.5.FIFOMode=DMA_FIFOMODE_DISABLE
+Dma.USART2_TX.5.Instance=DMA1_Stream5
+Dma.USART2_TX.5.MemDataAlignment=DMA_MDATAALIGN_BYTE
+Dma.USART2_TX.5.MemInc=DMA_MINC_ENABLE
+Dma.USART2_TX.5.Mode=DMA_NORMAL
+Dma.USART2_TX.5.PeriphDataAlignment=DMA_PDATAALIGN_BYTE
+Dma.USART2_TX.5.PeriphInc=DMA_PINC_DISABLE
+Dma.USART2_TX.5.Polarity=HAL_DMAMUX_REQ_GEN_RISING
+Dma.USART2_TX.5.Priority=DMA_PRIORITY_LOW
+Dma.USART2_TX.5.RequestNumber=1
+Dma.USART2_TX.5.RequestParameters=Instance,Direction,PeriphInc,MemInc,PeriphDataAlignment,MemDataAlignment,Mode,Priority,FIFOMode,SignalID,Polarity,RequestNumber,SyncSignalID,SyncPolarity,SyncEnable,EventEnable,SyncRequestNumber
+Dma.USART2_TX.5.SignalID=NONE
+Dma.USART2_TX.5.SyncEnable=DISABLE
+Dma.USART2_TX.5.SyncPolarity=HAL_DMAMUX_SYNC_NO_EVENT
+Dma.USART2_TX.5.SyncRequestNumber=1
+Dma.USART2_TX.5.SyncSignalID=NONE
+Dma.USART3_RX.2.Direction=DMA_PERIPH_TO_MEMORY
+Dma.USART3_RX.2.EventEnable=DISABLE
+Dma.USART3_RX.2.FIFOMode=DMA_FIFOMODE_DISABLE
+Dma.USART3_RX.2.Instance=DMA1_Stream2
+Dma.USART3_RX.2.MemDataAlignment=DMA_MDATAALIGN_BYTE
+Dma.USART3_RX.2.MemInc=DMA_MINC_ENABLE
+Dma.USART3_RX.2.Mode=DMA_NORMAL
+Dma.USART3_RX.2.PeriphDataAlignment=DMA_PDATAALIGN_BYTE
+Dma.USART3_RX.2.PeriphInc=DMA_PINC_DISABLE
+Dma.USART3_RX.2.Polarity=HAL_DMAMUX_REQ_GEN_RISING
+Dma.USART3_RX.2.Priority=DMA_PRIORITY_LOW
+Dma.USART3_RX.2.RequestNumber=1
+Dma.USART3_RX.2.RequestParameters=Instance,Direction,PeriphInc,MemInc,PeriphDataAlignment,MemDataAlignment,Mode,Priority,FIFOMode,SignalID,Polarity,RequestNumber,SyncSignalID,SyncPolarity,SyncEnable,EventEnable,SyncRequestNumber
+Dma.USART3_RX.2.SignalID=NONE
+Dma.USART3_RX.2.SyncEnable=DISABLE
+Dma.USART3_RX.2.SyncPolarity=HAL_DMAMUX_SYNC_NO_EVENT
+Dma.USART3_RX.2.SyncRequestNumber=1
+Dma.USART3_RX.2.SyncSignalID=NONE
+Dma.USART3_TX.3.Direction=DMA_MEMORY_TO_PERIPH
+Dma.USART3_TX.3.EventEnable=DISABLE
+Dma.USART3_TX.3.FIFOMode=DMA_FIFOMODE_DISABLE
+Dma.USART3_TX.3.Instance=DMA1_Stream3
+Dma.USART3_TX.3.MemDataAlignment=DMA_MDATAALIGN_BYTE
+Dma.USART3_TX.3.MemInc=DMA_MINC_ENABLE
+Dma.USART3_TX.3.Mode=DMA_NORMAL
+Dma.USART3_TX.3.PeriphDataAlignment=DMA_PDATAALIGN_BYTE
+Dma.USART3_TX.3.PeriphInc=DMA_PINC_DISABLE
+Dma.USART3_TX.3.Polarity=HAL_DMAMUX_REQ_GEN_RISING
+Dma.USART3_TX.3.Priority=DMA_PRIORITY_LOW
+Dma.USART3_TX.3.RequestNumber=1
+Dma.USART3_TX.3.RequestParameters=Instance,Direction,PeriphInc,MemInc,PeriphDataAlignment,MemDataAlignment,Mode,Priority,FIFOMode,SignalID,Polarity,RequestNumber,SyncSignalID,SyncPolarity,SyncEnable,EventEnable,SyncRequestNumber
+Dma.USART3_TX.3.SignalID=NONE
+Dma.USART3_TX.3.SyncEnable=DISABLE
+Dma.USART3_TX.3.SyncPolarity=HAL_DMAMUX_SYNC_NO_EVENT
+Dma.USART3_TX.3.SyncRequestNumber=1
+Dma.USART3_TX.3.SyncSignalID=NONE
 >>>>>>> Stashed changes
 FDCAN1.CalculateBaudRateNominal=1000000
 FDCAN1.CalculateTimeBitNominal=1000
@@ -164,7 +247,11 @@ GPIO.groupedBy=Group By Peripherals
 KeepUserPlacement=false
 MMTAppRegionsCount=0
 MMTConfigApplied=false
+<<<<<<< Updated upstream
 MMTSectionSuffix=
+=======
+MMTSectionSuffix=_Section
+>>>>>>> Stashed changes
 Mcu.CPN=STM32H723ZGT6
 Mcu.Family=STM32H7
 Mcu.IP0=CORTEX_M7
@@ -202,11 +289,15 @@ Mcu.IP7=MEMORYMAP
 Mcu.IP8=NVIC
 Mcu.IP9=RCC
 Mcu.IPNb=18
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 Mcu.Name=STM32H723ZGTx
 Mcu.Package=LQFP144
 Mcu.Pin0=PF6
 Mcu.Pin1=PF7
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 Mcu.Pin10=PA14(JTCK/SWCLK)
 Mcu.Pin11=PD0
@@ -235,6 +326,22 @@ Mcu.Pin2=PF8
 Mcu.Pin20=PA14(JTCK/SWCLK)
 Mcu.Pin21=PD0
 Mcu.Pin22=PD1
+=======
+Mcu.Pin10=PB12
+Mcu.Pin11=PB13
+Mcu.Pin12=PD14
+Mcu.Pin13=PD15
+Mcu.Pin14=PA8
+Mcu.Pin15=PA9
+Mcu.Pin16=PA11
+Mcu.Pin17=PA12
+Mcu.Pin18=PA13(JTMS/SWDIO)
+Mcu.Pin19=PA14(JTCK/SWCLK)
+Mcu.Pin2=PF8
+Mcu.Pin20=PD0
+Mcu.Pin21=PD1
+Mcu.Pin22=PD5
+>>>>>>> Stashed changes
 Mcu.Pin23=PB6
 Mcu.Pin24=PB7
 Mcu.Pin25=VP_FREERTOS_VS_CMSIS_V2
@@ -242,6 +349,7 @@ Mcu.Pin26=VP_SYS_VS_tim6
 Mcu.Pin27=VP_TIM4_VS_ClockSourceINT
 Mcu.Pin28=VP_TIM7_VS_ClockSourceINT
 Mcu.Pin29=VP_USB_DEVICE_VS_USB_DEVICE_CDC_HS
+<<<<<<< Updated upstream
 >>>>>>> Stashed changes
 Mcu.Pin3=PH0-OSC_IN
 Mcu.Pin30=VP_MEMORYMAP_VS_MEMORYMAP
@@ -261,6 +369,17 @@ Mcu.Pin8=PB11
 Mcu.Pin9=PB12
 Mcu.PinsNb=31
 >>>>>>> Stashed changes
+=======
+Mcu.Pin3=PF9
+Mcu.Pin30=VP_MEMORYMAP_VS_MEMORYMAP
+Mcu.Pin4=PH0-OSC_IN
+Mcu.Pin5=PH1-OSC_OUT
+Mcu.Pin6=PA2
+Mcu.Pin7=PA3
+Mcu.Pin8=PB10
+Mcu.Pin9=PB11
+Mcu.PinsNb=31
+>>>>>>> Stashed changes
 Mcu.ThirdParty0=STMicroelectronics.X-CUBE-ALGOBUILD.1.4.0
 Mcu.ThirdPartyNb=1
 Mcu.UserConstants=
@@ -275,6 +394,10 @@ NVIC.DMA1_Stream1_IRQn=true\:5\:0\:false\:false\:true\:true\:false\:true\:true
 NVIC.DMA1_Stream2_IRQn=true\:5\:0\:false\:false\:true\:true\:false\:true\:true
 NVIC.DMA1_Stream3_IRQn=true\:5\:0\:false\:false\:true\:true\:false\:true\:true
 NVIC.DMA1_Stream4_IRQn=true\:5\:0\:false\:false\:true\:true\:false\:true\:true
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+NVIC.DMA1_Stream5_IRQn=true\:5\:0\:false\:false\:true\:true\:false\:true\:true
 >>>>>>> Stashed changes
 NVIC.DebugMonitor_IRQn=true\:0\:0\:false\:false\:true\:false\:false\:false\:false
 NVIC.EXTI9_5_IRQn=true\:5\:0\:false\:false\:true\:false\:true\:true\:true
@@ -302,8 +425,14 @@ NVIC.TIM7_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
 NVIC.TimeBase=TIM6_DAC_IRQn
 NVIC.TimeBaseIP=TIM6
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 NVIC.USART1_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
+NVIC.USART2_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
+NVIC.USART3_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
+>>>>>>> Stashed changes
+=======
+NVIC.USART1_IRQn=true\:5\:0\:false\:false\:true\:false\:true\:true\:true
 NVIC.USART2_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
 NVIC.USART3_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
 >>>>>>> Stashed changes
@@ -316,8 +445,16 @@ PA13(JTMS/SWDIO).Mode=Serial_Wire
 PA13(JTMS/SWDIO).Signal=DEBUG_JTMS-SWDIO
 PA14(JTCK/SWCLK).Mode=Serial_Wire
 PA14(JTCK/SWCLK).Signal=DEBUG_JTCK-SWCLK
+<<<<<<< Updated upstream
 PA2.Mode=Asynchronous
 PA2.Signal=USART2_TX
+=======
+PA2.GPIOParameters=GPIO_PuPd,GPIO_Label
+PA2.GPIO_Label=photogate_1
+PA2.GPIO_PuPd=GPIO_PULLUP
+PA2.Locked=true
+PA2.Signal=GPXTI2
+>>>>>>> Stashed changes
 PA3.Mode=Asynchronous
 PA3.Signal=USART2_RX
 PA8.GPIOParameters=GPIO_PuPd
@@ -346,6 +483,21 @@ PD0.Mode=FDCAN_Activate
 PD0.Signal=FDCAN1_RX
 PD1.Mode=FDCAN_Activate
 PD1.Signal=FDCAN1_TX
+<<<<<<< Updated upstream
+=======
+PD14.GPIOParameters=GPIO_PuPd,GPIO_Label
+PD14.GPIO_Label=photogate_3
+PD14.GPIO_PuPd=GPIO_PULLUP
+PD14.Locked=true
+PD14.Signal=GPXTI14
+PD15.GPIOParameters=GPIO_PuPd,GPIO_Label
+PD15.GPIO_Label=photogate_4
+PD15.GPIO_PuPd=GPIO_PULLUP
+PD15.Locked=true
+PD15.Signal=GPXTI15
+PD5.Mode=Asynchronous
+PD5.Signal=USART2_TX
+>>>>>>> Stashed changes
 PF6.Mode=FDCAN_Activate
 PF6.Signal=FDCAN3_RX
 PF7.Mode=FDCAN_Activate
@@ -392,9 +544,13 @@ ProjectManager.UAScriptAfterPath=
 ProjectManager.UAScriptBeforePath=
 ProjectManager.UnderRoot=false
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_FDCAN1_Init-FDCAN1-false-HAL-true,4-MX_FDCAN2_Init-FDCAN2-false-HAL-true,5-MX_FDCAN3_Init-FDCAN3-false-HAL-true,6-MX_TIM4_Init-TIM4-false-HAL-true,7-MX_TIM7_Init-TIM7-false-HAL-true,8-MX_USART1_UART_Init-USART1-false-HAL-true,9-MX_USB_DEVICE_Init-USB_DEVICE-false-HAL-false,0-MX_CORTEX_M7_Init-CORTEX_M7-false-HAL-true
 =======
 ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_DMA_Init-DMA-false-HAL-true,4-MX_FDCAN1_Init-FDCAN1-false-HAL-true,5-MX_FDCAN2_Init-FDCAN2-false-HAL-true,6-MX_FDCAN3_Init-FDCAN3-false-HAL-true,7-MX_TIM4_Init-TIM4-false-HAL-true,8-MX_TIM7_Init-TIM7-false-HAL-true,9-MX_USART1_UART_Init-USART1-false-HAL-true,10-MX_USB_DEVICE_Init-USB_DEVICE-false-HAL-false,11-MX_USART2_UART_Init-USART2-false-HAL-true,12-MX_USART3_UART_Init-USART3-false-HAL-true,0-MX_CORTEX_M7_Init-CORTEX_M7-false-HAL-true
+>>>>>>> Stashed changes
+=======
+ProjectManager.functionlistsort=1-SystemClock_Config-RCC-false-HAL-false,2-MX_GPIO_Init-GPIO-false-HAL-true,3-MX_DMA_Init-DMA-false-HAL-true,4-MX_FDCAN1_Init-FDCAN1-false-HAL-true,5-MX_FDCAN2_Init-FDCAN2-false-HAL-true,6-MX_FDCAN3_Init-FDCAN3-false-HAL-true,7-MX_TIM4_Init-TIM4-false-HAL-true,8-MX_TIM7_Init-TIM7-false-HAL-true,9-MX_USART1_UART_Init-USART1-false-HAL-true,10-MX_USB_DEVICE_Init-USB_DEVICE-false-HAL-false,11-MX_USART3_UART_Init-USART3-false-HAL-true,12-MX_USART2_UART_Init-USART2-false-HAL-true,0-MX_CORTEX_M7_Init-CORTEX_M7-false-HAL-true
 >>>>>>> Stashed changes
 RCC.ADCFreq_Value=129000000
 RCC.AHB12Freq_Value=275000000
@@ -487,12 +643,20 @@ TIM7.Prescaler=275 - 1
 USART1.IPParameters=VirtualMode-Asynchronous
 USART1.VirtualMode-Asynchronous=VM_ASYNC
 USART2.FIFOMode=FIFOMODE_ENABLE
+<<<<<<< Updated upstream
 USART2.IPParameters=VirtualMode-Asynchronous,Mode,OverrunDisableParam,FIFOMode
 USART2.Mode=MODE_TX_RX
 USART2.OverrunDisableParam=ADVFEATURE_OVERRUN_DISABLE
 USART2.VirtualMode-Asynchronous=VM_ASYNC
 USART3.FIFOMode=FIFOMODE_ENABLE
 USART3.IPParameters=VirtualMode-Asynchronous,OverrunDisableParam,FIFOMode
+=======
+USART2.IPParameters=VirtualMode-Asynchronous,OverrunDisableParam,FIFOMode
+USART2.OverrunDisableParam=ADVFEATURE_OVERRUN_DISABLE
+USART2.VirtualMode-Asynchronous=VM_ASYNC
+USART3.FIFOMode=FIFOMODE_ENABLE
+USART3.IPParameters=VirtualMode-Asynchronous,FIFOMode,OverrunDisableParam
+>>>>>>> Stashed changes
 USART3.OverrunDisableParam=ADVFEATURE_OVERRUN_DISABLE
 USART3.VirtualMode-Asynchronous=VM_ASYNC
 USB_DEVICE.CLASS_NAME_HS=CDC
