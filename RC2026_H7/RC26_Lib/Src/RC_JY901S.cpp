@@ -4,7 +4,7 @@ namespace imu
 {
 	JY901S::JY901S(UART_HandleTypeDef &huart_) : serial::UartRx(huart_, rx_buf, JY901S_RX_BUFFER_SIZE, true, true)
 	{
-
+		
 	}
 	
 	

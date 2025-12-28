@@ -11,10 +11,10 @@ namespace arm
 {
 	typedef struct
 	{
-		float theta0;
-		float theta1;       //大臂关节与绝对坐标系x轴夹角
-		float theta2;       //小臂关节与绝对坐标系x轴夹角
-		float theta3;       //末端关节与绝对坐标系x轴夹角
+		float theta1;
+		float theta2;       //大臂关节与绝对坐标系x轴夹角
+		float theta3;       //小臂关节与绝对坐标系x轴夹角
+		float theta4;       //末端关节与绝对坐标系x轴夹角
 	} JointAngles;
 	
 	typedef struct
@@ -60,26 +60,31 @@ namespace arm
 	
 	
 	// ------------------ 机械臂参数 ------------------
-	#define L1_LENGTH       0.45657f    // 大臂长度（米）
-	#define L2_LENGTH       0.4135f    // 小臂长度（米）
-	#define L3_LENGTH       0.13350f    // 末端执行器长度（米）
+	#define L1_LENGTH       0.34858f    
+	#define L2_LENGTH       0.06553f   
+	#define L3_LENGTH       0.28166f    
+	#define L4_LENGTH       0.13350f
 	#define BASE_HEIGHT     0.1f 	    // 底座高度（米）
 
 	// ------------------ 关节角度限制 ------------------
-	#define THETA0_MIN      -PI
-	#define THETA0_MAX       PI
-	#define THETA1_MIN       -PI
-	#define THETA1_MAX       0
-	#define THETA2_MIN       0
-	#define THETA2_MAX       1.5*PI
-	#define THETA3_MIN       -PI
-	#define THETA3_MAX       PI
+	#define THETA1_MIN      -PI
+	#define THETA1_MAX       PI
+
+	#define THETA2_MIN       -PI
+	#define THETA2_MAX       0
+
+	#define THETA3_MIN       0
+	#define THETA3_MAX       1.5*PI
+
+	#define THETA4_MIN       -PI
+	#define THETA4_MAX       0
 
 	// ------------------ 关节角度偏移（全零位置） ------------------
-	#define THETA0_OFFSET    0.0f
-	#define THETA1_OFFSET    -PI
-	#define THETA2_OFFSET     PI
-	#define THETA3_OFFSET    0.0f
+	#define THETA1_OFFSET    0.0f
+	#define THETA2_OFFSET    (-PI+(-9.80f*PI/180.0f))
+	#define THETA3_OFFSET    (PI-(-46.57*PI/180.0f))
+	#define THETA4_OFFSET    (PI+(134.50f*PI/180.0f))
+	#define THETA5_OFFSET    (PI-(70.40f*PI/180.0f))
 
 	// ------------------ 结构体 ------------------
 	struct EndEffectorPos {
@@ -89,16 +94,13 @@ namespace arm
 		float angle;
 	};
 
-	enum ActuatorType {
-		ACTUATOR_1,
-		ACTUATOR_2
-	};
+	
 
 	class ArmKinematics
 	{
 	public:
 		// 正逆运动学接口
-		 void forward(const JointAngles& angles, ActuatorType actuator, EndEffectorPos& end_pos);
+	    void forward(const JointAngles& angles, EndEffectorPos& end_pos);
 		bool inverse(const EndEffectorPos& target_pos,
 					JointAngles& result_angles);
 
@@ -106,11 +108,6 @@ namespace arm
 		// 工具函数
 		float normalizeAngle(float angle);
 		float constrainValue(float value, float min, float max);
-		float calc_reward(const JointAngles& q,
-						  const EndEffectorPos& end_pos,
-						  const EndEffectorPos& target, 
-						  const JointAngles& current_angles);
-
 		static ArmMatrix<4, 4> buildDHTable(float theta, float alpha, float a, float d, float offset);
 
 		// 成员变量，存储正运动学临时矩阵
@@ -118,7 +115,8 @@ namespace arm
 		static ArmMatrix<4,4> T12;
 		static ArmMatrix<4,4> T23;
 		static ArmMatrix<4,4> T34;
-		static ArmMatrix<4,4> T04;
+		static ArmMatrix<4,4> T45;
+		static ArmMatrix<4,4> T05;
 	};
 }
 #endif

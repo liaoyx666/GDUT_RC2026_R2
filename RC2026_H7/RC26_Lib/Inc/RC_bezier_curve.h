@@ -42,6 +42,12 @@ namespace curve
 		// 设置结束速度
 		void Set_End_Vel(float end_vel_) {end_vel = fabsf(end_vel_);}
 		
+		void Set_Num(uint16_t end_point_num_);
+		
+		void Set_Num(uint16_t control_point_num_, uint16_t end_point_num_);
+		
+		void Set_Throughout_Max_Vel(float throughout_max_vel_) {throughout_max_vel = throughout_max_vel_;}
+		
 		/*--------------------------------------------------------------------------------------------*/
 			
 		// 获取控制点坐标
@@ -70,6 +76,12 @@ namespace curve
 		
 		// 获取曲线阶数
 		BezierOrder Get_Bezier_Order() const {return order;}
+		
+		float Get_Throughout_Max_Vel() {return throughout_max_vel;}
+		
+		uint16_t Get_Control_Point_Num() {return control_point_num;}
+		
+		uint16_t Get_End_Point_Num() {return end_point_num;}
 		
 		/*--------------------------------------------------------------------------------------------*/
 		
@@ -112,7 +124,12 @@ namespace curve
 		vector2d::Vector2D start_point;// 起始点
 		vector2d::Vector2D end_point;// 结束点
 		vector2d::Vector2D control_point;// 控制点
-
+		
+		uint16_t control_point_num;
+		uint16_t end_point_num;
+		
+		float throughout_max_vel = 0.f;// 全程最大速度
+		
     };
 }
 #endif

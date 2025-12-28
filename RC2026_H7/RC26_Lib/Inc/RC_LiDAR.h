@@ -13,9 +13,9 @@ namespace lidar
 	public:
 		LiDAR(UART_HandleTypeDef &huart_);
 		virtual ~LiDAR() {}
-
-	protected:
 		uint16_t distance = 0;
+	protected:
+		
 		uint16_t strength = 0;
 		uint16_t temperature = 0;
 		uint16_t checksum = 0;

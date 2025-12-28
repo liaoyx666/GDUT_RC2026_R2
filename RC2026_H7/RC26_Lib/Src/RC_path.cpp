@@ -546,7 +546,7 @@ namespace path
 		*speed_angle = angle_pid.Pid_Calculate(true, PI);
 
 		current_max_tangent_spd = current_max_tangent_spd * sqrtf(max_accel);
-
+		
 		// 限制切向速度
 		if (target_tangent_spd > current_max_tangent_spd) target_tangent_spd = current_max_tangent_spd;
 		if (target_tangent_spd > max_speed) target_tangent_spd = max_speed;

@@ -34,7 +34,10 @@ namespace can
 		taskENTER_CRITICAL();
 		
 		can_num++;
-		if (can_num > MAX_CAN_NUM) Error_Handler();
+		if (can_num > MAX_CAN_NUM)
+		{
+			Error_Handler();
+		}
 		
 		can_list_dx = can_num - 1;
 		can_list[can_list_dx] = this;
@@ -67,13 +70,22 @@ namespace can
 	void Can::Can_Start()
 	{
 		// 使能CAN接收FIFO0消息挂起中断
-		if (HAL_FDCAN_ActivateNotification(hcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK) Error_Handler();
+		if (HAL_FDCAN_ActivateNotification(hcan, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0) != HAL_OK)
+		{
+			Error_Handler();
+		}
 		
 		// 使能CAN接收FIFO1消息挂起中断
-		if (HAL_FDCAN_ActivateNotification(hcan, FDCAN_IT_RX_FIFO1_NEW_MESSAGE, 0) != HAL_OK) Error_Handler();
+		if (HAL_FDCAN_ActivateNotification(hcan, FDCAN_IT_RX_FIFO1_NEW_MESSAGE, 0) != HAL_OK)
+		{
+			Error_Handler();
+		}
 		
 		// 启动CAN外设
-		if (HAL_FDCAN_Start(hcan) != HAL_OK) Error_Handler();
+		if (HAL_FDCAN_Start(hcan) != HAL_OK)
+		{
+			Error_Handler();
+		}
 	}
 	
 	void Can::All_Can_Rx_It_Process(FDCAN_HandleTypeDef *hcan, uint32_t fifo)
@@ -86,7 +98,10 @@ namespace can
 				FDCAN_RxHeaderTypeDef can_rx_hdr;
 				uint8_t rx_data[8];
 				
-				if (HAL_FDCAN_GetRxMessage(hcan, fifo, &can_rx_hdr, rx_data) != HAL_OK) return;
+				if (HAL_FDCAN_GetRxMessage(hcan, fifo, &can_rx_hdr, rx_data) != HAL_OK)
+				{
+					return;
+				}
 				
 				// 检查ID匹配
 				bool id_matched = false;
@@ -94,7 +109,10 @@ namespace can
 				// 查找对应rx帧id的设备
 				for (uint16_t j = 0; j < can_list[i]->hd_num; j++)
 				{
-					if (can_list[i]->hd_list[j] == nullptr) continue;
+					if (can_list[i]->hd_list[j] == nullptr)
+					{
+						continue;
+					}
 					
 					if (can_rx_hdr.IdType == FDCAN_EXTENDED_ID)
 					{
@@ -104,9 +122,15 @@ namespace can
 							{
 								id_matched = true;
 							}
-							else continue;
+							else
+							{
+								continue;
+							}
 						}
-						else continue;
+						else 
+						{
+							continue;
+						}
 					}
 					else
 					{
@@ -115,9 +139,15 @@ namespace can
 							if ((can_rx_hdr.Identifier & can_list[i]->hd_list[j]->rx_mask) == can_list[i]->hd_list[j]->rx_id)
 							{
 								id_matched = true;
-							} else continue;
+							} else
+							{
+								continue;
+							}
 						}
-						else continue;
+						else
+						{
+							continue;
+						}
 					}
 					
 					if (id_matched == true)
@@ -157,7 +187,10 @@ namespace can
 				can_tx_hdr.IdType = FDCAN_EXTENDED_ID;
 			}
 			
-			if (tx_frame_list[i].dlc > 8) break;// 标准can都小于等于8
+			if (tx_frame_list[i].dlc > 8)
+			{
+				break;// 标准can都小于等于8
+			}
 			can_tx_hdr.DataLength = tx_frame_list[i].dlc;// 数据长度
 			
 			can_tx_hdr.TxFrameType = FDCAN_DATA_FRAME;// 数据帧
@@ -201,9 +234,15 @@ namespace can
 					osDelay(1);
 				}
 				
-				if (send_success == true) break;
+				if (send_success == true)
+				{
+					break;
+				}
 				
-				if (retry_count > MAX_CAN_RETRY_COUNT) break;
+				if (retry_count > MAX_CAN_RETRY_COUNT) 
+				{
+					break;
+				}
 
 			} while (send_success == false);
 		}

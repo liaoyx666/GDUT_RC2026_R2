@@ -1,8 +1,14 @@
 #pragma once
 
 #include "RC_motor.h"
+#include "RC_LiDAR.h"
 
 #ifdef __cplusplus
+
+#define SMALL_WHEEL_RADIUS	0.04f
+#define JACK_LANGHT 0.25f
+
+
 
 namespace chassis_jack
 {
@@ -10,25 +16,49 @@ namespace chassis_jack
     {
 	public:
 		Chassis_jack(
-			motor::Motor& left_front_motor_,
-			motor::Motor& left_behind_motor_,
+			motor::Motor& left_front_motor_, 
+			motor::Motor& left_behind_motor_, 
 			motor::Motor& right_front_motor_, 
-			motor::Motor& right_behind_motor_
+			motor::Motor& right_behind_motor_,
+			motor::Motor& left_small_wheel_,
+			motor::Motor& right_small_wheel_,
+			float max_linear_vel_,
+			lidar::LiDAR& LiDAR_jack_
 		);
 
 		virtual ~Chassis_jack() {}
 
 		void chassis_up();
 		void chassis_down();
-		void chassis_test();
-			
+		
+		void chassis_test(bool signal, bool state);
+		
 		uint8_t b = 0;
+		float tag = 430;
+		float dis = 0;
 
+		bool up_or_down = 0;
+
+		bool last_state = 0;
+		/*-------------------------------------------*/
+			
+		void Set_Vel(float linear_vel_);
+		
 	private:
 		motor::Motor& left_front_motor;
 		motor::Motor& left_behind_motor;
 		motor::Motor& right_front_motor;
 		motor::Motor& right_behind_motor;
+	
+		lidar::LiDAR& LiDAR_jack;
+		/*-------------------------------------------*/
+		
+		float max_linear_vel;
+		
+		const float rpm_to_vel = (JACK_LANGHT) * ((2.0f * PI) / 60.0f);
+		
+		motor::Motor& left_small_wheel;
+		motor::Motor& right_small_wheel;
     };
 }
 

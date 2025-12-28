@@ -20,9 +20,11 @@ namespace chassis
 		
 		// 设置机器人坐标速度
 		void Set_Robot_Vel(vector2d::Vector2D v_, float vw_);
-			
+		
 		// 设置世界坐标送速度
 		void Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_);
+			
+		vector2d::Vector2D Get_Vel() const {return v;}
 		
 		// 使能
 		void Chassis_Enable() {is_enable = true;}

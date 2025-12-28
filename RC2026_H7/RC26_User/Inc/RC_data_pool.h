@@ -8,7 +8,7 @@ namespace data
     public:
 		RobotPose();
 		virtual ~RobotPose() {}
-			
+		
 		float x;
 		float y;
 		float z;

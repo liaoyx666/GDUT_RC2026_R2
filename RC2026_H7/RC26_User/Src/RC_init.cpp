@@ -55,8 +55,10 @@ motor::M3508 m3508_right_behind_can2(3, can2, tim7_1khz, 99.506f);
 motor::M3508 m3508_right_front_can2(4, can2, tim7_1khz, 10 * 3591.f / 187.f);
 // -----------------------------------------------------------
 
-
-
+// 主动轮电机-------------------------------------------------
+motor::M2006 	m2006_5_can2(5, can2, tim7_1khz, 36.f);
+motor::M2006 	m2006_6_can2(6, can2, tim7_1khz, 36.f);
+// -----------------------------------------------------------
 
 
 /*-------------------------------软件模块初始化---------------------------------------*/
@@ -74,6 +76,7 @@ ros::Radar 		radar(CDC_HS, 1);// 雷达数据接收
 ros::Map 		map(CDC_HS, 2);// 地图数据接收
 ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
+lidar::LiDAR lidar_1(huart3);
 
 // 3全向轮底盘
 //chassis::OmniChassis omni_chassis(
@@ -85,7 +88,7 @@ ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 chassis::Swerve4Chassis swerve_4_chassis(
 	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
-	2, 5, 5,
+	0.5, 5, 5,
 	4, 8, 8,
 	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
 );
@@ -95,7 +98,11 @@ chassis_jack::Chassis_jack chassis_jack_test(
 	m3508_left_front_can2, 
 	m3508_left_behind_can2, 
 	m3508_right_front_can2,
-	m3508_right_behind_can2
+	m3508_right_behind_can2,
+	m2006_5_can2,
+	m2006_6_can2,
+	0.5f,
+	lidar_1
 );
 
 
@@ -146,10 +153,10 @@ void test(void *argument)
 		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f);
 		
 		
-		if(remote_ctrl.signal_swd() == true)
-		{
-			chassis_jack_test.chassis_test();
-		}
+
+		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swa);
+		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
+		
 		
 //		uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);
@@ -184,7 +191,6 @@ task::TaskCreator test_task("test", 20, 512, test, NULL);
 void All_Init()
 {
 	
-	
 	/*------------------------------------外设初始化------------------------------------------*/
 	can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
 	can1.Can_Filter_Init(FDCAN_EXTENDED_ID, 2, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
@@ -202,6 +208,7 @@ void All_Init()
 	tim7_1khz.Tim_It_Start();
 	
 	jy901s.Uart_Rx_Start();
+	lidar_1.Uart_Rx_Start();
 
 	/*------------------------------------------------------------------------------*/
 	

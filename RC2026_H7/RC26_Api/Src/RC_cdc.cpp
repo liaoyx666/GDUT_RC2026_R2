@@ -115,7 +115,10 @@ namespace cdc
 		uint8_t dx = (cdc_type_ == USB_CDC_HS) ? 0 : 1;
     
 		// 检查指针是否有效
-		if (cdc_list[dx] == nullptr) return;
+		if (cdc_list[dx] == nullptr)
+		{
+			return;
+		}
 		
 		if (len <= 64)
 		{

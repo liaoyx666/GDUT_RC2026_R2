@@ -75,6 +75,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : photoswitch_1_Pin photoswitch_2_Pin */
+  GPIO_InitStruct.Pin = photoswitch_1_Pin|photoswitch_2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI2_IRQn, 4, 0);
   HAL_NVIC_EnableIRQ(EXTI2_IRQn);
