@@ -94,4 +94,6 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Lib\Inc\RC_JY901S.h ..\RC26_Motor\Inc\RC_rs04.h \
   ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Lib\Inc\RC_swerve_chassis.h \
   ..\RC26_Lib\Inc\RC_photogate.h ..\RC26_Lib\Inc\RC_chassis_jack.h \
-  ..\RC26_Lib\Inc\RC_LiDAR.h ..\Core\Inc\fdcan.h
+  ..\RC26_Lib\Inc\RC_LiDAR.h ..\RC26_User\Inc\RC_arm_task.h \
+  ..\RC26_Lib\Inc\RC_arm_path.h ..\RC26_Lib\Inc\RC_vector3d.h \
+  ..\Core\Inc\fdcan.h

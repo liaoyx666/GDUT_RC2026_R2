@@ -258,97 +258,97 @@
         <Ww>
           <count>20</count>
           <WinNumber>1</WinNumber>
-          <ItemText>go_0_3</ItemText>
+          <ItemText>map</ItemText>
         </Ww>
         <Ww>
           <count>21</count>
           <WinNumber>1</WinNumber>
-          <ItemText>go_0_0</ItemText>
+          <ItemText>MF_path</ItemText>
         </Ww>
         <Ww>
           <count>22</count>
           <WinNumber>1</WinNumber>
-          <ItemText>map</ItemText>
+          <ItemText>CDC_HS</ItemText>
         </Ww>
         <Ww>
           <count>23</count>
           <WinNumber>1</WinNumber>
-          <ItemText>MF_path</ItemText>
+          <ItemText>m3508_1</ItemText>
         </Ww>
         <Ww>
           <count>24</count>
           <WinNumber>1</WinNumber>
-          <ItemText>CDC_HS</ItemText>
+          <ItemText>m3508_2</ItemText>
         </Ww>
         <Ww>
           <count>25</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_1</ItemText>
+          <ItemText>jy901s</ItemText>
         </Ww>
         <Ww>
           <count>26</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_2</ItemText>
+          <ItemText>m3508_2_c1</ItemText>
         </Ww>
         <Ww>
           <count>27</count>
           <WinNumber>1</WinNumber>
-          <ItemText>jy901s</ItemText>
+          <ItemText>rs04_120</ItemText>
         </Ww>
         <Ww>
           <count>28</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_2_c1</ItemText>
+          <ItemText>can3</ItemText>
         </Ww>
         <Ww>
           <count>29</count>
           <WinNumber>1</WinNumber>
-          <ItemText>rs04_120</ItemText>
+          <ItemText>rs04_127</ItemText>
         </Ww>
         <Ww>
           <count>30</count>
           <WinNumber>1</WinNumber>
-          <ItemText>can3</ItemText>
+          <ItemText>m2006_4_can3</ItemText>
         </Ww>
         <Ww>
           <count>31</count>
           <WinNumber>1</WinNumber>
-          <ItemText>rs04_127</ItemText>
+          <ItemText>pin</ItemText>
         </Ww>
         <Ww>
           <count>32</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m2006_4_can3</ItemText>
+          <ItemText>swerve_4_chassis</ItemText>
         </Ww>
         <Ww>
           <count>33</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pin</ItemText>
+          <ItemText>vesc_104_can3</ItemText>
         </Ww>
         <Ww>
           <count>34</count>
           <WinNumber>1</WinNumber>
-          <ItemText>swerve_4_chassis</ItemText>
+          <ItemText>m2006_4_can1</ItemText>
         </Ww>
         <Ww>
           <count>35</count>
           <WinNumber>1</WinNumber>
-          <ItemText>vesc_104_can3</ItemText>
+          <ItemText>m3508_left_front_can2</ItemText>
         </Ww>
         <Ww>
           <count>36</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m2006_4_can1</ItemText>
+          <ItemText>m3508_right_front_can2</ItemText>
         </Ww>
         <Ww>
           <count>37</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_left_front_can2</ItemText>
+          <ItemText>go_0_3</ItemText>
         </Ww>
         <Ww>
           <count>38</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_right_front_can2</ItemText>
+          <ItemText>j60_1</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>

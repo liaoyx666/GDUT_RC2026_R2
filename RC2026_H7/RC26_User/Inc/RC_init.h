@@ -24,6 +24,8 @@
 #include "RC_swerve_chassis.h"
 #include "RC_chassis_jack.h"
 
+#include "RC_arm_task.h"
+
 #include "fdcan.h"
 #include "tim.h"
 #include "gpio.h"
