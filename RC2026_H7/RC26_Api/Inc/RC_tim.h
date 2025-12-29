@@ -4,7 +4,7 @@
 
 #ifdef __cplusplus
 
-#define MAX_TIM_HANDLE_NUM 16
+#define MAX_TIM_HANDLE_NUM 20
 #define MAX_TIM_NUM 13
 
 namespace tim

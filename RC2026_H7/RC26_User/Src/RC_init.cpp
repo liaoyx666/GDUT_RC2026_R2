@@ -108,7 +108,7 @@ chassis_jack::Chassis_jack chassis_jack_test(
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
-imu::JY901S jy901s(huart1);// 陀螺仪
+imu::JY901S jy901s(huart1);// 陀螺仪  
 
 /*---------------------------————-----DeBug------------------------------------------*/
 SquareWave wave(1000, 3000);// 用于调pid
@@ -154,9 +154,9 @@ void test(void *argument)
 		
 		
 
-		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swa);
-		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
-		
+//		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swa);
+//		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
+//		
 		
 //		uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 //		m6020_1.Set_Rpm(target);

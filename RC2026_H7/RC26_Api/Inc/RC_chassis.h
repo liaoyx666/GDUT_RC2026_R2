@@ -24,7 +24,11 @@ namespace chassis
 		// 设置世界坐标送速度
 		void Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_);
 			
+		// 获取底盘当前线速度
 		vector2d::Vector2D Get_Vel() const {return v;}
+		
+		// 设置最大线速度
+		void Set_Max_Linear_Vel(float max_linear_vel_) {max_linear_vel = fabsf(max_linear_vel_);}
 		
 		// 使能
 		void Chassis_Enable() {is_enable = true;}
