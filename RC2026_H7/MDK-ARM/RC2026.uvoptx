@@ -106,6 +106,9 @@
         <nTsel>3</nTsel>
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
         <sDll></sDll>
@@ -330,6 +333,16 @@
           <count>44</count>
           <WinNumber>1</WinNumber>
           <ItemText>dis</ItemText>
+        </Ww>
+        <Ww>
+          <count>39</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>m2006_1_can3</ItemText>
+        </Ww>
+        <Ww>
+          <count>40</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>vesc_101_can3</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>

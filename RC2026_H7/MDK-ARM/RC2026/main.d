@@ -52,6 +52,7 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
@@ -81,6 +82,11 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
+=======
+  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
+  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
+  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
+>>>>>>> Stashed changes
 =======
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \

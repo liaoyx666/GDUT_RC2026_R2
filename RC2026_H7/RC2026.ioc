@@ -248,7 +248,11 @@ KeepUserPlacement=false
 MMTAppRegionsCount=0
 MMTConfigApplied=false
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 MMTSectionSuffix=
+=======
+MMTSectionSuffix=_Section
+>>>>>>> Stashed changes
 =======
 MMTSectionSuffix=_Section
 >>>>>>> Stashed changes
@@ -295,6 +299,7 @@ Mcu.IPNb=18
 >>>>>>> Stashed changes
 Mcu.Name=STM32H723ZGTx
 Mcu.Package=LQFP144
+<<<<<<< Updated upstream
 Mcu.Pin0=PF6
 Mcu.Pin1=PF7
 <<<<<<< Updated upstream
@@ -315,6 +320,13 @@ Mcu.Pin20=VP_MEMORYMAP_VS_MEMORYMAP
 Mcu.Pin10=PB13
 Mcu.Pin11=PD12
 Mcu.Pin12=PD13
+=======
+Mcu.Pin0=PE2
+Mcu.Pin1=PE3
+Mcu.Pin10=PB11
+Mcu.Pin11=PB12
+Mcu.Pin12=PB13
+>>>>>>> Stashed changes
 Mcu.Pin13=PD14
 Mcu.Pin14=PD15
 Mcu.Pin15=PA8
@@ -322,6 +334,7 @@ Mcu.Pin16=PA9
 Mcu.Pin17=PA11
 Mcu.Pin18=PA12
 Mcu.Pin19=PA13(JTMS/SWDIO)
+<<<<<<< Updated upstream
 Mcu.Pin2=PF8
 Mcu.Pin20=PA14(JTCK/SWCLK)
 Mcu.Pin21=PD0
@@ -342,6 +355,12 @@ Mcu.Pin20=PD0
 Mcu.Pin21=PD1
 Mcu.Pin22=PD5
 >>>>>>> Stashed changes
+=======
+Mcu.Pin2=PF6
+Mcu.Pin20=PA14(JTCK/SWCLK)
+Mcu.Pin21=PD0
+Mcu.Pin22=PD1
+>>>>>>> Stashed changes
 Mcu.Pin23=PB6
 Mcu.Pin24=PB7
 Mcu.Pin25=VP_FREERTOS_VS_CMSIS_V2
@@ -349,6 +368,7 @@ Mcu.Pin26=VP_SYS_VS_tim6
 Mcu.Pin27=VP_TIM4_VS_ClockSourceINT
 Mcu.Pin28=VP_TIM7_VS_ClockSourceINT
 Mcu.Pin29=VP_USB_DEVICE_VS_USB_DEVICE_CDC_HS
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 >>>>>>> Stashed changes
 Mcu.Pin3=PH0-OSC_IN
@@ -378,6 +398,17 @@ Mcu.Pin6=PA2
 Mcu.Pin7=PA3
 Mcu.Pin8=PB10
 Mcu.Pin9=PB11
+Mcu.PinsNb=31
+>>>>>>> Stashed changes
+=======
+Mcu.Pin3=PF7
+Mcu.Pin30=VP_MEMORYMAP_VS_MEMORYMAP
+Mcu.Pin4=PF8
+Mcu.Pin5=PF9
+Mcu.Pin6=PH0-OSC_IN
+Mcu.Pin7=PH1-OSC_OUT
+Mcu.Pin8=PA2
+Mcu.Pin9=PB10
 Mcu.PinsNb=31
 >>>>>>> Stashed changes
 Mcu.ThirdParty0=STMicroelectronics.X-CUBE-ALGOBUILD.1.4.0
@@ -421,7 +452,11 @@ NVIC.SavedSystickIrqHandlerGenerated=true
 NVIC.SysTick_IRQn=true\:15\:0\:false\:false\:false\:true\:false\:true\:false
 NVIC.TIM4_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
 NVIC.TIM6_DAC_IRQn=true\:15\:0\:false\:false\:true\:false\:false\:true\:true
+<<<<<<< Updated upstream
 NVIC.TIM7_IRQn=true\:5\:0\:false\:false\:true\:true\:true\:true\:true
+=======
+NVIC.TIM7_IRQn=true\:7\:0\:true\:false\:true\:false\:true\:true\:true
+>>>>>>> Stashed changes
 NVIC.TimeBase=TIM6_DAC_IRQn
 NVIC.TimeBaseIP=TIM6
 <<<<<<< Updated upstream
@@ -495,8 +530,19 @@ PD15.GPIO_Label=photogate_4
 PD15.GPIO_PuPd=GPIO_PULLUP
 PD15.Locked=true
 PD15.Signal=GPXTI15
+<<<<<<< Updated upstream
 PD5.Mode=Asynchronous
 PD5.Signal=USART2_TX
+>>>>>>> Stashed changes
+=======
+PE2.GPIOParameters=GPIO_PuPd
+PE2.GPIO_PuPd=GPIO_PULLUP
+PE2.Locked=true
+PE2.Signal=GPIO_Input
+PE3.GPIOParameters=GPIO_PuPd
+PE3.GPIO_PuPd=GPIO_PULLUP
+PE3.Locked=true
+PE3.Signal=GPIO_Input
 >>>>>>> Stashed changes
 PF6.Mode=FDCAN_Activate
 PF6.Signal=FDCAN3_RX

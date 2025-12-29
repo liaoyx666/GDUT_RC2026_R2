@@ -75,7 +75,11 @@ ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 chassis::Swerve4Chassis swerve_4_chassis(
 	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
+<<<<<<< Updated upstream
 	0.5, 6, 6,
+=======
+	1.5, 5, 5,
+>>>>>>> Stashed changes
 	4, 8, 8,
 	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
 );
@@ -86,7 +90,15 @@ chassis_jack::Chassis_jack chassis_jack_test(
 	m3508_left_behind_can2, 
 	m3508_right_front_can2,
 	m3508_right_behind_can2,
+<<<<<<< Updated upstream
 	LiDAR_1
+=======
+	m2006_5_can2,
+	m2006_6_can2,
+	0.5f,
+	lidar_1,
+	swerve_4_chassis
+>>>>>>> Stashed changes
 );
 
 >>>>>>> Stashed changes
@@ -145,6 +157,7 @@ void test(void *argument)
 	go_0_3_can2.Reset_Out_Pos(0);
 	m3508_2_can1.Reset_Out_Pos(0);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	
 	//
 	m3508_left_front_can2.Reset_Out_Pos(0);
@@ -180,6 +193,18 @@ void test(void *argument)
 	m3508_left_behind_can2.Reset_Out_Pos(0);
 	m3508_left_behind_can2.Reset_Out_Angle(0);
 
+>>>>>>> Stashed changes
+=======
+	
+	m3508_left_front_can2.Reset_Out_Pos(0);
+	m3508_left_front_can2.Reset_Out_Angle(0);
+	m3508_left_behind_can2.Reset_Out_Pos(0);
+	m3508_left_behind_can2.Reset_Out_Angle(0);
+	m3508_right_front_can2.Reset_Out_Pos(0);
+	m3508_right_front_can2.Reset_Out_Angle(0);
+	m3508_right_behind_can2.Reset_Out_Pos(0);
+	m3508_right_behind_can2.Reset_Out_Angle(0);
+	
 >>>>>>> Stashed changes
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
