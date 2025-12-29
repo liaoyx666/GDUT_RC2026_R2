@@ -1,5 +1,6 @@
-rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
-  ..\RC26_Api\Inc\RC_task.h \
+rc2026/rc_init.o: \
+  D:\Users\liaoy\Desktop\RC2026_R2\RC2026\RC2026_H7\RC26_User\Src\RC_init.cpp \
+  ..\RC26_User\Inc\RC_init.h ..\RC26_Api\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \

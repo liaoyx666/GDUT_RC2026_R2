@@ -100,8 +100,9 @@ chassis_jack::Chassis_jack chassis_jack_test(
 	m3508_right_behind_can2,
 	m2006_5_can2,
 	m2006_6_can2,
-	0.5f,
-	lidar_1
+	1.f,
+	lidar_1,
+	swerve_4_chassis
 );
 
 
@@ -125,14 +126,10 @@ float wl1 = 0, wl2 = 0;
 void test(void *argument)
 {
 	
-	
-	
+
 //	sin_wave.Init();
 	wave.Init();
 	
-
-	
-
 	m3508_2_c1.pid_spd.Pid_Mode_Init(true, false, 0.01);
 	m3508_2_c1.pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 15000, 10000, 5000, 5000, 5000);// 1ms
 
@@ -145,12 +142,9 @@ void test(void *argument)
 	j60_1.pid_pos.Pid_Mode_Init(false, false, 0.1, true);
 	j60_1.pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 100, 5, 5, 5, 5, 50, 80);
 	
-	
 	HAL_Delay(10);
-	
-	
-	
-	
+
+
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
 //	rs04_120.Set_K_Spd(10);
@@ -181,7 +175,6 @@ void test(void *argument)
 		
 		if (remote_ctrl.signal_swa() == true)
 		{
-		
 			if (arm_task.Arm_IsBusy() == false)
 			{
 
@@ -195,6 +188,10 @@ void test(void *argument)
 				}
 			}
 		}
+		
+		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc);
+		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
+		
 		
 		
 //		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swa);

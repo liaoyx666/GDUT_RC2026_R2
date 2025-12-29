@@ -22,7 +22,12 @@ namespace arm
 	}
 	
 
-	
+	float ArmKinematics::unwrapAngle(float now, float last)
+{
+    while (now - last >  PI) now -= 2.0f * PI;
+    while (now - last < -PI) now += 2.0f * PI;
+    return now;
+}
 	// ------------------ 静态成员变量 ------------------
 	ArmMatrix<4, 4> ArmKinematics::T01;
 	ArmMatrix<4, 4> ArmKinematics::T12;
@@ -45,7 +50,8 @@ namespace arm
 		if (value > max) return max;
 		return value;
 	}
-
+	
+	
 	ArmMatrix<4, 4> ArmKinematics::buildDHTable(float theta, float alpha, float a, float d, float offset) {
 		ArmMatrix<4, 4> dh;
 		dh.setZero();
@@ -85,89 +91,83 @@ namespace arm
 			
 	}
 
-	bool ArmKinematics::inverse(const EndEffectorPos& target_pos, JointAngles& result_angles)
+	bool ArmKinematics::inverse(const EndEffectorPos& target, JointAngles& result)
 {
-float px = target_pos.x;
-float py = target_pos.y;
-float pz = target_pos.z;
-float pitch_global = target_pos.angle;
+    float px = target.x;
+    float py = target.y;
+    float pz = target.z;
+    float pitch = target.angle;
 
-// 假设 DH 参数常量已在 RC_arm.h 中定义:
-// BASE_HEIGHT (d1=0.1), L1_LENGTH (a2=0.34858), L2_LENGTH (a3=0.06553), L3_LENGTH (a4=0.28166), L4_LENGTH (a5=0.13350)
-// THETA2_OFFSET (off2), THETA3_OFFSET (off3), THETA4_OFFSET (off4), THETA5_OFFSET (off5)
-// THETA2_MIN/MAX, THETA3_MIN/MAX, THETA4_MIN/MAX
+    /* ---------- q1 ---------- */
+    float q1 = atan2f(py, px);
 
-// Step 1: q1
-float q1 = atan2f(py, px);
-q1 = normalizeAngle(q1);
-// Step 2: 腕心坐标 (Wrist Center, Pw)
-float R_end = sqrtf(px*px + py*py);
-float Z_end = pz - BASE_HEIGHT;
+    /* ---------- 腕心 ---------- */
+    float R = sqrtf(px * px + py * py);
+    float Z = pz - BASE_HEIGHT;
 
-// 使用 L4_LENGTH (a5) 进行回退
-float Wx = R_end - L4_LENGTH * cosf(pitch_global);
-float Wz = Z_end - L4_LENGTH * sinf(pitch_global);
+    float Wx = R - L4_LENGTH * cosf(pitch);
+    float Wz = Z - L4_LENGTH * sinf(pitch);
 
-// Step 3: 构建 L3 + L4 的等效连杆 (Virtual Link)
-float Vx = L2_LENGTH + L3_LENGTH * cosf(THETA4_OFFSET);
-float Vy = L3_LENGTH * sinf(THETA4_OFFSET);
-float L_virtual = sqrtf(Vx*Vx + Vy*Vy);
-float beta = atan2f(Vy, Vx);
+    /* ---------- 虚拟连杆 ---------- */
+    float Vx = L2_LENGTH + L3_LENGTH * cosf(THETA4_OFFSET);
+    float Vy = L3_LENGTH * sinf(THETA4_OFFSET);
+    float L_virtual = sqrtf(Vx * Vx + Vy * Vy);
+    float beta = atan2f(Vy, Vx);
 
-// Step 4: 工作空间检查
-float dist_wrist = sqrtf(Wx*Wx + Wz*Wz);
-// L1_LENGTH 对应 a2
-if (dist_wrist > (L1_LENGTH + L_virtual) || dist_wrist < fabsf(L1_LENGTH - L_virtual))
-return false;
+    float dist = sqrtf(Wx * Wx + Wz * Wz);
+    if (dist > (L1_LENGTH + L_virtual)) return false;
+    if (dist < fabsf(L1_LENGTH - L_virtual)) return false;
 
-// Step 5: 求解 q2（大臂）
-float cos_gamma = (L1_LENGTH*L1_LENGTH + L_virtual*L_virtual - dist_wrist*dist_wrist) / (2.0f * L1_LENGTH * L_virtual);
-cos_gamma = fmaxf(fminf(cos_gamma, 1.0f), -1.0f);
-float gamma = acosf(cos_gamma); // 暂时未使用，但为完整性保留
+    /* ---------- q2 ---------- */
+    float cos_alpha =
+        (L1_LENGTH * L1_LENGTH + dist * dist - L_virtual * L_virtual) /
+        (2.0f * L1_LENGTH * dist);
+    cos_alpha = constrainValue(cos_alpha, -1.0f, 1.0f);
+    float alpha = acosf(cos_alpha);
 
-float cos_alpha = (L1_LENGTH*L1_LENGTH + dist_wrist*dist_wrist - L_virtual*L_virtual) / (2.0f * L1_LENGTH * dist_wrist);
-cos_alpha = fmaxf(fminf(cos_alpha, 1.0f), -1.0f);
-float alpha = acosf(cos_alpha);
+    float theta_wrist = atan2f(Wz, Wx);
+    float theta_L2 = theta_wrist + alpha;
 
-float theta_wrist = atan2f(Wz, Wx);
-float theta_L2_global = theta_wrist + alpha;
+    float q2 = theta_L2 - THETA2_OFFSET;
+    q2 = unwrapAngle(q2, last_joint.theta2);
 
-// DH 关系: q2 = Global - Offset。使用减号。
-float q2_raw = theta_L2_global - THETA2_OFFSET;
+    /* ---------- q3 ---------- */
+    float Ex = L1_LENGTH * cosf(theta_L2);
+    float Ez = L1_LENGTH * sinf(theta_L2);
 
-// *** 修正：规范化 q2 到 (-PI, PI] 范围，解决周期性问题 ***
-result_angles.theta2 = atan2f(sinf(q2_raw), cosf(q2_raw));
-float q2 = result_angles.theta2; // 使用规范化后的值进行后续计算
+    float theta_virtual = atan2f(Wz - Ez, Wx - Ex);
+    float q3 = theta_virtual - theta_L2 - THETA3_OFFSET - beta;
+    q3 = unwrapAngle(q3, last_joint.theta3);
 
-// Step 6: 求解 q3（小臂）
-// 计算 Elbow 关节的空间位置
-float Ex = L1_LENGTH * cosf(theta_L2_global);
-float Ez = L1_LENGTH * sinf(theta_L2_global);
+    /* ---------- q4（重点补丁） ---------- */
+    float sum =
+        (q2 + THETA2_OFFSET) +
+        (q3 + THETA3_OFFSET) +
+        THETA4_OFFSET +
+        THETA5_OFFSET;
 
-// Virtual Link 的全局角度
-float theta_virtual_global = atan2f(Wz - Ez, Wx - Ex);
+    float q4_raw = pitch - sum;
+    q4_raw = unwrapAngle(q4_raw, last_joint.theta4);
 
-// DH 关系: q3 = Global(Virtual) - Global(L2) - THETA3_OFFSET - beta
-result_angles.theta3 = theta_virtual_global - theta_L2_global - THETA3_OFFSET - beta;
-result_angles.theta3 = atan2f(sinf(result_angles.theta3), cosf(result_angles.theta3));
-float q3 = result_angles.theta3;
+    /* ===== 工程级连续性保护（只针对 q4） ===== */
+    const float MAX_Q4_STEP = 0.3f;   // 单周期最大变化（rad）
+    float dq4 = q4_raw - last_joint.theta4;
 
-// Step 7: 求解 q4（末端 pitch 关节）
-// Pitch_global = (q2 + off2) + (q3 + off3) + (0 + off4) + (q4 + off5)
-float current_sum = (q2 + THETA2_OFFSET) + (q3 + THETA3_OFFSET) + THETA4_OFFSET + THETA5_OFFSET;
+    if (dq4 >  MAX_Q4_STEP) dq4 =  MAX_Q4_STEP;
+    if (dq4 < -MAX_Q4_STEP) dq4 = -MAX_Q4_STEP;
 
-// 姿态求解: q4 = Pitch_global - Sum of (Other Rotations)
-result_angles.theta4 = pitch_global - current_sum;
-result_angles.theta4 = atan2f(sinf(result_angles.theta4), cosf(result_angles.theta4));
+    float q4 = last_joint.theta4 + dq4;
 
-// 限制关节限位
-result_angles.theta2 = constrainValue(result_angles.theta2, THETA2_MIN, THETA2_MAX);
-result_angles.theta3 = constrainValue(result_angles.theta3, THETA3_MIN, THETA3_MAX);
-result_angles.theta4 = constrainValue(result_angles.theta4, THETA4_MIN, THETA4_MAX);
+    /* ---------- 限位 ---------- */
+    result.theta1 = constrainValue(q1, THETA1_MIN, THETA1_MAX);
+    result.theta2 = constrainValue(q2, THETA2_MIN, THETA2_MAX);
+    result.theta3 = constrainValue(q3, THETA3_MIN, THETA3_MAX);
+    result.theta4 = constrainValue(q4, THETA4_MIN, THETA4_MAX);
 
-result_angles.theta1 = q1;
+    /* ---------- 记录上一帧 ---------- */
+    last_joint = result;
 
-return true;
+    return true;
 }
 
 

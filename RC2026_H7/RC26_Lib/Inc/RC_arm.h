@@ -76,7 +76,7 @@ namespace arm
 	#define THETA3_MIN       0
 	#define THETA3_MAX       1.5*PI
 
-	#define THETA4_MIN       -PI
+	#define THETA4_MIN       (-1.8*PI)
 	#define THETA4_MAX       0
 
 	// ------------------ 关节角度偏移（全零位置） ------------------
@@ -108,6 +108,9 @@ namespace arm
 		// 工具函数
 		float normalizeAngle(float angle);
 		float constrainValue(float value, float min, float max);
+		JointAngles last_joint;
+
+    float unwrapAngle(float now, float last);
 		static ArmMatrix<4, 4> buildDHTable(float theta, float alpha, float a, float d, float offset);
 
 		// 成员变量，存储正运动学临时矩阵

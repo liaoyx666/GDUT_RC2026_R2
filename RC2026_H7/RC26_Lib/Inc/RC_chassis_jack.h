@@ -2,6 +2,7 @@
 
 #include "RC_motor.h"
 #include "RC_LiDAR.h"
+#include "RC_chassis.h"
 
 #ifdef __cplusplus
 
@@ -23,7 +24,8 @@ namespace chassis_jack
 			motor::Motor& left_small_wheel_,
 			motor::Motor& right_small_wheel_,
 			float max_linear_vel_,
-			lidar::LiDAR& LiDAR_jack_
+			lidar::LiDAR& LiDAR_jack_,
+			chassis::Chassis& v_limit_
 		);
 
 		virtual ~Chassis_jack() {}
@@ -33,12 +35,17 @@ namespace chassis_jack
 		
 		void chassis_test(bool signal, bool state);
 		
+		chassis::Chassis& v_limit;
 		uint8_t b = 0;
-		float tag = 430;
+		float tag = 350;
 		float dis = 0;
-
+			
+		bool gd1 = 0;
+		bool gd2 = 0;
+		bool gd3 = 0;
+			
 		bool up_or_down = 0;
-
+		
 		bool last_state = 0;
 		/*-------------------------------------------*/
 			
