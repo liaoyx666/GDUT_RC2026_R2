@@ -107,6 +107,9 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -351,6 +354,19 @@
           <WinNumber>2</WinNumber>
           <ItemText>chassis_jack_test</ItemText>
         </Ww>
+<<<<<<< Updated upstream
+=======
+        <Ww>
+          <count>1</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>executor</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>planner</ItemText>
+        </Ww>
+>>>>>>> Stashed changes
       </WatchWindow2>
       <Tracepoint>
         <THDelay>0</THDelay>

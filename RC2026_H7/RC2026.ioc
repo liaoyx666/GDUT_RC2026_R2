@@ -249,7 +249,11 @@ MMTAppRegionsCount=0
 MMTConfigApplied=false
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 MMTSectionSuffix=
+=======
+MMTSectionSuffix=_Section
+>>>>>>> Stashed changes
 =======
 MMTSectionSuffix=_Section
 >>>>>>> Stashed changes
@@ -299,6 +303,7 @@ Mcu.IPNb=18
 >>>>>>> Stashed changes
 Mcu.Name=STM32H723ZGTx
 Mcu.Package=LQFP144
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
 Mcu.Pin0=PF6
 Mcu.Pin1=PF7
@@ -411,6 +416,41 @@ Mcu.Pin8=PA2
 Mcu.Pin9=PB10
 Mcu.PinsNb=31
 >>>>>>> Stashed changes
+=======
+Mcu.Pin0=PE2
+Mcu.Pin1=PF6
+Mcu.Pin10=PB11
+Mcu.Pin11=PB12
+Mcu.Pin12=PB13
+Mcu.Pin13=PD12
+Mcu.Pin14=PD14
+Mcu.Pin15=PD15
+Mcu.Pin16=PA8
+Mcu.Pin17=PA9
+Mcu.Pin18=PA11
+Mcu.Pin19=PA12
+Mcu.Pin2=PF7
+Mcu.Pin20=PA13(JTMS/SWDIO)
+Mcu.Pin21=PA14(JTCK/SWCLK)
+Mcu.Pin22=PD0
+Mcu.Pin23=PD1
+Mcu.Pin24=PB6
+Mcu.Pin25=PB7
+Mcu.Pin26=VP_FREERTOS_VS_CMSIS_V2
+Mcu.Pin27=VP_SYS_VS_tim6
+Mcu.Pin28=VP_TIM4_VS_ClockSourceINT
+Mcu.Pin29=VP_TIM7_VS_ClockSourceINT
+Mcu.Pin3=PF8
+Mcu.Pin30=VP_USB_DEVICE_VS_USB_DEVICE_CDC_HS
+Mcu.Pin31=VP_MEMORYMAP_VS_MEMORYMAP
+Mcu.Pin4=PF9
+Mcu.Pin5=PH0-OSC_IN
+Mcu.Pin6=PH1-OSC_OUT
+Mcu.Pin7=PA2
+Mcu.Pin8=PG1
+Mcu.Pin9=PB10
+Mcu.PinsNb=32
+>>>>>>> Stashed changes
 Mcu.ThirdParty0=STMicroelectronics.X-CUBE-ALGOBUILD.1.4.0
 Mcu.ThirdPartyNb=1
 Mcu.UserConstants=
@@ -519,7 +559,12 @@ PD0.Signal=FDCAN1_RX
 PD1.Mode=FDCAN_Activate
 PD1.Signal=FDCAN1_TX
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+PD12.Locked=true
+PD12.Signal=GPIO_Output
+>>>>>>> Stashed changes
 PD14.GPIOParameters=GPIO_PuPd,GPIO_Label
 PD14.GPIO_Label=photogate_3
 PD14.GPIO_PuPd=GPIO_PULLUP
@@ -531,18 +576,24 @@ PD15.GPIO_PuPd=GPIO_PULLUP
 PD15.Locked=true
 PD15.Signal=GPXTI15
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 PD5.Mode=Asynchronous
 PD5.Signal=USART2_TX
 >>>>>>> Stashed changes
 =======
+=======
+>>>>>>> Stashed changes
 PE2.GPIOParameters=GPIO_PuPd
 PE2.GPIO_PuPd=GPIO_PULLUP
 PE2.Locked=true
 PE2.Signal=GPIO_Input
+<<<<<<< Updated upstream
 PE3.GPIOParameters=GPIO_PuPd
 PE3.GPIO_PuPd=GPIO_PULLUP
 PE3.Locked=true
 PE3.Signal=GPIO_Input
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 PF6.Mode=FDCAN_Activate
 PF6.Signal=FDCAN3_RX
@@ -552,6 +603,18 @@ PF8.GPIOParameters=GPIO_Label
 PF8.GPIO_Label=flysky
 PF8.Locked=true
 PF8.Signal=GPXTI8
+<<<<<<< Updated upstream
+=======
+PF9.GPIOParameters=GPIO_PuPd,GPIO_Label
+PF9.GPIO_Label=photogate_2
+PF9.GPIO_PuPd=GPIO_PULLUP
+PF9.Locked=true
+PF9.Signal=GPXTI9
+PG1.GPIOParameters=GPIO_PuPd
+PG1.GPIO_PuPd=GPIO_PULLUP
+PG1.Locked=true
+PG1.Signal=GPIO_Input
+>>>>>>> Stashed changes
 PH0-OSC_IN.Mode=HSE-External-Oscillator
 PH0-OSC_IN.Signal=RCC_OSC_IN
 PH1-OSC_OUT.Mode=HSE-External-Oscillator

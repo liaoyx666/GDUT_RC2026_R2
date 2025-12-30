@@ -76,7 +76,11 @@ chassis::Swerve4Chassis swerve_4_chassis(
 	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 	0.5, 6, 6,
+=======
+	1.5, 5, 5,
+>>>>>>> Stashed changes
 =======
 	1.5, 5, 5,
 >>>>>>> Stashed changes
