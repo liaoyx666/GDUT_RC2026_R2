@@ -1,0 +1,26 @@
+{
+    "C_Cpp.default.browse.path": [
+        // 添加项目中的头文件目录
+        "../Core/Inc",
+        "../USB_DEVICE/App",
+        "../USB_DEVICE/Target",
+        "../Drivers/STM32H7xx_HAL_Driver/Inc",
+        "../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy",
+        "../Middlewares/Third_Party/FreeRTOS/Source/include",
+        "../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2",
+        "../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F",
+        "../Middlewares/ST/STM32_USB_Device_Library/Core/Inc",
+        "../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc",
+        "../Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+        "../Drivers/CMSIS/Include",
+        "../RC26_Lib/Inc",
+        "../RC26_User/Inc",
+        "../RC26_Motor/Inc",
+        "../RC26_Ros_Interface/Inc",
+
+    ],
+    "C_Cpp.default.compileCommands": [
+
+        ""
+    ]
+}
