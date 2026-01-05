@@ -3,6 +3,8 @@
 #include "RC_pid.h"
 #include "RC_can.h"
 #include "RC_tim.h"
+#include "RC_adrc.h"
+#include "RC_SMC.h"
 
 #include <math.h>
 
@@ -12,10 +14,10 @@ namespace motor
 	class DjiMotor : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:
-		DjiMotor(can::Can &can_, tim::Tim &tim_);
+		DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 1.f);
 		virtual ~DjiMotor() {}
-		
-		pid::Pid pid_spd, pid_pos;
+
+		void Reset_Out_Angle(float out_angle_) override;
 
     protected:
 		virtual void Dji_Id_Init(uint8_t id_) = 0;// 初始化发送和接受帧的id
@@ -31,7 +33,14 @@ namespace motor
 		
 		uint8_t id;
 		
+		int32_t cycle = 0;// 转子累计旋转圈数(用于计算pos)
+		float last_angle = 0;// 上一次转子角度(0 ~ 2pi)
+			
+		float rotor_pos = 0;
+		int32_t rotor_cycle = 0;// 转子累计旋转圈数(用于计算out_angle)
+		float out_angle_offset = 0;
     private:
+		
 		
     };
 }

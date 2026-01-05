@@ -1,9 +1,10 @@
 #include "RC_LiDAR.h"
 
-namespace liDAR
+namespace lidar
 {
     LiDAR::LiDAR(UART_HandleTypeDef &huart_) : serial::UartRx(huart_, rx_buf, LiDAR_RX_BUFFER_SIZE, true, true)
     {
+		
     }
 
     void LiDAR::Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_)
@@ -13,6 +14,7 @@ namespace liDAR
             if(buf_[i % 50] == 0x59 && buf_[(i + 1) % 50 == 0x59])
             {   
                 uint16_t sum = 0;
+				
                 for(uint8_t j = 0 ; j < 8; j++)
                 {
                     sum += buf_[(i + j) % 50];
@@ -26,7 +28,7 @@ namespace liDAR
                 }
             }
         }
+		
         last_address = (last_address + len_) % 50;
     }
-
 }

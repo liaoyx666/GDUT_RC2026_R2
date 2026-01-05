@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "dma.h"
 #include "fdcan.h"
 #include "tim.h"
 #include "usart.h"
@@ -96,19 +97,14 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_FDCAN1_Init();
   MX_FDCAN2_Init();
   MX_FDCAN3_Init();
   MX_TIM4_Init();
   MX_TIM7_Init();
   MX_USART1_UART_Init();
-<<<<<<< Updated upstream
-  MX_USART2_UART_Init();
   MX_USART3_UART_Init();
-=======
-  MX_USART3_UART_Init();
-  MX_USART2_UART_Init();
->>>>>>> Stashed changes
   /* USER CODE BEGIN 2 */
 	All_Init();
   /* USER CODE END 2 */
@@ -239,14 +235,14 @@ void MPU_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-	All_Tim_It_Process(htim);
+	
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM6)
   {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+	All_Tim_It_Process(htim);
   /* USER CODE END Callback 1 */
 }
 

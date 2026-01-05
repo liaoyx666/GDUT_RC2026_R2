@@ -1,13 +1,5 @@
 rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  ..\RC26_Lib\Inc\RC_task.h \
-=======
   ..\RC26_Api\Inc\RC_task.h \
->>>>>>> Stashed changes
-=======
-  ..\RC26_Api\Inc\RC_task.h \
->>>>>>> Stashed changes
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \
@@ -51,64 +43,12 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Lib\Inc\RC_can.h ..\RC26_Lib\Inc\RC_tim.h ..\Core\Inc\tim.h \
+  ..\RC26_Api\Inc\RC_can.h ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h \
   ..\RC26_Motor\Inc\RC_m3508.h ..\RC26_Motor\Inc\RC_dji_motor.h \
   ..\RC26_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\arm_math_memory.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\none.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\utils.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\basic_math_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\interpolation_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\bayes_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\statistics_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\fast_math_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\matrix_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\complex_math_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\controller_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\support_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\distance_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\svm_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\svm_defines.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\transform_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\filtering_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\quaternion_math_functions.h \
-  E:\keil\Arm\Pack\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
-  ..\RC26_Motor\Inc\RC_m6020.h ..\RC26_Lib\Inc\RC_serial.h \
-  ..\Core\Inc\usart.h ..\RC26_Lib\Inc\RC_wave_generator.h \
-  ..\RC26_Lib\Inc\RC_timer.h ..\RC26_Lib\Inc\RC_flysky.h \
-  ..\Core\Inc\gpio.h ..\RC26_Lib\Inc\RC_cdc.h \
-=======
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
-=======
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
->>>>>>> Stashed changes
-=======
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
->>>>>>> Stashed changes
-=======
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
->>>>>>> Stashed changes
-=======
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
-  C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
-  ..\Drivers\CMSIS\Include\cmsis_compiler.h \
->>>>>>> Stashed changes
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_memory.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\none.h \
   C:\app\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\utils.h \
@@ -135,7 +75,6 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_timer.h \
   ..\RC26_Lib\Inc\RC_flysky.h ..\Core\Inc\gpio.h \
   ..\RC26_Api\Inc\RC_gpio_exti.h ..\RC26_Api\Inc\RC_cdc.h \
->>>>>>> Stashed changes
   ..\USB_DEVICE\App\usbd_cdc_if.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
@@ -145,23 +84,16 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-  ..\RC26_Lib\Inc\RC_ros_interface.h ..\RC26_Lib\Inc\RC_chassis.h \
-  ..\RC26_Lib\Inc\RC_vector2d.h ..\RC26_Motor\Inc\RC_go.h \
+  ..\RC26_Lib\Inc\RC_omni_chassis.h ..\RC26_Lib\Inc\RC_vector2d.h \
+  ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Motor\Inc\RC_go.h \
   ..\RC26_Lib\Inc\RC_path.h ..\RC26_Lib\Inc\RC_bezier_curve.h \
-<<<<<<< Updated upstream
-  ..\RC26_Motor\Inc\RC_dm4310.h ..\Core\Inc\fdcan.h
-=======
   ..\RC26_Ros_Interface\Inc\RC_best_path.h \
   ..\RC26_Ros_Interface\Inc\RC_map.h \
   ..\RC26_Ros_Interface\Inc\RC_radar.h ..\RC26_Motor\Inc\RC_j60.h \
   ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\arm_matrix.h \
   ..\RC26_Lib\Inc\RC_JY901S.h ..\RC26_Motor\Inc\RC_rs04.h \
   ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Lib\Inc\RC_swerve_chassis.h \
-<<<<<<< Updated upstream
-  ..\RC26_Lib\Inc\RC_photogate.h ..\RC26_Lib\Inc\RC_LiDAR.h \
-  ..\RC26_Lib\Inc\RC_chassis_jack.h ..\Core\Inc\fdcan.h
->>>>>>> Stashed changes
-=======
   ..\RC26_Lib\Inc\RC_photogate.h ..\RC26_Lib\Inc\RC_chassis_jack.h \
-  ..\RC26_Lib\Inc\RC_LiDAR.h ..\Core\Inc\fdcan.h
->>>>>>> Stashed changes
+  ..\RC26_Lib\Inc\RC_LiDAR.h ..\RC26_User\Inc\RC_arm_task.h \
+  ..\RC26_Lib\Inc\RC_arm_path.h ..\RC26_Lib\Inc\RC_vector3d.h \
+  ..\Core\Inc\fdcan.h

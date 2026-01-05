@@ -36,22 +36,11 @@ namespace motor
 	class Go : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:
-		Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool torque_only_ = true, float k_spd_ = 0, float k_pos_ = 0);
+		Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0);
 		virtual ~Go() {}
 		
-		void Set_K_Pos(float target_k_pos_)
-		{
-			if (target_k_pos_ < 0) target_k_pos = 0;
-			else if (target_k_pos_ > 25.599f) target_k_pos = 25.599f;
-			else target_k_pos = target_k_pos_;
-		}
-		
-		void Set_K_Spd(float target_k_spd_)
-		{
-			if (target_k_spd_ < 0) target_k_spd = 0;
-			else if (target_k_spd_ > 25.599f) target_k_spd = 25.599f;
-			else target_k_spd = target_k_spd_;
-		}
+		void Set_K_Pos(float target_k_pos_) override;
+		void Set_K_Spd(float target_k_spd_) override;
 		
     protected:
 		void Set_Current(float target_current_) override {};// 电流模式不进行操作
@@ -62,12 +51,9 @@ namespace motor
 		void CanHandler_Register() override;
 		
 		void Tim_It_Process() override;
-	
+		
     private:
-		pid::Pid pid_spd, pid_pos;
-		float k_spd = 0, k_pos = 0;// 阻尼系数, 刚度系数
-		float target_k_spd = 0, target_k_pos = 0;
-	
+
 		uint8_t air = 0;// 气压参数
 		
 		uint8_t id;// 电机id
@@ -75,9 +61,9 @@ namespace motor
 		
 		GoError error_code = GO_NORMAL;// 错误代号
 		GoMotorStatus motor_status = GO_STATUS_FOC;
-		GoControlMode control_mode = GO_CONTROL_MODE_1;
+		GoControlMode control_mode = GO_CONTROL_WRITE_K;
 
-		bool torque_only = true;// 是否只使用力矩控制（速度环，位置环在stm32实现，只发送力矩）
+		bool use_mit = false;// 是否使用mit控制（如果不用，速度环，位置环在stm32实现，只发送前馈力矩）
     };
 }
 #endif

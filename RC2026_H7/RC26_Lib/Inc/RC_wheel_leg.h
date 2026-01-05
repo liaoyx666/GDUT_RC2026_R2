@@ -16,7 +16,6 @@ namespace chassis
     protected:
 		
     private:
-		
     };
 }
 #endif

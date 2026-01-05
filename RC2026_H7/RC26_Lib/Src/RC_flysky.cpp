@@ -1,34 +1,27 @@
 #include "RC_flysky.h"
 
-extern "C" void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-    flysky::FlySky::EXTI_Prosess(GPIO_Pin);
-}
 
 namespace flysky
 {
-	bool FlySky::is_init = false;
-	volatile uint16_t FlySky::channel_list[CHANNEL_NUM] = {0};
-	volatile uint16_t FlySky::data_buf[CHANNEL_NUM];
-	uint16_t FlySky::GPIO_Pin = 0;
-	uint32_t FlySky::last_time = 0;
-	
-	volatile uint8_t FlySky::swa = 0, FlySky::swb = 0, FlySky::swc = 0, FlySky::swd = 0;
-	volatile int16_t FlySky::left_x = 0, FlySky::left_y = 0, FlySky::right_x = 0, FlySky::right_y = 0;
-	
-	
-	FlySky::FlySky(uint16_t GPIO_Pin_) : task::ManagedTask("Flysky", 39, 128, task::TASK_DELAY, 1)
+	FlySky::FlySky(uint16_t gpio_pin_) : task::ManagedTask("Flysky", 39, 128, task::TASK_DELAY, 1), gpio::GpioExti(gpio_pin_)
 	{
-		GPIO_Pin = GPIO_Pin_;
 		is_init = true;
+		
+		data_buf[0] = 1500;
+		data_buf[1] = 1500;
+		data_buf[2] = 1500;
+		data_buf[3] = 1500;
+		
+		channel_list[0] = 1500;
+		channel_list[1] = 1500;
+		channel_list[2] = 1500;
+		channel_list[3] = 1500;
 	}
 
-	
-	
 	// 上升沿触发
-	void FlySky::EXTI_Prosess(uint16_t GPIO_Pin_)
+	void FlySky::EXTI_Prosess()
 	{
-		if (GPIO_Pin_ == GPIO_Pin && is_init == true)
+		if (is_init == true)
 		{
 			static uint8_t flag = 0;
 			
@@ -66,6 +59,7 @@ namespace flysky
 		}
 	}
 	
+#define FLY_SKY_DEADZONE 40
 	
 	void FlySky::Task_Process()
 	{
@@ -79,22 +73,21 @@ namespace flysky
 			int16_t temp_right_y = data_buf[1] - 1500;
 			
 			// 消抖
-			if (temp_left_y > -50 && temp_left_y < 50) left_y = 0;
-			else if (temp_left_y >= 50) left_y = temp_left_y - 50;
-			else left_y = temp_left_y + 50;
+			if (temp_left_y > -FLY_SKY_DEADZONE && temp_left_y < FLY_SKY_DEADZONE) left_y = 0;
+			else if (temp_left_y >= FLY_SKY_DEADZONE) left_y = temp_left_y - FLY_SKY_DEADZONE;
+			else left_y = temp_left_y + FLY_SKY_DEADZONE;
 			
-			if (temp_left_x > -50 && temp_left_x < 50) left_x = 0;
-			else if (temp_left_x >= 50) left_x = temp_left_x - 50;
-			else left_x = temp_left_x + 50;
+			if (temp_left_x > -FLY_SKY_DEADZONE && temp_left_x < FLY_SKY_DEADZONE) left_x = 0;
+			else if (temp_left_x >= FLY_SKY_DEADZONE) left_x = temp_left_x - FLY_SKY_DEADZONE;
+			else left_x = temp_left_x + FLY_SKY_DEADZONE;
 			
-			if (temp_right_x > -50 && temp_right_x < 50) right_x = 0;
-			else if (temp_right_x >= 50) right_x = temp_right_x - 50;
-			else right_x = temp_right_x + 50;
+			if (temp_right_x > -FLY_SKY_DEADZONE && temp_right_x < FLY_SKY_DEADZONE) right_x = 0;
+			else if (temp_right_x >= FLY_SKY_DEADZONE) right_x = temp_right_x - FLY_SKY_DEADZONE;
+			else right_x = temp_right_x + FLY_SKY_DEADZONE;
 			
-			if (temp_right_y > -50 && temp_right_y < 50) right_y = 0;
-			else if (temp_right_y >= 50) right_y = temp_right_y - 50;
-			else right_y = temp_right_y + 50;
-			
+			if (temp_right_y > -FLY_SKY_DEADZONE && temp_right_y < FLY_SKY_DEADZONE) right_y = 0;
+			else if (temp_right_y >= FLY_SKY_DEADZONE) right_y = temp_right_y - FLY_SKY_DEADZONE;
+			else right_y = temp_right_y + FLY_SKY_DEADZONE;
 			
 			swa = data_buf[4] <= 1500 ? 0 : 1;
 		
@@ -102,6 +95,13 @@ namespace flysky
 			swc = data_buf[6] <= 1250 ? 0 : data_buf[6] <= 1750 ? 1 : 2;
 			
 			swd = data_buf[7] <= 1500 ? 0 : 1;
+			
+			if (is_last_init == false)
+			{
+				last_swa = swa;
+				last_swd = swd;
+				is_last_init = true;
+			}
 		}
 		else
 		{
@@ -116,5 +116,25 @@ namespace flysky
 			swc = 0;
 			swd = 0;
 		}
+	}
+	
+	bool FlySky::signal_swa()
+	{
+		if (swa != last_swa)
+		{
+			last_swa = swa;
+			return true;
+		}
+		return false;
+	}
+	
+	bool FlySky::signal_swd()
+	{
+		if (swd != last_swd)
+		{
+			last_swd = swd;
+			return true;
+		}
+		return false;
 	}
 }

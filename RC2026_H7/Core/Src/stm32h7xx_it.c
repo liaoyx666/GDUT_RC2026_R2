@@ -61,24 +61,12 @@ extern FDCAN_HandleTypeDef hfdcan2;
 extern FDCAN_HandleTypeDef hfdcan3;
 extern TIM_HandleTypeDef htim4;
 extern TIM_HandleTypeDef htim7;
-<<<<<<< Updated upstream
-=======
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
-extern DMA_HandleTypeDef hdma_usart2_rx;
-<<<<<<< Updated upstream
-=======
-extern DMA_HandleTypeDef hdma_usart2_tx;
->>>>>>> Stashed changes
 extern DMA_HandleTypeDef hdma_usart3_rx;
 extern DMA_HandleTypeDef hdma_usart3_tx;
 extern UART_HandleTypeDef huart1;
-extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 extern TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN EV */
@@ -184,8 +172,20 @@ void DebugMon_Handler(void)
 /******************************************************************************/
 
 /**
-<<<<<<< Updated upstream
-=======
+  * @brief This function handles EXTI line2 interrupt.
+  */
+void EXTI2_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI2_IRQn 0 */
+
+  /* USER CODE END EXTI2_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(photogate_1_Pin);
+  /* USER CODE BEGIN EXTI2_IRQn 1 */
+
+  /* USER CODE END EXTI2_IRQn 1 */
+}
+
+/**
   * @brief This function handles DMA1 stream0 global interrupt.
   */
 void DMA1_Stream0_IRQHandler(void)
@@ -221,11 +221,7 @@ void DMA1_Stream2_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream2_IRQn 0 */
 
   /* USER CODE END DMA1_Stream2_IRQn 0 */
-<<<<<<< Updated upstream
-  HAL_DMA_IRQHandler(&hdma_usart2_rx);
-=======
   HAL_DMA_IRQHandler(&hdma_usart3_rx);
->>>>>>> Stashed changes
   /* USER CODE BEGIN DMA1_Stream2_IRQn 1 */
 
   /* USER CODE END DMA1_Stream2_IRQn 1 */
@@ -239,53 +235,13 @@ void DMA1_Stream3_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Stream3_IRQn 0 */
 
   /* USER CODE END DMA1_Stream3_IRQn 0 */
-<<<<<<< Updated upstream
-  HAL_DMA_IRQHandler(&hdma_usart3_rx);
-=======
   HAL_DMA_IRQHandler(&hdma_usart3_tx);
->>>>>>> Stashed changes
   /* USER CODE BEGIN DMA1_Stream3_IRQn 1 */
 
   /* USER CODE END DMA1_Stream3_IRQn 1 */
 }
 
 /**
-  * @brief This function handles DMA1 stream4 global interrupt.
-  */
-void DMA1_Stream4_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream4_IRQn 0 */
-
-  /* USER CODE END DMA1_Stream4_IRQn 0 */
-<<<<<<< Updated upstream
-  HAL_DMA_IRQHandler(&hdma_usart3_tx);
-=======
-  HAL_DMA_IRQHandler(&hdma_usart2_rx);
->>>>>>> Stashed changes
-  /* USER CODE BEGIN DMA1_Stream4_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream4_IRQn 1 */
-}
-
-/**
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
-  * @brief This function handles DMA1 stream5 global interrupt.
-  */
-void DMA1_Stream5_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream5_IRQn 0 */
-
-  /* USER CODE END DMA1_Stream5_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_usart2_tx);
-  /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream5_IRQn 1 */
-}
-
-/**
->>>>>>> Stashed changes
   * @brief This function handles FDCAN1 interrupt 0.
   */
 void FDCAN1_IT0_IRQHandler(void)
@@ -350,6 +306,7 @@ void EXTI9_5_IRQHandler(void)
 
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(flysky_Pin);
+  HAL_GPIO_EXTI_IRQHandler(photogate_2_Pin);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
 
   /* USER CODE END EXTI9_5_IRQn 1 */
@@ -370,8 +327,6 @@ void TIM4_IRQHandler(void)
 }
 
 /**
-<<<<<<< Updated upstream
-=======
   * @brief This function handles USART1 global interrupt.
   */
 void USART1_IRQHandler(void)
@@ -383,20 +338,6 @@ void USART1_IRQHandler(void)
   /* USER CODE BEGIN USART1_IRQn 1 */
 
   /* USER CODE END USART1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles USART2 global interrupt.
-  */
-void USART2_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART2_IRQn 0 */
-
-  /* USER CODE END USART2_IRQn 0 */
-  HAL_UART_IRQHandler(&huart2);
-  /* USER CODE BEGIN USART2_IRQn 1 */
-
-  /* USER CODE END USART2_IRQn 1 */
 }
 
 /**
@@ -421,8 +362,6 @@ void EXTI15_10_IRQHandler(void)
   /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
   /* USER CODE END EXTI15_10_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(photogate_1_Pin);
-  HAL_GPIO_EXTI_IRQHandler(photogate_2_Pin);
   HAL_GPIO_EXTI_IRQHandler(photogate_3_Pin);
   HAL_GPIO_EXTI_IRQHandler(photogate_4_Pin);
   /* USER CODE BEGIN EXTI15_10_IRQn 1 */
@@ -431,7 +370,6 @@ void EXTI15_10_IRQHandler(void)
 }
 
 /**
->>>>>>> Stashed changes
   * @brief This function handles TIM6 global interrupt, DAC1_CH1 and DAC1_CH2 underrun error interrupts.
   */
 void TIM6_DAC_IRQHandler(void)

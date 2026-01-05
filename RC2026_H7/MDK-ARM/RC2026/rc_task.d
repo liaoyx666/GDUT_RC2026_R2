@@ -1,4 +1,4 @@
-rc2026/rc_task.o: ..\RC26_Lib\Src\RC_task.cpp ..\RC26_Lib\Inc\RC_task.h \
+rc2026/rc_task.o: ..\RC26_Api\Src\RC_task.cpp ..\RC26_Api\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \

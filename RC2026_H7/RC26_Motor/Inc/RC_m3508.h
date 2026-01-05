@@ -7,7 +7,7 @@ namespace motor
 	class M3508 : public DjiMotor
 	{
 	public:
-		M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_);
+		M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 3591.f / 187.f);
 		virtual ~M3508() {}
 		
 		void Set_Torque(float target_torque_) override;

@@ -1,5 +1,5 @@
-rc2026/rc_serial.o: ..\RC26_Lib\Src\RC_serial.cpp \
-  ..\RC26_Lib\Inc\RC_serial.h ..\Core\Inc\usart.h ..\Core\Inc\main.h \
+rc2026/rc_serial.o: ..\RC26_Api\Src\RC_serial.cpp \
+  ..\RC26_Api\Inc\RC_serial.h ..\Core\Inc\usart.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \

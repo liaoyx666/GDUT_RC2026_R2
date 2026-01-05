@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_) : DjiMotor(can_, tim_)
+	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_, float gear_ratio_) : DjiMotor(can_, tim_, gear_ratio_)
 	{
 		// 设置tx，rx和m3508的id
 		Dji_Id_Init(id_);
@@ -11,11 +11,11 @@ namespace motor
 		CanHandler_Register();
 		
 		// m3508默认pid参数
-		pid_spd.Pid_Mode_Init(true, false, 0);
+		pid_spd.Pid_Mode_Init(true, false, 0.01);
 		pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 15000, 10000, 5000, 5000, 5000);// 1ms
 		
-		pid_pos.Pid_Mode_Init(false, false, 0);
-		pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 1000, 1000, 500, 500, 500);// 1ms
+		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+		pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 300, 1000, 500, 500, 500, 150, 200);// 1ms
 	}
 	
 	
@@ -37,5 +37,4 @@ namespace motor
 	{
 		Set_Current(target_torque_ * 3640.89f);
 	}
-
 }

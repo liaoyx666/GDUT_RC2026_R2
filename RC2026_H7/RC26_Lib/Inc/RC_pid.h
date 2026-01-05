@@ -1,13 +1,14 @@
 #pragma once
 #include <math.h>
 #include <arm_math.h>
+#include "RC_adrc.h"
+#include "RC_filter.h"
 
 #define TWO_PI 6.2831853071795864769f
 #define HALF_PI 1.570796326794896619f
 #define TWO_THIRD_PI 4.71238898038468985769f
 
 #ifdef __cplusplus
-
 namespace pid
 {
 	class Pid
@@ -16,13 +17,14 @@ namespace pid
 		Pid(){};
 		virtual	~Pid(){};
 			
-		void Pid_Mode_Init(bool incremental_ = true, bool differential_prior_ = true, float differential_lowpass_alpha_ = 0);
-			
+		void Pid_Mode_Init(bool incremental_ = true, bool differential_prior_ = true, float differential_lowpass_alpha_ = 0, bool use_td_ = false);
+		
 		void Pid_Param_Init(
 			float kp_, float ki_, float kd_, float kf_ = 0, float delta_time_ = 0.001, float deadzone_ = 0, float output_limit_ = 0, 
-			float integral_limit_ = 0, float integral_separation_ = 0, float differential_limit_ = 0, float feed_forward_limit_ = 0
+			float integral_limit_ = 0, float integral_separation_ = 0, float differential_limit_ = 0, float feed_forward_limit_ = 0,
+			float r_ = 50, float v2_max_ = 0.f
 		);
-							
+		
 		float Pid_Calculate(bool normalization = false, float unit = PI);
 		
 		void Update_Real(float real_){real = real_;}
@@ -42,6 +44,10 @@ namespace pid
 		void Set_integral_limit(float integral_limit_){integral_limit = fabsf(integral_limit_);}
 		void Set_output_limit(float output_limit_){output_limit = fabsf(output_limit_);}
 
+
+	protected:
+		
+	private:
 		float kp = 0, ki = 0, kd = 0, kf = 0;
 		float integral_separation = 0;
 		float integral_limit = 0, output_limit = 0, differential_limit = 0, feed_forward_limit = 0;
@@ -60,19 +66,14 @@ namespace pid
 		
 		float differential_lowpass_alpha = 0;
 		float output_lowpass_alpha = 0;
-
-	protected:
-		
-	private:
-		
+	
+		bool use_td = false;
+		filter::TD td;
+	
 	};
 
 	void Limit(float *input, float limit);
 	float Normalize(float data, float unit);
 	
 }
-
-
-
-
 #endif

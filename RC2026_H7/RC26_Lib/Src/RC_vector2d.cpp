@@ -7,6 +7,13 @@ namespace vector2d
 	Vector2D::Vector2D(float x, float y) : data_{x, y} {}
 
 	Vector2D::Vector2D(const float32_t* data) : data_{data[0], data[1]} {}
+		
+	Vector2D::Vector2D(float theta_rad)
+	{
+		// 逆时针
+        data_[0] = arm_cos_f32(theta_rad);
+        data_[1] = arm_sin_f32(theta_rad);
+	}
 	/*----------------------------------------------------------------------------------*/
 	Vector2D Vector2D::operator+(const Vector2D& other) const
 	{
@@ -86,6 +93,19 @@ namespace vector2d
 		return result;
 	}
 
+	// 向量角度pi ~ -pi
+	float Vector2D::angle() const
+	{
+		if (isZero(lengthSquared()))
+		{
+			return 0.0f;
+		}
+		
+		float result;
+		arm_atan2_f32(data_[1], data_[0], &result);
+		return result;
+	}
+
 	// 向量长度（模）
 	float Vector2D::lengthSquared() const
 	{
@@ -158,4 +178,73 @@ namespace vector2d
 		return result;
 	}
 	
+
+	float Vector2D::curvatureFromThreePoints(const Vector2D& p0, const Vector2D& p1, const Vector2D& p2)
+	{
+		// 计算向量
+		const Vector2D v0 = p1 - p0;  // 从p0到p1的向量
+		const Vector2D v1 = p2 - p1;  // 从p1到p2的向量
+
+		// 计算分子：2*(v0 × v1)（叉积的2倍，用于计算三角形面积的2倍）
+		const float cross = v0.cross(v1);
+		const float numerator = fabsf(2.f * cross);
+
+		// 若叉积为0，三点共线（直线），曲率为0
+		if (isZero(numerator))
+		{
+			return 0.f;
+		}
+
+		// 计算分母：|v0| * |v1| * |v0 + v1|（三边长度乘积）
+		const float len0 = v0.length();
+		const float len1 = v1.length();
+		const float len2 = (v0 + v1).length();  // p2 - p0的长度
+
+		// 避免分母为0（三点中任意两点重合）
+		if (isZero(len0) || isZero(len1) || isZero(len2))
+		{
+			return 0.f;  // 视为直线
+		}
+
+		const float denominator = len0 * len1 * len2;
+
+		// 曲率 = 分子 / 分母（曲率 = 1/半径）
+		float curvature = numerator / denominator;
+        
+		// 限制曲率在合理范围内
+		if (curvature > 1e6f) curvature = 1e6f;
+		if (curvature < 0.f) curvature = 0.f;
+		
+		return curvature;
+	}
+	
+	// 将当前向量投影到目标向量other上
+	Vector2D Vector2D::project(const Vector2D& other) const
+	{
+		// 目标向量为零向量时，返回零向量
+		float otherLenSq = other.lengthSquared();
+		if (isZero(otherLenSq))
+		{
+			return Vector2D(0.0f, 0.0f);
+		}
+		
+		// 计算投影系数：(a·b)/|b|²
+		float projScalar = this->dot(other) / otherLenSq;
+		
+		// 计算投影向量：系数 × 目标向量
+		return other * projScalar;
+	}
+	
+	// 计算当前向量在目标向量other上的投影长度（标量）
+	float Vector2D::projectLength(const Vector2D& other) const
+	{
+		float otherLenSq = other.lengthSquared();
+		if (isZero(otherLenSq))
+		{
+			return 0.0f;
+		}
+		// 投影长度 = (a·b)/|b|
+		float projScalar = this->dot(other) / sqrtf(otherLenSq);
+		return projScalar;
+	}
 }

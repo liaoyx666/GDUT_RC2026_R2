@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	M2006::M2006(uint8_t id_, can::Can &can_, tim::Tim &tim_) : DjiMotor(can_, tim_)
+	M2006::M2006(uint8_t id_, can::Can &can_, tim::Tim &tim_, float gear_ratio_) : DjiMotor(can_, tim_, gear_ratio_)
 	{
 		// 设置tx，rx和m2006的id
 		Dji_Id_Init(id_);
@@ -10,12 +10,12 @@ namespace motor
 		// 登记can设备
 		CanHandler_Register();
 		
-		// m3508默认pid参数
+		// m2006默认pid参数
 		pid_spd.Pid_Mode_Init(true, false, 0);
-		pid_spd.Pid_Param_Init(0, 0, 0, 0, 0.001, 0, 15000, 10000, 5000, 5000, 5000);// 1ms
+		pid_spd.Pid_Param_Init(13, 0.7, 0, 0, 0.001, 0, 16000, 10000, 5000, 5000, 5000);// 1ms
 		
 		pid_pos.Pid_Mode_Init(false, false, 0);
-		pid_pos.Pid_Param_Init(0, 0, 0, 0, 0.001, 0, 1000, 1000, 500, 500, 500);// 1ms
+		pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 1000, 500, 500, 500, 500, 10, 3.f);// 1ms
 	}
 	
 	

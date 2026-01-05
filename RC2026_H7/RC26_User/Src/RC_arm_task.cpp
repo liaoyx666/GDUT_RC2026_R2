@@ -30,9 +30,9 @@ static Pose3D g_last_pose; // 用作起点，自动记录上一个动作的终�
 
 /*================= 位姿定义 =================*/
 // Home / Rest
-Pose3D home_pose  = POS(0.3f,    0.0f, 0.2f,     0.0f);
-Pose3D safe_pose  = POS(0.3f,   0.0f, 0.3f,    0.0f);
-
+Pose3D home_pose  = POS(0.12090f, 0.0f, 0.15580f,  0.0f);
+Pose3D safe_pose  = POS(0.047f,   0.0f, 0.291f,    1.1027f);
+Pose3D safe_pose0  = POS(0.085f,   0.0f, 0.330f,    0.99227f);
 /* ===== 方块 ===== */
 Pose3D pick_front_cube0  = POS(0.3f,  0.0f,   0.3f,    -0.2f);
 Pose3D pick_front_cube1  = POS(0.60f,  0.0f,  0.22f,   -0.2f);
@@ -74,8 +74,7 @@ static const ArmAction PICK_FRONT_UP_CUBE_SEQ[] =
 	
 		{ ARM_ACTION_MOVE, {}, pick_front_cube2,0.0f, 0.5f,0.1f,0,nullptr,nullptr },
 		{ ARM_ACTION_MOVE, {}, pick_front_cube3,0.0f, 0.4f,1.0f,0,nullptr,nullptr },
-		{ ARM_ACTION_MOVE, {}, home_pose,0.0f, 0.5f,0.5f,0,nullptr,nullptr },
-		{ ARM_ACTION_HOLD, {},{},{},{},{},2000,nullptr,nullptr},
+		{ ARM_ACTION_MOVE, {}, safe_pose,0.0f, 0.5f,0.5f,0,nullptr,nullptr },
     { ARM_ACTION_END }
 };
 
@@ -90,7 +89,7 @@ static const ArmAction PICK_FRONT_DOWN_CUBE_SEQ[] =
 		{ ARM_ACTION_MOVE, {}, pick_front_cube6,0.0f, 0.8f,0.8f,0,nullptr,nullptr },
 		{ ARM_ACTION_MOVE, {}, pick_front_cube7,0.0f, 0.5f,0.1f,0,nullptr,nullptr },
 		{ ARM_ACTION_MOVE, {}, pick_front_cube8,0.0f, 0.8f,0.8f,0,nullptr,nullptr },
-		{ ARM_ACTION_MOVE, {}, home_pose,0.0f, 0.5f,0.3f,0,nullptr,nullptr },
+		{ ARM_ACTION_MOVE, {}, safe_pose,0.0f, 0.5f,0.3f,0,nullptr,nullptr },
     { ARM_ACTION_END }
 };
 /* --- PICK LEFT --- */

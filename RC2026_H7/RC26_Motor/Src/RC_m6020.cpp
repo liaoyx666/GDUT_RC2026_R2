@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	M6020::M6020(uint8_t id_, can::Can &can_, tim::Tim &tim_) : DjiMotor(can_, tim_)
+	M6020::M6020(uint8_t id_, can::Can &can_, tim::Tim &tim_) : DjiMotor(can_, tim_, 1.f)
 	{
 		// 设置tx，rx和m6020的id
 		Dji_Id_Init(id_);
@@ -13,9 +13,20 @@ namespace motor
 		// m6020默认pid参数
 		pid_spd.Pid_Mode_Init(true, false, 0);
 		pid_spd.Pid_Param_Init(8, 1, 0, 0, 0.001, 0, 16384, 10000, 5000, 5000, 5000);
-		
-		pid_pos.Pid_Mode_Init(false, false, 0.4);
+
+
+		pid_pos.Pid_Mode_Init(false, false, 0.2);
 		pid_pos.Pid_Param_Init(500, 0, 5, 0, 0.001, 0, 300, 150, 150, 150, 150);
+		
+		
+//		spd_smc.SMC_Init(
+//			16000,
+//			1,
+//			2,
+//			0.1,
+//			0.001
+//		);
+		
 	}
 	
 	
