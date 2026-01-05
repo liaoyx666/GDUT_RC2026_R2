@@ -119,11 +119,11 @@ namespace arm
     if (dist < fabsf(L1_LENGTH - L_virtual)) return false;
 
     /* ---------- q2 ---------- */
-    float cos_alpha =
-        (L1_LENGTH * L1_LENGTH + dist * dist - L_virtual * L_virtual) /
-        (2.0f * L1_LENGTH * dist);
-    cos_alpha = constrainValue(cos_alpha, -1.0f, 1.0f);
-    float alpha = acosf(cos_alpha);
+    float alpha = acosf(
+        constrainValue(
+            (L1_LENGTH * L1_LENGTH + dist * dist - L_virtual * L_virtual) /
+            (2.0f * L1_LENGTH * dist),
+            -1.0f, 1.0f));
 
     float theta_wrist = atan2f(Wz, Wx);
     float theta_L2 = theta_wrist + alpha;
@@ -139,24 +139,14 @@ namespace arm
     float q3 = theta_virtual - theta_L2 - THETA3_OFFSET - beta;
     q3 = unwrapAngle(q3, last_joint.theta3);
 
-    /* ---------- q4（重点补丁） ---------- */
-    float sum =
-        (q2 + THETA2_OFFSET) +
-        (q3 + THETA3_OFFSET) +
-        THETA4_OFFSET +
-        THETA5_OFFSET;
+    /* ---------- q4（重点） ---------- */
+    float sum = (q2 + THETA2_OFFSET)
+              + (q3 + THETA3_OFFSET)
+              + THETA4_OFFSET
+              + THETA5_OFFSET;
 
-    float q4_raw = pitch - sum;
-    q4_raw = unwrapAngle(q4_raw, last_joint.theta4);
-
-    /* ===== 工程级连续性保护（只针对 q4） ===== */
-    const float MAX_Q4_STEP = 0.3f;   // 单周期最大变化（rad）
-    float dq4 = q4_raw - last_joint.theta4;
-
-    if (dq4 >  MAX_Q4_STEP) dq4 =  MAX_Q4_STEP;
-    if (dq4 < -MAX_Q4_STEP) dq4 = -MAX_Q4_STEP;
-
-    float q4 = last_joint.theta4 + dq4;
+    float q4 = pitch - sum;
+    q4 = unwrapAngle(q4, last_joint.theta4);
 
     /* ---------- 限位 ---------- */
     result.theta1 = constrainValue(q1, THETA1_MIN, THETA1_MAX);
@@ -169,6 +159,5 @@ namespace arm
 
     return true;
 }
-
 
 }

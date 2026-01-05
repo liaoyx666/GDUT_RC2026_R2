@@ -87,7 +87,7 @@ lidar::LiDAR lidar_1(huart3);
 chassis::Swerve4Chassis swerve_4_chassis(
 	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
-	0.5, 5, 5,
+	2.5, 5, 5,
 	4, 8, 8,
 	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
 );
@@ -186,10 +186,18 @@ void test(void *argument)
 				{
 					arm_task.Arm_Control(ARM_TASK::PICK_FRONT_UP_CUBE);
 				}
+				
+				else if (remote_ctrl.swb == 2)
+				{
+					arm_task.Arm_Control(ARM_TASK::PLACE_LEFT_CUBE);
+				}
 			}
 		}
 		
-		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc);
+		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc, 2.5, GPIOA, GPIO_PIN_8,
+																				  0.3, GPIOA, GPIO_PIN_9,
+																				  0.8, GPIOG, GPIO_PIN_1,
+																				  0.7, GPIOG, GPIO_PIN_0);
 		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
 		
 		

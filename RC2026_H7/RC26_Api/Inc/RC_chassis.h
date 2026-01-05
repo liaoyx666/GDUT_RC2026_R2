@@ -30,6 +30,9 @@ namespace chassis
 		// 设置最大线速度
 		void Set_Max_Linear_Vel(float max_linear_vel_) {max_linear_vel = fabsf(max_linear_vel_);}
 		
+		// 设置线加速度
+		void Set_Linear_Accel(float linear_accel_) {linear_accel = fabsf(linear_accel_);}
+		
 		// 使能
 		void Chassis_Enable() {is_enable = true;}
 		

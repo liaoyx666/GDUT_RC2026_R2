@@ -3,11 +3,12 @@
 namespace path
 {
 	
+	// 使用点就返回true
 	bool Path2::Generate_Path(Point2 point_)
 	{
 		if (is_init == true)
 		{
-			return true;
+			return false;
 		}
 		
 		// 曲线空间不足
@@ -56,7 +57,7 @@ namespace path
 						
 						temp_start_point = point_.coordinate;// 结束点为下一曲线起点
 						generate_status = GENERATE_JUST_FINISHED;
-						return false;
+						return true;
 					}
 					else
 					{
@@ -79,7 +80,7 @@ namespace path
 						temp_control_point = point_.coordinate;// 控制点
 						temp_control_point_num = point_.point_num;
 						generate_status = GENERATE_WAIT_LAST_CURVE_POINT;
-						return false;
+						return true;
 					}
 				}
 				break;
@@ -145,7 +146,7 @@ namespace path
 						}
 						temp_start_point = point_.coordinate;// 结束点为下一曲线起点
 						generate_status = GENERATE_JUST_FINISHED;
-						return false;
+						return true;
 					}
 					else
 					{
@@ -162,7 +163,7 @@ namespace path
 							temp_control_point = point_.coordinate;
 							temp_control_point_num = point_.point_num;
 							generate_status = GENERATE_WAIT_LAST_CURVE_POINT;
-							return false;
+							return true;
 						}
 						else
 						{
@@ -183,7 +184,7 @@ namespace path
 							temp_control_point = point_.coordinate;
 							temp_control_point_num = point_.point_num;
 							generate_status = GENERATE_WAIT_LAST_CURVE_POINT;
-							return false;
+							return true;
 						}
 					}
 				}
@@ -402,14 +403,35 @@ namespace path
 	
 	void PathPlan2::Task_Process()
 	{
-	
-	
+		if (path[total_path_num % 2].Is_Init() == false)
+		{
+			while(generate_point_num <= total_point_num)
+			{
+				if (path[total_path_num % 2].Generate_Path(point[generate_point_num % MAX_PATHPOINT_NUM]) == true)
+				{
+					generate_point_num++;
+				}
+				else
+				{                                               
+					total_path_num++;
+					break;//生成已经结束 is_init = true
+				}
+			}
+		}
+		
+		
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	
+		
+		
+		                                           
+		
+
 	}
 	
 	
 	
 	
-	
+	                  
 	
 	
 	bool PathPlan2::Add_One_Point(

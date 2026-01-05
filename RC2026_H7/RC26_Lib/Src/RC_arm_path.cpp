@@ -171,7 +171,7 @@ bool CartesianPlanner::build()
 {
     float dt = 0.001f;
     trajectoryLen_ = 0;
-
+		arm::ArmKinematics ik;
     for (int i=0; i<segCount_; i++)
     {
         Segment& s = segs_[i];
@@ -194,7 +194,7 @@ bool CartesianPlanner::build()
             }
 
             // IK
-            arm::ArmKinematics ik;
+           
             arm::EndEffectorPos tgt{p.pos.x(),p.pos.y(),p.pos.z(),p.pitch};
             arm::JointAngles sol;
 
@@ -217,7 +217,7 @@ bool CartesianPlanner::build()
 //             TrajectoryExecutor
 // =============================================
 TrajectoryExecutor::TrajectoryExecutor()
-: planner_(nullptr), len_(0), currentIndex_(0), threshold_(0.01f)
+: planner_(nullptr), len_(0), currentIndex_(0), threshold_(0.2f)
 {}
 	
 	
@@ -258,38 +258,30 @@ void TrajectoryExecutor::reset()
     currentIndex_ = 0;
 }
 
+
 bool TrajectoryExecutor::run(const JointArray& cur)
 {
-    // **逻辑 A：如果已到达轨迹的最后一个点**
-    if (currentIndex_ == len_ - 1)
+    if (len_ == 0) return true;
+
+    const JointArray& target = active_[currentIndex_];
+
+    // 只有到达当前点，才允许前进
+    if (reachedGoal(cur, target, threshold_))
     {
-        // 目标点就是最后一个点
-        const JointArray& target_cmd = active_[len_ - 1]; 
-        
-        // 使用反馈角度和阈值进行判断
-        if (reachedGoal(cur, target_cmd, threshold_))
+        if (currentIndex_ < len_ - 1)
         {
-            // 机器人已到达最终目标，返回完成
-            return true;
+            currentIndex_++;
+            return false;
         }
         else
         {
-            // 尚未到达，继续发送最后一个命令 (currentIndex_ 保持不变)
-            return false;
+            return true;
         }
     }
 
-    // **逻辑 B：如果还在轨迹移动过程中**
-    if (currentIndex_ < len_ - 1)
-    {
-        // 沿着轨迹前进到下一个点
-        currentIndex_++;
-        return false;
-    }
-
-    // 轨迹长度为 0 或其他异常情况
-    return true; 
+    return false;
 }
+
 
 bool TrajectoryExecutor::hasTrajectory() const
 {

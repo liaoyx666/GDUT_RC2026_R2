@@ -48,6 +48,7 @@ void MX_GPIO_Init(void)
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
@@ -69,14 +70,20 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(photogate_1_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : photoelectric_switch4_Pin photoelectric_switch3_Pin */
+  GPIO_InitStruct.Pin = photoelectric_switch4_Pin|photoelectric_switch3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
   /*Configure GPIO pins : photogate_3_Pin photogate_4_Pin */
   GPIO_InitStruct.Pin = photogate_3_Pin|photogate_4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : photoswitch_1_Pin photoswitch_2_Pin */
-  GPIO_InitStruct.Pin = photoswitch_1_Pin|photoswitch_2_Pin;
+  /*Configure GPIO pins : photoelectric_switch1_Pin photoelectric_switch2_Pin */
+  GPIO_InitStruct.Pin = photoelectric_switch1_Pin|photoelectric_switch2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

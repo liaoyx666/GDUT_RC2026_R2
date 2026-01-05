@@ -105,6 +105,8 @@ namespace path
 			float * max_vel,
 			uint16_t * current_point_num
 		);
+			
+		bool Is_Init() const {return is_init;}
 		
     protected:
 		
@@ -205,10 +207,19 @@ namespace path
 		Point2 point[MAX_PATHPOINT_NUM];
 		Path2 path[2];
 	
+		uint16_t total_path_num = 0;
+		uint16_t current_path_dx = 0;
+	
+	
+		uint8_t generate_path_dx = 0;
+	
 		uint8_t point_head = 0;
 		uint8_t point_tail = 0;
 	
-		uint16_t total_point_num = 0;		
+		uint16_t total_point_num = 0;
+		uint16_t generate_point_num = 0;
+	
+	
 	
 		bool Add_One_Point(
 			vector2d::Vector2D coordinate,

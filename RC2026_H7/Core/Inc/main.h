@@ -66,16 +66,20 @@ void Error_Handler(void);
 #define photogate_1_Pin GPIO_PIN_2
 #define photogate_1_GPIO_Port GPIOA
 #define photogate_1_EXTI_IRQn EXTI2_IRQn
+#define photoelectric_switch4_Pin GPIO_PIN_0
+#define photoelectric_switch4_GPIO_Port GPIOG
+#define photoelectric_switch3_Pin GPIO_PIN_1
+#define photoelectric_switch3_GPIO_Port GPIOG
 #define photogate_3_Pin GPIO_PIN_14
 #define photogate_3_GPIO_Port GPIOD
 #define photogate_3_EXTI_IRQn EXTI15_10_IRQn
 #define photogate_4_Pin GPIO_PIN_15
 #define photogate_4_GPIO_Port GPIOD
 #define photogate_4_EXTI_IRQn EXTI15_10_IRQn
-#define photoswitch_1_Pin GPIO_PIN_8
-#define photoswitch_1_GPIO_Port GPIOA
-#define photoswitch_2_Pin GPIO_PIN_9
-#define photoswitch_2_GPIO_Port GPIOA
+#define photoelectric_switch1_Pin GPIO_PIN_8
+#define photoelectric_switch1_GPIO_Port GPIOA
+#define photoelectric_switch2_Pin GPIO_PIN_9
+#define photoelectric_switch2_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 
