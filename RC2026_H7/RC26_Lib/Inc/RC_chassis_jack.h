@@ -33,7 +33,10 @@ namespace chassis_jack
 		void chassis_up();
 		void chassis_down();
 		
-		void chassis_test(bool signal, bool state);
+		void chassis_test(bool signal, bool state, float default_vel,    GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
+												   float up_ready_vel,   GPIO_TypeDef* GPIOx2, uint16_t GPIO_Pin_2,
+												   float up_close_vel,   GPIO_TypeDef* GPIOx3, uint16_t GPIO_Pin_3,
+												   float down_close_vel, GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4);
 		
 		chassis::Chassis& v_limit;
 		uint8_t b = 0;
@@ -43,6 +46,7 @@ namespace chassis_jack
 		bool gd1 = 0;
 		bool gd2 = 0;
 		bool gd3 = 0;
+		bool gd4 = 0;
 			
 		bool up_or_down = 0;
 		

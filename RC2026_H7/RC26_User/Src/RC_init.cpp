@@ -189,7 +189,10 @@ void test(void *argument)
 			}
 		}
 		
-		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc);
+		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc, 2.5, GPIOA, GPIO_PIN_8,
+																				  0.3, GPIOA, GPIO_PIN_9,
+																				  0.8, GPIOG, GPIO_PIN_1,
+																				  0.7, GPIOG, GPIO_PIN_0);
 		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
 		
 		
