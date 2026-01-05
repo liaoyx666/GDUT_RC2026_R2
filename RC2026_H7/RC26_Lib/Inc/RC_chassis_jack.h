@@ -7,7 +7,10 @@
 #ifdef __cplusplus
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 #define SMALL_WHEEL_RADIUS	0.03f
 #define JACK_LANGHT 0.260f
 
@@ -75,7 +78,11 @@ namespace chassis_jack
 		chassis::Chassis& v_limit;
 		uint8_t b = 0;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 		float tag = 350;
+>>>>>>> Stashed changes
+=======
+		float tag = 360;
 >>>>>>> Stashed changes
 =======
 		float tag = 360;

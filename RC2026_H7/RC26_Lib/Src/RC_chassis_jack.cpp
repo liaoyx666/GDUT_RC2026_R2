@@ -221,7 +221,7 @@ namespace chassis_jack
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
 					left_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
 					
-					v_limit.Set_Max_Linear_Vel(1.5);
+					v_limit.Set_Max_Linear_Vel(2.5);
 					
 					left_front_motor.Set_Out_Angle(0);
 					left_behind_motor.Set_Out_Pos(0);
@@ -319,7 +319,7 @@ namespace chassis_jack
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
 					left_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
 					
-					v_limit.Set_Max_Linear_Vel(1.5);
+					v_limit.Set_Max_Linear_Vel(2.5);
 				
 					left_front_motor.Set_Out_Angle(0);
 					left_behind_motor.Set_Out_Pos(0);
@@ -400,7 +400,7 @@ namespace chassis_jack
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
 					left_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
 					
-					v_limit.Set_Max_Linear_Vel(1.5);
+					v_limit.Set_Max_Linear_Vel(2.5);
 				
 					left_front_motor.Set_Out_Angle(0);
 					right_front_motor.Set_Out_Angle(0);
