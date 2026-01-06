@@ -40,7 +40,7 @@ namespace chassis_jack
 		
 		chassis::Chassis& v_limit;
 		uint8_t b = 0;
-		float tag = 360;
+		float tag = 450;
 		float dis = 0;
 			
 		bool gd1 = 0;
