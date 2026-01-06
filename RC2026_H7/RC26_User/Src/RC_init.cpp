@@ -143,12 +143,12 @@ void test(void *argument)
 	j60_1.pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 100, 5, 5, 5, 5, 50, 80);
 	
 	HAL_Delay(10);
-
-
+	
+	
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
 //	rs04_120.Set_K_Spd(10);
-
+	
 //	rs04_127.Set_ZeroPos();
 //	rs04_127.Set_K_Pos(50);
 //	rs04_127.Set_K_Spd(10);
@@ -194,19 +194,17 @@ void test(void *argument)
 			}
 		}
 		
+		
+		
 		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc, 2.5, GPIOA, GPIO_PIN_8,
 																				  0.3, GPIOA, GPIO_PIN_9,
 																				  0.8, GPIOG, GPIO_PIN_1,
 																				  0.7, GPIOG, GPIO_PIN_0);
+		
+		
 		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
 		
 		
-		
-//		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swa);
-//		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
-//		
-		
-//		uart_printf("%f,%f\n", m6020_1.Get_Rpm(), target);
 
 
 		osDelay(1);

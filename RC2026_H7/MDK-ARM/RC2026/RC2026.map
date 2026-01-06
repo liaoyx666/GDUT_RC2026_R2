@@ -18104,7 +18104,7 @@ Image component sizes
       1124          0         51          0          1      20806   rc_flysky.o
       2154        100        108          0          0      20523   rc_go.o
        204          0         20          0         64      13515   rc_gpio_exti.o
-      4068        148          9          0      45856      35726   rc_init.o
+      4068        148          9          0      45856      35724   rc_init.o
       2202         84        108          0          0      20263   rc_j60.o
       1130         24         20          0          0      19775   rc_jy901s.o
        628          0         20          0          0      19035   rc_lidar.o
@@ -18161,7 +18161,7 @@ Image component sizes
        232          0          0          0          0       4203   usbd_ioreq.o
 
     ----------------------------------------------------------------------
-    139696       2082       5060        264     308528    1312019   Object Totals
+    139696       2082       5060        264     308528    1312017   Object Totals
          0          0         64          0          0          0   (incl. Generated)
       2414        124          2         11         28          0   (incl. Padding)
 
@@ -18258,8 +18258,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-    144344       2542       5092        264     308624    1313047   Grand Totals
-    144344       2542       5092        264     308624    1313047   ELF Image Totals
+    144344       2542       5092        264     308624    1313045   Grand Totals
+    144344       2542       5092        264     308624    1313045   ELF Image Totals
     144344       2542       5092        264          0          0   ROM Totals
 
 ==============================================================================
