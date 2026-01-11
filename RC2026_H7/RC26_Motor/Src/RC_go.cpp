@@ -13,8 +13,8 @@ namespace motor
 	* @param k_spd_:阻尼系数（只使用力矩时给0）
 	* @param k_pos_:刚度系数（只使用力矩时给0）
 	*/
-	Go::Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_)
-		: can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_), Motor(6.33f)
+	Go::Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
+		: can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_), Motor(6.33f, is_reset_pos_)
 	{
 		if (module_id_ > 3) Error_Handler();
 		if (id_ > 14) Error_Handler();
@@ -150,6 +150,12 @@ namespace motor
 				rpm = ((float)(int16_t)(((uint16_t)rx_data[5] << 8) | (uint16_t)rx_data[4])) / 256.f * 60.f;
 				torque = ((float)(int16_t)(((uint16_t)rx_data[7] << 8) | (uint16_t)rx_data[6])) / 256.f;
 				
+				if (is_reset_pos == true)
+				{
+					Reset_Pos(0);
+					is_reset_pos = false;
+				}
+
 				out_pos = pos / gear_ratio;
 			}
 		}
@@ -184,6 +190,8 @@ namespace motor
 				target_torque = pid_spd.Pid_Calculate();
 			}
 		}
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 	
 	

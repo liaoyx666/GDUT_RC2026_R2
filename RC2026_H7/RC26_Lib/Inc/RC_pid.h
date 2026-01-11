@@ -31,18 +31,19 @@ namespace pid
 		void Update_Target(float target_){target = target_;}
 		float Get_Output(){return output;}
 		
-		void Set_Kp(float kp_){kp = kp_;}
-		void Set_Ki(float ki_){ki = ki_;}
-		void Set_Kd(float kd_){kd = kd_;}
-		void Set_Kf(float kf_){kf = kf_;}
+		void Set_Delta_Time(float delta_time_) {delta_time = delta_time_;}
+		void Set_Kp(float kp_) {kp = kp_;}
+		void Set_Ki(float ki_) {ki = ki_;}
+		void Set_Kd(float kd_) {kd = kd_;}
+		void Set_Kf(float kf_) {kf = kf_;}
 		void Set_Differential_lowpass_alpha(float differential_lowpass_alpha_)
 		{
 			differential_lowpass_alpha_ = fabsf(differential_lowpass_alpha_);
 			if (differential_lowpass_alpha_ >= 1) differential_lowpass_alpha = 0;
 			else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
 		}
-		void Set_integral_limit(float integral_limit_){integral_limit = fabsf(integral_limit_);}
-		void Set_output_limit(float output_limit_){output_limit = fabsf(output_limit_);}
+		void Set_integral_limit(float integral_limit_) {integral_limit = fabsf(integral_limit_);}
+		void Set_output_limit(float output_limit_) {output_limit = fabsf(output_limit_);}
 
 
 	protected:
@@ -57,9 +58,10 @@ namespace pid
 		bool differential_prior = false;// 默认普通微分
 		bool incremental = true;// 默认增量式Pid
 
-		float integral = 0, differential = 0, proportion = 0, feed_forward = 0;
+		//float integral = 0, differential = 0, proportion = 0, feed_forward = 0;
 		
-		float target = 0, real = 0, output = 0, error = 0;
+		float target = 0, real = 0, output = 0;
+		//float error = 0;
 		float last_output = 0, last_error = 0, last_real = 0, last_target = 0;
 		float last_differential = 0, last_proportion = 0;
 		float previous_error = 0;

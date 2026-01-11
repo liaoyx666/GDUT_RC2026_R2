@@ -25,7 +25,7 @@ namespace motor
 	class Motor
     {
     public:
-		Motor(float gear_ratio_ = 1.f);
+		Motor(float gear_ratio_ = 1.f, bool is_reset_pos_ = false);
 		virtual ~Motor() {}
 		
 		// 设置参数
@@ -45,6 +45,7 @@ namespace motor
 		void Reset_Out_Pos(float out_pos_);// 重置输出轴位置
 		void Reset_Pos(float pos_);// 重置转子位置
 		virtual void Reset_Out_Angle(float out_angle_);// 重置输出轴角度0 ~ 2pi
+		void Set_Pos_Offset(float pos_offset_) {pos_offset = pos_offset_;}
 		
 		// 获取参数
 		float Get_Rpm() const {return rpm;}
@@ -91,6 +92,8 @@ namespace motor
 		float pos_min = -6000;
 		float gear_ratio = 1.f;// 减速比
 		MotorMode motor_mode = RPM_MODE;// 电机模式
+		
+		bool is_reset_pos = false;
 
     private:
 		

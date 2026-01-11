@@ -22,6 +22,9 @@ namespace filter
 	{
 		float period = 2.f * unit;
 		
+		float v1 = 0;
+		float v2 = 0;
+		
 		// 归一化到-unit ~ unit
 		if (normalization == true)
 		{

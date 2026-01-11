@@ -29,6 +29,8 @@ namespace can
 		uint16_t hd_dx[4];// can帧上挂载的所有设备的设备索引
 		
 		CanFrameType frame_type;
+		
+		bool new_message;
 	} CanTxFrame;
 
 	class CanHandler;// 向前声明
@@ -81,11 +83,11 @@ namespace can
 		Can *can = nullptr;
 		uint8_t tx_frame_dx;
 		uint8_t hd_list_dx;
-			
+		
 		/*------------------------需要被其子类初始化----------------------------*/
 		CanFrameType can_frame_type;
 		uint32_t tx_id = 0;
-			
+		
 		uint32_t rx_mask = 0;// 掩码
 		uint32_t rx_id = 0;
 		/*-------------------------需要被其子类初始化---------------------------*/

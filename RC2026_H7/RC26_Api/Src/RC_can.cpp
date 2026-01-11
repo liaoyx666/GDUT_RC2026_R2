@@ -5,7 +5,7 @@
  */
 #include "RC_can.h"
 
-#define MAX_CAN_RETRY_COUNT 20 // 最大重试次数
+#define MAX_CAN_RETRY_COUNT 10 // 最大重试次数
 
 extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hcan, uint32_t RxFifo0ITs)
 {
@@ -139,7 +139,8 @@ namespace can
 							if ((can_rx_hdr.Identifier & can_list[i]->hd_list[j]->rx_mask) == can_list[i]->hd_list[j]->rx_id)
 							{
 								id_matched = true;
-							} else
+							}
+							else
 							{
 								continue;
 							}
@@ -169,82 +170,82 @@ namespace can
 		// 发送can上所有数据帧
 		for (uint8_t i = 0; i < tx_frame_num; i++)
 		{
-			// 所有挂载在can帧上的设备处理帧数据
-			for (uint8_t j = 0; j < tx_frame_list[i].hd_num; j++)
+			// 有新消息
+			if (tx_frame_list[i].new_message == true)
 			{
-				hd_list[tx_frame_list[i].hd_dx[j]]->Can_Tx_Process();
-			}
-			/*-------------------------------------------------------------------*/
-			// 设置帧头
-			if (tx_frame_list[i].frame_type == FRAME_STD) 
-			{
-				can_tx_hdr.Identifier = tx_frame_list[i].id;
-				can_tx_hdr.IdType = FDCAN_STANDARD_ID;
-			}
-			else
-			{
-				can_tx_hdr.Identifier = tx_frame_list[i].id;
-				can_tx_hdr.IdType = FDCAN_EXTENDED_ID;
-			}
-			
-			if (tx_frame_list[i].dlc > 8)
-			{
-				break;// 标准can都小于等于8
-			}
-			can_tx_hdr.DataLength = tx_frame_list[i].dlc;// 数据长度
-			
-			can_tx_hdr.TxFrameType = FDCAN_DATA_FRAME;// 数据帧
-			can_tx_hdr.BitRateSwitch = FDCAN_BRS_OFF;// 关闭速率切换
-			can_tx_hdr.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
-			can_tx_hdr.TxEventFifoControl = FDCAN_NO_TX_EVENTS;// 无发送事件
-			can_tx_hdr.FDFormat = FDCAN_CLASSIC_CAN;// 传统CAN模式
-			can_tx_hdr.MessageMarker = 0;
-			
-			bool send_success = false;
-			uint16_t retry_count = 0;
-			
-			/*-------------------------------------------------------------------*/
-			// 开始发送
-			do
-			{
-				uint8_t mailbox_free_level = HAL_FDCAN_GetTxFifoFreeLevel(hcan);
-				
-				// 等待fifo有空闲
-				if (mailbox_free_level != 0)
+				// 所有挂载在can帧上的设备处理帧数据
+				for (uint8_t j = 0; j < tx_frame_list[i].hd_num; j++)
 				{
-					status = HAL_FDCAN_AddMessageToTxFifoQ(hcan, &can_tx_hdr, tx_frame_list[i].data);// 发送数据
-					
-					if (status == HAL_OK)
-					{
-						send_success = true;
-					}
-					else if (status == HAL_BUSY || status == HAL_TIMEOUT)
-					{
-						retry_count++;
-						osDelay(1);
-					}
-					else
-					{
-						Error_Handler();
-					}
+					hd_list[tx_frame_list[i].hd_dx[j]]->Can_Tx_Process();
+				}
+
+				// 设置帧头
+				if (tx_frame_list[i].frame_type == FRAME_STD) 
+				{
+					can_tx_hdr.IdType = FDCAN_STANDARD_ID;
 				}
 				else
 				{
-					retry_count++;
-					osDelay(1);
+					can_tx_hdr.IdType = FDCAN_EXTENDED_ID;
 				}
 				
-				if (send_success == true)
+				if (tx_frame_list[i].dlc > 8)
 				{
-					break;
+					continue;// 标准can都小于等于8
 				}
 				
-				if (retry_count > MAX_CAN_RETRY_COUNT) 
+				can_tx_hdr.Identifier = tx_frame_list[i].id;
+				can_tx_hdr.DataLength = tx_frame_list[i].dlc;// 数据长度
+				
+				can_tx_hdr.TxFrameType = FDCAN_DATA_FRAME;// 数据帧
+				can_tx_hdr.BitRateSwitch = FDCAN_BRS_OFF;// 关闭速率切换
+				can_tx_hdr.ErrorStateIndicator = FDCAN_ESI_ACTIVE;
+				can_tx_hdr.TxEventFifoControl = FDCAN_NO_TX_EVENTS;// 无发送事件
+				can_tx_hdr.FDFormat = FDCAN_CLASSIC_CAN;// 传统CAN模式
+				can_tx_hdr.MessageMarker = 0;
+				
+				bool send_success = false;
+				uint16_t retry_count = 0;
+				
+				do// 开始发送
 				{
-					break;
-				}
+					// 等待fifo有空闲
+					if (HAL_FDCAN_GetTxFifoFreeLevel(hcan) != 0)
+					{
+						status = HAL_FDCAN_AddMessageToTxFifoQ(hcan, &can_tx_hdr, tx_frame_list[i].data);// 发送数据
+						
+						if (status == HAL_OK)// 发送成功
+						{
+							send_success = true;
+							break;
+						}
+						else if (status == HAL_BUSY || status == HAL_TIMEOUT)
+						{
+							retry_count++;
+							
+							if (retry_count <= MAX_CAN_RETRY_COUNT)
+							{
+								osDelay(1); // 仅在未达到重试阈值时延时，避免无效延时
+							}
+						}
+						else
+						{
+							break;
+						}
+					}
+					else
+					{
+						retry_count++;
+						
+						if (retry_count <= MAX_CAN_RETRY_COUNT)
+						{
+							osDelay(1); // 仅在未达到重试阈值时延时，避免无效延时
+						}
+					}
+				} while (send_success == false && retry_count <= MAX_CAN_RETRY_COUNT);
 
-			} while (send_success == false);
+				tx_frame_list[i].new_message = false;
+			}
 		}
 	}
 	

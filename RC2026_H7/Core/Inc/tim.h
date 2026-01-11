@@ -36,12 +36,15 @@ extern TIM_HandleTypeDef htim4;
 
 extern TIM_HandleTypeDef htim7;
 
+extern TIM_HandleTypeDef htim13;
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
 void MX_TIM4_Init(void);
 void MX_TIM7_Init(void);
+void MX_TIM13_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 

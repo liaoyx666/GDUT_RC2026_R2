@@ -23,8 +23,8 @@ namespace filter
 		float r = 0;
 		float h = 0;
 	
-		float v1 = 0;
-		float v2 = 0;
+		//float v1 = 0;
+		//float v2 = 0;
 	
 		float v1_last = 0;
 		float v2_last = 0;

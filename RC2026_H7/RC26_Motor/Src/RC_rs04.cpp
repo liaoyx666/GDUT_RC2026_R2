@@ -85,6 +85,8 @@ namespace motor
 				target_torque = pid_spd.Pid_Calculate();
 			}
 		}
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 
 

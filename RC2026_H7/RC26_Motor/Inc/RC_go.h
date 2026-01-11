@@ -36,7 +36,8 @@ namespace motor
 	class Go : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:
-		Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0);
+		Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = false);
+		
 		virtual ~Go() {}
 		
 		void Set_K_Pos(float target_k_pos_) override;
@@ -53,7 +54,6 @@ namespace motor
 		void Tim_It_Process() override;
 		
     private:
-
 		uint8_t air = 0;// 气压参数
 		
 		uint8_t id;// 电机id

@@ -37,50 +37,51 @@ namespace chassis_jack
 		max_linear_vel = fabsf(max_linear_vel_);
 	}
 
-	void Chassis_jack::chassis_up()
-    {
-        left_front_motor.Set_Out_Pos(0);
-        left_behind_motor.Set_Out_Pos(0);
-        right_front_motor.Set_Out_Pos(0);
-        right_behind_motor.Set_Out_Pos(0);
-    }
 
-    void Chassis_jack::chassis_down()
-    {
-        left_front_motor.Set_Out_Pos(0);
-        left_behind_motor.Set_Out_Pos(0);
-        right_front_motor.Set_Out_Pos(0);
-        right_behind_motor.Set_Out_Pos(0);
-    }
+	#define UP_TO_DEFAULT
+	
 		
-	void Chassis_jack::chassis_test(bool signal, bool state, float default_vel,    GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
-												   			 float up_ready_vel,   GPIO_TypeDef* GPIOx2, uint16_t GPIO_Pin_2,
-												   			 float up_close_vel,   GPIO_TypeDef* GPIOx3, uint16_t GPIO_Pin_3,
-												   			 float down_close_vel, GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4)
+	void Chassis_jack::chassis_test(
+		bool signal, uint8_t state, float default_vel, GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
+		float up_ready_vel,   GPIO_TypeDef* GPIOx2, uint16_t GPIO_Pin_2,
+		float up_close_vel,   GPIO_TypeDef* GPIOx3, uint16_t GPIO_Pin_3,
+		float down_close_vel, GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4
+	)
     {
 		dis = LiDAR_jack.distance;
 		
-		gd1 = HAL_GPIO_ReadPin(GPIOx1, GPIO_Pin_1);	//a8 上楼梯收前腿
+		// 接收光电开关状态
+		gd1 = HAL_GPIO_ReadPin(GPIOx1, GPIO_Pin_1);	//上楼梯收前腿
 		gd2 = HAL_GPIO_ReadPin(GPIOx2, GPIO_Pin_2);	//下楼梯伸前腿
 		gd3 = HAL_GPIO_ReadPin(GPIOx3, GPIO_Pin_3);	//上楼梯收后腿
 		gd4 = HAL_GPIO_ReadPin(GPIOx4, GPIO_Pin_4);	//下楼梯伸后腿
 
-		if(b == 0 && state != last_state)
+		// 默认状态下才能切换
+		if(b == 0)
 		{
-			up_or_down = !up_or_down;
+			if (state == 0)
+			{
+				up_or_down = 0;// 上
+			}
+			else if (state == 1)
+			{
+				up_or_down = 1;// 下
+			}
 		}
-		last_state = state;
-
-		if(b > 4)
+		
+		// 撤销准备，回到默认状态
+		if (state == 3 && b == 1)
 		{
 			b = 0;
 		}
 
+		
 		if(up_or_down == 0)
 		{
 			switch (b)
 			{
-			case 0:	
+				case 0:
+					// 默认状态
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -98,7 +99,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
-			case 1:
+					
+				case 1:
+					// 准备上台阶
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -117,7 +120,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
-			case 2:
+					
+				case 2:
+					// 起身
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 2000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 2000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 2000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -137,7 +142,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
-			case 3:	
+					
+				case 3:
+					// 收前腿
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 7000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -154,7 +161,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
-			case 4:
+					
+				case 4:
+					// 收后腿
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 7000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -170,7 +179,9 @@ namespace chassis_jack
 						b = 0;
 					}
 					break;
-			default :
+					
+				default:
+					b = 0;
 					break;
 			}		
 		}
@@ -179,6 +190,7 @@ namespace chassis_jack
 			switch(b)
 			{
 				case 0:
+					// 默认状态
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -195,7 +207,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
+					
 				case 1:
+					// 准备下台阶
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -212,7 +226,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
+					
 				case 2:
+					// 伸后退
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 7000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -227,7 +243,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
+					
 				case 3:
+					// 伸前腿
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 7000, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 7000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -242,7 +260,9 @@ namespace chassis_jack
 						b++;
 					}
 					break;
+					
 				case 4:
+					// 下降
 					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 600, 7000);	
 					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 600, 7000);
 					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 600 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
@@ -256,27 +276,12 @@ namespace chassis_jack
 					right_behind_motor.Set_Out_Pos(100.f / 360 * TWO_PI);
 					if(signal == true)
 					{
-						b++;
+						b = 0;
 					}
 					break;
-				case 5:
-					left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);	
-					right_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 5000, 7000);
-					right_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
-					left_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 5000 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
-					
-					v_limit.Set_Max_Linear_Vel(default_vel);
-				
-					left_front_motor.Set_Out_Angle(0);
-					right_front_motor.Set_Out_Angle(0);
-					left_behind_motor.Set_Out_Pos(0);
-					right_behind_motor.Set_Out_Pos(0);
-					if(signal == true)
-					{
-						b++;
-					}
-					break;
+
 				default:
+					b = 0;
 					break;
 			}
 		}
@@ -289,9 +294,9 @@ namespace chassis_jack
 
 		if (left_behind_motor.Get_Out_Pos() < (-90.f / 360 * TWO_PI) && right_behind_motor.Get_Out_Pos() > (90.f / 360 * TWO_PI))
 		{
-			float jack_vel = (left_behind_motor.Get_Out_Rpm() - right_behind_motor.Get_Out_Rpm()) / 2.f * rpm_to_vel;
+			float jack_vel = (left_behind_motor.Get_Out_Rpm() - right_behind_motor.Get_Out_Rpm()) / 2.f * rpm_to_vel;// 计算撑杆末端线速度
 			
-			linear_vel_ -= jack_vel;
+			linear_vel_ -= jack_vel;// 抵消撑杆末端线速度
 		}
 		else
 		{

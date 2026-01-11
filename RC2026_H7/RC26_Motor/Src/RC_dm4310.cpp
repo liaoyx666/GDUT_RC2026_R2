@@ -7,8 +7,8 @@
 
 
 
-#define P_MIN -PI// rad
-#define P_MAX PI
+#define P_MIN -12.5f// rad
+#define P_MAX 12.5f
 
 #define V_MIN -30.0f// rad/s
 #define V_MAX 30.0f
@@ -32,7 +32,7 @@ namespace motor
 
 		tx_id = id;
 
-		rx_id = 0x300 + id;
+		rx_id = id;
 		rx_mask = 0xfff;
 
 		can_frame_type = can::FRAME_STD;
@@ -90,7 +90,6 @@ namespace motor
 				pid::Limit(&target_pos, P_MAX);
 				pid::Limit(&target_rpm, V_MAX * 9.54929658551f);
 				
-				
 				pos_int = float_to_uint(target_pos, P_MIN, P_MAX, 16);// rad
 				vel_int = float_to_uint(target_rpm / 9.54929658551f, V_MIN, V_MAX, 12);// rpm to rad
 				kp_int  = float_to_uint(target_k_pos, KP_MIN, KP_MAX, 12);
@@ -124,7 +123,7 @@ namespace motor
 	void DM4310::Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data)
 	{
 		error_code		= (rx_data[0] >> 4);//错误状态
-		angle 			= uint_to_float((rx_data[1] << 8) | rx_data[2], P_MIN, P_MAX, 16) + PI;//计算实际角度
+		pos 			= uint_to_float((rx_data[1] << 8) | rx_data[2], P_MIN, P_MAX, 16) + pos_offset;//计算实际角度
 		rpm 			= uint_to_float((rx_data[3] << 4) | (rx_data[4] >> 4), V_MIN, V_MAX, 12) * 9.54929658551f;//计算实际转速rad to rpm
 		torque 			= uint_to_float(((rx_data[4] & 0x0f) << 8) | rx_data[5], T_MIN, T_MAX, 12);//计算扭矩电流N*m
 		temperature 	= (float)(int8_t)rx_data[6];//线圈温度
@@ -139,28 +138,6 @@ namespace motor
 		{
 			is_enable = false;
 		}
-
-		
-		if (can_rx_is_first != true)//若不为第一次上发
-		{
-			if (last_angle < HALF_PI && angle > TWO_THIRD_PI)
-			{
-				cycle--;
-			}
-			else if (last_angle > TWO_THIRD_PI && angle < HALF_PI)
-			{
-				cycle++;
-			}
-		}
-		else can_rx_is_first = false;
-		
-		pos = cycle * TWO_PI + angle + pos_offset;
-		out_pos = pos / gear_ratio;
-		
-		if (pos > 6434) pos = 6434;
-		else if (pos < -6434) pos = -6434;
-		
-		last_angle = angle;
 	}
 	
 	
@@ -185,18 +162,14 @@ namespace motor
 					pid_pos.Update_Target(target_pos);
 					temp_target_rpm = pid_pos.Pid_Calculate();
 				}
-				else if (motor_mode == ANGLE_MODE)	//> 角度模式
-				{
-					pid_pos.Update_Real(angle);
-					pid_pos.Update_Target(target_angle);
-					temp_target_rpm = pid_pos.Pid_Calculate(true, PI);
-				}
 				
 				pid_spd.Update_Target(temp_target_rpm);
 				pid_spd.Update_Real(rpm);
 				target_torque = pid_spd.Pid_Calculate();
 			}
 		}
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 
 

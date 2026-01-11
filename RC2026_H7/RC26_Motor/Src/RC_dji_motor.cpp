@@ -96,6 +96,8 @@ namespace motor
 			pid_spd.Update_Real(rpm);
 			target_current = pid_spd.Pid_Calculate();
 		}
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 	
 	
@@ -125,17 +127,6 @@ namespace motor
 		// 计算转子旋转圈数
 		if (can_rx_is_first != true)
 		{
-//			if (last_angle < HALF_PI && angle > TWO_THIRD_PI)
-//			{
-//				cycle--;
-//				rotor_cycle--;
-//			}
-//			else if (last_angle > TWO_THIRD_PI && angle < HALF_PI)
-//			{
-//				cycle++;
-//				rotor_cycle++;
-//			}
-	
 			float delta_angle = angle - last_angle;
 			
 			if (delta_angle > PI)

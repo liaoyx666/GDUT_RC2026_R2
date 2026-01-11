@@ -4,6 +4,7 @@
 #include "RC_data_pool.h"
 #include "RC_chassis.h"
 #include "RC_task.h"
+#include "RC_nonlinear_pid.h"
 
 #ifdef __cplusplus
 
@@ -97,7 +98,6 @@ namespace path
 		
 		bool Get_Error_And_Vector(
 			data::RobotPose * robot_pose_,
-			float * target_yaw,
 			float * normal_error, 
 			float * tangent_error, 
 			vector2d::Vector2D * normal_vector, 
@@ -149,7 +149,7 @@ namespace path
 		
 		uint16_t temp_control_point_num = 0;
 		uint16_t temp_end_point_num = 0;
-	
+		
 		float last_smoothness;
 	
 		Path2_Generate_Curve_Status generate_status = GENERATE_JUST_FINISHED;
@@ -211,7 +211,7 @@ namespace path
 		uint16_t current_path_dx = 0;
 	
 	
-		uint8_t generate_path_dx = 0;
+		//uint8_t generate_path_dx = 0;
 	
 		uint8_t point_head = 0;
 		uint8_t point_tail = 0;
@@ -242,21 +242,26 @@ namespace path
 		// 线速度
 		float max_linear_vel = 0;
 		float max_linear_accel = 0;
-		float max_linear_decel = 0;
-		
-		float current_linear_vel = 0;
-		float current_linear_accel = 0;
-		float current_linear_decel = 0;
-		
+		float max_linear_decel = 0;	
 		
 		// 角速度
 		float max_angular_vel = 0;
 		float max_angular_accel = 0;
 		float max_angular_decel = 0;
 		
+
+			
+		float current_linear_vel = 0;
+		float current_linear_accel = 0;
+		float current_linear_decel = 0;
+		
+		
+		
 		float current_angular_vel = 0;
 		float current_angular_accel = 0;
 		float current_angular_decel = 0;
+			
+
 		
 		// 
 		data::RobotPose* robot_pose;
@@ -267,9 +272,21 @@ namespace path
 		// 
 		bool is_enable = false;
 		
-
+		vector2d::Vector2D last_v;
+		float last_vw;
+	
 		
-		PathEvent2* path_event_list[MAX_PATH_EVENT_NUM];
+		uint32_t last_time = 0;
+		
+
+		float last_tangent_v = 0;
+		float last_normal_v = 0;
+		
+		pid::NonlinearPid tangent_pid;
+		pid::NonlinearPid normal_pid;
+		pid::NonlinearPid yaw_pid;
+		
+		PathEvent2 * path_event_list[MAX_PATH_EVENT_NUM];
     };
 	/*------------------------------------------------------------------------------------------*/
 }

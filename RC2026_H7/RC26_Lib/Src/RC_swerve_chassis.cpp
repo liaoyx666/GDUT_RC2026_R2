@@ -33,7 +33,7 @@ namespace chassis
 		for (uint8_t i = 0; i < 4; i++)
 		{
 			steer_motor[i]->pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 12000, 10000, 10000, 10000, 10000, 16000.f, 12000);
+			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 12000, 10000, 10000, 10000, 10000, 15500.f, 11500);
 			steer_motor[i]->Reset_Out_Angle(0);
 		}
 		
@@ -117,7 +117,7 @@ namespace chassis
 		is_reposition[3] = false;
 	}
 
-#define STEER_MOTOR_INIT_RPM 50
+	#define STEER_MOTOR_INIT_RPM 40
 
 	// 底盘初始化
 	void Swerve4Chassis::Chassis_Init()

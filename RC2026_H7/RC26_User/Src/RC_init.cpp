@@ -2,6 +2,7 @@
 /*====================================外设初始化====================================*/
 // 定时中断
 tim::Tim tim7_1khz(htim7);
+tim::Tim tim13_500hz(htim13);
 tim::Tim tim4_timer(htim4);
 
 // can通讯
@@ -26,10 +27,10 @@ motor::M2006 m2006_2_can3(2, can3, tim7_1khz, 4.f * 36.f);
 motor::M2006 m2006_3_can3(3, can3, tim7_1khz, 4.f * 36.f);
 motor::M2006 m2006_4_can3(4, can3, tim7_1khz, 4.f * 36.f);
 
-motor::Vesc vesc_101_can3(101, can3, tim7_1khz, 21);
-motor::Vesc vesc_102_can3(102, can3, tim7_1khz, 21);
-motor::Vesc vesc_103_can3(103, can3, tim7_1khz, 21);
-motor::Vesc vesc_104_can3(104, can3, tim7_1khz, 21);
+motor::Vesc vesc_101_can3(101, can3, tim13_500hz, 21);
+motor::Vesc vesc_102_can3(102, can3, tim13_500hz, 21);
+motor::Vesc vesc_103_can3(103, can3, tim13_500hz, 21);
+motor::Vesc vesc_104_can3(104, can3, tim13_500hz, 21);
 // -----------------------------------------------------------
 
 
@@ -125,8 +126,6 @@ float wl1 = 0, wl2 = 0;
 
 void test(void *argument)
 {
-	
-
 //	sin_wave.Init();
 	wave.Init();
 	
@@ -141,21 +140,14 @@ void test(void *argument)
 
 	j60_1.pid_pos.Pid_Mode_Init(false, false, 0.1, true);
 	j60_1.pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 100, 5, 5, 5, 5, 50, 80);
-	
-	
-	
-		
+
 	m3508_left_front_can2.Reset_Out_Angle(0);
 	m3508_left_behind_can2.Reset_Out_Pos(0);
 	m3508_right_behind_can2.Reset_Out_Pos(0);
 	m3508_right_front_can2.Reset_Out_Angle(0);
-	
-	
-	
-	
+
 	HAL_Delay(10);
-	
-	
+
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
 //	rs04_120.Set_K_Spd(10);
@@ -168,18 +160,12 @@ void test(void *argument)
 	m2006_4.Set_Out_Pos(0);
 	m3508_2_c1.Set_Out_Pos(0);
 	j60_1.Set_Out_Pos(0);
-	
-	
-	
-	
+
 	m3508_left_front_can2.Set_Out_Angle(0);
 	m3508_left_behind_can2.Set_Out_Pos(0);
 	m3508_right_behind_can2.Set_Out_Pos(0);
 	m3508_right_front_can2.Set_Out_Angle(0);
-	
-	
-	
-	
+
 	remote_ctrl.signal_swa();
 	
 	for (;;)
@@ -208,7 +194,6 @@ void test(void *argument)
 				{
 					arm_task.Arm_Control(ARM_TASK::PICK_FRONT_UP_CUBE);
 				}
-				
 				else if (remote_ctrl.swb == 2)
 				{
 					arm_task.Arm_Control(ARM_TASK::PLACE_LEFT_CUBE);
@@ -256,6 +241,7 @@ void All_Init()
 
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
+	tim13_500hz.Tim_It_Start();
 	
 	jy901s.Uart_Rx_Start();
 	lidar_1.Uart_Rx_Start();

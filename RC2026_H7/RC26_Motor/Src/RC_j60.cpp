@@ -27,8 +27,8 @@
 
 namespace motor
 {
-	J60::J60(uint8_t id_, can::Can& can_, tim::Tim& tim_, bool use_mit_, float k_spd_, float k_pos_)
-		: motor::Motor(4.f), can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_)
+	J60::J60(uint8_t id_, can::Can& can_, tim::Tim& tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
+		: motor::Motor(4.f, is_reset_pos_), can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_)
 	{
 		if (id_ > 15) Error_Handler();
 		id = id_;
@@ -101,6 +101,8 @@ namespace motor
 				target_torque = pid_spd.Pid_Calculate();
 			}
 		}
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 
 
@@ -189,6 +191,12 @@ namespace motor
 			uint8_t temp_flag 	= rx_data[7] & 0x01;
 			float temp 			= uint_to_float((rx_data[7] & 0xfe) >> 1, TEMP_MIN, TEMP_MAX, 7);
 
+			if (is_reset_pos == true)
+			{
+				Reset_Pos(0);
+				is_reset_pos = false;
+			}
+			
 			out_pos = pos / gear_ratio;
 			
 			if (temp_flag == 1) temperature = temp; 

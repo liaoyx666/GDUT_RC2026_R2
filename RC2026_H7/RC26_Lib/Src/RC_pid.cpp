@@ -58,7 +58,11 @@ namespace pid
 		{
 			temp_target = target;
 		}
+		
+		float integral = 0, differential = 0, proportion = 0, feed_forward = 0;
 
+		float error = 0;
+		
 		/*-----------------------------------------前馈-------------------------------------------*/
 		if (kf != 0.f)
 		{

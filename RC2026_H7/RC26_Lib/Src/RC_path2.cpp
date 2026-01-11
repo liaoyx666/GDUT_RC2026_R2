@@ -244,7 +244,6 @@ namespace path
 
 	bool Path2::Get_Error_And_Vector(
 		data::RobotPose * robot_pose_,
-		float * target_yaw,
 		float * normal_error, 
 		float * tangent_error, 
 		vector2d::Vector2D * normal_vector, 
@@ -412,7 +411,7 @@ namespace path
 					generate_point_num++;
 				}
 				else
-				{                                               
+				{                                      
 					total_path_num++;
 					break;//生成已经结束 is_init = true
 				}
@@ -420,12 +419,103 @@ namespace path
 		}
 		
 		
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           	
+				
+		/*---------------------------------------------------------------------------*/
 		
 		
-		                                           
+		float normal_error;
+		float tangent_error; 
+		
+		
+		vector2d::Vector2D normal_vector;
+		vector2d::Vector2D tangent_vector;
+		
+		
+		float max_vel;
+		uint16_t current_point_num;
+		
+		
+		path[current_path_dx].Get_Error_And_Vector(
+			robot_pose,
+			&normal_error, 
+			&tangent_error, 
+			&normal_vector, 
+			&tangent_vector,
+			&max_vel,
+			&current_point_num
+		);
+		
+		max_vel = max_vel * sqrtf(current_linear_decel);
+		
+		float target_yaw = 0;
+
+		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
+		last_time = timer::Timer::Get_TimeStamp();
+
+		// 计算法向速度
+		float normal_v = normal_pid.NPid_Calculate(0, -normal_error);
+		
+		// 计算切向速度
+		float tangent_v = tangent_pid.NPid_Calculate(0, -tangent_error);
+
+		// 计算角速度
+		float vw = yaw_pid.NPid_Calculate(target_yaw, robot_pose->yaw);
+
+
+		float delta = chassis::Limit_Accel(tangent_v - last_tangent_v, current_linear_accel, dt);
+		
+		if (delta < 0)
+		{
+			// 不限制减速
+		}
+		else
+		{
+			tangent_v = last_tangent_v + delta;// 限制加速
+		}
+
+
+
+		delta = chassis::Limit_Accel(vw - last_vw, current_angular_accel, dt);
+		
+		if (delta < 0)
+		{
+			// 不限制减速
+		}
+		else
+		{
+			vw = last_vw + delta;// 限制加速
+		}
+		
+		
+		last_tangent_v = tangent_v;
+		last_normal_v = normal_v;
+		last_vw = vw;
+
+
+	
+		
+		
+		tangent_v = tangent_v > current_linear_vel ? current_linear_vel : tangent_v;
+		normal_v = normal_v > current_linear_vel ? current_linear_vel : normal_v;
+		
+		vw = vw > current_angular_vel ? current_angular_vel : vw;
+		
 		
 
+		
+		
+
+		
+		
+		// 向量化
+		normal_vector = normal_vector * normal_v;
+		tangent_vector = tangent_vector * tangent_v;
+		
+		
+		
+		vector2d::Vector2D v = normal_vector + tangent_vector;
+		
+		robot_chassis->Set_World_Vel(v, vw, robot_pose->yaw);
 	}
 	
 	

@@ -47,7 +47,7 @@ namespace motor
 	
     void Vesc::Tim_It_Process()
 	{
-		//
+		can->tx_frame_list[tx_frame_dx].new_message = true;
     }
 
     void Vesc::Can_Tx_Process()

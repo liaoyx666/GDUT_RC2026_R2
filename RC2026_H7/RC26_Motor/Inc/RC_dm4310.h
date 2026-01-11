@@ -30,19 +30,15 @@ namespace motor
 		void Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data) override;
 		void Tim_It_Process() override;
 		void Set_Current(float target_current_) override {} 
-		void Set_Angle(float target_angle_) override {}  
-		
+
 	private:
 		uint16_t id;
-		bool can_rx_is_first = true;
-	
+
 		uint8_t error_code;
 		float mos_temperature;
 		bool use_mit = false;
 		bool is_enable = false;
-	
-		int32_t cycle = 0;// 转子累计旋转圈数(用于计算pos)
-		float last_angle = 0;// 上一次转子角度(0 ~ 2pi)
+
 	};
 	
 	

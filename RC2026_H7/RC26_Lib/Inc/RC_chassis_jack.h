@@ -30,10 +30,8 @@ namespace chassis_jack
 
 		virtual ~Chassis_jack() {}
 
-		void chassis_up();
-		void chassis_down();
-		
-		void chassis_test(bool signal, bool state, float default_vel,    GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
+
+		void chassis_test(bool signal, uint8_t state, float default_vel,    GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
 												   float up_ready_vel,   GPIO_TypeDef* GPIOx2, uint16_t GPIO_Pin_2,
 												   float up_close_vel,   GPIO_TypeDef* GPIOx3, uint16_t GPIO_Pin_3,
 												   float down_close_vel, GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4);
