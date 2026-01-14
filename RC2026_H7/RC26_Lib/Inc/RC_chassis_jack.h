@@ -38,7 +38,7 @@ namespace chassis_jack
 		
 		chassis::Chassis& v_limit;
 		uint8_t b = 0;
-		float tag = 360;
+		float tag = 390;
 		float dis = 0;
 			
 		bool gd1 = 0;
@@ -68,6 +68,8 @@ namespace chassis_jack
 		
 		motor::Motor& left_small_wheel;
 		motor::Motor& right_small_wheel;
+		
+		uint32_t last_time = 0;
     };
 }
 

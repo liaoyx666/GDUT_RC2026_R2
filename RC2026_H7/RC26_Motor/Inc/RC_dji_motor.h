@@ -14,7 +14,7 @@ namespace motor
 	class DjiMotor : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:
-		DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 1.f);
+		DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 1.f, bool is_reset_pos_angle = false);
 		virtual ~DjiMotor() {}
 
 		void Reset_Out_Angle(float out_angle_) override;

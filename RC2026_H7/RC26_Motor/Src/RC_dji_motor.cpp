@@ -2,7 +2,8 @@
 
 namespace motor
 {	
-	DjiMotor::DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_) : can::CanHandler(can_), tim::TimHandler(tim_), Motor(gear_ratio_)
+	DjiMotor::DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_, bool is_reset_pos_angle)
+	: can::CanHandler(can_), tim::TimHandler(tim_), Motor(gear_ratio_, is_reset_pos_angle)
 	{
 		
 	}
@@ -169,10 +170,17 @@ namespace motor
 		}
 		
 		// 重置rotor_cycle防止float精度丢失
-		if (rotor_pos > 4000.f || rotor_pos < -4000.f)
+		if (rotor_pos > 5000.f || rotor_pos < -5000.f)
 		{
 			rotor_cycle = 0;
 			out_angle_offset = out_angle - angle;
+		}
+
+		if (is_reset_pos == true)
+		{
+			Reset_Pos(0);
+			Reset_Out_Angle(0);
+			is_reset_pos = false;
 		}
 	}
 	

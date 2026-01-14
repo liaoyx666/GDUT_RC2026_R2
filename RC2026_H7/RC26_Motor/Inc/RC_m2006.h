@@ -7,7 +7,7 @@ namespace motor
 	class M2006 : public DjiMotor
 	{
 	public:
-		M2006(uint8_t id_, can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 36.f);
+		M2006(uint8_t id_, can::Can &can_, tim::Tim &tim_, float gear_ratio_ = 36.f, bool is_reset_pos_angle = false);
 		virtual ~M2006() {}
 
 	protected:

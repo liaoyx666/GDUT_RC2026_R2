@@ -7,7 +7,7 @@ namespace motor
 	class M6020 : public DjiMotor
 	{
 	public:
-		M6020(uint8_t id_, can::Can &can_, tim::Tim &tim_);
+		M6020(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool is_reset_pos_angle = false);
 		virtual ~M6020() {}
 
 	protected:

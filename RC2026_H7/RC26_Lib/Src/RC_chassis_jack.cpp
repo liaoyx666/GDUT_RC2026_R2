@@ -37,9 +37,11 @@ namespace chassis_jack
 		max_linear_vel = fabsf(max_linear_vel_);
 	}
 
-
-	#define UP_TO_DEFAULT
+	// 延时
+	#define UP_HOLD_BEHAND_LEG_2_DEFAULT_TIME 200000 // 
 	
+	#define DOWN_STRWTCH_FRONT_LEG_2_DOWN_TIME 1000000 // 
+	#define DOWN_DOWN_2_DEFAULT_TIME 1000000 // 
 		
 	void Chassis_jack::chassis_test(
 		bool signal, uint8_t state, float default_vel, GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
@@ -70,7 +72,7 @@ namespace chassis_jack
 		}
 		
 		// 撤销准备，回到默认状态
-		if (state == 3 && b == 1)
+		if (state == 2 && b == 1)
 		{
 			b = 0;
 		}
@@ -94,6 +96,7 @@ namespace chassis_jack
 			
 					right_front_motor.Set_Out_Angle(0);
 					right_behind_motor.Set_Out_Pos(0);
+					
 					if(signal == true)
 					{
 						b++;
@@ -159,7 +162,9 @@ namespace chassis_jack
 					if(gd3 == 0)
 					{
 						b++;
+						last_time = timer::Timer::Get_TimeStamp();
 					}
+					
 					break;
 					
 				case 4:
@@ -174,16 +179,17 @@ namespace chassis_jack
 					left_behind_motor.Set_Out_Pos(0);
 					right_behind_motor.Set_Out_Pos(0);
 
-					if(signal == true)
+					if(timer::Timer::Get_DeltaTime(last_time) > UP_HOLD_BEHAND_LEG_2_DEFAULT_TIME)
 					{
 						b = 0;
 					}
+					
 					break;
 					
 				default:
 					b = 0;
 					break;
-			}		
+			}
 		}
 		else if(up_or_down == 1)
 		{
@@ -202,10 +208,12 @@ namespace chassis_jack
 					left_behind_motor.Set_Out_Pos(0);
 					right_front_motor.Set_Out_Angle(0);
 					right_behind_motor.Set_Out_Pos(0);
+				
 					if(signal == true)
 					{
 						b++;
 					}
+					
 					break;
 					
 				case 1:
@@ -221,10 +229,12 @@ namespace chassis_jack
 					right_front_motor.Set_Out_Angle(270.f / 360 * TWO_PI);
 					left_behind_motor.Set_Out_Pos(-90.f / 360 * TWO_PI);
 					right_behind_motor.Set_Out_Pos(90.f / 360 * TWO_PI);	//水平外展
+				
 					if(gd4 == 1)
 					{
 						b++;
 					}
+					
 					break;
 					
 				case 2:
@@ -238,10 +248,13 @@ namespace chassis_jack
 				
 					left_behind_motor.Set_Out_Pos(-PI);
 					right_behind_motor.Set_Out_Pos(PI);
+					
 					if(gd2 == 1)
 					{
 						b++;
+						last_time = timer::Timer::Get_TimeStamp();
 					}
+					
 					break;
 					
 				case 3:
@@ -255,10 +268,13 @@ namespace chassis_jack
 				
 					left_front_motor.Set_Out_Angle(PI);
 					right_front_motor.Set_Out_Angle(PI);
-					if(signal == true)
+					
+					if(timer::Timer::Get_DeltaTime(last_time) > DOWN_STRWTCH_FRONT_LEG_2_DOWN_TIME)
 					{
 						b++;
+						last_time = timer::Timer::Get_TimeStamp();
 					}
+					
 					break;
 					
 				case 4:
@@ -269,15 +285,17 @@ namespace chassis_jack
 					left_behind_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000 / ((10 * 3591.f / 187.f) / 99.506f), 4000, 2000, 2000, 2000, 600 / ((10 * 3591.f / 187.f) / 99.506f), 7000 / ((10 * 3591.f / 187.f) / 99.506f));
 					
 					v_limit.Set_Max_Linear_Vel(down_close_vel);
-				
+					
 					left_front_motor.Set_Out_Angle(256.f / 360 * TWO_PI);
 					right_front_motor.Set_Out_Angle(104.f / 360 * TWO_PI);
 					left_behind_motor.Set_Out_Pos(-100.f / 360 * TWO_PI);
 					right_behind_motor.Set_Out_Pos(100.f / 360 * TWO_PI);
-					if(signal == true)
+					
+					if(timer::Timer::Get_DeltaTime(last_time) > DOWN_DOWN_2_DEFAULT_TIME)
 					{
 						b = 0;
 					}
+					
 					break;
 
 				default:

@@ -49,10 +49,10 @@ motor::Go 		go_0_3(0, 3, can1, tim7_1khz);
 
 
 // 4撑杆电机-------------------------------------------------
-motor::M3508 m3508_left_front_can2(1, can2, tim7_1khz, 10 * 3591.f / 187.f);
-motor::M3508 m3508_left_behind_can2(2, can2, tim7_1khz, 99.506f);
-motor::M3508 m3508_right_behind_can2(3, can2, tim7_1khz, 99.506f);
-motor::M3508 m3508_right_front_can2(4, can2, tim7_1khz, 10 * 3591.f / 187.f);
+motor::M3508 m3508_left_front_can2(1, can2, tim7_1khz, 10 * 3591.f / 187.f, true);
+motor::M3508 m3508_left_behind_can2(2, can2, tim7_1khz, 99.506f, true);
+motor::M3508 m3508_right_behind_can2(3, can2, tim7_1khz, 99.506f, true);
+motor::M3508 m3508_right_front_can2(4, can2, tim7_1khz, 10 * 3591.f / 187.f, true);
 // -----------------------------------------------------------
 
 // 主动轮电机-------------------------------------------------
@@ -66,9 +66,6 @@ timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
 
 path::PathPlan path_plan(2, 1.f);// 路径规划
 
-arm::ArmDynamics arm_gravity;// 机械臂重力补偿
-
-
 
 
 /*====================================硬件模块初始化====================================*/
@@ -77,12 +74,6 @@ ros::Map 		map(CDC_HS, 2);// 地图数据接收
 ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
 lidar::LiDAR lidar_1(huart3);
-
-// 3全向轮底盘
-//chassis::OmniChassis omni_chassis(
-//	m3508_3, m3508_1, m3508_2, 3, 3
-//);
-
 
 // 4舵轮底盘
 chassis::Swerve4Chassis swerve_4_chassis(
@@ -107,8 +98,7 @@ chassis_jack::Chassis_jack chassis_jack_test(
 );
 
 
-Arm_task arm_task(tim7_1khz);
-
+//Arm_task arm_task(tim7_1khz);
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
@@ -116,7 +106,6 @@ imu::JY901S jy901s(huart1);// 陀螺仪
 
 /*====================================DeBug====================================*/
 SquareWave wave(1000, 3000);// 用于调pid
-//SinWave sin_wave(1000, 3000);
 
 float target = 0;
 float a = 0;
@@ -141,12 +130,6 @@ void test(void *argument)
 	j60_1.pid_pos.Pid_Mode_Init(false, false, 0.1, true);
 	j60_1.pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 100, 5, 5, 5, 5, 50, 80);
 
-	m3508_left_front_can2.Reset_Out_Angle(0);
-	m3508_left_behind_can2.Reset_Out_Pos(0);
-	m3508_right_behind_can2.Reset_Out_Pos(0);
-	m3508_right_front_can2.Reset_Out_Angle(0);
-
-	HAL_Delay(10);
 
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
@@ -155,7 +138,7 @@ void test(void *argument)
 //	rs04_127.Set_ZeroPos();
 //	rs04_127.Set_K_Pos(50);
 //	rs04_127.Set_K_Spd(10);
-	
+
 	go_0_3.Set_Out_Pos(0);
 	m2006_4.Set_Out_Pos(0);
 	m3508_2_c1.Set_Out_Pos(0);
@@ -172,34 +155,30 @@ void test(void *argument)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
+
 		
-//		m2006_3_can3.Set_Out_Pos(a);
-//		m2006_4_can3.Set_Out_Pos(a);
-		
-//		rs04_120.Set_Torque(a);
-//		rs04_127.Set_Torque(a);
 		
 		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f);
 		
-		if (remote_ctrl.signal_swa() == true)
-		{
-			if (arm_task.Arm_IsBusy() == false)
-			{
+//		if (remote_ctrl.signal_swa() == true)
+//		{
+//			if (arm_task.Arm_IsBusy() == false)
+//			{
 
-				if (remote_ctrl.swb == 0)
-				{
-					arm_task.Arm_Control(ARM_TASK::PICK_FRONT_UP_CUBE);
-				}
-				else if (remote_ctrl.swb == 1)
-				{
-					arm_task.Arm_Control(ARM_TASK::PICK_FRONT_UP_CUBE);
-				}
-				else if (remote_ctrl.swb == 2)
-				{
-					arm_task.Arm_Control(ARM_TASK::PLACE_LEFT_CUBE);
-				}
-			}
-		}
+//				if (remote_ctrl.swb == 0)
+//				{
+//					arm_task.Arm_Control(ARM_TASK::PICK_FRONT_UP_CUBE);
+//				}
+//				else if (remote_ctrl.swb == 1)
+//				{
+//					arm_task.Arm_Control(ARM_TASK::PICK_FRONT_UP_CUBE);
+//				}
+//				else if (remote_ctrl.swb == 2)
+//				{
+//					arm_task.Arm_Control(ARM_TASK::PLACE_LEFT_CUBE);
+//				}
+//			}
+//		}
 		
 		
 		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc, 2.5, GPIOA, GPIO_PIN_8,

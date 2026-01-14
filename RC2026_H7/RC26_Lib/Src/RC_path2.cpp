@@ -3,6 +3,38 @@
 namespace path
 {
 	
+	PathEvent2::PathEvent2(uint8_t id_)
+	{
+	
+	}
+	
+	bool PathEvent2::Is_Start()
+	{
+		if (is_start)
+		{
+			is_start = false;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	void PathEvent2::Continue()
+	{
+		if (current_point_num != continue_point_num)// 防止多次触发
+		{
+			is_continue = true;
+			continue_point_num = current_point_num;
+		}
+	}
+	
+	
+	/*--------------------------------------------------------------------------------*/
+	
+	
 	// 使用点就返回true
 	bool Path2::Generate_Path(Point2 point_)
 	{
@@ -37,6 +69,7 @@ namespace path
 			case GENERATE_JUST_FINISHED:// 刚生成完
 				if (point_.is_end == true)
 				{
+					curve[curve_num].Set_Decel(point_.linear_decel);
 					curve[curve_num].Bezier_Update(temp_start_point, point_.coordinate);// 生成最后直线
 					total_len += curve[curve_num].Get_len();
 					curve[curve_num].Set_Throughout_Max_Vel(point_.linear_vel);
@@ -49,6 +82,7 @@ namespace path
 				{
 					if (point_.smoothness < 1e-2f)
 					{
+						curve[curve_num].Set_Decel(point_.linear_decel);
 						curve[curve_num].Bezier_Update(temp_start_point, point_.coordinate);// 生成直线
 						total_len += curve[curve_num].Get_len();
 						curve[curve_num].Set_Throughout_Max_Vel(point_.linear_vel);
@@ -68,6 +102,8 @@ namespace path
 						else
 						{
 							temp_end_point = vector2d::Vector2D::lerp(point_.coordinate, temp_start_point, point_.smoothness);// 过渡点
+							
+							curve[curve_num].Set_Decel(PATH_MAX_PARAM);
 							curve[curve_num].Bezier_Update(temp_start_point, temp_end_point);// 生成过渡直线
 							total_len += curve[curve_num].Get_len();
 							curve[curve_num].Set_Throughout_Max_Vel(PATH_MAX_PARAM);
@@ -76,6 +112,7 @@ namespace path
 							
 							temp_start_point = temp_end_point;
 						}
+						
 						last_smoothness = point_.smoothness;
 						temp_control_point = point_.coordinate;// 控制点
 						temp_control_point_num = point_.point_num;
@@ -91,12 +128,15 @@ namespace path
 					if (last_smoothness < 1.f - 1e-2f)
 					{
 						temp_end_point = vector2d::Vector2D::lerp(temp_control_point, point_.coordinate, last_smoothness);
+						
+						curve[curve_num].Set_Decel(PATH_MAX_PARAM);
 						curve[curve_num].Bezier_Update(temp_start_point, temp_control_point, temp_end_point);// 生成最后曲线
 						total_len += curve[curve_num].Get_len();
 						curve[curve_num].Set_Throughout_Max_Vel(PATH_MAX_PARAM);
 						curve[curve_num].Set_Num(temp_control_point_num, 0);
 						curve_num++;
 						
+						curve[curve_num].Set_Decel(point_.linear_decel);
 						curve[curve_num].Bezier_Update(temp_end_point, point_.coordinate);// 生成最后过渡直线
 						total_len += curve[curve_num].Get_len();
 						curve[curve_num].Set_Throughout_Max_Vel(point_.linear_vel);
@@ -106,6 +146,7 @@ namespace path
 					}
 					else
 					{
+						curve[curve_num].Set_Decel(point_.linear_decel);
 						curve[curve_num].Bezier_Update(temp_start_point, temp_control_point, point_.coordinate);// 生成最后曲线
 						total_len += curve[curve_num].Get_len();
 						curve[curve_num].Set_Throughout_Max_Vel(point_.linear_vel);
@@ -122,12 +163,15 @@ namespace path
 						if (last_smoothness < 1.f - 1e-2f)
 						{
 							temp_end_point = vector2d::Vector2D::lerp(temp_control_point, point_.coordinate, last_smoothness);// 过渡点
+							
+							curve[curve_num].Set_Decel(PATH_MAX_PARAM);
 							curve[curve_num].Bezier_Update(temp_start_point, temp_control_point, temp_end_point);// 生成曲线
 							total_len += curve[curve_num].Get_len();
 							curve[curve_num].Set_Throughout_Max_Vel(PATH_MAX_PARAM);
 							curve[curve_num].Set_Num(temp_control_point_num, 0);
 							curve_num++;
 							
+							curve[curve_num].Set_Decel(point_.linear_decel);
 							curve[curve_num].Bezier_Update(temp_end_point, point_.coordinate);// 生成过渡直线
 							total_len += curve[curve_num].Get_len();
 							curve[curve_num].Set_Throughout_Max_Vel(point_.linear_vel);
@@ -137,6 +181,7 @@ namespace path
 						}
 						else
 						{
+							curve[curve_num].Set_Decel(point_.linear_decel);
 							curve[curve_num].Bezier_Update(temp_start_point, temp_control_point, point_.coordinate);// 生成曲线
 							total_len += curve[curve_num].Get_len();
 							curve[curve_num].Set_Throughout_Max_Vel(point_.linear_vel);
@@ -153,6 +198,8 @@ namespace path
 						if (last_smoothness + point_.smoothness > 1.f - 1e-2f)
 						{
 							temp_end_point = vector2d::Vector2D::lerp(temp_control_point, point_.coordinate, 1.f * last_smoothness / (point_.smoothness + last_smoothness));// 曲线过渡点
+							
+							curve[curve_num].Set_Decel(PATH_MAX_PARAM);
 							curve[curve_num].Bezier_Update(temp_start_point, temp_control_point, temp_end_point);// 生成曲线
 							total_len += curve[curve_num].Get_len();
 							curve[curve_num].Set_Throughout_Max_Vel(PATH_MAX_PARAM);
@@ -168,6 +215,8 @@ namespace path
 						else
 						{
 							temp_end_point = vector2d::Vector2D::lerp(temp_control_point, point_.coordinate, last_smoothness);
+							
+							curve[curve_num].Set_Decel(PATH_MAX_PARAM);
 							curve[curve_num].Bezier_Update(temp_start_point, temp_control_point, temp_end_point);// 生成曲线
 							total_len += curve[curve_num].Get_len();
 							curve[curve_num].Set_Throughout_Max_Vel(PATH_MAX_PARAM);
@@ -175,9 +224,11 @@ namespace path
 							curve_num++;
 							
 							temp_start_point = vector2d::Vector2D::lerp(point_.coordinate, temp_control_point, point_.smoothness);// 过度直线结束点
+							
+							curve[curve_num].Set_Decel(PATH_MAX_PARAM);
 							curve[curve_num].Bezier_Update(temp_end_point, temp_start_point);// 曲线间过渡直线
 							total_len += curve[curve_num].Get_len();
-							curve[curve_num].Set_Throughout_Max_Vel(PATH_MAX_PARAM);
+							curve[curve_num].Set_Throughout_Max_Vel(PATH_MAX_PARAM);				
 							curve[curve_num].Set_Num(0, 0);
 							curve_num++;
 							
@@ -249,7 +300,9 @@ namespace path
 		vector2d::Vector2D * normal_vector, 
 		vector2d::Vector2D * tangent_vector,
 		float * max_vel,
-		uint16_t * current_point_num
+		uint16_t * current_point_num,
+		uint16_t * arrive_point_num,
+		vector2d::Vector2D * tangent_yaw_vector
 	)
 	{
 		if (is_init == false) return false;
@@ -307,7 +360,8 @@ namespace path
 			*normal_error = (*normal_vector).length();
 			
 			*normal_vector = (*normal_vector).normalize();
-
+			
+			*tangent_yaw_vector = curve[current_curve_dx].Get_Tangent_Vector(0);
 		}
 		else if (current_t >= 1)// 直接锁定终点
 		{
@@ -319,6 +373,7 @@ namespace path
 			
 			*normal_vector = (*normal_vector).normalize();
 
+			*tangent_yaw_vector = curve[current_curve_dx].Get_Tangent_Vector(1);
 		}
 		else// 在曲线中
 		{
@@ -328,7 +383,8 @@ namespace path
 			*tangent_vector = curve[current_curve_dx].Get_Tangent_Vector(current_t);
 			
 			*normal_vector = curve[current_curve_dx].Get_Normal_Vector(coordinate, current_t);
-
+			
+			*tangent_yaw_vector = *tangent_vector;
 		}
 		
 		*max_vel = curve[current_curve_dx].Get_Max_Vel(current_t);
@@ -339,12 +395,13 @@ namespace path
 		if (current_t >= 0.5f)
 		{
 			curve_more_than_half = true;
-		}		
+		}
 		
 		
 		if (is_start == false)
 		{
 			*current_point_num = start_point_num;
+			*arrive_point_num = start_point_num;
 		}
 		else
 		{
@@ -357,10 +414,20 @@ namespace path
 				if (curve_more_than_half == false)
 				{
 					*current_point_num = curve[current_curve_dx].Get_Control_Point_Num();
+					
+					if (current_curve_dx > 1)
+					{
+						*arrive_point_num = curve[current_curve_dx - 1].Get_End_Point_Num();
+					}
+					else
+					{
+						*arrive_point_num = start_point_num;
+					}
 				}
 				else
 				{
 					*current_point_num = curve[current_curve_dx].Get_End_Point_Num();
+					*arrive_point_num = curve[current_curve_dx].Get_Control_Point_Num();
 				}
 			}
 		}
@@ -372,24 +439,7 @@ namespace path
 		return true;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/*-------------------------------------------------------------------------------------------*/
 	
 	PathPlan2::PathPlan2(data::RobotPose& robot_pose_, chassis::Chassis& robot_chassis_)
@@ -398,7 +448,20 @@ namespace path
 		
 	}
 	
+	bool PathPlan2::Next_Path()
+	{
+		if (path[current_path_num % 2].Is_End() && path[(current_path_num + 1) % 2].Is_Init())
+		{
+			current_path_num++;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 	
+
 	
 	void PathPlan2::Task_Process()
 	{
@@ -411,58 +474,130 @@ namespace path
 					generate_point_num++;
 				}
 				else
-				{                                      
+				{
 					total_path_num++;
 					break;//生成已经结束 is_init = true
 				}
 			}
 		}
 		
-		
-				
 		/*---------------------------------------------------------------------------*/
 		
 		
 		float normal_error;
-		float tangent_error; 
-		
+		float tangent_error;
 		
 		vector2d::Vector2D normal_vector;
 		vector2d::Vector2D tangent_vector;
-		
+		vector2d::Vector2D tangent_yaw_vector;
 		
 		float max_vel;
 		uint16_t current_point_num;
+		uint16_t arrive_point_num;
 		
-		
-		path[current_path_dx].Get_Error_And_Vector(
+		path[current_path_num % 2].Get_Error_And_Vector(
 			robot_pose,
 			&normal_error, 
 			&tangent_error, 
 			&normal_vector, 
 			&tangent_vector,
 			&max_vel,
-			&current_point_num
+			&current_point_num,
+			&arrive_point_num,
+			&tangent_yaw_vector
 		);
 		
-		max_vel = max_vel * sqrtf(current_linear_decel);
+		/*---------------------------------------------------------------------------*/
 		
+		// 判断是否到达终点
+		if (path[current_path_num % 2].Is_End())
+		{
+			// 判断是否有事件发生
+			if (point[current_point_num % MAX_PATHPOINT_NUM].have_event && point[current_point_num % MAX_PATHPOINT_NUM].is_stop)
+			{
+				// 有事件
+				if (path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->current_point_num != current_point_num)// 防止重复触发
+				{
+					path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->is_start = true;// 事件开始
+					path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->current_point_num = current_point_num;// 更新事件点
+				}
+				
+				if (path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->is_continue)
+				{
+					Next_Path();
+					path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->is_continue = false;
+				}
+			}
+			else
+			{
+				// 无事件，直接切换下一条路径
+				Next_Path();
+			}
+		}
+		else
+		{
+			if (point[arrive_point_num % MAX_PATHPOINT_NUM].have_event)
+			{
+				if (path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->current_point_num != current_point_num)// 防止重复触发
+				{
+					path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->is_start = true;// 事件开始
+					path_event_list[point[current_point_num % MAX_PATHPOINT_NUM].event_id - 1]->current_point_num = current_point_num;// 更新
+				}
+			}
+		}
+
+		/*-------------------------------------------------------------------------------------------*/
+		
+		float current_linear_vel    = point[current_point_num % MAX_PATHPOINT_NUM].linear_vel;
+		float current_linear_accel  = point[current_point_num % MAX_PATHPOINT_NUM].linear_accel;
+		float current_linear_decel  = point[current_point_num % MAX_PATHPOINT_NUM].linear_decel;
+		
+		float current_angular_vel   = point[current_point_num % MAX_PATHPOINT_NUM].angular_vel;
+		float current_angular_accel = point[current_point_num % MAX_PATHPOINT_NUM].angular_accel;
+		float current_angular_decel = point[current_point_num % MAX_PATHPOINT_NUM].angular_decel;
+		
+		bool use_tangent_yaw        = point[current_point_num % MAX_PATHPOINT_NUM].use_tangent_yaw;
+		
+		bool have_leave_target_yaw  = point[current_point_num % MAX_PATHPOINT_NUM].have_leave_target_yaw;
+
+
+        
 		float target_yaw = 0;
 
+		
+		if (have_leave_target_yaw == true && path[current_path_num % 2].Is_Start() == false)
+		{
+			target_yaw = path[current_path_num % 2].start_target_angle;// 起始目标角度
+		}
+		else if (use_tangent_yaw == true)
+		{
+			target_yaw = tangent_yaw_vector.angle();// 切向角度
+		}
+		else
+		{
+			target_yaw = point[current_point_num % MAX_PATHPOINT_NUM].target_yaw;// 目标角度
+		}
+
+		
 		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
 		last_time = timer::Timer::Get_TimeStamp();
 
+
+
 		// 计算法向速度
-		float normal_v = normal_pid.NPid_Calculate(0, -normal_error);
+		float normal_v  = normal_pid.NPid_Calculate(0, -normal_error);
 		
 		// 计算切向速度
 		float tangent_v = tangent_pid.NPid_Calculate(0, -tangent_error);
 
 		// 计算角速度
-		float vw = yaw_pid.NPid_Calculate(target_yaw, robot_pose->yaw);
+		float vw        = yaw_pid.NPid_Calculate(target_yaw, robot_pose->yaw, true, PI);
 
 
-		float delta = chassis::Limit_Accel(tangent_v - last_tangent_v, current_linear_accel, dt);
+
+		float delta = 0;
+
+		delta = chassis::Limit_Accel(tangent_v - last_tangent_v, current_linear_accel, dt);
 		
 		if (delta < 0)
 		{
@@ -472,8 +607,6 @@ namespace path
 		{
 			tangent_v = last_tangent_v + delta;// 限制加速
 		}
-
-
 
 		delta = chassis::Limit_Accel(vw - last_vw, current_angular_accel, dt);
 		
@@ -488,59 +621,51 @@ namespace path
 		
 		
 		last_tangent_v = tangent_v;
-		last_normal_v = normal_v;
-		last_vw = vw;
+		last_normal_v  = normal_v;
+		last_vw        = vw;
 
 
 	
 		
-		
-		tangent_v = tangent_v > current_linear_vel ? current_linear_vel : tangent_v;
-		normal_v = normal_v > current_linear_vel ? current_linear_vel : normal_v;
-		
-		vw = vw > current_angular_vel ? current_angular_vel : vw;
-		
-		
-
+		tangent_v = tangent_v > max_vel             ? max_vel             : tangent_v;
+		tangent_v = tangent_v > current_linear_vel  ? current_linear_vel  : tangent_v;
+		normal_v  = normal_v  > max_linear_vel      ? max_linear_vel      : normal_v;
+		vw        = vw        > current_angular_vel ? current_angular_vel : vw;
 		
 		
 
-		
-		
 		// 向量化
-		normal_vector = normal_vector * normal_v;
+		normal_vector  = normal_vector  * normal_v;
 		tangent_vector = tangent_vector * tangent_v;
-		
-		
 		
 		vector2d::Vector2D v = normal_vector + tangent_vector;
 		
 		robot_chassis->Set_World_Vel(v, vw, robot_pose->yaw);
 	}
 	
-	
-	
-	
-	                  
-	
-	
+
 	bool PathPlan2::Add_One_Point(
-		vector2d::Vector2D coordinate_,	// 坐标
-		float smoothness_,				// 平滑度
-		float target_yaw_,				// 到达前目标yaw
-		float leave_target_yaw_,		// 离开前目标yaw
-		float linear_vel_,				// 到达前最大线速度
-		float linear_accel_,			// 到达前最大线加速度
-		float linear_decel_,			// 到达前最大线减速度
-		float angular_vel_,				// 到达前最大角速度
-		float angular_accel_,			// 到达前最大角加速度
-		float angular_decel_,			// 到达前最大角减速度
-		bool have_leave_target_yaw_,	// 是否有离开前目标yaw
-		bool have_target_yaw_,			// 是否有到达前目标yaw
-		bool use_tangent_yaw_,			// yaw是否朝切线方向
-		bool is_end_,					// 是否为结束点
-		bool have_event_				// 是否包含事件
-	)
+		vector2d::Vector2D coordinate_,					// 坐标  
+	
+		float              smoothness_,					// 平滑度						
+		float              target_yaw_,					// 到达前目标yaw			
+		float              leave_target_yaw_,			// 离开前目标yaw			
+		float              linear_vel_,					// 到达前最大线速度						
+		float              linear_accel_,				// 到达前最大线加速度								
+		float              linear_decel_,				// 到达前最大线减速度									
+		float              angular_vel_,				// 到达前最大角速度						
+		float              angular_accel_,				// 到达前最大角加速度											
+		float              angular_decel_,				// 到达前最大角减速度
+
+		bool               use_tangent_yaw_,			// yaw是否朝切线方向												
+		bool               is_end_,						// 是否为结束点		
+		bool               is_stop_,					// 是否停止			
+		bool               have_event_,					// 是否包含事件							
+		bool               have_target_yaw_,			// 是否有到达前目标yaw						
+		bool               have_leave_target_yaw_,		// 是否有离开前目标yaw
+														
+		uint8_t            event_id_					// 事件id
+	)								
 	{
 		uint16_t free_space = (point_head - point_tail - 1 + MAX_PATHPOINT_NUM) % MAX_PATHPOINT_NUM;
 		
@@ -550,28 +675,35 @@ namespace path
 		}
 		else
 		{
-			point[point_tail].point_num = total_point_num;
+			target_yaw_       = fmaxf(fminf(target_yaw_, PI), -PI);
+			leave_target_yaw_ = fmaxf(fminf(leave_target_yaw_, PI), -PI);
+
 			
-			total_point_num++;
-			
-			point[point_tail].coordinate = coordinate_;// 坐标
-			point[point_tail].smoothness = smoothness_;// 平滑度
-			point[point_tail].target_yaw = target_yaw_;// 到达前目标yaw
-			point[point_tail].leave_target_yaw = leave_target_yaw_;// 离开前目标yaw
-			point[point_tail].linear_vel = (linear_vel_ > max_linear_vel ? max_linear_vel : linear_vel_);
-			point[point_tail].linear_accel = (linear_accel_ > max_linear_accel ? max_linear_accel : linear_accel_);
-			point[point_tail].linear_decel = (linear_decel_ > max_linear_decel ? max_linear_decel : linear_decel_);                                                                                   
-			point[point_tail].angular_vel = (angular_vel_ > max_angular_vel ? max_angular_vel : angular_vel_);
-			point[point_tail].angular_accel = (angular_accel_ > max_angular_accel ? max_angular_accel : angular_accel_);
-			point[point_tail].angular_decel = (angular_decel_ > max_angular_decel ? max_angular_decel : angular_decel_);
-			point[point_tail].use_tangent_yaw = use_tangent_yaw_;
-			point[point_tail].is_end = is_end_;
-			point[point_tail].have_event = have_event_;
+			point[point_tail].coordinate            = coordinate_;// 坐标
+											       
+			point[point_tail].smoothness            = smoothness_;// 平滑度
+			point[point_tail].target_yaw            = target_yaw_;// 到达前目标yaw
+			point[point_tail].leave_target_yaw      = leave_target_yaw_;// 离开前目标yaw 
+			point[point_tail].linear_vel            = (linear_vel_    > max_linear_vel    ? max_linear_vel    : linear_vel_   );
+			point[point_tail].linear_accel          = (linear_accel_  > max_linear_accel  ? max_linear_accel  : linear_accel_ );
+			point[point_tail].linear_decel          = (linear_decel_  > max_linear_decel  ? max_linear_decel  : linear_decel_ );                                                                                   
+			point[point_tail].angular_vel           = (angular_vel_   > max_angular_vel   ? max_angular_vel   : angular_vel_  );
+			point[point_tail].angular_accel         = (angular_accel_ > max_angular_accel ? max_angular_accel : angular_accel_);
+			point[point_tail].angular_decel         = (angular_decel_ > max_angular_decel ? max_angular_decel : angular_decel_);
+
+			point[point_tail].use_tangent_yaw       = use_tangent_yaw_;
+			point[point_tail].is_end                = is_end_;
+			point[point_tail].is_stop               = is_stop_;
+			point[point_tail].have_event            = have_event_;
+			point[point_tail].have_target_yaw       = have_target_yaw_;			// 是否有到达前目标yaw
 			point[point_tail].have_leave_target_yaw = have_leave_target_yaw_;		// 是否有离开前目标yaw
-			point[point_tail].have_target_yaw = have_target_yaw_;			// 是否有到达前目标yaw
 			
-			
-			
+			point[point_tail].point_num             = total_point_num;
+			point[point_tail].event_id              = event_id_;
+
+
+			total_point_num++;
+	
 			point_tail = (point_tail + 1) % MAX_PATHPOINT_NUM;
 			
 			return true;
@@ -581,70 +713,92 @@ namespace path
 	
 	
 	
+
+	
+	
+	
+	
+	
 	// 添加结束点
 	bool PathPlan2::Add_End_Point(
-		vector2d::Vector2D coordinate_, 
-		bool have_event_,
-		float target_yaw_,
-		float leave_target_yaw_,
-		float linear_vel_,
-		float linear_accel_,
-		float linear_decel_,
-		float angular_vel_,
-		float angular_accel_,
-		float angular_decel_
+		vector2d::Vector2D coordinate_,				// 坐标  
+					
+		float              target_yaw_,				// 到达前目标yaw					
+		float              leave_target_yaw_,		// 离开前目标yaw					
+		float              linear_vel_,				// 到达前最大线速度							
+		float              linear_accel_,			// 到达前最大线加速度									
+		float              linear_decel_,			// 到达前最大线减速度										
+		float              angular_vel_,			// 到达前最大角速度										
+		float              angular_accel_,			// 到达前最大角加速度												
+		float              angular_decel_,		    // 到达前最大角减速度
+																					
+		bool               is_stop_,				// 是否停止																				
+														
+		uint8_t            event_id_				// 事件id
 	)
 	{
 		return Add_One_Point(
-			coordinate_,	// 坐标
-			0,				// 平滑度
-			target_yaw_,				// 到达前目标yaw
-			leave_target_yaw_,		// 离开前目标yaw
-			linear_vel_,				// 到达前最大线速度
-			linear_accel_,			// 到达前最大线加速度
-			linear_decel_,			// 到达前最大线减速度
-			angular_vel_,				// 到达前最大角速度
-			angular_accel_,			// 到达前最大角加速度
-			angular_decel_,			// 到达前最大角减速度
-			(leave_target_yaw_ != PATH_NO_TARGET_YAW),	// 是否有离开前目标yaw
-			(target_yaw_ != PATH_NO_TARGET_YAW),			// 是否有到达前目标yaw
-			(target_yaw_ != PATH_TANGENT_YAW),				// yaw是否朝切线方向
-			true,					// 是否为结束点
-			have_event_				// 是否包含事件
+			coordinate_,									// 坐标  
+		                                                    
+			0,												// 平滑度						
+			target_yaw_,				                    // 到达前目标yaw			
+			leave_target_yaw_,			                    // 离开前目标yaw			
+			linear_vel_,				                    // 到达前最大线速度			
+			linear_accel_,				                    // 到达前最大线加速度		
+			linear_decel_,				                    // 到达前最大线减速度		
+			angular_vel_,				                    // 到达前最大角速度			
+			angular_accel_,				                    // 到达前最大角加速度		
+			angular_decel_,				                    // 到达前最大角减速度
+		                                                    
+			(target_yaw_ == PATH_TANGENT_YAW),              // yaw是否朝切线方向		
+			true,									        // 是否为结束点		
+			is_stop_,                                       // 是否停止			
+			(event_id_ != PATH_NO_EVENT),					// 是否包含事件				
+			(target_yaw_ != PATH_NO_TARGET_YAW),	        // 是否有到达前目标yaw		
+			(leave_target_yaw_ != PATH_NO_TARGET_YAW),		// 是否有离开前目标yaw
+			                                                
+			event_id_                                       // 事件id
 		);
 	}
 	
 	
 	
 	bool PathPlan2::Add_Point(
-		vector2d::Vector2D coordinate_, 
-		float smoothness_,
-		float target_yaw_,
-		bool have_event_,
-		float linear_vel_,
-		float linear_accel_,
-		float linear_decel_,
-		float angular_vel_,
-		float angular_accel_,
-		float angular_decel_
+		vector2d::Vector2D coordinate_,					
+		
+		float 	           smoothness_,
+		float              target_yaw_,									
+		float              linear_vel_,									
+		float              linear_accel_,											
+		float              linear_decel_,												
+		float              angular_vel_,											
+		float              angular_accel_,														
+		float              angular_decel_,																									
+														
+		uint8_t            event_id_	
 	)
 	{
 		return Add_One_Point(
-			coordinate_,	// 坐标
-			smoothness_,				// 平滑度
-			target_yaw_,				// 到达前目标yaw
-			PATH_NO_TARGET_YAW,		// 离开前目标yaw
-			linear_vel_,				// 到达前最大线速度
-			linear_accel_,			// 到达前最大线加速度
-			linear_decel_,			// 到达前最大线减速度
-			angular_vel_,				// 到达前最大角速度
-			angular_accel_,			// 到达前最大角加速度
-			angular_decel_,			// 到达前最大角减速度
-			false,					// 是否有离开前目标yaw
-			(target_yaw_ != PATH_NO_TARGET_YAW),			// 是否有到达前目标yaw
-			(target_yaw_ != PATH_TANGENT_YAW),				// yaw是否朝切线方向
-			false,					// 是否为结束点
-			have_event_				// 是否包含事件
+			coordinate_,								// 坐标  
+		                                                
+			smoothness_,			                    // 平滑度					
+			target_yaw_,			                    // 到达前目标yaw			
+			0,		                   				    // 离开前目标yaw			
+			linear_vel_,			                    // 到达前最大线速度			
+			linear_accel_,			                    // 到达前最大线加速度		
+			linear_decel_,			                    // 到达前最大线减速度		
+			angular_vel_,			                    // 到达前最大角速度			
+			angular_accel_,			                    // 到达前最大角加速度		
+			angular_decel_,			                    // 到达前最大角减速度
+			                                            
+			(target_yaw_ == PATH_TANGENT_YAW),          // yaw是否朝切线方向		
+			false,		                                // 是否为结束点		
+			false,                                      // 是否停止			
+			(event_id_ != PATH_NO_EVENT),			    // 是否包含事件				
+			(target_yaw_ != PATH_NO_TARGET_YAW),	    // 是否有到达前目标yaw		
+			false,				                        // 是否有离开前目标yaw
+			                                            
+			event_id_                                   // 事件id
 		);
 	}
 	

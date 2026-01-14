@@ -278,7 +278,7 @@
         <Ww>
           <count>24</count>
           <WinNumber>1</WinNumber>
-          <ItemText>xxxy</ItemText>
+          <ItemText>chassis_jack_test</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
@@ -927,7 +927,7 @@
       <GroupNumber>8</GroupNumber>
       <FileNumber>45</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>../Core/Src/main.c</PathWithFileName>

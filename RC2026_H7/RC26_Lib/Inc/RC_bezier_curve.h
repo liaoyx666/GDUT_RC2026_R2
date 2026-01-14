@@ -46,7 +46,13 @@ namespace curve
 		
 		void Set_Num(uint16_t control_point_num_, uint16_t end_point_num_);
 		
+		/*-----------------------------------------------------*/
+		
 		void Set_Throughout_Max_Vel(float throughout_max_vel_) {throughout_max_vel = throughout_max_vel_;}
+		
+		void Set_Decel(float decel_)  {decel = decel_;}
+		
+		/*-----------------------------------------------------*/
 		
 		/*--------------------------------------------------------------------------------------------*/
 			
@@ -77,7 +83,13 @@ namespace curve
 		// 获取曲线阶数
 		BezierOrder Get_Bezier_Order() const {return order;}
 		
+		/*-----------------------------------------------------*/
+		
 		float Get_Throughout_Max_Vel() {return throughout_max_vel;}
+		
+		float Get_Decel() const {return decel;}
+		
+		/*-----------------------------------------------------*/
 		
 		uint16_t Get_Control_Point_Num() {return control_point_num;}
 		
@@ -92,7 +104,7 @@ namespace curve
 		vector2d::Vector2D Get_Normal_Vector(const vector2d::Vector2D& point, const float t);
 		
 		// 获取当前最大速度
-		float Get_Max_Vel(float t);	
+		float Get_Max_Vel(float t);
 
     protected:
 
@@ -128,7 +140,13 @@ namespace curve
 		uint16_t control_point_num;
 		uint16_t end_point_num;
 		
+		/*-----------------------------------------------------*/
+		
 		float throughout_max_vel = 0.f;// 全程最大速度
+		
+		float decel = 1;
+		
+		/*-----------------------------------------------------*/
 		
     };
 }

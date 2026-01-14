@@ -440,7 +440,8 @@ namespace curve
 				current_max_vel = current_max_vel > temp_max_vel ? temp_max_vel : current_max_vel;// 取最小值
 			}
 		}
-		return current_max_vel;
+		
+		return current_max_vel * sqrtf(decel);
 	}
 	/*********************************************************************************************************************************/
 	void BezierCurve::Set_Num(uint16_t end_point_num_)

@@ -94,7 +94,7 @@ namespace motor
 		MotorMode motor_mode = RPM_MODE;// 电机模式
 		
 		bool is_reset_pos = false;
-
+		
     private:
 		
     };
