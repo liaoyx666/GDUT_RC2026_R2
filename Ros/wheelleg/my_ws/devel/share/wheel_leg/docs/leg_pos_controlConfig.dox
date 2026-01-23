@@ -1,0 +1,7 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~leg_pos" : \b [double] 机械腿位置控制(单位:m) min: -0.2, default: 0.0, max: 0.2
+- \b "~t_yaw" : \b [double] 机械腿偏航角度(单位:rad) min: -1.5, default: 0.0, max: 1.5
+

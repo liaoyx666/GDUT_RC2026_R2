@@ -1,0 +1,34 @@
+{
+// 有关 tasks.json 格式的文档，请参见
+    // https://go.microsoft.com/fwlink/?LinkId=733558
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "catkin_make:debug",
+            "type": "shell",
+            "command": "catkin_make",
+            "args": [],
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            },
+            "problemMatcher": "$catkin-gcc"
+        },
+        {
+            "type": "catkin_make",
+            "args": [
+                "--directory",
+                "/home/xu/my_ws",
+                "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
+            ],
+            "problemMatcher": [
+                "$catkin-gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "label": "catkin_make: Catkin Build"
+        }
+    ]
+}

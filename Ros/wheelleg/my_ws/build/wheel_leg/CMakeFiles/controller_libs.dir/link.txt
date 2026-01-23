@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -O2 -g -DNDEBUG  -shared -Wl,-soname,libcontroller_libs.so -o /home/xu/my_ws/devel/lib/libcontroller_libs.so CMakeFiles/controller_libs.dir/src/MPC_calc.cpp.o  -Wl,-rpath,/usr/local/lib /usr/local/lib/libOsqpEigen.so.0.7.0 -lcasadi /usr/local/lib/libosqp.so 

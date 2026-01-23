@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">  <!-- 统一为1.7版本 -->
+  <world name="map_world">
+    <!-- 物理引擎改用bullet，更适合机器人仿真 -->
+    <physics name="default_physics" type="bullet">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+      <!-- 增加阻尼参数，减少地面滑动 -->
+      <damping>
+        <linear>0.01</linear>
+        <angular>0.01</angular>
+      </damping>
+    </physics>
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.5 -1</direction>
+      <cast_shadows>true</cast_shadows>  <!-- 开启阴影 -->
+    </light>
+
+
+    <include>
+      <uri>model://map_world</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+    
+    <!-- 可选：添加地面平面（若STL模型不含地面，避免模型悬空） -->
+    <model name="ground_plane">
+      <include>
+        <uri>model://ground_plane</uri>
+      </include>
+    </model>
+  </world>
+</sdf>

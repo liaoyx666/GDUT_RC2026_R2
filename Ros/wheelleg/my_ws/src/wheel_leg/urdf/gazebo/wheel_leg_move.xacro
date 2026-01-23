@@ -1,0 +1,343 @@
+<robot name="wheel_leg_move" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+    <xacro:macro name="passive_joint_trans" params="name">
+        <transmission name="${name}_trans">
+            <type>transmission_interface/SimpleTransmission</type>
+
+            <joint name="${name}">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            </joint>
+
+            <actuator name="${name}_actuator">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+                <mechanicalReduction>1</mechanicalReduction>
+                <effortLimit>0</effortLimit>
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+
+
+
+
+
+
+
+
+    <xacro:macro name="effort_joint_trans" params="name max_effort max_vel">
+        <transmission name="${name}_trans">
+            <type>transmission_interface/SimpleTransmission</type> <!-- 传动类型 -->
+
+            <joint name="${name}">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> <!-- 关节硬件接口类型 -->
+            </joint>
+
+            <actuator name="${name}_motor">
+                <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> <!-- 执行器硬件接口类型 -->
+
+                <mechanicalReduction>1</mechanicalReduction>  <!-- 减速比（1表示无减速） -->
+
+                <effortLimit>${max_effort}</effortLimit>  <!-- 最大力矩限制（N·m） -->
+
+                <velocityLimit>${max_vel}</velocityLimit>  <!-- 最大速度限制（rad/s） -->
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+
+    <xacro:macro name="pos_joint_trans" params="name lower upper max_vel max_effort">
+        <!-- 位置控制关节的传动配置（适配ros_control位置控制器） -->
+        <transmission name="${name}_trans">
+            <type>transmission_interface/SimpleTransmission</type> <!-- 传动类型（通用简单传动） -->
+
+            <joint name="${name}">
+                <!-- 位置控制的硬件接口类型 -->
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            </joint>
+
+            <actuator name="${name}_motor">
+                <!-- 执行器与关节使用相同的硬件接口 -->
+                <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+
+                <mechanicalReduction>1</mechanicalReduction>  <!-- 减速比（1表示无减速，根据实际传动修改） -->
+
+                <!-- 位置控制相关约束（与URDF关节limit标签对应） -->
+                <positionLimit lower="${lower}" upper="${upper}"/>  <!-- 位置范围（单位：rad或m） -->
+                <velocityLimit>${max_vel}</velocityLimit>  <!-- 最大速度限制（rad/s或m/s） -->
+                <effortLimit>${max_effort}</effortLimit>  <!-- 最大驱动力限制（N·m或N，用于安全约束） -->
+            </actuator>
+        </transmission>
+    </xacro:macro>
+
+
+
+
+    <xacro:effort_joint_trans name="Lwheel" max_effort="10" max_vel="20" />
+    <xacro:effort_joint_trans name="Rwheel" max_effort="10" max_vel="20" />
+
+
+
+    <xacro:pos_joint_trans name="Lhleg" lower="-1.57" upper="1.57" max_vel="1.0" max_effort="15" />
+    <xacro:pos_joint_trans name="Rhleg" lower="-1.57" upper="1.57" max_vel="1.0" max_effort="15" />
+
+
+    <xacro:passive_joint_trans name="Llleg" />
+    <xacro:passive_joint_trans name="Rlleg" />
+    <xacro:passive_joint_trans name="Lrod" />
+    <xacro:passive_joint_trans name="Rrod" />
+
+
+
+    <!-- 2. 给Lwheel关节添加摩擦力（粘性阻尼+库仑摩擦） -->
+    <gazebo reference="Lwheel">
+        <!-- 粘性阻尼：单位 N·m·s/rad（旋转关节），数值0.1~1.0，越大阻力越强 -->
+        <damping>0.03</damping>
+        <!-- 库仑摩擦：单位 N·m（旋转关节），数值0.05~0.5，越大静阻力越强 -->
+        <friction>0.01</friction>
+    </gazebo>
+
+
+
+
+    <!-- 2. 给Lwheel关节添加摩擦力（粘性阻尼+库仑摩擦） -->
+    <gazebo reference="Rwheel">
+        <!-- 粘性阻尼：单位 N·m·s/rad（旋转关节），数值0.1~1.0，越大阻力越强 -->
+        <damping>0.03</damping>
+        <!-- 库仑摩擦：单位 N·m（旋转关节），数值0.05~0.5，越大静阻力越强 -->
+        <friction>0.01</friction>
+    </gazebo>
+
+
+
+
+    <gazebo reference="Lleg_Lwheel">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+        <rolling_friction>0.01</rolling_friction>
+        <kp>1000000.0</kp> 
+        <kd>1000.0</kd> 
+    </gazebo>
+
+    <gazebo reference="Rlleg_Rwheel">
+        <mu1>1.0</mu1>
+        <mu2>1.0</mu2>
+        <rolling_friction>0.01</rolling_friction>
+        <kp>1000000.0</kp>
+        <kd>1000.0</kd>
+    </gazebo>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <gazebo>
+        <joint name="Rlleg2Rrod" type="revolute">
+
+            <parent>body_Rrod</parent>
+            <child>Rhleg_Rlleg</child>
+            <pose relative_to="body_Rrod">0.193580374122211 0.0213999999999988 -0.220263333086192 0 0 0</pose>
+
+            <axis>
+                <xyz>0 1 0</xyz>
+                <limit>
+                    <lower>-2</lower>
+                    <upper>2</upper>
+                </limit>
+            </axis>
+        </joint>
+
+        <joint name="Llleg2Lrod" type="revolute">
+
+            <parent>body_Lrod</parent>
+            <child>hleg_Llleg</child>
+            <pose relative_to="body_Lrod">-0.193580374122211 0.0213999999999988 -0.220263333086192 0 0 0</pose>
+
+            <axis>
+                <xyz>0 -1 0</xyz>
+                <limit>
+                    <lower>-2</lower>
+                    <upper>2</upper>
+                </limit>
+            </axis>
+        </joint>
+
+    </gazebo>
+
+
+
+
+    <xacro:property name="weight_length" value="0.12" />
+    <xacro:property name="weight_width" value="0.12" />
+    <xacro:property name="weight_height" value="0.12" />
+    <xacro:property name="weight_mass" value="2.9" />
+
+    <link name="weight_link">
+        <visual>
+            <geometry>
+                <box size="${weight_length} ${weight_width} ${weight_height}" />
+            </geometry>
+        </visual>
+
+        
+        <xacro:Box_inertial_matrix m="${weight_mass}" l="${weight_length}" w="${weight_width}" h="${weight_height}" />
+
+        <collision>
+            <geometry>
+                <box size="${weight_length} ${weight_width} ${weight_height}" />
+            </geometry>
+        </collision>
+    </link>
+
+    <gazebo reference="weight_link">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+   
+    <joint name="weight_joint" type="fixed"> 
+        <parent link="body" />
+
+        <child link="weight_link" />  
+
+        <origin xyz="0.2 0 0" rpy="0 0 0" />
+    </joint>
+    
+
+
+        <!-- 1. 定义IMU的link（物理属性，质量/惯性可设为极小，避免影响机器人动力学） -->
+    <link name="radar_link">
+        <visual> <!-- 可选：添加可视化模型（如立方体），方便在Gazebo中看到IMU位置 -->
+            <geometry>
+                <box size="0.03 0.03 0.03" /> <!-- 2cm立方体 -->
+            </geometry>
+        </visual>
+    </link>
+
+
+    <gazebo reference="radar_link">
+         <material>Gazebo/Red</material>
+    </gazebo>
+   
+
+
+    <!-- 2. 定义IMU的joint（将IMU挂载到机器人的某个link，如base_link） -->
+    <joint name="radar_joint" type="fixed"> <!-- fixed类型：IMU与父link无相对运动 -->
+        <parent link="body" /> <!-- 父link：机器人底座（可替换为其他link，如imu_mount） -->
+
+        <child link="radar_link" />   <!-- 子link：IMU自身的link -->
+
+        <origin xyz="0 0 0" rpy="0 0 0" /> <!-- IMU在父link下的坐标（x:10cm, z:20cm） -->
+    </joint>
+
+
+  <!-- 雷达 -->
+  <gazebo reference="radar_link">
+    <sensor type="ray" name="rplidar">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>5.5</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3</min_angle>
+            <max_angle>3</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.10</min>
+          <max>30.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_rplidar" filename="libgazebo_ros_laser.so">
+        <topicName>/scan</topicName>
+        <frameName>laser</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+ 
+
+    <!-- 1. 定义IMU的link（物理属性，质量/惯性可设为极小，避免影响机器人动力学） -->
+    <link name="imu_link">
+        <visual> <!-- 可选：添加可视化模型（如立方体），方便在Gazebo中看到IMU位置 -->
+            <geometry>
+                <box size="0.02 0.02 0.02" /> <!-- 2cm立方体 -->
+            </geometry>
+        </visual>
+    </link>
+
+
+    <gazebo reference="imu_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+   
+
+
+    <!-- 2. 定义IMU的joint（将IMU挂载到机器人的某个link，如base_link） -->
+    <joint name="imu_joint" type="fixed"> <!-- fixed类型：IMU与父link无相对运动 -->
+        <parent link="body" /> <!-- 父link：机器人底座（可替换为其他link，如imu_mount） -->
+
+        <child link="imu_link" />   <!-- 子link：IMU自身的link -->
+
+        <origin xyz="0 0 0" rpy="0 0 0" /> <!-- IMU在父link下的坐标（x:10cm, z:20cm） -->
+    </joint>
+
+
+
+      <!-- IMU plugin for 'imu_link' -->
+    <gazebo reference="imu_link">
+        <gravity>true</gravity>
+        <sensor name="imu_sensor" type="imu">
+            <always_on>true</always_on>
+            <update_rate>100</update_rate>
+            <visualize>true</visualize>
+            <topic>__default_topic__</topic>
+            <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                <topicName>imu</topicName>
+                <bodyName>body_link</bodyName>
+                <updateRateHZ>100.0</updateRateHZ>
+                <gaussianNoise>0.0</gaussianNoise>
+                <xyzOffset>0 0 0</xyzOffset>
+                <rpyOffset>0 0 0</rpyOffset>
+                <frameName>imu_link</frameName>
+            </plugin>
+            <pose>0 0 0 0 0 0</pose>
+        </sensor>
+    </gazebo>
+
+
+
+
+    <gazebo>
+        <!-- 加载 gazebo_ros_control 插件，连接 Gazebo 与 ros_control -->
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/</robotNamespace>  <!-- 命名空间（默认根目录） -->
+
+            <controlPeriod>0.001</controlPeriod>  <!-- 控制周期（与 Gazebo 步长一致） -->
+        </plugin>
+
+        <self_collide>true</self_collide> <!-- 启用自碰撞检测 -->
+    </gazebo>
+
+
+
+
+
+
+</robot>
+

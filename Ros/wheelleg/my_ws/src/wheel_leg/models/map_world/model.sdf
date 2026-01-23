@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+  <model name="map_world">
+    <link name="base_link">
+      <inertial>
+        <pose>0 -1.59902 0.159697 0 0 0</pose>  <!-- 移除无效的"-0"，简化为0 -->
+        <mass>1000000</mass>  <!-- 地图设为固定，质量设为极大值 -->
+        <inertia>
+          <ixx>41297.7</ixx>  <!-- 修正小数点错误 -->
+          <ixy>-2.63435e-14</ixy>
+          <ixz>8.05539e-16</ixz>
+          <iyy>65.3343</iyy>
+          <iyz>0.266198</iyz>
+          <izz>105.721</izz>
+        </inertia>
+      </inertial>
+      <collision name="base_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://map_world/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+        <!-- 可选：添加接触面摩擦系数，提升机器人抓地效果 -->
+        <surface>
+          <friction>
+            <ode>
+              <mu>1.0</mu>  <!-- 静摩擦系数 -->
+              <mu2>1.0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="base_link_visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://map_world/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <!-- 可选：添加固定约束，确保地图不会移动 -->
+    <joint name="fixed_to_world" type="fixed">
+      <parent>world</parent>
+      <child>base_link</child>
+      <pose>0 0 0 0 0 0</pose>
+    </joint>
+  </model>
+</sdf>

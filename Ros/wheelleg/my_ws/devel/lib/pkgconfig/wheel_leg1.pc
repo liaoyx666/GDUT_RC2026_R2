@@ -1,0 +1,8 @@
+prefix=/home/xu/my_ws/devel
+
+Name: wheel_leg1
+Description: Description of wheel_leg1
+Version: 0.0.0
+Cflags: -I/home/xu/my_ws/src/wheel_leg1/include -I/usr/include/eigen3
+Libs: -L${prefix}/lib -lwheel_leg1
+Requires: controller_interface controller_manager effort_controllers gazebo_plugins gazebo_ros gazebo_ros_control hardware_interface pluginlib roscpp sensor_msgs std_msgs urdf xacro

@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="block_world">  <!-- 世界名称 -->
+    
+    <!-- 物理引擎配置（默认即可） -->
+    <physics name="default_physics" type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- 光照（默认太阳光照） -->
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.5 -1</direction>
+    </light>
+
+    <!-- 地面（可选：如果需要可见地面，可添加；不添加则默认是灰色网格地面） -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Gray</name>
+            </script>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 核心：1.2m×1.2m×0.2m的方块模型（直接嵌入世界文件） -->
+    <model name="target_block">
+      <static>true</static>  <!-- 静态模型，不被物理引擎推动 -->
+      
+      <link name="block_link">
+        <!-- 位置：x=3, y=0, z=0.1（方块高0.2m，中心在z=0.1，底部刚好贴地） -->
+        <pose>3 0 0.1 0 0 0</pose>
+        
+        <!-- 视觉外观 -->
+        <visual name="block_visual">
+          <geometry>
+            <box>
+              <size>1.2 1.2 0.2</size>  <!-- 长×宽×高 = 1.2×1.2×0.2m -->
+            </box>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gray/Blue</name>  <!-- 蓝色方块 -->
+            </script>
+          </material>
+        </visual>
+        
+        <!-- 碰撞体（与视觉体尺寸一致，确保物理检测有效） -->
+        <collision name="block_collision">
+          <geometry>
+            <box>
+              <size>1.2 1.2 0.2</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>

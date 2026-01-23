@@ -1,0 +1,8 @@
+prefix=/home/xu/my_ws/devel
+
+Name: demo03
+Description: Description of demo03
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

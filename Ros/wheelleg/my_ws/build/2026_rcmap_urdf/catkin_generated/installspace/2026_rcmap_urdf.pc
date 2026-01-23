@@ -1,0 +1,8 @@
+prefix=/home/xu/my_ws/install
+
+Name: 2026_rcmap_urdf
+Description: Description of 2026_rcmap_urdf
+Version: 1.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

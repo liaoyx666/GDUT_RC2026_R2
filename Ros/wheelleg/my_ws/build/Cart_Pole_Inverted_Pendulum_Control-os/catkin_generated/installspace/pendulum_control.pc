@@ -1,0 +1,8 @@
+prefix=/home/xu/my_ws/install
+
+Name: pendulum_control
+Description: Description of pendulum_control
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

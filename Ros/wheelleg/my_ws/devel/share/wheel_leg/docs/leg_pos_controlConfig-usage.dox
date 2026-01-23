@@ -1,0 +1,8 @@
+\subsubsection usage Usage
+\verbatim
+<node name="lqr_controller_node" pkg="wheel_leg" type="lqr_controller_node">
+  <param name="leg_pos" type="double" value="0.0" />
+  <param name="t_yaw" type="double" value="0.0" />
+</node>
+\endverbatim
+

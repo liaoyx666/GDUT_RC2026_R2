@@ -1,0 +1,24 @@
+wheel_effort_controller:
+  type: effort_controllers/JointGroupEffortController
+  joints:
+    - Lwheel
+    - Rwheel
+
+
+leg_position_controller:
+  type: position_controllers/JointGroupPositionController
+  joints:
+    - Lhleg
+    - Rhleg
+
+
+gazebo_ros_control:
+  pid_gains:
+    Lhleg: {p: 900.0, i: 0.0, d: 30}
+    Rhleg: {p: 900.0, i: 0.0, d: 30}
+
+
+
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100

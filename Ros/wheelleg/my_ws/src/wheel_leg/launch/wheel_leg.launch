@@ -1,0 +1,43 @@
+<launch>
+<!-- <env name="GAZEBO_MODEL_PATH" value = "(find wheel_leg)/model:$(optenv GZEBO_MODLE_PATH)"/> -->
+    <!-- 加载包含方块的world，替换默认空世界 -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!-- 指定你的world文件路径（确保文件已放在对应目录） -->
+        <arg name="world_name" value="$(find wheel_leg)/world/my_world.world"/>  
+    </include>
+
+
+    <param name="robot_description" 
+        command="$(find xacro)/xacro '$(find wheel_leg)/urdf/wheel_leg_robot.xacro'" />
+
+
+    <rosparam file="$(find wheel_leg)/config/wheel_leg_controllers.yaml" 
+        command="load" />
+
+
+    <node 
+        pkg="gazebo_ros" 
+        type="spawn_model" 
+        name="spawn_model" 
+        output="screen"
+        
+        args="-urdf -model wheel_leg -param robot_description -z 0.38" /> 
+        <!-- z 设定初始高度，防止模型生成时陷入地面 -->
+
+
+
+    <!-- 启动控制器管理器 -->
+    <node 
+        name="controller_spawner" 
+        pkg="controller_manager"
+        type="spawner"
+        output="screen"
+        args="joint_state_controller wheel_effort_controller leg_position_controller" />
+
+
+    <!-- 发布/tf -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name= "lqr" pkg = "wheel_leg" type = "lqr_controller_node" output = "screen"/> 
+
+
+</launch>

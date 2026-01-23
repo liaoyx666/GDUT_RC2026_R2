@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "${default}",
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "includePath": [
+                "/opt/ros/noetic/include/**",
+                "/usr/include/**",
+                "/usr/include/eigen3/**",
+                "/home/xu/my_ws/src/wheel_leg/cfg/cpp/wheel_leg/**",
+                "/home/xu/my_ws/src/wheel_leg1/include/**",
+                "/home/xu/my_ws/src/wheel_leg/include/**",
+                "${workspaceFolder}/src/wheel_leg1/include/wheelleg",
+                "${workspaceFolder}/src/wheel_leg/cfg/cpp"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
