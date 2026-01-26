@@ -84,6 +84,7 @@
 "rc2026\rc_chassis_jack.o"
 "rc2026\rc_lidar.o"
 "rc2026\rc_nonlinear_pid.o"
+"rc2026\rc_mecanum_chassis.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dji_motor.o"
 "rc2026\rc_m2006.o"
