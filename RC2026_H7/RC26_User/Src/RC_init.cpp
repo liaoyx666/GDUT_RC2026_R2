@@ -32,13 +32,14 @@ motor::Vesc vesc_102_can3(102, can3, tim13_500hz, 21);
 motor::Vesc vesc_103_can3(103, can3, tim13_500hz, 21);
 motor::Vesc vesc_104_can3(104, can3, tim13_500hz, 21);
 // -----------------------------------------------------------
-motor::Vesc vesc_101_can1(101, can1, tim13_500hz, 21, true);
+//motor::Vesc vesc_101_can1(101, can1, tim13_500hz, 21, true);
+motor::M6020 m6020_5_can1(6, can1, tim7_1khz, true, motor::M6020CtrlType::VOLTAGE);
 
 // 机械臂电机-------------------------------------------------
-motor::M2006 	m2006_4(3, can1, tim7_1khz, 36.f * 2.f);
-motor::M3508 	m3508_2_c1(2, can1, tim7_1khz, 51.f * 1.2f);
-motor::J60 		j60_1(1, can1, tim7_1khz);
-motor::Go 		go_0_3(0, 3, can1, tim7_1khz);
+//motor::M2006 	m2006_4		(3, 	can1, tim7_1khz, 36.f * 2.f);
+//motor::M3508 	m3508_2_c1	(2, 	can1, tim7_1khz, 51.f * 1.2f);
+//motor::J60 		j60_1		(1, 	can1, tim7_1khz);
+//motor::Go 		go_0_3		(0, 3, 	can1, tim7_1khz);
 // -----------------------------------------------------------
 
 
@@ -105,11 +106,11 @@ timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
 //path::PathPlan path_plan(2, 1.f);// 路径规划
 
 
-path::PathPlan2 path_plan(
-	robot_pose, swerve_4_chassis,
-	2.5, 5, 5,
-	4, 8, 8
-);
+//path::PathPlan2 path_plan(
+//	robot_pose, swerve_4_chassis,
+//	2.5, 5, 5,
+//	4, 8, 8
+//);
 
 
 /*====================================DeBug====================================*/
@@ -126,17 +127,17 @@ void test(void *argument)
 //	sin_wave.Init();
 	wave.Init();
 	
-	m3508_2_c1.pid_spd.Pid_Mode_Init(true, false, 0.01);
-	m3508_2_c1.pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 15000, 10000, 5000, 5000, 5000);// 1ms
+//	m3508_2_c1.pid_spd.Pid_Mode_Init(true, false, 0.01);
+//	m3508_2_c1.pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 15000, 10000, 5000, 5000, 5000);// 1ms
 
-	m3508_2_c1.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-	m3508_2_c1.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 2000, 1000, 500, 500, 500, 1000, 1800);// 1ms
+//	m3508_2_c1.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+//	m3508_2_c1.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 2000, 1000, 500, 500, 500, 1000, 1800);// 1ms
 
-	j60_1.pid_pos.Pid_Mode_Init(true, true, 0.1);
-	j60_1.pid_spd.Pid_Param_Init(0.1, 0.0006, 0, 0, 0.001, 0, 10, 5, 5, 5, 5);
+//	j60_1.pid_pos.Pid_Mode_Init(true, true, 0.1);
+//	j60_1.pid_spd.Pid_Param_Init(0.1, 0.0006, 0, 0, 0.001, 0, 10, 5, 5, 5, 5);
 
-	j60_1.pid_pos.Pid_Mode_Init(false, false, 0.1, true);
-	j60_1.pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 100, 5, 5, 5, 5, 50, 80);
+//	j60_1.pid_pos.Pid_Mode_Init(false, false, 0.1, true);
+//	j60_1.pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 100, 5, 5, 5, 5, 50, 80);
 
 
 //	rs04_120.Set_ZeroPos();
@@ -147,10 +148,10 @@ void test(void *argument)
 //	rs04_127.Set_K_Pos(50);
 //	rs04_127.Set_K_Spd(10);
 
-	go_0_3.Set_Out_Pos(0);
-	m2006_4.Set_Out_Pos(0);
-	m3508_2_c1.Set_Out_Pos(0);
-	j60_1.Set_Out_Pos(0);
+//	go_0_3.Set_Out_Pos(0);
+//	m2006_4.Set_Out_Pos(0);
+//	m3508_2_c1.Set_Out_Pos(0);
+//	j60_1.Set_Out_Pos(0);
 
 	m3508_left_front_can2.Set_Out_Angle(0);
 	m3508_left_behind_can2.Set_Out_Pos(0);
@@ -160,104 +161,104 @@ void test(void *argument)
 	remote_ctrl.signal_swa();
 	
 	
-	path_plan.Add_Point(
-		vector2d::Vector2D(0, 1),					
-		0.5,
-		0,									
-		PATH_MAX_PARAM,									
-		PATH_MAX_PARAM,											
-		PATH_MAX_PARAM,												
-		PATH_MAX_PARAM,										
-		PATH_MAX_PARAM,														
-		PATH_MAX_PARAM,																									
-		0
-	);
-	
-	
-	path_plan.Add_Point(
-		vector2d::Vector2D(1, 1),					
-		0,
-		0,									
-		PATH_MAX_PARAM,									
-		PATH_MAX_PARAM,											
-		PATH_MAX_PARAM,												
-		PATH_MAX_PARAM,										
-		PATH_MAX_PARAM,														
-		PATH_MAX_PARAM,																									
-		0
-	);
-	
-	
-	path_plan.Add_Point(
-		vector2d::Vector2D(1, 0),					
-		0.4,
-		0,									
-		PATH_MAX_PARAM,									
-		PATH_MAX_PARAM,											
-		PATH_MAX_PARAM,												
-		PATH_MAX_PARAM,										
-		PATH_MAX_PARAM,														
-		PATH_MAX_PARAM,																									
-		0
-	);
-	
-	path_plan.Add_End_Point(
-		vector2d::Vector2D(2, 0),				// 坐标  
-		0,				// 到达前目标yaw					
-		0,		// 离开前目标yaw					
-		PATH_MAX_PARAM,									
-		PATH_MAX_PARAM,											
-		PATH_MAX_PARAM,												
-		PATH_MAX_PARAM,										
-		PATH_MAX_PARAM,														
-		PATH_MAX_PARAM,		
-		false,				// 是否停止																				
-		0				// 事件id
-	);
-	
-	path_plan.Add_End_Point(
-		vector2d::Vector2D(2, 1),				// 坐标  
-		0,				// 到达前目标yaw					
-		0,		// 离开前目标yaw					
-		PATH_MAX_PARAM,									
-		PATH_MAX_PARAM,											
-		PATH_MAX_PARAM,												
-		PATH_MAX_PARAM,										
-		PATH_MAX_PARAM,														
-		PATH_MAX_PARAM,		
-		false,				// 是否停止																				
-		0				// 事件id
-	);
-		
-		
-	path_plan.Add_End_Point(
-		vector2d::Vector2D(3, 1),				// 坐标  
-		0,				// 到达前目标yaw					
-		0,		// 离开前目标yaw					
-		PATH_MAX_PARAM,									
-		PATH_MAX_PARAM,											
-		PATH_MAX_PARAM,												
-		PATH_MAX_PARAM,										
-		PATH_MAX_PARAM,														
-		PATH_MAX_PARAM,		
-		false,				// 是否停止																				
-		0				// 事件id
-	);
-	
-		
-	path_plan.Enable();
+//	path_plan.Add_Point(
+//		vector2d::Vector2D(0, 1),					
+//		0.5,
+//		0,									
+//		PATH_MAX_PARAM,									
+//		PATH_MAX_PARAM,											
+//		PATH_MAX_PARAM,												
+//		PATH_MAX_PARAM,										
+//		PATH_MAX_PARAM,														
+//		PATH_MAX_PARAM,																									
+//		0
+//	);
+//	
+//	
+//	path_plan.Add_Point(
+//		vector2d::Vector2D(1, 1),					
+//		0,
+//		0,									
+//		PATH_MAX_PARAM,									
+//		PATH_MAX_PARAM,											
+//		PATH_MAX_PARAM,												
+//		PATH_MAX_PARAM,										
+//		PATH_MAX_PARAM,														
+//		PATH_MAX_PARAM,																									
+//		0
+//	);
+//	
+//	
+//	path_plan.Add_Point(
+//		vector2d::Vector2D(1, 0),					
+//		0.4,
+//		0,									
+//		PATH_MAX_PARAM,									
+//		PATH_MAX_PARAM,											
+//		PATH_MAX_PARAM,												
+//		PATH_MAX_PARAM,										
+//		PATH_MAX_PARAM,														
+//		PATH_MAX_PARAM,																									
+//		0
+//	);
+//	
+//	path_plan.Add_End_Point(
+//		vector2d::Vector2D(2, 0),				// 坐标  
+//		0,				// 到达前目标yaw					
+//		0,		// 离开前目标yaw					
+//		PATH_MAX_PARAM,									
+//		PATH_MAX_PARAM,											
+//		PATH_MAX_PARAM,												
+//		PATH_MAX_PARAM,										
+//		PATH_MAX_PARAM,														
+//		PATH_MAX_PARAM,		
+//		false,				// 是否停止																				
+//		0				// 事件id
+//	);
+//	
+//	path_plan.Add_End_Point(
+//		vector2d::Vector2D(2, 1),				// 坐标  
+//		0,				// 到达前目标yaw					
+//		0,		// 离开前目标yaw					
+//		PATH_MAX_PARAM,									
+//		PATH_MAX_PARAM,											
+//		PATH_MAX_PARAM,												
+//		PATH_MAX_PARAM,										
+//		PATH_MAX_PARAM,														
+//		PATH_MAX_PARAM,		
+//		false,				// 是否停止																				
+//		0				// 事件id
+//	);
+//		
+//		
+//	path_plan.Add_End_Point(
+//		vector2d::Vector2D(3, 1),				// 坐标  
+//		0,				// 到达前目标yaw					
+//		0,		// 离开前目标yaw					
+//		PATH_MAX_PARAM,									
+//		PATH_MAX_PARAM,											
+//		PATH_MAX_PARAM,												
+//		PATH_MAX_PARAM,										
+//		PATH_MAX_PARAM,														
+//		PATH_MAX_PARAM,		
+//		false,				// 是否停止																				
+//		0				// 事件id
+//	);
+//	
+//		
+//	path_plan.Enable();
 	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 
+		m6020_5_can1.Set_Out_Pos(target);
 		
-		
-		vesc_101_can1.Set_Out_Rpm(a);
-		
-		
-		uart_printf("%f,%f\n", vesc_101_can1.Get_Out_Rpm(), a);
+//		vesc_101_can1.Set_Out_Rpm(a);
+//		
+//		
+		uart_printf("%f,%f\n", m6020_5_can1.Get_Out_Pos(), target);
 		
 //		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f);
 //		

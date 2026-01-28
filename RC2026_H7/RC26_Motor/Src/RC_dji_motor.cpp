@@ -101,14 +101,11 @@ namespace motor
 		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 	
-	
-	
 	void DjiMotor::Can_Tx_Process()
 	{
 		uint16_t dx = ((id - 1) % 4) * 2;
-	
-		int16_t current_int;
-		current_int = (int16_t)roundf(target_current);
+
+		int16_t current_int = (int16_t)(target_current);
 		
 		if (current_int > 16384) current_int = 16384;
 		else if (current_int < -16384) current_int = -16384;
