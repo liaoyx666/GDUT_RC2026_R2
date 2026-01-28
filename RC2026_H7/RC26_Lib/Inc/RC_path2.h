@@ -8,7 +8,6 @@
 
 #ifdef __cplusplus
 
-
 #define PATH_TANGENT_YAW 	1000000.f
 #define PATH_MAX_PARAM 		2000000.f
 #define PATH_NO_TARGET_YAW 	3000000.f
@@ -27,7 +26,7 @@ namespace path
 	class PathEvent2
     {
     public:
-		PathEvent2(uint8_t id_);
+		PathEvent2(uint8_t id_, PathPlan2 &path_plan_);
 		virtual ~PathEvent2() {}
 		
 		bool Is_Start();
@@ -35,8 +34,6 @@ namespace path
 		void Continue();
 		
     protected:
-		
-		
 		
     private:
 		PathPlan2* path_plan = nullptr;
@@ -94,11 +91,11 @@ namespace path
 	
 	/*------------------------------------------------------------------------------------------*/
 	
-	#define MAX_CURVE_NUM 30
+	#define PATH2_MAX_CURVE_NUM 30
 	
 	
 	// 生成曲线状态
-	typedef enum Path2_Generate_Curve_Status
+	typedef enum class Path2_Generate_Curve_Status
 	{
 		GENERATE_JUST_FINISHED = 0,
 		GENERATE_WAIT_LAST_CURVE_POINT
@@ -109,10 +106,12 @@ namespace path
 	class Path2
     {
     public:
+		Path2();
+		virtual ~Path2() {}
 		
 		bool Generate_Path(Point2 point_);
 		
-		bool Get_Error_And_Vector(
+		bool Calculate(
 			data::RobotPose * robot_pose_,
 			float * normal_error, 
 			float * tangent_error, 
@@ -123,7 +122,8 @@ namespace path
 			uint16_t * arrive_point_num,
 			vector2d::Vector2D * tangent_yaw_vector
 		);
-			
+		
+		void Reset();
 		bool Is_Init() const {return is_init;}
 		bool Is_Start() const {return is_start;}
 		bool Is_End() const {return is_end;}
@@ -136,10 +136,8 @@ namespace path
     private:
 		void Calc_End_Vel();
 		
-		curve::BezierCurve curve[MAX_CURVE_NUM];
-		
-		
-		
+		curve::BezierCurve curve[PATH2_MAX_CURVE_NUM];
+
 		uint8_t curve_num = 0;
 		uint8_t point_num = 0;
 	
@@ -174,12 +172,12 @@ namespace path
 		
 		float last_smoothness;
 	
-		Path2_Generate_Curve_Status generate_status = GENERATE_JUST_FINISHED;
+		Path2_Generate_Curve_Status generate_status = Path2_Generate_Curve_Status::GENERATE_JUST_FINISHED;
 		
 		/*---------------------------------------------------*/
 		
 		friend class PathPlan2;
-		
+
     };
 	
 	/*------------------------------------------------------------------------------------------*/
@@ -191,7 +189,11 @@ namespace path
 	class PathPlan2 : public task::ManagedTask
     {
     public:
-		PathPlan2(data::RobotPose& robot_pose_, chassis::Chassis& robot_chassis_);
+		PathPlan2(
+			data::RobotPose& robot_pose_, chassis::Chassis& robot_chassis_,
+			float max_linear_vel_, float linear_accel_, float linear_decel_,
+			float max_angular_vel_, float angular_accel_, float angular_decel_
+		);
 		virtual ~PathPlan2() {}
 		
 		void Enable();
@@ -199,58 +201,41 @@ namespace path
 		
 		bool Add_End_Point(
 			vector2d::Vector2D coordinate_,					
-						
-			float              target_yaw_,				// 到达前目标yaw			
-			float              leave_target_yaw_,		// 离开前目标yaw			
-			float              linear_vel_,									
+			float              target_yaw_,						
+			float              leave_target_yaw_,				
+			float              linear_vel_,				
 			float              linear_accel_,											
 			float              linear_decel_,												
 			float              angular_vel_,											
 			float              angular_accel_,														
-			float              angular_decel_,		
-																						
-			bool               is_stop_,																								
-															
+			float              angular_decel_,													
+			bool               is_stop_,																																		
 			uint8_t            event_id_	
 		);
 		
 		bool Add_Point(
 			vector2d::Vector2D coordinate_,					
-					
 			float 	           smoothness_,
-			float              target_yaw_,				// 到达前目标yaw						
+			float              target_yaw_,								
 			float              linear_vel_,									
 			float              linear_accel_,											
 			float              linear_decel_,												
 			float              angular_vel_,											
 			float              angular_accel_,														
-			float              angular_decel_,																									
-															
+			float              angular_decel_,																																			
 			uint8_t            event_id_	
 		);
 		
 		bool Next_Path();
+			
+		bool Add_PathEvent(PathEvent2 * path_event_);
 		
     protected:
 		
     private:
 		void Task_Process() override;
 	
-		Point2 point[MAX_PATHPOINT_NUM];
-		Path2 path[2];
-	
-		uint16_t total_path_num = 0;
-		uint16_t current_path_num = 0;
-	
-	
-
-		uint8_t point_head = 0;
-		uint8_t point_tail = 0;
-	
-		uint16_t total_point_num = 0;
-		uint16_t generate_point_num = 0;
-	
-	
+		bool Delete_Point(uint16_t num);
 	
 		bool Add_One_Point(
 			vector2d::Vector2D coordinate_,					// 坐标  
@@ -272,6 +257,18 @@ namespace path
 			uint8_t            event_id_					// 事件id
 		);
 		
+		Point2 point[MAX_PATHPOINT_NUM];
+		Path2 path[2];
+		
+		uint16_t total_path_num = 0;
+		uint16_t current_path_num = 0;
+
+		uint8_t point_head = 0;
+		uint8_t point_tail = 1;// 第一个点为全局起点
+	
+		uint16_t total_point_num = 0;
+		uint16_t generate_point_num = 0;
+
 		// 线速度
 		float max_linear_vel = 0;
 		float max_linear_accel = 0;
@@ -282,39 +279,35 @@ namespace path
 		float max_angular_accel = 0;
 		float max_angular_decel = 0;
 		
-
-
-			
-
-		
-		// 
+		// 机器人位姿
 		data::RobotPose* robot_pose;
 		
-		// 
+		// 底盘
 		chassis::Chassis* robot_chassis; 
 		
-		// 
+		// 是否使能
 		bool is_enable = false;
 		
-		vector2d::Vector2D last_v;
+		// 是否是全局的第一个点
+		bool is_first_point = true;
+		
 		float last_vw;
-	
 		
 		uint32_t last_time = 0;
 		
-
 		float last_tangent_v = 0;
 		float last_normal_v = 0;
+		
+		uint16_t last_current_point_num = 0;// 上一次当前前一个点
+		uint16_t last_arrive_point_num = 0;// 上一次最新到达的点
+		
 		
 		pid::NonlinearPid tangent_pid;
 		pid::NonlinearPid normal_pid;
 		pid::NonlinearPid yaw_pid;
 		
-		PathEvent2 * path_event_list[MAX_PATH_EVENT_NUM];
+		PathEvent2 * path_event_list[MAX_PATH_EVENT_NUM] = {nullptr};
     };
 	/*------------------------------------------------------------------------------------------*/
 }
-
-	
-
 #endif

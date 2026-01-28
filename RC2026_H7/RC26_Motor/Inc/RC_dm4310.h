@@ -6,19 +6,12 @@
 
 #ifdef __cplusplus
 
-
-
-
-
-
-
-
 namespace motor
 {
 	class DM4310 : public Motor, public can::CanHandler, public tim::TimHandler
 	{
 	public:
-		DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0);
+		DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = false);
 		virtual ~DM4310() {}
 
 		void Set_K_Pos(float target_k_pos_) override;
@@ -40,10 +33,5 @@ namespace motor
 		bool is_enable = false;
 
 	};
-	
-	
-
-	
-	
 }
 #endif

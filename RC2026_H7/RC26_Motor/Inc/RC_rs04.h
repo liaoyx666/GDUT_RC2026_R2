@@ -3,7 +3,6 @@
 #include "RC_can.h"
 #include "RC_tim.h"
 
-
 #define RS04_COM_TYPE_0_ID 0x0
 #define RS04_COM_TYPE_1_CONTROL 0x1
 #define RS04_COM_TYPE_2_FEEDBACK 0x2
@@ -16,7 +15,6 @@
 #define RS04_COM_TYPE_15 0x15
 #define RS04_COM_TYPE_16 0x16
 #define RS04_COM_TYPE_18 0x18
-
 
 #ifdef __cplusplus
 namespace motor

@@ -128,7 +128,7 @@ namespace chassis
 			{
 				steer_motor[i]->Set_Out_Rpm(STEER_MOTOR_INIT_RPM);
 			}
-			else
+			else  
 			{
 				steer_motor[i]->Set_Out_Angle(0);
 			}

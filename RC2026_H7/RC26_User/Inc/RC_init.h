@@ -23,6 +23,8 @@
 #include "RC_vesc.h"
 #include "RC_swerve_chassis.h"
 #include "RC_chassis_jack.h"
+#include "RC_data_pool.h"
+#include "RC_path2.h"
 
 #include "RC_arm_task.h"
 
@@ -33,7 +35,7 @@
 
 #ifdef __cplusplus
 
-
+extern data::RobotPose robot_pose;
 
 
 #endif

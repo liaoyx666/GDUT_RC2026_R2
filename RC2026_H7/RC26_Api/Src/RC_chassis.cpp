@@ -5,7 +5,7 @@ namespace chassis
 	Chassis::Chassis(
 		float max_linear_vel_, float linear_accel_, float linear_decel_,
 		float max_angular_vel_, float angular_accel_, float angular_decel_
-	) : ManagedTask("ChassisTask", 15, 256, task::TASK_PERIOD, 1)
+	) : ManagedTask("ChassisTask", 20, 256, task::TASK_DELAY, 1)
 	{
 		max_linear_vel = fabsf(max_linear_vel_);
 		linear_accel = fabsf(linear_accel_);
@@ -25,6 +25,13 @@ namespace chassis
 	{
 		/*************************************************/
 		if (is_init == false || is_enable == false)
+		{
+			target_v = vector2d::Vector2D(0, 0);
+			target_vw = 0;
+		}
+		
+		// 控制指令超时
+		if (timer::Timer::Get_DeltaTime(last_control_time) > 200000)// 200ms
 		{
 			target_v = vector2d::Vector2D(0, 0);
 			target_vw = 0;
@@ -160,6 +167,8 @@ namespace chassis
 			target_v = v_;
 			target_vw = vw_;
 		}
+		
+		last_control_time = timer::Timer::Get_TimeStamp();
 	}
 	
 	void Chassis::Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_)

@@ -3,7 +3,7 @@
 
 namespace ros
 {
-	Radar::Radar(cdc::CDC &cdc_, uint8_t rx_id_) : cdc::CDCHandler(cdc_, rx_id_)
+	Radar::Radar(cdc::CDC &cdc_, uint8_t rx_id_, data::RobotPose& robot_pose_) : cdc::CDCHandler(cdc_, rx_id_), robot_pose(&robot_pose_)
 	{
 		
 	}
@@ -17,30 +17,12 @@ namespace ros
 			z   = *(float*)(&buf[8]);
 			yaw = *(float*)(&buf[12]);
 			
-			latest_receive_time = timer::Timer::Get_TimeStamp();
+			robot_pose->Update_Position(&x, &y, &z);
+			
+			robot_pose->Update_Orientation(&yaw, NULL, NULL);
 		}
 	}
+
 	
-	bool Radar::Is_Valid()
-	{
-		uint32_t delta_time = timer::Timer::Get_DeltaTime(latest_receive_time);
-		
-		if (delta_time > 200000)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-	
-	bool Radar::Get_Radar_Data(float* x_, float* y_, float* yaw_)
-	{
-		*x_ = x;
-		*y_ = y;
-		*yaw_ = yaw;
-	
-		return Is_Valid();
-	}
+
 }

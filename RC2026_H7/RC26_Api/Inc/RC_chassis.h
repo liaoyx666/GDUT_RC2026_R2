@@ -23,7 +23,7 @@ namespace chassis
 		
 		// 设置世界坐标送速度
 		void Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_);
-			
+		
 		// 获取底盘当前线速度
 		vector2d::Vector2D Get_Vel() const {return v;}
 		
@@ -83,6 +83,7 @@ namespace chassis
 	
 		// 时间戳
 		uint32_t last_time = 0;
+		uint32_t last_control_time = 0;
 		
 		bool is_init = false;
 		bool is_enable = true;

@@ -25,8 +25,8 @@
 
 namespace motor
 {
-	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_)
-		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.5f), use_mit(use_mit_)
+	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
+		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.f, is_reset_pos_), use_mit(use_mit_)
 	{
 		id = id_;// 电机id
 
@@ -129,7 +129,14 @@ namespace motor
 		temperature 	= (float)(int8_t)rx_data[6];//线圈温度
 		mos_temperature = (float)(int8_t)rx_data[7];//mos温度
 		
+		out_pos = pos / gear_ratio;
 
+		if (is_reset_pos == true)
+		{
+			Reset_Pos(0);
+			is_reset_pos = false;
+		}
+		
 		if (error_code == 0x01)
 		{
 			is_enable = true;

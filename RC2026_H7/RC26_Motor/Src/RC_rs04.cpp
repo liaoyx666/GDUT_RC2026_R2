@@ -43,8 +43,9 @@ namespace motor
 			Set_K_Spd(k_spd_);// 阻尼系数
 			Set_K_Pos(k_pos_);// 刚度系数
 		}
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
-	
 	
 	void RS04::CanHandler_Register()
 	{
@@ -59,10 +60,9 @@ namespace motor
 		can->tx_frame_list[tx_frame_dx].hd_dx[0] = hd_list_dx;
 	}
 
-
 	void RS04::Tim_It_Process()
 	{
-		if (use_mit != true)// 不使用mit
+		if (!use_mit)// 不使用mit
 		{
 			if (motor_mode != TORQUE_MODE)			//> 力矩模式
 			{
@@ -88,7 +88,6 @@ namespace motor
 		
 		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
-
 
 	void RS04::Can_Tx_Process()
 	{
@@ -167,7 +166,6 @@ namespace motor
 		}
 	}
 
-
 	void RS04::Can_Rx_It_Process(uint32_t rx_id_, uint8_t* rx_data)
 	{
 		uint8_t return_com_type = (rx_id_ >> 24) & 0x1f;
@@ -204,8 +202,7 @@ namespace motor
 				break;
 		}
 	}
-	
-	
+
 	void RS04::Set_K_Pos(float target_k_pos_)
 	{
 		if (use_mit == true)
@@ -215,7 +212,6 @@ namespace motor
 			else target_k_pos = target_k_pos_;
 		}
 	}
-	
 	
 	void RS04::Set_K_Spd(float target_k_spd_)
 	{
@@ -227,7 +223,6 @@ namespace motor
 		}
 	}
 	
-	
 	void RS04::Set_Can_Id(uint8_t target_id_)
 	{
 		if (is_enable != true)
@@ -236,7 +231,6 @@ namespace motor
 			tx_com_type = RS04_COM_TYPE_7_SET_ID;
 		}
 	}
-	
 	
 	void RS04::Set_ZeroPos()
 	{

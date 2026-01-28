@@ -32,7 +32,7 @@ motor::Vesc vesc_102_can3(102, can3, tim13_500hz, 21);
 motor::Vesc vesc_103_can3(103, can3, tim13_500hz, 21);
 motor::Vesc vesc_104_can3(104, can3, tim13_500hz, 21);
 // -----------------------------------------------------------
-
+motor::Vesc vesc_101_can1(101, can1, tim13_500hz, 21, true);
 
 // 机械臂电机-------------------------------------------------
 motor::M2006 	m2006_4(3, can1, tim7_1khz, 36.f * 2.f);
@@ -61,15 +61,8 @@ motor::M2006 	m2006_6_can2(6, can2, tim7_1khz, 36.f);
 // -----------------------------------------------------------
 
 
-/*====================================软件模块初始化====================================*/
-timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
-
-path::PathPlan path_plan(2, 1.f);// 路径规划
-
-
-
 /*====================================硬件模块初始化====================================*/
-ros::Radar 		radar(CDC_HS, 1);// 雷达数据接收
+ros::Radar 		radar(CDC_HS, 1, robot_pose);// 雷达数据接收
 ros::Map 		map(CDC_HS, 2);// 地图数据接收
 ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
@@ -103,6 +96,21 @@ chassis_jack::Chassis_jack chassis_jack_test(
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
 imu::JY901S jy901s(huart1);// 陀螺仪  
+
+data::RobotPose robot_pose;// 机器人位姿
+
+/*====================================软件模块初始化====================================*/
+timer::Timer timer_us(tim4_timer);// 用于获取us级时间戳
+
+//path::PathPlan path_plan(2, 1.f);// 路径规划
+
+
+path::PathPlan2 path_plan(
+	robot_pose, swerve_4_chassis,
+	2.5, 5, 5,
+	4, 8, 8
+);
+
 
 /*====================================DeBug====================================*/
 SquareWave wave(1000, 3000);// 用于调pid
@@ -151,6 +159,94 @@ void test(void *argument)
 
 	remote_ctrl.signal_swa();
 	
+	
+	path_plan.Add_Point(
+		vector2d::Vector2D(0, 1),					
+		0.5,
+		0,									
+		PATH_MAX_PARAM,									
+		PATH_MAX_PARAM,											
+		PATH_MAX_PARAM,												
+		PATH_MAX_PARAM,										
+		PATH_MAX_PARAM,														
+		PATH_MAX_PARAM,																									
+		0
+	);
+	
+	
+	path_plan.Add_Point(
+		vector2d::Vector2D(1, 1),					
+		0,
+		0,									
+		PATH_MAX_PARAM,									
+		PATH_MAX_PARAM,											
+		PATH_MAX_PARAM,												
+		PATH_MAX_PARAM,										
+		PATH_MAX_PARAM,														
+		PATH_MAX_PARAM,																									
+		0
+	);
+	
+	
+	path_plan.Add_Point(
+		vector2d::Vector2D(1, 0),					
+		0.4,
+		0,									
+		PATH_MAX_PARAM,									
+		PATH_MAX_PARAM,											
+		PATH_MAX_PARAM,												
+		PATH_MAX_PARAM,										
+		PATH_MAX_PARAM,														
+		PATH_MAX_PARAM,																									
+		0
+	);
+	
+	path_plan.Add_End_Point(
+		vector2d::Vector2D(2, 0),				// 坐标  
+		0,				// 到达前目标yaw					
+		0,		// 离开前目标yaw					
+		PATH_MAX_PARAM,									
+		PATH_MAX_PARAM,											
+		PATH_MAX_PARAM,												
+		PATH_MAX_PARAM,										
+		PATH_MAX_PARAM,														
+		PATH_MAX_PARAM,		
+		false,				// 是否停止																				
+		0				// 事件id
+	);
+	
+	path_plan.Add_End_Point(
+		vector2d::Vector2D(2, 1),				// 坐标  
+		0,				// 到达前目标yaw					
+		0,		// 离开前目标yaw					
+		PATH_MAX_PARAM,									
+		PATH_MAX_PARAM,											
+		PATH_MAX_PARAM,												
+		PATH_MAX_PARAM,										
+		PATH_MAX_PARAM,														
+		PATH_MAX_PARAM,		
+		false,				// 是否停止																				
+		0				// 事件id
+	);
+		
+		
+	path_plan.Add_End_Point(
+		vector2d::Vector2D(3, 1),				// 坐标  
+		0,				// 到达前目标yaw					
+		0,		// 离开前目标yaw					
+		PATH_MAX_PARAM,									
+		PATH_MAX_PARAM,											
+		PATH_MAX_PARAM,												
+		PATH_MAX_PARAM,										
+		PATH_MAX_PARAM,														
+		PATH_MAX_PARAM,		
+		false,				// 是否停止																				
+		0				// 事件id
+	);
+	
+		
+	path_plan.Enable();
+	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
@@ -158,8 +254,13 @@ void test(void *argument)
 
 		
 		
-		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f);
+		vesc_101_can1.Set_Out_Rpm(a);
 		
+		
+		uart_printf("%f,%f\n", vesc_101_can1.Get_Out_Rpm(), a);
+		
+//		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f);
+//		
 //		if (remote_ctrl.signal_swa() == true)
 //		{
 //			if (arm_task.Arm_IsBusy() == false)
@@ -181,6 +282,12 @@ void test(void *argument)
 //		}
 		
 		
+		
+		
+		
+		
+		
+		
 		chassis_jack_test.chassis_test(remote_ctrl.signal_swd(), remote_ctrl.swc, 2.5, GPIOA, GPIO_PIN_8,
 																				  0.6, GPIOG, GPIO_PIN_1,
 																				  0.8, GPIOA, GPIO_PIN_9,
@@ -196,7 +303,7 @@ void test(void *argument)
 	} 
 }
 
-task::TaskCreator test_task("test", 20, 512, test, NULL);
+task::TaskCreator test_task("test", 20, 1024, test, NULL);
 
 
 
