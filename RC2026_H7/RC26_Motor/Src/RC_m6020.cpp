@@ -25,7 +25,7 @@ namespace motor
 			pid_spd.Pid_Param_Init(10, 7, 0, 0, 0.001, 0, 25000, 10000, 5000, 5000, 5000);
 
 			pid_pos.Pid_Mode_Init(false, false, 0.01);
-			pid_pos.Pid_Param_Init(0, 0, 0, 0, 0.001, 0, 300, 150, 150, 150, 150);
+			pid_pos.Pid_Param_Init(100, 0, 15, 0, 0.001, 0, 300, 150, 150, 150, 150);
 		}
 	}
 	
