@@ -10,7 +10,7 @@ namespace timer
 		timer_tim = &tim_;
 	}
 
-	
+
 	void Timer::Tim_It_Process()
 	{
 		cycle++;
@@ -19,7 +19,13 @@ namespace timer
 	
 	uint32_t Timer::Get_TimeStamp()
 	{
-		return timer_tim->htim->Instance->CNT + cycle * 0xffff;
+		uint32_t current_cycle;
+        uint32_t current_cnt;
+
+		current_cycle = cycle;
+		current_cnt = timer_tim->htim->Instance->CNT;
+		
+		return current_cnt + current_cycle * 0xffff;
 	}
 	
 	uint32_t Timer::Get_DeltaTime(uint32_t last_time_stamp)

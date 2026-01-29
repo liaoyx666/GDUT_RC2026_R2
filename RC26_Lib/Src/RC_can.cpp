@@ -203,18 +203,11 @@ namespace can
 	
 	
 	
-	
-
 	/*-------------------------------------------------------------*/
 
 	CanHandler::CanHandler(Can &can_) : can(&can_)
 	{
 		hd_list_dx = can->Add_CanHandler(this);// 
 	}
-
-
-
-
-
 
 }

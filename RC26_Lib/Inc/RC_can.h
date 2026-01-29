@@ -9,18 +9,16 @@
 #define MAX_CAN_NUM 3
 
 
-
-
-
 namespace can
 {
-
+	
 	typedef enum CanFrameType
 	{
 		FRAME_STD,  // 标准帧
 		FRAME_EXT   // 扩展帧
 	} CanFrameType;
 
+	
 	typedef struct CanTxFrame
 	{
 		uint32_t id;
@@ -32,12 +30,6 @@ namespace can
 		
 		CanFrameType frame_type;
 	} CanTxFrame;
-
-
-
-
-
-
 
 
 	class CanHandler;// 向前声明
@@ -108,11 +100,6 @@ namespace can
 		
 		
 	};
-
-
-
-
 }
-
 
 #endif
