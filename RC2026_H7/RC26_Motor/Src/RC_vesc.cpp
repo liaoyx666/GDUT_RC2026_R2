@@ -32,8 +32,11 @@ namespace motor
         // 注册CAN设备
         CanHandler_Register();
 		
-		pid_spd.Pid_Mode_Init(true, false, 0);
-		pid_spd.Pid_Param_Init(0.0008, 0.000021, 0, 0, 0.002, 0, 1, 0.5, 0.5, 0.5, 0.5);
+		pid_spd.Pid_Mode_Init(true, false, 0.09);
+		pid_spd.Pid_Param_Init(0.003, 0.00003, 0.000021, 0, 0.002, 0, 1, 0.5, 0.5, 0.5, 0.5);
+		
+//		pid_spd.Pid_Mode_Init(false, false, 0);
+//		pid_spd.Pid_Param_Init(0.0025, 0.00002, 0.00002, 0, 0.002, 0, 1, 1, 0, 0.5, 0.5);
     }
     
 	

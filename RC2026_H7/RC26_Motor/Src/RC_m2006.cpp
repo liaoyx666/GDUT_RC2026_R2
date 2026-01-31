@@ -12,10 +12,10 @@ namespace motor
 		
 		// m2006默认pid参数
 		pid_spd.Pid_Mode_Init(true, false, 0);
-		pid_spd.Pid_Param_Init(13, 0.7, 0, 0, 0.001, 0, 16000, 10000, 5000, 5000, 5000);// 1ms
+		pid_spd.Pid_Param_Init(13, 0.7, 0, 0, 0.002, 0, 16000, 10000, 5000, 5000, 5000);// 1ms
 		
 		pid_pos.Pid_Mode_Init(false, false, 0);
-		pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 1000, 500, 500, 500, 500, 10, 3.f);// 1ms
+		pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.002, 0, 1000, 500, 500, 500, 500, 10, 3.f);// 1ms
 	}
 	
 	

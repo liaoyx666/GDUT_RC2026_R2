@@ -1,5 +1,5 @@
 #pragma once
-
+#include "RC_path2.h"
 #include "RC_motor.h"
 #include "RC_LiDAR.h"
 #include "RC_chassis.h"
@@ -13,28 +13,29 @@
 
 namespace chassis_jack
 {
-    class Chassis_jack
+    class Chassis_jack : public path::PathEvent2
     {
 	public:
 		Chassis_jack(
-			motor::Motor& left_front_motor_, 
-			motor::Motor& left_behind_motor_, 
-			motor::Motor& right_front_motor_, 
-			motor::Motor& right_behind_motor_,
-			motor::Motor& left_small_wheel_,
-			motor::Motor& right_small_wheel_,
+			uint8_t id_, path::PathPlan2 &path_plan_,
+			motor::Motor& left_front_motor_, motor::Motor& left_behind_motor_, 
+			motor::Motor& right_front_motor_, motor::Motor& right_behind_motor_,
+			motor::Motor& left_small_wheel_, motor::Motor& right_small_wheel_,
 			float max_linear_vel_,
 			lidar::LiDAR& LiDAR_jack_,
-			chassis::Chassis& v_limit_
+			chassis::Chassis& v_limit_,
+			float default_vel, float up_ready_vel, float up_close_vel, float down_close_vel, 
+			GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
+			GPIO_TypeDef* GPIOx2, uint16_t GPIO_Pin_2,
+			GPIO_TypeDef* GPIOx3, uint16_t GPIO_Pin_3,
+			GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4
 		);
 
 		virtual ~Chassis_jack() {}
 
+		void Up_Or_Down_Event();
 
-		void chassis_test(bool signal, uint8_t state, float default_vel,    GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
-												   float up_ready_vel,   GPIO_TypeDef* GPIOx2, uint16_t GPIO_Pin_2,
-												   float up_close_vel,   GPIO_TypeDef* GPIOx3, uint16_t GPIO_Pin_3,
-												   float down_close_vel, GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4);
+		void Up_Or_Down_Steps(bool signal, uint8_t state);
 		
 		chassis::Chassis& v_limit;
 		uint8_t b = 0;
@@ -54,6 +55,23 @@ namespace chassis_jack
 		void Set_Vel(float linear_vel_);
 		
 	private:
+		float default_vel;
+	    float up_ready_vel;   
+	    float up_close_vel;   
+	    float down_close_vel; 
+		
+		GPIO_TypeDef* GPIOx1;
+		GPIO_TypeDef* GPIOx2;
+		GPIO_TypeDef* GPIOx3;
+		GPIO_TypeDef* GPIOx4;
+		
+		uint16_t GPIO_Pin_1;
+	    uint16_t GPIO_Pin_2;
+	    uint16_t GPIO_Pin_3;
+	    uint16_t GPIO_Pin_4;
+	
+	
+
 		motor::Motor& left_front_motor;
 		motor::Motor& left_behind_motor;
 		motor::Motor& right_front_motor;

@@ -62,6 +62,7 @@ namespace pid
 		
 		float target = 0, real = 0, output = 0;
 		//float error = 0;
+		float integral = 0;
 		float last_output = 0, last_error = 0, last_real = 0, last_target = 0;
 		float last_differential = 0, last_proportion = 0;
 		float previous_error = 0;

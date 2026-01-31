@@ -2,7 +2,8 @@
 
 namespace chassis_jack
 {
-    Chassis_jack::Chassis_jack( 
+    Chassis_jack::Chassis_jack(
+		uint8_t id_, path::PathPlan2 &path_plan_,
 		motor::Motor& left_front_motor_, 
 		motor::Motor& left_behind_motor_, 
 		motor::Motor& right_front_motor_, 
@@ -11,7 +12,15 @@ namespace chassis_jack
 		motor::Motor& right_small_wheel_,
 		float max_linear_vel_,
 		lidar::LiDAR& LiDAR_jack_,
-		chassis::Chassis& v_limit_
+		chassis::Chassis& v_limit_,
+		float default_vel_,    
+		float up_ready_vel_,   
+		float up_close_vel_,   
+		float down_close_vel_, 
+		GPIO_TypeDef* GPIOx1_, uint16_t GPIO_Pin_1_,
+		GPIO_TypeDef* GPIOx2_, uint16_t GPIO_Pin_2_,
+		GPIO_TypeDef* GPIOx3_, uint16_t GPIO_Pin_3_,
+		GPIO_TypeDef* GPIOx4_, uint16_t GPIO_Pin_4_
 	) : left_front_motor(left_front_motor_),
 		left_behind_motor(left_behind_motor_),
 		right_front_motor(right_front_motor_),
@@ -19,8 +28,21 @@ namespace chassis_jack
 		left_small_wheel(left_small_wheel_),
 		right_small_wheel(right_small_wheel_),
 		LiDAR_jack(LiDAR_jack_),
-		v_limit(v_limit_)
+		v_limit(v_limit_),
+		path::PathEvent2(id_, path_plan_)
 	{
+		default_vel    = default_vel_;
+		up_ready_vel   = up_ready_vel_;
+		up_close_vel   = up_close_vel_;
+		down_close_vel = down_close_vel_;
+		GPIOx1 = GPIOx1_;
+		GPIOx2 = GPIOx2_;
+		GPIOx3 = GPIOx3_;
+		GPIOx4 = GPIOx4_;
+		GPIO_Pin_1 = GPIO_Pin_1_;
+		GPIO_Pin_2 = GPIO_Pin_2_;
+		GPIO_Pin_3 = GPIO_Pin_3_;
+		GPIO_Pin_4 = GPIO_Pin_4_;
 		
 		left_front_motor.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
 		left_front_motor.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 8000, 4000, 2000, 2000, 2000, 1000, 7000);	
@@ -39,23 +61,18 @@ namespace chassis_jack
 
 	// 延时
 	#define UP_HOLD_BEHAND_LEG_2_DEFAULT_TIME 200000 // 
-	
 	#define DOWN_STRWTCH_FRONT_LEG_2_DOWN_TIME 1000000 // 
 	#define DOWN_DOWN_2_DEFAULT_TIME 1000000 // 
 		
-	void Chassis_jack::chassis_test(
-		bool signal, uint8_t state, float default_vel, GPIO_TypeDef* GPIOx1, uint16_t GPIO_Pin_1,
-		float up_ready_vel,   GPIO_TypeDef* GPIOx2, uint16_t GPIO_Pin_2,
-		float up_close_vel,   GPIO_TypeDef* GPIOx3, uint16_t GPIO_Pin_3,
-		float down_close_vel, GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4
-	)
+	
+	void Chassis_jack::Up_Or_Down_Steps(bool signal, uint8_t state)
     {
 		dis = LiDAR_jack.distance;
 		
 		// 接收光电开关状态
 		gd1 = HAL_GPIO_ReadPin(GPIOx1, GPIO_Pin_1);	//上楼梯收前腿
-		gd2 = HAL_GPIO_ReadPin(GPIOx2, GPIO_Pin_2);	//下楼梯伸前腿
-		gd3 = HAL_GPIO_ReadPin(GPIOx3, GPIO_Pin_3);	//上楼梯收后腿
+		gd2 = HAL_GPIO_ReadPin(GPIOx3, GPIO_Pin_3);	//下楼梯伸前腿
+		gd3 = HAL_GPIO_ReadPin(GPIOx2, GPIO_Pin_2);	//上楼梯收后腿
 		gd4 = HAL_GPIO_ReadPin(GPIOx4, GPIO_Pin_4);	//下楼梯伸后腿
 
 		// 默认状态下才能切换
@@ -77,7 +94,6 @@ namespace chassis_jack
 			b = 0;
 		}
 
-		
 		if(up_or_down == 0)
 		{
 			switch (b)
@@ -304,6 +320,18 @@ namespace chassis_jack
 			}
 		}
     }
+	
+	void Chassis_jack::Up_Or_Down_Event()
+	{
+		bool signal = false;
+		
+		if (Is_Start())
+		{
+			signal = true;
+		}
+		
+		Up_Or_Down_Steps(signal, 0);// test上台阶
+	}
 	
 	
 	void Chassis_jack::Set_Vel(float linear_vel_)

@@ -192,7 +192,8 @@ namespace path
 		PathPlan2(
 			data::RobotPose& robot_pose_, chassis::Chassis& robot_chassis_,
 			float max_linear_vel_, float linear_accel_, float linear_decel_,
-			float max_angular_vel_, float angular_accel_, float angular_decel_
+			float max_angular_vel_, float angular_accel_, float angular_decel_,
+			float distance_deadzone_, float yaw_deadzone_
 		);
 		virtual ~PathPlan2() {}
 		
@@ -301,6 +302,8 @@ namespace path
 		uint16_t last_current_point_num = 0;// 上一次当前前一个点
 		uint16_t last_arrive_point_num = 0;// 上一次最新到达的点
 		
+//		float distance_deadzone = 0;
+//		float yaw_deadzone = 0;
 		
 		pid::NonlinearPid tangent_pid;
 		pid::NonlinearPid normal_pid;

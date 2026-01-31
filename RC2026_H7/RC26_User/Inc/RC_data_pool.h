@@ -22,6 +22,8 @@ namespace data
 		float const * Get_pRoll() const {return &roll;}
 		float const * Get_pPitch() const {return &pitch;}
 		
+		bool Is_Position_Valid() const {return position_is_valid;}
+		bool Is_Orientation_Valid() const {return orientation_is_valid;}
 		
     protected:
 		

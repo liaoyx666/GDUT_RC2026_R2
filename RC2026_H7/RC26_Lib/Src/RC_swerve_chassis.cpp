@@ -32,8 +32,8 @@ namespace chassis
 
 		for (uint8_t i = 0; i < 4; i++)
 		{
-			steer_motor[i]->pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.001, 0, 12000, 10000, 10000, 10000, 10000, 15500.f, 11500);
+			steer_motor[i]->pid_pos.Pid_Mode_Init(false, false, 0.0, true);
+			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.002, 0, 12000, 10000, 10000, 10000, 10000, 15500.f, 11500);
 			steer_motor[i]->Reset_Out_Angle(0);
 		}
 		

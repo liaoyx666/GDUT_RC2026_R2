@@ -59,7 +59,7 @@ namespace pid
 			temp_target = target;
 		}
 		
-		float integral = 0, differential = 0, proportion = 0, feed_forward = 0;
+		float differential = 0, proportion = 0, feed_forward = 0;
 
 		float error = 0;
 		
@@ -108,8 +108,6 @@ namespace pid
 			if (incremental == true)
 			{
 				integral = error * ki;
-					
-				
 			}
 			else
 			{
@@ -123,7 +121,7 @@ namespace pid
 				}
 				else
 				{
-					integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
+					integral += (error + last_error) * delta_time * 0.5f * ki/* * (1.f / (1.f + (fabsf(error) / 100.f)))*/;// 梯形积分
 				}
 				
 				// 积分限幅
@@ -140,7 +138,8 @@ namespace pid
 		{
 			if (incremental == true)
 			{
-				differential = (error - 2.f * last_error + previous_error) * kd;// 普通微分
+				//differential = (error - 2.f * last_error + previous_error) * kd;// 普通微分
+				differential = (error - last_error) / delta_time * kd;
 			}
 			else
 			{
@@ -176,7 +175,7 @@ namespace pid
 		/*--------------------------------------- 输出---------------------------------------------*/
 		if (incremental == true)
 		{
-			output = proportion + integral + differential + last_output + feed_forward;
+			output = proportion + integral/* + differential */+ last_output + feed_forward;
 		}
 		else
 		{
@@ -192,17 +191,26 @@ namespace pid
 		{
 			if (output > output_limit) output = output_limit;
 			else if (output < -output_limit) output = -output_limit;
+			
+			// 更新
+			last_output = output;
 		}
-		
+		 
 		/*----------------------------------------更新--------------------------------------------*/
 		previous_error = last_error;
-		
 		last_error = error;
-		last_output = output;
 		last_real = real;
 		last_target = temp_target;
 		last_differential = differential;
 		last_proportion = proportion;
+		
+		if (incremental == true)
+		{
+			output += differential;
+			
+			if (output > output_limit) output = output_limit;
+			else if (output < -output_limit) output = -output_limit;
+		}
 		
 		return output;
 	}

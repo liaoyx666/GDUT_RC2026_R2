@@ -2,9 +2,9 @@
 
 namespace pid
 {
-	NonlinearPid::NonlinearPid(float kp_, float accel_, float delta_, float max_out_)
+	NonlinearPid::NonlinearPid(float kp_, float accel_, float delta_, float max_out_, float deadzone_)
 	{
-		Init(kp_, accel_, delta_, max_out_);
+		Init(kp_, accel_, delta_, max_out_, deadzone_);
 	}
 	
 	NonlinearPid::NonlinearPid()
@@ -18,12 +18,13 @@ namespace pid
 		y0 = 0;
 	}
 
-	void NonlinearPid::Init(float kp_, float accel_, float delta_, float max_out_)
+	void NonlinearPid::Init(float kp_, float accel_, float delta_, float max_out_, float deadzone_)
 	{
 		kp = fabsf(kp_);
 		two_accel = fabsf(2.f * accel_);
 		delta = fabsf(delta_);
 		max_out = fabsf(max_out_);
+		deadzone = fabsf(deadzone_);
 		
 		if (kp_ != 0 && accel_ != 0)
 		{
@@ -52,6 +53,14 @@ namespace pid
 		{
 			if (error > unit) error = error - period;
 			else if (error < -unit) error = error + period;
+		}
+		
+		if (deadzone != 0)
+		{
+			if (fabsf(error) < deadzone)
+			{
+				return 0;
+			}
 		}
 		
 		float abs_error = fabsf(error);

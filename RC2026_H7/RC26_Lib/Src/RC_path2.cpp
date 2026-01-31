@@ -83,16 +83,18 @@ namespace path
 		// 限制 0 ~ 1
 		point_.smoothness = fminf(fmaxf(point_.smoothness, 0.f), 1.f);
 		
+		
+		
 		// 第一个点
 		if (point_num == 0)
 		{
-			// 第一个点强制不为结束点
-			point_.is_end = false;
-			have_start_target_angle = false;
 			temp_start_point = point_.coordinate;
 			start_point_num = point_.point_num;
 			
 			generate_status = Path2_Generate_Curve_Status::GENERATE_JUST_FINISHED;
+
+			point_num++;
+			return true;
 		}
 		
 		point_num++;
@@ -556,7 +558,8 @@ namespace path
 	PathPlan2::PathPlan2(
 		data::RobotPose& robot_pose_, chassis::Chassis& robot_chassis_,
 		float max_linear_vel_, float linear_accel_, float linear_decel_,
-		float max_angular_vel_, float angular_accel_, float angular_decel_
+		float max_angular_vel_, float angular_accel_, float angular_decel_,
+		float distance_deadzone_, float yaw_deadzone_
 	)
 	: ManagedTask("PathPlan2Task", 30, 512, task::TASK_DELAY, 1), robot_pose(&robot_pose_), robot_chassis(&robot_chassis_)
 	{
@@ -566,6 +569,9 @@ namespace path
 		max_angular_vel   = fabsf(max_angular_vel_);
 		max_angular_accel = fabsf(angular_accel_);
 		max_angular_decel = fabsf(angular_decel_);
+		
+//		distance_deadzone = fabsf(distance_deadzone_);
+//		yaw_deadzone 	  = fabsf(yaw_deadzone_);
 		
 		total_path_num = 0;
 		current_path_num = 0;
@@ -588,9 +594,9 @@ namespace path
 		last_tangent_v = 0;
 		last_normal_v = 0;
 		
-		tangent_pid.Init(1, max_linear_decel, 0.1, max_linear_vel);
-		normal_pid.Init(1, max_linear_decel, 0.5, max_linear_vel);
-		yaw_pid.Init(1, max_angular_decel, 0.5, max_angular_vel);
+		tangent_pid.Init(1.2, max_linear_decel, 0.1, max_linear_vel, 0);
+		normal_pid.Init(1.2, max_linear_decel, 0.5, max_linear_vel, distance_deadzone_);
+		yaw_pid.Init(1.6, max_angular_decel, 0.1, max_angular_vel, yaw_deadzone_);
 		
 		last_current_point_num = 0;// 上一次当前前一个点
 		last_arrive_point_num = 0;// 上一次最新到达的点
@@ -658,10 +664,13 @@ namespace path
 		{
 			if (is_first_point)
 			{
-				// 起点为机器人当前位置
-				point[0].coordinate = vector2d::Vector2D(*robot_pose->Get_pX(), *robot_pose->Get_pY());
+				if (robot_pose->Is_Position_Valid())
+				{
+					// 起点为机器人当前位置
+					point[0].coordinate = vector2d::Vector2D(*robot_pose->Get_pX(), *robot_pose->Get_pY());
 
-				is_first_point = false;
+					is_first_point = false;
+				}
 			}
 			else
 			{

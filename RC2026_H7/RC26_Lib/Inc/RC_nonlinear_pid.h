@@ -8,10 +8,10 @@ namespace pid
 	class NonlinearPid
     {
     public:
-		NonlinearPid(float kp_, float accel_, float delta_, float max_out_);
+		NonlinearPid(float kp_, float accel_, float delta_, float max_out_, float deadzone_ = 0);
 		NonlinearPid();
 		virtual ~NonlinearPid() {}
-			
+		
 		float NPid_Calculate(float target_, float real_, bool normalization = false, float unit = PI);
 		
 		void Set_Accel(float accel_)
@@ -34,11 +34,11 @@ namespace pid
 			Init(kp, two_accel / 2.f, delta, max_out_);
 		}
 		
-		void Init(float kp_, float accel_, float delta_, float max_out_);
+		void Init(float kp_, float accel_, float delta_, float max_out_, float deadzone_ = 0);
     protected:
 		
     private:
-		
+		float deadzone = 0;
 	
 		float kp;
 		float two_accel;
