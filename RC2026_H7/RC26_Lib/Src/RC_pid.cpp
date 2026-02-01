@@ -40,6 +40,14 @@ namespace pid
 		
 		td.TD_Init(r_, delta_time_, v2_max_);
 	}
+	
+	
+	void Pid::Set_Differential_lowpass_alpha(float differential_lowpass_alpha_)
+	{
+		differential_lowpass_alpha_ = fabsf(differential_lowpass_alpha_);
+		if (differential_lowpass_alpha_ >= 1) differential_lowpass_alpha = 0;
+		else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
+	}
 
 
 	float Pid::Pid_Calculate(bool normalization, float unit)

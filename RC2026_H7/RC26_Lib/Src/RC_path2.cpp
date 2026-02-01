@@ -58,6 +58,8 @@ namespace path
 		current_finished_len = 0;// 已完成的曲线的总长度
 		current_curve_len = 0;// 当前曲线走过的长度
 		
+		have_start_target_angle = false;
+		
 		curve_more_than_half = false;// 曲线路程是否过半
 		temp_control_point_num = 0;
 		temp_end_point_num = 0;
@@ -83,11 +85,13 @@ namespace path
 		// 限制 0 ~ 1
 		point_.smoothness = fminf(fmaxf(point_.smoothness, 0.f), 1.f);
 		
-		
-		
 		// 第一个点
 		if (point_num == 0)
 		{
+			have_start_target_angle = point_.have_leave_target_yaw;
+			
+			start_target_angle = point_.leave_target_yaw;
+			
 			temp_start_point = point_.coordinate;
 			start_point_num = point_.point_num;
 			
@@ -302,7 +306,7 @@ namespace path
 	}
 	
 	
-	#define PATH2_CURVATURE_SAMPLE_STEP 0.02// m 计算曲率时的三个点采样步长
+	#define PATH2_CURVATURE_SAMPLE_STEP 0.01// m 计算曲率时的三个点采样步长
 	
 	
 	// 计算每一段结束时最大速度
@@ -330,13 +334,13 @@ namespace path
 				
 				float temp_curvature = vector2d::Vector2D::curvatureFromThreePoints(
 					curve[i].Get_Point((curve[i].Get_len() - PATH2_CURVATURE_SAMPLE_STEP) / curve[i].Get_len()), 
-					curve[i].Get_Point(1.f), 
+					curve[i].Get_Point(1.f),
 					curve[i + 1].Get_Point(PATH2_CURVATURE_SAMPLE_STEP / curve[i + 1].Get_len())
 				);
 				
 				temp_curvature = fmaxf(fabsf(temp_curvature), 1e-6f); // 最小曲率限制（避免除零）
 				
-				arm_sqrt_f32(1.f / temp_curvature, &temp_vel_2);// 曲率下的最大速度
+				arm_sqrt_f32(curve[i].Get_Decel() / temp_curvature, &temp_vel_2);// 曲率下的最大速度
 
 				curve[i].Set_End_Vel(temp_vel_1 > temp_vel_2 ? temp_vel_2 : temp_vel_1);// 取最小速度为终点速度
 			}
@@ -434,7 +438,6 @@ namespace path
 			}
 		}
 		
-		
 		if (is_start == false) // 还没开始，直接锁定起点
 		{
 			// 切向误差为0
@@ -518,6 +521,18 @@ namespace path
 			{
 				// 前一个点为结束点
 				*current_point_num = curve[current_curve_dx].Get_End_Point_Num();
+				
+				// 判断是不是第一条曲线
+				if (current_curve_dx >= 1)
+				{
+					// 不是第一条，到达的点为上一条曲线终点
+					*arrive_point_num = curve[current_curve_dx - 1].Get_End_Point_Num();
+				}
+				else
+				{
+					// 第一条，到达的点为路径起点
+					*arrive_point_num = start_point_num;
+				}
 			}
 			else
 			{
@@ -528,7 +543,7 @@ namespace path
 					*current_point_num = curve[current_curve_dx].Get_Control_Point_Num();
 					
 					// 判断是不是第一条曲线
-					if (current_curve_dx > 1)
+					if (current_curve_dx >= 1)
 					{
 						// 不是第一条，到达的点为上一条曲线终点
 						*arrive_point_num = curve[current_curve_dx - 1].Get_End_Point_Num();
@@ -564,15 +579,12 @@ namespace path
 	: ManagedTask("PathPlan2Task", 30, 512, task::TASK_DELAY, 1), robot_pose(&robot_pose_), robot_chassis(&robot_chassis_)
 	{
 		max_linear_vel    = fabsf(max_linear_vel_);
-		max_linear_accel  = fabsf(linear_accel_);
 		max_linear_decel  = fabsf(linear_decel_);
+		max_linear_accel  = fabsf(linear_accel_);
 		max_angular_vel   = fabsf(max_angular_vel_);
 		max_angular_accel = fabsf(angular_accel_);
 		max_angular_decel = fabsf(angular_decel_);
-		
-//		distance_deadzone = fabsf(distance_deadzone_);
-//		yaw_deadzone 	  = fabsf(yaw_deadzone_);
-		
+
 		total_path_num = 0;
 		current_path_num = 0;
 
@@ -667,9 +679,12 @@ namespace path
 				if (robot_pose->Is_Position_Valid())
 				{
 					// 起点为机器人当前位置
-					point[0].coordinate = vector2d::Vector2D(*robot_pose->Get_pX(), *robot_pose->Get_pY());
+					if (!isnan(*robot_pose->Get_pX()) && !isnan(*robot_pose->Get_pY()))
+					{
+						point[0].coordinate = vector2d::Vector2D(*robot_pose->Get_pX(), *robot_pose->Get_pY());
 
-					is_first_point = false;
+						is_first_point = false;
+					}
 				}
 			}
 			else
@@ -710,7 +725,7 @@ namespace path
 		uint16_t current_point_num = 0;// 当前前一个点
 		uint16_t arrive_point_num = 0;// 最新到达的点
 		
-		// 
+		// 规划
 		if (!path[current_path_num % 2].Calculate(
 			robot_pose,
 			&normal_error, 
@@ -752,8 +767,8 @@ namespace path
 		// 判断是否到达终点
 		if (path[current_path_num % 2].Is_End())
 		{
-			// 判断终点是否有事件发生
-			if (point[current_point_dx].have_event && point[current_point_dx].is_stop)
+			// 判断终点是否有事件发生（终点与普通点的事件判断逻辑不一样）
+			if (current_point_dx != 0 && point[current_point_dx].have_event && point[current_point_dx].is_stop)
 			{
 				// 事件索引
 				uint8_t event_dx = point[current_point_dx].event_id - 1;
@@ -789,18 +804,22 @@ namespace path
 		}
 		else
 		{
-			// 判断最新到达的点是否有时间发生
-			if (point[arrive_point_dx].have_event)
+			// 判断最新到达的点是否有时间发生（普通点）
+			if (arrive_point_dx != 0 && point[arrive_point_dx].have_event)
 			{
 				// 事件索引
 				uint8_t event_dx = point[arrive_point_dx].event_id - 1;
 				
-				// 防止重复触发
-				if (path_event_list[event_dx]->current_point_num != current_point_num)
+				// 有事件
+				if (path_event_list[event_dx] != nullptr)
 				{
-					path_event_list[event_dx]->is_continue = false;
-					path_event_list[event_dx]->is_start = true;// 事件开始
-					path_event_list[event_dx]->current_point_num = current_point_num;// 更新
+					// 防止重复触发
+					if (path_event_list[event_dx]->current_point_num != arrive_point_dx)
+					{
+						path_event_list[event_dx]->is_continue = false;
+						path_event_list[event_dx]->is_start = true;// 事件开始
+						path_event_list[event_dx]->current_point_num = arrive_point_dx;// 更新
+					}
 				}
 			}
 		}
@@ -840,9 +859,9 @@ namespace path
 		else
 		{
 			// 不锁角
-			current_linear_vel   = 0;
-			current_linear_accel = 0;
-		    current_linear_decel = 0;
+			current_angular_vel   = 0;
+			current_angular_accel = 0;
+		    current_angular_decel = 0;
 		}
 
 		/*----------------------------------------------------------------------------------------*/

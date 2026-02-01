@@ -35,8 +35,6 @@
 
 #ifdef __cplusplus
 
-extern data::RobotPose robot_pose;
-extern path::PathPlan2 path_plan;
 
 #endif
 

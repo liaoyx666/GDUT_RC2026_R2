@@ -13,11 +13,12 @@
 
 namespace chassis_jack
 {
-    class Chassis_jack : public path::PathEvent2
+    class Chassis_jack
     {
 	public:
 		Chassis_jack(
-			uint8_t id_, path::PathPlan2 &path_plan_,
+			uint8_t event_up_id_, uint8_t event_down_id_, uint8_t event_wait_id_, 
+			path::PathPlan2 &path_plan_,
 			motor::Motor& left_front_motor_, motor::Motor& left_behind_motor_, 
 			motor::Motor& right_front_motor_, motor::Motor& right_behind_motor_,
 			motor::Motor& left_small_wheel_, motor::Motor& right_small_wheel_,
@@ -39,7 +40,7 @@ namespace chassis_jack
 		
 		chassis::Chassis& v_limit;
 		uint8_t b = 0;
-		float tag = 390;
+		float tag = 360;
 		float dis = 0;
 			
 		bool gd1 = 0;
@@ -55,6 +56,13 @@ namespace chassis_jack
 		void Set_Vel(float linear_vel_);
 		
 	private:
+		path::PathEvent2 event_up;
+		path::PathEvent2 event_down;
+		path::PathEvent2 event_wait;
+	
+		uint8_t event_up_or_down = 0;
+		bool event_is_wait = false;
+	
 		float default_vel;
 	    float up_ready_vel;   
 	    float up_close_vel;   

@@ -36,16 +36,13 @@ namespace pid
 		void Set_Ki(float ki_) {ki = ki_;}
 		void Set_Kd(float kd_) {kd = kd_;}
 		void Set_Kf(float kf_) {kf = kf_;}
-		void Set_Differential_lowpass_alpha(float differential_lowpass_alpha_)
-		{
-			differential_lowpass_alpha_ = fabsf(differential_lowpass_alpha_);
-			if (differential_lowpass_alpha_ >= 1) differential_lowpass_alpha = 0;
-			else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
-		}
+		void Set_Differential_lowpass_alpha(float differential_lowpass_alpha_);
 		void Set_integral_limit(float integral_limit_) {integral_limit = fabsf(integral_limit_);}
 		void Set_output_limit(float output_limit_) {output_limit = fabsf(output_limit_);}
-
-
+		void Set_R(float r_) {td.Set_R(r_);}
+		void Set_V2_Max(float v2_max_) {td.Set_V2_Max(v2_max_);}
+		void Set_Td(float r_, float v2_max_) {td.TD_Init(r_, delta_time, v2_max_);}
+		
 	protected:
 		
 	private:

@@ -12,7 +12,7 @@ namespace motor
 		
 		// m3508默认pid参数
 		pid_spd.Pid_Mode_Init(true, false, 0.01);
-		pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 15000, 10000, 5000, 5000, 5000);// 1ms
+		pid_spd.Pid_Param_Init(10, 0.54, 0, 0, 0.001, 0, 16384, 10000, 5000, 5000, 5000);// 1ms
 		
 		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
 		pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 300, 1000, 500, 500, 500, 150, 200);// 1ms

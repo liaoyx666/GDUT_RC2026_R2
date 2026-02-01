@@ -14,17 +14,17 @@ namespace filter
     public:
 		TD(float r_, float h_, float v2_max_ = 0.f);
 		TD();
+	
 		float TD_Calculate(float v, bool normalization = false, float unit = PI);
 		void TD_Init(float r_, float h_, float v2_max_ = 0.f);
+		void Set_R(float r_) {float r = r_;}
+		void Set_V2_Max(float v2_max_) {float v2_max = v2_max_;}
 	
     protected:
 		
     private:
 		float r = 0;
 		float h = 0;
-	
-		//float v1 = 0;
-		//float v2 = 0;
 	
 		float v1_last = 0;
 		float v2_last = 0;
