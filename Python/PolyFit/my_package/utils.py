@@ -46,6 +46,7 @@ def Print_Poly_eq(Poly_eq):
     print(f"拟合方程: {equation}")
     print(f"决定系数 R² = {Poly_eq['determination']:.6f}")
 
+
 def Poly_eq_test(Poly_eq,x_value):
     poly_func = numpy.poly1d(Poly_eq['polynomial'])
     y_predicted = poly_func(x_value)
@@ -194,9 +195,8 @@ def forwardKinematics(L1, L2, L3, L4, L23, alpha):
         'y': float(y),
         'belta': float(belta)  # 可选：返回belta角度
     }
-    
+    #result = float(y)
     return result
-
 
 def Write_cpp_content(Header_File_name,namespace,class_name,name,poly_func):
     header_content  = f"""#ifndef __{class_name.upper()}_H_

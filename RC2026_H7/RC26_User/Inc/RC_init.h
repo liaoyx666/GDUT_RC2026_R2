@@ -19,6 +19,7 @@
 #include "RC_j60.h"
 #include "RC_arm.h"
 #include "RC_JY901S.h"
+#include "RC_DM_imu.h"
 #include "RC_rs04.h"
 #include "RC_vesc.h"
 #include "RC_swerve_chassis.h"

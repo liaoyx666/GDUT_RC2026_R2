@@ -43,6 +43,8 @@ namespace motor
 			Set_K_Spd(k_spd_);// 阻尼系数
 			Set_K_Pos(k_pos_);// 刚度系数
 		}
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 	
 	
@@ -230,7 +232,7 @@ namespace motor
 	
 	void RS04::Set_Can_Id(uint8_t target_id_)
 	{
-		if (is_enable != true)
+		if (!is_enable)
 		{
 			target_id = target_id_;
 			tx_com_type = RS04_COM_TYPE_7_SET_ID;

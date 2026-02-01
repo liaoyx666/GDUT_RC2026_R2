@@ -11,6 +11,6 @@ function result = forwardKinematics(L1,L2,L3,L4,L23,alpha)
         eq2 = L2*sin(alpha) - L1*sin(belta) == y;
         sol = solve(eq1,eq2,x,y);
         % output = [double(sol.x),double(sol.y)];
-        result.x = real(double(sol.x));
-        result.y = real(double(sol.y));
+        result.x = real(sol.x);
+        result.y = real(sol.y);
 end

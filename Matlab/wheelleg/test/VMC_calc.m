@@ -5,6 +5,7 @@ L2 = 285.6/1000;%AD
 L3 = 292.81/1000;%BC
 L4 = 130.67/1000;%AB
 L23 = 57.02/1000;%DC
+
 my_result = forwardKinematics(L1,L2,L3,L4,L23,alpha);
 my_x = my_result.x;
 my_y = my_result.y;
@@ -13,9 +14,10 @@ my_y = my_result.y;
 
 d_x = vpa(diff(my_x,alpha),6);
 d_y = vpa(diff(my_y,alpha),6);
+
 %雅可比矩阵
 J = [d_x;
     d_y];
 J_T = J.';
 disp(vpa(J_T,6));
-% T_out = J_T*F;
+%T_out = J_T*F;

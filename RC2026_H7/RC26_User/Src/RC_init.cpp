@@ -35,10 +35,10 @@ motor::M3508 m3508_2(2, can3, tim7_1khz);
 
 
 // 机械臂电机-------------------------------------------------
-motor::M2006 	m2006_4(3, can1, tim7_1khz, 36.f * 2.f);
-motor::M3508 	m3508_2_c1(2, can1, tim7_1khz, 51.f * 1.2f);
-motor::J60 		j60_1(1, can1, tim7_1khz);
-motor::Go 		go_0_3(0, 3, can1, tim7_1khz);
+//motor::M2006 	m2006_4(3, can1, tim7_1khz, 36.f * 2.f);
+//motor::M3508 	m3508_2_c1(2, can1, tim7_1khz, 51.f * 1.2f);
+//motor::J60 		j60_1(1, can1, tim7_1khz);
+//motor::Go 		go_0_3(0, 3, can1, tim7_1khz);
 // -----------------------------------------------------------
 
 
@@ -105,17 +105,17 @@ flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 imu::JY901S jy901s(huart1);// 陀螺仪  
 
 //轮足底盘
-chassis::wheelleg wheelleg_chassis(rs04_120,rs04_127,m3508_1,m3508_2,jy901s,0.5,0.5,0.5,1,1,1);
-
+chassis::wheelleg wheelleg_chassis(rs04_120,rs04_127,m3508_2,m3508_1,jy901s,timer_us,0.5,0.5,0.5,1,1,1);
 
 /*====================================DeBug====================================*/
 SquareWave wave(1000, 3000);// 用于调pid
+//SinWave sin_wave(1000,3000);
 
 float target = 0;
 float a = 0;
 
 float wl1 = 0, wl2 = 0;
-
+float LlegH,RlegH;
 
 void test(void *argument)
 {
@@ -133,17 +133,31 @@ void test(void *argument)
 
 //	j60_1.pid_pos.Pid_Mode_Init(false, false, 0.1, true);
 //	j60_1.pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 100, 5, 5, 5, 5, 50, 80);
-	HAL_Delay(10);
 
-
-	rs04_120.Set_ZeroPos();
+	//rs04_120.Set_Can_Id(127);
+//rs04_120.Set_ZeroPos();
+	
+//taskENTER_CRITICAL();
+	//rs04_120.Set_ZeroPos();
+	rs04_120.Set_Pos(-0.3);
 	rs04_120.Set_K_Pos(0);
 	rs04_120.Set_K_Spd(0);
+	
+	rs04_120.Set_Torque(0.0f);
+	
+	rs04_127.Set_Pos(0.3);
+	rs04_127.Set_K_Pos(0.0);
+	rs04_127.Set_K_Spd(0.0);
 
-	rs04_127.Set_ZeroPos();
-	rs04_127.Set_K_Pos(0);
-	rs04_127.Set_K_Spd(0);
-
+	rs04_127.Set_Torque(-0.0f);
+//taskEXIT_CRITICAL();
+//rs04_127.Set_ZeroPos();
+	wheelleg_chassis.Yaw_Pid.Pid_Mode_Init(false, true, 0.1, false);
+	wheelleg_chassis.Yaw_Pid.Pid_Param_Init(2, 0.0, 0.0, 0, 0.001, 0, 2, 10, 0.2, 1, 0, 50, 80);
+	
+	LlegH = 0.4;
+  RlegH = 0.4;
+	wheelleg_chassis.Set_targetLeg(LlegH,RlegH);
 //	rs04_120.Set_ZeroPos();
 //	rs04_120.Set_K_Pos(50);
 //	rs04_120.Set_K_Spd(10);
@@ -162,14 +176,25 @@ void test(void *argument)
 //	m3508_right_behind_can2.Set_Out_Pos(0);
 //	m3508_right_front_can2.Set_Out_Angle(0);
 
+//	HAL_Delay(10);
+//	rs04_127.Set_Pos(0.2);
 	remote_ctrl.signal_swa();
-	
+
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
-
-		wheelleg_chassis.Set_Robot_Vel(vector2d::Vector2D(1,0), 1);
+		
+		//wheelleg_chassis.Printf_Data();
+		//wheelleg_chassis.Set_targetLeg(LlegH,RlegH);
+//		target = sin_wave.Get_Signal();
+		
+//		rs04_120.Set_Pos(-0.2);
+//		rs04_127.Set_Pos(0.2);
+//		rs04_120.Set_Torque(0);
+//		rs04_127.Set_Torque(0);
+		
+//		wheelleg_chassis.Set_Robot_Vel(vector2d::Vector2D(0,0), 1);
 		
 //		swerve_4_chassis.Set_Robot_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f);
 //		
@@ -202,10 +227,8 @@ void test(void *argument)
 //		
 //		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
 //		
-		
 
-
-		osDelay(1);
+  		osDelay(1);
 	} 
 }
 

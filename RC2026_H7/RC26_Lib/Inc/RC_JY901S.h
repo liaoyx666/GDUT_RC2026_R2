@@ -1,6 +1,6 @@
 #pragma once
 #include "RC_serial.h"
-
+#include "RC_imu.h"
 
 #define JY901S_RX_BUFFER_SIZE 50
 
@@ -23,26 +23,11 @@ namespace imu
 	} JY901SRxState;
 	
 	
-	class JY901S : public serial::UartRx
+	class JY901S : public serial::UartRx,public imu::imu
     {
     public:
 		JY901S(UART_HandleTypeDef &huart_);
 		virtual ~JY901S() {}
-		
-		float Get_Roll() const {return euler[0];}
-		float Get_Pitch() const {return euler[1];}
-		float Get_Yaw() const {return euler[2];}
-		float* Get_Gyro() {return gyro;}
-		float* Get_Accel() {return accel;}
-		float* Get_Mag() {return mag;}
-		
-    protected:
-		float euler[3] = {0};
-		float gyro[3] = {0};
-		float accel[3] = {0};
-		float mag[3] = {0};
-		float temp = 0;
-		
     private:
 		uint8_t rx_buf[JY901S_RX_BUFFER_SIZE];
 		void Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_) override;

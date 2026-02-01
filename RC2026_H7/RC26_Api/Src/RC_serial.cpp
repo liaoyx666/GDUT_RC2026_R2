@@ -145,7 +145,7 @@ namespace serial
 
 void uart_puts(const char *str)
 {
-    HAL_UART_Transmit(&huart1, (uint8_t*)str, strlen(str), HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart3, (uint8_t*)str, strlen(str), HAL_MAX_DELAY);
 }
 
 

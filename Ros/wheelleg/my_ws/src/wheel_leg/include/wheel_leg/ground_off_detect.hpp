@@ -19,7 +19,6 @@ private:
     double last_theta_v = 0;
 
     double F;
-    
 
     double mw = 0.3470 / 2.0;// 轮子质量
 
@@ -27,24 +26,11 @@ private:
 
     double zM_a = 0;
 
-
-
-
-
-
-
-
     double l1 = 0.282;
     double l2 = 0.2856;
     double l3 = 0.2928;
     double l4 = 0.13067;
     double l5 = 0.05702;
-
-
-
-
-
-   
 
 public:
     GroundOffDetect();

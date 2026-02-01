@@ -56,6 +56,8 @@ namespace motor
 		
 		pid_pos.Pid_Mode_Init(false, false, 0.4, true);
 		pid_pos.Pid_Param_Init(150, 0, 10, 0, 0.001, 0, 10, 5, 5 ,5 ,5, 2, 1.f);
+		
+		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
 	
 	void DM4310::CanHandler_Register()

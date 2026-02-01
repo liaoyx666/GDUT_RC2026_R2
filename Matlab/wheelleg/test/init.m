@@ -66,7 +66,7 @@ grid on;
 
 %0.01~0.53
 %hs = 0.01 : 0.01 :0.53;
-hs = 0.01 : 0.001 :0.05;
+hs = 0.01 : 0.001 :0.5;
 ks = zeros(length(hs),4);
 num = length(hs);
 for i = 1:num

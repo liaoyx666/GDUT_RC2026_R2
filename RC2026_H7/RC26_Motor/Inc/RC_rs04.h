@@ -49,6 +49,7 @@ namespace motor
 		uint8_t target_id = 0;
 		
 		uint8_t tx_com_type = RS04_COM_TYPE_3_ENABLE;
+		//uint8_t tx_com_type = RS04_COM_TYPE_7_SET_ID;
     };
 }
 #endif
