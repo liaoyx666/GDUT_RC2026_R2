@@ -896,16 +896,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_bezier_curve.h</FilePath>
             </File>
             <File>
-              <FileName>RC_MF_path.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_MF_path.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_MF_path.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_MF_path.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_adrc.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_adrc.cpp</FilePath>
@@ -954,16 +944,6 @@
               <FileName>RC_vector3d.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_vector3d.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_arm_path.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_arm_path.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_arm_path.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_arm_path.h</FilePath>
             </File>
             <File>
               <FileName>RC_JY901S.cpp</FileName>
@@ -1064,6 +1044,26 @@
               <FileName>RC_nonlinear_pid.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_nonlinear_pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_storage.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_storage.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_storage.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_storage.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_auto_arm.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_auto_arm.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_auto_arm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_auto_arm.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1239,26 +1239,6 @@
               <FileName>RC_data_pool.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_data_pool.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_arm_task.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_User\Src\RC_arm_task.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_arm_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_User\Inc\RC_arm_task.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path_task.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_User\Src\RC_path_task.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path_task.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_User\Inc\RC_path_task.h</FilePath>
             </File>
           </Files>
         </Group>

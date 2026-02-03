@@ -25,8 +25,8 @@
 #include "RC_chassis_jack.h"
 #include "RC_data_pool.h"
 #include "RC_path2.h"
+#include "RC_auto_arm.h"
 
-#include "RC_arm_task.h"
 
 #include "fdcan.h"
 #include "tim.h"

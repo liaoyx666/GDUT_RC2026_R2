@@ -54,10 +54,10 @@ namespace motor
 		}
 		
 		// j60默认参数
-		pid_spd.Pid_Mode_Init(true, true, 0.1);
+		pid_spd.Pid_Mode_Init(true, true, 0.01);
 		pid_spd.Pid_Param_Init(0.1, 0.0006, 0, 0, 0.001, 0, 40, 20, 20, 20, 20);
 			
-		pid_pos.Pid_Mode_Init(false, false, 0.1, true);
+		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
 		pid_pos.Pid_Param_Init(250, 0, 15, 0, 0.001, 0, 50, 5, 5, 5, 5, 10, 30);
 	}
 

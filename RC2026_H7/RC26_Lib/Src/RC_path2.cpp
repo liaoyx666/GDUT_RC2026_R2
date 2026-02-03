@@ -346,8 +346,8 @@ namespace path
 			}
 		}
 	}
-
-	#define PATH2_CURVE_FINISHED_THRESHOLD  0.05f// m
+	
+	#define PATH2_CURVE_FINISHED_THRESHOLD  0.02f// m
 	#define PATH2_START_ANGLE_THRESHOLD 2.f / 360.f * TWO_PI// 4度
 
 	bool Path2::Calculate(
@@ -386,8 +386,12 @@ namespace path
 			// 是否有发前目标yaw
 			if (have_start_target_angle == true)
 			{
+				float yaw_error = fabsf(*robot_pose_->Get_pYaw() - start_target_angle);
+				
+				yaw_error = fmodf(yaw_error, TWO_PI);
+				
 				// 到达出发前目标yaw后出发
-				if (fabsf(*robot_pose_->Get_pYaw() - start_target_angle) < PATH2_START_ANGLE_THRESHOLD)
+				if (yaw_error < PATH2_START_ANGLE_THRESHOLD)
 				{
 					is_start = true;
 				}
@@ -420,7 +424,7 @@ namespace path
 				current_finished_len += curve[current_curve_dx].Get_len(); 
 				
 				// 切换路线
-				current_curve_dx++; 
+				current_curve_dx++;
 				
 				// 更新状态，曲线还未过半
 				curve_more_than_half = false;
@@ -430,6 +434,8 @@ namespace path
 				
 				// 重新计算当前路程
 				current_curve_len = curve[current_curve_dx].Get_Current_Len(current_t);
+				
+				break;
 			}
 			else
 			{

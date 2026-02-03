@@ -223,8 +223,6 @@ namespace pid
 		return output;
 	}
 	
-	
-	
 	float Normalize(float data, float unit)
 	{
 		if (unit == 0) return 0;
@@ -239,7 +237,6 @@ namespace pid
 			data = data + 2.f * unit;
 		return data;
 	}
-	
 	
 	void Limit(float *input, float limit)
 	{

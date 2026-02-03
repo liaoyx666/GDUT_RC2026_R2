@@ -5,7 +5,7 @@
 #ifdef __cplusplus
 
 #define TASK_NAME(var) #var// 函数名转字符串
-#define MAX_TASK_NUM 20// 最大可管理任务数量
+#define MAX_TASK_NUM 15// 最大可管理任务数量
 
 namespace task
 {

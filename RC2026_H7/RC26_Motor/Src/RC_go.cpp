@@ -48,7 +48,7 @@ namespace motor
 		pid_spd.Pid_Mode_Init(true, false, 0);
 		pid_spd.Pid_Param_Init(0.004, 0.0001, 0, 0, 0.001, 0, 127, 60, 60, 60, 60);
 		
-		pid_pos.Pid_Mode_Init(false, false, 0, true);
+		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
 		pid_pos.Pid_Param_Init(300, 0, 5, 0, 0.001, 0, 10, 5, 5, 5, 5, 2, 1.f);
 	}
 
