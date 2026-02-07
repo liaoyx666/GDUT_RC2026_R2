@@ -561,7 +561,7 @@ namespace ros
 					PATH_NO_TARGET_YAW,// 到达前目标yaw
 					PATH_NO_TARGET_YAW,// 离开前目标yaw
 					0.5,
-					PATH_MAX_PARAM,
+					1.5,
 					PATH_MAX_PARAM,
 					PATH_MAX_PARAM,
 					PATH_MAX_PARAM,
@@ -569,7 +569,6 @@ namespace ros
 					true,// 是否停止																				
 					3// 事件id
 				);
-
 			}
 		}
 		

@@ -815,6 +815,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Api\Inc\RC_chassis.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_timer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_timer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_timer.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -824,16 +834,6 @@
               <FileName>arm_matrix.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\arm_matrix.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_timer.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_timer.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_timer.h</FilePath>
             </File>
             <File>
               <FileName>RC_pid.cpp</FileName>

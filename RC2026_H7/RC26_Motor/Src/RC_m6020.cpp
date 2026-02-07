@@ -22,10 +22,10 @@ namespace motor
 		else if (control_type == M6020CtrlType::VOLTAGE)// 电压控制
 		{
 			pid_spd.Pid_Mode_Init(true, false, 0);
-			pid_spd.Pid_Param_Init(10, 7, 0, 0, 0.001, 0, 25000, 10000, 5000, 5000, 5000);
+			pid_spd.Pid_Param_Init(11, 14.5, 0.02, 0, 0.001, 0, 25000, 10000, 5000, 5000, 5000);
 
 			pid_pos.Pid_Mode_Init(false, false, 0.01);
-			pid_pos.Pid_Param_Init(100, 0, 15, 0, 0.001, 0, 300, 150, 150, 150, 150);
+			pid_pos.Pid_Param_Init(20, 0, 3, 0, 0.001, 0, 100, 100, 100, 100, 100);
 		}
 	}
 	

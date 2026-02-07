@@ -1,5 +1,5 @@
 rc2026/rc_flysky.o: ..\RC26_Lib\Src\RC_flysky.cpp \
-  ..\RC26_Lib\Inc\RC_flysky.h ..\RC26_Lib\Inc\RC_timer.h \
+  ..\RC26_Lib\Inc\RC_flysky.h ..\RC26_Api\Inc\RC_timer.h \
   ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \

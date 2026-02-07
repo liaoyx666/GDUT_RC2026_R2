@@ -9,8 +9,6 @@
 #define SMALL_WHEEL_RADIUS	0.03f
 #define JACK_LANGHT 0.260f
 
-
-
 namespace chassis_jack
 {
     class Chassis_jack

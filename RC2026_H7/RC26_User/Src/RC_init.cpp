@@ -29,12 +29,16 @@ motor::Vesc vesc_103_can3(103, can3, tim13_500hz, 21);
 motor::Vesc vesc_104_can3(104, can3, tim13_500hz, 21);
 // -----------------------------------------------------------
 
+
+
 // 机械臂电机-------------------------------------------------
 motor::DM4310 	dm4310_0x13_can1(0x13, can2, tim7_1khz, false ,0 , 0, true);
 motor::M3508 	m3508_2_can1    (2,    can1, tim7_1khz, 51.f * 1.2f , true);
 motor::J60 		j60_1_can1	    (1,    can1, tim7_1khz, false ,0 , 0, true);
 motor::Go 		go_0_0_can2	    (0, 0, can1, tim7_1khz, false ,0 , 0, true);
 // -----------------------------------------------------------
+
+
 
 // 4撑杆电机-------------------------------------------------
 motor::M3508 m3508_left_front_can2  (1, can2, tim7_1khz, 10 * 3591.f / 187.f, true);
@@ -47,6 +51,7 @@ motor::M3508 m3508_right_front_can2 (4, can2, tim7_1khz, 10 * 3591.f / 187.f, tr
 motor::M2006 	m2006_5_can2(5, can2, tim7_1khz, 36.f);
 motor::M2006 	m2006_6_can2(6, can2, tim7_1khz, 36.f);
 // -----------------------------------------------------------
+
 
 /*====================================模块====================================*/
 data::RobotPose robot_pose;// 机器人位姿
@@ -126,6 +131,9 @@ void test(void *argument)
 	m3508_right_front_can2. Set_Out_Angle(0);
 
 	remote_ctrl.signal_swa();
+	remote_ctrl.signal_swd();
+	
+	//m6020_can1_5.Set_Out_Pos(0);
 	
 //	path_plan.Add_Point(
 //		vector2d::Vector2D(1.147, -0.276),					
@@ -501,6 +509,8 @@ void test(void *argument)
 //		0// 事件id
 //	);
 
+//	m6020_can1_5.pid_spd.Pid_Mode_Init(false, false, 0);
+//	m6020_can1_5.pid_spd.Pid_Param_Init(0, 0, 0, 0, 0.001, 0, 16384, 16384, 200, 5000, 5000);
 
 
 	MF_path.MF_Best_Path_Plan(map, path_plan);
@@ -510,7 +520,7 @@ void test(void *argument)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
-		
+
 		if (remote_ctrl.swa == 0)
 		{
 			// 手操

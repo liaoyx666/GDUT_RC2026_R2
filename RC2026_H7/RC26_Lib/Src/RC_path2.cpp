@@ -348,7 +348,7 @@ namespace path
 	}
 	
 	#define PATH2_CURVE_FINISHED_THRESHOLD  0.02f// m
-	#define PATH2_START_ANGLE_THRESHOLD 2.f / 360.f * TWO_PI// 4度
+	#define PATH2_START_ANGLE_THRESHOLD 1.5f / 360.f * TWO_PI// 3度
 
 	bool Path2::Calculate(
 		data::RobotPose * robot_pose_,
@@ -612,9 +612,9 @@ namespace path
 		last_tangent_v = 0;
 		last_normal_v = 0;
 		
-		tangent_pid.Init(1.2, max_linear_decel, 0.1, max_linear_vel, 0);
-		normal_pid.Init(1.2, max_linear_decel, 0.5, max_linear_vel, distance_deadzone_);
-		yaw_pid.Init(1.6, max_angular_decel, 0.1, max_angular_vel, yaw_deadzone_);
+		tangent_pid.Init(2, max_linear_decel, 0.1, max_linear_vel, 0);
+		normal_pid.Init(2, max_linear_decel, 0.5, max_linear_vel, distance_deadzone_);
+		yaw_pid.Init(2.2, max_angular_decel, 0.1, max_angular_vel, yaw_deadzone_);
 		
 		last_current_point_num = 0;// 上一次当前前一个点
 		last_arrive_point_num = 0;// 上一次最新到达的点
