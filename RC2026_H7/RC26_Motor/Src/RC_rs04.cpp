@@ -75,14 +75,10 @@ namespace motor
 				}
 				else if (motor_mode == POS_MODE)	//> 位置模式
 				{
-					pid_pos.Update_Real(pos);
-					pid_pos.Update_Target(target_pos);
-					temp_target_rpm = pid_pos.Pid_Calculate();
+					temp_target_rpm = pid_pos.Pid_Calculate(pos, target_pos);
 				}
 				
-				pid_spd.Update_Target(temp_target_rpm);
-				pid_spd.Update_Real(rpm);
-				target_torque = pid_spd.Pid_Calculate();
+				target_torque = pid_spd.Pid_Calculate(rpm, temp_target_rpm);
 			}
 		}
 		

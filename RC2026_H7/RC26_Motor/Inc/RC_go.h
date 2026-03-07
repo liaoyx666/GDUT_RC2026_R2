@@ -32,7 +32,7 @@ enum GoError : uint8_t
 
 namespace motor
 {
-	//!!!go电机的canh和canl是反的，和大疆电机不一样!!!//
+	//go电机的canh和canl是反的，和大疆电机不一样
 	class Go : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:

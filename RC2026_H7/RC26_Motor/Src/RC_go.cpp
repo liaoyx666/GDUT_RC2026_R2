@@ -9,7 +9,7 @@ namespace motor
 	* @param module_id_:can转485模块id
 	* @param can_:挂载的can外设类
 	* @param tim_:挂载的tim定时器中断外设类
-	* @param use_mit_:是否使用mit控制（如果不用速度环，位置环在stm32实现，只发送力矩）
+	* @param use_mit_:是否使用mit控制（如果不用，速度环、位置环在stm32实现，只发送力矩）
 	* @param k_spd_:阻尼系数（只使用力矩时给0）
 	* @param k_pos_:刚度系数（只使用力矩时给0）
 	*/
@@ -24,7 +24,7 @@ namespace motor
 		
 		can_frame_type = can::FRAME_EXT;
 		
-		//!!!unitree文档错误，读取k模式时id的25，26位返回2而非1!!!
+		//unitree文档错误，读取k模式时id的25，26位返回2而非1
 		rx_mask = (3 << 27) | (1 << 26) | (15 << 8);
 		rx_id = (module_id << 27) | (1 << 26) | (id << 8);
 
@@ -48,12 +48,13 @@ namespace motor
 		pid_spd.Pid_Mode_Init(true, false, 0);
 		pid_spd.Pid_Param_Init(0.004, 0.0001, 0, 0, 0.001, 0, 127, 60, 60, 60, 60);
 		
+//		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+//		pid_pos.Pid_Param_Init(300, 0, 5, 0, 0.001, 0, 10, 5, 5, 5, 5, 2, 1.f);
+		
 		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-		pid_pos.Pid_Param_Init(300, 0, 5, 0, 0.001, 0, 10, 5, 5, 5, 5, 2, 1.f);
+		pid_pos.Pid_Param_Init(0.7, 5, 0.005, 0, 0.001, 0, 10, 0.1, 5, 2, 2, 50, 10);
 	}
 
-	
-	
 	// 注册can设备
 	void Go::CanHandler_Register()
 	{
@@ -68,8 +69,6 @@ namespace motor
 		can->tx_frame_list[tx_frame_dx].hd_dx[0] = hd_list_dx;
 	}
 
-	
-	
 	// can发送处理
 	void Go::Can_Tx_Process()
 	{
@@ -122,8 +121,6 @@ namespace motor
 		}
 	}
 
-	
-	
 	//can接收处理
 	void Go::Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data)
 	{
@@ -161,9 +158,6 @@ namespace motor
 		}
 	}
 
-
-	
-	
 	// 定时器中断计算pid
 	void Go::Tim_It_Process()
 	{
@@ -172,22 +166,21 @@ namespace motor
 			if (motor_mode != TORQUE_MODE)			//> 力矩模式
 			{
 				// 目标速度
-				float temp_target_rpm = 0;
+				//float temp_target_rpm = 0;
 				
 				if (motor_mode == RPM_MODE)			//> 速度模式
 				{
-					temp_target_rpm = target_rpm;
+					//temp_target_rpm = target_rpm;
+					
+					target_torque = pid_spd.Pid_Calculate(rpm, target_rpm);
 				}
 				else if (motor_mode == POS_MODE)	//> 位置模式
 				{
-					pid_pos.Update_Real(pos);
-					pid_pos.Update_Target(target_pos);
-					temp_target_rpm = pid_pos.Pid_Calculate();
+					//temp_target_rpm = pid_pos.Pid_Calculate(pos, target_pos);
+					
+					target_torque = pid_pos.Mit_Calculate(pos, rpm, target_pos);
 				}
 				
-				pid_spd.Update_Target(temp_target_rpm);
-				pid_spd.Update_Real(rpm);
-				target_torque = pid_spd.Pid_Calculate();
 			}
 		}
 		

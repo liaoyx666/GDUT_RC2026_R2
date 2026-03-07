@@ -6,7 +6,6 @@
 
 #ifdef __cplusplus
 
-
 #define MAX_SEND_BUF_SIZE 128// 发送缓冲区大小
 
 #define MAX_RECEIVE_BUF_SIZE 512// 接收缓冲区大小

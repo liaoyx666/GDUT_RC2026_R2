@@ -1,7 +1,5 @@
-/*适用STM32H723 FDCAN
- *
- *
- *
+/*
+ * 适用STM32H723 FDCAN
  */
 #include "RC_can.h"
 

@@ -51,7 +51,6 @@ namespace motor
 		can->tx_frame_list[tx_frame_dx].data[dx + 1] = (uint8_t)(current_int);// 低8位
 	}
 	
-	
 	void M6020::Dji_Id_Init(uint8_t id_)
 	{
 		if (id_ <= 7 && id_ != 0) id = id_;

@@ -45,12 +45,5 @@ namespace ros
     private:
 		bool is_init = true;/// 
     };
-	
-	
-	
-	
-	
-	
-	
 }
 #endif

@@ -25,7 +25,6 @@ namespace path
 		}
 	}
 	
-	
 	void PathEvent2::Continue()
 	{
 		if (current_point_num != continue_point_num)// 防止多次触发
@@ -304,7 +303,6 @@ namespace path
 			
 		return true;
 	}
-	
 	
 	#define PATH2_CURVATURE_SAMPLE_STEP 0.01// m 计算曲率时的三个点采样步长
 	

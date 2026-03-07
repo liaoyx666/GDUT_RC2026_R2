@@ -18,7 +18,7 @@ namespace filter
 		v2_max = v2_max_;
 	}
 	
-	float TD::TD_Calculate(float v, bool normalization, float unit)
+	float TD::TD_Calculate(float v, bool normalization, float unit, float* v2_return)
 	{
 		float period = 2.f * unit;
 		
@@ -57,6 +57,7 @@ namespace filter
 			}
 			
 			v1 = fmodf(v1, period);
+			
             if (v1 > unit)
 			{
                 v1 -= period;
@@ -77,6 +78,12 @@ namespace filter
 		
 		v1_last = v1;
 		v2_last = v2;
+		
+		// 输出v2
+		if (v2_return != NULL)
+		{
+			*v2_return = v2;
+		}
 		
 		return v1;
 	}

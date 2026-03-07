@@ -1,12 +1,14 @@
 #pragma once
 #include <math.h>
 #include <arm_math.h>
+
+#include "RC_serial.h"
 #include "RC_adrc.h"
 #include "RC_filter.h"
 
-#define TWO_PI 6.2831853071795864769f
-#define HALF_PI 1.570796326794896619f
-#define TWO_THIRD_PI 4.71238898038468985769f
+#define TWO_PI 			6.2831853071795864769f
+#define HALF_PI 		1.570796326794896619f
+#define TWO_THIRD_PI 	4.71238898038468985769f
 
 #ifdef __cplusplus
 namespace pid
@@ -25,11 +27,12 @@ namespace pid
 			float r_ = 50, float v2_max_ = 0.f
 		);
 		
-		float Pid_Calculate(bool normalization = false, float unit = PI);
-		
-		void Update_Real(float real_){real = real_;}
-		void Update_Target(float target_){target = target_;}
-		float Get_Output(){return output;}
+		float Pid_Calculate(float real, float target, bool normalization = false, float unit = PI);
+		float Mit_Calculate(
+			float real_pos, float real_spd, 
+			float target_pos, float target_spd = 0.f, float target_tor = 0.f, 
+			bool normalization = false, float unit = PI
+		);
 		
 		void Set_Delta_Time(float delta_time_) {delta_time = delta_time_;}
 		void Set_Kp(float kp_) {kp = kp_;}
@@ -48,28 +51,28 @@ namespace pid
 	private:
 		float kp = 0, ki = 0, kd = 0, kf = 0;
 		float integral_separation = 0;
-		float integral_limit = 0, output_limit = 0, differential_limit = 0, feed_forward_limit = 0;
+		float integral_limit = 0;
+		float output_limit = 0;
+		float differential_limit = 0;
+		float feed_forward_limit = 0;
 		float deadzone = 0;
-		float delta_time = 0.001;
+		float delta_time = 0.001f;
 
 		bool differential_prior = false;// 默认普通微分
 		bool incremental = true;// 默认增量式Pid
 
-		//float integral = 0, differential = 0, proportion = 0, feed_forward = 0;
-		
-		float target = 0, real = 0, output = 0;
-		//float error = 0;
 		float integral = 0;
-		float last_output = 0, last_error = 0, last_real = 0, last_target = 0;
-		float last_differential = 0, last_proportion = 0;
+		float last_output = 0;
+		float last_error = 0;
+		float last_real = 0;
+		float last_target = 0;
+		float last_differential = 0;
 		float previous_error = 0;
 		
 		float differential_lowpass_alpha = 0;
-		float output_lowpass_alpha = 0;
-	
+
 		bool use_td = false;
 		filter::TD td;
-	
 	};
 
 	void Limit(float *input, float limit);

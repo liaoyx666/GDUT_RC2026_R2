@@ -518,14 +518,10 @@ namespace path
 		last_time = timer::Timer::Get_TimeStamp();
 
 		// 计算法向速度
-		normal_pid.Update_Real(-current_normal_error);
-		normal_pid.Update_Target(0);
-		target_normal_spd = normal_pid.Pid_Calculate();
+		target_normal_spd = normal_pid.Pid_Calculate(-current_normal_error, 0);
 		
 		// 计算切向速度
-		tangent_pid.Update_Real(-current_tangent_error);
-		tangent_pid.Update_Target(0);
-		target_tangent_spd = tangent_pid.Pid_Calculate();
+		target_tangent_spd = tangent_pid.Pid_Calculate(-current_tangent_error, 0);
 
 		float target_delta = chassis::Limit_Accel(target_tangent_spd - last_target_tangent_spd, max_accel, dt);
 		
@@ -541,9 +537,7 @@ namespace path
 		last_target_tangent_spd = target_tangent_spd;
 
 		// 计算角速度
-		angle_pid.Update_Real(angle);
-		angle_pid.Update_Target(target_angle);
-		*speed_angle = angle_pid.Pid_Calculate(true, PI);
+		*speed_angle = angle_pid.Pid_Calculate(angle, target_angle, true, PI);
 
 		current_max_tangent_spd = current_max_tangent_spd * sqrtf(max_accel);
 		

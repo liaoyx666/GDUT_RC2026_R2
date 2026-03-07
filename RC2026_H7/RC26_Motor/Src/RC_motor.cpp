@@ -2,7 +2,14 @@
 
 namespace motor
 {
-	Motor::Motor(float gear_ratio_, bool is_reset_pos_) : gear_ratio(gear_ratio_), is_reset_pos(is_reset_pos_) {}
+	/*
+	 * gear_ratio_ : 减速比
+	 * is_reset_pos_ : 是否上电初始化电机位置为0
+	 */
+	Motor::Motor(float gear_ratio_, bool is_reset_pos_) : gear_ratio(gear_ratio_), is_reset_pos(is_reset_pos_)
+	{
+	
+	}
 	
 	/**
     * @brief 设置位置范围

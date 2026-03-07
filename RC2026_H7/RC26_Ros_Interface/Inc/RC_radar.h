@@ -20,6 +20,5 @@ namespace ros
 		data::RobotPose* robot_pose;
     };
 
-	
 }
 #endif

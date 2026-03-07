@@ -76,26 +76,18 @@ namespace motor
 			}
 			else if (motor_mode == POS_MODE)		//> 位置模式
 			{
-				pid_pos.Update_Real(pos);
-				pid_pos.Update_Target(target_pos);
-				temp_target_rpm = pid_pos.Pid_Calculate();
+				temp_target_rpm = pid_pos.Pid_Calculate(pos, target_pos);
 			}
 			else if (motor_mode == ANGLE_MODE)		//> 角度模式
 			{
-				pid_pos.Update_Real(angle);
-				pid_pos.Update_Target(target_angle);
-				temp_target_rpm = pid_pos.Pid_Calculate(true, PI);
+				temp_target_rpm = pid_pos.Pid_Calculate(angle, target_angle, true, PI);
 			}
 			else if (motor_mode == OUT_ANGLE_MODE)	//> 输出轴角度模式
 			{
-				pid_pos.Update_Real(out_angle);
-				pid_pos.Update_Target(target_pos);
-				temp_target_rpm = pid_pos.Pid_Calculate(true, PI * gear_ratio);
+				temp_target_rpm = pid_pos.Pid_Calculate(out_angle, target_pos, true, PI * gear_ratio);
 			}
 			
-			pid_spd.Update_Target(temp_target_rpm);
-			pid_spd.Update_Real(rpm);
-			target_current = pid_spd.Pid_Calculate();
+			target_current = pid_spd.Pid_Calculate(rpm, temp_target_rpm);
 		}
 		
 		can->tx_frame_list[tx_frame_dx].new_message = true;

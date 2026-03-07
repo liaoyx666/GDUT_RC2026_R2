@@ -1,9 +1,5 @@
 #include "RC_adrc.h"
 
-
-
-
-
 namespace adrc
 {
 	ADRC::ADRC()

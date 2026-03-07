@@ -97,6 +97,4 @@ namespace chassis_jack
     };
 }
 
-
-
 #endif

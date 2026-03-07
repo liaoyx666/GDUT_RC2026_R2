@@ -59,9 +59,7 @@ namespace motor
 		{
 			if (motor_mode == RPM_MODE)			//> 速度模式
 			{
-				pid_spd.Update_Target(target_rpm);
-				pid_spd.Update_Real(rpm);
-				target_duty = pid_spd.Pid_Calculate();
+				target_duty = pid_spd.Pid_Calculate(rpm, target_rpm);
 			}
 		}
 
