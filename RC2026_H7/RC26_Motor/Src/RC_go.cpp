@@ -161,26 +161,27 @@ namespace motor
 	// 定时器中断计算pid
 	void Go::Tim_It_Process()
 	{
-		if (use_mit != true)// 不使用mit
+		if (use_mit != true)// 不使用电机自带mit
 		{
-			if (motor_mode != TORQUE_MODE)			//> 力矩模式
+			if (motor_mode == LOCAL_MIT_MODE)		//>本地计算mit模式
 			{
-				// 目标速度
-				//float temp_target_rpm = 0;
+				target_torque = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, target_torque);
+			}
+			else if (motor_mode != TORQUE_MODE)		//> 力矩模式
+			{
+				// 临时目标速度
+				float temp_target_rpm = 0;
 				
 				if (motor_mode == RPM_MODE)			//> 速度模式
 				{
-					//temp_target_rpm = target_rpm;
-					
-					target_torque = pid_spd.Pid_Calculate(rpm, target_rpm);
+					temp_target_rpm = target_rpm;
 				}
-				else if (motor_mode == POS_MODE)	//> 位置模式
+				else if (motor_mode == POS_MODE)	//> 位置模式（串级pid）
 				{
-					//temp_target_rpm = pid_pos.Pid_Calculate(pos, target_pos);
-					
-					target_torque = pid_pos.Mit_Calculate(pos, rpm, target_pos);
+					temp_target_rpm = pid_pos.Pid_Calculate(pos, target_pos);
 				}
 				
+				target_torque = pid_spd.Pid_Calculate(rpm, temp_target_rpm);
 			}
 		}
 		

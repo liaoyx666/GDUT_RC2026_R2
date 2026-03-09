@@ -20,7 +20,7 @@ namespace motor
 		OUT_ANGLE_MODE,	// 输出轴角度模式(0~2pi)
 		CURRENT_MODE,	// 电流模式
 		TORQUE_MODE,	// 力矩模式
-		MIT_MODE		// mit模式
+		LOCAL_MIT_MODE	// 本地计算mit模式（有些电机自带mit算法，如果要使用电机自带算法，需使use_mit = true）
 	} MotorMode;
 	
 	class Motor
@@ -37,10 +37,13 @@ namespace motor
 		virtual void Set_Angle(float target_angle_);//有些电机没有角度控制
 		virtual void Set_Current(float target_current_);//有些电机没有电流控制
 		virtual void Set_Torque(float target_torque_);// 有些电机没有力矩控制
+		void Set_Out_Torque(float target_out_torque_);
 		void Set_Out_Rpm(float target_out_rpm_);// 设置输出轴转速
 		void Set_Out_Pos(float target_out_pos_);// 设置输出轴位置
 		virtual void Set_Out_Angle(float target_out_angle_);// 设置输出轴角度
-		void Set_Feedforward(float feedforward_);// 设置前馈量
+		//void Set_Feedforward(float feedforward_);// 设置前馈量
+		virtual void Set_Mit(float pos_, float rpm_ = 0, float tor_ = 0);
+		void Set_Out_Mit(float out_pos_, float out_rpm_ = 0, float out_tor_ = 0);
 		virtual void Set_K_Pos(float target_k_pos_);// 设置刚度系数kp
 		virtual void Set_K_Spd(float target_k_spd_);// 设置阻尼系数kd
 		void Reset_Out_Pos(float out_pos_);// 重置输出轴位置
@@ -83,7 +86,7 @@ namespace motor
 		float target_torque = 0;
 		float target_k_spd = 0;
 		float target_k_pos = 0;
-		float feedforward = 0;// 前馈量，可以是电流，可以是力矩，根据不同电机确定
+		//float feedforward = 0;// 前馈量，可以是电流，可以是力矩，根据不同电机确定
 		
 		// 变量
 		float pos_offset = 0;// 位置偏移量(pos = 电机读取位置 + pos_offset)

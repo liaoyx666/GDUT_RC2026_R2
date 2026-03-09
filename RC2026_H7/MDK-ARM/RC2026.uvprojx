@@ -846,6 +846,56 @@
               <FilePath>..\RC26_Lib\Inc\RC_pid.h</FilePath>
             </File>
             <File>
+              <FileName>RC_adrc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_adrc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_adrc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_adrc.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_SMC.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_SMC.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_SMC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_SMC.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_filter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_filter.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_filter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_filter.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_nonlinear_pid.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_nonlinear_pid.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_nonlinear_pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_nonlinear_pid.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_speed_plan.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_speed_plan.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_speed_plan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_speed_plan.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_flysky.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_flysky.cpp</FilePath>
@@ -876,46 +926,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_wheel_leg.h</FilePath>
             </File>
             <File>
-              <FileName>RC_vector2d.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_vector2d.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_vector2d.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_vector2d.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_bezier_curve.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_bezier_curve.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_bezier_curve.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_bezier_curve.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_adrc.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_adrc.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_adrc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_adrc.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_filter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_filter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_filter.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_filter.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_arm.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_arm.cpp</FilePath>
@@ -926,14 +936,34 @@
               <FilePath>..\RC26_Lib\Inc\RC_arm.h</FilePath>
             </File>
             <File>
-              <FileName>RC_SMC.cpp</FileName>
+              <FileName>RC_storage.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_SMC.cpp</FilePath>
+              <FilePath>..\RC26_Lib\Src\RC_storage.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_SMC.h</FileName>
+              <FileName>RC_storage.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_SMC.h</FilePath>
+              <FilePath>..\RC26_Lib\Inc\RC_storage.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_auto_arm.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_auto_arm.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_auto_arm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_auto_arm.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_vector2d.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_vector2d.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_vector2d.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_vector2d.h</FilePath>
             </File>
             <File>
               <FileName>RC_vector3d.cpp</FileName>
@@ -944,6 +974,16 @@
               <FileName>RC_vector3d.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_vector3d.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_bezier_curve.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_bezier_curve.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_bezier_curve.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_bezier_curve.h</FilePath>
             </File>
             <File>
               <FileName>RC_JY901S.cpp</FileName>
@@ -996,26 +1036,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_omni_chassis.h</FilePath>
             </File>
             <File>
-              <FileName>RC_photogate.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_photogate.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_photogate.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_photogate.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_speed_plan.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_speed_plan.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_speed_plan.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_speed_plan.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_chassis_jack.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_chassis_jack.cpp</FilePath>
@@ -1026,6 +1046,16 @@
               <FilePath>..\RC26_Lib\Inc\RC_chassis_jack.h</FilePath>
             </File>
             <File>
+              <FileName>RC_photogate.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_photogate.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_photogate.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_photogate.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_LiDAR.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_LiDAR.cpp</FilePath>
@@ -1034,36 +1064,6 @@
               <FileName>RC_LiDAR.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_LiDAR.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_nonlinear_pid.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_nonlinear_pid.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_nonlinear_pid.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_nonlinear_pid.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_storage.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_storage.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_storage.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_storage.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_auto_arm.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_auto_arm.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_auto_arm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_auto_arm.h</FilePath>
             </File>
           </Files>
         </Group>

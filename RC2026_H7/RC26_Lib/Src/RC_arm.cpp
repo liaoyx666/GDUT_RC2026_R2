@@ -3,27 +3,44 @@
 /*======================================底层代码=================================*/
 namespace arm {
 
-    ArmDynamics::ArmDynamics() {}
+    ArmDynamics::ArmDynamics()
+	{
+		
+	}
 
-    void ArmDynamics::gravity_compensation()
-    {
-        joint_angle_now.theta1 = -motor_angle.theta1;
-        joint_angle_now.theta2 = -motor_angle.theta1 + motor_angle.theta2 + PI - 0.146084f;
-        joint_angle_now.theta3 = -motor_angle.theta3 + motor_angle.theta2 - motor_angle.theta1 - 0.146084f;
+//    void ArmDynamics::gravity_compensation()
+//    {
+//        joint_angle_now.theta1 = -motor_angle.theta1;
+//        joint_angle_now.theta2 = -motor_angle.theta1 + motor_angle.theta2 + PI - 0.146084f;
+//        joint_angle_now.theta3 = -motor_angle.theta3 + motor_angle.theta2 - motor_angle.theta1 - 0.146084f;
 
-        joint_gravity_compensation.joint1 =
-            L1_gravity * L1_Particle_LENGTH * cosf(joint_angle_now.theta1) +
-            L2_gravity * (L2_Particle_LENGTH * cosf(joint_angle_now.theta2) + L1_LENGTH * cosf(joint_angle_now.theta1)) +
-            L3_gravity * (L3_Particle_LENGTH * cosf(joint_angle_now.theta3) + L2_LENGTH * cosf(joint_angle_now.theta2) + L1_LENGTH * cos(joint_angle_now.theta1));
+//        joint_gravity_compensation.joint1 =
+//            L1_gravity * L1_Particle_LENGTH * cosf(joint_angle_now.theta1) +
+//            L2_gravity * (L2_Particle_LENGTH * cosf(joint_angle_now.theta2) + L1_LENGTH * cosf(joint_angle_now.theta1)) +
+//            L3_gravity * (L3_Particle_LENGTH * cosf(joint_angle_now.theta3) + L2_LENGTH * cosf(joint_angle_now.theta2) + L1_LENGTH * cos(joint_angle_now.theta1));
 
-        joint_gravity_compensation.joint2 =
-            L2_gravity * L2_Particle_LENGTH * cosf(joint_angle_now.theta2) +
-            L3_gravity * (L3_Particle_LENGTH * cosf(joint_angle_now.theta3) + L2_LENGTH * cosf(joint_angle_now.theta2));
+//        joint_gravity_compensation.joint2 =
+//            L2_gravity * L2_Particle_LENGTH * cosf(joint_angle_now.theta2) +
+//            L3_gravity * (L3_Particle_LENGTH * cosf(joint_angle_now.theta3) + L2_LENGTH * cosf(joint_angle_now.theta2));
 
-        joint_gravity_compensation.joint3 =
-            L3_gravity * L3_Particle_LENGTH * cosf(joint_angle_now.theta3);
-    }
+//        joint_gravity_compensation.joint3 =
+//            L3_gravity * L3_Particle_LENGTH * cosf(joint_angle_now.theta3);
+//    }
 
+
+	void ArmDynamics::Calc_Torque(
+		float theta2, float theta3, float theta4,
+		float alpha1, float alpha2, float alpha3, float alpha4
+	)
+	{
+		/*惯性项*/
+		//float m1 = alpha1 * ();
+		
+	}
+		
+		
+		
+		
     float ArmKinematics::unwrapAngle(float now, float last)
     {
         while (now - last > PI) now -= 2.0f * PI;

@@ -1,11 +1,7 @@
 #include "RC_dm4310.h"
 
-
-
 #define DM_ENABLE_FRAME_TAIL 	0xfc
 #define DM_DISABLE_FRAME_TAIL 	0xfd
-
-
 
 #define P_MIN -12.5f// rad
 #define P_MAX 12.5f
@@ -21,7 +17,6 @@
 
 #define T_MIN -10.0f// N * m
 #define T_MAX 10.0f
-
 
 namespace motor
 {
@@ -96,7 +91,7 @@ namespace motor
 				kd_int  = float_to_uint(target_k_spd, KD_MIN, KD_MAX, 12);
 			}
 			
-			float temp_target_torque = target_torque + feedforward;// 加上前馈力矩
+			float temp_target_torque = target_torque/* + feedforward*/;// 加上前馈力矩
 			
 			pid::Limit(&temp_target_torque, T_MAX);
 
@@ -148,9 +143,6 @@ namespace motor
 	}
 	
 	
-	
-	
-	
 	void DM4310::Tim_It_Process()
 	{
 		if (use_mit != true)// 不使用mit
@@ -174,7 +166,6 @@ namespace motor
 		
 		can->tx_frame_list[tx_frame_dx].new_message = true;
 	}
-
 
 
 	void DM4310::Set_K_Pos(float target_k_pos_)

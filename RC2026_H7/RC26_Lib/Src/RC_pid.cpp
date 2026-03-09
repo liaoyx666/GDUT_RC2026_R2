@@ -220,7 +220,7 @@ namespace pid
 		return output;
 	}
 	
-	/**/
+	/*mit模式*/
 	float Pid::Mit_Calculate(
 			float real_pos, float real_spd, 
 			float target_pos, float target_spd, float target_tor, 
@@ -242,9 +242,10 @@ namespace pid
 			
 			temp_target_pos = td.TD_Calculate(target_pos, normalization, unit, &td_spd);
 			
-			/*td输出期望速度值*/
+			/*td输出期望速度*/
 			td_spd = td_spd * (60.0f / (2.0f * PI));
-
+			
+			/*替换原来的期望速度*/
 			target_spd = td_spd;
 		}
 		else

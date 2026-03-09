@@ -14,13 +14,13 @@
 
 #define ARM_JOINTS 4
 
-#define L1_Particle_LENGTH       0.22821f
-#define L2_Particle_LENGTH       0.20264f
-#define L3_Particle_LENGTH       0.07760f
-#define GRAVITY_ACEEL            9.788f
-#define L1_gravity               1.027f * GRAVITY_ACEEL
-#define L2_gravity               0.416f * GRAVITY_ACEEL
-#define L3_gravity               0.2f * GRAVITY_ACEEL
+//#define L1_Particle_LENGTH       0.22821f
+//#define L2_Particle_LENGTH       0.20264f
+//#define L3_Particle_LENGTH       0.07760f
+//#define GRAVITY_ACEEL            9.788f
+//#define L1_gravity               1.027f * GRAVITY_ACEEL
+//#define L2_gravity               0.416f * GRAVITY_ACEEL
+//#define L3_gravity               0.2f * GRAVITY_ACEEL
 
 #define L1_LENGTH       0.32358f
 #define L2_LENGTH       0.07111f
@@ -54,27 +54,47 @@ namespace arm
         float theta4;
     } JointAngles;
 
-    typedef struct
-    {
-        float joint1;
-        float joint2;
-        float joint3;
-    } Joint_gravity_compensation;
+//    typedef struct
+//    {
+//        float joint1;
+//        float joint2;
+//        float joint3;
+//    } Joint_gravity_compensation;
 
-    class ArmDynamics
-    {
-    public:
-        ArmDynamics();
-        virtual ~ArmDynamics() {}
+	class ArmDynamics
+	{
+	public:
+		ArmDynamics();
+		virtual ~ArmDynamics() {}
+		
+		float tor[4] = {0};
+		
+		float L2 = 0.07111f;
+		float L3 = 0.24800f;
+		
+		float l2 = 0.035;
+		float l3 = 0.12;
+		float l4 = 0.13994f;
+		
+		float m2 = 1;
+		float m3 = 1;
+		float m4 = 1;
+		float load = 0;
+		
+//		JointAngles ag{0, 0, 0, 0};
+//        JointAngles joint_angle_now{0, 0, 0, 0};
 
-        JointAngles motor_angle{0, 0, 0, 0};
-        JointAngles joint_angle_now{0, 0, 0, 0};
+//        Joint_gravity_compensation joint_gravity_compensation{0, 0, 0};
 
-        Joint_gravity_compensation joint_gravity_compensation{0, 0, 0};
+//        void gravity_compensation();
+		void Calc_Torque(
+			float theta2, float theta3, float theta4,
+			float alpha1, float alpha2, float alpha3, float alpha4
+		);
+	};
 
-        void gravity_compensation();
-    };
-
+	
+	
     struct EndEffectorPos {
         float x;
         float y;

@@ -33,9 +33,10 @@ namespace motor
     */
 	void Motor::Set_Rpm(float target_rpm_)
 	{
+		target_rpm = target_rpm_;
+		
 		// 设置模式
 		motor_mode = RPM_MODE;
-		target_rpm = target_rpm_;
 	}
 	
 	/**
@@ -44,11 +45,12 @@ namespace motor
     * @param target_angle_:目标角度
     */
 	void Motor::Set_Angle(float target_angle_)
-	{
-		// 设置模式
-		motor_mode = ANGLE_MODE;		
+	{	
 		if (target_angle_ >= TWO_PI || target_angle_ <= 0) target_angle_ = 0;
 		target_angle = target_angle_;
+		
+		// 设置模式
+		motor_mode = ANGLE_MODE;
 	}
 	
 	/**
@@ -58,11 +60,12 @@ namespace motor
     */
 	void Motor::Set_Pos(float target_pos_)
 	{
-		// 设置模式
-		motor_mode = POS_MODE;	
 		if (target_pos_ > pos_max) target_pos_ = pos_max;
 		else if (target_pos_ < pos_min) target_pos_ = pos_min;
 		target_pos = target_pos_;
+		
+		// 设置模式
+		motor_mode = POS_MODE;	
 	}
 	
 	/**
@@ -72,9 +75,10 @@ namespace motor
     */
 	void Motor::Set_Current(float target_current_)
 	{
+		target_current = target_current_;
+		
 		// 设置模式
 		motor_mode = CURRENT_MODE;
-		target_current = target_current_;
 	}
 	
 	/**
@@ -84,9 +88,20 @@ namespace motor
     */
 	void Motor::Set_Torque(float target_torque_)
 	{
+		target_torque = target_torque_;
+		
 		// 设置模式
 		motor_mode = TORQUE_MODE;
-		target_torque = target_torque_;
+	}
+	
+	/**
+    * @brief 设置输出轴目标扭矩
+    * @note N * m
+    * @param target_out_torque_:输出轴目标扭矩
+    */
+	void Motor::Set_Out_Torque(float target_out_torque_)
+	{
+		Set_Torque(target_out_torque_ / gear_ratio);
 	}
 	
 	/**
@@ -149,15 +164,15 @@ namespace motor
 		Reset_Pos(out_pos_ * gear_ratio);
 	}
 	
-	/**
-    * @brief 设置前馈量
-    * @note 
-    * @param feedforward_:电流或扭矩(根据不同电机确定)
-    */
-	void Motor::Set_Feedforward(float feedforward_)
-	{
-		feedforward = feedforward_;
-	}
+//	/**
+//    * @brief 设置前馈量
+//    * @note 
+//    * @param feedforward_:电流或扭矩(根据不同电机确定)
+//    */
+//	void Motor::Set_Feedforward(float feedforward_)
+//	{
+//		feedforward = feedforward_;
+//	}
 	
 	/**
     * @brief 设置输出轴角度
@@ -166,10 +181,28 @@ namespace motor
     */
 	void Motor::Set_Out_Angle(float target_out_angle_)
 	{
-		// 设置模式
-		motor_mode = OUT_ANGLE_MODE;
 		if (target_out_angle_ < 0.f || target_out_angle_ >= TWO_PI) target_out_angle_ = 0.f;
 		target_pos = target_out_angle_ * gear_ratio;
+		
+		// 设置模式
+		motor_mode = OUT_ANGLE_MODE;
+	}
+	
+	
+	void Motor::Set_Mit(float pos_, float rpm_, float tor_)
+	{
+		target_pos = pos_;
+		target_rpm = rpm_;
+		target_torque = tor_;
+		
+		// 设置模式
+		motor_mode = LOCAL_MIT_MODE;
+	}
+	
+	
+	void Motor::Set_Out_Mit(float out_pos_, float out_rpm_, float out_tor_)
+	{
+		Set_Mit(out_pos_ * gear_ratio, out_rpm_ * gear_ratio, out_tor_ / gear_ratio);
 	}
 	
 	/**

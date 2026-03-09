@@ -129,7 +129,7 @@ namespace motor
 				kd_int  = float_to_uint(target_k_spd, KD_MIN, KD_MAX, 8);
 			}
 			
-			float temp_target_torque = target_torque + feedforward;// 加上前馈力矩
+			float temp_target_torque = target_torque/* + feedforward*/;// 加上前馈力矩
 			
 			pid::Limit(&temp_target_torque, T_MAX);
 
