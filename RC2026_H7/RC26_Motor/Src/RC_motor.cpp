@@ -187,24 +187,46 @@ namespace motor
 		// 设置模式
 		motor_mode = OUT_ANGLE_MODE;
 	}
-	
-	
-	void Motor::Set_Mit(float pos_, float rpm_, float tor_)
+
+	void Motor::Set_Mit_Pos(float pos_)
 	{
 		target_pos = pos_;
+		
+		// 设置模式
+		motor_mode = LOCAL_MIT_MODE;
+	}
+	
+	void Motor::Set_Mit_Rpm(float rpm_)
+	{
 		target_rpm = rpm_;
+		
+		// 设置模式
+		motor_mode = LOCAL_MIT_MODE;
+	}
+	
+	void Motor::Set_Mit_Tor(float tor_)
+	{
 		target_torque = tor_;
 		
 		// 设置模式
 		motor_mode = LOCAL_MIT_MODE;
 	}
 	
-	
-	void Motor::Set_Out_Mit(float out_pos_, float out_rpm_, float out_tor_)
+	void Motor::Set_Out_Mit_Pos(float out_pos_)
 	{
-		Set_Mit(out_pos_ * gear_ratio, out_rpm_ * gear_ratio, out_tor_ / gear_ratio);
+		Set_Mit_Pos(out_pos_ * gear_ratio);
 	}
 	
+	void Motor::Set_Out_Mit_Rpm(float out_rpm_)
+	{
+		Set_Out_Mit_Rpm(out_rpm_ * gear_ratio);
+	}
+	
+	void Motor::Set_Out_Mit_Tor(float out_tor_)
+	{
+		Set_Out_Mit_Tor(out_tor_ / gear_ratio);
+	}
+
 	/**
     * @brief 重置输出轴角度
     * @note 0 ~ 2pi

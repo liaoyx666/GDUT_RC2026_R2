@@ -41,9 +41,15 @@ namespace motor
 		void Set_Out_Rpm(float target_out_rpm_);// 设置输出轴转速
 		void Set_Out_Pos(float target_out_pos_);// 设置输出轴位置
 		virtual void Set_Out_Angle(float target_out_angle_);// 设置输出轴角度
-		//void Set_Feedforward(float feedforward_);// 设置前馈量
-		virtual void Set_Mit(float pos_, float rpm_ = 0, float tor_ = 0);
-		void Set_Out_Mit(float out_pos_, float out_rpm_ = 0, float out_tor_ = 0);
+
+		void Set_Mit_Pos(float pos_);
+		void Set_Mit_Rpm(float rpm_);
+		void Set_Mit_Tor(float tor_);
+		
+		void Set_Out_Mit_Pos(float out_pos_);
+		void Set_Out_Mit_Rpm(float out_rpm_);
+		void Set_Out_Mit_Tor(float out_tor_);
+		
 		virtual void Set_K_Pos(float target_k_pos_);// 设置刚度系数kp
 		virtual void Set_K_Spd(float target_k_spd_);// 设置阻尼系数kd
 		void Reset_Out_Pos(float out_pos_);// 重置输出轴位置

@@ -27,20 +27,71 @@ namespace arm {
 //            L3_gravity * L3_Particle_LENGTH * cosf(joint_angle_now.theta3);
 //    }
 
-
 	void ArmDynamics::Calc_Torque(
-		float theta2, float theta3, float theta4,
-		float alpha1, float alpha2, float alpha3, float alpha4
+		float q2, float q3, float q4,/*角度*/
+		float a1, float a2, float a3, float a4/*角加速度*/
 	)
 	{
-		/*惯性项*/
-		//float m1 = alpha1 * ();
+//		float cosq2 = cosf(q2);
+//		float cosq2q3 = cosf(q2 + q3);
+//		float cosq2q3q4 = cosf(q2 + q3 + q4);
+//		
+//		float l2_cosq2 = l2 * cosq2;
+//		float l3_cosq2q3 = l3 * cosq2q3;
+//		float l4_cosq2q3q4 = l4 * cosq2q3q4;
+//		
+//		float L2_cosq2 = L2 * cosf(q2);
+//		float L3_cosq2q3 = L3 * cosf(q2 + q3);
+//		
+//		float sum_L2_l3 = L2_cosq2 + l3_cosq2q3;
+//		float sum_L2_L3_l4 = L2_cosq2 + L3_cosq2q3 + l4_cosq2q3q4;
+//		
+//		/*惯性项力矩*/
+//		float ti1 = 
+//			a1 * (
+//				m2 * l2_cosq2 * l2_cosq2 + 
+//				m3 * sum_L2_l3 * sum_L2_l3 + 
+//				m4 * sum_L2_L3_l4 * sum_L2_L3_l4
+//			);
+//		
+//		/*惯性项力矩*/
+//		float ti4 = m4 * l4 * l4 * a4;
+//		
+//		/*惯性项力矩*/
+//		float ti3 = -ti4 + m3 * l3 * l3 * a3;
+//		
+//		/*惯性项力矩*/
+//		float ti2 = -ti3 + a2 * m2 * l2 * l2;
+
+		float c234 = cosf(q2 + q3 + q4);
+		float c34 = cosf(q3 + q4);
+		float c2 = cosf(q2);
+
+		float G2 = m2 * g;
+		float G3 = m3 * g;
+		float G4 = m4 * g;
 		
+		float l4_c234 = l4 * c234;
+		float l3_c34 = l3 * c34;
+		
+		float L3_c34 = L3 * c34;
+		float L2_c2 = L2 * c2;
+		
+		float tg4 = G4 * l4_c234;
+		
+		float tg3 = G3 * l3_c34 + 
+					G4 * (l4_c234 + L3_c34);
+		
+		float tg2 = G2 * l2 * c2 + 
+					G3 * (l3_c34 + L2_c2) + 
+					G4 * (l4_c234 + L3_c34 + L2_c2);
+		
+		tor[0] = 0;
+		tor[1] = tg2;
+		tor[2] = tg3;
+		tor[3] = tg4;
 	}
-		
-		
-		
-		
+	
     float ArmKinematics::unwrapAngle(float now, float last)
     {
         while (now - last > PI) now -= 2.0f * PI;

@@ -76,6 +76,8 @@ namespace arm
 		float l3 = 0.12;
 		float l4 = 0.13994f;
 		
+		float g = 9.8;
+		
 		float m2 = 1;
 		float m3 = 1;
 		float m4 = 1;
