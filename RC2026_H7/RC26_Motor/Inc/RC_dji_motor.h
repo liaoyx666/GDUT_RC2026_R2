@@ -39,6 +39,9 @@ namespace motor
 		float rotor_pos = 0;
 		int32_t rotor_cycle = 0;// 转子累计旋转圈数(用于计算out_angle)
 		float out_angle_offset = 0;
+			
+		float tor_to_cur = 1.f/*力矩换为电流的系数*/;
+		
     private:
 		
 		
