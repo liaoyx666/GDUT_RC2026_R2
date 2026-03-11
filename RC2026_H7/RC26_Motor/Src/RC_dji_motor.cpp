@@ -68,7 +68,7 @@ namespace motor
 	{
 		if (motor_mode == LOCAL_MIT_MODE)			//>本地计算mit模式
 		{
-			target_current = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, target_torque) * tor_to_cur;
+			target_current = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, ff_torque) * tor_to_cur;
 		}
 		else if (motor_mode != CURRENT_MODE)		//> 电流模式
 		{

@@ -206,7 +206,7 @@ namespace motor
 	
 	void Motor::Set_Mit_Tor(float tor_)
 	{
-		target_torque = tor_;
+		ff_torque = tor_;
 		
 		// 设置模式
 		motor_mode = LOCAL_MIT_MODE;
@@ -219,12 +219,12 @@ namespace motor
 	
 	void Motor::Set_Out_Mit_Rpm(float out_rpm_)
 	{
-		Set_Out_Mit_Rpm(out_rpm_ * gear_ratio);
+		Set_Mit_Rpm(out_rpm_ * gear_ratio);
 	}
 	
 	void Motor::Set_Out_Mit_Tor(float out_tor_)
 	{
-		Set_Out_Mit_Tor(out_tor_ / gear_ratio);
+		Set_Mit_Tor(out_tor_ / gear_ratio);
 	}
 
 	/**

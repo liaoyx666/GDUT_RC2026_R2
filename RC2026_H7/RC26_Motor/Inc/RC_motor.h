@@ -83,6 +83,7 @@ namespace motor
 		float k_pos = 0;// 刚度系数kp
 		float out_pos = 0;// 输出轴位置 pos / gear_ratio
 		float out_angle = 0;// 0 ~ 2*pi*gear_ratio
+		
 	
 		// 目标参数
 		float target_rpm = 0;
@@ -92,7 +93,8 @@ namespace motor
 		float target_torque = 0;
 		float target_k_spd = 0;
 		float target_k_pos = 0;
-		//float feedforward = 0;// 前馈量，可以是电流，可以是力矩，根据不同电机确定
+		//float feedforward = 0;// 
+		float ff_torque = 0;// 前馈力矩
 		
 		// 变量
 		float pos_offset = 0;// 位置偏移量(pos = 电机读取位置 + pos_offset)

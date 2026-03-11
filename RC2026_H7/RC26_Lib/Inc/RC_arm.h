@@ -69,18 +69,18 @@ namespace arm
 		
 		float tor[4] = {0};
 		
-		float L2 = 0.07111f;
-		float L3 = 0.24800f;
+		float L2 = 0.32358f;
+		float L3 = 0.28711f;
 		
-		float l2 = 0.035;
-		float l3 = 0.12;
-		float l4 = 0.13994f;
+		float l2 = 0.11221f;
+		float l3 = 0.14701f;
+		float l4 = 0.06694f;
 		
-		float g = 9.8;
+		float g = 9.788f;
 		
-		float m2 = 1;
-		float m3 = 1;
-		float m4 = 1;
+		float m2 = 0.71f;
+		float m3 = 0.31f;
+		float m4 = 0.24f;
 		float load = 0;
 		
 //		JointAngles ag{0, 0, 0, 0};

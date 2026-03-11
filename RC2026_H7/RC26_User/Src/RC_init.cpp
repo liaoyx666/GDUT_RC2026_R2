@@ -32,10 +32,10 @@ motor::Vesc vesc_104_can3(104, can3, tim13_500hz, 21);
 
 
 // 机械臂电机-------------------------------------------------
-motor::DM4310 	dm4310_0x13_can1(0x13, can2, tim7_1khz, false ,0 , 0, true);
-motor::M3508 	m3508_2_can1    (2,    can1, tim7_1khz, 51.f * 1.2f , true);
+motor::DM4310 	dm4310_0x13_can2(0x13, can2, tim7_1khz, false ,0 , 0, true);
+motor::M3508 	m3508_2_can1    (2,    can1, tim7_1khz, 51.f, true);
 motor::J60 		j60_1_can1	    (1,    can1, tim7_1khz, false ,0 , 0, true);
-motor::Go 		go_0_0_can2	    (0, 0, can1, tim7_1khz, false ,0 , 0, true);
+motor::Go 		go_0_0_can1	    (0, 0, can1, tim7_1khz, false ,0 , 0, true);
 // -----------------------------------------------------------
 
 
@@ -98,6 +98,9 @@ chassis_jack::Chassis_jack chassis_jack_test(
 	GPIOG, GPIO_PIN_0
 );
 
+
+arm::ArmDynamics arm_dynamics;
+
 //arm::AutoArm auto_arm(arm_task, path_plan, 4, 5);
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
@@ -107,6 +110,8 @@ imu::JY901S jy901s(huart1);// 陀螺仪
 /*====================================DeBug====================================*/
 SquareWave wave(1000, 3000);// 用于调pid
 
+float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
+
 float target = 0;
 float a = 0;
 
@@ -114,12 +119,22 @@ void test(void *argument)
 {
 	wave.Init();
 
-	j60_1_can1.pid_pos. Pid_Param_Init(250, 0, 20, 0, 0.001, 0, 150, 5, 5, 5, 5, 70, 80);
+	//j60_1_can1.pid_pos. Pid_Param_Init(250, 0, 20, 0, 0.001, 0, 150, 5, 5, 5, 5, 70, 80);
 	//go_0_0_can2.pid_pos.Pid_Param_Init(200, 0, 7, 0, 0.001, 0, 80, 5, 5, 5, 5, 8, 3);
 
-	go_0_0_can2.     Set_Out_Pos(0);
-	j60_1_can1.      Set_Out_Pos(0);
-	dm4310_0x13_can1.Set_Out_Pos(0);
+	dm4310_0x13_can2.pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	//m3508_2_can1    .pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	j60_1_can1	    .pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	go_0_0_can1	    .pid_pos.Pid_Mode_Init(false, false, 0.01, true);
+	
+	dm4310_0x13_can2.pid_pos.Pid_Param_Init( 20, 0,  0.15, 0, 0.001, 0,   5,    5,   5,   5,   5,  20,   7);
+	//m3508_2_can1    .pid_pos.Pid_Param_Init(  0, 0,     0, 0, 0.001, 0,   5,    5, 500, 500, 500, 150, 200);
+	j60_1_can1	    .pid_pos.Pid_Param_Init(  7, 0,     0.06, 0, 0.001, 0,  30,    5,   5,   5,   5,  5,  30);
+	go_0_0_can1	    .pid_pos.Pid_Param_Init(0.7, 0, 0.007, 0, 0.001, 0,  10,  0.1,   5,   2,   2,  40,  10);
+	
+	go_0_0_can1.     Set_Out_Mit_Pos(0);
+	j60_1_can1.      Set_Out_Mit_Pos(0);
+	dm4310_0x13_can2.Set_Out_Mit_Pos(0);
 	m3508_2_can1.    Set_Out_Pos(0);
 	
 	//dm4310_0x13_can1.Set_Pos_Offset(-1.88506126f);  
@@ -141,9 +156,9 @@ void test(void *argument)
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 
-		go_0_0_can2.Set_Out_Pos(a);
+		//go_0_0_can1.Set_Out_Pos(a);
 		
-		uart_printf("%f,%f,%f,%f\n", a, go_0_0_can2.Get_Out_Pos(), go_0_0_can2.Get_Rpm());
+		//uart_printf("%f,%f,%f,%f\n", a, go_0_0_can1.Get_Out_Pos(), go_0_0_can1.Get_Rpm());
 		
 		
 //		if (remote_ctrl.swa == 0)
@@ -167,6 +182,22 @@ void test(void *argument)
 //		
 //		// 辅助轮
 //		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
+		
+		arm_dynamics.Calc_Torque(
+			-j60_1_can1.      Get_Out_Pos() + (9.99f / 180.f * PI), 
+			-m3508_2_can1.    Get_Out_Pos() + (167.22f / 180.f * PI), 
+			-dm4310_0x13_can2.Get_Out_Pos() + (-102.22f / 180.f * PI), 
+			0, 0, 0, 0
+		);
+		
+		dm4310_0x13_can2.Set_Out_Mit_Tor(-arm_dynamics.tor[3]);
+		//m3508_2_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[2]);
+		j60_1_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[1]);
+		
+		
+		dm4310_0x13_can2.Set_Out_Mit_Pos(a4);
+		m3508_2_can1.Set_Out_Pos(a3);
+		j60_1_can1.Set_Out_Mit_Pos(a2);
 		
 		osDelay(1);
 	}

@@ -165,7 +165,7 @@ namespace motor
 		{
 			if (motor_mode == LOCAL_MIT_MODE)		//>本地计算mit模式
 			{
-				target_torque = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, target_torque);
+				target_torque = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, ff_torque);
 			}
 			else if (motor_mode != TORQUE_MODE)		//> 力矩模式
 			{

@@ -1,7 +1,8 @@
 #include "RC_arm.h"
 
 /*======================================底层代码=================================*/
-namespace arm {
+namespace arm
+{
 
     ArmDynamics::ArmDynamics()
 	{
@@ -63,8 +64,11 @@ namespace arm {
 //		/*惯性项力矩*/
 //		float ti2 = -ti3 + a2 * m2 * l2 * l2;
 
-		float c234 = cosf(q2 + q3 + q4);
-		float c34 = cosf(q3 + q4);
+		float q2q3q4 = q2 + q3 + q4;
+		float q2q3 = q2 + q3;
+
+		float c234 = cosf(q2q3q4);
+		float c23 = cosf(q2q3);
 		float c2 = cosf(q2);
 
 		float G2 = m2 * g;
@@ -72,19 +76,19 @@ namespace arm {
 		float G4 = m4 * g;
 		
 		float l4_c234 = l4 * c234;
-		float l3_c34 = l3 * c34;
+		float l3_c23 = l3 * c23;
 		
-		float L3_c34 = L3 * c34;
+		float L3_c23 = L3 * c23;
 		float L2_c2 = L2 * c2;
 		
 		float tg4 = G4 * l4_c234;
 		
-		float tg3 = G3 * l3_c34 + 
-					G4 * (l4_c234 + L3_c34);
+		float tg3 = G3 * l3_c23 + 
+					G4 * (l4_c234 + L3_c23);
 		
 		float tg2 = G2 * l2 * c2 + 
-					G3 * (l3_c34 + L2_c2) + 
-					G4 * (l4_c234 + L3_c34 + L2_c2);
+					G3 * (l3_c23 + L2_c2) + 
+					G4 * (l4_c234 + L3_c23 + L2_c2);
 		
 		tor[0] = 0;
 		tor[1] = tg2;
