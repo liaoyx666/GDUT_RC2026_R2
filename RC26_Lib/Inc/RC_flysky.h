@@ -2,7 +2,7 @@
 #include "RC_timer.h"
 #include "gpio.h"
 #include "RC_task.h"
-
+#include "RC_gpio_exti.h"
 
 #include "RC_serial.h"
 
@@ -12,34 +12,34 @@
 
 #define CHANNEL_NUM 8// 8通道
 
-
-
-
 namespace flysky
 {
-
-	// 只能实例化一次
-	class FlySky : public task::ManagedTask
+	// 浮空输入
+	class FlySky : public task::ManagedTask, gpio::GpioExti
     {
     public:
-		FlySky(uint16_t GPIO_Pin_);
+		FlySky(uint16_t gpio_pin_);
 		virtual ~FlySky() {}
 		
-		volatile static uint16_t channel_list[CHANNEL_NUM];// 取值范围1000~2000
-		static void EXTI_Prosess(uint16_t GPIO_Pin);
+		volatile uint16_t channel_list[CHANNEL_NUM];// 取值范围1000~2000
 		
-		volatile static uint8_t swa, swb, swc, swd;
-		volatile static int16_t left_x, left_y, right_x, right_y;
-		volatile static uint16_t data_buf[CHANNEL_NUM];
+		volatile uint8_t swa, swb, swc, swd;
+		volatile int16_t left_x, left_y, right_x, right_y;
+		volatile uint16_t data_buf[CHANNEL_NUM];
+		
+		bool signal_swa();
+		bool signal_swd();
+		
     protected:
 		void Task_Process() override;
-	
-		static uint16_t GPIO_Pin;
-		static bool is_init;
+		void EXTI_Prosess() override;
+		bool is_init;
 	
     private:
-		static uint32_t last_time;
+		uint32_t last_time;
 	
+		uint8_t last_swa, last_swd;
+		bool is_last_init;
     };
 
 }

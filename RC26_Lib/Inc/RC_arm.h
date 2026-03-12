@@ -1,86 +1,268 @@
-#ifndef RC_ARM_H
-#define RC_ARM_H
-#define PI 3.14159265358979f
-// ------------------ 常量定义 ------------------
-#include "math.h"
+#pragma once
+
+#include "RC_pid.h"
 #include "arm_matrix.h"
-// 机械臂参数（根据你原始定义调整）
-#define L1_LENGTH       0.45657f    // 大臂长度（米）
-#define L2_LENGTH       0.41476f    // 小臂长度（米）
-#define L3_LENGTH       0.13350f    // 末端执行器长度（米）
-#define BASE_HEIGHT     0.0f        // 底座高度（米）
+#include "RC_timer.h"
+#include "RC_tim.h"
+#include "RC_motor.h"
+#include "RC_task.h"
+#include "main.h"
+#include "task.h"
+#include <math.h>
+#include "RC_vector3d.h"
+#include "RC_storage.h"
+#include "RC_filter.h"
+#define ARM_JOINTS 4
 
+#define L1_LENGTH 0.32358f
+#define L2_LENGTH 0.28711f
+#define L3_LENGTH 0.13994f
+#define BASE_HEIGHT 0.1f
 
-// -------------------------- 关节角度限制 --------------------------
-#define THETA0_MIN      -PI         // 底座旋转最小角度（弧度，-180°）
-#define THETA0_MAX       PI         // 底座旋转最大角度（弧度，180°）
-#define THETA1_MIN       0       // 大臂最小角度（弧度，0°）
-#define THETA1_MAX       PI      // 大臂最大角度（弧度，90°）
-#define THETA2_MIN       0      // 小臂最小角度（弧度，-90°）
-#define THETA2_MAX      1.5 * PI       // 小臂最大角度（弧度，90°）
-#define THETA3_MIN       -PI/2       // 末端最小角度（弧度，-90°）
-#define THETA3_MAX       PI       // 末端最大角度（弧度，90°）
+#define THETA1_MIN -PI
+#define THETA1_MAX PI
+#define THETA2_MIN (-1.1*PI)
+#define THETA2_MAX (0.1*PI)
+#define THETA3_MIN (-PI)
+#define THETA3_MAX (1.5f * PI)
+#define THETA4_MIN (-1.8f * PI)
+#define THETA4_MAX 0
 
-// -------------------------- 关节角度偏移 --------------------------
-#define THETA0_OFFSET    0.0f
-#define THETA1_OFFSET    0.0f
-#define THETA2_OFFSET    0.0f//27.32f * PI / 180.0f
-#define THETA3_OFFSET    0.0f//6.20f * PI / 180.0f
+#define THETA2_OFFSET (-PI -(10.00f * PI / 180.0f))
+#define THETA3_OFFSET (PI + (12.75* PI / 180.0f))
+#define THETA4_OFFSET (PI - (65.00f * PI / 180.0f))
 
-// ------------------ 结构体定义 ------------------
-struct JointAngles {
-    float theta0;
-    float theta1;
-    float theta2;
-    float theta3;
-};
-
-struct EndEffectorPos {
-    float x;
-    float y;
-    float z;
-    float angle;
-};
-
-enum ActuatorType {
-    ACTUATOR_1,
-    ACTUATOR_2
-};
 #ifdef __cplusplus
-// ------------------ ArmKinematics 类定义 ------------------
-class ArmKinematics {
-public:
-    // 核心函数
-    int inverse(const EndEffectorPos& target_pos,
-                const JointAngles& current_angles,
-                ActuatorType actuator,
-                JointAngles& result_angles);
+namespace arm
+{
+    typedef struct
+    {
+        union {
+            struct { float theta1, theta2, theta3, theta4; };
+            float j[ARM_JOINTS];
+        };
+    } JointAngles;
 
-    void forward(const JointAngles& angles,
-                 ActuatorType actuator,
-                 EndEffectorPos& end_pos);
+    
+
+    class ArmDynamics
+	{
+	public:
+		ArmDynamics();
+		virtual ~ArmDynamics() {}
 		
-	static	ArmMatrix<4, 4> T01;
-   static ArmMatrix<4, 4> T12;
-   static ArmMatrix<4, 4> T23;
-  static  ArmMatrix<4, 4> T34;
-  static  ArmMatrix<4, 4> T04;
+		float tor[4] = {0};
+		float tor_d[4] = {0};
 		
-private:
-    // 工具函数
+		float L2 = 0.32358f;
+		float L3 = 0.28711f;
+		
+		float l2 = 0.11221f;
+		float l3 = 0.14701f;
+		float l4 = 0.06694f;
+		
+		float g = 9.788f;
+		
+		float m2 = 0.71f;
+		float m3 = 0.31f;
+		float m4 = 0.24f;
+		float load = 0;
+		
+	
+		float lp_t = 0.1f;
+		
+		float last_t[4] = {0};
+		
+		
+		filter::SecondOrderLPF lp_td[4];
+		
+		
+//		JointAngles ag{0, 0, 0, 0};
+//        JointAngles joint_angle_now{0, 0, 0, 0};
+
+//        Joint_gravity_compensation joint_gravity_compensation{0, 0, 0};
+
+//        void gravity_compensation();
+		void Calc_Torque(
+			float theta2, float theta3, float theta4,
+			float alpha1, float alpha2, float alpha3, float alpha4,
+			float t1, float t2, float t3, float t4
+		);
+	};
 
 
-    float normalizeAngle(float angle);
-    float constrainValue(float value, float min, float max);
-    float calc_reward(const JointAngles& q,
-                      const EndEffectorPos& end_pos,
-                      const EndEffectorPos& target,
-                      const JointAngles& current_angles);
-		static ArmMatrix<4, 4> buildDHTable(float theta, float alpha, float a, float d, float offset);
-    // 成员变量（静态分配）
-    JointAngles valid_solutions_[2];
-    int num_valid_solutions_ = 0;
+    struct EndEffectorPos {
+        float x;
+        float y;
+        float z;
+        float angle;
+    };
+    class ArmKinematics
+    {
+    public:
+        void forward(const JointAngles& angles, EndEffectorPos& end_pos);
+        bool inverse(const EndEffectorPos& target_pos, JointAngles& result_angles);
+    private:
+        float normalizeAngle(float angle);
+        float constrainValue(float value, float min, float max);
+        float unwrapAngle(float now, float last);
+        ArmMatrix<4, 4> buildDHTable(float theta, float alpha, float a, float d, float offset);
+        static ArmMatrix<4,4> T01;
+        static ArmMatrix<4,4> T12;
+        static ArmMatrix<4,4> T23;
+        static ArmMatrix<4,4> T34;
+        static ArmMatrix<4,4> T04;
+        JointAngles last_joint;
+    };
+		
+		
+}
+
+
+namespace path
+{
+using Vector3D = vector3d::Vector3D;
+struct Pose3D
+{
+    Vector3D pos;
+    float pitch;
 };
 
-#endif // RC_ARM_H
+    #define POS(x,y,z,p) Pose3D{Vector3D(x,y,z),(p)}
+
+    using JointArray = arm::JointAngles;
+
+    class TimePlanner
+    {
+    public:
+        struct Profile
+        {
+            float L;
+            float v_max;
+            float a_max;
+            float t_acc;
+            float t_cruise;
+            float t_total;
+        };
+
+        static Profile compute(float L, float v_max, float a_max);
+        static float timeToS(const Profile& pf, float t);
+    };
+}
+
+enum ArmState
+{
+    ARM_STATE_IDLE,
+    ARM_STATE_MOVING,
+    ARM_STATE_WAITING,
+    ARM_STATE_FINISHED
+};
+
+enum ArmActionType
+{
+    ARM_ACTION_MOVE,
+    ARM_ACTION_HOLD,
+    ARM_ACTION_IO,
+    ARM_ACTION_COND,
+    ARM_ACTION_END
+};
+
+struct ArmAction
+{
+    ArmActionType type;
+		path::Pose3D start;  //起始点，可不填
+    path::Pose3D target;  //终点 
+    float smooth;  //平滑度，0是直线，1，-1是圆，极值是±1
+    float speed;  //速度
+    float acc;  //加速度
+    bool  joint_space; // true: 使用关节空间规划；false: 笛卡尔空间规划
+    uint32_t hold_ms;  //停止时间
+    void (*io_func)();  //执行函数
+    bool (*cond_func)();  //判断函数
+};
+
+
+enum class ARM_TASK : uint8_t
+{
+    IDLE = 0,
+    PICK_FRONT_UP_CUBE,
+    PICK_FRONT_DOWN_CUBE,
+    PLACE_LEFT_CUBE,
+    PLACE_RIGHT_CUBE,
+    HOME
+};
+
+class Arm_task : public tim::TimHandler, public task::ManagedTask
+{
+public:
+    Arm_task(tim::Tim &tim_,
+             motor::Motor& motor_1_,
+             motor::Motor& motor_2_,
+             motor::Motor& motor_3_,
+             motor::Motor& motor_4_);
+    virtual ~Arm_task() {}
+    bool Arm_Control(ARM_TASK task);
+    bool Arm_IsBusy(void);
+
+private:
+	bool is_finished;
+	ARM_TASK active_task_ = ARM_TASK::IDLE;
+    bool task_started_ = false;
+	void startTask(ARM_TASK task);
+	bool isTaskFinished() const;
+	static void Front_Air_Pump_On();
+	static void Front_Air_Pump_Off();
+    motor::Motor* Arm_motor[4];
+    ArmState g_state;
+    ARM_TASK g_task_mode;
+    ARM_TASK g_last_task_mode;
+    bool g_task_lock;
+    uint32_t g_hold_end_tick;
+    ArmAction* g_action_seq;
+    uint32_t g_action_index;
+    static path::Pose3D home_pose;
+    static path::Pose3D pick_front_cube0;
+    static path::Pose3D pick_front_cube2;
+    static path::Pose3D pick_front_cube5;
+    static path::Pose3D pick_front_cube6;
+    static path::Pose3D pick_front_cube7;
+    static path::Pose3D pick_front_cube_test1;
+    static path::Pose3D pick_front_cube_test2;
+	static path::Pose3D pick_front_cube_test3;
+	static path::Pose3D pick_front_cube8;
+    static path::Pose3D safe_pos;
+	static path::Pose3D pick_front_cube_test0;
+    static ArmAction PICK_FRONT_UP_CUBE_SEQ[];
+    static ArmAction PICK_FRONT_DOWN_CUBE_SEQ[];
+    static ArmAction PLACE_LEFT_CUBE_SEQ[];
+    static ArmAction PLACE_RIGHT_CUBE_SEQ[];
+    static ArmAction HOME_SEQ[];
+    path::Pose3D g_last_pose;
+    path::JointArray cmd_joints_;
+    path::JointArray cmd_velocities_;
+    path::JointArray last_cmd_joints_; 
+    float move_s_;
+    path::TimePlanner::Profile global_profile_;
+    bool is_reseted;
+    uint32_t last_tick_;
+    path::Pose3D current_target_pose_;
+    path::JointArray current_joint_angles;
+    path::JointArray current_target_joints_;
+    bool current_is_joint_space_;
+    float current_speed_;
+    float current_acc_;
+    float move_start_time_;
+    path::JointArray start_joints_;
+    path::Pose3D start_pose_;
+    bool isAllReached();
+    ArmState Arm_GetState(void);
+    void Arm_Hold(uint32_t ms);
+    void Bind_Action_Sequence();
+    void Arm_Path_Manager(void *arg);
+    void executeMove();
+protected:
+    void Tim_It_Process() override;
+    void Task_Process() override;
+};
+
 #endif
