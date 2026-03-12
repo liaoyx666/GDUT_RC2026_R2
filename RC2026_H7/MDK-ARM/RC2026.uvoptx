@@ -205,6 +205,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>go_0_0_can1</ItemText>
         </Ww>
+        <Ww>
+          <count>10</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>arm_dynamics</ItemText>
+        </Ww>
       </WatchWindow1>
       <Tracepoint>
         <THDelay>0</THDelay>

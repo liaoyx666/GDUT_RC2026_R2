@@ -6,9 +6,13 @@
 #include "RC_tim.h"
 #include "RC_motor.h"
 #include "RC_task.h"
+
+
 #include "main.h"
 #include "task.h"
 #include <math.h>
+
+#include "RC_filter.h"
 #include "RC_vector3d.h"
 #include "RC_storage.h"
 
@@ -68,6 +72,7 @@ namespace arm
 		virtual ~ArmDynamics() {}
 		
 		float tor[4] = {0};
+		float tor_d[4] = {0};
 		
 		float L2 = 0.32358f;
 		float L3 = 0.28711f;
@@ -83,6 +88,15 @@ namespace arm
 		float m4 = 0.24f;
 		float load = 0;
 		
+	
+		float lp_t = 0.1f;
+		
+		float last_t[4] = {0};
+		
+		
+		filter::SecondOrderLPF lp_td[4];
+		
+		
 //		JointAngles ag{0, 0, 0, 0};
 //        JointAngles joint_angle_now{0, 0, 0, 0};
 
@@ -91,7 +105,8 @@ namespace arm
 //        void gravity_compensation();
 		void Calc_Torque(
 			float theta2, float theta3, float theta4,
-			float alpha1, float alpha2, float alpha3, float alpha4
+			float alpha1, float alpha2, float alpha3, float alpha4,
+			float t1, float t2, float t3, float t4
 		);
 	};
 

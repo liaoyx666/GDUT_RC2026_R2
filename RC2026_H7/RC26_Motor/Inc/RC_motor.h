@@ -65,6 +65,7 @@ namespace motor
 		float Get_Angle() const {return angle;}
 		float Get_Current() const {return current;}
 		float Get_Torque() const {return torque;}
+		float Get_Out_Torque() const {return torque * gear_ratio;}
 		float Get_Temperature() const {return temperature;}
 		float Get_Out_Angle() const {return out_angle / gear_ratio;}// 0 ~ 2pi
 		

@@ -33,6 +33,53 @@ namespace filter
     };
 	
 	
+	
+	
+	
+	class SecondOrderLPF
+	{
+	public:
+
+		SecondOrderLPF(float fc, float fs, float zeta = 0.707f);
+
+
+		void reset();
+
+
+		float filter(float x);
+
+	private:
+		/**
+		 * @brief 内部方法：计算离散化后的滤波器系数（双线性变换）
+		 */
+		void calculateCoefficients();
+
+		// 滤波器核心参数
+		float fc_;          // 截止频率 (Hz)
+		float fs_;          // 采样频率 (Hz)
+		float zeta_;        // 阻尼比
+		float Ts_;          // 采样周期 (s) = 1/fs_
+		float omega_n_;     // 自然频率 (rad/s) = 2*PI*fc_
+
+		// 离散化系数
+		float a0_;
+		float a1_;
+		float a2_;
+		float b1_;
+		float b2_;
+
+		// 滤波器状态（保存前2次的输入/输出，避免重复计算）
+		float x_prev1_;     // x(k-1)
+		float x_prev2_;     // x(k-2)
+		float y_prev1_;     // y(k-1)
+		float y_prev2_;     // y(k-2)
+	};
+	
+	
+	
+	
+	
+	
 //	class TD3rd
 //    {
 //    public:

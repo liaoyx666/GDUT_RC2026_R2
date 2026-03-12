@@ -4,7 +4,7 @@
 namespace arm
 {
 
-    ArmDynamics::ArmDynamics()
+    ArmDynamics::ArmDynamics() : lp_td{filter::SecondOrderLPF(100, 1000, 0.7), filter::SecondOrderLPF(100, 1000, 0.7), filter::SecondOrderLPF(100, 1000, 0.7), filter::SecondOrderLPF(100, 1000, 0.7)}
 	{
 		
 	}
@@ -30,7 +30,8 @@ namespace arm
 
 	void ArmDynamics::Calc_Torque(
 		float q2, float q3, float q4,/*角度*/
-		float a1, float a2, float a3, float a4/*角加速度*/
+		float a1, float a2, float a3, float a4,/*角加速度*/
+		float t1, float t2, float t3, float t4/*真实力矩*/
 	)
 	{
 //		float cosq2 = cosf(q2);
@@ -89,11 +90,42 @@ namespace arm
 		float tg2 = G2 * l2 * c2 + 
 					G3 * (l3_c23 + L2_c2) + 
 					G4 * (l4_c234 + L3_c23 + L2_c2);
+	
+//		t1 = last_t[0] * lp_t + t1 * (1.f - lp_t);
+//		t2 = last_t[1] * lp_t + t2 * (1.f - lp_t);
+//		t3 = last_t[2] * lp_t + t4 * (1.f - lp_t);
+//		t4 = last_t[3] * lp_t + t1 * (1.f - lp_t);
+//		
+//		last_t[0] = t1; 
+//		last_t[1] = t2;
+//		last_t[2] = t3;
+//		last_t[3] = t4;
+
+		
+		tor_d[1] = t2 - tg2;
+		tor_d[2] = t3 - tg3;
+		tor_d[3] = t4 - tg4;
+		
+		
+		uart_printf("%f,", tor_d[3]);
+		
+		
+		tor_d[0] = lp_td[0].filter(tor_d[0]);
+		tor_d[1] = lp_td[1].filter(tor_d[1]);
+		tor_d[2] = lp_td[2].filter(tor_d[2]);
+		tor_d[3] = lp_td[3].filter(tor_d[3]);
+		
+		
+		uart_printf("%f\n", tor_d[3]);
 		
 		tor[0] = 0;
-		tor[1] = tg2;
+		tor[1] = tg2 + tor_d[1];
 		tor[2] = tg3;
-		tor[3] = tg4;
+		tor[3] = tg4 + tor_d[3];
+		
+		
+		
+		
 	}
 	
     float ArmKinematics::unwrapAngle(float now, float last)
