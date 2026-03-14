@@ -38,6 +38,12 @@ namespace vector2d
 		Vector2D& operator*=(float scalar);
 		Vector2D& operator/=(float scalar);
 
+		// 相等比较运算符（带浮点精度容错）
+		bool operator==(const Vector2D& other) const;
+
+		// 不等比较运算符
+		bool operator!=(const Vector2D& other) const;
+		
 		// 点积运算
 		float dot(const Vector2D& other) const;
 

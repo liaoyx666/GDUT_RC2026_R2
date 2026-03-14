@@ -188,19 +188,21 @@ void test(void *argument)
 			-m3508_2_can1.    Get_Out_Pos() + (167.22f / 180.f * PI), 
 			-dm4310_0x13_can2.Get_Out_Pos() + (-102.22f / 180.f * PI), 
 			0, 0, 0, 0,
-			0,
+			-go_0_0_can1.     Get_Out_Torque(),
 			-j60_1_can1.      Get_Out_Torque(),
 			-m3508_2_can1.    Get_Out_Torque(),
 		    -dm4310_0x13_can2.Get_Out_Torque()
-		);  
+		);
+		
 		dm4310_0x13_can2.Set_Out_Mit_Tor(-arm_dynamics.tor[3]);
 		//m3508_2_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[2]);
 		j60_1_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[1]);
-		
+		go_0_0_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[0]);
 		
 		dm4310_0x13_can2.Set_Out_Mit_Pos(a4);
 		m3508_2_can1.Set_Out_Pos(a3);
 		j60_1_can1.Set_Out_Mit_Pos(a2);
+		
 		
 		osDelay(1);
 	}

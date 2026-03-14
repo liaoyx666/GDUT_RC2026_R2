@@ -70,6 +70,19 @@ namespace vector2d
 		if (isZero(scalar)) return *this;
 		return *this *= (1.0f / scalar);
 	}
+	
+	// 相等比较运算符（带浮点精度容错）
+	bool Vector2D::operator==(const Vector2D& other) const
+	{
+		return isZero(x() - other.x()) && isZero(y() - other.y());
+	}
+
+	// 不等比较运算符
+	bool Vector2D::operator!=(const Vector2D& other) const
+	{
+		return !(*this == other);
+	}
+	
 	/*----------------------------------------------------------------------------------*/
 	// 点积运算
 	float Vector2D::dot(const Vector2D& other) const

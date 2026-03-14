@@ -101,7 +101,7 @@ namespace arm
 //		last_t[2] = t3;
 //		last_t[3] = t4;
 
-		
+		tor_d[0] = t1 - 0.f;
 		tor_d[1] = t2 - tg2;
 		tor_d[2] = t3 - tg3;
 		tor_d[3] = t4 - tg4;
@@ -110,7 +110,7 @@ namespace arm
 		uart_printf("%f,", tor_d[3]);
 		
 		
-		tor_d[0] = lp_td[0].filter(tor_d[0]);
+		//tor_d[0] = lp_td[0].filter(tor_d[0]);
 		tor_d[1] = lp_td[1].filter(tor_d[1]);
 		tor_d[2] = lp_td[2].filter(tor_d[2]);
 		tor_d[3] = lp_td[3].filter(tor_d[3]);
@@ -118,7 +118,7 @@ namespace arm
 		
 		uart_printf("%f\n", tor_d[3]);
 		
-		tor[0] = 0;
+		tor[0] = tor_d[0];
 		tor[1] = tg2 + tor_d[1];
 		tor[2] = tg3;
 		tor[3] = tg4 + tor_d[3];
