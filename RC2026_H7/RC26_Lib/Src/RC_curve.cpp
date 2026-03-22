@@ -5,13 +5,30 @@ namespace curve
 	Curve2D::Curve2D()
 	{
 		is_init = false;
+		len = 0;
+		cur = 0;
+		end_vel = 0;
 	}
 	
 	/*-------------------------------------------------------------------------------------------------------*/
 	
 	Line2D::Line2D()
 	{
+		Reset();
+	}
 	
+	void Line2D::Reset()
+	{
+		start = vector2d::Vector2D();
+		dir = vector2d::Vector2D();
+		tan = vector2d::Vector2D();
+		nor = vector2d::Vector2D();
+	
+		len_sq = 0;
+		
+		len = 0;
+		cur = 0;
+		is_init = 0;
 	}
 	
 	
@@ -19,7 +36,7 @@ namespace curve
 	{
 		if (start_ == end_)
 		{
-			is_init = false;
+			Reset();
 			return false;
 		}
 		else
@@ -32,6 +49,7 @@ namespace curve
 			tan = dir.normalize();/*单位切向量*/
 			nor = tan.perpendicular();/*单位法向量，切向量左侧*/
 			
+			cur = 0;
 			is_init = true;
 			return true;
 		}
@@ -41,6 +59,8 @@ namespace curve
 	
 	void Line2D::Get_Point_On_T(float t, vector2d::Vector2D* p) const
 	{
+		if (!is_init) return;
+		
 		if (p == nullptr) return;
 		
 		if (t <= 0.f)
@@ -59,6 +79,8 @@ namespace curve
 	
 	void Line2D::Get_Near_Point_T_Dis(vector2d::Vector2D p, vector2d::Vector2D* near_p, float* near_t, float* near_d) const
 	{
+		if (!is_init) return;
+		
 		vector2d::Vector2D sp = p - start;
 		
 		float t = sp.dot(dir) / len_sq;
@@ -88,23 +110,14 @@ namespace curve
 		
 		if (near_d != nullptr)
 		{
-			float sgn;
-			
-			if (sp.cross(dir) > 0.f)
-			{
-				sgn = 1.f;
-			}
-			else
-			{
-				sgn = -1.f;
-			}
-			
-			*near_d = (p - np).length() * sgn;/*左正右负*/
+			*near_d = (p - np).length() * (sp.cross(dir) > 0.f ? 1.f : -1.f);/*左正右负*/
 		}
 	}
 	
 	void Line2D::Get_Tan_Nor_On_T(float t, vector2d::Vector2D* tan_, vector2d::Vector2D* nor_) const
 	{
+		if (!is_init) return;
+		
 		if (tan_ != nullptr)
 		{
 			*tan_ = tan;
@@ -116,21 +129,75 @@ namespace curve
 		}
 	}
 	
+	bool Line2D::Get_Point_On_Len(float len_, vector2d::Vector2D* p) const
+	{
+		if (!is_init) return false;
+		
+		if (p == nullptr)
+		{
+			return false;
+		}
+		
+		if (len_ < 0.f)
+		{
+			Get_Point_On_T(0.f, p);
+			
+			return false;
+		}
+		
+		if (len_ > len)
+		{
+			Get_Point_On_T(1.f, p);
+			
+			return false;
+		}
+		
+		Get_Point_On_T(len_ / len, p);
+		
+		return true;
+	}
 	
+	float Line2D::Get_Len_On_T(float t) const
+	{
+		if (!is_init) return 0;
+		
+		if (t < 0.f)
+		{
+			t = 0.f;
+		}
+		else if (t > 1.f)
+		{
+			t = 1.f;
+		}
+		
+		return len * t;
+	}
 	
 	/*-------------------------------------------------------------------------------------------------------*/
 	
 	Arc2D::Arc2D()
 	{
-		
+		Reset();
 	}
 	
+	void Arc2D::Reset()
+	{
+		start_ag = 0;
+		end_ag = 0;
+		center = vector2d::Vector2D();
+		radius = 0;
+		delta_ag = 0;
+		
+		len = 0;
+		cur = 0;
+		is_init = 0;
+	}
 	
 	bool Arc2D::Init(vector2d::Vector2D start_, vector2d::Vector2D center_, float ag_)
 	{
 		if (vector2d::Vector2D::isZero(ag_) || fabsf(ag_) >= TWO_PI)
 		{
-			is_init = false;
+			Reset();
 			return false;
 		}
 
@@ -151,6 +218,7 @@ namespace curve
 		end_ag = start_ag + ag_;/*终点角度*/
 		len = radius * fabsf(ag_);/*弧长*/
 		
+		cur = 1.f / radius;
 		is_init = true;
 		return true;
 	}
@@ -162,12 +230,12 @@ namespace curve
 	/*只能生成劣弧*/
 	bool Arc2D::Init(vector2d::Vector2D start_, vector2d::Vector2D end_, float radius_, bool is_counter_clockwise)
 	{
-		radius = radius_;
-		if (vector2d::Vector2D::isZero(radius))
+		if (vector2d::Vector2D::isZero(radius_))
 		{
-			is_init = false;
+			Reset();
 			return false;
 		}
+		radius = radius_;
 
 		float d = vector2d::Vector2D::distance(start_, end_);
 		if (d > 2.f * radius || vector2d::Vector2D::isZero(d))
@@ -207,12 +275,15 @@ namespace curve
 		delta_ag = end_ag - start_ag;
 		len = radius * fabsf(delta_ag);
 
+		cur = 1.f / radius;
 		is_init = true;
 		return true;
 	}
 	
 	void Arc2D::Get_Point_On_T(float t, vector2d::Vector2D* p) const
 	{
+		if (!is_init) return;
+		
 		if (p == nullptr) return;
 		
 		float ag;
@@ -235,6 +306,8 @@ namespace curve
 	
 	void Arc2D::Get_Near_Point_T_Dis(vector2d::Vector2D p, vector2d::Vector2D* near_p, float* near_t, float* near_d) const
 	{
+		if (!is_init) return;
+		
 		if (p == center)/*点与圆心重合*/
 		{
 			if (near_t != nullptr)
@@ -297,12 +370,20 @@ namespace curve
 		
 		if (near_d != nullptr)
 		{
-			*near_d = (cp.length() - radius) * (delta_ag > 0.f ? 1.f : -1.f);/*左正右负*/
+			vector2d::Vector2D npp = p - np;
+			
+			vector2d::Vector2D tan;
+			
+			Get_Tan_Nor_On_T(t, &tan, NULL);
+
+			*near_d = npp.length() * (npp.cross(tan) > 0.f ? 1.f : -1.f);/*左正右负*/
 		}
 	}
 	
 	void Arc2D::Get_Tan_Nor_On_T(float t, vector2d::Vector2D* tan_, vector2d::Vector2D* nor_) const
 	{
+		if (!is_init) return;
+		
 		vector2d::Vector2D p;
 		
 		Get_Point_On_T(t, &p);
@@ -318,5 +399,49 @@ namespace curve
 		{
 			*tan_ = -nor.perpendicular();
 		}
+	}
+	
+	bool Arc2D::Get_Point_On_Len(float len_, vector2d::Vector2D* p) const
+	{
+		if (!is_init) return false;
+		
+		if (p == nullptr)
+		{
+			return false;
+		}
+		
+		if (len_ < 0.f)
+		{
+			Get_Point_On_T(0.f, p);
+			
+			return false;
+		}
+		
+		if (len_ > len)
+		{
+			Get_Point_On_T(1.f, p);
+			
+			return false;
+		}
+		
+		Get_Point_On_T(len_ / len, p);
+		
+		return true;
+	}
+	
+	float Arc2D::Get_Len_On_T(float t) const
+	{
+		if (!is_init) return 0;
+		
+		if (t < 0.f)
+		{
+			t = 0.f;
+		}
+		else if (t > 1.f)
+		{
+			t = 1.f;
+		}
+		
+		return len * t;
 	}
 }

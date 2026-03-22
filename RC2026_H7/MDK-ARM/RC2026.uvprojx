@@ -846,26 +846,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_pid.h</FilePath>
             </File>
             <File>
-              <FileName>RC_adrc.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_adrc.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_adrc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_adrc.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_SMC.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_SMC.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_SMC.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_SMC.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_filter.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_filter.cpp</FilePath>
@@ -886,16 +866,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_nonlinear_pid.h</FilePath>
             </File>
             <File>
-              <FileName>RC_speed_plan.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_speed_plan.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_speed_plan.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_speed_plan.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_flysky.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_flysky.cpp</FilePath>
@@ -914,16 +884,6 @@
               <FileName>RC_wave_generator.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_wave_generator.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_wheel_leg.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_wheel_leg.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_wheel_leg.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_wheel_leg.h</FilePath>
             </File>
             <File>
               <FileName>RC_arm.cpp</FileName>
@@ -1074,6 +1034,46 @@
               <FileName>RC_curve.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_curve.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_path3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_path3.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_plan3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_traj_plan3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_plan3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_traj_plan3.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_event3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_event3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_event3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_event3.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_track3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_traj_track3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_track3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_traj_track3.h</FilePath>
             </File>
           </Files>
         </Group>

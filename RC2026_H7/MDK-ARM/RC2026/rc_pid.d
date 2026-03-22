@@ -55,4 +55,4 @@ rc2026/rc_pid.o: ..\RC26_Lib\Src\RC_pid.cpp ..\RC26_Lib\Inc\RC_pid.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Lib\Inc\RC_adrc.h ..\RC26_Lib\Inc\RC_filter.h
+  ..\RC26_Lib\Inc\RC_filter.h

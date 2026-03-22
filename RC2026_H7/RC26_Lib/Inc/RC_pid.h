@@ -3,12 +3,20 @@
 #include <arm_math.h>
 
 #include "RC_serial.h"
-#include "RC_adrc.h"
 #include "RC_filter.h"
 
+#ifndef TWO_PI
 #define TWO_PI 			6.2831853071795864769f
+#endif
+
+
+#ifndef HALF_PI
 #define HALF_PI 		1.570796326794896619f
+#endif
+
+#ifndef TWO_THIRD_PI
 #define TWO_THIRD_PI 	4.71238898038468985769f
+#endif
 
 #ifdef __cplusplus
 namespace pid

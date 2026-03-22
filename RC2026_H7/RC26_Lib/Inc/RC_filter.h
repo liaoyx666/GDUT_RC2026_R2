@@ -1,9 +1,22 @@
 #pragma once
-#include "RC_adrc.h"
 // Header: 滤波器
 // File Name: 
 // Author:
 // Date:
+#include "math.h"
+#include "arm_math.h"
+
+#ifndef TWO_PI
+#define TWO_PI 			6.2831853071795864769f
+#endif
+
+#ifndef HALF_PI
+#define HALF_PI 		1.570796326794896619f
+#endif
+
+#ifndef TWO_THIRD_PI
+#define TWO_THIRD_PI 	4.71238898038468985769f
+#endif
 
 #ifdef __cplusplus
 namespace filter
@@ -32,19 +45,12 @@ namespace filter
 		float v2_max = 0;
     };
 	
-	
-	
-	
-	
 	class SecondOrderLPF
 	{
 	public:
-
 		SecondOrderLPF(float fc, float fs, float zeta = 0.707f);
 
-
 		void reset();
-
 
 		float filter(float x);
 
@@ -77,6 +83,10 @@ namespace filter
 	
 	
 	
+	float fal(float e_, float alpha_, float delta_);
+	float fst(float x1_, float x2_, float r_, float h_);
+	float sgn(float x_);
+	float fhan(float x1, float x2, float r, float h);
 	
 	
 	

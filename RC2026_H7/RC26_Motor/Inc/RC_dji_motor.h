@@ -3,8 +3,6 @@
 #include "RC_pid.h"
 #include "RC_can.h"
 #include "RC_tim.h"
-#include "RC_adrc.h"
-#include "RC_SMC.h"
 
 #include <math.h>
 

@@ -107,7 +107,7 @@ namespace arm
 		tor_d[3] = t4 - tg4;
 		
 		
-		uart_printf("%f,", tor_d[3]);
+		//uart_printf("%f,", tor_d[3]);
 		
 		
 		//tor_d[0] = lp_td[0].filter(tor_d[0]);
@@ -116,7 +116,7 @@ namespace arm
 		tor_d[3] = lp_td[3].filter(tor_d[3]);
 		
 		
-		uart_printf("%f\n", tor_d[3]);
+		//uart_printf("%f\n", tor_d[3]);
 		
 		tor[0] = tor_d[0];
 		tor[1] = tg2 + tor_d[1];

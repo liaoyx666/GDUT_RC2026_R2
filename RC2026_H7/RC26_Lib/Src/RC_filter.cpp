@@ -68,12 +68,12 @@ namespace filter
 			}
         }
 		
-		v2 = v2_last + h * adrc::fst(error, v2_last, r, h);
+		v2 = v2_last + h * fst(error, v2_last, r, h);
 
 		// 限制速度
 		if (v2_max != 0.f && fabsf(v2) > v2_max)
 		{
-			v2 = v2_max * adrc::sgn(v2);
+			v2 = v2_max * sgn(v2);
 		}
 		
 		v1_last = v1;
@@ -153,8 +153,87 @@ namespace filter
 		b2_ = (4.0f - 4.0f * zeta * omega_n * Ts + pow(omega_n * Ts, 2)) / A;
 	}
 	
+	/**
+    * @brief 最速控制综合函数
+    * @note 
+    * @param x:
+    * @retval 
+    */
+	float fst(float x1_, float x2_, float r_, float h_)
+	{
+		float d = r_ * h_;
+		float d0 = h_ * d;
+		float y = x1_ + h_ * x2_;
+		
+		float a0 = sqrtf(d * d + 8.f * r_ * fabsf(y));
+		float a;
+		
+		if (fabsf(y) > d0)
+		{
+			a = x2_ + (a0 - d) / 2.f * sgn(y);
+		}
+		else
+		{
+			a = x2_ + y / h_;
+		}
+		
+		if (fabsf(a) > d)
+		{
+			return -r_ * sgn(a);
+		}
+		else
+		{
+			return -r_ * a / d;
+		}
+	}
 	
-	
-	
-	
+	float fhan(float x1, float x2, float r, float h)
+	{
+		float d = r * h * h;
+		float a0 = h * x2;
+		float y = x1 + a0;
+		float a1 = sqrtf(d * (d + 8.f * fabsf(y)));
+		float a2 = a0 + sgn(y) * (a1 - d) / 2.f;
+		return -r * (a2 / d) * (fabsf(a2) <= d) + -r * sgn(a2) * (fabsf(a2) > d);
+	}
+
+	/**
+    * @brief  饱和函数
+    * @note 
+    * @param delta_:线性段区间长度
+    * @retval 
+    */
+	float fal(float e_, float alpha_, float delta_)
+	{
+		if (fabsf(e_) <= delta_)
+		{
+			return e_ / powf(delta_, alpha_ - 1.f);
+		}
+		else
+		{
+			return powf(fabsf(e_), alpha_) * sgn(e_);
+		}
+	}
+
+	/**
+    * @brief  符号函数
+    * @note 
+    * @param x_:
+    * @retval 
+    */
+	float sgn(float x_)
+	{
+		if (x_ > 0.f)
+		{
+			return 1.f;
+		}
+		else if (x_ == 0.f)
+		{
+			return 0.f;
+		}
+		else
+		{
+			return -1.f;
+		}
+	}
 }

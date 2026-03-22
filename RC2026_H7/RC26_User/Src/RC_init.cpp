@@ -73,33 +73,39 @@ chassis::Swerve4Chassis swerve_4_chassis(
 	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
 );
 
-// 路径规划
-path::PathPlan2 path_plan(
-	robot_pose, swerve_4_chassis,
-	1, 2.5, 2.5,
-	2, 4.5, 4.5,
-	0.01, 0.01// 死区
-);
+//// 路径规划
+//path::PathPlan2 path_plan(
+//	robot_pose, swerve_4_chassis,
+//	1, 2.5, 2.5,
+//	2, 4.5, 4.5,
+//	0.01, 0.01// 死区
+//);
 
 // 4撑杆
-chassis_jack::Chassis_jack chassis_jack_test(
-	1, 2, 3,
-	path_plan,
-	m3508_left_front_can2,  m3508_left_behind_can2,
-	m3508_right_front_can2, m3508_right_behind_can2,
-	m2006_5_can2, m2006_6_can2,
-	1.f,
-	lidar_1,
-	swerve_4_chassis,
-	2.5, 0.6, 0.8, 0.7,
-	GPIOA, GPIO_PIN_8,
-	GPIOG, GPIO_PIN_1,
-	GPIOA, GPIO_PIN_9,
-	GPIOG, GPIO_PIN_0
-);
+//chassis_jack::Chassis_jack chassis_jack_test(
+//	1, 2, 3,
+//	path_plan,
+//	m3508_left_front_can2,  m3508_left_behind_can2,
+//	m3508_right_front_can2, m3508_right_behind_can2,
+//	m2006_5_can2, m2006_6_can2,
+//	1.f,
+//	lidar_1,
+//	swerve_4_chassis,
+//	2.5, 0.6, 0.8, 0.7,
+//	GPIOA, GPIO_PIN_8,
+//	GPIOG, GPIO_PIN_1,
+//	GPIOA, GPIO_PIN_9,
+//	GPIOG, GPIO_PIN_0
+//);
 
+//path::Path3 p_test;
 
-arm::ArmDynamics arm_dynamics;
+//path::TrajPlan3 tp(
+//	{1, 1, 1}, 
+//	{0, 1, 1, false}
+//);
+
+//arm::ArmDynamics arm_dynamics;
 
 //arm::AutoArm auto_arm(arm_task, path_plan, 4, 5);
 
@@ -112,6 +118,9 @@ SquareWave wave(1000, 3000);// 用于调pid
 
 float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
 
+	
+//vector2d::Vector2D pc;
+//	
 float target = 0;
 float a = 0;
 
@@ -149,13 +158,122 @@ void test(void *argument)
 	remote_ctrl.signal_swa();
 	remote_ctrl.signal_swd();
 
-	MF_path.MF_Best_Path_Plan(map, path_plan);
+//	MF_path.MF_Best_Path_Plan(map, path_plan);
+
+
+
+//	tp.Load_Path(&p_test);
+
+//	path::Point3 p;
+//	p.point = vector2d::Vector2D(0, 0);
+//	p.blend_dis = 0.5;
+//	
+//	tp.Add_Point(p);
+
+//	p.point = vector2d::Vector2D(1, 0);
+//	p.blend_dis = 0.2;
+//	
+//	tp.Add_Point(p);
+//	
+//	p.point = vector2d::Vector2D(1, 1);
+//	p.blend_dis = 0.7;
+//	
+//	tp.Add_Point(p);
+
+
+
+//	p.point = vector2d::Vector2D(2, 0);
+//	p.blend_dis = 0.5;
+//	
+//	tp.Add_Point(p);
+
+//	p.point = vector2d::Vector2D(3, 0);
+//	p.blend_dis = 40;
+//	
+//	tp.Add_Point(p);
+
+
+
+//	p.point = vector2d::Vector2D(2, 4);
+//	p.blend_dis = 40;
+//	
+//	tp.Add_Point(p);
+//	
+//	
+//	p.point = vector2d::Vector2D(3, 3);
+//	p.blend_dis = 40;
+//	
+//	tp.Add_Point(p);
+
+//	p.point = vector2d::Vector2D(5, 0);
+//	p.blend_dis = 40;
+//	
+//	tp.Add_Point(p);
+
+
+//	p.point = vector2d::Vector2D(6, 0);
+//	p.blend_dis = 1;
+//	p.Set_Is_End();
+//	
+//	tp.Add_Point(p);
+
+
+
+
 
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
 
+		
+//		if (a >= 1)
+//		{
+//			a = 0;
+//		}
+//		
+//		a += 0.001;
+//		
+//		
+//		
+//		vector2d::Vector2D pp;
+//		
+//		
+//		
+//		p_test.Get_Point_On_T(a, &pp);
+//		
+//		
+//		vector2d::Vector2D tan;
+//		
+//		
+//		
+//		p_test.Get_Near_Point_T_Len_Dis_Tan_Nor(
+//			pc,
+//			NULL,
+//			NULL,
+//			NULL,
+//			NULL,
+//			&tan,
+//			NULL
+//		);
+//		
+//		
+//		
+//		uart_printf("%f,%f,", pp.x(), pp.y());
+//		
+//		
+//		
+//		uart_printf("%f,%f\n", tan.x(), tan.y());
+//		
+//		
+//		
+//		
+		
+		swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
+		
+		
+		
+		
 		//go_0_0_can1.Set_Out_Pos(a);
 		
 		//uart_printf("%f,%f,%f,%f\n", a, go_0_0_can1.Get_Out_Pos(), go_0_0_can1.Get_Rpm());
@@ -183,32 +301,32 @@ void test(void *argument)
 //		// 辅助轮
 //		chassis_jack_test.Set_Vel(swerve_4_chassis.Get_Vel().x());
 		
-		arm_dynamics.Calc_Torque(
-			-j60_1_can1.      Get_Out_Pos() + (9.99f / 180.f * PI), 
-			-m3508_2_can1.    Get_Out_Pos() + (167.22f / 180.f * PI), 
-			-dm4310_0x13_can2.Get_Out_Pos() + (-102.22f / 180.f * PI), 
-			0, 0, 0, 0,
-			-go_0_0_can1.     Get_Out_Torque(),
-			-j60_1_can1.      Get_Out_Torque(),
-			-m3508_2_can1.    Get_Out_Torque(),
-		    -dm4310_0x13_can2.Get_Out_Torque()
-		);
-		
-		dm4310_0x13_can2.Set_Out_Mit_Tor(-arm_dynamics.tor[3]);
-		//m3508_2_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[2]);
-		j60_1_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[1]);
-		go_0_0_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[0]);
-		
-		dm4310_0x13_can2.Set_Out_Mit_Pos(a4);
-		m3508_2_can1.Set_Out_Pos(a3);
-		j60_1_can1.Set_Out_Mit_Pos(a2);
-		
+//		arm_dynamics.Calc_Torque(
+//			-j60_1_can1.      Get_Out_Pos() + (9.99f / 180.f * PI), 
+//			-m3508_2_can1.    Get_Out_Pos() + (167.22f / 180.f * PI), 
+//			-dm4310_0x13_can2.Get_Out_Pos() + (-102.22f / 180.f * PI), 
+//			0, 0, 0, 0,
+//			-go_0_0_can1.     Get_Out_Torque(),
+//			-j60_1_can1.      Get_Out_Torque(),
+//			-m3508_2_can1.    Get_Out_Torque(),
+//		    -dm4310_0x13_can2.Get_Out_Torque()
+//		);
+//		
+//		dm4310_0x13_can2.Set_Out_Mit_Tor(-arm_dynamics.tor[3]);
+//		//m3508_2_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[2]);
+//		j60_1_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[1]);
+//		go_0_0_can1.Set_Out_Mit_Tor(-arm_dynamics.tor[0]);
+//		
+//		dm4310_0x13_can2.Set_Out_Mit_Pos(a4);
+//		m3508_2_can1.Set_Out_Pos(a3);
+//		j60_1_can1.Set_Out_Mit_Pos(a2);
+//		
 		
 		osDelay(1);
 	}
 }
 
-task::TaskCreator test_task("test", 20, 512, test, NULL);
+task::TaskCreator test_task("test", 20, 1024, test, NULL);
 
 /*====================================初始化函数====================================*/
 void All_Init()

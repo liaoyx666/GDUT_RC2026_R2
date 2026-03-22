@@ -57,8 +57,8 @@ rc2026/rc_chassis.o: ..\RC26_Api\Src\RC_chassis.cpp \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
-  ..\RC26_Lib\Inc\RC_adrc.h ..\RC26_Lib\Inc\RC_filter.h \
-  ..\RC26_Api\Inc\RC_can.h ..\RC26_Api\Inc\RC_task.h \
+  ..\RC26_Lib\Inc\RC_filter.h ..\RC26_Api\Inc\RC_can.h \
+  ..\RC26_Api\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \

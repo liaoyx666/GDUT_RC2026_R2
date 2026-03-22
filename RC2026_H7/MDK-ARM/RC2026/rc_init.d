@@ -44,8 +44,19 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
   ..\RC26_Api\Inc\RC_can.h ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h \
-  ..\RC26_Motor\Inc\RC_m3508.h ..\RC26_Motor\Inc\RC_dji_motor.h \
-  ..\RC26_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
+  ..\RC26_Api\Inc\RC_serial.h ..\Core\Inc\usart.h \
+  ..\RC26_Api\Inc\RC_cdc.h ..\USB_DEVICE\App\usbd_cdc_if.h \
+  ..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h \
+  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
+  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \
+  ..\USB_DEVICE\Target\usbd_conf.h \
+  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h \
+  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
+  ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
+  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Motor\Inc\RC_m3508.h \
+  ..\RC26_Motor\Inc\RC_dji_motor.h ..\RC26_Motor\Inc\RC_motor.h \
+  ..\RC26_Lib\Inc\RC_pid.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
@@ -68,33 +79,23 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\filtering_functions.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\quaternion_math_functions.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
-  ..\RC26_Api\Inc\RC_serial.h ..\Core\Inc\usart.h \
-  ..\RC26_Lib\Inc\RC_adrc.h ..\RC26_Lib\Inc\RC_filter.h \
-  ..\RC26_Lib\Inc\RC_SMC.h ..\RC26_Motor\Inc\RC_m2006.h \
+  ..\RC26_Lib\Inc\RC_filter.h ..\RC26_Motor\Inc\RC_m2006.h \
   ..\RC26_Motor\Inc\RC_m6020.h ..\RC26_Motor\Inc\RC_dm4310.h \
-  ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Api\Inc\RC_timer.h \
-  ..\RC26_Lib\Inc\RC_flysky.h ..\Core\Inc\gpio.h \
-  ..\RC26_Api\Inc\RC_gpio_exti.h ..\RC26_Api\Inc\RC_cdc.h \
-  ..\USB_DEVICE\App\usbd_cdc_if.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Class\CDC\Inc\usbd_cdc.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ioreq.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_def.h \
-  ..\USB_DEVICE\Target\usbd_conf.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_core.h \
-  ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
-  ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
-  ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
+  ..\RC26_Motor\Inc\RC_go.h ..\RC26_Motor\Inc\RC_rs04.h \
+  ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Motor\Inc\RC_j60.h \
+  ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_flysky.h \
+  ..\Core\Inc\gpio.h ..\RC26_Api\Inc\RC_gpio_exti.h \
   ..\RC26_Lib\Inc\RC_omni_chassis.h ..\RC26_Lib\Inc\RC_vector2d.h \
-  ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Motor\Inc\RC_go.h \
-  ..\RC26_Lib\Inc\RC_path.h ..\RC26_Lib\Inc\RC_bezier_curve.h \
-  ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\RC26_Lib\Inc\RC_path2.h \
+  ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_path.h \
+  ..\RC26_Lib\Inc\RC_bezier_curve.h ..\RC26_Lib\Inc\RC_arm.h \
+  ..\RC26_Lib\Inc\arm_matrix.h ..\RC26_Lib\Inc\RC_vector3d.h \
+  ..\RC26_Lib\Inc\RC_storage.h ..\RC26_Lib\Inc\RC_JY901S.h \
+  ..\RC26_Lib\Inc\RC_swerve_chassis.h ..\RC26_Lib\Inc\RC_photogate.h \
+  ..\RC26_Lib\Inc\RC_chassis_jack.h ..\RC26_Lib\Inc\RC_path2.h \
   ..\RC26_User\Inc\RC_data_pool.h ..\RC26_Lib\Inc\RC_nonlinear_pid.h \
-  ..\RC26_Ros_Interface\Inc\RC_map.h \
-  ..\RC26_Ros_Interface\Inc\RC_radar.h ..\RC26_Motor\Inc\RC_j60.h \
-  ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\arm_matrix.h \
-  ..\RC26_Lib\Inc\RC_vector3d.h ..\RC26_Lib\Inc\RC_storage.h \
-  ..\RC26_Lib\Inc\RC_JY901S.h ..\RC26_Motor\Inc\RC_rs04.h \
-  ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Lib\Inc\RC_swerve_chassis.h \
-  ..\RC26_Lib\Inc\RC_photogate.h ..\RC26_Lib\Inc\RC_chassis_jack.h \
   ..\RC26_Lib\Inc\RC_LiDAR.h ..\RC26_Lib\Inc\RC_auto_arm.h \
-  ..\Core\Inc\fdcan.h
+  ..\RC26_Lib\Inc\RC_traj_plan3.h ..\RC26_Lib\Inc\RC_path3.h \
+  ..\RC26_Lib\Inc\RC_curve.h ..\RC26_Lib\Inc\RC_event3.h \
+  ..\RC26_Ros_Interface\Inc\RC_radar.h \
+  ..\RC26_Ros_Interface\Inc\RC_best_path.h \
+  ..\RC26_Ros_Interface\Inc\RC_map.h ..\Core\Inc\fdcan.h

@@ -1,0 +1,136 @@
+#pragma once
+#include "RC_curve.h"
+#include "RC_event3.h"
+
+#ifdef __cplusplus
+namespace path
+{
+	constexpr uint8_t PATH3_MAX_LINE_NUM   = 10;
+	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 10;
+
+	constexpr uint8_t PATHLONCON3_MAX_NUM  = 10;
+	constexpr uint8_t PATHHEADCON3_MAX_NUM = 10;
+	constexpr uint8_t PATHEVENT3_MAX_NUM   = 5;
+	
+	constexpr float PATH3_MAX_LIN_VEL      = 4.f;
+	
+	/*纵向约束条件*/
+	struct LonConstr3
+	{
+		LonConstr3();
+		LonConstr3(float v_, float a_, float j_) : v(v_), a(a_), j(j_) {}
+		static LonConstr3 min(const LonConstr3& c1, const LonConstr3& c2);
+		
+		float v;
+		float a;
+		float j;
+	};
+	
+	
+	/*航向约束条件*/
+	struct HeadConstr3
+	{
+		HeadConstr3();
+		HeadConstr3(float y_, float w_, float wa_, bool t_) : yaw(y_), w(w_), wa(wa_), tan_head(t_) {}
+		static HeadConstr3 min(const HeadConstr3& c1, const HeadConstr3& c2);
+		
+		float yaw;
+		float w;
+		float wa;
+		bool tan_head; /*朝向路径切向*/
+	};
+	
+	
+	
+	/*路径纵向分段约束*/
+	struct PathLonCon3
+	{
+		PathLonCon3();
+		float len; /*约束范围，从上一个位置到len处*/
+		LonConstr3 c;
+	};
+	
+	/*路径机器人航向分段约束*/
+	struct PathHeadCon3
+	{
+		PathHeadCon3();
+		float len; /*约束范围，从上一个位置到len处*/
+		HeadConstr3 c;
+	};
+	
+	/*路径触发事件组的位置*/
+	struct PathEvent3
+	{
+		PathEvent3();
+		float len; /*触发位置*/
+		Event3_t event; /*事件组*/
+	};
+	
+	/*路径*/
+	class Path3
+    {
+    public:
+		Path3();
+		virtual ~Path3() {}
+		
+		uint8_t Curve_Num() const {return line_num + arc_num;}
+		float Len() const {return len;}
+		void Reset();
+		bool Is_Init() const {return is_init;}
+		
+		void Get_Point_On_T(float t, vector2d::Vector2D* p) const;
+		
+		void Get_Near_Point_T_Len_Dis_Tan_Nor(
+			vector2d::Vector2D p, 
+			vector2d::Vector2D* near_p, 
+			float* near_t, 
+			float* near_l, 
+			float* near_d, 
+			vector2d::Vector2D* tan_, 
+			vector2d::Vector2D* nor_
+		) const;
+		
+		void Get_Constr_On_Len(float l, LonConstr3* lon, HeadConstr3* head);
+		
+		bool Get_Point_On_Len(float len_, vector2d::Vector2D* p) const;
+		
+		bool Add_PathLonCon(float l, LonConstr3 c);
+		bool Add_PathHeadCon(float l, HeadConstr3 c);
+		bool Add_PathEvent(float l, Event3_t e);
+			
+		uint8_t Line_FreeSpace() const {return PATH3_MAX_LINE_NUM - line_num;}
+		uint8_t Arc_FreeSpace() const {return PATH3_MAX_ARC_NUM - arc_num;}
+		
+    protected:
+		
+    private:
+		bool Add_Line(vector2d::Vector2D start_, vector2d::Vector2D end_);
+		bool Add_Arc(vector2d::Vector2D start_, vector2d::Vector2D end_, float radius_, bool is_counter_clockwise);
+
+		curve::Line2D line[PATH3_MAX_LINE_NUM];
+		curve::Arc2D arc[PATH3_MAX_ARC_NUM];
+		curve::Curve2D* curve[PATH3_MAX_LINE_NUM + PATH3_MAX_ARC_NUM];
+		
+		PathLonCon3 lon[PATHLONCON3_MAX_NUM]; /*路径速度、加速度分段约束*/
+		PathHeadCon3 head[PATHHEADCON3_MAX_NUM]; /*路径机器人yaw朝向分段约束*/
+		PathEvent3 event[PATHEVENT3_MAX_NUM]; /*路径触发事件组的位置*/
+		
+		uint8_t lon_num;
+		uint8_t head_num;
+		uint8_t event_num;
+	
+		uint8_t lon_dx; /*保存上一次查找的索引，提升效率*/
+		uint8_t head_dx; /*保存上一次查找的索引，提升效率*/
+		
+		uint8_t line_num;
+		uint8_t arc_num;
+		
+		float len;
+		
+		bool is_init;
+		bool is_wait; /*终点处是否等待事件完成*/
+	
+		friend class TrajPlan3;
+    };
+}
+#endif
