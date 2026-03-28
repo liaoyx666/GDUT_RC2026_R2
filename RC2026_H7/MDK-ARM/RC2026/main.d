@@ -88,16 +88,16 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_flysky.h \
   ..\RC26_Api\Inc\RC_gpio_exti.h ..\RC26_Lib\Inc\RC_omni_chassis.h \
   ..\RC26_Lib\Inc\RC_vector2d.h ..\RC26_Api\Inc\RC_chassis.h \
-  ..\RC26_Lib\Inc\RC_path.h ..\RC26_Lib\Inc\RC_bezier_curve.h \
+  ..\RC26_Path\Inc\RC_path.h ..\RC26_Path\Inc\RC_bezier_curve.h \
   ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\arm_matrix.h \
   ..\RC26_Lib\Inc\RC_vector3d.h ..\RC26_Lib\Inc\RC_storage.h \
   ..\RC26_Lib\Inc\RC_JY901S.h ..\RC26_Lib\Inc\RC_swerve_chassis.h \
   ..\RC26_Lib\Inc\RC_photogate.h ..\RC26_Lib\Inc\RC_chassis_jack.h \
-  ..\RC26_Lib\Inc\RC_path2.h ..\RC26_User\Inc\RC_data_pool.h \
+  ..\RC26_Path\Inc\RC_path2.h ..\RC26_User\Inc\RC_data_pool.h \
   ..\RC26_Lib\Inc\RC_nonlinear_pid.h ..\RC26_Lib\Inc\RC_LiDAR.h \
-  ..\RC26_Lib\Inc\RC_auto_arm.h ..\RC26_Lib\Inc\RC_traj_plan3.h \
-  ..\RC26_Lib\Inc\RC_path3.h ..\RC26_Lib\Inc\RC_curve.h \
-  ..\RC26_Lib\Inc\RC_event3.h ..\RC26_Lib\Inc\RC_traj_track3.h \
+  ..\RC26_Lib\Inc\RC_auto_arm.h ..\RC26_Path\Inc\RC_traj_plan3.h \
+  ..\RC26_Path\Inc\RC_path3.h ..\RC26_Path\Inc\RC_curve.h \
+  ..\RC26_Path\Inc\RC_event3.h ..\RC26_Path\Inc\RC_traj_track3.h \
   ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h \
   ..\RC26_Ros_Interface\Inc\RC_map.h

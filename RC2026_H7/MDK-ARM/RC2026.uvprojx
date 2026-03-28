@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx,__FPU_PRESENT = 1U,__VFP_FP__ = 1,ARM_MATH_CM7</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc;../RC26_Api/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc;../RC26_Api/Inc;..\RC26_Path\Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -936,16 +936,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_vector3d.h</FilePath>
             </File>
             <File>
-              <FileName>RC_bezier_curve.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_bezier_curve.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_bezier_curve.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_bezier_curve.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_JY901S.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_JY901S.cpp</FilePath>
@@ -954,26 +944,6 @@
               <FileName>RC_JY901S.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_JY901S.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_path.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_path.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path2.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_path2.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path2.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_path2.h</FilePath>
             </File>
             <File>
               <FileName>RC_swerve_chassis.cpp</FileName>
@@ -1024,56 +994,6 @@
               <FileName>RC_LiDAR.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_LiDAR.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_curve.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_curve.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_curve.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_curve.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path3.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_path3.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_path3.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_traj_plan3.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_traj_plan3.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_traj_plan3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_traj_plan3.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_event3.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_event3.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_event3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_event3.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_traj_track3.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_traj_track3.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_traj_track3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_traj_track3.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1179,6 +1099,91 @@
               <FileName>RC_rs04.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_rs04.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>RC26_Path</GroupName>
+          <Files>
+            <File>
+              <FileName>RC_bezier_curve.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_bezier_curve.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_bezier_curve.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_bezier_curve.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_path.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_path.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path2.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_path2.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path2.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_path2.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_curve.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_curve.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_curve.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_curve.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_event3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_event3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_event3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_event3.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_path3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_path3.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_plan3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_traj_plan3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_plan3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_traj_plan3.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_track3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_traj_track3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_traj_track3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_traj_track3.h</FilePath>
             </File>
           </Files>
         </Group>
