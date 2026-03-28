@@ -28,6 +28,7 @@
 #include "RC_path2.h"
 #include "RC_auto_arm.h"
 #include "RC_traj_plan3.h"
+#include "RC_traj_track3.h"
 #include "RC_path3.h"
 
 #include "RC_radar.h"

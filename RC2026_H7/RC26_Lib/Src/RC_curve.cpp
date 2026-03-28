@@ -10,6 +10,23 @@ namespace curve
 		end_vel = 0;
 	}
 	
+	
+	float Curve2D::Vel_On_Len(float l_, float a) const
+	{
+		float l = len - l_;
+		
+		float v = calcVel(l < 0.f ? 0.f : l, end_vel, a);
+		
+		float c = fabsf(cur); /*曲率绝对值*/
+		
+		if (c > 1e-6f)
+		{
+			v = fminf(sqrtf(a / c), v); /*根据后一条曲线的曲率，更新当前曲线的终点速度*/
+		}
+		
+		return v; /*输出当前最小速度*/
+	}
+
 	/*-------------------------------------------------------------------------------------------------------*/
 	
 	Line2D::Line2D()
@@ -218,7 +235,7 @@ namespace curve
 		end_ag = start_ag + ag_;/*终点角度*/
 		len = radius * fabsf(ag_);/*弧长*/
 		
-		cur = 1.f / radius;
+		cur = 1.f / radius * (delta_ag > 0.f ? 1.f : -1.f);
 		is_init = true;
 		return true;
 	}
@@ -275,7 +292,7 @@ namespace curve
 		delta_ag = end_ag - start_ag;
 		len = radius * fabsf(delta_ag);
 
-		cur = 1.f / radius;
+		cur = 1.f / radius * (delta_ag > 0.f ? 1.f : -1.f);
 		is_init = true;
 		return true;
 	}
@@ -444,4 +461,8 @@ namespace curve
 		
 		return len * t;
 	}
+	
+	
+	
+	
 }

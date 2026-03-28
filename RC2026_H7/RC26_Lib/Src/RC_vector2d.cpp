@@ -175,7 +175,7 @@ namespace vector2d
 	}
 	
 	
-	// -pi~pi
+	// -pi~pi  θb - θa
 	float Vector2D::angleBetween(const Vector2D& a, const Vector2D& b)
 	{
 		float cross_val = a.cross(b);

@@ -39,15 +39,18 @@ namespace chassis
 		// 失能
 		void Chassis_Disable() {is_enable = false;}
 		
+		//
+		bool Is_Init() const {return is_init;}
+		
+		// 再次初始化
+		virtual void Chassis_Re_Init() = 0;
+		
     protected:
 		// 成功初始化
 		void Set_Is_Init_True() {is_init = true;}
 		
 		// 成功初始化
 		void Set_Is_Init_False() {is_init = false;}
-		
-		// 再次初始化
-		virtual void Chassis_Re_Init() = 0;
 		
 		// 底盘初始化
 		virtual void Chassis_Init() = 0;

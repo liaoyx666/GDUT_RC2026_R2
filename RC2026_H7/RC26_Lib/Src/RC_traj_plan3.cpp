@@ -15,8 +15,8 @@ namespace path
 	
 	TrajPlan3::TrajPlan3(LonConstr3 l, HeadConstr3 h)
 	{
-		lon_m = LonConstr3(); /*约束最大值*/
-		head_m = HeadConstr3(); /*约束最大值*/
+		lon_m = l; /*约束最大值*/
+		head_m = h; /*约束最大值*/
 		path = nullptr;
 		
 		state = TRAJPLAN_NULL;
@@ -110,23 +110,23 @@ namespace path
 				
 				vector2d::Vector2D se = p.point - tmp_s_p; /*start -> end*/
 				
+				if (dir != vector2d::Vector2D()) /*dir不为0向量，说明已经生成dir*/
+				{
+					float cor_ag = vector2d::Vector2D::angleBetween(-dir, se); /*计算拐角角度*/
+					
+					if (path->curve[path->Curve_Num() - 1] != nullptr)
+					{
+						path->curve[path->Curve_Num() - 1]->Update_End_Vel(Calc_CornerVel(cor_ag)); /*计算上一曲线结束点的速度*/
+					}
+				}
+				
+				dir = se; /*更新方向向量*/
+				
 				if (p.Is_End() || vector2d::Vector2D::isZero(p.blend_dis)) /*当前点为结束点 或 当前点不使用圆弧过渡*/
 				{
-					if (dir != vector2d::Vector2D()) /*dir不为0向量，说明已经生成dir*/
-					{
-						float cor_ag = vector2d::Vector2D::angleBetween(-dir, se); /*计算拐角角度*/
-						
-						if (path->curve[path->Curve_Num() - 1] != nullptr)
-						{
-							path->curve[path->Curve_Num() - 1]->Update_End_Vel(Calc_CornerVel(cor_ag)); /*计算上一曲线结束点的速度*/
-						}
-					}
-					
-					dir = se; /*更新方向向量*/
-					
 					path->Add_Line(tmp_s_p, p.point);/*新增直线*/ /*!!!LINE++*/////////////
 					
-					Add_Constr(p, path->len); /*添加当前点约束条件*/
+					Add_Constr(p, path->Len()); /*添加当前点约束条件*/
 					
 					if (p.Is_End()) /*当前点是结束点*/
 					{
@@ -135,7 +135,7 @@ namespace path
 							path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
 						}
 						
-						Add_MaxConstr(path->len);  /*添加最大约束条件，防止整条路径无约束*/
+						Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 						
 						if (p.Have_Event() && p.Is_Wait())
 						{
@@ -144,7 +144,10 @@ namespace path
 						}
 						
 						path->is_init = true; /*路径生成完成*/
+						Calc_End_Vel(); /********/
 					}
+					
+					tmp_s_p = p.point;
 					
 					state = TRAJPLAN_HAVE_START;
 					return true; /*添加成功*/
@@ -152,7 +155,6 @@ namespace path
 				else /*---------------------------------------------------------------------------------------------------------------------------------*/
 				{
 					/*当前点希望圆弧过渡*/
-					dir = se; /*更新方向向量*/
 					
 					blend_dis = p.blend_dis; /*希望的圆角距离*/
 					
@@ -175,9 +177,13 @@ namespace path
 					p.blend_dis = 0; /*不能再添加圆弧*/
 				}
 				
-				if (arc_fs <= 1)
+				if (arc_fs == 1)
 				{
 					p.blend_dis = 0; /*不能再添加圆弧*/
+				}
+				else if (arc_fs == 0)
+				{
+					tmp_c.blend_dis = 0;
 				}
 				
 				vector2d::Vector2D cs = tmp_s_p - tmp_c.point; /*corner -> start*/
@@ -206,7 +212,7 @@ namespace path
 					
 					path->Add_Arc(s, e, r, (cor_ag < 0 ? true : false)); /*添加圆弧*/ /*!!!ARC++*/////////////
 					
-					Add_Constr(tmp_c, path->len); /*取圆弧终点加入拐角点的约束*/
+					Add_Constr(tmp_c, path->Len()); /*取圆弧终点加入拐角点的约束*/
 
 					dir = p.point - tmp_c.point; /*更新方向向量*/
 					
@@ -221,7 +227,7 @@ namespace path
 						
 						tmp_s_p = p.point;
 						
-						Add_Constr(p, path->len); /*加入结束点约束*/
+						Add_Constr(p, path->Len()); /*加入结束点约束*/
 						
 						if (p.Is_End())
 						{
@@ -230,7 +236,7 @@ namespace path
 								path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
 							}
 							
-							Add_MaxConstr(path->len);  /*添加最大约束条件，防止整条路径无约束*/
+							Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 						
 							if (p.Have_Event() && p.Is_Wait())
 							{
@@ -238,6 +244,7 @@ namespace path
 							}
 							
 							path->is_init = true; /*路径生成完成*/
+							Calc_End_Vel(); /********/
 						}
 						
 						state = TRAJPLAN_HAVE_START;
@@ -261,7 +268,7 @@ namespace path
 					/*圆弧半径超出范围，采用折线过渡*/
 					path->Add_Line(tmp_s_p, tmp_c.point); /*!!!LINE++*/////////////
 					
-					Add_Constr(tmp_c, path->len); /*加入拐点约束*/
+					Add_Constr(tmp_c, path->Len()); /*加入拐点约束*/
 			
 					if (p.Is_End() || vector2d::Vector2D::isZero(p.blend_dis))
 					{
@@ -273,7 +280,7 @@ namespace path
 							path->curve[path->Curve_Num() - 1]->Update_End_Vel(Calc_CornerVel(cor_ag)); /*计算上一曲线结束点的速度*/
 						}
 						
-						Add_Constr(p, path->len); /*加入约束*/
+						Add_Constr(p, path->Len()); /*加入约束*/
 						
 						tmp_s_p = p.point;
 			
@@ -284,7 +291,7 @@ namespace path
 								path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
 							}
 							
-							Add_MaxConstr(path->len);  /*添加最大约束条件，防止整条路径无约束*/
+							Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 							
 							if (p.Have_Event() && p.Is_Wait())
 							{
@@ -292,6 +299,7 @@ namespace path
 							}
 							
 							path->is_init = true; /*路径生成完成*/
+							Calc_End_Vel(); /********/
 						}
 						
 						state = TRAJPLAN_HAVE_START;
@@ -366,38 +374,28 @@ namespace path
 		
 		float l = path->Len(); /*路径总长度*/
 		
-		float dis = 0;
-		
-		float end_v = 0;
-		
-		float cur; /*曲率*/
-		
+		float dis = 0; /*曲线长度*/
+
 		LonConstr3 c;
 		
-		path->Get_Constr_On_Len(l, &c, NULL);
+		if (path->curve[path->Curve_Num() - 1] != nullptr)
+		{
+			path->curve[path->Curve_Num() - 1]->Update_End_Vel(0);
+		}
 		
-		for (uint8_t i = path->Curve_Num() - 1; i >= 0; i--)
+		for (int16_t i = path->Curve_Num() - 1; i >= 0; i--)
 		{
 			if (path->curve[i] != nullptr)
 			{
 				if (i != path->Curve_Num() - 1) /*最后一条曲线的结束点速度为0*/
 				{
-					end_v = calcVel(dis, end_v, c.a, c.j);
-					
-					if (cur > 1e-6f)
-					{
-						path->curve[i]->Update_End_Vel(sqrtf(c.a / cur));
-					}
+					path->curve[i]->Update_End_Vel(fminf(c.v, path->curve[i + 1]->Vel_On_Len(0, c.a)));
 				}
-				
-				path->curve[i]->Update_End_Vel(end_v);
-				
-				path->Get_Constr_On_Len(l, &c, NULL);
-				
+
 				dis = path->curve[i]->Len(); /*这段曲线的长度*/
 				
-				cur = path->curve[path->Curve_Num() - 1]->Cur(); /*曲率*/
-				
+				path->Get_Constr_On_Len(l - dis / 2.f, &c, NULL); /*取曲线中点处的约束条件*/
+
 				l -= dis;
 			}
 		}
@@ -409,28 +407,16 @@ namespace path
 		float radius = blend_dis * tanf(half_angle);
 		return radius;
 	}
-	
-	float calcVel(float dis, float end_v, float a, float j)
-	{
-		// 距离极小，只能以终点速度行驶
-		if (dis < 1e-6f) return end_v;
+}
 
-		// 1. 加速度约束（梯形减速）
-		float v_acc = sqrtf(end_v * end_v + 2.f * a * dis);
+float calcVel(float dis, float end_v, float a)
+{
+	 // 距离极小，只能以终点速度行驶
+    if (dis < 1e-6f) return end_v;
 
-		// 2. 加加速度约束（S型减速）
-		float v_jerk = end_v;
-		float a3_6j2 = (a * a * a) / (6.f * j * j);
-		if (dis > a3_6j2)
-		{
-			float v_rel = sqrtf(2.f * a * (dis - a3_6j2));
-			v_jerk = end_v + v_rel;
-		}
-
-		// 速度上限取两者最小值
-		float v_max = (v_acc < v_jerk) ? v_acc : v_jerk;
-		// 下限保护：不能小于终点速度
-		if (v_max < end_v) v_max = end_v;
-		return v_max;
-	}
+    // 匀减速（梯形）公式
+    float v = sqrtf(end_v * end_v + 2.f * a * dis);
+    // 不能小于终点速度
+    if (v < end_v) v = end_v;
+    return v;
 }

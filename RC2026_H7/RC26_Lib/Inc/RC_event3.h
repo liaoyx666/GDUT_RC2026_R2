@@ -18,8 +18,6 @@ namespace path
 {
 	constexpr uint8_t EVENT3_MAX_EVENT_NUM = sizeof(Event3_t) * 8;/*事件最大定义数*/
 	
-
-	
 	class Event3
     {
     public:

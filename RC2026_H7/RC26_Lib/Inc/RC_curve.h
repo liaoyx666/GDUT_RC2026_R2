@@ -24,6 +24,8 @@ namespace curve
 		float End_Vel() const {return end_vel;}
 		void Set_End_Vel(float end_vel_) {end_vel = end_vel_;}
 		void Update_End_Vel(float end_vel_) {end_vel = (end_vel_ < end_vel ? end_vel_ : end_vel);}
+
+		float Vel_On_Len(float l_, float a) const;
 		
     protected:
 		float len;/*总长度*/
@@ -80,5 +82,9 @@ namespace curve
 		float radius;
 		float delta_ag;
     };
+	
 }
+
+extern float calcVel(float dis, float end_v, float a);
+
 #endif

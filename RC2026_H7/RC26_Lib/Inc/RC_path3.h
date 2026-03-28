@@ -18,12 +18,11 @@ namespace path
 	struct LonConstr3
 	{
 		LonConstr3();
-		LonConstr3(float v_, float a_, float j_) : v(v_), a(a_), j(j_) {}
+		LonConstr3(float v_, float a_) : v(v_), a(a_) {}
 		static LonConstr3 min(const LonConstr3& c1, const LonConstr3& c2);
 		
 		float v;
 		float a;
-		float j;
 	};
 	
 	
@@ -39,8 +38,6 @@ namespace path
 		float wa;
 		bool tan_head; /*朝向路径切向*/
 	};
-	
-	
 	
 	/*路径纵向分段约束*/
 	struct PathLonCon3
@@ -74,30 +71,32 @@ namespace path
 		virtual ~Path3() {}
 		
 		uint8_t Curve_Num() const {return line_num + arc_num;}
-		float Len() const {return len;}
+		float Len() const {return len[line_num + arc_num - 1];}
 		void Reset();
 		bool Is_Init() const {return is_init;}
 		
 		void Get_Point_On_T(float t, vector2d::Vector2D* p) const;
+		void Get_Constr_On_Len(float l, LonConstr3* lon, HeadConstr3* head) const;
+		bool Get_Point_On_Len(float len_, vector2d::Vector2D* p) const;
 		
-		void Get_Near_Point_T_Len_Dis_Tan_Nor(
+		void Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(
 			vector2d::Vector2D p, 
 			vector2d::Vector2D* near_p, 
 			float* near_t, 
 			float* near_l, 
 			float* near_d, 
 			vector2d::Vector2D* tan_, 
-			vector2d::Vector2D* nor_
+			vector2d::Vector2D* nor_,
+			float* v,
+			float* cur_,
+			LonConstr3* lon,
+			HeadConstr3* head
 		) const;
-		
-		void Get_Constr_On_Len(float l, LonConstr3* lon, HeadConstr3* head);
-		
-		bool Get_Point_On_Len(float len_, vector2d::Vector2D* p) const;
 		
 		bool Add_PathLonCon(float l, LonConstr3 c);
 		bool Add_PathHeadCon(float l, HeadConstr3 c);
 		bool Add_PathEvent(float l, Event3_t e);
-			
+		
 		uint8_t Line_FreeSpace() const {return PATH3_MAX_LINE_NUM - line_num;}
 		uint8_t Arc_FreeSpace() const {return PATH3_MAX_ARC_NUM - arc_num;}
 		
@@ -106,6 +105,8 @@ namespace path
     private:
 		bool Add_Line(vector2d::Vector2D start_, vector2d::Vector2D end_);
 		bool Add_Arc(vector2d::Vector2D start_, vector2d::Vector2D end_, float radius_, bool is_counter_clockwise);
+	
+		bool Check_Near_Point(vector2d::Vector2D p_, uint8_t check_dx_, uint8_t* ndx_, vector2d::Vector2D* np, float* nt, float* nd) const;
 
 		curve::Line2D line[PATH3_MAX_LINE_NUM];
 		curve::Arc2D arc[PATH3_MAX_ARC_NUM];
@@ -114,23 +115,28 @@ namespace path
 		PathLonCon3 lon[PATHLONCON3_MAX_NUM]; /*路径速度、加速度分段约束*/
 		PathHeadCon3 head[PATHHEADCON3_MAX_NUM]; /*路径机器人yaw朝向分段约束*/
 		PathEvent3 event[PATHEVENT3_MAX_NUM]; /*路径触发事件组的位置*/
-		
+		float len[PATH3_MAX_LINE_NUM + PATH3_MAX_ARC_NUM]; /*保存所有曲线终点的路程*/
+	
 		uint8_t lon_num;
 		uint8_t head_num;
 		uint8_t event_num;
 	
-		uint8_t lon_dx; /*保存上一次查找的索引，提升效率*/
-		uint8_t head_dx; /*保存上一次查找的索引，提升效率*/
-		
+		mutable uint8_t lon_dx; /*保存上一次查找的索引，提升效率*/
+		mutable uint8_t head_dx; /*保存上一次查找的索引，提升效率*/
+		mutable uint8_t ndx; /*保存上一次查找的索引，提升效率*/
+		mutable uint8_t len_dx; /*保存上一次查找的索引，提升效率*/
+	
 		uint8_t line_num;
 		uint8_t arc_num;
-		
-		float len;
 		
 		bool is_init;
 		bool is_wait; /*终点处是否等待事件完成*/
 	
 		friend class TrajPlan3;
     };
+	
 }
+
+extern float calcVel(float dis, float end_v, float a);
+
 #endif

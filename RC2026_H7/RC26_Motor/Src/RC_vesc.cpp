@@ -20,7 +20,7 @@ namespace motor
 		
 		rx_mask = 0xFF;
 		
-         if (can->hd_num > 8)
+        if (can->hd_num > 8)
 		{  	
 			// 设备数量限制
             Error_Handler();
@@ -34,6 +34,8 @@ namespace motor
 		
 		pid_spd.Pid_Mode_Init(true, false, 0.09);
 		pid_spd.Pid_Param_Init(0.003, 0.00003, 0.000021, 0, 0.002, 0, 1, 0.5, 0.5, 0.5, 0.5);
+		
+		break_current = 70000.f; //mA
 		
 //		pid_spd.Pid_Mode_Init(false, false, 0);
 //		pid_spd.Pid_Param_Init(0.0025, 0.00002, 0.00002, 0, 0.002, 0, 1, 1, 0, 0.5, 0.5);
@@ -88,23 +90,37 @@ namespace motor
 				{
 					tx_id = (CAN_PACKET_SET_DUTY << 8) | id;
 					can->tx_frame_list[tx_frame_dx].id = tx_id;
-					int32_t int_current = (int32_t)(target_duty * 100000.f);  
-					can->tx_frame_list[tx_frame_dx].data[0] = (int_current >> 24) & 0xFF;
-					can->tx_frame_list[tx_frame_dx].data[1] = (int_current >> 16) & 0xFF;
-					can->tx_frame_list[tx_frame_dx].data[2] = (int_current >> 8) & 0xFF;
-					can->tx_frame_list[tx_frame_dx].data[3] = int_current & 0xFF;
+					int32_t int_duty = (int32_t)(target_duty * 100000.f);  
+					can->tx_frame_list[tx_frame_dx].data[0] = (int_duty >> 24) & 0xFF;
+					can->tx_frame_list[tx_frame_dx].data[1] = (int_duty >> 16) & 0xFF;
+					can->tx_frame_list[tx_frame_dx].data[2] = (int_duty >> 8) & 0xFF;
+					can->tx_frame_list[tx_frame_dx].data[3] = int_duty & 0xFF;
 				}
 				else
 				{
-					tx_id = (CAN_PACKET_SET_RPM << 8) | id;
-					can->tx_frame_list[tx_frame_dx].id = tx_id;
-					// RPM值直接转换为32位整数
-					int32_t int_rpm = (int32_t)(target_rpm * pole_pairs);
-					// 填充CAN数据（大端模式）
-					can->tx_frame_list[tx_frame_dx].data[0] = (int_rpm >> 24) & 0xFF;
-					can->tx_frame_list[tx_frame_dx].data[1] = (int_rpm >> 16) & 0xFF;
-					can->tx_frame_list[tx_frame_dx].data[2] = (int_rpm >> 8) & 0xFF;
-					can->tx_frame_list[tx_frame_dx].data[3] = int_rpm & 0xFF;
+//					if (fabsf(target_rpm) > 1e-6f)
+//					{
+						tx_id = (CAN_PACKET_SET_RPM << 8) | id;
+						can->tx_frame_list[tx_frame_dx].id = tx_id;
+						// RPM值直接转换为32位整数
+						int32_t int_rpm = (int32_t)(target_rpm * pole_pairs);
+						// 填充CAN数据（大端模式）
+						can->tx_frame_list[tx_frame_dx].data[0] = (int_rpm >> 24) & 0xFF;
+						can->tx_frame_list[tx_frame_dx].data[1] = (int_rpm >> 16) & 0xFF;
+						can->tx_frame_list[tx_frame_dx].data[2] = (int_rpm >> 8) & 0xFF;
+						can->tx_frame_list[tx_frame_dx].data[3] = int_rpm & 0xFF;
+//					}
+//					else
+//					{
+//						tx_id = (CAN_PACKET_SET_CURRENT_BRAKE << 8) | id;
+//						can->tx_frame_list[tx_frame_dx].id = tx_id;
+//						int32_t int_cur = (int32_t)(break_current * 1000.f);
+//						// 填充CAN数据（大端模式）
+//						can->tx_frame_list[tx_frame_dx].data[0] = (int_cur >> 24) & 0xFF;
+//						can->tx_frame_list[tx_frame_dx].data[1] = (int_cur >> 16) & 0xFF;
+//						can->tx_frame_list[tx_frame_dx].data[2] = (int_cur >> 8) & 0xFF;
+//						can->tx_frame_list[tx_frame_dx].data[3] =  int_cur & 0xFF;
+//					}
 				}
                 break;
             }
@@ -126,7 +142,7 @@ namespace motor
             default:
                 break;
         }
-       
+		
         can->tx_frame_list[tx_frame_dx].dlc = 4;
     }
 

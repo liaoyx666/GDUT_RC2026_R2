@@ -13,18 +13,22 @@ namespace timer
 	void Timer::Tim_It_Process()
 	{
 		cycle++;
-		if (cycle > 0x10000) cycle = 0;// 防止溢出
+		//if (cycle > 0x10000) cycle = 0;// 防止溢出
 	}
 	
 	uint32_t Timer::Get_TimeStamp()
 	{
+		if(timer_tim == nullptr) return 0;
+		
 		uint32_t current_cycle;
         uint32_t current_cnt;
 
+		__disable_irq(); // 关闭全局中断
 		current_cycle = cycle;
 		current_cnt = timer_tim->htim->Instance->CNT;
+		__enable_irq(); // 开启中断
 		
-		return current_cnt + current_cycle * 0xffff;
+		return current_cnt + current_cycle * 0x10000;
 	}
 	
 	uint32_t Timer::Get_DeltaTime(uint32_t last_time_stamp)

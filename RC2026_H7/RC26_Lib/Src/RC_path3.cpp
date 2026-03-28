@@ -6,7 +6,6 @@ namespace path
 	{
 		v = 0;
 		a = 0;
-		j = 0;
 	}
 	
 	LonConstr3 LonConstr3::min(const LonConstr3& c1, const LonConstr3& c2)
@@ -14,7 +13,6 @@ namespace path
 		LonConstr3 c;
 		c.v = ((c1.v < c2.v) ? c1.v : c2.v);
 		c.a = ((c1.a < c2.a) ? c1.a : c2.a);
-		c.j = ((c1.j < c2.j) ? c1.j : c2.j);
 		return c;
 	}
 	
@@ -70,10 +68,14 @@ namespace path
 		
 		lon_dx = 0;
 		head_dx = 0;
+		ndx = 0;
+		
+		len_dx = 0;
 		
 		is_wait = false;
 		
-		len = 0;
+	//	len = 0;
+		memset(len, 0, sizeof(len));
 		memset(curve, 0, sizeof(curve));
 		
 		is_init = false;
@@ -88,8 +90,17 @@ namespace path
 		
 		if (line[line_num].Init(start_, end_))
 		{
-			curve[line_num + arc_num] = &line[line_num];
-			len += line[line_num].Len();
+			uint8_t num = line_num + arc_num;
+			curve[num] = &line[line_num];
+			if (num != 0)
+			{
+				len[num] = len[num - 1] + line[line_num].Len();
+			}
+			else
+			{
+				len[num] = line[line_num].Len();
+			}
+		//	len += line[line_num].Len();
 			line[line_num].Set_End_Vel(PATH3_MAX_LIN_VEL);
 			line_num++;
 			return true;
@@ -107,8 +118,17 @@ namespace path
 		
 		if (arc[arc_num].Init(start_, end_, radius_, is_counter_clockwise))
 		{
+			uint8_t num = line_num + arc_num;
 			curve[line_num + arc_num] = &arc[arc_num];
-			len += arc[arc_num].Len();
+			if (num != 0)
+			{
+				len[num] = len[num - 1] + arc[arc_num].Len();
+			}
+			else
+			{
+				len[num] = arc[arc_num].Len();
+			}
+		//	len += arc[arc_num].Len();
 			arc[arc_num].Set_End_Vel(PATH3_MAX_LIN_VEL);
 			arc_num++;
 			return true;
@@ -120,57 +140,57 @@ namespace path
 	
 	bool Path3::Get_Point_On_Len(float len_, vector2d::Vector2D* p) const
 	{
-		uint8_t curve_num = line_num + arc_num;
+		const uint8_t curve_num = line_num + arc_num;
 		
 		if (p == nullptr || curve_num == 0 || !is_init)
 		{
 			return false;
 		}
 		
-		if (len_ < 0.f)
+		if (len_ <= 0.f)
 		{
 			if (curve[0] != nullptr)
 			{
 				curve[0]->Get_Point_On_T(0, p);/*输出起点*/
+				len_dx = 0;
+				return true;
 			}
-			
-			return false;
+			else
+			{
+				return false;
+			}
 		}
 		
-		if (len_ > len)
+		if (len_ >= len[curve_num - 1])
 		{
 			if (curve[curve_num - 1] != nullptr)
 			{
 				curve[curve_num - 1]->Get_Point_On_T(1, p);/*输出终点*/
+				len_dx = curve_num - 1;
+				return true;
 			}
-			
-			return false;
-		}
-		
-		float l = 0;/*当前曲线段的起点路程*/
-
-		for (uint8_t i = 0; i < curve_num - 1; i++)
-		{
-			if (curve[i] == nullptr)
+			else
 			{
 				return false;
 			}
-			
-			if (len_ <= l + curve[i]->Len())
-			{
-				curve[i]->Get_Point_On_Len(len_ - l, p);
-				return true;
-			}
-			
-			l += curve[i]->Len();
 		}
 		
-		if (curve[curve_num - 1] == nullptr)
+		if (len_dx != curve_num - 1 && len_ > len[len_dx])
 		{
-			return false;
+			do {
+				len_dx++; /*向前移动索引*/
+			} while (len_dx < curve_num - 1 && len_ > len[len_dx]);
 		}
+		else if (len_dx != 0 && len_ < len[len_dx - 1])
+		{
+			do {
+				len_dx--; /*向后移动索引*/
+			} while (len_dx > 0 && len_ < len[len_dx - 1]);
+		}
+	
+		const float offset = (len_dx == 0) ? len_ : (len_ - len[len_dx - 1]);
+		curve[len_dx]->Get_Point_On_Len(offset, p);
 		
-		curve[curve_num - 1]->Get_Point_On_Len(len_ - l, p);/*遍历到最后一段曲线*/
 		return true;
 	}
 	
@@ -205,7 +225,7 @@ namespace path
 			}
 		}
 		
-		float len_ = len * t;
+		float len_ = len[curve_num - 1] * t;
 		
 		float l = 0;/*当前曲线段的起点路程*/
 
@@ -234,103 +254,164 @@ namespace path
 		return;
 	}
 	
-	void Path3::Get_Near_Point_T_Len_Dis_Tan_Nor(
-		vector2d::Vector2D p_, 
-		vector2d::Vector2D* near_p, 
+	
+	bool Path3::Check_Near_Point(vector2d::Vector2D p_, uint8_t check_dx_, uint8_t* ndx_, vector2d::Vector2D* np, float* nt, float* nd) const
+	{
+		if (curve[check_dx_] == nullptr) return false; /*未更新*/
+		
+		float d;
+		vector2d::Vector2D p;
+		float t;
+		
+		curve[check_dx_]->Get_Near_Point_T_Dis(p_, &p, &t, &d);
+		
+		if (fabsf(d) < fabsf(*nd))
+		{
+			/*更新*/
+			*ndx_ = check_dx_;
+			*nd = d;
+			*np = p;
+			*nt = t;
+			return true; /*更新*/
+		}
+		
+		return false; /*未更新*/
+	}
+	
+	
+	void Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(
+		vector2d::Vector2D p_,
+		vector2d::Vector2D* near_p,
 		float* near_t, 
 		float* near_l, 
 		float* near_d, 
 		vector2d::Vector2D* tan_, 
-		vector2d::Vector2D* nor_
+		vector2d::Vector2D* nor_,
+		float* v,
+		float* cur_,
+		LonConstr3* lon,
+		HeadConstr3* head
 	) const
 	{
+		/*只查找当前，前，后三条路径*/
+		/*----------------------------------------------------------------------*/
 		if (!is_init) return;
-		
-		uint8_t dx;
-		
-		float nd;
-		
-		vector2d::Vector2D np;
-		
-		float nt;
-		
-		uint8_t curve_num = line_num + arc_num;
 
-		dx = 0;/*初始化dx*/
+		float nd; /*最近点距离*/
 		
-		if (curve[dx] == nullptr) return;
+		vector2d::Vector2D np; /*最近点*/
+																				//<< 初始化
+		float nt; /*最近点的曲线t参数值*/
+		
+		const uint8_t curve_num = line_num + arc_num;
 
-		curve[dx]->Get_Near_Point_T_Dis(p_, &np, &nt, &nd);/*初始化nd*/
+		if (ndx >= curve_num) ndx = curve_num - 1; /*防越界*/
 		
-		/*遍历所有曲线查找最近点*/
-		for (uint8_t i = 1; i < curve_num; i++)
+		if (curve[ndx] == nullptr) return;
+		/*----------------------------------------------------------------------*/
+		/*使用上一次ndx初始化np nt nd*/
+		curve[ndx]->Get_Near_Point_T_Dis(p_, &np, &nt, &nd);
+		
+		/*查找前一段路径*/
+		if (ndx > 0)
 		{
-			if (curve[i] == nullptr) return;
-
-			float d;
+			Check_Near_Point(p_, ndx - 1, &ndx, &np, &nt, &nd);
+		}
+		
+		/*查找后一段路径*/
+		if (ndx < curve_num - 1)
+		{
+			Check_Near_Point(p_, ndx + 1, &ndx, &np, &nt, &nd);
+		}
+																				//<< 查找最近点及其所在曲线索引
+		/*临界情况*/
+		if (ndx > 0 && nt <= 0.f) /*在曲线起点处*/
+		{
+			uint8_t i = ndx;
+			do {
+				i--; /*向前查找*/
+				Check_Near_Point(p_, i, &ndx, &np, &nt, &nd);
+			} while (i > 0 && nt <= 0.f);
+		}
+		else if (ndx < curve_num - 1 && nt >= 1.f) /*在曲线终点处*/
+		{
+			uint8_t i = ndx;
+			do {
+				i++; /*向后查找*/
+				Check_Near_Point(p_, i, &ndx, &np, &nt, &nd);
+			} while (i < curve_num - 1 && nt >= 1.f);
+		}
+		/*----------------------------------------------------------------------*/
+		float l = curve[ndx]->Get_Len_On_T(nt); /*最近点在这条曲线上的路程*/
+																				//< 计算路程
+		float nl = ((ndx == 0) ? 0 : len[ndx - 1]) + l; /*总路程*/
+		/*----------------------------------------------------------------------*/
+		if (cur_ != nullptr)
+		{
+			*cur_ = curve[ndx]->Cur();											//<< 当前曲率
+		}
+		/*----------------------------------------------------------------------*/
+		if (lon != nullptr || v != nullptr)
+		{
+			LonConstr3 c;
 			
-			vector2d::Vector2D p;
-			
-			float t;
-			
-			curve[i]->Get_Near_Point_T_Dis(p_, &p, &t, &d);
-			
-			if (fabsf(d) < fabsf(nd))
+			Get_Constr_On_Len(nl, &c, NULL); /*获取当前纵向约束*/
+																				//<< 纵向约束
+			if (lon != nullptr)
 			{
-				/*更新*/
-				dx = i;
-				nd = d;
-				np = p;
-				nt = t;
+				*lon = c;
+			}
+		/*----------------------------------------------------------------------*/
+			if (v != nullptr)
+			{
+				/*输出当前最小速度*/
+				*v = fminf(curve[ndx]->Vel_On_Len(l, c.a), c.v);				//<< 最小速度
 			}
 		}
-		
-		float nl = 0;
-		
-		for (uint8_t i = 0; i < dx; i++)
-		{
-			nl += curve[i]->Len();
+		/*----------------------------------------------------------------------*/
+		if (head != nullptr)
+		{																		//<< 航向约束
+			Get_Constr_On_Len(nl, NULL, head); /*获取当前航向约束*/
 		}
-		
-		nl += curve[dx]->Get_Len_On_T(nt);
-		
+		/*----------------------------------------------------------------------*/
 		if (tan_ != nullptr || nor_ != nullptr)
 		{
-			curve[dx]->Get_Tan_Nor_On_T(nt, tan_, nor_);/*输出切向量，法向量*/
+			/*输出切向量，法向量*/
+			curve[ndx]->Get_Tan_Nor_On_T(nt, tan_, nor_);						//<< 切向量，法向量
 		}
-		
+		/*----------------------------------------------------------------------*/
 		if (near_l != nullptr)
 		{
-			*near_l = nl;/*输出最近点路程*/
+			*near_l = nl;/*输出最近点路程*/										//<< 路程
 		}
-		
+		/*----------------------------------------------------------------------*/
 		if (near_t != nullptr)
 		{
 			/*输出最近点t值*/
-			if (dx == 0 && nt == 0.f)
+			if (ndx == 0 && nt == 0.f)
 			{
 				*near_t = 0.f;
 			}
-			else if (dx == curve_num - 1 && nt == 1.f)
-			{
+			else if (ndx == curve_num - 1 && nt == 1.f)
+			{																	//<< t参数
 				*near_t = 1.f;
 			}
 			else
 			{
-				*near_t = nl / len;
+				*near_t = nl / len[curve_num - 1];
 			}
 		}
-		
+		/*----------------------------------------------------------------------*/
 		if (near_d != nullptr)
 		{
-			*near_d = nd;/*输出最近点距离*/
+			*near_d = nd;/*输出最近点距离*/										//<< 最近点距离
 		}
-		
+		/*----------------------------------------------------------------------*/
 		if (near_p != nullptr)
 		{
-			*near_p = np;/*输出最近点*/
+			*near_p = np;/*输出最近点*/											//<< 最近点坐标
 		}
-
+		/*----------------------------------------------------------------------*/
 	}
 	
 	bool Path3::Add_PathLonCon(float l, LonConstr3 c)
@@ -416,7 +497,8 @@ namespace path
 		}
 	}
 	
-	void Path3::Get_Constr_On_Len(float l_, LonConstr3* lon_, HeadConstr3* head_)
+	
+	void Path3::Get_Constr_On_Len(float l_, LonConstr3* lon_, HeadConstr3* head_) const
 	{
 		if (!is_init) return;
 		
@@ -454,6 +536,8 @@ namespace path
 			
 			*lon_ = lon[lon_dx].c;
 		}
+		
+		
 		
 		if (head_ != nullptr && head_num != 0 && head_num <= PATHHEADCON3_MAX_NUM)
 		{

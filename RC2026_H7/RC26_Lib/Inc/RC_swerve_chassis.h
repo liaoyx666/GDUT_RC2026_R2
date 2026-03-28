@@ -17,7 +17,7 @@
 #define SWERVE4_CHASSIS_THETA1 0.785398f
 #define SWERVE4_CHASSIS_THETA2 2.356194f
 #define SWERVE4_CHASSIS_THETA3 -2.356194f
-#define SWERVE4_CHASSIS_THETA4 -0.785398f
+#define SWERVE4_CHASSIS_THETA4 -0.785398f + TWO_PI
 
 #define SWERVE4_CHASSIS_WHEEL_RADIUS 0.055f// 轮子半径
 
@@ -37,11 +37,11 @@ namespace chassis
 		
 		virtual ~Swerve4Chassis() {}
 		
+		// 再次初始化
+		void Chassis_Re_Init() override;	
+			
     protected:
 		photogate::PhoGateRepos photogate_reposotion[4];
-		
-		// 再次初始化
-		void Chassis_Re_Init() override;
 		
 		// 底盘初始化
 		void Chassis_Init() override;
@@ -56,6 +56,7 @@ namespace chassis
 		bool is_reposition[4] = {false};
 		
 		vector2d::Vector2D tangent_vector[4];// 单位切向量
+		
 		
 		vector2d::Vector2D vel_vector[4];// 电机速度向量
 		

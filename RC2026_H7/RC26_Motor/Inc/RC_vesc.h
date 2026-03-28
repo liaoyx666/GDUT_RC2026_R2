@@ -6,7 +6,7 @@
 
 #ifdef __cplusplus
 
-typedef enum
+enum CAN_PACKET_ID
 {
 	CAN_PACKET_SET_DUTY						= 0,
 	CAN_PACKET_SET_CURRENT					= 1,
@@ -71,9 +71,10 @@ typedef enum
 	CAN_PACKET_GNSS_LAT						= 60,
 	CAN_PACKET_GNSS_LON						= 61,
 	CAN_PACKET_GNSS_ALT_SPEED_HDOP			= 62
-} CAN_PACKET_ID;
+};
 
-namespace motor {
+namespace motor
+{
     class Vesc : public motor::Motor, public can::CanHandler, public tim::TimHandler {
     public:
         Vesc(uint8_t id_, can::Can &can_, tim::Tim &tim_, uint16_t pole_pairs_ = 1, bool local_pid_ = false, float gear_ratio_ = 1.f);
@@ -91,6 +92,8 @@ namespace motor {
 		uint16_t pole_pairs = 1;// 电机极对数
 	
 		float target_duty = 0;
+	
+		float break_current;
 	
 		bool local_pid = false;// 是否在stm32计算pid
     };

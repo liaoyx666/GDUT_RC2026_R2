@@ -98,12 +98,14 @@ chassis::Swerve4Chassis swerve_4_chassis(
 //	GPIOG, GPIO_PIN_0
 //);
 
-//path::Path3 p_test;
+path::Path3 p_test;
 
-//path::TrajPlan3 tp(
-//	{1, 1, 1}, 
-//	{0, 1, 1, false}
-//);
+path::TrajPlan3 tp(
+	{2.5, 3},
+	{0, 4, 7, false}
+);
+
+path::TrajTrack3 tt(robot_pose);
 
 //arm::ArmDynamics arm_dynamics;
 
@@ -118,9 +120,8 @@ SquareWave wave(1000, 3000);// 用于调pid
 
 float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
 
+vector2d::Vector2D pc;
 	
-//vector2d::Vector2D pc;
-//	
 float target = 0;
 float a = 0;
 
@@ -161,117 +162,87 @@ void test(void *argument)
 //	MF_path.MF_Best_Path_Plan(map, path_plan);
 
 
+	tp.Load_Path(&p_test);
 
-//	tp.Load_Path(&p_test);
+	path::Point3 p;
+	
+	
+	p.point = vector2d::Vector2D(0, 0);
+	p.blend_dis = 0;
+	tp.Add_Point(p);
 
-//	path::Point3 p;
-//	p.point = vector2d::Vector2D(0, 0);
-//	p.blend_dis = 0.5;
-//	
-//	tp.Add_Point(p);
+	p.point = vector2d::Vector2D(2, 0);
+	p.blend_dis = 0;
+	tp.Add_Point(p);
 
-//	p.point = vector2d::Vector2D(1, 0);
-//	p.blend_dis = 0.2;
-//	
-//	tp.Add_Point(p);
-//	
-//	p.point = vector2d::Vector2D(1, 1);
-//	p.blend_dis = 0.7;
-//	
-//	tp.Add_Point(p);
+	p.point = vector2d::Vector2D(2, 2);
+	p.blend_dis = 0;
+	tp.Add_Point(p);
 
+	p.point = vector2d::Vector2D(1, 2);
+	p.blend_dis = 0;
+	tp.Add_Point(p);
 
-
-//	p.point = vector2d::Vector2D(2, 0);
-//	p.blend_dis = 0.5;
-//	
-//	tp.Add_Point(p);
-
-//	p.point = vector2d::Vector2D(3, 0);
-//	p.blend_dis = 40;
-//	
-//	tp.Add_Point(p);
-
-
-
-//	p.point = vector2d::Vector2D(2, 4);
-//	p.blend_dis = 40;
-//	
-//	tp.Add_Point(p);
-//	
-//	
-//	p.point = vector2d::Vector2D(3, 3);
-//	p.blend_dis = 40;
-//	
-//	tp.Add_Point(p);
-
-//	p.point = vector2d::Vector2D(5, 0);
-//	p.blend_dis = 40;
-//	
-//	tp.Add_Point(p);
-
-
-//	p.point = vector2d::Vector2D(6, 0);
-//	p.blend_dis = 1;
-//	p.Set_Is_End();
-//	
-//	tp.Add_Point(p);
-
-
-
-
-
+	p.point = vector2d::Vector2D(1, 0);
+	p.blend_dis = 0;
+	p.Set_Is_End();
+	tp.Add_Point(p);
+	
+	
+	tt.Load_Path(&p_test);
+	
+	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
-
+   
 		
 //		if (a >= 1)
 //		{
 //			a = 0;
 //		}
 //		
-//		a += 0.001;
+//		a += 0.0001;
 //		
 //		
 //		
 //		vector2d::Vector2D pp;
-//		
-//		
-//		
+		
+		
 //		p_test.Get_Point_On_T(a, &pp);
-//		
-//		
-//		vector2d::Vector2D tan;
-//		
-//		
-//		
-//		p_test.Get_Near_Point_T_Len_Dis_Tan_Nor(
-//			pc,
-//			NULL,
-//			NULL,
-//			NULL,
-//			NULL,
-//			&tan,
-//			NULL
-//		);
-//		
-//		
+		
+//		robot_pose.Update_Position(&pp.x(), &pp.y(), NULL);
+		
+/// 		vector2d::Vector2D tan;
+		
+		vector2d::Vector2D v;
+		
+		float w;
+		
+		if (remote_ctrl.swa == 1)
+		{
+			tt.Calc_Vel_On_P(&v, &w);
+			
+			swerve_4_chassis.Set_World_Vel(v, w, *robot_pose.Get_pYaw());
+		}
+		else
+		{
+			swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
+		}
+
+		
+		if (remote_ctrl.signal_swd())
+		{
+			swerve_4_chassis.Chassis_Re_Init();
+		}
+		
 //		
 //		uart_printf("%f,%f,", pp.x(), pp.y());
-//		
-//		
-//		
-//		uart_printf("%f,%f\n", tan.x(), tan.y());
-//		
-//		
-//		
-//		
 		
-		swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
+		uart_printf("%f,%f,%f\n", v.x(), v.y(), v.length());
 		
-		
+		//swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
 		
 		
 		//go_0_0_can1.Set_Out_Pos(a);

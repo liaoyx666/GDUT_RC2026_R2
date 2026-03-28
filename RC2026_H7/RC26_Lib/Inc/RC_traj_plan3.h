@@ -6,6 +6,12 @@
 
 namespace path
 {
+	class LonConstr3;
+    class HeadConstr3;
+    class Path3;
+    class Point3;
+	
+	
 	constexpr uint8_t POINT3_IS_END        = (1 << 0);
 	constexpr uint8_t POINT3_IS_WAIT       = (1 << 1);
 	constexpr uint8_t POINT3_HAVE_LONCON   = (1 << 2);
@@ -66,6 +72,7 @@ namespace path
 		bool Add_MaxConstr(float len);
 		void Calc_End_Vel();
 		
+		
 		TrajPlanState3 state;
 
 		vector2d::Vector2D dir;
@@ -84,6 +91,8 @@ namespace path
 	/*根据圆角距离，折角角度，计算相切圆半径*/
 	float calcFilletRadius(float theta, float blend_dis);
 	
-	float calcVel(float dis, float end_v, float a, float j);
 }
+
+float calcVel(float dis, float end_v, float a);
+
 #endif

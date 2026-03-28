@@ -96,6 +96,6 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Lib\Inc\RC_LiDAR.h ..\RC26_Lib\Inc\RC_auto_arm.h \
   ..\RC26_Lib\Inc\RC_traj_plan3.h ..\RC26_Lib\Inc\RC_path3.h \
   ..\RC26_Lib\Inc\RC_curve.h ..\RC26_Lib\Inc\RC_event3.h \
-  ..\RC26_Ros_Interface\Inc\RC_radar.h \
+  ..\RC26_Lib\Inc\RC_traj_track3.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h \
   ..\RC26_Ros_Interface\Inc\RC_map.h ..\Core\Inc\fdcan.h

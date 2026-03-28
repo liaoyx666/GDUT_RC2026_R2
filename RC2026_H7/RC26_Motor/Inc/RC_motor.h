@@ -94,7 +94,6 @@ namespace motor
 		float target_torque = 0;
 		float target_k_spd = 0;
 		float target_k_pos = 0;
-		//float feedforward = 0;// 
 		float ff_torque = 0;// 前馈力矩
 		
 		// 变量
@@ -118,6 +117,5 @@ namespace motor
 	
 	float rpm_to_radps(float rpm_);
 	float radps_to_rpm(float radps_);
-	
 }
 #endif
