@@ -2,51 +2,39 @@ ROBOCON 2026 GDUT R2
 
 
 
-# 1.开发指南
+# RC_Api
 
-## 1.1.CAN
-
-### 1.1.1.开启一个can外设
-
-1. 首先在`cubeMX`里初始化波特率为1M
-
-2. 实例化`Can`类，传入相应的设备句柄
-
-    ```
-    can::Can can1(hfdcan1);
-    ```
-
-    
-
-3. 初始化过滤器并启动can外设
-
-    ```
-     can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
-     can1.Can_Filter_Init(FDCAN_STANDARD_ID, 2, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
-     can1.Can_Start();
-    ```
-
-    
-
-### 1.1.1.添加一个使用can的类（如电机）
-
-1. 创建类时公有继承`CanHandler`
-
-    ```
-    class DjiMotor : public Motor, public can::CanHandler, public tim::TimHandler
-    ```
-
-2. 
+## 硬件接口，CAN，TIM，Serial，CDC，EXIT，TASK
 
 
 
-# 2.使用指南
+# RC_Motor
+
+## 电机库
 
 
 
+# RC_Lib
+
+## 库
 
 
 
+# RC_Ros_Interface
+
+## 与上位机通过虚拟串口通讯的模块
+
+
+
+# RC_Path
+
+## 路径导航，包括路径规划，轨迹规划，轨迹跟踪
+
+
+
+# RC_User
+
+## 应用层，数据池
 
 
 
