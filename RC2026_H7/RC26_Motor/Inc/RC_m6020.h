@@ -13,7 +13,7 @@ namespace motor
 	class M6020 : public DjiMotor
 	{
 	public:
-		M6020(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool is_reset_pos_angle = false, M6020CtrlType control_type_ = M6020CtrlType::CURRENT);
+		M6020(uint8_t id_, can::Can &can_, tim::Tim *tim_, bool is_reset_pos_angle = false, M6020CtrlType control_type_ = M6020CtrlType::CURRENT);
 		virtual ~M6020() {}
 
 	protected:

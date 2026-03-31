@@ -2,7 +2,7 @@
 
 namespace motor
 {
-    Vesc::Vesc(uint8_t id_, can::Can &can_, tim::Tim &tim_, uint16_t pole_pairs_, bool local_pid_, float gear_ratio_) : can::CanHandler(can_), tim::TimHandler(tim_), local_pid(local_pid_), Motor(gear_ratio_)
+    Vesc::Vesc(uint8_t id_, can::Can &can_, tim::Tim *tim_, uint16_t pole_pairs_, bool local_pid_, float gear_ratio_) : can::CanHandler(can_), tim::TimHandler(tim_), local_pid(local_pid_), Motor(gear_ratio_)
 	{
 		pole_pairs = pole_pairs_;
 		

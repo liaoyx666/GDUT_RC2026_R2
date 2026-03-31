@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim &tim_, float gear_ratio_, bool is_reset_pos_angle) : DjiMotor(can_, tim_, gear_ratio_, is_reset_pos_angle)
+	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim *tim_, float gear_ratio_, bool is_reset_pos_angle) : DjiMotor(can_, tim_, gear_ratio_, is_reset_pos_angle)
 	{
 		tor_to_cur = (16384.f / (6.f / (3591.f / 187.f)));
 		

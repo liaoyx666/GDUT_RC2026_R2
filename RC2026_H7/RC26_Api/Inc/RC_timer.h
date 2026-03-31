@@ -9,7 +9,7 @@ namespace timer
 	class Timer : tim::TimHandler
     {
     public:
-		Timer(tim::Tim &tim_);
+		Timer(tim::Tim *tim_);
 		virtual ~Timer() {}
 		
 		

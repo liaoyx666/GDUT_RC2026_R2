@@ -59,8 +59,11 @@ namespace tim
 
 	/*------------------------------------------------------------*/
 	
-	TimHandler::TimHandler(Tim &tim_) : tim(&tim_)
+	TimHandler::TimHandler(Tim* tim_)
 	{
-		tim_.Add_TimHandle(this);
+		if (tim_ != nullptr)
+		{
+			tim_->Add_TimHandle(this);
+		}
 	}
 }

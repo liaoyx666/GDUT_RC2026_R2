@@ -11,9 +11,8 @@ namespace path
     class Path3;
     class Point3;
 	
-	
-	constexpr uint8_t POINT3_IS_END        = (1 << 0);
-	constexpr uint8_t POINT3_IS_WAIT       = (1 << 1);
+	constexpr uint8_t POINT3_END           = (1 << 0);
+//	constexpr uint8_t POINT3_WAIT          = (1 << 1);
 	constexpr uint8_t POINT3_HAVE_LONCON   = (1 << 2);
 	constexpr uint8_t POINT3_HAVE_HEADCON  = (1 << 3);
 	
@@ -25,18 +24,17 @@ namespace path
 	{
 		Point3();
 		
-		constexpr bool Is_End()       {return (bool)(param & POINT3_IS_END);}
-		constexpr bool Is_Wait()      {return (bool)(param & POINT3_IS_WAIT);} 
+		constexpr bool Is_End()       {return (bool)(param & POINT3_END);}
+//		constexpr bool Is_Wait()      {return (bool)(param & POINT3_WAIT);} 
 		constexpr bool Have_LonCon()  {return (bool)(param & POINT3_HAVE_LONCON);} /*是否有速度约束*/
 		constexpr bool Have_HeadCon() {return (bool)(param & POINT3_HAVE_HEADCON);} /*是否有yaw约束*/
 		constexpr bool Have_Event()   {return (bool)(event);} /*0x00为无事件，第几位上是1，即为存在id为几的事件*/
 		
-		constexpr void Set_Is_End()           {param = param | POINT3_IS_END;}
-		constexpr void Set_Is_Wait()          {param = param | POINT3_IS_WAIT;} 
+		constexpr void Set_Is_End()           {param = param | POINT3_END;}
+//		constexpr void Set_Is_Wait()          {param = param | POINT3_WAIT;} 
 		constexpr void Set_Have_LonCon()      {param = param | POINT3_HAVE_LONCON;} /*是否有速度约束*/
 		constexpr void Set_Have_HeadCon()     {param = param | POINT3_HAVE_HEADCON;} /*是否有yaw约束*/
-		constexpr void Set_Event(uint8_t id_) {event = event | (1 << id_);}
-		
+		constexpr void Set_Event(uint8_t id_) {event = event | (1 << (id_ - 1));}
 		
 		vector2d::Vector2D point; /*坐标*/
 		float blend_dis; /*圆角距离，转角顶点到切点的距离*/
@@ -46,6 +44,7 @@ namespace path
 		HeadConstr3 head;
 	};
 	
+	/*路径生成状态*/
 	enum TrajPlanState3 : uint8_t
 	{
 		TRAJPLAN_NULL,
@@ -66,12 +65,11 @@ namespace path
     protected:
 		
     private:
-		void Reset_Path();
+		void Reset();
 		float Calc_CornerVel(float cor_ag);
 		bool Add_Constr(Point3 p, float len);
 		bool Add_MaxConstr(float len);
 		void Calc_End_Vel();
-		
 		
 		TrajPlanState3 state;
 

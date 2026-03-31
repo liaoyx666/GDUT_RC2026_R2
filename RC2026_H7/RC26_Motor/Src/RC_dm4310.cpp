@@ -20,7 +20,7 @@
 
 namespace motor
 {
-	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
+	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim *tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
 		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.f, is_reset_pos_), use_mit(use_mit_)
 	{
 		id = id_;// 电机id

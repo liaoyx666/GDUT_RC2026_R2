@@ -19,23 +19,11 @@ namespace path
 		head_m = h; /*约束最大值*/
 		path = nullptr;
 		
-		state = TRAJPLAN_NULL;
-
-		dir = vector2d::Vector2D();
-	
-		blend_dis = 0;
-		
-		tmp_s_p = vector2d::Vector2D();
-		tmp_c = Point3();
+		Reset();
 	}
-	 
-	void TrajPlan3::Reset_Path()
+	
+	void TrajPlan3::Reset()
 	{
-		if (path != nullptr)
-		{
-			path->Reset();
-		}
-		
 		state = TRAJPLAN_NULL;
 		
 		tmp_s_p = vector2d::Vector2D();
@@ -51,7 +39,10 @@ namespace path
 		if (path_ == nullptr) return false;
 		
 		path = path_;
-		Reset_Path();
+		
+		path->Reset();
+		
+		Reset();
 
 		return true;
 	}
@@ -137,11 +128,7 @@ namespace path
 						
 						Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 						
-						if (p.Have_Event() && p.Is_Wait())
-						{
-							/*结束时要等待事件完成再切换下一段*/
-							path->is_wait = true;
-						}
+						path->Add_Wait_Event_At_End(p.event);
 						
 						path->is_init = true; /*路径生成完成*/
 						Calc_End_Vel(); /********/
@@ -238,10 +225,7 @@ namespace path
 							
 							Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 						
-							if (p.Have_Event() && p.Is_Wait())
-							{
-								path->is_wait = true;
-							}
+							path->Add_Wait_Event_At_End(p.event);
 							
 							path->is_init = true; /*路径生成完成*/
 							Calc_End_Vel(); /********/
@@ -293,10 +277,12 @@ namespace path
 							
 							Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 							
-							if (p.Have_Event() && p.Is_Wait())
-							{
-								path->is_wait = true;
-							}
+//							if (p.Have_Event() && p.Is_Wait())
+//							{
+//								path->is_wait = true;
+//							}
+							
+							path->Add_Wait_Event_At_End(p.event);
 							
 							path->is_init = true; /*路径生成完成*/
 							Calc_End_Vel(); /********/

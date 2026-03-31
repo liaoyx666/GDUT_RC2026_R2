@@ -50,8 +50,6 @@ namespace path
 		event = 0;
 	}
 	
-	
-
 	Path3::Path3()
 	{
 		Reset();
@@ -69,15 +67,14 @@ namespace path
 		lon_dx = 0;
 		head_dx = 0;
 		ndx = 0;
-		
 		len_dx = 0;
+		event_dx = 0;
 		
-		is_wait = false;
-		
-	//	len = 0;
-		memset(len, 0, sizeof(len));
+		wait_event = 0x00;
+
 		memset(curve, 0, sizeof(curve));
 		
+		pre_align = false;
 		is_init = false;
 	}
 	
@@ -100,7 +97,7 @@ namespace path
 			{
 				len[num] = line[line_num].Len();
 			}
-		//	len += line[line_num].Len();
+
 			line[line_num].Set_End_Vel(PATH3_MAX_LIN_VEL);
 			line_num++;
 			return true;
@@ -128,7 +125,7 @@ namespace path
 			{
 				len[num] = arc[arc_num].Len();
 			}
-		//	len += arc[arc_num].Len();
+		
 			arc[arc_num].Set_End_Vel(PATH3_MAX_LIN_VEL);
 			arc_num++;
 			return true;
@@ -572,6 +569,41 @@ namespace path
 			}
 			
 			*head_ = head[head_dx].c;
+		}
+	}
+	
+	void Path3::Trig_Event_On_Len(float l_) const
+	{
+		if (!is_init || event_num == 0) return;
+		
+		while(event[event_dx].len - PATH3_TRIG_EVENT_THRESHOLD < l_ && event_dx < event_num - 1)
+		{
+			if (event[event_dx].event)
+			{
+				for (uint8_t i = 0; i <= EVENT3_MAX_EVENT_NUM; i++)
+				{
+					if ((1 << i) & event[event_dx].event)
+					{
+						if (Event3::list[i] != nullptr)
+						{
+							Event3::list[i]->Trig_Once(); /*触发一次*/
+						}
+					}
+				}
+			}
+			
+			event_dx++;
+		}
+	}
+	
+	void Path3::Add_Wait_Event_At_End(Event3_t e)
+	{
+		for (uint8_t i = 0; i < EVENT3_MAX_EVENT_NUM; i++)
+		{
+			if (((1 << i) & e) && Event3::list[i]->Wait_Finish()) /*保存所有需要结束时等待的事件*/
+			{
+				wait_event = wait_event | (1 << i);
+			}
 		}
 	}
 	    

@@ -26,7 +26,6 @@ namespace chassis
 		tangent_vector[3] = vector2d::Vector2D(SWERVE4_CHASSIS_THETA4 + HALF_PI);
 		
 		
-		
 		steer_motor[0] = &steer_motor_1_;
 		steer_motor[1] = &steer_motor_2_;
 		steer_motor[2] = &steer_motor_3_;
@@ -35,7 +34,7 @@ namespace chassis
 		for (uint8_t i = 0; i < 4; i++)
 		{
 			steer_motor[i]->pid_pos.Pid_Mode_Init(false, false, 0.0, true);
-			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.002, 0, 12000, 10000, 10000, 10000, 10000, 15500.f, 11500);
+			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.002, 0, 11000, 10000, 10000, 10000, 10000, 15500.f, 11500);
 			steer_motor[i]->Reset_Out_Angle(0);
 		}
 		
@@ -54,8 +53,7 @@ namespace chassis
 			angle[2] = SWERVE4_CHASSIS_THETA3;
 			angle[3] = SWERVE4_CHASSIS_THETA4;
 			
-			v_.x() = 0;
-			v_.y() = 0;
+			v_ = vector2d::Vector2D();
 		}
 		
 		if (fabsf(vw_) <= 1e-4f)
@@ -68,8 +66,6 @@ namespace chassis
 		vel_vector[1] = (tangent_vector[1] * (vw_ * SWERVE4_CHASSIS_L2)) + v_;
 		vel_vector[2] = (tangent_vector[2] * (vw_ * SWERVE4_CHASSIS_L3)) + v_;
 		vel_vector[3] = (tangent_vector[3] * (vw_ * SWERVE4_CHASSIS_L4)) + v_;
-		
-		
 		
 		for (uint8_t i = 0; i < 4; i++)
 		{
@@ -105,10 +101,26 @@ namespace chassis
 			}
 			
 			// 计算最小转动角度
-			if (fabsf(delta_angle) > HALF_PI)
+			if (fabsf(delta_angle - HALF_PI) < 0.017453f) /*0.5度*/
+			{
+				if (i % 2 == 0)
+				{
+					angle[i] = fmodf(angle[i] + PI, TWO_PI);
+					drive_motor_sign[i] = -1; 
+				}
+			}
+			else if (fabsf(delta_angle + HALF_PI) < 0.017453f) /*0.5度*/
+			{
+				if (i % 2 == 1)
+				{
+					angle[i] = fmodf(angle[i] + PI, TWO_PI);
+					drive_motor_sign[i] = -1; 
+				}					
+			}
+			else if (fabsf(delta_angle) > HALF_PI)
 			{
 				angle[i] = fmodf(angle[i] + PI, TWO_PI);
-				drive_motor_sign[i] = -1; 
+				drive_motor_sign[i] = -1;
 			}
 			else
 			{

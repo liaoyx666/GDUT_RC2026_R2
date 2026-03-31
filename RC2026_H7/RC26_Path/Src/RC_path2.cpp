@@ -833,15 +833,15 @@ namespace path
 		float current_linear_vel    = point[current_point_dx].linear_vel;
 		float current_linear_accel  = point[current_point_dx].linear_accel;
 		float current_linear_decel  = point[current_point_dx].linear_decel;
-											
+
 		float current_angular_vel   = point[current_point_dx].angular_vel;
 		float current_angular_accel = point[current_point_dx].angular_accel;
 		float current_angular_decel = point[current_point_dx].angular_decel;
-											
+
 		bool have_target_yaw		= point[current_point_dx].have_target_yaw;
 		bool use_tangent_yaw        = point[current_point_dx].use_tangent_yaw;					
 		bool have_leave_target_yaw  = point[current_point_dx].have_leave_target_yaw;
- 
+		
 		float target_yaw = 0;
 		
 		// 获取当前目标yaw

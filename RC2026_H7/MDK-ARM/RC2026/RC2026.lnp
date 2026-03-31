@@ -95,6 +95,7 @@
 "rc2026\rc_path3.o"
 "rc2026\rc_traj_plan3.o"
 "rc2026\rc_traj_track3.o"
+"rc2026\rc_path_plan3.o"
 "rc2026\rc_map.o"
 "rc2026\rc_radar.o"
 "rc2026\rc_best_path.o"

@@ -43,10 +43,12 @@ namespace pid
 		);
 		
 		void Set_Delta_Time(float delta_time_) {delta_time = delta_time_;}
+		
 		void Set_Kp(float kp_) {kp = kp_;}
 		void Set_Ki(float ki_) {ki = ki_;}
 		void Set_Kd(float kd_) {kd = kd_;}
 		void Set_Kf(float kf_) {kf = kf_;}
+		
 		void Set_Differential_lowpass_alpha(float differential_lowpass_alpha_);
 		void Set_integral_limit(float integral_limit_) {integral_limit = fabsf(integral_limit_);}
 		void Set_output_limit(float output_limit_) {output_limit = fabsf(output_limit_);}

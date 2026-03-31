@@ -36,7 +36,7 @@ namespace motor
 	class Go : public Motor, public can::CanHandler, public tim::TimHandler
     {
     public:
-		Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim &tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = false);
+		Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim *tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = false);
 		
 		virtual ~Go() {}
 		

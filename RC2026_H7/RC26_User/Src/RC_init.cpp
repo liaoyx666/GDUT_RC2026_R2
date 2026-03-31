@@ -14,44 +14,39 @@ can::Can can3(hfdcan3);
 cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 
 // 用于获取us级时间戳
-timer::Timer timer_us(tim4_timer);
+timer::Timer timer_us(&tim4_timer);
 /*====================================电机初始化====================================*/
 
-// 4舵轮底盘电机---------------------------------------------
-motor::M2006 m2006_1_can3(1, can3, tim13_500hz, 4.f * 36.f);
-motor::M2006 m2006_2_can3(2, can3, tim13_500hz, 4.f * 36.f);
-motor::M2006 m2006_3_can3(3, can3, tim13_500hz, 4.f * 36.f);
-motor::M2006 m2006_4_can3(4, can3, tim13_500hz, 4.f * 36.f);
+// 4舵轮底盘电机>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+motor::M2006 m2006_1_can3(1, can3, &tim13_500hz, 4.f * 36.f);
+motor::M2006 m2006_2_can3(2, can3, &tim13_500hz, 4.f * 36.f);
+motor::M2006 m2006_3_can3(3, can3, &tim13_500hz, 4.f * 36.f);
+motor::M2006 m2006_4_can3(4, can3, &tim13_500hz, 4.f * 36.f);
 
-motor::Vesc vesc_101_can3(101, can3, tim13_500hz, 21);
-motor::Vesc vesc_102_can3(102, can3, tim13_500hz, 21);
-motor::Vesc vesc_103_can3(103, can3, tim13_500hz, 21);
-motor::Vesc vesc_104_can3(104, can3, tim13_500hz, 21);
-// -----------------------------------------------------------
+motor::Vesc vesc_101_can3(101, can3, &tim13_500hz, 21);
+motor::Vesc vesc_102_can3(102, can3, &tim13_500hz, 21);
+motor::Vesc vesc_103_can3(103, can3, &tim13_500hz, 21);
+motor::Vesc vesc_104_can3(104, can3, &tim13_500hz, 21);
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+// 机械臂电机>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+motor::DM4310 	dm4310_0x13_can2(0x13, can2, &tim7_1khz, false ,0 , 0, true);
+motor::M3508 	m3508_2_can1    (2,    can1, &tim7_1khz, 51.f, true);
+motor::J60 		j60_1_can1	    (1,    can1, &tim7_1khz, false ,0 , 0, true);
+motor::Go 		go_0_0_can1	    (0, 0, can1, &tim7_1khz, false ,0 , 0, true);
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+// 4撑杆电机>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+motor::M3508 m3508_left_front_can2  (1, can2, &tim7_1khz, 10 * 3591.f / 187.f, true);
+motor::M3508 m3508_left_behind_can2 (2, can2, &tim7_1khz, 99.506f,             true);
+motor::M3508 m3508_right_behind_can2(3, can2, &tim7_1khz, 99.506f,             true);
+motor::M3508 m3508_right_front_can2 (4, can2, &tim7_1khz, 10 * 3591.f / 187.f, true);
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-// 机械臂电机-------------------------------------------------
-motor::DM4310 	dm4310_0x13_can2(0x13, can2, tim7_1khz, false ,0 , 0, true);
-motor::M3508 	m3508_2_can1    (2,    can1, tim7_1khz, 51.f, true);
-motor::J60 		j60_1_can1	    (1,    can1, tim7_1khz, false ,0 , 0, true);
-motor::Go 		go_0_0_can1	    (0, 0, can1, tim7_1khz, false ,0 , 0, true);
-// -----------------------------------------------------------
-
-
-
-// 4撑杆电机-------------------------------------------------
-motor::M3508 m3508_left_front_can2  (1, can2, tim7_1khz, 10 * 3591.f / 187.f, true);
-motor::M3508 m3508_left_behind_can2 (2, can2, tim7_1khz, 99.506f,             true);
-motor::M3508 m3508_right_behind_can2(3, can2, tim7_1khz, 99.506f,             true);
-motor::M3508 m3508_right_front_can2 (4, can2, tim7_1khz, 10 * 3591.f / 187.f, true);
-// -----------------------------------------------------------
-
-// 主动轮电机-------------------------------------------------
-motor::M2006 	m2006_5_can2(5, can2, tim7_1khz, 36.f);
-motor::M2006 	m2006_6_can2(6, can2, tim7_1khz, 36.f);
-// -----------------------------------------------------------
-
+// 主动轮电机>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+motor::M2006 	m2006_5_can2(5, can2, &tim7_1khz, 36.f);
+motor::M2006 	m2006_6_can2(6, can2, &tim7_1khz, 36.f);
+// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 /*====================================模块====================================*/
 data::RobotPose robot_pose;// 机器人位姿
@@ -121,7 +116,7 @@ SquareWave wave(1000, 3000);// 用于调pid
 float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
 
 vector2d::Vector2D pc;
-	
+
 float target = 0;
 float a = 0;
 
@@ -161,11 +156,9 @@ void test(void *argument)
 
 //	MF_path.MF_Best_Path_Plan(map, path_plan);
 
-
 	tp.Load_Path(&p_test);
 
 	path::Point3 p;
-	
 	
 	p.point = vector2d::Vector2D(0, 0);
 	p.blend_dis = 0;
@@ -188,16 +181,13 @@ void test(void *argument)
 	p.Set_Is_End();
 	tp.Add_Point(p);
 	
-	
 	tt.Load_Path(&p_test);
-	
 	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
    
-		
 //		if (a >= 1)
 //		{
 //			a = 0;
@@ -222,7 +212,7 @@ void test(void *argument)
 		
 		if (remote_ctrl.swa == 1)
 		{
-			tt.Calc_Vel_On_P(&v, &w);
+			tt.Calc_Vel(&v, &w);
 			
 			swerve_4_chassis.Set_World_Vel(v, w, *robot_pose.Get_pYaw());
 		}
@@ -234,13 +224,13 @@ void test(void *argument)
 		
 		if (remote_ctrl.signal_swd())
 		{
-			swerve_4_chassis.Chassis_Re_Init();
+			swerve_4_chassis.Chassis_Re_Init(); /*舵轮校准*/
 		}
 		
 //		
 //		uart_printf("%f,%f,", pp.x(), pp.y());
 		
-		uart_printf("%f,%f,%f\n", v.x(), v.y(), v.length());
+//		uart_printf("%f,%f,%f\n", v.x(), v.y(), v.length());
 		
 		//swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
 		

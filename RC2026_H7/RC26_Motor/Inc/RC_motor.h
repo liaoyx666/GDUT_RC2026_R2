@@ -45,7 +45,7 @@ namespace motor
 		void Set_Mit_Pos(float pos_);
 		void Set_Mit_Rpm(float rpm_);
 		void Set_Mit_Tor(float tor_);
-		
+
 		void Set_Out_Mit_Pos(float out_pos_);
 		void Set_Out_Mit_Rpm(float out_rpm_);
 		void Set_Out_Mit_Tor(float out_tor_);
@@ -56,6 +56,8 @@ namespace motor
 		void Reset_Pos(float pos_);// 重置转子位置
 		virtual void Reset_Out_Angle(float out_angle_);// 重置输出轴角度0 ~ 2pi
 		void Set_Pos_Offset(float pos_offset_) {pos_offset = pos_offset_;}
+		
+		//void Set_Clockwise(bool c) {clockwise = c;}
 		
 		// 获取参数
 		float Get_Rpm() const {return rpm;}
@@ -106,9 +108,7 @@ namespace motor
 		MotorMode motor_mode = RPM_MODE;// 电机模式
 		
 		bool is_reset_pos = false;
-		
-    private:
-		
+	//	bool clockwise = false;
     };
 	
 	// 工具函数

@@ -183,7 +183,7 @@ namespace motor
 	{
 		if (target_out_angle_ < 0.f || target_out_angle_ >= TWO_PI) target_out_angle_ = 0.f;
 		target_pos = target_out_angle_ * gear_ratio;
-		
+
 		// 设置模式
 		motor_mode = OUT_ANGLE_MODE;
 	}

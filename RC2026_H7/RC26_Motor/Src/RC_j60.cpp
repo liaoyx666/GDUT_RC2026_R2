@@ -27,7 +27,7 @@
 
 namespace motor
 {
-	J60::J60(uint8_t id_, can::Can& can_, tim::Tim& tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
+	J60::J60(uint8_t id_, can::Can& can_, tim::Tim* tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
 		: motor::Motor(4.f, is_reset_pos_), can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_)
 	{
 		if (id_ > 15) Error_Handler();

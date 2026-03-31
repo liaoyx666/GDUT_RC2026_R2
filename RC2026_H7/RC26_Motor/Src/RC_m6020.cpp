@@ -2,7 +2,7 @@
 
 namespace motor
 {
-	M6020::M6020(uint8_t id_, can::Can &can_, tim::Tim &tim_, bool is_reset_pos_angle, M6020CtrlType control_type_) : DjiMotor(can_, tim_, 1.f, is_reset_pos_angle), control_type(control_type_)
+	M6020::M6020(uint8_t id_, can::Can &can_, tim::Tim *tim_, bool is_reset_pos_angle, M6020CtrlType control_type_) : DjiMotor(can_, tim_, 1.f, is_reset_pos_angle), control_type(control_type_)
 	{
 		// 设置tx，rx和m6020的id
 		Dji_Id_Init(id_);

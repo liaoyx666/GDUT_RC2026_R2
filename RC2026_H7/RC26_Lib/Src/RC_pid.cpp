@@ -99,8 +99,25 @@ namespace pid
 		
 		if (normalization)// 归一化
 		{
-			if (error > unit) error = error - period;
-			else if (error < -unit) error = error + period;
+//			if (fabsf(error - unit) < (unit / PI * 0.008727f))
+//			{
+//				if (clockwise) /*正转反转路程相同时正转*/
+//				{
+//					error -= period;
+//				}
+//			}
+//			else if (fabsf(error + unit) < (unit / PI * 0.008727f))
+//			{
+//				if (!clockwise)
+//				{
+//					error += period;
+//				}
+//			}
+//			else
+//			{
+				if (error > unit) error = error - period;
+				else if (error < -unit) error = error + period;
+//			}
 		}
 
 		if (fabsf(error) < deadzone) error = 0;// 死区

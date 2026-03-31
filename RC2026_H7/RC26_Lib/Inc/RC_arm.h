@@ -223,7 +223,7 @@ enum class ARM_TASK : uint8_t
 class Arm_task : public tim::TimHandler, public task::ManagedTask
 {
 public:
-    Arm_task(tim::Tim &tim_,
+    Arm_task(tim::Tim *tim_,
              motor::Motor& motor_1_,
              motor::Motor& motor_2_,
              motor::Motor& motor_3_,

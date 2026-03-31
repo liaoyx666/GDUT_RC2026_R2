@@ -5,14 +5,16 @@
 #ifdef __cplusplus
 namespace path
 {
-	constexpr uint8_t PATH3_MAX_LINE_NUM   = 10;
-	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 10;
-
-	constexpr uint8_t PATHLONCON3_MAX_NUM  = 10;
-	constexpr uint8_t PATHHEADCON3_MAX_NUM = 10;
-	constexpr uint8_t PATHEVENT3_MAX_NUM   = 5;
+	constexpr uint8_t PATH3_MAX_LINE_NUM   = 10; /*最大直线数*/
+	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 10; /*最大圆弧数*/
+	constexpr float PATH3_MAX_LIN_VEL      = 4.f; /*最大线速度*/
+	constexpr float PATH3_TRIG_EVENT_THRESHOLD = 0.03; /*靠近触发事件阈值 m*/
 	
-	constexpr float PATH3_MAX_LIN_VEL      = 4.f;
+	constexpr uint8_t PATHLONCON3_MAX_NUM  = 10; /*最大纵向约束数*/
+	constexpr uint8_t PATHHEADCON3_MAX_NUM = 10; /*最大航向约束数*/
+	constexpr uint8_t PATHEVENT3_MAX_NUM   = 5; /*最大事件组数*/
+	
+	//using Event3_t = uint8_t;
 	
 	/*纵向约束条件*/
 	struct LonConstr3
@@ -20,11 +22,9 @@ namespace path
 		LonConstr3();
 		LonConstr3(float v_, float a_) : v(v_), a(a_) {}
 		static LonConstr3 min(const LonConstr3& c1, const LonConstr3& c2);
-		
 		float v;
 		float a;
 	};
-	
 	
 	/*航向约束条件*/
 	struct HeadConstr3
@@ -32,7 +32,6 @@ namespace path
 		HeadConstr3();
 		HeadConstr3(float y_, float w_, float wa_, bool t_) : yaw(y_), w(w_), wa(wa_), tan_head(t_) {}
 		static HeadConstr3 min(const HeadConstr3& c1, const HeadConstr3& c2);
-		
 		float yaw;
 		float w;
 		float wa;
@@ -93,6 +92,8 @@ namespace path
 			HeadConstr3* head
 		) const;
 		
+		void Trig_Event_On_Len(float l_) const; /*触发事件*/
+		
 		bool Add_PathLonCon(float l, LonConstr3 c);
 		bool Add_PathHeadCon(float l, HeadConstr3 c);
 		bool Add_PathEvent(float l, Event3_t e);
@@ -100,11 +101,14 @@ namespace path
 		uint8_t Line_FreeSpace() const {return PATH3_MAX_LINE_NUM - line_num;}
 		uint8_t Arc_FreeSpace() const {return PATH3_MAX_ARC_NUM - arc_num;}
 		
+		bool Pre_Align() const {return pre_align;}
     protected:
 		
     private:
 		bool Add_Line(vector2d::Vector2D start_, vector2d::Vector2D end_);
 		bool Add_Arc(vector2d::Vector2D start_, vector2d::Vector2D end_, float radius_, bool is_counter_clockwise);
+	
+		void Add_Wait_Event_At_End(Event3_t e);
 	
 		bool Check_Near_Point(vector2d::Vector2D p_, uint8_t check_dx_, uint8_t* ndx_, vector2d::Vector2D* np, float* nt, float* nd) const;
 
@@ -125,14 +129,17 @@ namespace path
 		mutable uint8_t head_dx; /*保存上一次查找的索引，提升效率*/
 		mutable uint8_t ndx; /*保存上一次查找的索引，提升效率*/
 		mutable uint8_t len_dx; /*保存上一次查找的索引，提升效率*/
-	
+		mutable uint8_t event_dx; /*保存上一次查找的索引*/
+		
 		uint8_t line_num;
 		uint8_t arc_num;
 		
 		bool is_init;
-		bool is_wait; /*终点处是否等待事件完成*/
+		Event3_t wait_event; /*终点处等待完成的事件*/
+		bool pre_align; /*是否出发前对齐航向*/
 	
 		friend class TrajPlan3;
+		friend class TrajTrack3;
     };
 	
 }

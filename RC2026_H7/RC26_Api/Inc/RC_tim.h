@@ -38,16 +38,10 @@ namespace tim
 	class TimHandler
 	{
 	public:
-		TimHandler(Tim &tim_);
+		TimHandler(Tim* tim_);
 		virtual ~TimHandler() {}
 		
 		virtual void Tim_It_Process() = 0;
-		
-	protected:
-		Tim *tim;
-	
-	private:
-
 	};
 }
 #endif

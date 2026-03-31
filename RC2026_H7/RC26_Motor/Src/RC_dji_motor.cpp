@@ -2,7 +2,7 @@
 
 namespace motor
 {	
-	DjiMotor::DjiMotor(can::Can &can_, tim::Tim &tim_, float gear_ratio_, bool is_reset_pos_angle)
+	DjiMotor::DjiMotor(can::Can &can_, tim::Tim *tim_, float gear_ratio_, bool is_reset_pos_angle)
 	: can::CanHandler(can_), tim::TimHandler(tim_), Motor(gear_ratio_, is_reset_pos_angle)
 	{
 		

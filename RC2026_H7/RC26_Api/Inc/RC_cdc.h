@@ -14,7 +14,6 @@
 
 #define MAX_RECEIVE_DATA_LEN 64
 
-
 namespace cdc
 {
 	typedef enum CDCType
@@ -34,9 +33,7 @@ namespace cdc
 		WAIT_TAIL// 0xee
 	} RECEIVE_FLAG;
 
-	
 	class CDCHandler;
-	
 	
 	class CDC : task::ManagedTask
     {

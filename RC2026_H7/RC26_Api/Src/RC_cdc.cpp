@@ -53,7 +53,6 @@ namespace cdc
 			} while (result != USBD_OK && retry_count < MAX_CDC_RETRY_COUNT);
 			
 			send_buf_used[sending_buf_dx] = 0;// 清空已发送的缓冲区
-
 		}
 
 		if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE)// 获取互斥锁
@@ -61,7 +60,6 @@ namespace cdc
 			writing_buf_dx = sending_buf_dx;// 切换缓冲区
 			xSemaphoreGive(xMutex); // 释放互斥锁
 		}
-
 	}
 	
 	bool CDC::CDC_AddToBuf(uint8_t *data, uint16_t len, uint16_t max_wait_time)

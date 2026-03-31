@@ -453,7 +453,7 @@ ArmAction Arm_task::PLACE_LEFT_CUBE_SEQ[8] = {
 };
 
 /*================= 构造函数 =================*/
-Arm_task::Arm_task(tim::Tim& tim_, motor::Motor& motor_1_, motor::Motor& motor_2_, motor::Motor& motor_3_, motor::Motor& motor_4_) :
+Arm_task::Arm_task(tim::Tim* tim_, motor::Motor& motor_1_, motor::Motor& motor_2_, motor::Motor& motor_3_, motor::Motor& motor_4_) :
     tim::TimHandler(tim_),
     ManagedTask("arm_task", 25, 256, task::TASK_DELAY, 2),
     g_state(ARM_STATE_IDLE),
