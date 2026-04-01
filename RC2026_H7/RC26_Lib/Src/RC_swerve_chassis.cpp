@@ -46,39 +46,54 @@ namespace chassis
 	
 	void Swerve4Chassis::Kinematics_calc(vector2d::Vector2D v_, float vw_)
 	{
-		if (v_.length() <= 1e-3f)
+//		if (v_.length() <= 1e-3f)
+//		{
+//			angle[0] = SWERVE4_CHASSIS_THETA1;
+//			angle[1] = SWERVE4_CHASSIS_THETA2;
+//			angle[2] = SWERVE4_CHASSIS_THETA3;
+//			angle[3] = SWERVE4_CHASSIS_THETA4;
+//			
+//			v_ = vector2d::Vector2D();
+//		}
+//		
+//		if (fabsf(vw_) <= 1e-4f)
+//		{
+//			vw_ = 0;
+//		}
+		
+		/*************************底盘解算************************/
+		if (v_.length() <= 1e-3f && fabsf(vw_) <= 1e-3f)
 		{
 			angle[0] = SWERVE4_CHASSIS_THETA1;
 			angle[1] = SWERVE4_CHASSIS_THETA2;
 			angle[2] = SWERVE4_CHASSIS_THETA3;
 			angle[3] = SWERVE4_CHASSIS_THETA4;
 			
-			v_ = vector2d::Vector2D();
+			vel[0] = 0;
+			vel[1] = 0;
+			vel[2] = 0;
+			vel[3] = 0;
 		}
-		
-		if (fabsf(vw_) <= 1e-4f)
+		else
 		{
-			vw_ = 0;
-		}
-		
-		/*************************底盘解算************************/
-		vel_vector[0] = (tangent_vector[0] * (vw_ * SWERVE4_CHASSIS_L1)) + v_;
-		vel_vector[1] = (tangent_vector[1] * (vw_ * SWERVE4_CHASSIS_L2)) + v_;
-		vel_vector[2] = (tangent_vector[2] * (vw_ * SWERVE4_CHASSIS_L3)) + v_;
-		vel_vector[3] = (tangent_vector[3] * (vw_ * SWERVE4_CHASSIS_L4)) + v_;
-		
-		for (uint8_t i = 0; i < 4; i++)
-		{
-			vel[i] = vel_vector[i].length();
+			vel_vector[0] = (tangent_vector[0] * (vw_ * SWERVE4_CHASSIS_L1)) + v_;
+			vel_vector[1] = (tangent_vector[1] * (vw_ * SWERVE4_CHASSIS_L2)) + v_;
+			vel_vector[2] = (tangent_vector[2] * (vw_ * SWERVE4_CHASSIS_L3)) + v_;
+			vel_vector[3] = (tangent_vector[3] * (vw_ * SWERVE4_CHASSIS_L4)) + v_;
 			
-			if (vel[i] < 1e-3f)
+			for (uint8_t i = 0; i < 4; i++)
 			{
-				vel[i] = 0;
-			}
-			else
-			{
-				// -pi ~ pi -> 0 ~ 2pi
-				angle[i] = fmodf(vel_vector[i].angle() + TWO_PI, TWO_PI);
+				vel[i] = vel_vector[i].length();
+				
+				if (vel[i] < 1e-3f)
+				{
+					vel[i] = 0;
+				}
+				else
+				{
+					// -pi ~ pi -> 0 ~ 2pi
+					angle[i] = fmodf(vel_vector[i].angle() + TWO_PI, TWO_PI);
+				}
 			}
 		}
 		
