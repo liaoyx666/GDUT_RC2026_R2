@@ -34,7 +34,7 @@ namespace chassis
 		for (uint8_t i = 0; i < 4; i++)
 		{
 			steer_motor[i]->pid_pos.Pid_Mode_Init(false, false, 0.0, true);
-			steer_motor[i]->pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.002, 0, 11000, 10000, 10000, 10000, 10000, 15500.f, 11500);
+			steer_motor[i]->pid_pos.Pid_Param_Init(170, 0, 3, 0, 0.002, 0, 11500, 10000, 10000, 10000, 10000, 10000, 11000);
 			steer_motor[i]->Reset_Out_Angle(0);
 		}
 		
@@ -46,24 +46,10 @@ namespace chassis
 	
 	void Swerve4Chassis::Kinematics_calc(vector2d::Vector2D v_, float vw_)
 	{
-//		if (v_.length() <= 1e-3f)
-//		{
-//			angle[0] = SWERVE4_CHASSIS_THETA1;
-//			angle[1] = SWERVE4_CHASSIS_THETA2;
-//			angle[2] = SWERVE4_CHASSIS_THETA3;
-//			angle[3] = SWERVE4_CHASSIS_THETA4;
-//			
-//			v_ = vector2d::Vector2D();
-//		}
-//		
-//		if (fabsf(vw_) <= 1e-4f)
-//		{
-//			vw_ = 0;
-//		}
-		
 		/*************************底盘解算************************/
-		if (v_.length() <= 1e-3f && fabsf(vw_) <= 1e-3f)
+		if (v_.length() <= 0.04f && fabsf(vw_) <= 0.04f)
 		{
+			/*零速锁定底盘*/
 			angle[0] = SWERVE4_CHASSIS_THETA1;
 			angle[1] = SWERVE4_CHASSIS_THETA2;
 			angle[2] = SWERVE4_CHASSIS_THETA3;
@@ -85,14 +71,19 @@ namespace chassis
 			{
 				vel[i] = vel_vector[i].length();
 				
-				if (vel[i] < 1e-3f)
+				if (vel[i] < 0.04f)
 				{
 					vel[i] = 0;
 				}
 				else
 				{
+					angle[i] = vel_vector[i].angle();
+			
 					// -pi ~ pi -> 0 ~ 2pi
-					angle[i] = fmodf(vel_vector[i].angle() + TWO_PI, TWO_PI);
+					if (angle[i] < 0.f)
+					{
+						angle[i] += TWO_PI;
+					}
 				}
 			}
 		}
@@ -104,37 +95,45 @@ namespace chassis
 			float steer_angle = steer_motor[i]->Get_Out_Angle();
 
 			// 计算转动角度
-			float delta_angle = fmodf(steer_angle - angle[i], TWO_PI);
+			float delta_angle = steer_angle - angle[i];
 			
 			if (delta_angle > PI)
-			{
 				delta_angle -= TWO_PI;
-			}
 			else if (delta_angle < -PI)
-			{
 				delta_angle += TWO_PI;
-			}
 			
-			// 计算最小转动角度
+			// 计算最小转动角度，平衡舵向转动扭矩
 			if (fabsf(delta_angle - HALF_PI) < 0.017453f) /*0.5度*/
 			{
 				if (i % 2 == 0)
 				{
-					angle[i] = fmodf(angle[i] + PI, TWO_PI);
-					drive_motor_sign[i] = -1; 
+					if (angle[i] < PI)
+						angle[i] +=PI;
+					else
+						angle[i] -=PI;
+					
+					drive_motor_sign[i] = -1;
 				}
 			}
 			else if (fabsf(delta_angle + HALF_PI) < 0.017453f) /*0.5度*/
 			{
 				if (i % 2 == 1)
 				{
-					angle[i] = fmodf(angle[i] + PI, TWO_PI);
-					drive_motor_sign[i] = -1; 
-				}					
+					if (angle[i] < PI)
+						angle[i] += PI;
+					else
+						angle[i] -= PI;
+						
+					drive_motor_sign[i] = -1;
+				}
 			}
 			else if (fabsf(delta_angle) > HALF_PI)
 			{
-				angle[i] = fmodf(angle[i] + PI, TWO_PI);
+				if (angle[i] < PI)
+					angle[i] += PI;
+				else
+					angle[i] -= PI;
+				
 				drive_motor_sign[i] = -1;
 			}
 			else
@@ -145,8 +144,16 @@ namespace chassis
 			// 设置舵向电机角度
 			steer_motor[i]->Set_Out_Angle(angle[i]);
 			
-			// 设置航向电机速度
-			drive_motor[i]->Set_Out_Rpm(vel[i] * vel_to_rpm * ((float)drive_motor_sign[i]));
+			/*低速状态下转到位才能运动*/
+			if (vel[i] > 0.15f || fabsf(delta_angle) < 0.087266f)
+			{
+				// 设置航向电机速度
+				drive_motor[i]->Set_Out_Rpm(vel[i] * vel_to_rpm * ((float)drive_motor_sign[i]));
+			}
+			else
+			{
+				drive_motor[i]->Set_Out_Rpm(0);
+			}
 		}
 		
 		/*************************************************/

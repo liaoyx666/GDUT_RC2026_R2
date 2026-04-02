@@ -26,7 +26,7 @@ namespace motor
             Error_Handler();
         }
 
-        can_frame_type = can::FRAME_EXT;// 扩展帧
+        can_frame_type = FDCAN_EXTENDED_ID;// 扩展帧
         rx_id = id;
 		
         // 注册CAN设备

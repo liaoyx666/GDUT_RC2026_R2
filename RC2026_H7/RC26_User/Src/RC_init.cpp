@@ -18,10 +18,10 @@ timer::Timer timer_us(&tim4_timer);
 /*====================================电机初始化====================================*/
 
 // 4舵轮底盘电机>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-motor::M2006 m2006_1_can3(1, can3, &tim13_500hz, 4.f * 36.f);
-motor::M2006 m2006_2_can3(2, can3, &tim13_500hz, 4.f * 36.f);
-motor::M2006 m2006_3_can3(3, can3, &tim13_500hz, 4.f * 36.f);
-motor::M2006 m2006_4_can3(4, can3, &tim13_500hz, 4.f * 36.f);
+motor::M2006 m2006_1_can3(1, can3, &tim13_500hz, 4 * 36);
+motor::M2006 m2006_2_can3(2, can3, &tim13_500hz, 4 * 36);
+motor::M2006 m2006_3_can3(3, can3, &tim13_500hz, 4 * 36);
+motor::M2006 m2006_4_can3(4, can3, &tim13_500hz, 4 * 36);
 
 motor::Vesc vesc_101_can3(101, can3, &tim13_500hz, 21);
 motor::Vesc vesc_102_can3(102, can3, &tim13_500hz, 21);
@@ -210,6 +210,11 @@ void test(void *argument)
 		
 		float w;
 		
+		
+		//m2006_4_can3.Set_Out_Angle(a);
+		uart_printf("%d,%d,%d,%d\n", remote_ctrl.data_buf[0], remote_ctrl.data_buf[1], remote_ctrl.data_buf[2], remote_ctrl.data_buf[3]);
+		
+		
 		if (remote_ctrl.swa == 1)
 		{
 			tt.Calc_Vel(&v, &w);
@@ -235,11 +240,7 @@ void test(void *argument)
 		//swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
 		
 		
-		//go_0_0_can1.Set_Out_Pos(a);
-		
-		//uart_printf("%f,%f,%f,%f\n", a, go_0_0_can1.Get_Out_Pos(), go_0_0_can1.Get_Rpm());
-		
-		
+	
 //		if (remote_ctrl.swa == 0)
 //		{
 //			// 手操

@@ -38,7 +38,7 @@ namespace motor
 		rx_id = 0x10 + id;
 		rx_mask = 0x01f;
 
-		can_frame_type = can::FRAME_STD;
+		can_frame_type = FDCAN_STANDARD_ID;
 
 		CanHandler_Register();
 		
@@ -197,7 +197,7 @@ namespace motor
 				is_reset_pos = false;
 			}
 			
-			out_pos = pos / gear_ratio;
+			//out_pos = pos / gear_ratio;
 			
 			if (temp_flag == 1) temperature = temp; 
 			else mos_temperature = temp; 

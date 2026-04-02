@@ -59,7 +59,7 @@ namespace flysky
 		}
 	}
 	
-#define FLY_SKY_DEADZONE 40
+#define FLY_SKY_DEADZONE 50
 	
 	void FlySky::Task_Process()
 	{

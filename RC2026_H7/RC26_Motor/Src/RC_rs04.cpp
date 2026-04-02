@@ -22,7 +22,7 @@ namespace motor
 	{
 		id = id_;
 		
-		can_frame_type = can::FRAME_EXT;
+		can_frame_type = FDCAN_STANDARD_ID;
 		
 		rx_mask = (0xff << 8) | 0x00;
 		rx_id = (id << 8) | 0x00;

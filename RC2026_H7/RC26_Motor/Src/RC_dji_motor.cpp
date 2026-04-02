@@ -5,14 +5,16 @@ namespace motor
 	DjiMotor::DjiMotor(can::Can &can_, tim::Tim *tim_, float gear_ratio_, bool is_reset_pos_angle)
 	: can::CanHandler(can_), tim::TimHandler(tim_), Motor(gear_ratio_, is_reset_pos_angle)
 	{
+		is_gear_ratio_int = (fabsf(gear_ratio_ - roundf(gear_ratio_)) < 1e-6f);
 		
+		out_angle_max = 8192 * (int32_t)gear_ratio_; /* 输出轴一圈对应的转子编码器总数（周期长度），gear_ratio_需为正整数 */
 	}
 	
 	void DjiMotor::CanHandler_Register()
 	{
 		if (can->hd_num > 8) Error_Handler();// 设备数量超过8
 	
-		can_frame_type = can::FRAME_STD;// 标准帧
+		can_frame_type = FDCAN_STANDARD_ID;// 标准帧
 	
 		if (can->tx_frame_num == 0)// can上还没有挂载帧
 		{
@@ -86,9 +88,9 @@ namespace motor
 			{
 				temp_target_rpm = pid_pos.Pid_Calculate(angle, target_angle, true, PI);
 			}
-			else if (motor_mode == OUT_ANGLE_MODE)	//> 输出轴角度模式
+			else if (motor_mode == OUT_ANGLE_MODE && is_gear_ratio_int)	//> 输出轴角度模式（减速比为整数才能用）
 			{
-				temp_target_rpm = pid_pos.Pid_Calculate(out_angle, target_pos, true, PI * gear_ratio);
+				temp_target_rpm = pid_pos.Pid_Calculate(((float)out_angle_int / 8192.f) * TWO_PI, target_pos, true, PI * gear_ratio);
 			}
 			
 			target_current = pid_spd.Pid_Calculate(rpm, temp_target_rpm);
@@ -113,22 +115,24 @@ namespace motor
 	
 	void DjiMotor::Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data)
 	{
-		angle 		= ((float)(int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1])) / 8192.f * TWO_PI;
+		encoder     = (int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1]);
 		rpm 		= (float)(int16_t)(((uint16_t)rx_data[2] << 8) | (uint16_t)rx_data[3]);
 		current 	= (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);
 		temperature = (float)(int8_t)rx_data[6];
 		
+		angle 		= (float)encoder / 8192.f * TWO_PI;
+		
 		// 计算转子旋转圈数
 		if (can_rx_is_first != true)
 		{
-			float delta_angle = angle - last_angle;
+			int16_t delta_encoder = encoder - last_encoder;
 			
-			if (delta_angle > PI)
+			if (delta_encoder > 4096)
 			{
 				cycle--;
 				rotor_cycle--;
 			}
-			else if (delta_angle < -PI)
+			else if (delta_encoder < -4096)
 			{
 				cycle++;
 				rotor_cycle++;
@@ -140,36 +144,34 @@ namespace motor
 		}
 		
 		// 更新
-		last_angle = angle;
-		
-		// 计算转子位置
-		pos = cycle * TWO_PI + angle + pos_offset;
-		out_pos = pos / gear_ratio;
-		
-		// 防止nan
-		if (pos > 6434) pos = 6434;
-		else if (pos < -6434) pos = -6434;
+		last_encoder = encoder;
 
-		rotor_pos = rotor_cycle * TWO_PI + angle + out_angle_offset;
-		
-		// 归一化[0, TWO_PI * gear_ratio)
-		if (rotor_pos >= 0.f)
+		if (is_gear_ratio_int)
 		{
-			out_angle = fmodf(rotor_pos, TWO_PI * gear_ratio);
-		}
-		else
-		{
-			out_angle = fmodf(rotor_pos, TWO_PI * gear_ratio) + TWO_PI * gear_ratio;
-		}
-		
-		// 重置rotor_cycle防止float精度丢失
-		if (rotor_pos > 5000.f || rotor_pos < -5000.f)
-		{
-			rotor_cycle = 0;
-			out_angle_offset = out_angle - angle;
+			// 防止pos变nan
+			if (cycle > 1024) cycle = 1024;
+			else if (cycle < -1024) cycle = -1024;
+			
+			// 计算转子位置
+			pos = cycle * TWO_PI + angle + pos_offset;
+			
+			out_angle_int = rotor_cycle * 8192 + encoder + out_angle_offset;
+
+			// 归一化[0, 8192 * gear_ratio)
+			if (out_angle_int >= out_angle_max)
+			{
+				out_angle_int -= out_angle_max;
+				rotor_cycle -= (int32_t)gear_ratio;
+			}
+			else if (out_angle_int < 0)
+			{
+				out_angle_int += out_angle_max;
+				rotor_cycle += (int32_t)gear_ratio;
+			}
 		}
 
-		if (is_reset_pos == true)
+		/*位置，角度重置*/
+		if (is_reset_pos)
 		{
 			Reset_Pos(0);
 			Reset_Out_Angle(0);
@@ -177,13 +179,23 @@ namespace motor
 		}
 	}
 	
+	float DjiMotor::Get_Out_Angle()
+	{
+		return ((float)out_angle_int / (float)out_angle_max) * TWO_PI;
+	}
 	
 	// 重置输出轴角度
 	void DjiMotor::Reset_Out_Angle(float out_angle_)
 	{
 		if (out_angle_ < 0.f || out_angle_ >= TWO_PI) out_angle_ = 0.f;
+		
 		rotor_cycle = 0;
-		out_angle_offset = out_angle_ * gear_ratio - angle;
+		out_angle_offset = roundf((out_angle_ / TWO_PI * gear_ratio) * 8192) - encoder;
+	}
+	
+	float DjiMotor::Get_Angle()
+	{
+		return angle;
 	}
 }
 	

@@ -12,16 +12,16 @@
 #ifdef __cplusplus
 namespace motor
 {
-	typedef enum MotorMode
+	enum MotorMode : uint8_t
 	{
-		RPM_MODE,		// 转速模式
+		RPM_MODE = 0,		// 转速模式
 		POS_MODE,		// 位置模式
 		ANGLE_MODE,		// 角度模式(0~2pi)
 		OUT_ANGLE_MODE,	// 输出轴角度模式(0~2pi)
 		CURRENT_MODE,	// 电流模式
 		TORQUE_MODE,	// 力矩模式
 		LOCAL_MIT_MODE	// 本地计算mit模式（有些电机自带mit算法，如果要使用电机自带算法，需使use_mit = true）
-	} MotorMode;
+	};
 	
 	class Motor
     {
@@ -57,19 +57,18 @@ namespace motor
 		virtual void Reset_Out_Angle(float out_angle_);// 重置输出轴角度0 ~ 2pi
 		void Set_Pos_Offset(float pos_offset_) {pos_offset = pos_offset_;}
 		
-		//void Set_Clockwise(bool c) {clockwise = c;}
 		
 		// 获取参数
 		float Get_Rpm() const {return rpm;}
 		float Get_Pos() const {return pos;}
 		float Get_Out_Rpm() const {return rpm / gear_ratio;}
-		float Get_Out_Pos() const {return out_pos;}
-		float Get_Angle() const {return angle;}
+		float Get_Out_Pos() const {return pos / gear_ratio;}
+		virtual float Get_Angle(); // const {return angle;}
 		float Get_Current() const {return current;}
 		float Get_Torque() const {return torque;}
 		float Get_Out_Torque() const {return torque * gear_ratio;}
 		float Get_Temperature() const {return temperature;}
-		float Get_Out_Angle() const {return out_angle / gear_ratio;}// 0 ~ 2pi
+		virtual float Get_Out_Angle(); // 0 ~ 2pi*/
 		
 		// 速度环pid，位置环pid
 		pid::Pid pid_spd, pid_pos;
@@ -77,16 +76,14 @@ namespace motor
     protected:
 		// 真实参数
 		float rpm = 0;// (r/min)
-		float angle = 0;// (rad) 0 ~ 2pi
+		//float angle = 0;// (rad) 0 ~ 2pi
 		float pos = 0;// (rad)
 		float current = 0;
 		float temperature = 0;
 		float torque = 0;// (N*m)
 		float k_spd = 0;// 阻尼系数kd
 		float k_pos = 0;// 刚度系数kp
-		float out_pos = 0;// 输出轴位置 pos / gear_ratio
-		float out_angle = 0;// 0 ~ 2*pi*gear_ratio
-		
+
 	
 		// 目标参数
 		float target_rpm = 0;
@@ -104,11 +101,10 @@ namespace motor
 		// 电机参数
 		float pos_max = 6000;
 		float pos_min = -6000;
-		float gear_ratio = 1.f;// 减速比
+		float gear_ratio = 1;// 减速比
 		MotorMode motor_mode = RPM_MODE;// 电机模式
 		
 		bool is_reset_pos = false;
-	//	bool clockwise = false;
     };
 	
 	// 工具函数

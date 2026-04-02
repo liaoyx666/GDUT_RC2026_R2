@@ -100,10 +100,7 @@ namespace can
 				{
 					return;
 				}
-				
-				// 检查ID匹配
-				bool id_matched = false;
-				
+
 				// 查找对应rx帧id的设备
 				for (uint16_t j = 0; j < can_list[i]->hd_num; j++)
 				{
@@ -112,47 +109,17 @@ namespace can
 						continue;
 					}
 					
-					if (can_rx_hdr.IdType == FDCAN_EXTENDED_ID)
-					{
-						if (can_list[i]->hd_list[j]->can_frame_type == FRAME_EXT)
-						{
-							if ((can_rx_hdr.Identifier & can_list[i]->hd_list[j]->rx_mask) == can_list[i]->hd_list[j]->rx_id)
-							{
-								id_matched = true;
-							}
-							else
-							{
-								continue;
-							}
-						}
-						else 
-						{
-							continue;
-						}
-					}
-					else
-					{
-						if (can_list[i]->hd_list[j]->can_frame_type == FRAME_STD)
-						{
-							if ((can_rx_hdr.Identifier & can_list[i]->hd_list[j]->rx_mask) == can_list[i]->hd_list[j]->rx_id)
-							{
-								id_matched = true;
-							}
-							else
-							{
-								continue;
-							}
-						}
-						else
-						{
-							continue;
-						}
-					}
-					
-					if (id_matched == true)
+					if (
+						can_list[i]->hd_list[j]->can_frame_type == can_rx_hdr.IdType &&
+						(can_rx_hdr.Identifier & can_list[i]->hd_list[j]->rx_mask) == can_list[i]->hd_list[j]->rx_id
+					)
 					{
 						can_list[i]->hd_list[j]->Can_Rx_It_Process(can_rx_hdr.Identifier, rx_data);// 调用设备接收处理函数
 						return;// 每个ID只对应一个设备
+					}
+					else
+					{
+						continue;
 					}
 				}
 				return;
@@ -178,14 +145,7 @@ namespace can
 				}
 
 				// 设置帧头
-				if (tx_frame_list[i].frame_type == FRAME_STD) 
-				{
-					can_tx_hdr.IdType = FDCAN_STANDARD_ID;
-				}
-				else
-				{
-					can_tx_hdr.IdType = FDCAN_EXTENDED_ID;
-				}
+				can_tx_hdr.IdType = tx_frame_list[i].frame_type;
 				
 				if (tx_frame_list[i].dlc > 8)
 				{

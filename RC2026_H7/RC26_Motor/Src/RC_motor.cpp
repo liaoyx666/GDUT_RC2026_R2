@@ -60,9 +60,9 @@ namespace motor
     */
 	void Motor::Set_Pos(float target_pos_)
 	{
-		if (target_pos_ > pos_max) target_pos_ = pos_max;
-		else if (target_pos_ < pos_min) target_pos_ = pos_min;
-		target_pos = target_pos_;
+		if (target_pos_ > pos_max) target_pos = pos_max;
+		else if (target_pos_ < pos_min) target_pos = pos_min;
+		else target_pos = target_pos_;
 		
 		// 设置模式
 		motor_mode = POS_MODE;	
@@ -164,15 +164,6 @@ namespace motor
 		Reset_Pos(out_pos_ * gear_ratio);
 	}
 	
-//	/**
-//    * @brief 设置前馈量
-//    * @note 
-//    * @param feedforward_:电流或扭矩(根据不同电机确定)
-//    */
-//	void Motor::Set_Feedforward(float feedforward_)
-//	{
-//		feedforward = feedforward_;
-//	}
 	
 	/**
     * @brief 设置输出轴角度
@@ -234,7 +225,17 @@ namespace motor
     */
 	void Motor::Reset_Out_Angle(float out_angle_)
 	{
-		//
+		
+	}
+	
+	float Motor::Get_Out_Angle()
+	{
+		return 0;
+	}
+	
+	float Motor::Get_Angle()
+	{
+		return 0;
 	}
 	
 	/*----------------------------------工具函数------------------------------------------*/

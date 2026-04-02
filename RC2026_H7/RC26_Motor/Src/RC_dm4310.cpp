@@ -30,7 +30,7 @@ namespace motor
 		rx_id = id;
 		rx_mask = 0xfff;
 
-		can_frame_type = can::FRAME_STD;
+		can_frame_type = FDCAN_STANDARD_ID;
 
 		CanHandler_Register();
 
@@ -124,7 +124,7 @@ namespace motor
 		temperature 	= (float)(int8_t)rx_data[6];//线圈温度
 		mos_temperature = (float)(int8_t)rx_data[7];//mos温度
 		
-		out_pos = pos / gear_ratio;
+		//out_pos = pos / gear_ratio;
 
 		if (is_reset_pos == true)
 		{

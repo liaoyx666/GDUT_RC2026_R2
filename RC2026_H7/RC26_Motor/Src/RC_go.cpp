@@ -22,7 +22,7 @@ namespace motor
 		id = id_;// 电机id
 		module_id = module_id_;// 模块id
 		
-		can_frame_type = can::FRAME_EXT;
+		can_frame_type = FDCAN_EXTENDED_ID;
 		
 		//unitree文档错误，读取k模式时id的25，26位返回2而非1
 		rx_mask = (3 << 27) | (1 << 26) | (15 << 8);
@@ -153,7 +153,7 @@ namespace motor
 					is_reset_pos = false;
 				}
 
-				out_pos = pos / gear_ratio;
+				//out_pos = pos / gear_ratio;
 			}
 		}
 	}
