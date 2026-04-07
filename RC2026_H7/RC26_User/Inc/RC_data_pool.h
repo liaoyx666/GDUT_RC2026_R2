@@ -5,6 +5,10 @@
 #ifdef __cplusplus
 namespace data
 {
+	void Init_Side(bool blue_left_side_);
+	bool Is_Side_Init();
+	bool Is_Blue_Left_Side();
+	
 	class RobotPose : public task::ManagedTask
     {
     public:

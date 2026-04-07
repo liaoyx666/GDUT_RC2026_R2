@@ -20,8 +20,8 @@ namespace cdc
 	
 	CDC::CDC(CDCType cdc_type_) : 
 		cdc_type(cdc_type_), 
-		task::ManagedTask("Cdc", 30, 128, task::TASK_PERIOD, 1), 
-		receive_task("cdc_receive_task", 30, 128, CDC_All_Task_Receive_Process, &cdc_type)
+		task::ManagedTask("Cdc", 35, 128, task::TASK_PERIOD, 1), 
+		receive_task("cdc_receive_task", 35, 128, CDC_All_Task_Receive_Process, &cdc_type)
 	{
 		if (cdc_type == USB_CDC_HS) cdc_list_dx = 0;
 		else cdc_list_dx = 1;

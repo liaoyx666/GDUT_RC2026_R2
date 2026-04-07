@@ -16,10 +16,23 @@ namespace path
 	class PathPlan3 : public task::ManagedTask
     {
     public:
-		PathPlan3(LonConstr3 l, HeadConstr3 h, data::RobotPose& pose_, chassis::Chassis& c);
+		PathPlan3(LonConstr3 l, HeadConstr3 h, data::RobotPose& pose_, chassis::Chassis& c, float lon_deadzone_, float head_deadzone_);
 		virtual ~PathPlan3() {}
 		
 		bool Add_Point(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end);
+		
+		void Enable()
+		{
+			is_enable = true;
+			track.Enable();
+		}
+		
+		void Disable() 
+		{
+			is_enable = false;
+			track.Disable();
+		}
+		
 		
 		uint8_t Point_FreeSpace() const;
 		uint8_t Point_Num() const;
@@ -40,6 +53,7 @@ namespace path
 		uint8_t tail;
 		
 		data::RobotPose* pose;
+		bool is_enable;
 		
 		void Delete_Point();
 		inline void Next_Path();

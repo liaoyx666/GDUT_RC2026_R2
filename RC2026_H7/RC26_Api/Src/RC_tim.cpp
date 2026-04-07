@@ -51,11 +51,6 @@ namespace tim
 		hd_list[hd_num - 1] = hd;
 	}
 
-	// 开启定时器中断
-	void Tim::Tim_It_Start()
-	{
-		if (HAL_TIM_Base_Start_IT(htim) != HAL_OK) Error_Handler();
-	}
 
 	/*------------------------------------------------------------*/
 	

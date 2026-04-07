@@ -59,13 +59,13 @@ namespace path
 		}
 	}
 	
-	bool TrajPlan3::Add_Point(Point3 p)
+	TrajPlanReturn3 TrajPlan3::Add_Point(Point3 p)
 	{
-		if (path == nullptr || path->is_init) return false;
+		if (path == nullptr || path->is_init) return TRAJPLAN_FAIL;
 
 		uint8_t line_fs = path->Line_FreeSpace();
 		uint8_t arc_fs = path->Arc_FreeSpace();
-		
+
 		switch(state)
 		{
 			/*==========================================================================================================================================*/
@@ -79,7 +79,7 @@ namespace path
 				dir = vector2d::Vector2D(); /*第一个点还没有方向向量*/
 				
 				state = TRAJPLAN_HAVE_START;
-				return true;
+				return TRAJPLAN_OK;
 				break;
 			}
 			/*==========================================================================================================================================*/
@@ -132,12 +132,14 @@ namespace path
 						
 						path->is_init = true; /*路径生成完成*/
 						Calc_End_Vel(); /********/
+						
+						return TRAJPLAN_END;
 					}
 					
 					tmp_s_p = p.point;
 					
 					state = TRAJPLAN_HAVE_START;
-					return true; /*添加成功*/
+					return TRAJPLAN_OK; /*添加成功*/
 				}
 				else /*---------------------------------------------------------------------------------------------------------------------------------*/
 				{
@@ -148,7 +150,7 @@ namespace path
 					tmp_c = p; /*希望平滑处理的拐点*/
 					
 					state = TRAJPLAN_HAVE_START_CORNER;
-					return true; /*添加成功*/
+					return TRAJPLAN_OK; /*添加成功*/
 				}
 				break;
 			}
@@ -229,10 +231,12 @@ namespace path
 							
 							path->is_init = true; /*路径生成完成*/
 							Calc_End_Vel(); /********/
+							
+							return TRAJPLAN_END;
 						}
 						
 						state = TRAJPLAN_HAVE_START;
-						return true;
+						return TRAJPLAN_OK;
 					}
 					else /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 					{
@@ -244,7 +248,7 @@ namespace path
 						blend_dis = p.blend_dis;
 						
 						state = TRAJPLAN_HAVE_START_CORNER;
-						return true;
+						return TRAJPLAN_OK;
 					}
 				}
 				else /*---------------------------------------------------------------------------------------------------------------------------------*/
@@ -276,20 +280,17 @@ namespace path
 							}
 							
 							Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
-							
-//							if (p.Have_Event() && p.Is_Wait())
-//							{
-//								path->is_wait = true;
-//							}
-							
+
 							path->Add_Wait_Event_At_End(p.event);
 							
 							path->is_init = true; /*路径生成完成*/
 							Calc_End_Vel(); /********/
+							
+							return TRAJPLAN_END;
 						}
 						
 						state = TRAJPLAN_HAVE_START;
-						return true;
+						return TRAJPLAN_OK;
 					}
 					else /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 					{
@@ -302,7 +303,7 @@ namespace path
 						blend_dis = p.blend_dis;
 						
 						state = TRAJPLAN_HAVE_START_CORNER;
-						return true;
+						return TRAJPLAN_OK;
 					}
 				}
 				break;
@@ -311,7 +312,7 @@ namespace path
 			default:
 			{
 				state = TRAJPLAN_NULL;
-				return false;
+				return TRAJPLAN_FAIL;
 				break;
 			}
 		}

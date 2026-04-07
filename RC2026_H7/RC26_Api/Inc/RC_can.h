@@ -13,12 +13,6 @@
 #ifdef __cplusplus
 namespace can
 {
-//	typedef enum CanFrameType
-//	{
-//		FRAME_STD,  // 标准帧
-//		FRAME_EXT   // 扩展帧
-//	} CanFrameType;
-
 	typedef struct CanTxFrame
 	{
 		uint32_t id;
@@ -28,10 +22,10 @@ namespace can
 		uint8_t hd_num;// can帧上挂载的设备数量（最多四个）
 		uint16_t hd_dx[4];// can帧上挂载的所有设备的设备索引
 		
-	//	CanFrameType frame_type;
 		uint32_t frame_type;
 		
 		bool new_message;
+		
 	} CanTxFrame;
 
 	class CanHandler;// 向前声明
@@ -71,9 +65,7 @@ namespace can
 		static Can *can_list[MAX_CAN_NUM];
 		
 		CanHandler *hd_list[MAX_CAN_HANDLER_NUM] = {nullptr};// 设备指针
-		
 	};
-
 
 	class CanHandler
 	{
@@ -86,7 +78,6 @@ namespace can
 		uint8_t hd_list_dx;
 		
 		/*------------------------需要被其子类初始化----------------------------*/
-		//CanFrameType can_frame_type;
 		uint32_t can_frame_type;
 		uint32_t tx_id = 0;
 		

@@ -17,7 +17,16 @@ namespace tim
 		Tim(TIM_HandleTypeDef &htim_);
 		virtual ~Tim() {}
 			
-		void Tim_It_Start();
+		// 开启定时器中断
+		inline void Tim_It_Start()
+		{
+			if (HAL_TIM_Base_Start_IT(htim) != HAL_OK) Error_Handler();
+		}
+
+		inline void Tim_It_Stop()
+		{
+			if (HAL_TIM_Base_Stop_IT(htim) != HAL_OK) Error_Handler();
+		}
 	
 		void Add_TimHandle(TimHandler *hd);
 		

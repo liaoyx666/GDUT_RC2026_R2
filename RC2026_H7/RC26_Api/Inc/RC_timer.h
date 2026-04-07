@@ -19,7 +19,7 @@ namespace timer
 		
 		static uint32_t Get_DeltaTime(uint32_t last_time_stamp);
 		
-		static tim::Tim *timer_tim;
+		static TIM_HandleTypeDef *htim;
     protected:
 		void Tim_It_Process() override;
 	

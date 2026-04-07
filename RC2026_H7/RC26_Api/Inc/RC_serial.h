@@ -18,7 +18,7 @@ namespace serial
 		static void All_Uart_Rx_It_Process(UART_HandleTypeDef *huart_, uint16_t size_);
 		static void All_Uart_Error_It_Process(UART_HandleTypeDef *huart_);
 		void Uart_Rx_Start();
-			
+		
     protected:
 		virtual void Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_) = 0;
 		
@@ -32,24 +32,9 @@ namespace serial
 	
 		static uint8_t uart_rx_num;// uart外设数量
 		static UartRx *uart_rx_list[MAX_UART_NUM];// uart外设列表
-	
     };
 
 
-
-
-
-	class UartTx
-    {
-    public:
-		UartTx(UART_HandleTypeDef &huart_);
-		virtual ~UartTx() {}
-			
-    protected:
-    
-    private:
-		UART_HandleTypeDef *huart = NULL;
-    };
 }
 
 

@@ -2,19 +2,22 @@
 
 namespace path
 {
-	PathPlan3::PathPlan3(LonConstr3 l, HeadConstr3 h, data::RobotPose& pose_, chassis::Chassis& c)
-	: task::ManagedTask("PathPlan3Task", 30, 512, task::TASK_PERIOD, 1), plan(l, h), track(pose_), chassis(&c), pose(&pose_)
+	PathPlan3::PathPlan3(LonConstr3 l, HeadConstr3 h, data::RobotPose& pose_, chassis::Chassis& c, float lon_deadzone_, float head_deadzone_)
+	: task::ManagedTask("PathPlan3Task", 30, 512, task::TASK_PERIOD, 1), plan(l, h), track(pose_, lon_deadzone_, head_deadzone_), chassis(&c), pose(&pose_)
 	{
 		head = 0;
 		tail = 0;
 		dx = 0;
+		
+		plan.Load_Path(&path[0]);
+		is_enable = false;
 	}
 	
 	/*任务函数*/
 	void PathPlan3::Task_Process()
 	{
-		vector2d::Vector2D v;
-		float w;
+		vector2d::Vector2D v = vector2d::Vector2D();
+		float w = 0;
 		
 		/*轨迹跟踪*/
 		if (!track.Calc_Vel(&v, &w))
@@ -23,8 +26,13 @@ namespace path
 			w = 0;
 		}
 		
-		/*设置底盘*/
-		chassis->Set_World_Vel(v, w, *pose->Get_pYaw());
+		//track.Calc_Vel(&v, &w);
+		
+		if (is_enable)
+		{
+			/*设置底盘*/
+			chassis->Set_World_Vel(v, w, *pose->Get_pYaw());
+		}
 		
 		/*生成路径*/
 		Plan_Path();
@@ -81,11 +89,17 @@ namespace path
 	{
 		while(Point_Num() != 0 && !path[dx].Is_Init())
 		{
-			if (plan.Add_Point(point[head]))
+			TrajPlanReturn3 state = plan.Add_Point(point[head]);
+			
+			if (state == TRAJPLAN_OK)
 			{
 				/*点添加成功*/
 				head = (head + 1) % PATHPLAN3_MAX_POINT_NUM;
-				if (path[dx].Is_Init()) break;
+			}
+			else if (state == TRAJPLAN_END)
+			{
+				/*添加结束*/
+				break;
 			}
 			else
 			{

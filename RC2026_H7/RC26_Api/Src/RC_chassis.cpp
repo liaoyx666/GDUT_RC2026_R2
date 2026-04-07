@@ -5,7 +5,7 @@ namespace chassis
 	Chassis::Chassis(
 		float max_linear_vel_, float linear_accel_, float linear_decel_,
 		float max_angular_vel_, float angular_accel_, float angular_decel_
-	) : ManagedTask("ChassisTask", 20, 256, task::TASK_DELAY, 1)
+	) : ManagedTask("ChassisTask", 33, 256, task::TASK_PERIOD, 1)
 	{
 		max_linear_vel = fabsf(max_linear_vel_);
 		linear_accel = fabsf(linear_accel_);

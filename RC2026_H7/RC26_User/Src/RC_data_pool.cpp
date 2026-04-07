@@ -2,6 +2,25 @@
 
 namespace data
 {
+	static bool blue_left_side = true;  /*场地位置*/
+	static bool is_side_init = false;
+	
+	void Init_Side(bool blue_left_side_)
+	{
+		blue_left_side = blue_left_side_;
+		is_side_init = true;
+	}
+	
+	bool Is_Side_Init()
+	{
+		return is_side_init;
+	}
+	
+	bool Is_Blue_Left_Side()
+	{
+		return blue_left_side;
+	}
+	
 	RobotPose::RobotPose() : ManagedTask("ChassisTask", 10, 64, task::TASK_DELAY, 80)
 	{
 		x = 0;

@@ -825,6 +825,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Api\Inc\RC_timer.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_modbus_rtu.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Api\Src\RC_modbus_rtu.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_modbus_rtu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Api\Inc\RC_modbus_rtu.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -994,6 +1004,16 @@
               <FileName>RC_LiDAR.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_LiDAR.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_oid_encoder.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_oid_encoder.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_oid_encoder.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_oid_encoder.h</FilePath>
             </File>
           </Files>
         </Group>

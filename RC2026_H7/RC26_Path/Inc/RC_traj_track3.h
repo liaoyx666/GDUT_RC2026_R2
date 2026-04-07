@@ -8,7 +8,7 @@
 
 namespace path
 {
-	constexpr float TRAJTRACK3_PRE_ALIGN_THRESHOLD = 3.f / PI * 180.f; /*3度*/
+	constexpr float TRAJTRACK3_PRE_ALIGN_THRESHOLD = 3.f * PI / 180.f; /*3度*/
 	constexpr float TRAJTRACK3_END_THRESHOLD = 0.03; /*路径结束阈值 m*/
 	
 	class Path3;
@@ -16,12 +16,15 @@ namespace path
 	class TrajTrack3
     {
     public:
-		TrajTrack3(data::RobotPose& pose_);
+		TrajTrack3(data::RobotPose& pose_, float lon_deadzone_, float head_deadzone_);
 		virtual ~TrajTrack3() {}
 		
 		bool Load_Path(Path3* path_);
 		
 		bool Calc_Vel(vector2d::Vector2D* v_, float* vw_) const;
+			
+		void Enable() {is_enable = true;}
+		void Disable() {is_enable = false;}
 		
 		bool Is_End() const {return is_end;}
 		
@@ -49,10 +52,11 @@ namespace path
 		float ld_kf; /*前视点前馈系数*/
 		
 		float ld_min; /*最小前视点距离 lookahead_dis*/
-		float ld_k; /*前视点距离增益*/
-		
+	
 		mutable bool is_start;
 		mutable bool is_end;
+
+		bool is_enable;
 		
 		data::RobotPose* pose;
     };

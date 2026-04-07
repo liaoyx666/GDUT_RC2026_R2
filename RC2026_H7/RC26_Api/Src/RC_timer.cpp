@@ -3,13 +3,13 @@
 namespace timer
 {
 	volatile uint32_t Timer::cycle = 0;
-	tim::Tim *Timer::timer_tim = nullptr;
+	TIM_HandleTypeDef *Timer::htim = nullptr;
 	
 	Timer::Timer(tim::Tim *tim_) : tim::TimHandler(tim_)
 	{
 		if (tim_ != nullptr)
 		{
-			timer_tim = tim_;
+			htim = tim_->htim;
 		}
 		else
 		{
@@ -24,14 +24,14 @@ namespace timer
 	
 	uint32_t Timer::Get_TimeStamp()
 	{
-		if(timer_tim == nullptr) return 0;
+		if(htim == nullptr) return 0;
 		
 		uint32_t current_cycle;
         uint32_t current_cnt;
 
 		__disable_irq(); // 关闭全局中断
 		current_cycle = cycle;
-		current_cnt = timer_tim->htim->Instance->CNT;
+		current_cnt = htim->Instance->CNT;
 		__enable_irq(); // 开启中断
 		
 		return current_cnt + current_cycle * 0x10000;

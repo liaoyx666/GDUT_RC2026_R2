@@ -52,6 +52,13 @@ namespace path
 		TRAJPLAN_HAVE_START_CORNER,
 	};
 	
+	enum TrajPlanReturn3 : uint8_t
+	{
+		TRAJPLAN_FAIL,
+		TRAJPLAN_END,
+		TRAJPLAN_OK,
+	};
+	
 	/*轨迹规划*/
 	class TrajPlan3
     {
@@ -59,7 +66,7 @@ namespace path
 		TrajPlan3(LonConstr3 l, HeadConstr3 h);
 		virtual ~TrajPlan3() {}
 		
-		bool Add_Point(Point3 p);
+		TrajPlanReturn3 Add_Point(Point3 p);
 		bool Load_Path(Path3* path_);
 		
     protected:
