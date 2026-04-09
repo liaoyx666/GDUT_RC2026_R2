@@ -63,7 +63,7 @@ lidar::LiDAR lidar_1(huart3);// 激光测距
 chassis::Swerve4Chassis swerve_4_chassis(
 	m2006_1_can3, m2006_2_can3, m2006_3_can3, m2006_4_can3,
 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
-	2.5, 4, 5,
+	3, 4, 5,
 	4, 7, 7,
 	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
 );
@@ -146,7 +146,6 @@ void test(void *argument)
 	j60_1_can1.      Set_Out_Mit_Pos(0);
 	dm4310_0x13_can2.Set_Out_Mit_Pos(0);
 	m3508_2_can1.    Set_Out_Pos(0);
-	
 
 	m3508_left_front_can2.  Set_Out_Angle(0);
 	m3508_left_behind_can2. Set_Out_Pos  (0);
@@ -156,8 +155,6 @@ void test(void *argument)
 	remote_ctrl.signal_swa();
 	remote_ctrl.signal_swd();
 
-
-	
 
 	pp.Add_Point(
 		vector2d::Vector2D(0.42, -4.53),
@@ -179,11 +176,14 @@ void test(void *argument)
 	);
 
 
+	path::HeadConstr3 h = path::HeadConstr3(PI, 3, 5, false);
+	
+	
 	pp.Add_Point(
 		vector2d::Vector2D(8.19, -5.41),
 		0,
 		NULL,
-		NULL,
+		&h,
 		0,
 		true
 	);
@@ -221,7 +221,7 @@ void test(void *argument)
 		{
 			pp.Disable();
 			
-			swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 200.f, -remote_ctrl.left_x / 200.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
+			swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
 		}
 
 		if (remote_ctrl.swc == 0)
@@ -287,7 +287,7 @@ void test(void *argument)
 }
 
 task::TaskCreator test_task("test", 20, 1024, test, NULL);
-
+ 
 /*====================================初始化函数====================================*/
 void All_Init()
 {

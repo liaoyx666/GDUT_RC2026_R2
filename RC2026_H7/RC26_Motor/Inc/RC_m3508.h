@@ -9,15 +9,32 @@ namespace motor
 	public:
 		M3508(uint8_t id_, can::Can &can_, tim::Tim *tim_, float gear_ratio_ = 3591.f / 187.f, bool is_reset_pos_angle = false);
 		virtual ~M3508() {}
-		
-		void Set_Torque(float target_torque_) override;
-
 
 	protected:
 		void Dji_Id_Init(uint8_t id_) override;
-		
-	private:
-
 	};
+	
+	
+	/**
+    * @brief M3508双电机并联控制
+    * @param _m : 主电机参数， _s : 从电机参数， pol_s : 从电机极性
+    */
+	class M3508D : public M3508
+    {
+    public:
+		M3508D(
+			uint8_t id_m, can::Can &can_m, tim::Tim *tim_m, 
+			uint8_t id_s, can::Can &can_s, tim::Tim *tim_s, 
+			float gear_ratio_ = 3591.f / 187.f, MotorPol pol_s = POL_REV, bool is_reset_pos_angle = false
+		);
+		virtual ~M3508D() {}
+		
+    protected:
+		void Tim_It_Process() override;
+	
+    private:
+		M3508 slave;
+		MotorPol pol; /*从电机极性*/
+    };
 }
 #endif

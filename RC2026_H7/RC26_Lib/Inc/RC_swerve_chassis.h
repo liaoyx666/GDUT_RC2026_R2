@@ -1,5 +1,6 @@
 #pragma once
 #include "RC_motor.h"
+#include "RC_dji_motor.h"
 #include "RC_vector2d.h"
 #include "RC_timer.h"
 #include "RC_chassis.h"
@@ -28,7 +29,7 @@ namespace chassis
     {
     public:
 		Swerve4Chassis(
-			motor::Motor& steer_motor_1_, motor::Motor& steer_motor_2_, motor::Motor& steer_motor_3_, motor::Motor& steer_motor_4_,
+			motor::DjiMotor& steer_motor_1_, motor::DjiMotor& steer_motor_2_, motor::DjiMotor& steer_motor_3_, motor::DjiMotor& steer_motor_4_,
 			motor::Motor& drive_motor_1_, motor::Motor& drive_motor_2_, motor::Motor& drive_motor_3_, motor::Motor& drive_motor_4_,
 			float max_linear_vel_, float linear_accel_, float linear_decel_,
 			float max_angular_vel_, float angular_accel_, float angular_decel_,
@@ -50,7 +51,7 @@ namespace chassis
 		void Kinematics_calc(vector2d::Vector2D v_, float vw_) override;
 		
 		// 电机指针
-		motor::Motor* steer_motor[4];// 舵向电机
+		motor::DjiMotor* steer_motor[4];// 舵向电机
 		motor::Motor* drive_motor[4];// 航向电机
 	
 		bool is_reposition[4] = {false};

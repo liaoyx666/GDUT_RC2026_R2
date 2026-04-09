@@ -91,7 +91,9 @@ namespace motor
 
 		uint16_t pole_pairs = 1;// 电机极对数
 	
+		float current = 0;
 		float target_duty = 0;
+		float target_current = 0;
 	
 		float break_current;
 	

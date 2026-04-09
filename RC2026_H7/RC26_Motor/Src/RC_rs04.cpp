@@ -18,7 +18,7 @@
 namespace motor
 {
 	RS04::RS04(uint8_t id_, can::Can& can_, tim::Tim* tim_, bool use_mit_, float k_spd_, float k_pos_)
-		: can::CanHandler(can_), tim::TimHandler(tim_), Motor(1.f), use_mit(use_mit_)
+		: can::CanHandler(can_), tim::TimHandler(tim_), JointM(1.f), use_mit(use_mit_)
 	{
 		id = id_;
 		

@@ -72,10 +72,10 @@ namespace chassis
 		else
 		{
 			vw = last_vw + Limit_Accel(target_vw - last_vw, angular_accel, dt);
-		}	
+		}
 		/************************真实前一次速度方向*************************/
-		last_v = last_v.rotate(-(vw + last_vw) / 2.f * dt);
-		
+		//last_v = last_v.rotate(-(vw + last_vw) / 2.f * dt);
+		last_v = last_v.rotate(-vw * dt);
 		/************************线加速度限制*************************/
 		vector2d::Vector2D normal_v = target_v.perpendicular();// 获取垂直法向量（逆时针90度）
 		
@@ -133,15 +133,20 @@ namespace chassis
 		{
 			last_v_x = last_v_x + Limit_Accel(v_x - last_v_x, linear_accel, dt);
 		}
-		
+
 		// 速度合成
 		v = (x_unit * last_v_x) + (y_unit * last_v_y);
+		
+		
 
 		/*************************************************/
 		// 更新上次速度
 		last_v = v;
 		last_vw = vw;
 
+		/************************前馈*************************/
+		v = v.rotate(-vw * 0.11f);
+		
 		if (is_init == false && vector2d::Vector2D::isZero(v.lengthSquared()) && fabsf(vw) < 1e-6)
 		{
 			// 初始化底盘（底盘需静止）

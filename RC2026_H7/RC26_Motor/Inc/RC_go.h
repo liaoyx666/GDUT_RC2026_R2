@@ -33,7 +33,7 @@ enum GoError : uint8_t
 namespace motor
 {
 	//go电机的canh和canl是反的，和大疆电机不一样
-	class Go : public Motor, public can::CanHandler, public tim::TimHandler
+	class Go : public JointM, public can::CanHandler, public tim::TimHandler
     {
     public:
 		Go(uint8_t id_, uint8_t module_id_, can::Can &can_, tim::Tim *tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = false);
@@ -44,9 +44,6 @@ namespace motor
 		void Set_K_Spd(float target_k_spd_) override;
 		
     protected:
-		void Set_Current(float target_current_) override {};// 电流模式不进行操作
-		void Set_Angle(float target_angle_) override {};// 角度模式不进行操作
-	
 		void Can_Tx_Process() override;
 		void Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data) override;
 		void CanHandler_Register() override;

@@ -3,7 +3,7 @@
 namespace chassis
 {
 	Swerve4Chassis::Swerve4Chassis(
-		motor::Motor& steer_motor_1_, motor::Motor& steer_motor_2_, motor::Motor& steer_motor_3_, motor::Motor& steer_motor_4_,
+		motor::DjiMotor& steer_motor_1_, motor::DjiMotor& steer_motor_2_, motor::DjiMotor& steer_motor_3_, motor::DjiMotor& steer_motor_4_,
 		motor::Motor& drive_motor_1_, motor::Motor& drive_motor_2_, motor::Motor& drive_motor_3_, motor::Motor& drive_motor_4_,
 		float max_linear_vel_, float linear_accel_, float linear_decel_,
 		float max_angular_vel_, float angular_accel_, float angular_decel_,
@@ -47,7 +47,7 @@ namespace chassis
 	void Swerve4Chassis::Kinematics_calc(vector2d::Vector2D v_, float vw_)
 	{
 		/*************************底盘解算************************/
-		if (v_.length() <= 0.04f && fabsf(vw_) <= 0.04f)
+		if (v_.length() <= 0.01f && fabsf(vw_) <= 0.01f)
 		{
 			/*零速锁定底盘*/
 			angle[0] = SWERVE4_CHASSIS_THETA1;
@@ -71,7 +71,7 @@ namespace chassis
 			{
 				vel[i] = vel_vector[i].length();
 				
-				if (vel[i] < 0.04f)
+				if (vel[i] < 0.015f)
 				{
 					vel[i] = 0;
 				}

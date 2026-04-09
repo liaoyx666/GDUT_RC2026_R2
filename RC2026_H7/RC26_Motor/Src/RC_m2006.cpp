@@ -31,4 +31,43 @@ namespace motor
 		rx_mask = 0xfff;
 		rx_id = 0x200 + id;
 	}
+	
+	M2006D::M2006D(
+		uint8_t id_m, can::Can &can_m, tim::Tim *tim_m, 
+		uint8_t id_s, can::Can &can_s, tim::Tim *tim_s, 
+		float gear_ratio_, MotorPol pol_s, bool is_reset_pos_angle
+	) : M2006(id_m, can_m, tim_m, gear_ratio_, is_reset_pos_angle), slave(id_s, can_s, tim_s, gear_ratio_, is_reset_pos_angle), pol(pol_s)
+	{
+		
+	}
+	
+	void M2006D::Tim_It_Process()
+	{
+		if (motor_mode != CURRENT_MODE)		//> 电流模式
+		{
+			float temp_target_rpm = 0;// 目标速度
+			
+			if (motor_mode == RPM_MODE)				//> 速度模式
+			{
+				temp_target_rpm = target_rpm;
+			}
+			else if (motor_mode == POS_MODE)		//> 位置模式
+			{
+				temp_target_rpm = pid_pos.Pid_Calculate(pos, target_pos);
+			}
+			else if (motor_mode == ANGLE_MODE)		//> 角度模式
+			{
+				temp_target_rpm = pid_pos.Pid_Calculate(angle, target_angle, true, PI);
+			}
+			else if (motor_mode == OUT_ANGLE_MODE && is_gear_ratio_int)	//> 输出轴角度模式（减速比为整数才能用）
+			{
+				temp_target_rpm = pid_pos.Pid_Calculate(((float)out_angle_int / 8192.f) * TWO_PI, target_pos, true, PI * gear_ratio);
+			}
+			
+			target_current = pid_spd.Pid_Calculate(rpm, temp_target_rpm);
+		}
+		
+		slave.Set_Current(target_current * (float)(int8_t)pol); /*从电机电流大小与主电机相同*/
+		can->tx_frame_list[tx_frame_dx].new_message = true;
+	}
 }

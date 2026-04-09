@@ -2,7 +2,7 @@
 
 namespace photogate
 {
-	PhoGateRepos::PhoGateRepos(motor::Motor& motor_, bool& is_reposition_, float angle_, uint16_t gpio_pin_, float min_rpm_)
+	PhoGateRepos::PhoGateRepos(motor::DjiMotor& motor_, bool& is_reposition_, float angle_, uint16_t gpio_pin_, float min_rpm_)
 	: gpio::GpioExti(gpio_pin_), motor(motor_), is_reposition(is_reposition_)
 	{
 		min_rpm = min_rpm_;

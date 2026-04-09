@@ -28,7 +28,7 @@
 namespace motor
 {
 	J60::J60(uint8_t id_, can::Can& can_, tim::Tim* tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
-		: motor::Motor(4.f, is_reset_pos_), can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_)
+		: motor::JointM(4.f, is_reset_pos_), can::CanHandler(can_), tim::TimHandler(tim_), use_mit(use_mit_)
 	{
 		if (id_ > 15) Error_Handler();
 		id = id_;
@@ -126,7 +126,6 @@ namespace motor
 				pid::Limit(&target_pos, P_MAX);// 限幅
 				pid::Limit(&target_rpm, V_MAX * 9.54929658551f);// 限幅
 				
-				
 				pos_int = float_to_uint(target_pos, P_MIN, P_MAX, 16);// rad
 				vel_int = float_to_uint(target_rpm / 9.54929658551f, V_MIN, V_MAX, 14);// rpm to rad
 				kp_int  = float_to_uint(target_k_pos, KP_MIN, KP_MAX, 10);
@@ -196,8 +195,6 @@ namespace motor
 				Reset_Pos(0);
 				is_reset_pos = false;
 			}
-			
-			//out_pos = pos / gear_ratio;
 			
 			if (temp_flag == 1) temperature = temp; 
 			else mos_temperature = temp; 

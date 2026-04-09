@@ -2,13 +2,14 @@
 
 namespace motor
 {
+	/*----------------------------------Motor------------------------------------------*/
 	/*
 	 * gear_ratio_ : 减速比
 	 * is_reset_pos_ : 是否上电初始化电机位置为0
 	 */
 	Motor::Motor(float gear_ratio_, bool is_reset_pos_) : gear_ratio(gear_ratio_), is_reset_pos(is_reset_pos_)
 	{
-	
+		
 	}
 	
 	/**
@@ -40,20 +41,6 @@ namespace motor
 	}
 	
 	/**
-    * @brief 设置目标角度
-    * @note 0 rad ~ 2pi rad
-    * @param target_angle_:目标角度
-    */
-	void Motor::Set_Angle(float target_angle_)
-	{	
-		if (target_angle_ >= TWO_PI || target_angle_ <= 0) target_angle_ = 0;
-		target_angle = target_angle_;
-		
-		// 设置模式
-		motor_mode = ANGLE_MODE;
-	}
-	
-	/**
     * @brief 设置目标位置
     * @note rad
     * @param target_pos_:目标位置
@@ -66,42 +53,6 @@ namespace motor
 		
 		// 设置模式
 		motor_mode = POS_MODE;	
-	}
-	
-	/**
-    * @brief 设置目标电流
-    * @note 不同电机单位可能不同
-    * @param target_current_:目标电流
-    */
-	void Motor::Set_Current(float target_current_)
-	{
-		target_current = target_current_;
-		
-		// 设置模式
-		motor_mode = CURRENT_MODE;
-	}
-	
-	/**
-    * @brief 设置目标扭矩
-    * @note N * m
-    * @param target_torque_:目标扭矩
-    */
-	void Motor::Set_Torque(float target_torque_)
-	{
-		target_torque = target_torque_;
-		
-		// 设置模式
-		motor_mode = TORQUE_MODE;
-	}
-	
-	/**
-    * @brief 设置输出轴目标扭矩
-    * @note N * m
-    * @param target_out_torque_:输出轴目标扭矩
-    */
-	void Motor::Set_Out_Torque(float target_out_torque_)
-	{
-		Set_Torque(target_out_torque_ / gear_ratio);
 	}
 	
 	/**
@@ -133,27 +84,7 @@ namespace motor
 	{
 		Set_Pos(target_out_pos_ * gear_ratio);
 	}
-
-	/**
-    * @brief 设置刚度系数kp
-    * @note 
-    * @param target_k_pos_:刚度系数kp
-    */
-	void Motor::Set_K_Pos(float target_k_pos_)
-	{
-		//
-	}
-
-	/**
-    * @brief 设置阻尼系数kd
-    * @note 
-    * @param target_k_spd_:阻尼系数kd
-    */
-	void Motor::Set_K_Spd(float target_k_spd_)
-	{
-		//
-	}
-
+	
 	/**
     * @brief 重置输出轴位置
     * @note rad
@@ -164,22 +95,37 @@ namespace motor
 		Reset_Pos(out_pos_ * gear_ratio);
 	}
 	
+	/*----------------------------------JointM------------------------------------------*/
+	JointM::JointM(float gear_ratio_, bool is_reset_pos_) : Motor(gear_ratio_, is_reset_pos_)
+	{
+		
+	}
 	
 	/**
-    * @brief 设置输出轴角度
-    * @note 0 ~ 2pi
-    * @param target_out_angle_:出轴角度
+    * @brief 设置目标扭矩
+    * @note N * m
+    * @param target_torque_:目标扭矩
     */
-	void Motor::Set_Out_Angle(float target_out_angle_)
+	void JointM::Set_Torque(float target_torque_)
 	{
-		if (target_out_angle_ < 0.f || target_out_angle_ >= TWO_PI) target_out_angle_ = 0.f;
-		target_pos = target_out_angle_ * gear_ratio;
-
+		target_torque = target_torque_;
+		
 		// 设置模式
-		motor_mode = OUT_ANGLE_MODE;
+		motor_mode = TORQUE_MODE;
 	}
-
-	void Motor::Set_Mit_Pos(float pos_)
+	
+	/**
+    * @brief 设置输出轴目标扭矩
+    * @note N * m
+    * @param target_out_torque_:输出轴目标扭矩
+    */
+	void JointM::Set_Out_Torque(float target_out_torque_)
+	{
+		Set_Torque(target_out_torque_ / gear_ratio);
+	}
+	
+	
+	void JointM::Set_Mit_Pos(float pos_)
 	{
 		target_pos = pos_;
 		
@@ -187,7 +133,7 @@ namespace motor
 		motor_mode = LOCAL_MIT_MODE;
 	}
 	
-	void Motor::Set_Mit_Rpm(float rpm_)
+	void JointM::Set_Mit_Rpm(float rpm_)
 	{
 		target_rpm = rpm_;
 		
@@ -195,7 +141,7 @@ namespace motor
 		motor_mode = LOCAL_MIT_MODE;
 	}
 	
-	void Motor::Set_Mit_Tor(float tor_)
+	void JointM::Set_Mit_Tor(float tor_)
 	{
 		ff_torque = tor_;
 		
@@ -203,41 +149,23 @@ namespace motor
 		motor_mode = LOCAL_MIT_MODE;
 	}
 	
-	void Motor::Set_Out_Mit_Pos(float out_pos_)
+	void JointM::Set_Out_Mit_Pos(float out_pos_)
 	{
 		Set_Mit_Pos(out_pos_ * gear_ratio);
 	}
 	
-	void Motor::Set_Out_Mit_Rpm(float out_rpm_)
+	void JointM::Set_Out_Mit_Rpm(float out_rpm_)
 	{
 		Set_Mit_Rpm(out_rpm_ * gear_ratio);
 	}
 	
-	void Motor::Set_Out_Mit_Tor(float out_tor_)
+	void JointM::Set_Out_Mit_Tor(float out_tor_)
 	{
 		Set_Mit_Tor(out_tor_ / gear_ratio);
 	}
 
-	/**
-    * @brief 重置输出轴角度
-    * @note 0 ~ 2pi
-    * @param out_angle_:出轴角度
-    */
-	void Motor::Reset_Out_Angle(float out_angle_)
-	{
-		
-	}
-	
-	float Motor::Get_Out_Angle()
-	{
-		return 0;
-	}
-	
-	float Motor::Get_Angle()
-	{
-		return 0;
-	}
-	
+
+
 	/*----------------------------------工具函数------------------------------------------*/
 	int float_to_uint(float x_float, float x_min, float x_max, int bits)
 	{

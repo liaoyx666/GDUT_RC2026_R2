@@ -1,6 +1,6 @@
 #pragma once
 #include "RC_path2.h"
-#include "RC_motor.h"
+#include "RC_dji_motor.h"
 #include "RC_LiDAR.h"
 #include "RC_chassis.h"
 
@@ -17,9 +17,9 @@ namespace chassis_jack
 		Chassis_jack(
 			uint8_t event_up_id_, uint8_t event_down_id_, uint8_t event_wait_id_, 
 			path::PathPlan2 &path_plan_,
-			motor::Motor& left_front_motor_, motor::Motor& left_behind_motor_, 
-			motor::Motor& right_front_motor_, motor::Motor& right_behind_motor_,
-			motor::Motor& left_small_wheel_, motor::Motor& right_small_wheel_,
+			motor::DjiMotor& left_front_motor_, motor::DjiMotor& left_behind_motor_, 
+			motor::DjiMotor& right_front_motor_, motor::DjiMotor& right_behind_motor_,
+			motor::DjiMotor& left_small_wheel_, motor::DjiMotor& right_small_wheel_,
 			float max_linear_vel_,
 			lidar::LiDAR& LiDAR_jack_,
 			chassis::Chassis& v_limit_,
@@ -50,7 +50,7 @@ namespace chassis_jack
 		
 		bool last_state = 0;
 		/*-------------------------------------------*/
-			
+		
 		void Set_Vel(float linear_vel_);
 		
 	private:
@@ -76,12 +76,10 @@ namespace chassis_jack
 	    uint16_t GPIO_Pin_3;
 	    uint16_t GPIO_Pin_4;
 	
-	
-
-		motor::Motor& left_front_motor;
-		motor::Motor& left_behind_motor;
-		motor::Motor& right_front_motor;
-		motor::Motor& right_behind_motor;
+		motor::DjiMotor& left_front_motor;
+		motor::DjiMotor& left_behind_motor;
+		motor::DjiMotor& right_front_motor;
+		motor::DjiMotor& right_behind_motor;
 	
 		lidar::LiDAR& LiDAR_jack;
 		/*-------------------------------------------*/
@@ -90,8 +88,8 @@ namespace chassis_jack
 		
 		const float rpm_to_vel = (JACK_LANGHT) * ((2.0f * PI) / 60.0f);
 		
-		motor::Motor& left_small_wheel;
-		motor::Motor& right_small_wheel;
+		motor::DjiMotor& left_small_wheel;
+		motor::DjiMotor& right_small_wheel;
 		
 		uint32_t last_time = 0;
     };

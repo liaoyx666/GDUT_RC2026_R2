@@ -1,6 +1,6 @@
 #pragma once
 #include "RC_gpio_exti.h"
-#include "RC_motor.h"
+#include "RC_dji_motor.h"
 
 #ifdef __cplusplus
 namespace photogate
@@ -9,13 +9,13 @@ namespace photogate
 	class PhoGateRepos : gpio::GpioExti
     {
     public:
-		PhoGateRepos(motor::Motor& motor_ptr_, bool& is_reposition_, float angle_, uint16_t gpio_pin_, float min_rpm_ = 0);
+		PhoGateRepos(motor::DjiMotor& motor_ptr_, bool& is_reposition_, float angle_, uint16_t gpio_pin_, float min_rpm_ = 0);
 		virtual ~PhoGateRepos() {}
 		
     protected:
 		
     private:
-		motor::Motor& motor;
+		motor::DjiMotor& motor;
 		bool& is_reposition;
 		float angle;
 		float min_rpm = 0;

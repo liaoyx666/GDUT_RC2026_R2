@@ -68,11 +68,7 @@ namespace motor
 	
 	void DjiMotor::Tim_It_Process()
 	{
-		if (motor_mode == LOCAL_MIT_MODE)			//>本地计算mit模式
-		{
-			target_current = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, ff_torque) * tor_to_cur;
-		}
-		else if (motor_mode != CURRENT_MODE)		//> 电流模式
+		if (motor_mode != CURRENT_MODE)		//> 电流模式
 		{
 			float temp_target_rpm = 0;// 目标速度
 			
@@ -112,7 +108,6 @@ namespace motor
 		can->tx_frame_list[tx_frame_dx].data[dx + 1] = (uint8_t)(current_int);// 低8位
 	}
 	
-	
 	void DjiMotor::Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data)
 	{
 		encoder     = (int16_t)(((uint16_t)rx_data[0] << 8) | (uint16_t)rx_data[1]);
@@ -143,18 +138,18 @@ namespace motor
 			can_rx_is_first = false;
 		}
 		
+		// 防止pos变nan
+		if (cycle > 1024) cycle = 1024;
+		else if (cycle < -1024) cycle = -1024;
+		
+		// 计算转子位置
+		pos = cycle * TWO_PI + angle + pos_offset;
+		
 		// 更新
 		last_encoder = encoder;
 
 		if (is_gear_ratio_int)
 		{
-			// 防止pos变nan
-			if (cycle > 1024) cycle = 1024;
-			else if (cycle < -1024) cycle = -1024;
-			
-			// 计算转子位置
-			pos = cycle * TWO_PI + angle + pos_offset;
-			
 			out_angle_int = rotor_cycle * 8192 + encoder + out_angle_offset;
 
 			// 归一化[0, 8192 * gear_ratio)
@@ -184,6 +179,42 @@ namespace motor
 		return ((float)out_angle_int / (float)out_angle_max) * TWO_PI;
 	}
 	
+	void DjiMotor::Set_Out_Angle(float target_out_angle_)
+	{
+		if (target_out_angle_ < 0.f || target_out_angle_ >= TWO_PI) target_out_angle_ = 0.f;
+		target_pos = target_out_angle_ * gear_ratio;
+
+		// 设置模式
+		motor_mode = OUT_ANGLE_MODE;
+	}
+	
+	/**
+    * @brief 设置目标电流
+    * @note 不同电机单位可能不同
+    * @param target_current_:目标电流
+    */
+	void DjiMotor::Set_Current(float target_current_)
+	{
+		target_current = target_current_;
+		
+		// 设置模式
+		motor_mode = CURRENT_MODE;
+	}
+	
+	/**
+    * @brief 设置目标角度
+    * @note 0 rad ~ 2pi rad
+    * @param target_angle_:目标角度
+    */
+	void DjiMotor::Set_Angle(float target_angle_)
+	{	
+		if (target_angle_ >= TWO_PI || target_angle_ <= 0) target_angle_ = 0;
+		target_angle = target_angle_;
+		
+		// 设置模式
+		motor_mode = ANGLE_MODE;
+	}
+	
 	// 重置输出轴角度
 	void DjiMotor::Reset_Out_Angle(float out_angle_)
 	{
@@ -197,5 +228,7 @@ namespace motor
 	{
 		return angle;
 	}
+	
+
 }
 	
