@@ -11,12 +11,12 @@ namespace data
 		is_side_init = true;
 	}
 	
-	bool Is_Side_Init()
+	const bool& Is_Side_Init()
 	{
 		return is_side_init;
 	}
 	
-	bool Is_Blue_Left_Side()
+	const bool& Is_Blue_Left_Side()
 	{
 		return blue_left_side;
 	}

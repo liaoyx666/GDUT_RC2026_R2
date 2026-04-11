@@ -117,16 +117,19 @@ path::PathPlan3 pp(
 	0.015, 0.0001
 );
 
+path::MapGraph g;
 
 /*====================================DeBug====================================*/
 SquareWave wave(1000, 3000);// 用于调pid
 
 //float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
 
-///vector2d::Vector2D pc;
+vector2d::Vector2D pc;
 
 float target = 0;
 float a = 0;
+
+uint8_t s = 0, e = 0;
 
 void test(void *argument)
 {
@@ -206,11 +209,28 @@ void test(void *argument)
 		true
 	);
 	
+	g.Set_MF_Valid(11, false);
+	g.Set_MF_Valid(10, false);
+	g.Set_MF_Valid(12, false);
+	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
    
+		uint8_t pa[20];
+		uint8_t l = 0;
+		
+		//uart_printf("%d ", g.Get_Shortest_Path(s, e, pa, l, NULL));
+		
+		uart_printf("%d\n", g.Get_Node_On_Pos(pc));
+		
+//		for (uint8_t i = 0; i < l ; i++)
+//		{
+//			uart_printf("%d,", pa[i]);
+//		}
+		
+//		uart_printf("\n");
 	
 		if (remote_ctrl.swa == 1)
 		{
@@ -238,6 +258,9 @@ void test(void *argument)
 				radar.Reposition(); /*雷达重定位*/
 			}
 		}
+		
+		
+		
 		
 //		if (remote_ctrl.swa == 0)
 //		{

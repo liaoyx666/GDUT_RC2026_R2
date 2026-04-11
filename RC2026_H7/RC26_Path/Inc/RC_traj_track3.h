@@ -3,6 +3,8 @@
 #include "RC_vector2d.h"
 #include "RC_data_pool.h"
 #include "RC_pid.h"
+#include "RC_task.h"
+#include "RC_chassis.h"
 
 #ifdef __cplusplus
 
@@ -13,16 +15,14 @@ namespace path
 	
 	class Path3;
 	
-	class TrajTrack3
+	class TrajTrack3 : public task::ManagedTask
     {
     public:
-		TrajTrack3(data::RobotPose& pose_, float lon_deadzone_, float head_deadzone_);
+		TrajTrack3(data::RobotPose& pose_, chassis::Chassis& chassis_, float lon_deadzone_, float head_deadzone_);
 		virtual ~TrajTrack3() {}
 		
 		bool Load_Path(Path3* path_);
 		
-		bool Calc_Vel(vector2d::Vector2D* v_, float* vw_) const;
-			
 		void Enable() {is_enable = true;}
 		void Disable() {is_enable = false;}
 		
@@ -30,9 +30,11 @@ namespace path
 		
 		bool Is_Load() const {return (bool)path;}
     protected:
+		void Task_Process() override;
 		
     private:
 		void Reset();
+		bool Calc_Vel(vector2d::Vector2D* v_, float* vw_) const;
 	
 		Path3* path;
 		mutable pid::NonlinearPid tan_pid;
@@ -59,6 +61,7 @@ namespace path
 		bool is_enable;
 		
 		data::RobotPose* pose;
+		chassis::Chassis& chassis;
     };
 }
 

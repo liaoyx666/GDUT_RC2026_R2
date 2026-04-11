@@ -90,7 +90,7 @@ namespace vector2d
 		float projectLength(const Vector2D& other) const;
 
 		// 辅助函数：检查标量是否接近零
-		static bool isZero(float scalar)
+		inline static bool isZero(float scalar)
 		{
 			return (scalar < 0 ? -scalar : scalar) < 1e-6f;
 		}

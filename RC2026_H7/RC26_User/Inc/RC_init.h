@@ -31,6 +31,7 @@
 #include "RC_traj_track3.h"
 #include "RC_path3.h"
 #include "RC_path_plan3.h"
+#include "RC_map_graph.h"
 
 #include "RC_radar.h"
 #include "RC_best_path.h"

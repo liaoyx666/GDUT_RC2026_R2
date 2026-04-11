@@ -27,12 +27,11 @@ namespace path
 			track.Enable();
 		}
 		
-		void Disable() 
+		void Disable()
 		{
 			is_enable = false;
 			track.Disable();
 		}
-		
 		
 		uint8_t Point_FreeSpace() const;
 		uint8_t Point_Num() const;
@@ -45,14 +44,12 @@ namespace path
 		Path3 path[2]; /*路径，一个跟踪、一个规划*/
 		TrajPlan3 plan; /*轨迹规划*/
 		TrajTrack3 track; /*轨迹跟踪*/
-		chassis::Chassis* chassis; /*底盘*/
-		
+
 		uint8_t dx; /*生成中的路径*/
 	
 		uint8_t head;
 		uint8_t tail;
-		
-		data::RobotPose* pose;
+
 		bool is_enable;
 		
 		void Delete_Point();

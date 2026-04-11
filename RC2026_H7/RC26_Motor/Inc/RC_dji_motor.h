@@ -57,7 +57,7 @@ namespace motor
 		bool is_gear_ratio_int; /*gear_ratio是否为整数*/
 		
 		float angle = 0;
-		float tor_to_cur = 1.f/*力矩换为电流的系数*/;
+		//float tor_to_cur = 1.f/*力矩换为电流的系数*/;
     };
 
 }

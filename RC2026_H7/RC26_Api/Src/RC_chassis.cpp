@@ -17,6 +17,7 @@ namespace chassis
 		
 		is_init = false;
 		is_enable = true;
+		lin_vel_zero = false;
 		
 		last_time = 0;
 	}
@@ -26,15 +27,20 @@ namespace chassis
 		/*************************************************/
 		if (is_init == false || is_enable == false)
 		{
-			target_v = vector2d::Vector2D(0, 0);
+			target_v = vector2d::Vector2D();
 			target_vw = 0;
 		}
 		
 		// 控制指令超时
 		if (timer::Timer::Get_DeltaTime(last_control_time) > 200000)// 200ms
 		{
-			target_v = vector2d::Vector2D(0, 0);
+			target_v = vector2d::Vector2D();
 			target_vw = 0;
+		}
+		
+		if (lin_vel_zero)
+		{
+			target_v = vector2d::Vector2D();
 		}
 		
 		/************************速度限幅*************************/
@@ -80,8 +86,7 @@ namespace chassis
 		vector2d::Vector2D normal_v = target_v.perpendicular();// 获取垂直法向量（逆时针90度）
 		
 		float v_x;// 切向目标速度
-		// v_y = 0// 法向目标速度
-		
+	
 		vector2d::Vector2D x_unit;// 切单位向量
 		vector2d::Vector2D y_unit;// 法单位向量
 		
@@ -136,8 +141,6 @@ namespace chassis
 
 		// 速度合成
 		v = (x_unit * last_v_x) + (y_unit * last_v_y);
-		
-		
 
 		/*************************************************/
 		// 更新上次速度
@@ -164,7 +167,7 @@ namespace chassis
 	{
 		if (is_init == false || is_enable == false)
 		{
-			target_v = vector2d::Vector2D(0, 0);
+			target_v = vector2d::Vector2D();
 			target_vw = 0;
 		}
 		else

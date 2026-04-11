@@ -36,6 +36,12 @@ namespace chassis
 		// 使能
 		void Chassis_Enable() {is_enable = true;}
 		
+		// 线速度强制为零
+		void Force_Lin_Vel_Zero() {lin_vel_zero = true;}
+		
+		// 解除线速度强制为零
+		void Unforce_Lin_Vel_Zero() {lin_vel_zero = false;}
+		
 		// 失能
 		void Chassis_Disable() {is_enable = false;}
 		
@@ -49,7 +55,7 @@ namespace chassis
 		// 成功初始化
 		void Set_Is_Init_True() {is_init = true;}
 		
-		// 成功初始化
+		// 
 		void Set_Is_Init_False() {is_init = false;}
 		
 		// 底盘初始化
@@ -90,6 +96,7 @@ namespace chassis
 		
 		bool is_init = false;
 		bool is_enable = true;
+		bool lin_vel_zero = false;
     };
 	
 	// 加速度限制

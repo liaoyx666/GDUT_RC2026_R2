@@ -4,7 +4,7 @@ namespace motor
 {
 	M3508::M3508(uint8_t id_, can::Can &can_, tim::Tim *tim_, float gear_ratio_, bool is_reset_pos_angle) : DjiMotor(can_, tim_, gear_ratio_, is_reset_pos_angle)
 	{
-		tor_to_cur = (16384.f / (6.f / (3591.f / 187.f)));
+		//tor_to_cur = (16384.f / (6.f / (3591.f / 187.f)));
 		
 		// 设置tx，rx和m3508的id
 		Dji_Id_Init(id_);
@@ -19,7 +19,6 @@ namespace motor
 		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
 		pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.001, 0, 300, 1000, 500, 500, 500, 150, 200);
 	}
-	
 	
 	void M3508::Dji_Id_Init(uint8_t id_)
 	{
