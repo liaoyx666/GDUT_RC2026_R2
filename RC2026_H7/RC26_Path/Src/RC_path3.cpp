@@ -24,12 +24,10 @@ namespace path
 		tan_head = false;
 	}
 	
-	HeadConstr3 HeadConstr3::min(const HeadConstr3& c1, const HeadConstr3& c2)
+	void HeadConstr3::min(const HeadConstr3& c1)
 	{
-		HeadConstr3 c;
-		c.w = ((c1.w < c2.w) ? c1.w : c2.w);
-		c.wa = ((c1.wa < c2.wa) ? c1.wa : c2.wa);
-		return c;
+		w = ((c1.w < w) ? c1.w : w);
+		wa = ((c1.wa < wa) ? c1.wa : wa);
 	}
 	
 	PathLonCon3::PathLonCon3()
@@ -133,7 +131,6 @@ namespace path
 		
 		return false;
 	}
-	
 	
 	bool Path3::Get_Point_On_Len(float len_, vector2d::Vector2D* p) const
 	{
@@ -295,11 +292,9 @@ namespace path
 		if (!is_init) return;
 
 		float nd; /*最近点距离*/
-		
-		vector2d::Vector2D np; /*最近点*/
-																				//<< 初始化
 		float nt; /*最近点的曲线t参数值*/
-		
+		vector2d::Vector2D np; /*最近点*/											//<< 初始化
+											
 		const uint8_t curve_num = line_num + arc_num;
 
 		if (ndx >= curve_num) ndx = curve_num - 1; /*防越界*/
@@ -309,17 +304,17 @@ namespace path
 		/*使用上一次ndx初始化np nt nd*/
 		curve[ndx]->Get_Near_Point_T_Dis(p_, &np, &nt, &nd);
 		
-		/*查找前一段路径*/
-		if (ndx > 0)
-		{
-			Check_Near_Point(p_, ndx - 1, &ndx, &np, &nt, &nd);
-		}
-		
-		/*查找后一段路径*/
-		if (ndx < curve_num - 1)
-		{
-			Check_Near_Point(p_, ndx + 1, &ndx, &np, &nt, &nd);
-		}
+//		/*查找前一段路径*/
+//		if (ndx > 0)
+//		{
+//			Check_Near_Point(p_, ndx - 1, &ndx, &np, &nt, &nd);
+//		}
+//		
+//		/*查找后一段路径*/
+//		if (ndx < curve_num - 1)
+//		{
+//			Check_Near_Point(p_, ndx + 1, &ndx, &np, &nt, &nd);
+//		}
 																				//<< 查找最近点及其所在曲线索引
 		/*临界情况*/
 		if (ndx > 0 && nt <= 0.f) /*在曲线起点处*/
@@ -338,10 +333,24 @@ namespace path
 				Check_Near_Point(p_, i, &ndx, &np, &nt, &nd);
 			} while (i < curve_num - 1 && nt >= 1.f);
 		}
+		
 		/*----------------------------------------------------------------------*/
-		float l = curve[ndx]->Get_Len_On_T(nt); /*最近点在这条曲线上的路程*/
-																				//< 计算路程
-		float nl = ((ndx == 0) ? 0 : len[ndx - 1]) + l; /*总路程*/
+		float l = 0; /*最近点在这条曲线上的路程*/
+		
+		l = curve[ndx]->Get_Len_On_T(nt);
+		
+		if (ndx < curve_num - 1)
+		{
+			if (curve[ndx]->Len() - l < PATH3_CURVE_SWITCH_THRESHOLD)
+			{
+				ndx++;
+				curve[ndx]->Get_Near_Point_T_Dis(p_, &np, &nt, &nd); /*提前切换曲线*/
+
+				l = curve[ndx]->Get_Len_On_T(nt);
+			}
+		}
+		/*----------------------------------------------------------------------*/
+		float nl = ((ndx == 0) ? 0 : len[ndx - 1]) + l; /*总路程*/     //< 计算路程
 		/*----------------------------------------------------------------------*/
 		if (cur_ != nullptr)
 		{
@@ -576,7 +585,7 @@ namespace path
 	{
 		if (!is_init || event_num == 0) return;
 		
-		while(event[event_dx].len - PATH3_TRIG_EVENT_THRESHOLD < l_ && event_dx < event_num - 1)
+		while(event[event_dx].len - PATH3_TRIG_EVENT_THRESHOLD < l_ && event_dx < event_num)
 		{
 			if (event[event_dx].event)
 			{

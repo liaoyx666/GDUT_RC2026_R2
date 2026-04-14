@@ -87,6 +87,5 @@ namespace pid
 
 	void Limit(float *input, float limit);
 	float Normalize(float data, float unit);
-	
 }
 #endif

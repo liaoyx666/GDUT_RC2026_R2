@@ -2,8 +2,8 @@
 
 namespace path
 {
-	PathPlan3::PathPlan3(LonConstr3 l, HeadConstr3 h, data::RobotPose& pose_, chassis::Chassis& c, float lon_deadzone_, float head_deadzone_)
-	: task::ManagedTask("PathPlan3Task", 26, 512, task::TASK_DELAY, 2), plan(l, h), track(pose_, c, lon_deadzone_, head_deadzone_)
+	PathPlan3::PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_)
+	: task::ManagedTask("PathPlan3Task", 26, 512, task::TASK_DELAY, 2), plan(l, h), track(track_)/*, track(pose_, c, lon_deadzone_, head_deadzone_)*/
 	{
 		head = 0;
 		tail = 0;

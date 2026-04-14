@@ -33,7 +33,8 @@ namespace chassis
 			motor::Motor& drive_motor_1_, motor::Motor& drive_motor_2_, motor::Motor& drive_motor_3_, motor::Motor& drive_motor_4_,
 			float max_linear_vel_, float linear_accel_, float linear_decel_,
 			float max_angular_vel_, float angular_accel_, float angular_decel_,
-			uint16_t gpio_pin_1_, uint16_t gpio_pin_2_, uint16_t gpio_pin_3_, uint16_t gpio_pin_4_ 
+			uint16_t gpio_pin_1_, uint16_t gpio_pin_2_, uint16_t gpio_pin_3_, uint16_t gpio_pin_4_,
+			data::RobotPose& pose_
 		);
 		
 		virtual ~Swerve4Chassis() {}

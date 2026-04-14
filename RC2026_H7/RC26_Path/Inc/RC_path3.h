@@ -9,6 +9,7 @@ namespace path
 	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 10; /*最大圆弧数*/
 	constexpr float PATH3_MAX_LIN_VEL      = 4.f; /*最大线速度*/
 	constexpr float PATH3_TRIG_EVENT_THRESHOLD = 0.03; /*靠近触发事件阈值 m*/
+	constexpr float PATH3_CURVE_SWITCH_THRESHOLD = 0.03f; /*切换曲线阈值 m*/
 	
 	constexpr uint8_t PATHLONCON3_MAX_NUM  = 10; /*最大纵向约束数*/
 	constexpr uint8_t PATHHEADCON3_MAX_NUM = 10; /*最大航向约束数*/
@@ -31,7 +32,7 @@ namespace path
 	{
 		HeadConstr3();
 		HeadConstr3(float y_, float w_, float wa_, bool t_) : yaw(y_), w(w_), wa(wa_), tan_head(t_) {}
-		static HeadConstr3 min(const HeadConstr3& c1, const HeadConstr3& c2);
+		void min(const HeadConstr3& c1);
 		float yaw;
 		float w;
 		float wa;

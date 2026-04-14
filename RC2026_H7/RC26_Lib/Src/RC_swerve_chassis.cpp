@@ -7,11 +7,13 @@ namespace chassis
 		motor::Motor& drive_motor_1_, motor::Motor& drive_motor_2_, motor::Motor& drive_motor_3_, motor::Motor& drive_motor_4_,
 		float max_linear_vel_, float linear_accel_, float linear_decel_,
 		float max_angular_vel_, float angular_accel_, float angular_decel_,
-		uint16_t gpio_pin_1_, uint16_t gpio_pin_2_, uint16_t gpio_pin_3_, uint16_t gpio_pin_4_ 
+		uint16_t gpio_pin_1_, uint16_t gpio_pin_2_, uint16_t gpio_pin_3_, uint16_t gpio_pin_4_,
+		data::RobotPose& pose_
 	) : 
 	Chassis(
 		max_linear_vel_, linear_accel_, linear_decel_,
-		max_angular_vel_, angular_accel_, angular_decel_
+		max_angular_vel_, angular_accel_, angular_decel_,
+		pose_
 	),
 	photogate_reposotion{
 		photogate::PhoGateRepos(steer_motor_1_, is_reposition[0], TWO_THIRD_PI, gpio_pin_1_, 25), 
@@ -47,7 +49,7 @@ namespace chassis
 	void Swerve4Chassis::Kinematics_calc(vector2d::Vector2D v_, float vw_)
 	{
 		/*************************底盘解算************************/
-		if (v_.length() <= 0.01f && fabsf(vw_) <= 0.01f)
+		if (v_.length() <= 0.005f && fabsf(vw_) <= 0.006f)
 		{
 			/*零速锁定底盘*/
 			angle[0] = SWERVE4_CHASSIS_THETA1;
@@ -71,7 +73,7 @@ namespace chassis
 			{
 				vel[i] = vel_vector[i].length();
 				
-				if (vel[i] < 0.015f)
+				if (vel[i] < 0.003f)
 				{
 					vel[i] = 0;
 				}

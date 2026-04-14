@@ -29,11 +29,9 @@ namespace timer
 		uint32_t current_cycle;
         uint32_t current_cnt;
 
-		__disable_irq(); // 关闭全局中断
 		current_cycle = cycle;
 		current_cnt = htim->Instance->CNT;
-		__enable_irq(); // 开启中断
-		
+
 		return current_cnt + current_cycle * 0x10000;
 	}
 	

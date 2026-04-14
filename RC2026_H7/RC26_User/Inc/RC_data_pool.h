@@ -18,13 +18,13 @@ namespace data
 		void Update_Position(float * x_, float * y_, float * z_);
 		void Update_Orientation(float * yaw_, float * roll_, float * pitch_);
 		
-		float const * Get_pX() const {return &x;}
-		float const * Get_pY() const {return &y;}
-		float const * Get_pZ() const {return &z;}
+		const float& X() const {return x;}
+		const float& Y() const {return y;}
+		const float& Z() const {return z;}
 		
-		float const * Get_pYaw() const {return &yaw;}
-		float const * Get_pRoll() const {return &roll;}
-		float const * Get_pPitch() const {return &pitch;}
+		const float& Yaw() const {return yaw;}
+		const float& Roll() const {return roll;}
+		const float& Pitch() const {return pitch;}
 		
 		bool Is_Position_Valid() const {return position_is_valid;}
 		bool Is_Orientation_Valid() const {return orientation_is_valid;}

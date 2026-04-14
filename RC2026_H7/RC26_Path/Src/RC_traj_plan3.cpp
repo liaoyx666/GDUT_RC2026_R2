@@ -331,8 +331,10 @@ namespace path
 		
 		if (p.Have_HeadCon())
 		{
+			p.head.min(head_m);
+			
 			/*有约束*/
-			path->Add_PathHeadCon(len, HeadConstr3::min(p.head, head_m));/*加入航向约束*/
+			path->Add_PathHeadCon(len, p.head);/*加入航向约束*/
 		}
 		
 		if (p.Have_Event())

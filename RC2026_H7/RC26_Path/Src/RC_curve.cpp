@@ -21,7 +21,7 @@ namespace curve
 		
 		if (c > 1e-6f)
 		{
-			v = fminf(sqrtf(a / c), v); /*根据后一条曲线的曲率，更新当前曲线的终点速度*/
+			v = fminf(sqrtf(a / c), v);
 		}
 		
 		return v; /*输出当前最小速度*/

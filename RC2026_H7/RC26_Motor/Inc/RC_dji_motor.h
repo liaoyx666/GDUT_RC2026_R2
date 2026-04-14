@@ -22,11 +22,13 @@ namespace motor
 		virtual ~DjiMotor() {}
 
 		void Set_Current(float target_current_);//有些电机没有电流控制
-		float Get_Current() const {return current;}
 		void Set_Out_Angle(float target_out_angle_);// 设置输出轴角度
+		void Set_Angle(float target_angle_);//有些电机没有角度控制	
+		
+		float Get_Current() const {return current;}
 		float Get_Out_Angle(); // 0 ~ 2pi*/
 		float Get_Angle();
-		void Set_Angle(float target_angle_);//有些电机没有角度控制
+		
 		void Reset_Out_Angle(float out_angle_);// 重置输出轴角度0 ~ 2pi
 		
     protected:

@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>2</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -1136,16 +1136,6 @@
               <FilePath>..\RC26_Path\Inc\RC_bezier_curve.h</FilePath>
             </File>
             <File>
-              <FileName>RC_path.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Path\Src\RC_path.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Path\Inc\RC_path.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_path2.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Path\Src\RC_path2.cpp</FilePath>
@@ -1234,6 +1224,26 @@
               <FileName>RC_navigation.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Path\Inc\RC_navigation.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_head_check_event.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_head_check_event.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_head_check_event.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_head_check_event.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_head_ctrl.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_head_ctrl.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_head_ctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_head_ctrl.h</FilePath>
             </File>
           </Files>
         </Group>

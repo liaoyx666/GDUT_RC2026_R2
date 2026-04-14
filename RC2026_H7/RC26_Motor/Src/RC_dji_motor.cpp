@@ -68,19 +68,19 @@ namespace motor
 	
 	void DjiMotor::Tim_It_Process()
 	{
-		if (motor_mode != CURRENT_MODE)		//> 电流模式
+		if (motor_mode != CURRENT_MODE)									//> 电流模式
 		{
 			float temp_target_rpm = 0;// 目标速度
 			
-			if (motor_mode == RPM_MODE)				//> 速度模式
+			if (motor_mode == RPM_MODE)									//> 速度模式
 			{
 				temp_target_rpm = target_rpm;
 			}
-			else if (motor_mode == POS_MODE)		//> 位置模式
+			else if (motor_mode == POS_MODE)							//> 位置模式
 			{
 				temp_target_rpm = pid_pos.Pid_Calculate(pos, target_pos);
 			}
-			else if (motor_mode == ANGLE_MODE)		//> 角度模式
+			else if (motor_mode == ANGLE_MODE)							//> 角度模式
 			{
 				temp_target_rpm = pid_pos.Pid_Calculate(angle, target_angle, true, PI);
 			}

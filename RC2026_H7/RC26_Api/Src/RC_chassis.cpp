@@ -4,8 +4,9 @@ namespace chassis
 {
 	Chassis::Chassis(
 		float max_linear_vel_, float linear_accel_, float linear_decel_,
-		float max_angular_vel_, float angular_accel_, float angular_decel_
-	) : ManagedTask("ChassisTask", 33, 256, task::TASK_PERIOD, 1)
+		float max_angular_vel_, float angular_accel_, float angular_decel_,
+		data::RobotPose& pose_
+	) : ManagedTask("ChassisTask", 33, 256, task::TASK_PERIOD, 1), pose(pose_)
 	{
 		max_linear_vel = fabsf(max_linear_vel_);
 		linear_accel = fabsf(linear_accel_);
@@ -179,9 +180,42 @@ namespace chassis
 		last_control_time = timer::Timer::Get_TimeStamp();
 	}
 	
-	void Chassis::Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_)
+	void Chassis::Set_World_Vel(vector2d::Vector2D v_, float vw_)
 	{
-		Set_Robot_Vel(v_.rotate(-yaw_), vw_);
+		Set_Robot_Vel(v_.rotate(-pose.Yaw()), vw_);
+	}
+	
+	void Chassis::Set_Robot_Lin_Vel(vector2d::Vector2D v_)
+	{
+		if (is_init == false || is_enable == false)
+		{
+			target_v = vector2d::Vector2D();
+		}
+		else
+		{
+			target_v = v_;
+		}
+		
+		last_control_time = timer::Timer::Get_TimeStamp();
+	}
+	
+	void Chassis::Set_Ang_Vel(float vw_)
+	{
+		if (is_init == false || is_enable == false)
+		{
+			target_vw = 0;
+		}
+		else
+		{
+			target_vw = vw_;
+		}
+		
+		last_control_time = timer::Timer::Get_TimeStamp();
+	}
+	
+	void Chassis::Set_World_Lin_Vel(vector2d::Vector2D v_)
+	{
+		Set_Robot_Lin_Vel(v_.rotate(-pose.Yaw()));
 	}
 	
 	// 加速度限制

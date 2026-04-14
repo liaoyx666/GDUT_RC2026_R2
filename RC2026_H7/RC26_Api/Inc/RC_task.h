@@ -29,7 +29,6 @@ namespace task
 		virtual ~TaskCreator() {}
 	protected:
 		osThreadId_t TaskHandle;// 任务句柄
-	private:
 	};
 
 	

@@ -21,13 +21,18 @@ extern "C" void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hcan, uint32_t Rx
 	}
 }
 
+extern "C" void HAL_FDCAN_ErrorCallback(FDCAN_HandleTypeDef *hfdcan)
+{
+	HAL_FDCAN_Stop(hfdcan);
+	HAL_FDCAN_Start(hfdcan);
+}
+
 namespace can
 {
 	Can *Can::can_list[MAX_CAN_NUM] = {nullptr};// 初始化can列表指针
 	uint8_t Can::can_num = 0;// 初始化can数量为0
 
-
-	Can::Can(FDCAN_HandleTypeDef &hcan_) : hcan(&hcan_), task::ManagedTask("Can", 40, 128, task::TASK_PERIOD, 1)
+	Can::Can(FDCAN_HandleTypeDef &hcan_) : hcan(&hcan_), task::ManagedTask("Can", 43, 128, task::TASK_PERIOD, 1)
 	{
 		taskENTER_CRITICAL();
 		
@@ -85,7 +90,7 @@ namespace can
 			Error_Handler();
 		}
 	}
-	
+
 	void Can::All_Can_Rx_It_Process(FDCAN_HandleTypeDef *hcan, uint32_t fifo)
 	{
 		// 查找对应can对象
@@ -194,11 +199,11 @@ namespace can
 					else
 					{
 						retry_count++;
-						
-						if (retry_count <= MAX_CAN_RETRY_COUNT)
-						{
-							osDelay(1); // 仅在未达到重试阈值时延时，避免无效延时
-						}
+//						
+//						if (retry_count <= MAX_CAN_RETRY_COUNT)
+//						{
+//							osDelay(1); // 仅在未达到重试阈值时延时，避免无效延时
+//						}
 					}
 				} while (send_success == false && retry_count <= MAX_CAN_RETRY_COUNT);
 

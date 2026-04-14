@@ -22,6 +22,7 @@ namespace path
 		B-
 		| |
 		A-C
+	
 		A：公共顶点（原点）
 		B：A的垂直邻点
 		C：A的水平邻点
@@ -57,17 +58,21 @@ namespace path
 			const float dotAC;
 	};
 
+	
+	
+	
+	
 	class MapGraph
     {
     public:
-		MapGraph();
-		
-		bool Get_Shortest_Path(uint8_t start, uint8_t end, uint8_t path[], uint8_t &pathLen, uint8_t *dist_);
+		static bool Get_Shortest_Path(uint8_t start, uint8_t end, uint8_t path[], uint8_t &pathLen, uint8_t *dist_);
 
 		/*设置几号MF是否可以到达*/
-		void Set_MF_Valid(uint8_t n, bool valid_);
-	
-		uint8_t Get_Node_On_Pos(vector2d::Vector2D p) const;
+		static void Set_MF_Valid(uint8_t n, bool valid_);
+		
+		static uint8_t Get_Node_On_Pos(vector2d::Vector2D p);
+		
+		static vector2d::Vector2D Get_MF_Center(uint8_t n_);
 		
     private:
 		
@@ -93,9 +98,9 @@ namespace path
 			/*-------------------------------------------------------------------------------------------*/
 			{{13           , 1}, {GRAPH_INVALID, 0}, {GRAPH_INVALID, 0}, {GRAPH_INVALID, 0}}  // 14 对抗区 ARENA
 		};
-	
+		
 		/*节点是否可到达（只有MF部分可设置）*/
-		bool valid[GRAPH_NODE_NUM] = 
+		static inline bool valid[GRAPH_NODE_NUM] = 
 		{
 			true,
 			true,
@@ -114,14 +119,34 @@ namespace path
 			true
 		};
 		
+		
 		/*
 			[0] red_right
 			[1] blue_left
 		*/
-		const Area MC[2];		/*武馆*/
-		const Area MF[2];		/*梅林*/
-		const Area EXIT[2];       /*出口*/
-		const Area ARENA[2];	/*对抗区*/
-    };
+		static const inline Area MC[2] = 
+		{
+			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)), 
+			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(3.2, 0), vector2d::Vector2D(0, -6))
+		}; /*武馆*/
+		
+		static const inline Area MF[2] = 
+		{
+			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
+			Area(vector2d::Vector2D(3.2, -1.2), vector2d::Vector2D(8, -1.2), vector2d::Vector2D(3.2, -4.8))
+		}; /*梅林*/
+		
+		static const inline Area EXIT[2] = 
+		{
+			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
+			Area(vector2d::Vector2D(8, 0), vector2d::Vector2D(9.45, 0), vector2d::Vector2D(8, -6))
+		}; /*出口*/
+	
+		static const inline Area ARENA[2] = 
+		{
+			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
+			Area(vector2d::Vector2D(9.45, 0), vector2d::Vector2D(10.65, 0), vector2d::Vector2D(9.45, -6))
+		}; /*对抗区*/
+	};
 }
 #endif

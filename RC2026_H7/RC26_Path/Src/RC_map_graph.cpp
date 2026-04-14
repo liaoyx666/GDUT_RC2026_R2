@@ -2,7 +2,6 @@
 
 namespace path
 {
-
 	// 求完整路径 + 距离
 	bool MapGraph::Get_Shortest_Path(uint8_t start, uint8_t end, uint8_t path[], uint8_t &pathLen, uint8_t *dist_)
 	{
@@ -87,44 +86,16 @@ namespace path
 
 		return true;
 	}
-	
-	MapGraph::MapGraph()
-	: 
-		MC
-		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)), 
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(3.2, 0), vector2d::Vector2D(0, -6))
-		},   
-		
-		MF
-		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
-			Area(vector2d::Vector2D(3.2, -1.2), vector2d::Vector2D(8, -1.2), vector2d::Vector2D(3.2, -4.8))
-		},
-		
-		EXIT
-		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
-			Area(vector2d::Vector2D(8, 0), vector2d::Vector2D(9.45, 0), vector2d::Vector2D(8, -6))
-		},
-		
-		ARENA
-		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
-			Area(vector2d::Vector2D(9.45, 0), vector2d::Vector2D(10.65, 0), vector2d::Vector2D(9.45, -6))
-		}
-	{
-		
-	}
-	
+
+
 	void MapGraph::Set_MF_Valid(uint8_t n, bool valid_)
 	{
 		if (n == 0 || n >= 13) return;
 		
 		valid[n] = valid_;
 	}
-	
-	uint8_t MapGraph::Get_Node_On_Pos(vector2d::Vector2D p) const
+
+	uint8_t MapGraph::Get_Node_On_Pos(vector2d::Vector2D p)
 	{
 		if (!data::Is_Side_Init()) return GRAPH_INVALID;
 		uint8_t dx = (uint8_t)data::Is_Blue_Left_Side();
@@ -154,7 +125,7 @@ namespace path
 			if (w > 3) w = 3;
 			if (w > 4) h = 4;
 			
-			if (data::Is_Blue_Left_Side())
+			if (dx)
 			{
 				return w + (h - 1) * 3;
 			}
@@ -167,4 +138,23 @@ namespace path
 		return GRAPH_INVALID;
 	}
 
+
+	vector2d::Vector2D MapGraph::Get_MF_Center(uint8_t n_)
+	{
+		if (n_ < 1 || n_ > 12) return vector2d::Vector2D();
+		
+		uint8_t dx = (uint8_t)data::Is_Blue_Left_Side();
+		
+		uint8_t w = (n_ - 1) % 3 + 1;
+		uint8_t h = (n_ - 1) / 3 + 1;
+	
+		if (dx)
+		{
+			return MF[dx].Get_A() + MF[dx].Get_AB() * ((float)h - 0.5f) / 4.f + MF[dx].Get_AC() * ((float)w - 0.5f) / 3.f;
+		}
+		else
+		{
+			return MF[dx].Get_A() + MF[dx].Get_AB() * ((float)h - 0.5f) / 4.f + MF[dx].Get_AC() * ((float)(4 - w) - 0.5f) / 3.f;
+		}
+	}
 }

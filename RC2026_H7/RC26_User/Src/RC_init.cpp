@@ -65,7 +65,8 @@ chassis::Swerve4Chassis swerve_4_chassis(
 	vesc_101_can3, vesc_102_can3, vesc_103_can3, vesc_104_can3,
 	3, 4, 5,
 	4, 7, 7,
-	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15
+	GPIO_PIN_2, GPIO_PIN_9, GPIO_PIN_14, GPIO_PIN_15,
+	robot_pose
 );
 
 //// 路径规划
@@ -93,39 +94,38 @@ chassis::Swerve4Chassis swerve_4_chassis(
 //	GPIOG, GPIO_PIN_0
 //);
 
-
-//path::Path3 p_test;
-
-//path::TrajPlan3 tp(
-//	{2.5, 3},
-//	{0, 4, 7, false}
-//);
-
-//path::TrajTrack3 tt(robot_pose);
-
 //arm::ArmDynamics arm_dynamics;
 
 //arm::AutoArm auto_arm(arm_task, path_plan, 4, 5);
 
 flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
 
-path::PathPlan3 pp(
-	path::LonConstr3(2.5, 2.3),
-	path::HeadConstr3(0, 3, 5, false),
+path::HeadCtrl head_ctrl(
 	robot_pose,
 	swerve_4_chassis,
-	0.015, 0.0001
+	0
 );
 
-path::MapGraph g;
+path::TrajTrack3 track(
+	robot_pose,
+	swerve_4_chassis,
+	head_ctrl,
+	0.02
+);
+
+path::PathPlan3 pp(
+	path::LonConstr3(2.5, 2.3),
+	path::HeadConstr3(0, 3, 4, false),
+	track
+);
+
+path::HeadCheck headcheck(1, PI, track, robot_pose);
 
 /*====================================DeBug====================================*/
 SquareWave wave(1000, 3000);// 用于调pid
 
-//float a1 = 0, a2 = 0, a3 = 0, a4 = 0;
 
 vector2d::Vector2D pc;
-
 float target = 0;
 float a = 0;
 
@@ -158,90 +158,117 @@ void test(void *argument)
 	remote_ctrl.signal_swa();
 	remote_ctrl.signal_swd();
 
-
+	/*起点*/
 	pp.Add_Point(
 		vector2d::Vector2D(0.42, -4.53),
 		0,
 		NULL,
 		NULL,
-		0,
+		EVENT3_NULL,
 		false
 	);
-
-
-	pp.Add_Point(
-		vector2d::Vector2D(3.18, -5.40),
-		1,
-		NULL,
-		NULL,
-		0,
-		false
-	);
-
-
-	path::HeadConstr3 h = path::HeadConstr3(PI, 3, 5, false);
 	
+		
+		
+	path::HeadConstr3 h = path::HeadConstr3(PI, 3, 4, false);
+	path::LonConstr3 l = path::LonConstr3(0.9, 2.3);
 	
+	h = path::HeadConstr3(PI, 3, 4, false);
 	pp.Add_Point(
-		vector2d::Vector2D(8.19, -5.41),
+		vector2d::Vector2D(1.42, -4.53),
 		0,
 		NULL,
 		&h,
-		0,
-		true
-	);
-	
-	pp.Add_Point(
-		vector2d::Vector2D(2.29, -5.33),
-		0.3,
-		NULL,
-		NULL,
-		0,
+		EVENT3_NULL,
 		false
 	);
-		
+	h = path::HeadConstr3(PI, 3, 4, false);
 	pp.Add_Point(
-		vector2d::Vector2D(1.23, -3.29),
+		vector2d::Vector2D(1.42, -4.00),
 		0,
 		NULL,
-		NULL,
+		&h,
+		EVENT3_NULL,
+		false
+	);
+	h = path::HeadConstr3(PI, 3, 4, false);
+	pp.Add_Point(
+		vector2d::Vector2D(1.42, -3.53),
 		0,
+		NULL,
+		&h,
+		EVENT3_ID_1,
+		false
+	);
+	h = path::HeadConstr3(PI, 3, 4, false);
+	pp.Add_Point(
+		vector2d::Vector2D(1.42, -2.53),
+		0,
+		&l,
+		&h,
+		EVENT3_NULL,
 		true
 	);
 	
-	g.Set_MF_Valid(11, false);
-	g.Set_MF_Valid(10, false);
-	g.Set_MF_Valid(12, false);
+//	path::HeadConstr3 h = path::HeadConstr3(PI, 3, 5, false);	
+//	pp.Add_Point(
+//		vector2d::Vector2D(3.18, -5.40),
+//		1,
+//		NULL,
+//		&h,
+//		EVENT3_ID_1,
+//		false
+//	);
+//	pp.Add_Point(
+//		vector2d::Vector2D(5.59, -5.41),
+//		0,
+//		NULL,
+//		&h,
+//		EVENT3_ID_1,
+//		false
+//	);
+//	pp.Add_Point(
+//		vector2d::Vector2D(2.29, -5.33),
+//		0.3,
+//		NULL,
+//		NULL,
+//		EVENT3_NULL,
+//		false
+//	);
+//	pp.Add_Point(
+//		vector2d::Vector2D(1.23, -3.29),
+//		0,
+//		NULL,
+//		NULL,
+//		EVENT3_NULL,
+//		true
+//	);
+	
+	
+	
+	
+	path::MapGraph::Set_MF_Valid(11, false);
+	path::MapGraph::Set_MF_Valid(10, false);
+	path::MapGraph::Set_MF_Valid(12, false);
 	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);
 		target = wave.Get_Signal();
    
-		uint8_t pa[20];
-		uint8_t l = 0;
 		
-		//uart_printf("%d ", g.Get_Shortest_Path(s, e, pa, l, NULL));
+		headcheck.Cheak_Head();
 		
-		uart_printf("%d\n", g.Get_Node_On_Pos(pc));
 		
-//		for (uint8_t i = 0; i < l ; i++)
-//		{
-//			uart_printf("%d,", pa[i]);
-//		}
-		
-//		uart_printf("\n");
-	
 		if (remote_ctrl.swa == 1)
 		{
 			pp.Enable();
-			
 		}
 		else
 		{
 			pp.Disable();
 			
-			swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f, *robot_pose.Get_pYaw());
+			swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 
 		if (remote_ctrl.swc == 0)
@@ -259,8 +286,7 @@ void test(void *argument)
 			}
 		}
 		
-		
-		
+
 		
 //		if (remote_ctrl.swa == 0)
 //		{

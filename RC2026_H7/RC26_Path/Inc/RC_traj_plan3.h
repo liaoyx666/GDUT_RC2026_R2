@@ -12,9 +12,8 @@ namespace path
     class Point3;
 	
 	constexpr uint8_t POINT3_END           = (1 << 0);
-//	constexpr uint8_t POINT3_WAIT          = (1 << 1);
-	constexpr uint8_t POINT3_HAVE_LONCON   = (1 << 2);
-	constexpr uint8_t POINT3_HAVE_HEADCON  = (1 << 3);
+	constexpr uint8_t POINT3_HAVE_LONCON   = (1 << 1);
+	constexpr uint8_t POINT3_HAVE_HEADCON  = (1 << 2);
 	
 	constexpr float TRAJPLAN3_MAX_RADIUS = 20.f; /*生成圆弧的最大半径*/
 	constexpr float TRAJPLAN3_MIN_RADIUS = 0.05f; /*生成圆弧的最小半径*/
@@ -25,13 +24,11 @@ namespace path
 		Point3();
 		
 		constexpr bool Is_End()       {return (bool)(param & POINT3_END);}
-//		constexpr bool Is_Wait()      {return (bool)(param & POINT3_WAIT);} 
 		constexpr bool Have_LonCon()  {return (bool)(param & POINT3_HAVE_LONCON);} /*是否有速度约束*/
 		constexpr bool Have_HeadCon() {return (bool)(param & POINT3_HAVE_HEADCON);} /*是否有yaw约束*/
 		constexpr bool Have_Event()   {return (bool)(event);} /*0x00为无事件，第几位上是1，即为存在id为几的事件*/
 		
 		constexpr void Set_Is_End()           {param = param | POINT3_END;}
-//		constexpr void Set_Is_Wait()          {param = param | POINT3_WAIT;} 
 		constexpr void Set_Have_LonCon()      {param = param | POINT3_HAVE_LONCON;} /*是否有速度约束*/
 		constexpr void Set_Have_HeadCon()     {param = param | POINT3_HAVE_HEADCON;} /*是否有yaw约束*/
 		constexpr void Set_Event(uint8_t id_) {event = event | (1 << (id_ - 1));}

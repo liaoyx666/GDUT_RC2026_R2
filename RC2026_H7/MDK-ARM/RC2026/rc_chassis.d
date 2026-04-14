@@ -71,4 +71,4 @@ rc2026/rc_chassis.o: ..\RC26_Api\Src\RC_chassis.cpp \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h \
   ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h ..\RC26_Api\Inc\RC_timer.h \
-  ..\RC26_Lib\Inc\RC_vector2d.h
+  ..\RC26_Lib\Inc\RC_vector2d.h ..\RC26_User\Inc\RC_data_pool.h

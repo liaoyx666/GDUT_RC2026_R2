@@ -375,7 +375,7 @@ namespace path
 		}
 		
 		// 坐标
-		vector2d::Vector2D coordinate = vector2d::Vector2D(*robot_pose_->Get_pX(), *robot_pose_->Get_pY());
+		vector2d::Vector2D coordinate = vector2d::Vector2D(robot_pose_->X(), robot_pose_->Y());
 		
 		/*--------------------------------------------------------------------------------------------------------------------------------*/
 		
@@ -384,7 +384,7 @@ namespace path
 			// 是否有发前目标yaw
 			if (have_start_target_angle == true)
 			{
-				float yaw_error = fabsf(*robot_pose_->Get_pYaw() - start_target_angle);
+				float yaw_error = fabsf(robot_pose_->Yaw() - start_target_angle);
 				
 				yaw_error = fmodf(yaw_error, TWO_PI);
 				
@@ -610,9 +610,9 @@ namespace path
 		last_tangent_v = 0;
 		last_normal_v = 0;
 		
-		tangent_pid.Init(2, max_linear_decel, 0.1, max_linear_vel, 0);
-		normal_pid.Init(2, max_linear_decel, 0.5, max_linear_vel, distance_deadzone_);
-		yaw_pid.Init(2.2, max_angular_decel, 0.1, max_angular_vel, yaw_deadzone_);
+		tangent_pid.Init(2, 0, max_linear_decel, 0.1, max_linear_vel, 0);
+		normal_pid.Init(2, 0, max_linear_decel, 0.5, max_linear_vel, distance_deadzone_);
+		yaw_pid.Init(2.2, 0, max_angular_decel, 0.1, max_angular_vel, yaw_deadzone_);
 		
 		last_current_point_num = 0;// 上一次当前前一个点
 		last_arrive_point_num = 0;// 上一次最新到达的点
@@ -683,9 +683,9 @@ namespace path
 				if (robot_pose->Is_Position_Valid())
 				{
 					// 起点为机器人当前位置
-					if (!isnan(*robot_pose->Get_pX()) && !isnan(*robot_pose->Get_pY()))
+					if (!isnan(robot_pose->X()) && !isnan(robot_pose->Y()))
 					{
-						point[0].coordinate = vector2d::Vector2D(*robot_pose->Get_pX(), *robot_pose->Get_pY());
+						point[0].coordinate = vector2d::Vector2D(robot_pose->X(), robot_pose->Y());
 
 						is_first_point = false;
 					}
@@ -881,7 +881,7 @@ namespace path
 		float tangent_v = tangent_pid.NPid_Calculate(0, -tangent_error);
 
 		// 计算角速度
-		float vw        = yaw_pid.NPid_Calculate(target_yaw, *robot_pose->Get_pYaw(), true, PI);
+		float vw        = yaw_pid.NPid_Calculate(target_yaw, robot_pose->Yaw(), true, PI);
 
 		// 增量
 		float delta = 0;
@@ -930,7 +930,7 @@ namespace path
 		// 底盘控制
 		if (is_enable)
 		{
-			robot_chassis->Set_World_Vel(v, vw, *robot_pose->Get_pYaw());
+			robot_chassis->Set_World_Vel(v, vw);
 		}
 	}
 	

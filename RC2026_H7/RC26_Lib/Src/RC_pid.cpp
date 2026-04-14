@@ -99,25 +99,8 @@ namespace pid
 		
 		if (normalization)// 归一化
 		{
-//			if (fabsf(error - unit) < (unit / PI * 0.008727f))
-//			{
-//				if (clockwise) /*正转反转路程相同时正转*/
-//				{
-//					error -= period;
-//				}
-//			}
-//			else if (fabsf(error + unit) < (unit / PI * 0.008727f))
-//			{
-//				if (!clockwise)
-//				{
-//					error += period;
-//				}
-//			}
-//			else
-//			{
-				if (error > unit) error = error - period;
-				else if (error < -unit) error = error + period;
-//			}
+			if (error > unit) error = error - period;
+			else if (error < -unit) error = error + period;
 		}
 
 		if (fabsf(error) < deadzone) error = 0;// 死区
@@ -170,22 +153,22 @@ namespace pid
 			}
 			else
 			{
-				if (differential_prior)
-				{
-					differential = real - last_real;
-					
-					if (normalization)// 归一化
-					{
-						if (differential > unit) differential = differential - period;
-						else if (differential < -unit) differential = differential + period;
-					}
-					
-					differential = differential / delta_time * kd;// 微分先行
-				}
-				else
-				{
+//				if (differential_prior)
+//				{
+//					differential = real - last_real;
+//					
+//					if (normalization)// 归一化
+//					{
+//						if (differential > unit) differential = differential - period;
+//						else if (differential < -unit) differential = differential + period;
+//					}
+//					
+//					differential = differential / delta_time * kd;// 微分先行
+//				}
+//				else
+//				{
 					differential = (error - last_error) / delta_time * kd;// 普通微分
-				}
+//				}
 				
 				// 微分滤波
 				differential = differential_lowpass_alpha * last_differential + (1.f - differential_lowpass_alpha) * differential;

@@ -3,6 +3,7 @@
 #include "RC_task.h"
 #include "RC_timer.h"
 #include "RC_vector2d.h"
+#include "RC_data_pool.h"
 
 #include <math.h>
 
@@ -14,7 +15,8 @@ namespace chassis
     public:
 		Chassis(
 			float max_linear_vel_, float linear_accel_, float linear_decel_,
-			float max_angular_vel_, float angular_accel_, float angular_decel_
+			float max_angular_vel_, float angular_accel_, float angular_decel_,
+			data::RobotPose& pose_
 		);
 		virtual ~Chassis() {}
 		
@@ -22,7 +24,13 @@ namespace chassis
 		void Set_Robot_Vel(vector2d::Vector2D v_, float vw_);
 		
 		// 设置世界坐标送速度
-		void Set_World_Vel(vector2d::Vector2D v_, float vw_, float yaw_);
+		void Set_World_Vel(vector2d::Vector2D v_, float vw_);
+			
+		void Set_Robot_Lin_Vel(vector2d::Vector2D v_);
+			
+		void Set_World_Lin_Vel(vector2d::Vector2D v_);
+		
+		void Set_Ang_Vel(float vw_);
 		
 		// 获取底盘当前线速度
 		vector2d::Vector2D Get_Vel() const {return v;}
@@ -97,6 +105,8 @@ namespace chassis
 		bool is_init = false;
 		bool is_enable = true;
 		bool lin_vel_zero = false;
+		
+		data::RobotPose& pose;
     };
 	
 	// 加速度限制
