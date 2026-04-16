@@ -13,7 +13,7 @@ namespace vector3d
 		Vector3D(const float32_t* data);  // 从数组初始化
 
 		// 析构函数
-		virtual ~Vector3D() {}
+		~Vector3D() = default;
 
 		// 访问x、y、z分量
 		float x() const { return data_[0]; }

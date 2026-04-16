@@ -17,8 +17,8 @@ namespace path
     {
     public:
 		PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_);
-		virtual ~PathPlan3() {}
-		
+		~PathPlan3() = default;
+	
 		bool Add_Point(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end);
 		
 		void Enable()

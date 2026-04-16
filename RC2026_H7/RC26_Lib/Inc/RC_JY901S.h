@@ -26,7 +26,7 @@ namespace imu
     {
     public:
 		JY901S(UART_HandleTypeDef &huart_);
-		virtual ~JY901S() {}
+		~JY901S() = default;
 		
 		float Get_Roll() const {return euler[0];}
 		float Get_Pitch() const {return euler[1];}

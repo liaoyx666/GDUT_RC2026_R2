@@ -24,8 +24,8 @@ namespace pid
 	class Pid
 	{
 	public:
-		Pid(){};
-		virtual	~Pid(){};
+		Pid() {};
+		~Pid() = default;
 			
 		void Pid_Mode_Init(bool incremental_ = true, bool differential_prior_ = true, float differential_lowpass_alpha_ = 0, bool use_td_ = false);
 		

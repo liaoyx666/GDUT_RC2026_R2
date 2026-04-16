@@ -29,7 +29,7 @@ namespace curve
 		BezierCurve(vector2d::Vector2D start_point_, vector2d::Vector2D end_point_);
 		BezierCurve(vector2d::Vector2D start_point_, vector2d::Vector2D control_point_, vector2d::Vector2D end_point_);
 	
-		virtual ~BezierCurve() {}
+		~BezierCurve() = default;
 		
 		/*--------------------------------------------------------------------------------------------*/
 			

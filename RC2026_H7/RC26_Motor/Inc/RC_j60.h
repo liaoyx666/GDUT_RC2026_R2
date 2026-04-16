@@ -10,7 +10,7 @@ namespace motor
 	{
 	public:
 		J60(uint8_t id_, can::Can& can_, tim::Tim* tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = false);
-		
+		~J60() = default;
 		void Set_K_Pos(float target_k_pos_) override;
 		void Set_K_Spd(float target_k_spd_) override;
 

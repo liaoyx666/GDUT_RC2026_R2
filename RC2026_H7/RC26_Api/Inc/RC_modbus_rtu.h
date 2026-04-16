@@ -18,7 +18,7 @@ namespace modbus
     {
     public:
 		ModBusRtu(uint32_t baud_);
-		virtual ~ModBusRtu() {}
+		~ModBusRtu() = default;
 		
 		SemaphoreHandle_t xMutex;// 互斥量
 		
@@ -53,7 +53,7 @@ namespace modbus
     {
     public:
 		RtuHandler(uint8_t addr_, ModBusRtu& rtu_);
-		virtual ~RtuHandler() {}
+		~RtuHandler() = default;
 		
 		bool Rtu_Transmit(uint8_t code_, uint8_t* data_, uint16_t len_, uint16_t max_wait_time);
 		

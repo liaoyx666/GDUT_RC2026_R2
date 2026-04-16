@@ -12,7 +12,7 @@ namespace lidar
     {
 	public:
 		LiDAR(UART_HandleTypeDef &huart_);
-		virtual ~LiDAR() {}
+		~LiDAR() = default;
 		uint16_t distance = 0;
 	protected:
 		

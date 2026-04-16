@@ -9,7 +9,7 @@ namespace ros
     {
     public:
 		Radar(cdc::CDC &cdc_, uint8_t rx_id_, data::RobotPose& robot_pose_);
-		virtual ~Radar() {}
+		~Radar() = default;
 		
 		void Reposition();
 		

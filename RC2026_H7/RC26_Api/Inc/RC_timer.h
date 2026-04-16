@@ -10,8 +10,7 @@ namespace timer
     {
     public:
 		Timer(tim::Tim *tim_);
-		virtual ~Timer() {}
-		
+		~Timer() = default;
 		
 		volatile static uint32_t cycle;
 		

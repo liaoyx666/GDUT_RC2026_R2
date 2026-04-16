@@ -34,7 +34,7 @@ namespace can
 	{
 	public:
 		Can(FDCAN_HandleTypeDef &hcan_);
-		virtual ~Can() {}
+		~Can() = default;
 		
 		void Can_Filter_Init(
 			uint32_t idType,
@@ -71,7 +71,7 @@ namespace can
 	{
 	public:
 		CanHandler(Can &can_);
-		virtual ~CanHandler() {}
+		~CanHandler() = default;
 
 		Can *can = nullptr;
 		uint8_t tx_frame_dx;

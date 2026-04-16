@@ -10,7 +10,7 @@ namespace photogate
     {
     public:
 		PhoGateRepos(motor::DjiMotor& motor_ptr_, bool& is_reposition_, float angle_, uint16_t gpio_pin_, float min_rpm_ = 0);
-		virtual ~PhoGateRepos() {}
+		~PhoGateRepos() = default;
 		
     protected:
 		

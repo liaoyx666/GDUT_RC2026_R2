@@ -19,7 +19,7 @@ namespace motor
     {
     public:
 		DjiMotor(can::Can &can_, tim::Tim *tim_, float gear_ratio_ = 1.f, bool is_reset_pos_angle = false);
-		virtual ~DjiMotor() {}
+		~DjiMotor() = default;
 
 		void Set_Current(float target_current_);//有些电机没有电流控制
 		void Set_Out_Angle(float target_out_angle_);// 设置输出轴角度

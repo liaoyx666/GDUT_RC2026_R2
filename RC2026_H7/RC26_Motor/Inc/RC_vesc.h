@@ -78,7 +78,7 @@ namespace motor
     class Vesc : public motor::Motor, public can::CanHandler, public tim::TimHandler {
     public:
         Vesc(uint8_t id_, can::Can &can_, tim::Tim *tim_, uint16_t pole_pairs_ = 1, bool local_pid_ = false, float gear_ratio_ = 1.f);
-        virtual ~Vesc() {}
+        ~Vesc() = default;
 
     protected:
         void CanHandler_Register() override;

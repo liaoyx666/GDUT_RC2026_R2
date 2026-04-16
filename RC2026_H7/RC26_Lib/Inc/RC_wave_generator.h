@@ -14,7 +14,7 @@ class SquareWave
 {
 public:
 	SquareWave(float amplitude_, uint32_t half_cycle_);
-	virtual ~SquareWave() {}
+	~SquareWave() = default;
 		
 	float Get_Signal();
 	void Init();
@@ -38,7 +38,8 @@ class SinWave
 {
 public:
 	SinWave(float amplitude_, uint32_t cycle_);
-	virtual ~SinWave() {}
+	
+	~SinWave() = default;
 		
 	float Get_Signal();
 	void Init();

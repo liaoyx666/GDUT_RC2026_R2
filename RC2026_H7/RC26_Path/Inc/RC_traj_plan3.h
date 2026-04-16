@@ -61,7 +61,7 @@ namespace path
     {
     public:
 		TrajPlan3(LonConstr3 l, HeadConstr3 h);
-		virtual ~TrajPlan3() {}
+		~TrajPlan3() = default;
 		
 		TrajPlanReturn3 Add_Point(Point3 p);
 		bool Load_Path(Path3* path_);

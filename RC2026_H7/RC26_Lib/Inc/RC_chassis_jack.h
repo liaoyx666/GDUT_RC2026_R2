@@ -30,7 +30,7 @@ namespace chassis_jack
 			GPIO_TypeDef* GPIOx4, uint16_t GPIO_Pin_4
 		);
 
-		virtual ~Chassis_jack() {}
+		~Chassis_jack() = default;
 
 		void Up_Or_Down_Event();
 

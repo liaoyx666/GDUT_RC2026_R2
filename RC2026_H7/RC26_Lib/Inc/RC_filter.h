@@ -27,6 +27,7 @@ namespace filter
     public:
 		TD(float r_, float h_, float v2_max_ = 0.f);
 		TD();
+		~TD() = default;
 	
 		float TD_Calculate(float v, bool normalization = false, float unit = PI, float* v2_return = NULL);
 		void TD_Init(float r_, float h_, float v2_max_ = 0.f);
@@ -95,7 +96,7 @@ namespace filter
 //    public:
 //		TD3rd(float r_, float h_, float v2_max_ = 0.f, float v3_max_ = 0.f);
 //		TD3rd();
-//		virtual ~TD3rd() {}
+//		~TD3rd() = default;
 //			
 //		void TD3rd_Init(float r_, float h_, float v2_max_ = 0.f, float v3_max_ = 0.f);
 //		

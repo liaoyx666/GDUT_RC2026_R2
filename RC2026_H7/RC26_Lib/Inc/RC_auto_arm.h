@@ -9,7 +9,7 @@ namespace arm
     {
     public:
 		AutoArm(Arm_task& arm_task_, path::PathPlan2& path_plan_, uint8_t event_arm_up_id_, uint8_t event_arm_down_id_);
-		virtual ~AutoArm() {}
+		~AutoArm() = default;
 		
 		void Auto_Arm();
     protected:

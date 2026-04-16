@@ -66,7 +66,7 @@ namespace path
     {
     public:
 		Path3();
-		virtual ~Path3() {}
+		~Path3() = default;
 		
 		uint8_t Curve_Num() const {return line_num + arc_num;}
 		float Len() const {return len[line_num + arc_num - 1];}

@@ -19,7 +19,7 @@ namespace flysky
     {
     public:
 		FlySky(uint16_t gpio_pin_);
-		virtual ~FlySky() {}
+		~FlySky() = default;
 		
 		volatile uint16_t channel_list[CHANNEL_NUM];// 取值范围1000~2000
 		

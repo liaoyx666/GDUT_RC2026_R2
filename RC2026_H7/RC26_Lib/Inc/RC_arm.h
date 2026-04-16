@@ -69,7 +69,7 @@ namespace arm
 	{
 	public:
 		ArmDynamics();
-		virtual ~ArmDynamics() {}
+		~ArmDynamics() = default;
 		
 		float tor[4] = {0};
 		float tor_d[4] = {0};
@@ -228,7 +228,7 @@ public:
              motor::Motor& motor_2_,
              motor::Motor& motor_3_,
              motor::Motor& motor_4_);
-    virtual ~Arm_task() {}
+    ~Arm_task() = default;
     bool Arm_Control(ARM_TASK task);
     bool Arm_IsBusy(void);
 

@@ -15,7 +15,7 @@ namespace tim
 	{
 	public:
 		Tim(TIM_HandleTypeDef &htim_);
-		virtual ~Tim() {}
+		~Tim() = default;
 			
 		// 开启定时器中断
 		inline void Tim_It_Start()
@@ -48,7 +48,7 @@ namespace tim
 	{
 	public:
 		TimHandler(Tim* tim_);
-		virtual ~TimHandler() {}
+		~TimHandler() = default;
 		
 		virtual void Tim_It_Process() = 0;
 	};

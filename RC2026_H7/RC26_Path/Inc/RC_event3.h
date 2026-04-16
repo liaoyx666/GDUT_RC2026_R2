@@ -28,7 +28,7 @@ namespace path
     {
     public:
 		Event3(uint8_t id_, bool wait_finish_, float trig_threshold_ = 0);/*id_: 1 ~ EVENT3_MAX_EVENT_NUM*/
-		virtual ~Event3() {}
+		~Event3() = default;
 		
 		bool Is_Trig();
 		void Finish();

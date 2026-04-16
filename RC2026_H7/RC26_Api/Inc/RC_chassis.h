@@ -18,7 +18,7 @@ namespace chassis
 			float max_angular_vel_, float angular_accel_, float angular_decel_,
 			data::RobotPose& pose_
 		);
-		virtual ~Chassis() {}
+		~Chassis() = default;
 		
 		// 设置机器人坐标速度
 		void Set_Robot_Vel(vector2d::Vector2D v_, float vw_);

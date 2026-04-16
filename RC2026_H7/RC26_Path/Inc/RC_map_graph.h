@@ -32,6 +32,7 @@ namespace path
 		public:
 			Area(vector2d::Vector2D A_, vector2d::Vector2D B_, vector2d::Vector2D C_)
 			: A(A_), AB(B_ - A_), AC(C_ - A_), dotAB(AB.dot(AB)), dotAC(AC.dot(AC)) {}
+			~Area() = default;
 			
 			bool Is_Point_In(const vector2d::Vector2D& p) const
 			{

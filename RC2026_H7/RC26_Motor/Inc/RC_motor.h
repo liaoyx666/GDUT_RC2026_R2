@@ -27,7 +27,7 @@ namespace motor
     {
     public:
 		Motor(float gear_ratio_ = 1.f, bool is_reset_pos_ = false);
-		virtual ~Motor() {}
+		~Motor() = default;
 		
 		// 设置参数
 		void Set_Pos_limit(float pos_max_, float pos_min_);
@@ -79,7 +79,7 @@ namespace motor
     {
     public:
 		JointM(float gear_ratio_ = 1.f, bool is_reset_pos_ = false);
-		virtual ~JointM() {}		
+		~JointM() = default;	
 		
 		void Set_Torque(float target_torque_);// 
 		void Set_Out_Torque(float target_out_torque_);

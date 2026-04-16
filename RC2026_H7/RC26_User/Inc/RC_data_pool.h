@@ -13,7 +13,7 @@ namespace data
     {
     public:
 		RobotPose();
-		virtual ~RobotPose() {}
+		~RobotPose() = default;
 		
 		void Update_Position(float * x_, float * y_, float * z_);
 		void Update_Orientation(float * yaw_, float * roll_, float * pitch_);

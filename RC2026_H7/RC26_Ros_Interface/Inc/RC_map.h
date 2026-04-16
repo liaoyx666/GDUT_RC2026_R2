@@ -25,7 +25,7 @@ namespace ros
     {
     public:
 		Map(cdc::CDC &cdc_, uint8_t rx_id_);
-		virtual ~Map() {}
+		~Map() = default;
 		
 		int8_t Get_MF(uint8_t n);
 		void Set_MF(uint8_t n, int8_t kfs);

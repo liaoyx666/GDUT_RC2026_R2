@@ -21,7 +21,7 @@ namespace path
     {
     public:
 		TrajTrack3(data::RobotPose& pose_, chassis::Chassis& chassis_, HeadCtrl& head_ctrl_, float deadzone_);
-		virtual ~TrajTrack3() {}
+		~TrajTrack3() = default;
 		
 		bool Load_Path(Path3* path_);
 		

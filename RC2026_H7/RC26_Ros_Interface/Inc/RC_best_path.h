@@ -18,7 +18,7 @@ namespace ros
     {
     public:
 		BestPath(cdc::CDC &cdc_, uint8_t rx_id_);
-		virtual ~BestPath() {}
+		~BestPath() = default;
 		
 		uint8_t step[9] = {2, 5, 4, 7, 10};
 		uint8_t step_num = 5;

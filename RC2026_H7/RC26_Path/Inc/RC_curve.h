@@ -9,7 +9,7 @@ namespace curve
     {
     public:
 		Curve2D();
-		virtual ~Curve2D() {}
+		~Curve2D() = default;
 	
 		virtual void Get_Point_On_T(float t, vector2d::Vector2D* p) const = 0;
 		virtual bool Get_Point_On_Len(float len, vector2d::Vector2D* p) const = 0;
@@ -39,7 +39,7 @@ namespace curve
     {
     public:
 		Line2D();
-		virtual ~Line2D() {}
+		~Line2D() = default;
 		
 		bool Init(vector2d::Vector2D start_, vector2d::Vector2D end_);	
 		void Reset();
@@ -62,7 +62,7 @@ namespace curve
     {
     public:
 		Arc2D();
-		virtual ~Arc2D() {}
+		~Arc2D() = default;
 		
 		bool Init(vector2d::Vector2D start_, vector2d::Vector2D center_, float ag_);
 		bool Init(vector2d::Vector2D start_, vector2d::Vector2D end_, float radius_, bool is_counter_clockwise);

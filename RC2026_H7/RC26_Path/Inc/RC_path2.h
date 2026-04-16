@@ -27,7 +27,7 @@ namespace path
     {
     public:
 		PathEvent2(uint8_t id_, PathPlan2 &path_plan_);
-		virtual ~PathEvent2() {}
+		~PathEvent2() = default;
 		
 		bool Is_Start();
 			
@@ -106,7 +106,7 @@ namespace path
     {
     public:
 		Path2();
-		virtual ~Path2() {}
+		~Path2() = default;
 		
 		bool Generate_Path(Point2 point_);
 		
@@ -193,8 +193,8 @@ namespace path
 			float max_angular_vel_, float angular_accel_, float angular_decel_,
 			float distance_deadzone_, float yaw_deadzone_
 		);
-		virtual ~PathPlan2() {}
-		
+		~PathPlan2() = default;	
+			
 		void Enable();
 		void Disable();
 		

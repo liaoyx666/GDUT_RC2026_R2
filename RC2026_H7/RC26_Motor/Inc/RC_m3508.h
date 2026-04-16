@@ -8,7 +8,7 @@ namespace motor
 	{
 	public:
 		M3508(uint8_t id_, can::Can &can_, tim::Tim *tim_, float gear_ratio_ = 3591.f / 187.f, bool is_reset_pos_angle = false);
-		virtual ~M3508() {}
+		~M3508() = default;
 
 	protected:
 		void Dji_Id_Init(uint8_t id_) override;
@@ -27,7 +27,7 @@ namespace motor
 			uint8_t id_s, can::Can &can_s, tim::Tim *tim_s, 
 			float gear_ratio_ = 3591.f / 187.f, MotorPol pol_s = POL_REV, bool is_reset_pos_angle = false
 		);
-		virtual ~M3508D() {}
+		~M3508D() = default;
 		
     protected:
 		void Tim_It_Process() override;

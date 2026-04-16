@@ -37,7 +37,7 @@ namespace chassis
 			data::RobotPose& pose_
 		);
 		
-		virtual ~Swerve4Chassis() {}
+		~Swerve4Chassis() = default;
 		
 		// 再次初始化
 		void Chassis_Re_Init() override;	

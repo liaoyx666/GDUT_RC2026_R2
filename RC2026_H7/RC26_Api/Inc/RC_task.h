@@ -26,7 +26,7 @@ namespace task
 			osThreadFunc_t func, 
 			void *argument
 		);
-		virtual ~TaskCreator() {}
+		~TaskCreator() = default;
 	protected:
 		osThreadId_t TaskHandle;// 任务句柄
 	};
@@ -42,7 +42,7 @@ namespace task
 			TaskType task_type_,
 			uint8_t ticks_
 		);
-		virtual ~ManagedTask() {}
+		~ManagedTask() = default;
 	protected:
 	private:
 		uint8_t ticks;

@@ -93,7 +93,7 @@ enum class GRIPPER_TASK :uint8_t
 class Gripper  : public task::ManagedTask
 {
 	public:
-			virtual ~Gripper(){}
+			~Gripper() = default;
 			Gripper(motor::Motor& motor_1_, motor::Motor& motor_2_, motor::Motor& motor_3_);
 			bool isBusy() const { return busy; }
 			void Gripper_task(GRIPPER_TASK task);

@@ -10,7 +10,7 @@ namespace gpio
     {
     public:
 		GpioExti(uint16_t gpio_pin_);
-		virtual ~GpioExti() {}
+		~GpioExti() = default;
 		
 		static void All_EXTI_Prosess(uint16_t gpio_pin_);
 		

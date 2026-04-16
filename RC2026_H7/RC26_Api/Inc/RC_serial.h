@@ -13,7 +13,7 @@ namespace serial
     {
     public:
 		UartRx(UART_HandleTypeDef &huart_, uint8_t *buf_, uint16_t buf_size_, bool use_DMA_, bool use_idle_);
-		virtual ~UartRx() {}
+		~UartRx() = default;
 		
 		static void All_Uart_Rx_It_Process(UART_HandleTypeDef *huart_, uint16_t size_);
 		static void All_Uart_Error_It_Process(UART_HandleTypeDef *huart_);

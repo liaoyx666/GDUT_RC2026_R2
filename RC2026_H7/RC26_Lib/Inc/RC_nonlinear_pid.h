@@ -11,7 +11,7 @@ namespace pid
     public:
 		NonlinearPid(float kp_, float kd, float accel_, float delta_, float max_out_, float deadzone_);
 		NonlinearPid();
-		virtual ~NonlinearPid() {}
+		~NonlinearPid() = default;
 		
 		float NPid_Calculate(float target_, float real_, bool normalization = false, float unit = PI);
 		
