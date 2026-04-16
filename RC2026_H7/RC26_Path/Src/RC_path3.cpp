@@ -581,30 +581,44 @@ namespace path
 		}
 	}
 	
-	void Path3::Trig_Event_On_Len(float l_) const
+	/*触发事件*/
+	void Path3::Trig_Event_On_Len(float l_)
 	{
 		if (!is_init || event_num == 0) return;
 		
-		while(event[event_dx].len - PATH3_TRIG_EVENT_THRESHOLD < l_ && event_dx < event_num)
+		bool update_event_dx = true;
+		
+		for (uint8_t i = event_dx; i < event_num &&  event[i].len - EVENT3_TRIG_MAX_THRESHOLD < l_; i++)
 		{
-			if (event[event_dx].event)
+			if (event[i].event == 0)
+				continue;
+			
+			for (uint8_t j = 0; event[i].event != 0 && j < EVENT3_MAX_EVENT_NUM; j++)
 			{
-				for (uint8_t i = 0; i <= EVENT3_MAX_EVENT_NUM; i++)
+				if (!((1 << j) & event[i].event))
+					continue;
+					
+				if (Event3::list[j] == nullptr)
+					continue;
+				
+				if (event[i].len - Event3::list[j]->trig_threshold < l_)
 				{
-					if ((1 << i) & event[event_dx].event)
-					{
-						if (Event3::list[i] != nullptr)
-						{
-							Event3::list[i]->Trig_Once(); /*触发一次*/
-						}
-					}
+					Event3::list[j]->Trig_Once(); /*触发一次*/
+					event[i].event &= ~(1 << j); /*防止重复触发*/
 				}
 			}
 			
-			event_dx++;
+			if (update_event_dx)
+			{
+				if (event[i].event == 0)
+					event_dx = i + 1;
+				else
+					update_event_dx &= false;
+			}
 		}
 	}
 	
+	/*添加结束点事件*/
 	void Path3::Add_Wait_Event_At_End(Event3_t e)
 	{
 		for (uint8_t i = 0; i < EVENT3_MAX_EVENT_NUM; i++)

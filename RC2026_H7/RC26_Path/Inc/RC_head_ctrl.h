@@ -14,7 +14,7 @@ namespace path
 	
 		pid::NonlinearPid pid;
 	
-		const bool& Is_Enable() const {return is_enable;}
+		bool Is_Enable() const {return is_enable;}
 		
 		void Set_Yaw(float y_)
 		{

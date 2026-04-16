@@ -99,7 +99,7 @@ namespace path
 				&head
 			);
 			
-			path->Trig_Event_On_Len(l); /*触发事件*/
+			
 			
 			/*计算时间差*/
 			float dt  = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f; /*us->s*/
@@ -178,6 +178,11 @@ namespace path
 				}
 			}
 			
+			if (is_start)
+			{
+				path->Trig_Event_On_Len(l); /*触发事件*/
+			}
+			
 			if (!is_start) /*还没出发*/
 			{
 				vector2d::Vector2D s; /*起点*/
@@ -242,21 +247,19 @@ namespace path
 			}
 			/*---------------------------------ld------------------------------------*/
 			
-			
+			/*检查是否等待结束*/
 			if (path->wait_event)
 			{
 				for (uint8_t i = 0; i < EVENT3_MAX_EVENT_NUM; i++)
 				{
-					if (path->wait_event & (1 << i))
-					{
-						if (Event3::list[i] != nullptr)
-						{
-							if (Event3::list[i]->Is_Finish())
-							{
-								path->wait_event = path->wait_event & ~(1 << i);
-							}
-						}
-					}
+					if (!(path->wait_event & (1 << i)))
+						continue;
+						
+					if (Event3::list[i] == nullptr)
+						continue;
+					
+					if (Event3::list[i]->Is_Finish())
+						path->wait_event &= ~(1 << i);
 				}
 			}
 			
@@ -266,7 +269,6 @@ namespace path
 			}
 			
 			v_ = tan * tan_v + nor * nor_v; /*速度合成*/
-		
 		}
 		else
 		{

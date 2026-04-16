@@ -42,11 +42,11 @@ namespace motor
 		void Reset_Pos(float pos_);// 重置转子位置
 		
 		// 获取参数
-		const float& Get_Rpm() const {return rpm;}
-		const float& Get_Pos() const {return pos;}
+		float Get_Rpm() const {return rpm;}
+		float Get_Pos() const {return pos;}
 		float Get_Out_Rpm() const {return rpm / gear_ratio;}
 		float Get_Out_Pos() const {return pos / gear_ratio;}
-		const float& Get_Temperature() const {return temperature;}
+		float Get_Temperature() const {return temperature;}
 		
 		// 速度环pid，位置环pid
 		pid::Pid pid_spd, pid_pos;
@@ -84,7 +84,7 @@ namespace motor
 		void Set_Torque(float target_torque_);// 
 		void Set_Out_Torque(float target_out_torque_);
 		
-		const float& Get_Torque() const {return torque;}
+		float Get_Torque() const {return torque;}
 		float Get_Out_Torque() const {return torque * gear_ratio;}
 		
 		void Set_Mit_Pos(float pos_);

@@ -4,7 +4,7 @@ namespace path
 {
 	Event3* Event3::list[] = {nullptr};
 	
-	Event3::Event3(uint8_t id_, bool wait_finish_)
+	Event3::Event3(uint8_t id_, bool wait_finish_, float trig_threshold_)
 	{
 		if (id_ > EVENT3_MAX_EVENT_NUM)/*超出id范围*/
 		{
@@ -21,6 +21,8 @@ namespace path
 		
 		trig_signal = false;
 		finish_signal = false;
+		
+		trig_threshold = fminf(EVENT3_TRIG_MAX_THRESHOLD, fmaxf(EVENT3_TRIG_MIN_THRESHOLD, trig_threshold_));
 		
 		wait_finish = wait_finish_;
 	}

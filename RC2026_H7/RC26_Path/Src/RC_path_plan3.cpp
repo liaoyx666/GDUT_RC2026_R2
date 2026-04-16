@@ -3,7 +3,7 @@
 namespace path
 {
 	PathPlan3::PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_)
-	: task::ManagedTask("PathPlan3Task", 26, 512, task::TASK_DELAY, 2), plan(l, h), track(track_)/*, track(pose_, c, lon_deadzone_, head_deadzone_)*/
+	: task::ManagedTask("PathPlan3Task", 26, 512, task::TASK_DELAY, 2), plan(l, h), track(track_)
 	{
 		head = 0;
 		tail = 0;
@@ -16,22 +16,6 @@ namespace path
 	/*任务函数*/
 	void PathPlan3::Task_Process()
 	{
-//		vector2d::Vector2D v = vector2d::Vector2D();
-//		float w = 0;
-//		
-//		/*轨迹跟踪*/
-//		if (!track.Calc_Vel(&v, &w))
-//		{
-//			v = vector2d::Vector2D();
-//			w = 0;
-//		}
-
-//		if (is_enable)
-//		{
-//			/*设置底盘*/
-//			chassis->Set_World_Vel(v, w, *pose->Get_pYaw());
-//		}
-
 		/*生成路径*/
 		Plan_Path();
 		

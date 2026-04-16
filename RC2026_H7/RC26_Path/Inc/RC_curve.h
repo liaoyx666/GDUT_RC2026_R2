@@ -19,12 +19,11 @@ namespace curve
 		
 		/*曲线是否初始化*/
 		bool Is_Init() const {return is_init;}
-		const float& Len() const {return len;}
-		const float& Cur() const {return cur;}
-		const float& End_Vel() const {return end_vel;}
+		float Len() const {return len;}
+		float Cur() const {return cur;}
+		float End_Vel() const {return end_vel;}
 		void Set_End_Vel(float end_vel_) {end_vel = end_vel_;}
 		void Update_End_Vel(float end_vel_) {end_vel = (end_vel_ < end_vel ? end_vel_ : end_vel);}
-
 		float Vel_On_Len(float l_, float a) const;
 		
     protected:

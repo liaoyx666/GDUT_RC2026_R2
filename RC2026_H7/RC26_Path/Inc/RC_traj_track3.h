@@ -37,7 +37,7 @@ namespace path
 			head_ctrl.Disable();
 		}
 		
-		bool Is_End() const {return is_end;}
+		const bool& Is_End() const {return is_end;}
 		
 		bool Is_Load() const {return (bool)path;}
 		

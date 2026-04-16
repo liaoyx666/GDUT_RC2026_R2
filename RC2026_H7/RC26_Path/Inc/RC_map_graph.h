@@ -47,8 +47,8 @@ namespace path
 			const vector2d::Vector2D& Get_A() const {return A;}
 			const vector2d::Vector2D& Get_AB() const {return AB;}
 			const vector2d::Vector2D& Get_AC() const {return AC;}
-			const float& Get_dotAB() const {return dotAB;}
-			const float& Get_dotAC() const {return dotAC;}
+			float Get_dotAB() const {return dotAB;}
+			float Get_dotAC() const {return dotAC;}
 		
 		private:
 			const vector2d::Vector2D A;

@@ -244,13 +244,6 @@ void test(void *argument)
 //		true
 //	);
 	
-	
-	
-	
-	path::MapGraph::Set_MF_Valid(11, false);
-	path::MapGraph::Set_MF_Valid(10, false);
-	path::MapGraph::Set_MF_Valid(12, false);
-	
 	for (;;)
 	{
 		wave.Set_Amplitude(a);

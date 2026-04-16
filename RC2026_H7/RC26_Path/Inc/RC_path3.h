@@ -8,15 +8,13 @@ namespace path
 	constexpr uint8_t PATH3_MAX_LINE_NUM   = 10; /*最大直线数*/
 	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 10; /*最大圆弧数*/
 	constexpr float PATH3_MAX_LIN_VEL      = 4.f; /*最大线速度*/
-	constexpr float PATH3_TRIG_EVENT_THRESHOLD = 0.03; /*靠近触发事件阈值 m*/
+
 	constexpr float PATH3_CURVE_SWITCH_THRESHOLD = 0.03f; /*切换曲线阈值 m*/
 	
 	constexpr uint8_t PATHLONCON3_MAX_NUM  = 10; /*最大纵向约束数*/
 	constexpr uint8_t PATHHEADCON3_MAX_NUM = 10; /*最大航向约束数*/
 	constexpr uint8_t PATHEVENT3_MAX_NUM   = 5; /*最大事件组数*/
-	
-	//using Event3_t = uint8_t;
-	
+
 	/*纵向约束条件*/
 	struct LonConstr3
 	{
@@ -73,7 +71,7 @@ namespace path
 		uint8_t Curve_Num() const {return line_num + arc_num;}
 		float Len() const {return len[line_num + arc_num - 1];}
 		void Reset();
-		bool Is_Init() const {return is_init;}
+		const bool& Is_Init() const {return is_init;}
 		
 		void Get_Point_On_T(float t, vector2d::Vector2D* p) const;
 		void Get_Constr_On_Len(float l, LonConstr3* lon, HeadConstr3* head) const;
@@ -93,7 +91,7 @@ namespace path
 			HeadConstr3* head
 		) const;
 		
-		void Trig_Event_On_Len(float l_) const; /*触发事件*/
+		void Trig_Event_On_Len(float l_); /*触发事件*/
 		
 		bool Add_PathLonCon(float l, LonConstr3 c);
 		bool Add_PathHeadCon(float l, HeadConstr3 c);
@@ -102,7 +100,7 @@ namespace path
 		uint8_t Line_FreeSpace() const {return PATH3_MAX_LINE_NUM - line_num;}
 		uint8_t Arc_FreeSpace() const {return PATH3_MAX_ARC_NUM - arc_num;}
 		
-		bool Pre_Align() const {return pre_align;}
+		const bool& Pre_Align() const {return pre_align;}
     protected:
 		
     private:

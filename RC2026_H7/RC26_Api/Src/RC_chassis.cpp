@@ -46,42 +46,33 @@ namespace chassis
 		
 		/************************速度限幅*************************/
 		float v_length = target_v.length();
-		float vw_length = fabsf(target_vw);
-		
+	
 		if (v_length > max_linear_vel)
 		{
 			target_v = target_v / v_length * max_linear_vel;
 		}
-		
-		if (vw_length > max_angular_vel)
-		{
-			if (target_vw > 0)
-			{
-				target_vw = max_angular_vel;
-			}
-			else
-			{
-				target_vw = -max_angular_vel;
-			}
-		}
+
+		if (target_vw > max_angular_vel)
+			target_vw = max_angular_vel;
+		else if (target_vw < -max_angular_vel)
+			target_vw = -max_angular_vel;
 		
 		/**************************获取dt***********************/
 		float dt = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f;// us->s
 		last_time = timer::Timer::Get_TimeStamp();
-		if (dt <= 0 || dt > 0.1f) dt = 0.01f;
+		if (dt <= 0 || dt > 0.1f) dt = 0.001f;
 
 		/*************************角加速度限制************************/
 		// 判断是否需要减速
 		if (target_vw * last_vw < 0)
 		{
-			vw = last_vw + Limit_Accel(target_vw - last_vw, angular_decel, dt);
+			vw = last_vw + Limit_Accel(target_vw - last_vw, angular_decel, dt); /*减速*/
 		}
 		else
 		{
-			vw = last_vw + Limit_Accel(target_vw - last_vw, angular_accel, dt);
+			vw = last_vw + Limit_Accel(target_vw - last_vw, angular_accel, dt); /*加速*/
 		}
 		/************************真实前一次速度方向*************************/
-		//last_v = last_v.rotate(-(vw + last_vw) / 2.f * dt);
 		last_v = last_v.rotate(-vw * dt);
 		/************************线加速度限制*************************/
 		vector2d::Vector2D normal_v = target_v.perpendicular();// 获取垂直法向量（逆时针90度）
