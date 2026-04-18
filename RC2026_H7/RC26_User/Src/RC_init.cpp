@@ -124,7 +124,6 @@ path::HeadCheck headcheck(1, PI, track, robot_pose);
 /*====================================DeBug====================================*/
 SquareWave wave(1000, 3000);// 用于调pid
 
-
 vector2d::Vector2D pc;
 float target = 0;
 float a = 0;
@@ -253,6 +252,22 @@ void test(void *argument)
 		headcheck.Cheak_Head();
 		
 		
+		
+		
+		
+		
+//		float x = 0;
+//		float y = 0;
+//		for (uint16_t i = 0; i < 1000; i++)
+//		{
+//			x += 1;
+//			y += sinf(x);
+//		}
+		
+		
+	//	uart_printf("%d\n", 6666);
+		
+		
 		if (remote_ctrl.swa == 1)
 		{
 			pp.Enable();
@@ -323,12 +338,11 @@ void test(void *argument)
 //		m3508_2_can1.Set_Out_Pos(a3);
 //		j60_1_can1.Set_Out_Mit_Pos(a2);
 		
-		
 		osDelay(1);
 	}
 }
 
-task::TaskCreator test_task("test", 20, 1024, test, NULL);
+task::TaskCreator test_task("test", 20, 512, test, NULL);
  
 /*====================================初始化函数====================================*/
 void All_Init()

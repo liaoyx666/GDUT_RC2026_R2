@@ -1,5 +1,9 @@
 #include "RC_tim.h"
 
+#include "RC_timer.h"
+#include "RC_serial.h"
+#include <stdint.h>
+
 // C语言接口（.c文件不支持c++语法）（放入hal库定时器中断函数中）
 extern "C" void All_Tim_It_Process(TIM_HandleTypeDef *htim)
 {
@@ -27,7 +31,7 @@ namespace tim
 	}
 
 	// 所有定时器中断函数
-	void Tim::All_Tim_It_Process(TIM_HandleTypeDef *htim)
+	inline void Tim::All_Tim_It_Process(TIM_HandleTypeDef *htim)
 	{
 		for (uint8_t i = 0; i < tim_num; i++)
 		{

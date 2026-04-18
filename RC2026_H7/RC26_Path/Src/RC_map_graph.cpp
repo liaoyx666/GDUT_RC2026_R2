@@ -91,7 +91,6 @@ namespace path
 	void MapGraph::Set_MF_Valid(uint8_t n, bool valid_)
 	{
 		if (n == 0 || n >= 13) return;
-		
 		valid[n] = valid_;
 	}
 
@@ -144,7 +143,6 @@ namespace path
 		if (n_ < 1 || n_ > 12) return vector2d::Vector2D();
 		
 		uint8_t dx = (uint8_t)data::Is_Blue_Left_Side();
-		
 		uint8_t w = (n_ - 1) % 3 + 1;
 		uint8_t h = (n_ - 1) / 3 + 1;
 	

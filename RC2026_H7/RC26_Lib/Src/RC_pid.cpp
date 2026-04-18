@@ -55,7 +55,6 @@ namespace pid
 		float output = 0;
 		
 		unit = fabsf(unit);
-		
 		float period = 2.f * unit;
 		
 		float temp_target;

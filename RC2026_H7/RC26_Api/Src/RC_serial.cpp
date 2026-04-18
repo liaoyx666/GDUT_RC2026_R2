@@ -50,14 +50,15 @@ namespace serial
 	uint8_t UartRx::uart_rx_num = 0;
 	UartRx* UartRx::uart_rx_list[MAX_UART_NUM] = {nullptr};
 	
-	void UartRx::All_Uart_Rx_It_Process(UART_HandleTypeDef *huart_, uint16_t size_)
+	inline void UartRx::All_Uart_Rx_It_Process(UART_HandleTypeDef *huart_, uint16_t size_)
 	{
 		for (uint8_t i = 0; i < uart_rx_num; i++)
 		{
 			if (uart_rx_list[i] != nullptr && uart_rx_list[i]->huart == huart_)
 			{
-				if (uart_rx_list[i]->use_idle == true && size_ != 0)
+				if (uart_rx_list[i]->use_idle && size_ != 0)
 				{
+					SCB_InvalidateDCache_by_Addr((uint32_t*)uart_rx_list[i]->buf, uart_rx_list[i]->buf_size);
 					// DMA + 空闲中断模式
                     // size_ 是实际接收的数据长度
 					uart_rx_list[i]->Uart_Rx_It_Process(uart_rx_list[i]->buf, size_);
@@ -65,10 +66,11 @@ namespace serial
 				}
 				else
 				{
+					SCB_InvalidateDCache_by_Addr((uint32_t*)uart_rx_list[i]->buf, uart_rx_list[i]->buf_size);
 					// 普通DMA或中断模式
                     // 传递缓冲区大小，因为接收的是固定长度数据
 					uart_rx_list[i]->Uart_Rx_It_Process(uart_rx_list[i]->buf, uart_rx_list[i]->buf_size);
-					if (uart_rx_list[i]->use_DMA == true)
+					if (uart_rx_list[i]->use_DMA)
 					{
 						HAL_UART_Receive_DMA(uart_rx_list[i]->huart, uart_rx_list[i]->buf, uart_rx_list[i]->buf_size);
 					}
@@ -103,9 +105,9 @@ namespace serial
 	
 	void UartRx::Uart_Rx_Start()
 	{
-		if (is_init == true)
+		if (is_init)
 		{
-			if (use_idle == true)
+			if (use_idle)
 			{
 				// 空闲中断模式强制使用DMA
 				use_DMA = true;
@@ -113,7 +115,7 @@ namespace serial
 			}
 			else
 			{
-				if (use_DMA == true)
+				if (use_DMA)
 				{
 					HAL_UART_Receive_DMA(huart, buf, buf_size);
 				}
@@ -145,7 +147,9 @@ namespace serial
 
 void uart_puts(const char *str)
 {
-    HAL_UART_Transmit(&huart1, (uint8_t*)str, strlen(str), HAL_MAX_DELAY);
+	uint16_t len = strlen(str);
+	SCB_CleanDCache_by_Addr((uint32_t*)str, len);
+    HAL_UART_Transmit_DMA(&huart1, (uint8_t*)str, len/*, HAL_MAX_DELAY*/);
 }
 
 

@@ -63,7 +63,7 @@ namespace can
 		
 		static uint8_t can_num;
 		static Can *can_list[MAX_CAN_NUM];
-		
+	
 		CanHandler *hd_list[MAX_CAN_HANDLER_NUM] = {nullptr};// 设备指针
 	};
 

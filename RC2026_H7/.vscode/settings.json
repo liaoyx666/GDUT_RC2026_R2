@@ -17,6 +17,7 @@
         "../RC26_User/Inc",
         "../RC26_Motor/Inc",
         "../RC26_Ros_Interface/Inc",
+        "../RC26_Path/Inc",
 
     ],
     "C_Cpp.default.compileCommands": [

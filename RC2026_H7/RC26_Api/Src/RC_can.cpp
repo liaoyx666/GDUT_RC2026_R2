@@ -32,7 +32,7 @@ namespace can
 	Can *Can::can_list[MAX_CAN_NUM] = {nullptr};// 初始化can列表指针
 	uint8_t Can::can_num = 0;// 初始化can数量为0
 
-	Can::Can(FDCAN_HandleTypeDef &hcan_) : hcan(&hcan_), task::ManagedTask("Can", 43, 128, task::TASK_PERIOD, 1)
+	Can::Can(FDCAN_HandleTypeDef &hcan_) : hcan(&hcan_), task::ManagedTask("Can", 43, 150, task::TASK_PERIOD, 1)
 	{
 		taskENTER_CRITICAL();
 		
@@ -91,7 +91,7 @@ namespace can
 		}
 	}
 
-	void Can::All_Can_Rx_It_Process(FDCAN_HandleTypeDef *hcan, uint32_t fifo)
+	inline void Can::All_Can_Rx_It_Process(FDCAN_HandleTypeDef *hcan, uint32_t fifo)
 	{
 		// 查找对应can对象
 		for (uint8_t i = 0; i < can_num; i++)
@@ -131,12 +131,12 @@ namespace can
 			}
 		}
 	}
-
+	
 	void Can::Task_Process()
 	{
 		FDCAN_TxHeaderTypeDef can_tx_hdr;// 帧头
 		HAL_StatusTypeDef status;
-		
+
 		// 发送can上所有数据帧
 		for (uint8_t i = 0; i < tx_frame_num; i++)
 		{

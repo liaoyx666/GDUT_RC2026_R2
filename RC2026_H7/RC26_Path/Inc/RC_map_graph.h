@@ -74,6 +74,8 @@ namespace path
 		static uint8_t Get_Node_On_Pos(vector2d::Vector2D p);
 		
 		static vector2d::Vector2D Get_MF_Center(uint8_t n_);
+	
+		static void Get_Path(vector2d::Vector2D s, vector2d::Vector2D e, uint8_t path[], uint8_t &pathLen);
 		
     private:
 		

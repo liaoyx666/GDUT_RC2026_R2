@@ -23,7 +23,7 @@ namespace gpio
 		}
 	}
 	
-	void GpioExti::All_EXTI_Prosess(uint16_t gpio_pin_)
+	inline void GpioExti::All_EXTI_Prosess(uint16_t gpio_pin_)
 	{
 		// 计算 x 二进制中尾随零的个数（从最低位开始）（开平方根）
 		uint8_t pin = __builtin_ctz(gpio_pin_);

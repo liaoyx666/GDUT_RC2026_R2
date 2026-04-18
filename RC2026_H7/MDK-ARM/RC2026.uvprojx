@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>2</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -1366,6 +1366,16 @@
               <FileName>RC_head_ctrl.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Path\Inc\RC_head_ctrl.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_graph_plan.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_graph_plan.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_graph_plan.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_graph_plan.h</FilePath>
             </File>
           </Files>
         </Group>

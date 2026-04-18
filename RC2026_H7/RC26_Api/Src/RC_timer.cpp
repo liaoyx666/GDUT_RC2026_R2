@@ -28,10 +28,10 @@ namespace timer
 		
 		uint32_t current_cycle;
         uint32_t current_cnt;
-
+		
 		current_cycle = cycle;
 		current_cnt = htim->Instance->CNT;
-
+		
 		return current_cnt + current_cycle * 0x10000;
 	}
 	
