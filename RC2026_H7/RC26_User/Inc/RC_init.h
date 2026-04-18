@@ -17,7 +17,6 @@
 
 #include "RC_wave_generator.h"
 #include "RC_flysky.h"
-#include "RC_omni_chassis.h"
 
 //#include "RC_path.h"
 #include "RC_arm.h"

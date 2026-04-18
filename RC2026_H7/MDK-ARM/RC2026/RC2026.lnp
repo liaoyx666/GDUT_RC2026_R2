@@ -77,7 +77,6 @@
 "rc2026\rc_vector3d.o"
 "rc2026\rc_jy901s.o"
 "rc2026\rc_swerve_chassis.o"
-"rc2026\rc_omni_chassis.o"
 "rc2026\rc_chassis_jack.o"
 "rc2026\rc_photogate.o"
 "rc2026\rc_lidar.o"

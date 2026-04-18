@@ -19,8 +19,8 @@ namespace cdc
 	
 	CDC::CDC(CDCType cdc_type_) :
 		cdc_type(cdc_type_),
-		task::ManagedTask("Cdc", 35, 128, task::TASK_PERIOD, 1),
-		receive_task("cdc_receive_task", 37, 128, CDC_All_Task_Receive_Process, &cdc_type)
+		task::ManagedTask("Cdc", 35, 128, task::TASK_PERIOD, 1)
+		//receive_task("cdc_receive_task", 37, 128, CDC_All_Task_Receive_Process, &cdc_type)
 	{
 		if (cdc_type == USB_CDC_HS) cdc_list_dx = 0;
 		else cdc_list_dx = 1;
@@ -35,6 +35,12 @@ namespace cdc
 	}
 	
 	void CDC::Task_Process()
+	{
+		Rx_Task();
+		Tx_Task();
+	}
+	
+	inline void CDC::Tx_Task()
 	{
 		uint8_t sending_buf_dx = (writing_buf_dx == 0) ? 1 : 0;
 		
@@ -152,21 +158,21 @@ namespace cdc
 		}
 	}
 	
-	void CDC::CDC_All_Task_Receive_Process(void *argument)
-	{
-		CDCType cdc_type_  = *(CDCType*)argument;
-		uint8_t dx = (cdc_type_ == USB_CDC_HS) ? 0 : 1;
-		
-		if (cdc_list[dx] == nullptr) Error_Handler();
-		
-		for (;;)
-		{
-			cdc_list[dx]->CDC_Task_Receive_Process();
-			osDelay(1);
-		}
-	}
+//	void CDC::CDC_All_Task_Receive_Process(void *argument)
+//	{
+//		CDCType cdc_type_  = *(CDCType*)argument;
+//		uint8_t dx = (cdc_type_ == USB_CDC_HS) ? 0 : 1;
+//		
+//		if (cdc_list[dx] == nullptr) Error_Handler();
+//		
+//		for (;;)
+//		{
+//			cdc_list[dx]->CDC_Task_Receive_Process();
+//			osDelay(1);
+//		}
+//	}
 	
-	void CDC::CDC_Task_Receive_Process()
+	inline void CDC::Rx_Task()
 	{
 		while (receive_buf_head != receive_buf_tail)
 		{
@@ -243,6 +249,11 @@ namespace cdc
 			/*-------------------------------------处理数据--------------------*/
 		}
 	}
+	
+//	void CDC::CDC_Task_Receive_Process()
+//	{
+//		
+//	}
 	
 	void CDC::CDC_Register_Handler(CDCHandler *hd)
 	{
