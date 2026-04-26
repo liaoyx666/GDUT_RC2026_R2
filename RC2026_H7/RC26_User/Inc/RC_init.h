@@ -18,13 +18,12 @@
 #include "RC_wave_generator.h"
 #include "RC_flysky.h"
 
-//#include "RC_path.h"
+
 #include "RC_arm.h"
 #include "RC_JY901S.h"
 #include "RC_swerve_chassis.h"
 #include "RC_chassis_jack.h"
 #include "RC_data_pool.h"
-//#include "RC_path2.h"
 #include "RC_auto_arm.h"
 #include "RC_traj_plan3.h"
 #include "RC_traj_track3.h"
@@ -33,6 +32,7 @@
 #include "RC_map_graph.h"
 #include "RC_head_check_event.h"
 #include "RC_cordic.h"
+#include "RC_graph_plan.h"
 
 #include "RC_radar.h"
 #include "RC_best_path.h"

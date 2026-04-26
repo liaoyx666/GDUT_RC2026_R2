@@ -14,8 +14,8 @@ namespace motor
 		pid_spd.Pid_Mode_Init(true, false, 0);
 		pid_spd.Pid_Param_Init(12, 0.65, 0, 0, 0.002, 0, 16384, 10000, 5000, 5000, 5000);
 		
-		pid_pos.Pid_Mode_Init(false, false, 0);
-		pid_pos.Pid_Param_Init(200, 0, 0, 0, 0.002, 0, 1000, 500, 500, 500, 500, 10, 3.f);
+		pid_pos.Pid_Mode_Init(false, false, 0, true);
+		pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
 	}
 	
 	void M2006::Dji_Id_Init(uint8_t id_)

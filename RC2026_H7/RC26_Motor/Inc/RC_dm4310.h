@@ -11,7 +11,7 @@ namespace motor
 	class DM4310 : public JointM, public can::CanHandler, public tim::TimHandler
 	{
 	public:
-		DM4310(uint8_t id_, can::Can &can_, tim::Tim *tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = false);
+		DM4310(uint8_t id_, can::Can &can_, tim::Tim *tim_, bool use_mit_ = false, float k_spd_ = 0, float k_pos_ = 0, bool is_reset_pos_ = true);
 		~DM4310() = default;
 
 		void Set_K_Pos(float target_k_pos_) override;

@@ -1,3 +1,4 @@
+/*轨迹规划*/
 #pragma once
 #include "RC_path3.h"
 #include "RC_event3.h"
@@ -88,6 +89,8 @@ namespace path
 	
 		LonConstr3 lon_m; /*约束最大值*/
 		HeadConstr3 head_m; /*约束最大值*/
+	
+		friend class GraphPlan;
     };
 	
 	/*根据圆角距离，折角角度，计算相切圆半径*/

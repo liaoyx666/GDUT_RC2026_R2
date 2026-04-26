@@ -41,7 +41,6 @@ namespace flysky
 		uint8_t last_swa, last_swd;
 		bool is_last_init;
     };
-
 }
 
 #endif

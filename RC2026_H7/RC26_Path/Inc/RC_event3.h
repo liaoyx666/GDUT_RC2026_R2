@@ -3,19 +3,26 @@
 #include <main.h>
 #ifdef __cplusplus
 
-using Event3_t = uint8_t;
+using Event3_t = uint16_t;
 
 
-
-constexpr Event3_t EVENT3_NULL = 0;
-constexpr Event3_t EVENT3_ID_1 = (1 << 0);
-constexpr Event3_t EVENT3_ID_2 = (1 << 1);
-constexpr Event3_t EVENT3_ID_3 = (1 << 2);
-constexpr Event3_t EVENT3_ID_4 = (1 << 3);
-constexpr Event3_t EVENT3_ID_5 = (1 << 4);
-constexpr Event3_t EVENT3_ID_6 = (1 << 5);
-constexpr Event3_t EVENT3_ID_7 = (1 << 6);
-constexpr Event3_t EVENT3_ID_8 = (1 << 7);
+constexpr Event3_t EVENT3_NULL  = 0;
+constexpr Event3_t EVENT3_ID_1  = (1 << 0);
+constexpr Event3_t EVENT3_ID_2  = (1 << 1);
+constexpr Event3_t EVENT3_ID_3  = (1 << 2);
+constexpr Event3_t EVENT3_ID_4  = (1 << 3);
+constexpr Event3_t EVENT3_ID_5  = (1 << 4);
+constexpr Event3_t EVENT3_ID_6  = (1 << 5);
+constexpr Event3_t EVENT3_ID_7  = (1 << 6);
+constexpr Event3_t EVENT3_ID_8  = (1 << 7);
+constexpr Event3_t EVENT3_ID_9  = (1 << 8);
+constexpr Event3_t EVENT3_ID_10 = (1 << 9);
+constexpr Event3_t EVENT3_ID_11 = (1 << 10);
+constexpr Event3_t EVENT3_ID_12 = (1 << 11);
+constexpr Event3_t EVENT3_ID_13 = (1 << 12);
+constexpr Event3_t EVENT3_ID_14 = (1 << 13);
+constexpr Event3_t EVENT3_ID_15 = (1 << 14);
+constexpr Event3_t EVENT3_ID_16 = (1 << 15);
 
 namespace path
 {

@@ -5,15 +5,15 @@
 #ifdef __cplusplus
 namespace path
 {
-	constexpr uint8_t PATH3_MAX_LINE_NUM   = 10; /*最大直线数*/
-	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 10; /*最大圆弧数*/
+	constexpr uint8_t PATH3_MAX_LINE_NUM   = 20; /*最大直线数*/
+	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 20; /*最大圆弧数*/
 	constexpr float PATH3_MAX_LIN_VEL      = 4.f; /*最大线速度*/
 
 	constexpr float PATH3_CURVE_SWITCH_THRESHOLD = 0.03f; /*切换曲线阈值 m*/
 	
-	constexpr uint8_t PATHLONCON3_MAX_NUM  = 10; /*最大纵向约束数*/
-	constexpr uint8_t PATHHEADCON3_MAX_NUM = 10; /*最大航向约束数*/
-	constexpr uint8_t PATHEVENT3_MAX_NUM   = 5; /*最大事件组数*/
+	constexpr uint8_t PATHLONCON3_MAX_NUM  = 15; /*最大纵向约束数*/
+	constexpr uint8_t PATHHEADCON3_MAX_NUM = 15; /*最大航向约束数*/
+	constexpr uint8_t PATHEVENT3_MAX_NUM   = 10; /*最大事件组数*/
 
 	/*纵向约束条件*/
 	struct LonConstr3

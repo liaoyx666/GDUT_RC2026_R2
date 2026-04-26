@@ -2,6 +2,9 @@
 
 namespace path
 {
+	
+	
+	
 	// 求完整路径 + 距离
 	bool MapGraph::Get_Shortest_Path(uint8_t start, uint8_t end, uint8_t path[], uint8_t &pathLen, uint8_t *dist_)
 	{
@@ -153,6 +156,127 @@ namespace path
 		else
 		{
 			return MF[dx].Get_A() + MF[dx].Get_AB() * ((float)h - 0.5f) / 4.f + MF[dx].Get_AC() * ((float)(4 - w) - 0.5f) / 3.f;
+		}
+	}
+	
+	bool MapGraph::Get_Path(vector2d::Vector2D s, vector2d::Vector2D e, uint8_t path[], uint8_t &pathLen)
+	{
+		uint8_t  s_node = Get_Node_On_Pos(s);
+		uint8_t  e_node = Get_Node_On_Pos(e);
+		
+		if (s_node == GRAPH_INVALID || e_node == GRAPH_INVALID || path == nullptr)
+		{
+			pathLen = 0;
+			return false;
+		}
+		
+		return Get_Shortest_Path(s_node, e_node, path, pathLen, NULL);
+	}
+	
+	
+	Direction MapGraph::Dir_From_To(uint8_t f, uint8_t t)
+	{
+		if (f == t) return DIR_INVALID;
+		if (f >= GRAPH_NODE_NUM || t >= GRAPH_NODE_NUM) return DIR_INVALID;
+		
+		/*检查相邻*/
+		bool is_near = false;
+		for (uint8_t i = 0; i < 4; i++)
+        {
+			is_near |= (graph[f][i].node == t);
+        }
+		if (!is_near) return DIR_INVALID;
+		
+		/*0 武馆*/
+		if (f == 0) return DIR_F;
+		if (t == 0) return DIR_B;
+		
+		/*13 出口*/
+		if (f == 13 || t == 13) 
+		{
+			if (t > f) return DIR_F;
+			else return DIR_B;
+		}
+
+		/*都在梅林内*/
+		int8_t d = (int8_t)t - (int8_t)f;
+		if (data::Is_Blue_Left_Side()) /*蓝方 左*/
+		{
+			if (d ==  1) return DIR_R;
+			if (d == -1) return DIR_L;
+			if (d ==  3) return DIR_F;
+			if (d == -3) return DIR_B;
+		}
+		else
+		{
+			if (d ==  1) return DIR_L;
+			if (d == -1) return DIR_R;
+			if (d ==  3) return DIR_F;
+			if (d == -3) return DIR_B;
+		}
+		
+		return DIR_INVALID;
+	}
+	
+	float MapGraph::Yaw_On_Dir(Direction dir)
+	{
+		switch (dir)
+		{
+			case DIR_F:
+			{
+				return 0;
+			}
+			
+			case DIR_B:
+			{
+				return PI;
+			}
+			
+			case DIR_L:
+			{
+				return PI / 2.f;
+			}
+			
+			case DIR_R:
+			{
+				return -PI / 2.f;
+			}
+			
+			default:
+			{
+				return 0;
+			}
+		}
+	}
+	
+	vector2d::Vector2D MapGraph::Offset_On_Dir(vector2d::Vector2D p, Direction dir, float offset)
+	{
+		switch (dir)
+		{
+			case DIR_F:
+			{
+				return vector2d::Vector2D(p.x() + offset, p.y());
+			}
+			
+			case DIR_B:
+			{
+				return vector2d::Vector2D(p.x() - offset, p.y());
+			}
+			
+			case DIR_L:
+			{
+				return vector2d::Vector2D(p.x(), p.y() + offset);
+			}
+			
+			case DIR_R:
+			{
+				return vector2d::Vector2D(p.x(), p.y() - offset);
+			}
+			
+			default:
+			{
+				return p;
+			}
 		}
 	}
 }

@@ -24,11 +24,11 @@ namespace path
 	}
 	
 	
-	bool PathPlan3::Add_Point(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end)
+	AddPointReturn PathPlan3::Add_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end)
 	{
-		if (Point_FreeSpace() == 0) return false; /*无空间*/
+		if (Point_FreeSpace() == 0) return ADD_FULL; /*无空间*/
 		
-		if (Point_Num() != 0 && point[(tail - 1) % PATHPLAN3_MAX_POINT_NUM].point == p) return false; /*与上一个点坐标相同*/
+		if (Point_Num() != 0 && point[(tail - 1) % PATHPLAN3_MAX_POINT_NUM].point == p) return ADD_FAIL; /*与上一个点坐标相同*/
 		
 		point[tail].point = p; /*坐标*/
 		point[tail].blend_dis = blend_dis; /*圆角距离*/
@@ -48,11 +48,11 @@ namespace path
 		
 		if (end)
 		{
-			point[tail].Set_Is_End(); /*是否为结束点*/
+			point[tail].Set_Is_End(); /*设为结束点*/
 		}
 		
 		tail = (tail + 1) % PATHPLAN3_MAX_POINT_NUM;
-		return true;
+		return ADD_SUCCESS;
 	}
 	
 	void PathPlan3::Next_Path()

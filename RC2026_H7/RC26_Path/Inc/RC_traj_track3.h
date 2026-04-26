@@ -77,6 +77,8 @@ namespace path
 		data::RobotPose& pose;
 		chassis::Chassis& chassis;
 		HeadCtrl& head_ctrl;
+		
+		
     };
 }
 

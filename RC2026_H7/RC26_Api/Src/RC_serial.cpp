@@ -148,8 +148,8 @@ namespace serial
 void uart_puts(const char *str)
 {
 	uint16_t len = strlen(str);
-	SCB_CleanDCache_by_Addr((uint32_t*)str, len);
-    HAL_UART_Transmit_DMA(&huart1, (uint8_t*)str, len/*, HAL_MAX_DELAY*/);
+	//SCB_CleanDCache_by_Addr((uint32_t*)str, len);
+    HAL_UART_Transmit(&huart1, (uint8_t*)str, len, HAL_MAX_DELAY);
 }
 
 

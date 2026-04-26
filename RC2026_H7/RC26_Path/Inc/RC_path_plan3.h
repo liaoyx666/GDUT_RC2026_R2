@@ -1,3 +1,4 @@
+/*路径规划整合*/
 #pragma once
 #include "RC_task.h"
 #include "RC_data_pool.h"
@@ -13,13 +14,23 @@ namespace path
 {
 	constexpr uint8_t PATHPLAN3_MAX_POINT_NUM = 50;
 	
+	
+	enum AddPointReturn : uint8_t
+	{
+		ADD_SUCCESS = 0,
+		ADD_FAIL,
+		ADD_FULL,
+	};
+	
+	
+	
 	class PathPlan3 : public task::ManagedTask
     {
     public:
 		PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_);
 		~PathPlan3() = default;
-	
-		bool Add_Point(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end);
+		
+		AddPointReturn Add_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end);
 		
 		void Enable()
 		{
@@ -35,13 +46,13 @@ namespace path
 		
 		uint8_t Point_FreeSpace() const;
 		uint8_t Point_Num() const;
-		
+		Path3 path[2]; /*路径，一个跟踪、一个规划*/
     protected:
 		void Task_Process() override;
 		
     private:
 		Point3 point[PATHPLAN3_MAX_POINT_NUM]; /*储存路径点，循环数组*/
-		Path3 path[2]; /*路径，一个跟踪、一个规划*/
+		
 		TrajPlan3 plan; /*轨迹规划*/
 		TrajTrack3& track; /*轨迹跟踪*/
 
@@ -55,6 +66,8 @@ namespace path
 		void Delete_Point();
 		inline void Next_Path();
 		inline void Plan_Path();
+	
+		friend class GraphPlan;
     };
 }
 #endif

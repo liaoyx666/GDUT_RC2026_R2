@@ -221,30 +221,32 @@ namespace path
 		
 		float len_ = len[curve_num - 1] * t;
 		
-		float l = 0;/*当前曲线段的起点路程*/
+		Get_Point_On_Len(len_, p);
+		
+//		float l = 0;/*当前曲线段的起点路程*/
 
-		for (uint8_t i = 0; i < curve_num - 1; i++)
-		{
-			if (curve[i] == nullptr)
-			{
-				return;
-			}
-			
-			if (l <= len_ && len_ <= l + curve[i]->Len())
-			{
-				curve[i]->Get_Point_On_Len(len_ - l, p);
-				return;
-			}
-			
-			l += curve[i]->Len();
-		}
-		
-		if (curve[curve_num - 1] == nullptr)
-		{
-			return;
-		}
-		
-		curve[curve_num - 1]->Get_Point_On_Len(len_ - l, p);/*遍历到最后一段曲线*/
+//		for (uint8_t i = 0; i < curve_num - 1; i++)
+//		{
+//			if (curve[i] == nullptr)
+//			{
+//				return;
+//			}
+//			
+//			if (l <= len_ && len_ <= l + curve[i]->Len())
+//			{
+//				curve[i]->Get_Point_On_Len(len_ - l, p);
+//				return;
+//			}
+//			
+//			l += curve[i]->Len();
+//		}
+//		
+//		if (curve[curve_num - 1] == nullptr)
+//		{
+//			return;
+//		}
+//		
+//		curve[curve_num - 1]->Get_Point_On_Len(len_ - l, p);/*遍历到最后一段曲线*/
 		return;
 	}
 	
