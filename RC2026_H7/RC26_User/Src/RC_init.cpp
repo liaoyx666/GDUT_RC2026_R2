@@ -17,6 +17,11 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 timer::Timer timer_us(&tim4_timer);
 /*====================================电机初始化====================================*/
 
+// 底盘电机---------------------------------------------
+motor::M3508 m3508_1_can1(1, can2, &tim13_500hz);
+motor::M3508 m3508_2_can1(2, can2, &tim13_500hz);
+motor::M3508 m3508_3_can1(3, can2, &tim13_500hz);
+motor::M3508 m3508_4_can1(4, can2, &tim13_500hz);
 
 
 motor::M2006D m2006d_can3_3_4(
@@ -32,20 +37,33 @@ motor::M3508D m3508d_can3_1_2(
 );
 
 motor::M2006 m2006_can3_5(5, can3, &tim13_500hz);
-	
-motor::DM4310 dm4310_can3_0x13(0x12, can3, &tim7_1khz);
+
+motor::DM4310 dm4310_can3_0x12(0x12, can3, &tim7_1khz);
 
 /*====================================模块====================================*/
-data::RobotPose robot_pose;// 机器人位姿
+
+// 机器人位姿
+data::RobotPose robot_pose;
 
 ros::Radar 		radar(CDC_HS, 1, robot_pose);// 雷达数据接收
 ros::Map 		map(CDC_HS, 2);// 地图数据接收
 ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
-lidar::LiDAR lidar_1(huart3);// 激光测距
+// 激光测距
+lidar::LiDAR lidar_1(huart3);
 
-flysky::FlySky remote_ctrl(GPIO_PIN_8);// 遥控
+// 遥控
+flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
+
+// 全向轮底盘
+chassis::Omni4Chassis omni_4_chassis(
+	m3508_1_can1, m3508_2_can1,
+	m3508_3_can1, m3508_4_can1,
+	2.5, 4.5, 4.5,
+	5, 5, 5,
+	robot_pose
+);
 
 //path::HeadCtrl head_ctrl(
 //	robot_pose,
@@ -94,18 +112,18 @@ void test(void *argument)
 		target = wave.Get_Signal();
    
 	
-		
+		m2006_can3_5.Set_Out_Pos(a);
 
-//		if (remote_ctrl.swa == 1)
-//		{
-//			pp.Enable();
-//		}
-//		else
-//		{
-//			pp.Disable();
-//			
-//			swerve_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
-//		}
+		if (remote_ctrl.swa == 1)
+		{
+			//pp.Enable();
+		}
+		else
+		{
+			//pp.Disable();
+			
+			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
+		}
 
 //		if (remote_ctrl.swc == 0)
 //		{
@@ -149,7 +167,7 @@ void All_Init()
 	tim4_timer.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
 	tim13_500hz.Tim_It_Start();
-	
+
 	lidar_1.Uart_Rx_Start();
 
 	data::Init_Side(true); /*初始化场地位置*/

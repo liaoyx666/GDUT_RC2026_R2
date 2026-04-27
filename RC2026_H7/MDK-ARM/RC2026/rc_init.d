@@ -55,7 +55,8 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Motor\Inc\RC_m3508.h \
+  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Api\Inc\RC_cordic.h \
+  ..\Core\Inc\cordic.h ..\RC26_Motor\Inc\RC_m3508.h \
   ..\RC26_Motor\Inc\RC_dji_motor.h ..\RC26_Motor\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
@@ -86,20 +87,15 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Motor\Inc\RC_j60.h \
   ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_flysky.h \
   ..\Core\Inc\gpio.h ..\RC26_Api\Inc\RC_gpio_exti.h \
-  ..\RC26_Lib\Inc\RC_arm.h ..\RC26_Lib\Inc\arm_matrix.h \
-  ..\RC26_Lib\Inc\RC_vector3d.h ..\RC26_Lib\Inc\RC_storage.h \
-  ..\RC26_Lib\Inc\RC_JY901S.h ..\RC26_Lib\Inc\RC_swerve_chassis.h \
-  ..\RC26_Lib\Inc\RC_vector2d.h ..\RC26_Api\Inc\RC_chassis.h \
-  ..\RC26_User\Inc\RC_data_pool.h ..\RC26_Lib\Inc\RC_photogate.h \
-  ..\RC26_Lib\Inc\RC_chassis_jack.h ..\RC26_Path\Inc\RC_path2.h \
-  ..\RC26_Path\Inc\RC_bezier_curve.h ..\RC26_Lib\Inc\RC_nonlinear_pid.h \
-  ..\RC26_Lib\Inc\RC_LiDAR.h ..\RC26_Lib\Inc\RC_auto_arm.h \
-  ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Path\Inc\RC_path3.h \
-  ..\RC26_Path\Inc\RC_curve.h ..\RC26_Path\Inc\RC_event3.h \
-  ..\RC26_Path\Inc\RC_traj_track3.h ..\RC26_Path\Inc\RC_head_ctrl.h \
+  ..\RC26_User\Inc\RC_data_pool.h ..\RC26_Lib\Inc\RC_LiDAR.h \
+  ..\RC26_Lib\Inc\RC_omni_chassis.h ..\RC26_Lib\Inc\RC_vector2d.h \
+  ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Path\Inc\RC_traj_plan3.h \
+  ..\RC26_Path\Inc\RC_path3.h ..\RC26_Path\Inc\RC_curve.h \
+  ..\RC26_Path\Inc\RC_event3.h ..\RC26_Path\Inc\RC_traj_track3.h \
+  ..\RC26_Lib\Inc\RC_nonlinear_pid.h ..\RC26_Path\Inc\RC_head_ctrl.h \
   ..\RC26_Path\Inc\RC_path_plan3.h ..\RC26_Path\Inc\RC_map_graph.h \
-  ..\RC26_Path\Inc\RC_head_check_event.h ..\RC26_Api\Inc\RC_cordic.h \
-  ..\Core\Inc\cordic.h ..\RC26_Path\Inc\RC_graph_plan.h \
-  ..\RC26_Ros_Interface\Inc\RC_radar.h \
-  ..\RC26_Ros_Interface\Inc\RC_best_path.h \
-  ..\RC26_Ros_Interface\Inc\RC_map.h ..\Core\Inc\fdcan.h
+  ..\RC26_Path\Inc\RC_head_check_event.h \
+  ..\RC26_Path\Inc\RC_graph_plan.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
+  ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\RC26_Path\Inc\RC_path2.h \
+  ..\RC26_Path\Inc\RC_bezier_curve.h ..\RC26_Ros_Interface\Inc\RC_map.h \
+  ..\Core\Inc\fdcan.h

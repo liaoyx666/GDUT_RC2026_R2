@@ -7,7 +7,7 @@ namespace motor
 	class M3508 : public DjiMotor
 	{
 	public:
-		M3508(uint8_t id_, can::Can &can_, tim::Tim *tim_, float gear_ratio_ = 3591.f / 187.f, bool is_reset_pos_angle = false);
+		M3508(uint8_t id_, can::Can &can_, tim::Tim *tim_, float gear_ratio_ = 3591.f / 187.f, bool is_reset_pos_angle = true);
 		~M3508() = default;
 
 	protected:
@@ -25,7 +25,7 @@ namespace motor
 		M3508D(
 			uint8_t id_m, can::Can &can_m, tim::Tim *tim_m, 
 			uint8_t id_s, can::Can &can_s, tim::Tim *tim_s, 
-			float gear_ratio_ = 3591.f / 187.f, MotorPol pol_s = POL_REV, bool is_reset_pos_angle = false
+			float gear_ratio_ = 3591.f / 187.f, MotorPol pol_s = POL_REV, bool is_reset_pos_angle = true
 		);
 		~M3508D() = default;
 		
