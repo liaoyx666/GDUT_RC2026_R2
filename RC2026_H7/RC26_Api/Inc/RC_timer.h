@@ -1,29 +1,32 @@
 #pragma once
-#include "RC_tim.h"
+#include "tim.h"
 
 #ifdef __cplusplus
 namespace timer
 {
-	// 用1hz的定时器初始化
-	// 只能实例化一次
-	class Timer : tim::TimHandler
+	// 使用用32bit定时器
+	class Timer
     {
     public:
-		Timer(tim::Tim *tim_);
-		~Timer() = default;
+		~Timer() = delete;
+
+		static inline uint32_t Get_TimeStamp()
+		{
+			return htim2.Instance->CNT;
+		}
 		
-		volatile static uint32_t cycle;
+		static inline uint32_t Get_DeltaTime(uint32_t last_time_stamp)
+		{
+			return htim2.Instance->CNT - last_time_stamp;
+		}
 		
-		static uint32_t Get_TimeStamp();
-		
-		static uint32_t Get_DeltaTime(uint32_t last_time_stamp);
-		
-		static TIM_HandleTypeDef *htim;
-    protected:
-		void Tim_It_Process() override;
-	
+		static inline void Timer_Start()
+		{
+			HAL_TIM_Base_Start(&htim2);
+		}
+
     private:
-    
+		Timer() = delete;
     };
 }
 #endif

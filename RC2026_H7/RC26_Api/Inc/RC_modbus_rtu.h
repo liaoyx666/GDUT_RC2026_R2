@@ -3,6 +3,7 @@
 
 #include <string.h>
 
+#include "FreeRTOS.h"
 #include "semphr.h"
 
 #ifdef __cplusplus

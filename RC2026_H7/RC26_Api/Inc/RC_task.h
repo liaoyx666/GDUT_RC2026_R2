@@ -9,11 +9,11 @@
 
 namespace task
 {
-	typedef enum TaskType
+	enum TaskType
 	{
 		TASK_DELAY,// 延时任务
 		TASK_PERIOD// 周期任务
-	} TaskType;
+	};
 
 
 	class TaskCreator

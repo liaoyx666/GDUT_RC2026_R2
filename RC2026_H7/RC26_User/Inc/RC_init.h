@@ -25,6 +25,7 @@
 #include "RC_data_pool.h"
 #include "RC_LiDAR.h"
 #include "RC_omni_chassis.h"
+#include "RC_lift_chassis.h"
 
 /* path */
 #include "RC_traj_plan3.h"
@@ -45,6 +46,9 @@
 #include "gpio.h"
 
 #ifdef __cplusplus
+
+void Motor_Config();
+
 
 #endif
 

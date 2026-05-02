@@ -12,11 +12,11 @@ namespace curve
 {
 	
 	// 曲线阶数
-	typedef enum BezierOrder : uint8_t
+	enum BezierOrder : uint8_t
 	{
 		FIRST_ORDER_BEZIER,
 		SECOND_ORDER_BEZIER
-	} BezierOrder;
+	};
 
 
 	class BezierCurve

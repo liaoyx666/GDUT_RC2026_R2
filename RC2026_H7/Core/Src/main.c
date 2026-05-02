@@ -116,6 +116,7 @@ int main(void)
   MX_USART3_UART_Init();
   MX_TIM13_Init();
   MX_CORDIC_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 	All_Init();
   /* USER CODE END 2 */

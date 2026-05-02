@@ -70,6 +70,10 @@ void Error_Handler(void);
 #define photoelectric_switch4_GPIO_Port GPIOG
 #define photoelectric_switch3_Pin GPIO_PIN_1
 #define photoelectric_switch3_GPIO_Port GPIOG
+#define photogate_5_Pin GPIO_PIN_12
+#define photogate_5_GPIO_Port GPIOD
+#define photogate_6_Pin GPIO_PIN_13
+#define photogate_6_GPIO_Port GPIOD
 #define photogate_3_Pin GPIO_PIN_14
 #define photogate_3_GPIO_Port GPIOD
 #define photogate_3_EXTI_IRQn EXTI15_10_IRQn

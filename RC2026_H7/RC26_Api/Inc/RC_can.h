@@ -13,7 +13,7 @@
 #ifdef __cplusplus
 namespace can
 {
-	typedef struct CanTxFrame
+	struct CanTxFrame
 	{
 		uint32_t id;
 		uint32_t dlc;
@@ -26,7 +26,7 @@ namespace can
 		
 		bool new_message;
 		
-	} CanTxFrame;
+	};
 
 	class CanHandler;// 向前声明
 
@@ -52,9 +52,7 @@ namespace can
 		CanTxFrame tx_frame_list[MAX_CAN_TX_FRAME_NUM] = {0};// 发送帧列表
 		uint8_t hd_num = 0;// 设备总数
 		uint8_t tx_frame_num = 0;// 发送帧总数
-		
-	protected:
-		
+
 	private:
 		void Task_Process() override;
 
@@ -90,9 +88,6 @@ namespace can
 		
 	protected:
 		virtual void CanHandler_Register() = 0;
-		
-	private:
-		
 	};
 }
 #endif

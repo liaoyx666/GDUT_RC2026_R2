@@ -16,7 +16,7 @@ namespace tim
 	public:
 		Tim(TIM_HandleTypeDef &htim_);
 		~Tim() = default;
-			
+		
 		// 开启定时器中断
 		inline void Tim_It_Start()
 		{

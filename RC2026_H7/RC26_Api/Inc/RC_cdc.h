@@ -16,13 +16,13 @@
 
 namespace cdc
 {
-	typedef enum CDCType
+	enum CDCType
 	{
 		USB_CDC_HS,// 高速
 		USB_CDC_FS// 全速
-	} CDCType;
+	};
 	
-	typedef enum RECEIVE_FLAG
+	enum RECEIVE_FLAG
 	{
 		WAIT_HEAD_1,// 0xaa
 		WAIT_HEAD_2,// 0x55
@@ -31,7 +31,7 @@ namespace cdc
 		WAIT_DATA,
 		WAIT_CHECK,//xor
 		WAIT_TAIL// 0xee
-	} RECEIVE_FLAG;
+	};
 
 	class CDCHandler;
 	
@@ -112,10 +112,9 @@ namespace cdc
 		virtual void CDC_Receive_Process(uint8_t *buf, uint16_t len) = 0;
 		uint8_t hd_list_dx;
 		uint8_t rx_id;
+	
     protected:
 		CDC *cdc = nullptr;
-    private:
-		
     };
 }
 #endif

@@ -39,7 +39,7 @@ public:
     Storage(motor::Motor& motor_1_,
             motor::Motor& motor_2_,
             motor::Motor& motor_3_);
-    virtual ~Storage() {}  
+    ~Storage() = default;
     void Storage_task(STORAGE_TASK task);
     void update();
     bool isBusy() const { return busy; }

@@ -76,6 +76,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : photogate_5_Pin photogate_6_Pin */
+  GPIO_InitStruct.Pin = photogate_5_Pin|photogate_6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
   /*Configure GPIO pins : photogate_3_Pin photogate_4_Pin */
   GPIO_InitStruct.Pin = photogate_3_Pin|photogate_4_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;

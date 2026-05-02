@@ -50,7 +50,7 @@ namespace filter
 	{
 	public:
 		SecondOrderLPF(float fc, float fs, float zeta = 0.707f);
-
+		~SecondOrderLPF() = default;
 		void reset();
 
 		float filter(float x);

@@ -1,6 +1,6 @@
 rc2026/rc_flysky.o: ..\RC26_Lib\Src\RC_flysky.cpp \
   ..\RC26_Lib\Inc\RC_flysky.h ..\RC26_Api\Inc\RC_timer.h \
-  ..\RC26_Api\Inc\RC_tim.h ..\Core\Inc\tim.h ..\Core\Inc\main.h \
+  ..\Core\Inc\tim.h ..\Core\Inc\main.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal.h \
   ..\Core\Inc\stm32h7xx_hal_conf.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_rcc.h \
@@ -34,6 +34,7 @@ rc2026/rc_flysky.o: ..\RC26_Lib\Src\RC_flysky.cpp \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h \
   ..\Drivers\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h \
+  ..\Core\Inc\gpio.h ..\RC26_Api\Inc\RC_task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
   ..\Core\Inc\FreeRTOSConfig.h \
@@ -45,6 +46,5 @@ rc2026/rc_flysky.o: ..\RC26_Lib\Src\RC_flysky.cpp \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\task.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\list.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS_V2\cmsis_os2.h \
-  ..\Core\Inc\gpio.h ..\RC26_Api\Inc\RC_task.h \
   ..\RC26_Api\Inc\RC_gpio_exti.h ..\RC26_Api\Inc\RC_serial.h \
   ..\Core\Inc\usart.h
