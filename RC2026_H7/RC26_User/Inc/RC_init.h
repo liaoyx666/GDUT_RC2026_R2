@@ -26,6 +26,7 @@
 #include "RC_LiDAR.h"
 #include "RC_omni_chassis.h"
 #include "RC_lift_chassis.h"
+#include "RC_auto_lift.h"
 
 /* path */
 #include "RC_traj_plan3.h"

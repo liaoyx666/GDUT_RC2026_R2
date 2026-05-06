@@ -166,7 +166,7 @@ namespace path
 		static vector2d::Vector2D Offset_On_Dir(vector2d::Vector2D p, Direction dir, float offset);
 		
 		static constexpr float MF_SIZE = 1.2f;
-		static constexpr float CHASSIS_SIZE = 0.75f;
+		static constexpr float CHASSIS_SIZE = 0.8f;
 	
 		static constexpr int8_t height[GRAPH_NODE_NUM] = 
 		{
@@ -204,7 +204,7 @@ namespace path
 		static const inline Area ARENA[2] = 
 		{
 			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
-			Area(vector2d::Vector2D(9.45, 0), vector2d::Vector2D(10.65, 0), vector2d::Vector2D(9.45, -6))
+			Area(vector2d::Vector2D(9.45, 0), vector2d::Vector2D(12, 0), vector2d::Vector2D(9.45, -6))
 		}; /*对抗区*/
 
 		

@@ -7,34 +7,34 @@
 #ifdef __cplusplus
 namespace chassis
 {
-	#define ZERO_POS 	(0.f)
-	#define UP_20_POS 	(295.f + ZERO_POS)
-	#define UP_40_POS 	(590.f + ZERO_POS)
+	#define ZERO_POS 	( 0.f)
+	#define UP_20_POS 	( 295.f + ZERO_POS)
+	#define UP_40_POS 	( 590.f + ZERO_POS)
 	#define DOWN_20_POS (-295.f + ZERO_POS)
 	#define DOWN_40_POS (-590.f + ZERO_POS)
-	#define RESET_POS 	(100.f)
+	#define RESET_POS 	( 100.f)
 
-	#define L_LIFT_POL (-1.f)
-	#define R_LIFT_POL (-1.f)
+	#define L_LIFT_POL 	(-1.f)
+	#define R_LIFT_POL 	(-1.f)
 	
 	const static GPIO_TypeDef* SENSER_GPIO_PORT[6] =
 	{
-		GPIOA,
+		GPIOE,
 		GPIOD,
 		GPIOG,
 		GPIOG,
 		GPIOD,
-		GPIOA
+		GPIOE
 	};
 	
 	constexpr static uint16_t SENSER_GPIO_PIN[6] =
 	{
-		GPIO_PIN_8,
+		GPIO_PIN_3,
 		GPIO_PIN_13,
 		GPIO_PIN_1,
 		GPIO_PIN_0,
 		GPIO_PIN_12,
-		GPIO_PIN_9
+		GPIO_PIN_2
 	};
 		
 	enum LiftState : uint8_t
@@ -86,7 +86,9 @@ namespace chassis
 		~LiftChassis() = default;
 		
 		void Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig);
-		
+		bool Is_End() const {return (state == LIFT_RESET);}
+	
+	
     private:
 		void Set_wheel_Vel(float vel);
 	

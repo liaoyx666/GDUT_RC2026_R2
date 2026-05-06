@@ -11,9 +11,9 @@ namespace path
 
 	constexpr float PATH3_CURVE_SWITCH_THRESHOLD = 0.03f; /*切换曲线阈值 m*/
 	
-	constexpr uint8_t PATHLONCON3_MAX_NUM  = 15; /*最大纵向约束数*/
-	constexpr uint8_t PATHHEADCON3_MAX_NUM = 15; /*最大航向约束数*/
-	constexpr uint8_t PATHEVENT3_MAX_NUM   = 10; /*最大事件组数*/
+	constexpr uint8_t PATHLONCON3_MAX_NUM  = 20; /*最大纵向约束数*/
+	constexpr uint8_t PATHHEADCON3_MAX_NUM = 20; /*最大航向约束数*/
+	constexpr uint8_t PATHEVENT3_MAX_NUM   = 15; /*最大事件组数*/
 
 	/*纵向约束条件*/
 	struct LonConstr3

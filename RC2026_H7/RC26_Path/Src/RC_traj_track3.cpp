@@ -13,7 +13,7 @@ namespace path
 		nor_pid.Init(1.8, 0, 3, 0.07, 2.5, 0);
 		
 		ld_kf = 0.3f;
-		ld_min = 0.03;
+		ld_min = 0.03f;
 	
 		is_enable = false;
 		
@@ -99,20 +99,13 @@ namespace path
 				&head
 			);
 			
-			
-			
 			/*计算时间差*/
 			float dt  = (float)timer::Timer::Get_DeltaTime(last_time) / 1000000.f; /*us->s*/
 			last_time = timer::Timer::Get_TimeStamp();
 			if (dt < 0.0001f)
-			{
 				dt = 0.0001f;
-			}
 			else if (dt > 0.1f)
-			{
-				dt = 0.1f;
-			}
-			
+				dt = 0.1f;			
 			
 			if (last_wa != head.wa)
 			{
@@ -125,7 +118,6 @@ namespace path
 				head_ctrl.pid.Set_Max_Out(head.w); /*更新速度*/
 				last_w = head.w;
 			}
-			
 			
 			if (head.tan_head)
 			{
@@ -155,22 +147,14 @@ namespace path
 					float delta_yaw = pose.Yaw() - head.yaw;
 					
 					if (delta_yaw < -PI)
-					{
 						delta_yaw += TWO_PI;
-					}
 					else if (delta_yaw > PI)
-					{
 						delta_yaw -= TWO_PI;
-					}
 					
 					if (fabsf(delta_yaw) <= TRAJTRACK3_PRE_ALIGN_THRESHOLD) /*yaw对齐后才能出发*/
-					{
 						is_start = true;
-					}
 					else
-					{
 						is_start = false;
-					}
 				}
 				else
 				{

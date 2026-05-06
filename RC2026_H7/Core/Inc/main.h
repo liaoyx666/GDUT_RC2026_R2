@@ -80,10 +80,6 @@ void Error_Handler(void);
 #define photogate_4_Pin GPIO_PIN_15
 #define photogate_4_GPIO_Port GPIOD
 #define photogate_4_EXTI_IRQn EXTI15_10_IRQn
-#define photoelectric_switch1_Pin GPIO_PIN_8
-#define photoelectric_switch1_GPIO_Port GPIOA
-#define photoelectric_switch2_Pin GPIO_PIN_9
-#define photoelectric_switch2_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 

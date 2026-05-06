@@ -6,11 +6,7 @@
 #ifdef __cplusplus
 namespace path
 {
-	
-	
-	
 	constexpr uint8_t NAVIGATION_MAX_DESTINATION = 8;
-	
 	
 	class Navigation
     {

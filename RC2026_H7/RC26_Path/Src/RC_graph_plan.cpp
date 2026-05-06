@@ -141,7 +141,7 @@ namespace path
 	}
 	
 	
-	Event3_t GraphPlan::Up_Down_Ready_Id_Dir(Direction move_dir, uint8_t h, Direction& head_dir) const
+	Event3_t GraphPlan::Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir) const
 	{
 		float yaw_L = MapGraph::Yaw_On_Dir(move_dir - 1);
 		float yaw_R = MapGraph::Yaw_On_Dir(move_dir + 1);
@@ -209,12 +209,12 @@ namespace path
 	
 	
 	
-	constexpr float UP_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.3f;
+	constexpr float UP_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.25f;
 	constexpr float UP_STAIR_HEAD_CHECK_VEL = 0.5f;
 	constexpr float UP_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float UP_STAIR_SLOW_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.07f;
-	constexpr float UP_STAIR_SLOW_VEL = 0.1f;
+	constexpr float UP_STAIR_SLOW_VEL = 0.3f;
 	constexpr float UP_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float UP_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.1f;
@@ -235,7 +235,7 @@ namespace path
 		p = MapGraph::Offset_On_Dir(e_center, -move_dir, UP_STAIR_HEAD_CHECK_OFFSET); /*航向检查点坐标*/
 		if (!Add_Point_Wait(p, UP_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
 		
-		lon.v = UP_STAIR_HEAD_CHECK_VEL;
+		//lon.v = UP_STAIR_HEAD_CHECK_VEL;
 		head.yaw = MapGraph::Yaw_On_Dir(dir);
 		p = MapGraph::Offset_On_Dir(e_center, -move_dir, UP_STAIR_SLOW_OFFSET); /*减速点坐标*/
 		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*减速点*/
@@ -252,12 +252,12 @@ namespace path
 		return true;
 	}
 	
-	constexpr float DOWN_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.3f;
+	constexpr float DOWN_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.25f;
 	constexpr float DOWN_STAIR_HEAD_CHECK_VEL = 0.5f;
 	constexpr float DOWN_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float DOWN_STAIR_SLOW_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float DOWN_STAIR_SLOW_VEL = 0.1f;
+	constexpr float DOWN_STAIR_SLOW_VEL = 0.3f;
 	constexpr float DOWN_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float DOWN_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.1f;
@@ -278,7 +278,7 @@ namespace path
 		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET); /*航向检查点坐标*/
 		if (!Add_Point_Wait(p, DOWN_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
 		
-		lon.v = DOWN_STAIR_HEAD_CHECK_VEL;
+		//lon.v = DOWN_STAIR_HEAD_CHECK_VEL;
 		head.yaw = MapGraph::Yaw_On_Dir(dir);
 		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_SLOW_OFFSET); /*减速点坐标*/
 		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*减速点*/
@@ -322,19 +322,19 @@ namespace path
 		
 		if (h == 1)
 		{
-			if (!Add_Point_Wait(low, 0.4f, NULL, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(low, 0.3f, NULL, NULL, EVENT3_NULL, false)) return false;
 			
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = 0;
-			if (!Add_Point_Wait(high, 0.4f, NULL, &head, EVENT3_NULL, false)) return false;
+			head.yaw = -PI / 2.f;
+			if (!Add_Point_Wait(high, 0.3f, NULL, &head, EVENT3_NULL, false)) return false;
 		}
 		else
 		{
-			if (!Add_Point_Wait(high, 0.4f, NULL, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high, 0.3f, NULL, NULL, EVENT3_NULL, false)) return false;
 			
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = PI;
-			if (!Add_Point_Wait(low, 0.4f, NULL, &head, EVENT3_NULL, false)) return false;
+			head.yaw = -PI / 2.f;
+			if (!Add_Point_Wait(low, 0.3f, NULL, &head, EVENT3_NULL, false)) return false;
 		}
 		
 		return true;

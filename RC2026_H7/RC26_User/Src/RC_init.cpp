@@ -19,7 +19,6 @@ motor::M3508 m3508_2_can1(2, can2, &tim13_500hz);
 motor::M3508 m3508_3_can1(3, can2, &tim13_500hz);
 motor::M3508 m3508_4_can1(4, can2, &tim13_500hz);
 
-
 // 龙门架电机---------------------------------------------
 //motor::M2006D m2006d_can3_3_4(
 //	3, can3, &tim13_500hz, 
@@ -59,7 +58,6 @@ lidar::LiDAR lidar_1(huart3);
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
-
 // 全向轮底盘
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
@@ -69,38 +67,51 @@ chassis::Omni4Chassis omni_4_chassis(
 	robot_pose
 );
 
-
+// 抬升
 chassis::LiftChassis lift(
 	m3508_can3_5, m3508_can3_6,
 	m2006_can3_7, m2006_can3_8,
 	&omni_4_chassis, NULL
 );
 
-//path::HeadCtrl head_ctrl(
-//	robot_pose,
-//	swerve_4_chassis,
-//	0
-//);
+// 航向控制
+path::HeadCtrl head_ctrl(
+	robot_pose,
+	omni_4_chassis,
+	0
+);
 
-//path::TrajTrack3 track(
-//	robot_pose,
-//	swerve_4_chassis,
-//	head_ctrl,
-//	0.02
-//);
+// 轨迹跟踪
+path::TrajTrack3 track(
+	robot_pose,
+	omni_4_chassis,
+	head_ctrl,
+	0.01
+);
 
-//path::PathPlan3 pp(
-//	path::LonConstr3(2.5, 2.3),
-//	path::HeadConstr3(0, 3, 4, false),
-//	track
-//);
+// 路径规划
+path::PathPlan3 path_plan(
+	path::LonConstr3(1.5, 2.3),
+	path::HeadConstr3(0, 3, 4, false),
+	track
+);
 
-//path::GraphPlan gp(robot_pose, pp);
+// 图规划
+path::GraphPlan graph_plan(
+	robot_pose, 
+	path_plan
+);
 
-//path::HeadCheck headcheck(1, PI, track, robot_pose);
+// 抬升自动上下台阶
+chassis::AutoLift auto_lift(
+	lift,
+	track,
+	robot_pose
+);
 
 /*====================================DeBug====================================*/
-SquareWave wave(1000, 3000);// 用于调pid
+// 方波发生
+//SquareWave wave(1000, 3000);// 用于调pid
 
 vector2d::Vector2D pc;
 float target = 0;
@@ -108,103 +119,103 @@ float a = 0;
 uint32_t t = 0;
 uint8_t s = 0, e = 0;
 
-void test(void *argument)
+void Main_Task(void *argument)
 {
 	remote_ctrl.signal_swa();
 	remote_ctrl.signal_swd();
-	wave.Init();
+//	wave.Init();
+	
+	path::MapGraph::Set_MF_Valid(6, false);
+	path::MapGraph::Set_MF_Valid(10, false);
+	path::MapGraph::Set_MF_Valid(11, false);
+
 	
 	Motor_Config();
-
-
-
+	
+	
+	path_plan.Add_Point(
+		vector2d::Vector2D(0.42, -4.53),
+		0,
+		NULL,
+		NULL,
+		EVENT3_NULL,
+		false
+	);
+	
+	float x = 0.42;
+	float y = -4.53;
+	robot_pose.Update_Position(&x, &y, NULL);
+	
+	path::Destination dst;
+	dst.nav.p = vector2d::Vector2D(10.6, -4.53);//vector2d::Vector2D(8.79124641, -1.73101103);//path::MapGraph::Get_MF_Center(4);
+	dst.nav.yaw = -PI / 2.f;
+	dst.type = path::DST_END;
+	dst.event = EVENT3_NULL;
+	
+	graph_plan.Plan(dst);
+	
+	
 	for (;;)
 	{
-		wave.Set_Amplitude(a);
-		target = wave.Get_Signal();
+//		wave.Set_Amplitude(a);
+//		target = wave.Get_Signal();
 
-		
-		
-		omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
-		
-		chassis::LiftAction la;
-		
-		if (remote_ctrl.swb == 0)
-		{
-			la = chassis::LIFT_LOCK;
-		}
-		else if (remote_ctrl.swb == 1)
-		{
-			la = chassis::LIFT_UP;
-		}
-		else
-		{
-			la = chassis::LIFT_DOWN;
-		}
-		
-		chassis::LiftHeigth lh;
-		
-		if (remote_ctrl.swa == 0)
-		{
-			lh = chassis::LIFT_20;
-		}
-		else
-		{
-			lh = chassis::LIFT_40;
-		}
-		
-		chassis::LiftDir ld;
-		
+
+
 		if (remote_ctrl.swc == 0)
 		{
-			ld = chassis::LIFT_L;
+			
+		}
+		else if (remote_ctrl.swc == 1)
+		{
+			if (remote_ctrl.signal_swd())
+			{
+				radar.Reposition(); /*雷达重定位*/
+			}
+		}
+		
+		
+		if (remote_ctrl.swa == 1)
+		{
+			path_plan.Enable();
 		}
 		else
 		{
-			ld = chassis::LIFT_R;
+			path_plan.Disable();
+			
+			chassis::LiftAction la;
+		
+//			if (remote_ctrl.swb == 0)
+//				la = chassis::LIFT_LOCK;
+//			else if (remote_ctrl.swb == 1)
+				la = chassis::LIFT_UP;
+//			else
+//				la = chassis::LIFT_DOWN;
+			
+			chassis::LiftHeigth lh;
+			
+			if (remote_ctrl.swa == 0)
+				lh = chassis::LIFT_20;
+			else
+				lh = chassis::LIFT_40;
+			
+			chassis::LiftDir ld;
+			
+//			if (remote_ctrl.swc == 0)
+				ld = chassis::LIFT_L;
+//			else
+//				ld = chassis::LIFT_R;
+			
+			//lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
+			
+			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
-		
-		lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
-
-
-
-
-
-
-
-
-
-
-
-//		if (remote_ctrl.swa == 1)
-//		{
-//			//pp.Enable();
-//		}
-//		else
-//		{
-//			//pp.Disable();
-//			
-//			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
-//		}
-
-//		if (remote_ctrl.swc == 0)
-//		{
-
-//		}
-//		else if (remote_ctrl.swc == 1)
-//		{
-//			if (remote_ctrl.signal_swd())
-//			{
-//				radar.Reposition(); /*雷达重定位*/
-//			}
-//		}
-
 		osDelay(1);
 	}
 }
 
-task::TaskCreator test_task("test", 20, 512, test, NULL);
+task::TaskCreator main_task("Main_Task", 20, 512, Main_Task, NULL);
 
 /*====================================初始化函数====================================*/
 

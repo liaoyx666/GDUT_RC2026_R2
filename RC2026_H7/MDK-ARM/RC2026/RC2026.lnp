@@ -83,6 +83,7 @@
 "rc2026\rc_oid_encoder.o"
 "rc2026\rc_omni_chassis.o"
 "rc2026\rc_lift_chassis.o"
+"rc2026\rc_auto_lift.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dji_motor.o"
 "rc2026\rc_m2006.o"

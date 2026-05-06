@@ -41,10 +41,10 @@ namespace path
 	constexpr Event3_t EVENT_HEAD_CHECK_L = EVENT3_ID_3;
 	constexpr Event3_t EVENT_HEAD_CHECK_R = EVENT3_ID_4;
 	
-	constexpr Event3_t EVENT_UP_2_READY_L = EVENT3_ID_5;
-	constexpr Event3_t EVENT_UP_4_READY_L = EVENT3_ID_6;
-	constexpr Event3_t EVENT_UP_2_READY_R = EVENT3_ID_7;
-	constexpr Event3_t EVENT_UP_4_READY_R = EVENT3_ID_8;
+	constexpr Event3_t EVENT_UP_2_READY_L   = EVENT3_ID_5;
+	constexpr Event3_t EVENT_UP_4_READY_L   = EVENT3_ID_6;
+	constexpr Event3_t EVENT_UP_2_READY_R   = EVENT3_ID_7;
+	constexpr Event3_t EVENT_UP_4_READY_R   = EVENT3_ID_8;
 	constexpr Event3_t EVENT_DOWN_2_READY_L = EVENT3_ID_9;
 	constexpr Event3_t EVENT_DOWN_4_READY_L = EVENT3_ID_10;
 	constexpr Event3_t EVENT_DOWN_2_READY_R = EVENT3_ID_11;
@@ -63,7 +63,7 @@ namespace path
 		bool Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end) const;
 		
 	
-		Event3_t Up_Down_Ready_Id_Dir(Direction move_dir, uint8_t h, Direction& head_dir) const;
+		Event3_t Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir) const;
 	
 		Event3_t Head_Check_Id(Direction dir) const;
 	

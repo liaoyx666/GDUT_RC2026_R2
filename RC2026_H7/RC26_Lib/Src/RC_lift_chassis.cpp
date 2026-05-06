@@ -26,16 +26,16 @@ namespace chassis
 		}
 	}
 	
-	constexpr float LIFT_POS_THRESHOLD = 1.5f;
+	constexpr float LIFT_POS_THRESHOLD    = 5.f;
 	
-	constexpr float LIFT_RESET_R = 4000;
-	constexpr float LIFT_RESET_V_MAX = 8500;
+	constexpr float LIFT_RESET_R          = 4000;
+	constexpr float LIFT_RESET_V_MAX      = 8500;
 	
-	constexpr float LIFT_LOAD_R = 2000;
-	constexpr float LIFT_LOAD_V_MAX = 8000;
+	constexpr float LIFT_LOAD_R           = 2000;
+	constexpr float LIFT_LOAD_V_MAX       = 8000;
 	
-	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.3;
-	constexpr float LIFT_CHASSIS_FAST_VEL = 2.5;
+	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.3f;
+	constexpr float LIFT_CHASSIS_FAST_VEL = 2.5f;
 
 
 	void LiftChassis::Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig)
@@ -81,20 +81,16 @@ namespace chassis
 				{
 					d = d_;
 					
-					if (
-						fabsf(Get_Front_Lift_Pos() - RESET_POS) < LIFT_POS_THRESHOLD && 
-						fabsf(Get_Back_Lift_Pos() - RESET_POS) < LIFT_POS_THRESHOLD
-					)
+
+					if (a_ == LIFT_UP)
 					{
-						if (a_ == LIFT_UP)
-						{
-							state = LIFT_UP_READY;
-						}
-						else
-						{
-							state = LIFT_DOWN_READY;
-						}
+						state = LIFT_UP_READY;
 					}
+					else
+					{
+						state = LIFT_DOWN_READY;
+					}
+					
 					
 					if (h_ == LIFT_20)
 					{
@@ -142,12 +138,12 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS - 5.f);
-				Set_Back_Lift_Pos(down_pos - 5.f);
+				Set_Front_Lift_Pos(ZERO_POS - 10.f);
+				Set_Back_Lift_Pos(down_pos - 10.f);
 				
 				if (
-					fabsf(Get_Front_Lift_Pos() - ZERO_POS + 5.f) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - down_pos + 5.f) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - ZERO_POS + 10.f) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - down_pos + 10.f) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_UP_FORWARD;
@@ -163,8 +159,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS);
-				Set_Back_Lift_Pos(down_pos);
+				Set_Front_Lift_Pos(ZERO_POS - 10.f);
+				Set_Back_Lift_Pos(down_pos - 10.f);
 				
 				if (
 					Get_Senser_Value(4)
@@ -224,12 +220,12 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
-				Set_Front_Lift_Pos(down_pos);
-				Set_Back_Lift_Pos(ZERO_POS);
+				Set_Front_Lift_Pos(down_pos - 10.f);
+				Set_Back_Lift_Pos(ZERO_POS - 10.f);
 				
 				if (
-					fabsf(Get_Front_Lift_Pos() - down_pos) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - ZERO_POS) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - down_pos + 10.f) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - ZERO_POS + 10.f) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_DOWN_FORWARD;
@@ -245,8 +241,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
-				Set_Front_Lift_Pos(down_pos);
-				Set_Back_Lift_Pos(ZERO_POS);
+				Set_Front_Lift_Pos(down_pos - 10.f);
+				Set_Back_Lift_Pos(ZERO_POS - 10.f);
 				
 				if (
 					!Get_Senser_Value(5)

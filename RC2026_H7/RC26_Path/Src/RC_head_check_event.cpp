@@ -1,8 +1,5 @@
 #include "RC_head_check_event.h"
 
-int llll = 0;
-
-
 namespace path
 {
 	HeadCheck::HeadCheck(uint8_t id_, float yaw_, TrajTrack3& t_, data::RobotPose& pose_) : Event3(id_, false), track(t_), pose(pose_), yaw(yaw_)
@@ -38,7 +35,6 @@ namespace path
 			}
 			else
 			{
-				llll = 1;
 				track.Force_Tan_Vel_Zero(); /*强制停车*/
 			}
 		}

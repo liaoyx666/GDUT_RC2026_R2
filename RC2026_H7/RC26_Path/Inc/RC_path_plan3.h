@@ -12,7 +12,7 @@
 #ifdef __cplusplus
 namespace path
 {
-	constexpr uint8_t PATHPLAN3_MAX_POINT_NUM = 50;
+	constexpr uint8_t PATHPLAN3_MAX_POINT_NUM = 60;
 	
 	
 	enum AddPointReturn : uint8_t
