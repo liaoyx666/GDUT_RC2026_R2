@@ -27,6 +27,7 @@
 #include "RC_omni_chassis.h"
 #include "RC_lift_chassis.h"
 #include "RC_auto_lift.h"
+#include "RC_aim.h"
 
 /* path */
 #include "RC_traj_plan3.h"
@@ -40,6 +41,7 @@
 /* ROS */
 #include "RC_radar.h"
 #include "RC_best_path.h"
+#include "RC_camera.h"
 
 /* HAL */
 #include "fdcan.h"
