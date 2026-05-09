@@ -50,7 +50,7 @@ namespace motor
 		pid_spd.Pid_Param_Init(0.025, 0.0007, 0, 0, 0.002, 0, 10, 5, 5, 5, 5);
 		
 		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-		pid_pos.Pid_Param_Init(150, 0, 10, 0, 0.002, 0, 10, 5, 5 ,5 ,5, 2, 1);
+		pid_pos.Pid_Param_Init(150, 0, 10, 0, 0.002, 0, 20, 5, 5 ,5 ,5, 10, 15);
 	}
 	
 	void DM4310::CanHandler_Register()

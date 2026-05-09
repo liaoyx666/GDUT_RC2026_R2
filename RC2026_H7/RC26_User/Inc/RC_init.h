@@ -37,6 +37,10 @@
 #include "RC_head_check_event.h"
 #include "RC_graph_plan.h"
 
+/* gantry */
+#include "RC_gantry.h"
+
+
 /* ROS */
 #include "RC_radar.h"
 #include "RC_best_path.h"

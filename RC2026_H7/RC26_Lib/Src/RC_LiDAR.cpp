@@ -10,9 +10,9 @@ namespace lidar
     void LiDAR::Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_)
     {
         for(uint8_t i = last_address; i < last_address + len_; i++)
-        {   
+        {
             if(buf_[i % 50] == 0x59 && buf_[(i + 1) % 50 == 0x59])
-            {   
+            {
                 uint16_t sum = 0;
 				
                 for(uint8_t j = 0 ; j < 8; j++)

@@ -20,18 +20,19 @@ motor::M3508 m3508_3_can1(3, can2, &tim13_500hz);
 motor::M3508 m3508_4_can1(4, can2, &tim13_500hz);
 
 // 龙门架电机---------------------------------------------
-//motor::M2006D m2006d_can3_3_4(
-//	3, can3, &tim13_500hz, 
-//	4, can3, &tim13_500hz, 
-//	36, motor::POL_REV, true
-//);
-//motor::M3508D m3508d_can3_1_2(
-//	1, can3, &tim13_500hz, 
-//	2, can3, &tim13_500hz, 
-//	3591.f / 187.f, motor::POL_REV, true
-//);
-//motor::M2006 m2006_can3_5(5, can3, &tim13_500hz);
-//motor::DM4310 dm4310_can3_0x12(0x12, can3, &tim13_500hz);
+motor::M2006D m2006d_can1_3_4(
+	3, can1, &tim13_500hz, 
+	4, can1, &tim13_500hz, 
+	36, motor::POL_REV, true
+);
+motor::M3508D m3508d_can1_1_2(
+	1, can1, &tim13_500hz, 
+	2, can1, &tim13_500hz, 
+	3591.f / 187.f, motor::POL_REV, true
+);
+motor::M2006 m2006_can1_5(5, can1, &tim13_500hz);
+motor::DM4310 dm4310_can1_0x12(0x12, can1, &tim13_500hz);
+
 
 
 // 抬升电机---------------------------------------------
@@ -109,15 +110,29 @@ chassis::AutoLift auto_lift(
 	robot_pose
 );
 
+gantry::Gantry gan(
+	m2006d_can1_3_4,
+	m2006_can1_5,
+	m3508d_can1_1_2,
+	dm4310_can1_0x12
+);
+
 /*====================================DeBug====================================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
 
-vector2d::Vector2D pc;
 float target = 0;
 float a = 0;
-uint32_t t = 0;
-uint8_t s = 0, e = 0;
+
+float x = 0;
+float y = 0;
+float z = 0;
+float p = 0;
+
+volatile float x_1 = 0;
+volatile float y_1 = 0;
+volatile float z_1 = 0;
+volatile float p_1 = 0;
 
 void Main_Task(void *argument)
 {
@@ -142,9 +157,9 @@ void Main_Task(void *argument)
 		false
 	);
 	
-	float x = 0.42;
-	float y = -4.53;
-	robot_pose.Update_Position(&x, &y, NULL);
+	float x_ = 0.42;
+	float y_ = -4.53;
+	robot_pose.Update_Position(&x_, &y_, NULL);
 	
 	path::Destination dst;
 	dst.nav.p = vector2d::Vector2D(10.6, -4.53);//vector2d::Vector2D(8.79124641, -1.73101103);//path::MapGraph::Get_MF_Center(4);
@@ -160,8 +175,25 @@ void Main_Task(void *argument)
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 
+//		m2006d_can1_3_4.Set_Current(0);
+//		m3508d_can1_1_2.Set_Current(0);
+//		m2006_can1_5.Set_Current(0);
+//		dm4310_can1_0x12.Set_Torque(0);
 
-
+		
+		gan.Set_X(x);
+		gan.Set_Y(y);
+		gan.Set_Z(z);
+		gan.Set_P(p);
+		
+		
+		x_1 = gan.Get_X();
+		y_1 = gan.Get_Y();
+		z_1 = gan.Get_Z();
+		p_1 = gan.Get_P();
+	
+		
+		
 		if (remote_ctrl.swc == 0)
 		{
 			
@@ -225,12 +257,23 @@ void Motor_Config()
 	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
 	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
 	
-	m3508_can3_5.Set_Pos_limit(620, -600);
-	m3508_can3_6.Set_Pos_limit(620, -600);
+	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
+	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
+	
+	
+	
+	
+	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
+	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
+	m2006_can1_5    .Set_Pos_limit(0.f, -486.15f);
+	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 }
 
 
-
+void vApplicationIdleHook(void)
+{
+	
+}
 
 void All_Init()
 {

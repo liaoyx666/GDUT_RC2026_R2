@@ -71,7 +71,7 @@ namespace path
 		uint8_t Curve_Num() const {return line_num + arc_num;}
 		float Len() const {return len[line_num + arc_num - 1];}
 		void Reset();
-		const bool& Is_Init() const {return is_init;}
+		bool Is_Init() const {return is_init;}
 		
 		void Get_Point_On_T(float t, vector2d::Vector2D* p) const;
 		void Get_Constr_On_Len(float l, LonConstr3* lon, HeadConstr3* head) const;
