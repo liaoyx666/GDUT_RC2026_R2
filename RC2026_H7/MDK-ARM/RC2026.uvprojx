@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_PWR_LDO_SUPPLY,USE_HAL_DRIVER,STM32H723xx,__FPU_PRESENT = 1U,__VFP_FP__ = 1,ARM_MATH_CM7</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc;../RC26_Api/Inc;../RC26_Path/Inc;..\RC26_Gantry\Inc</IncludePath>
+              <IncludePath>../Core/Inc;../USB_DEVICE/App;../USB_DEVICE/Target;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../RC26_Lib/Inc;../RC26_User/Inc;../RC26_Motor/Inc;../RC26_Ros_Interface/Inc;../RC26_Api/Inc;../RC26_Path/Inc;../RC26_Gantry/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1411,6 +1411,16 @@
               <FileName>RC_gantry.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Gantry\Inc\RC_gantry.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_get_KFS.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_get_KFS.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_get_KFS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_get_KFS.h</FilePath>
             </File>
           </Files>
         </Group>

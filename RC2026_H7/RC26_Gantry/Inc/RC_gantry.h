@@ -15,6 +15,7 @@ namespace gantry
 	constexpr float GANTRY_Y_RAD_TO_M = 1.f / GANTRY_Y_M_TO_RAD;
 	constexpr float GANTRY_Z_RAD_TO_M = 1.f / GANTRY_Z_M_TO_RAD;
 	
+	
 	class Gantry : public task::ManagedTask
     {
     public:
@@ -22,8 +23,9 @@ namespace gantry
 			motor::Motor& m_x_,
 			motor::Motor& m_y_,
 			motor::Motor& m_z_,
-			motor::Motor& m_p_
+			motor::JointM& m_p_
 		);
+	
 		~Gantry() = default;
 		
 		void Set_X(float m_);
@@ -31,25 +33,10 @@ namespace gantry
 		void Set_Z(float m_);
 		void Set_P(float rad_);
 		
-		inline float Get_X()
-		{
-			return motor_x.Get_Out_Pos() * GANTRY_X_RAD_TO_M;
-		}
-		
-		inline float Get_Y()
-		{
-			return -motor_y.Get_Out_Pos() * GANTRY_Y_RAD_TO_M;
-		}
-		
-		inline float Get_Z()
-		{
-			return motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M;
-		}
-		
-		inline float Get_P()
-		{
-			return -motor_p.Get_Out_Pos();
-		}
+		inline float Get_X() { return  motor_x.Get_Out_Pos() * GANTRY_X_RAD_TO_M; }
+		inline float Get_Y() { return  motor_y.Get_Out_Pos() * GANTRY_Y_RAD_TO_M; }
+		inline float Get_Z() { return  motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M; }
+		inline float Get_P() { return -motor_p.Get_Out_Pos(); }
 
     private:
 		void Task_Process() override;
@@ -58,7 +45,7 @@ namespace gantry
 		float target_y;
 		float target_z;
 		float target_p;
-	
+
 
 		float p_max = 0;
 		float p_min = 0;
@@ -66,7 +53,7 @@ namespace gantry
 		motor::Motor& motor_x;
 		motor::Motor& motor_y;
 		motor::Motor& motor_z;
-		motor::Motor& motor_p;// pitch
+		motor::JointM& motor_p;// pitch
     };
 }
 #endif

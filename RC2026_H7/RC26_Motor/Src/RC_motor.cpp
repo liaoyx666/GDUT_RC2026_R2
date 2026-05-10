@@ -127,7 +127,9 @@ namespace motor
 	
 	void JointM::Set_Mit_Pos(float pos_)
 	{
-		target_pos = pos_;
+		if (pos_ > pos_max) target_pos = pos_max;
+		else if (pos_ < pos_min) target_pos = pos_min;
+		else target_pos = pos_;
 		
 		// 设置模式
 		motor_mode = LOCAL_MIT_MODE;

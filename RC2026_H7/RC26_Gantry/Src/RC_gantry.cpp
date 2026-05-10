@@ -3,25 +3,28 @@
 namespace gantry
 {
 	
-	constexpr float GANTRY_X_MAX = 0.640f;
-	constexpr float GANTRY_X_MIN = 0.f;
+	constexpr float GANTRY_X_MAX = 0.64f;
+	constexpr float GANTRY_X_MIN = 0.03f;
 	
-	constexpr float GANTRY_Y_MAX = 0.202f;
+	constexpr float GANTRY_Y_MAX = 0.2f;
 	constexpr float GANTRY_Y_MIN = 0.f;
 	
-	constexpr float GANTRY_Z_MAX = 0.87f;
+	constexpr float GANTRY_Z_MAX = 0.86f;
 	constexpr float GANTRY_Z_MIN = 0.f;
 	
 	constexpr float GANTRY_P_MAX = TWO_THIRD_PI; // 270度
 	constexpr float GANTRY_P_MIN = 0.f;
 	
-		
+	
+	constexpr float GANTRY_Y_OFFSET = 0.1;
+	
+	
 	
 	Gantry::Gantry(
 		motor::Motor& m_x_,
 		motor::Motor& m_y_,
 		motor::Motor& m_z_,
-		motor::Motor& m_p_
+		motor::JointM& m_p_
 	) : motor_x(m_x_), motor_y(m_y_), motor_z(m_z_), motor_p(m_p_), task::ManagedTask("GantryTask", 31, 128, task::TASK_DELAY, 1)
 	{
 		target_x = 0;
@@ -29,7 +32,6 @@ namespace gantry
 		target_z = 0;
 		target_p = 0;
 		
-
 		p_max = GANTRY_P_MAX;
 		p_min = GANTRY_P_MIN;
 	}
@@ -43,6 +45,8 @@ namespace gantry
 	
 	void Gantry::Set_Y(float m_)
 	{
+		m_ += GANTRY_Y_OFFSET;
+		
 		if (m_ > GANTRY_Y_MAX) target_y = GANTRY_Y_MAX;
 		else if (m_ < GANTRY_Y_MIN) target_y = GANTRY_Y_MIN;
 		else target_y = m_;
@@ -165,7 +169,7 @@ namespace gantry
 			constr_p = p_min + 0.1f;
 		}
 		
-		motor_p.Set_Out_Pos(-constr_p);
+		motor_p.Set_Out_Mit_Pos(-constr_p);
 		
 		/*---------------------------------x-------------------------------------*/
 		
@@ -180,7 +184,7 @@ namespace gantry
 		
 		/*---------------------------------y-------------------------------------*/
 		
-		motor_y.Set_Out_Pos(-target_y * GANTRY_Y_M_TO_RAD);
+		motor_y.Set_Out_Pos( target_y * GANTRY_Y_M_TO_RAD);
 		
 		/*---------------------------------z-------------------------------------*/
 

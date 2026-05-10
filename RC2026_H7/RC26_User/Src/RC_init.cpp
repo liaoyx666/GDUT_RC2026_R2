@@ -31,9 +31,7 @@ motor::M3508D m3508d_can1_1_2(
 	3591.f / 187.f, motor::POL_REV, true
 );
 motor::M2006 m2006_can1_5(5, can1, &tim13_500hz);
-motor::DM4310 dm4310_can1_0x12(0x12, can1, &tim13_500hz);
-
-
+motor::DM4310 dm4310_can1_0x12(0x12, can1, &tim7_1khz);
 
 // 抬升电机---------------------------------------------
 motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
@@ -42,7 +40,6 @@ motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);
 // 辅助轮电机---------------------------------------------
 motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);
 motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
-
 
 /*====================================模块====================================*/
 
@@ -144,10 +141,6 @@ void Main_Task(void *argument)
 	path::MapGraph::Set_MF_Valid(10, false);
 	path::MapGraph::Set_MF_Valid(11, false);
 
-	
-	Motor_Config();
-	
-	
 	path_plan.Add_Point(
 		vector2d::Vector2D(0.42, -4.53),
 		0,
@@ -169,31 +162,21 @@ void Main_Task(void *argument)
 	
 	graph_plan.Plan(dst);
 	
-	
 	for (;;)
 	{
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 
-//		m2006d_can1_3_4.Set_Current(0);
-//		m3508d_can1_1_2.Set_Current(0);
-//		m2006_can1_5.Set_Current(0);
-//		dm4310_can1_0x12.Set_Torque(0);
-
-		
 		gan.Set_X(x);
 		gan.Set_Y(y);
 		gan.Set_Z(z);
 		gan.Set_P(p);
-		
 		
 		x_1 = gan.Get_X();
 		y_1 = gan.Get_Y();
 		z_1 = gan.Get_Z();
 		p_1 = gan.Get_P();
 	
-		
-		
 		if (remote_ctrl.swc == 0)
 		{
 			
@@ -205,7 +188,6 @@ void Main_Task(void *argument)
 				radar.Reposition(); /*雷达重定位*/
 			}
 		}
-		
 		
 		if (remote_ctrl.swa == 1)
 		{
@@ -256,16 +238,18 @@ void Motor_Config()
 	// 撑杆电机
 	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
 	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
-	
 	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
 	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
 	
 	
-	
+	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
+	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 2000);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
+	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 0.05, 0, 0.001, 0, 5, 5, 5, 5, 5, 20, 7);
 	
 	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
-	m2006_can1_5    .Set_Pos_limit(0.f, -486.15f);
+	m2006_can1_5    .Set_Pos_limit(486.15f, 0.f);
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 }
 
@@ -304,4 +288,7 @@ void All_Init()
 
 	// 场地位置初始化
 	data::Init_Side(true);
+	
+	
+	Motor_Config();
 }
