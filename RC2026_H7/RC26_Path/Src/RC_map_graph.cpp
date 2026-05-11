@@ -16,7 +16,7 @@ namespace path
 		{
 			path[0] = start;
 			pathLen = 1;
-			// 【修复】起点终点相同时，也输出距离
+			// 起点终点相同时，也输出距离
 			if (dist_ != nullptr)
 				*dist_ = 0;
 			return true;

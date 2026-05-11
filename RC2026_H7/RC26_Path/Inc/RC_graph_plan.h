@@ -54,10 +54,10 @@ namespace path
 	class GraphPlan
     {
     public:
-		GraphPlan(data::RobotPose& pose_, PathPlan3& plan_);
+		GraphPlan(PathPlan3& plan_);
 		~GraphPlan() = default;
         
-		bool Plan(Destination dst);
+		bool Plan(NavPoint start, Destination dst);
 		PathPlan3& plan;
     private:
 		bool Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end) const;
@@ -78,7 +78,7 @@ namespace path
 		Destination dst;
 		NavPoint last_nav;
 		
-		data::RobotPose& pose;
+		//data::RobotPose& pose;
     };
 }
 #endif

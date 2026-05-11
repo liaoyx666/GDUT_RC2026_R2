@@ -95,10 +95,9 @@ path::PathPlan3 path_plan(
 );
 
 // 图规划
-path::GraphPlan graph_plan(
-	robot_pose, 
-	path_plan
-);
+path::GraphPlan graph_plan(path_plan);
+
+path::Navigation navigation(graph_plan);
 
 // 抬升自动上下台阶
 chassis::AutoLift auto_lift(
@@ -131,6 +130,7 @@ volatile float y_1 = 0;
 volatile float z_1 = 0;
 volatile float p_1 = 0;
 
+
 void Main_Task(void *argument)
 {
 	remote_ctrl.signal_swa();
@@ -144,32 +144,38 @@ void Main_Task(void *argument)
 	path::MapGraph::Set_MF_Valid(10, false);
 	path::MapGraph::Set_MF_Valid(11, false);
 
-	path_plan.Add_Point(
-		vector2d::Vector2D(0.42, -4.53),
-		0,
-		NULL,
-		NULL,
-		EVENT3_NULL,
-		false
-	);
-	
-	float x_ = 0.42;
-	float y_ = -4.53;
-	robot_pose.Update_Position(&x_, &y_, NULL);
-	
+//	path_plan.Add_Start_Point(
+//		vector2d::Vector2D(0.42, -4.53)
+//	);
+//	
+//	
+//	float x_ = 0.42;
+//	float y_ = -4.53;
+//	robot_pose.Update_Position(&x_, &y_, NULL);
+//	
+//	
+
+//	path::NavPoint start;
+//	start.p = vector2d::Vector2D(robot_pose.X(), robot_pose.Y());
+//	start.yaw = robot_pose.Yaw();
+//	
 	path::Destination dst;
 	dst.nav.p = vector2d::Vector2D(10.6, -4.53);//vector2d::Vector2D(8.79124641, -1.73101103);//path::MapGraph::Get_MF_Center(4);
 	dst.nav.yaw = -PI / 2.f;
 	dst.type = path::DST_END;
 	dst.event = EVENT3_NULL;
 	
-	graph_plan.Plan(dst);
-	
+	navigation.Add_Dst(dst.nav, path::DST_END, EVENT3_NULL);
+
+//	
+//	graph_plan.Plan(start, dst);
+//	
 	for (;;)
 	{
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 
+		
 		gan.Set_X(x);
 		gan.Set_Y(y);
 		gan.Set_Z(z);
@@ -244,7 +250,6 @@ void Motor_Config()
 	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
 	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
 	
-	
 	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 2000);
 	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
@@ -257,10 +262,6 @@ void Motor_Config()
 }
 
 
-void vApplicationIdleHook(void)
-{
-	
-}
 
 void All_Init()
 {

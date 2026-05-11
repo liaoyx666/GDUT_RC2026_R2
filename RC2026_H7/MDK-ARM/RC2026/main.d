@@ -96,6 +96,7 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Path\Inc\RC_path3.h \
   ..\RC26_Path\Inc\RC_curve.h ..\RC26_Path\Inc\RC_path_plan3.h \
   ..\RC26_Path\Inc\RC_map_graph.h ..\RC26_Path\Inc\RC_graph_plan.h \
-  ..\RC26_Gantry\Inc\RC_gantry.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
+  ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Gantry\Inc\RC_gantry.h \
+  ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\RC26_Path\Inc\RC_path2.h \
   ..\RC26_Path\Inc\RC_bezier_curve.h ..\RC26_Ros_Interface\Inc\RC_map.h

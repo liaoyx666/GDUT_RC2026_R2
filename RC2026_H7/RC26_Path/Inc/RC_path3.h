@@ -5,8 +5,8 @@
 #ifdef __cplusplus
 namespace path
 {
-	constexpr uint8_t PATH3_MAX_LINE_NUM   = 20; /*最大直线数*/
-	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 20; /*最大圆弧数*/
+	constexpr uint8_t PATH3_MAX_LINE_NUM   = 25; /*最大直线数*/
+	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 15; /*最大圆弧数*/
 	constexpr float PATH3_MAX_LIN_VEL      = 4.f; /*最大线速度*/
 
 	constexpr float PATH3_CURVE_SWITCH_THRESHOLD = 0.03f; /*切换曲线阈值 m*/
