@@ -34,7 +34,6 @@
 #include "RC_path3.h"
 #include "RC_path_plan3.h"
 #include "RC_map_graph.h"
-#include "RC_head_check_event.h"
 #include "RC_graph_plan.h"
 
 /* gantry */

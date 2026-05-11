@@ -2,7 +2,6 @@
 
 namespace gantry
 {
-	
 	constexpr float GANTRY_X_MAX = 0.64f;
 	constexpr float GANTRY_X_MIN = 0.03f;
 	
@@ -14,11 +13,6 @@ namespace gantry
 	
 	constexpr float GANTRY_P_MAX = TWO_THIRD_PI; // 270度
 	constexpr float GANTRY_P_MIN = 0.f;
-	
-	
-	constexpr float GANTRY_Y_OFFSET = 0.1;
-	
-	
 	
 	Gantry::Gantry(
 		motor::Motor& m_x_,

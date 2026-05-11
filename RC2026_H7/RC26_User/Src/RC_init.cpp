@@ -137,6 +137,9 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swd();
 //	wave.Init();
 	
+	gan.Set_Defualt_Td();
+	gan.Set_Reset_Pos();
+	
 	path::MapGraph::Set_MF_Valid(6, false);
 	path::MapGraph::Set_MF_Valid(10, false);
 	path::MapGraph::Set_MF_Valid(11, false);
