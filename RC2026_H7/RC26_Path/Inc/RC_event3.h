@@ -39,7 +39,7 @@ namespace path
 		
 		bool Is_Trig();
 		void Finish();
-			
+		
 		bool Wait_Finish() const {return wait_finish;}
 		
     protected:

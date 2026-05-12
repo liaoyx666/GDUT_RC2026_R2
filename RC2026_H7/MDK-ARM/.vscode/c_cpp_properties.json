@@ -21,6 +21,7 @@
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Ros_Interface\\Inc",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Api\\Inc",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Path\\Inc",
+                "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Gantry\\Inc",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\MDK-ARM",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\Drivers\\STM32H7xx_HAL_Driver\\Src",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\Core\\Src",
@@ -32,6 +33,7 @@
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Lib\\Src",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Motor\\Src",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Path\\Src",
+                "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Gantry\\Src",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_Ros_Interface\\Src",
                 "c:\\Users\\LENOVO\\Desktop\\GDUT_RC2026_R2-main\\GDUT_RC2026_R2\\RC2026_H7\\RC26_User\\Src"
             ],

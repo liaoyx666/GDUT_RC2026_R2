@@ -2,9 +2,6 @@
 
 namespace path
 {
-	
-	
-	
 	// 求完整路径 + 距离
 	bool MapGraph::Get_Shortest_Path(uint8_t start, uint8_t end, uint8_t path[], uint8_t &pathLen, uint8_t *dist_)
 	{
@@ -19,7 +16,7 @@ namespace path
 		{
 			path[0] = start;
 			pathLen = 1;
-			// 【修复】起点终点相同时，也输出距离
+			// 起点终点相同时，也输出距离
 			if (dist_ != nullptr)
 				*dist_ = 0;
 			return true;

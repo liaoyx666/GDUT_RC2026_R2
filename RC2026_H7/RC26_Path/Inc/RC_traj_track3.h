@@ -14,7 +14,6 @@ namespace path
 	constexpr float TRAJTRACK3_PRE_ALIGN_THRESHOLD = 3.f * PI / 180.f; /*3度*/
 	constexpr float TRAJTRACK3_END_THRESHOLD = 0.04f; /*路径结束阈值 m*/
 	
-	
 	class Path3;
 	
 	class TrajTrack3 : public task::ManagedTask

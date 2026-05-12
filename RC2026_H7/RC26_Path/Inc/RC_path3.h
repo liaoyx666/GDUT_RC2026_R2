@@ -5,8 +5,8 @@
 #ifdef __cplusplus
 namespace path
 {
-	constexpr uint8_t PATH3_MAX_LINE_NUM   = 20; /*最大直线数*/
-	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 20; /*最大圆弧数*/
+	constexpr uint8_t PATH3_MAX_LINE_NUM   = 25; /*最大直线数*/
+	constexpr uint8_t PATH3_MAX_ARC_NUM	   = 15; /*最大圆弧数*/
 	constexpr float PATH3_MAX_LIN_VEL      = 4.f; /*最大线速度*/
 
 	constexpr float PATH3_CURVE_SWITCH_THRESHOLD = 0.03f; /*切换曲线阈值 m*/
@@ -71,7 +71,7 @@ namespace path
 		uint8_t Curve_Num() const {return line_num + arc_num;}
 		float Len() const {return len[line_num + arc_num - 1];}
 		void Reset();
-		const bool& Is_Init() const {return is_init;}
+		bool Is_Init() const {return is_init;}
 		
 		void Get_Point_On_T(float t, vector2d::Vector2D* p) const;
 		void Get_Constr_On_Len(float l, LonConstr3* lon, HeadConstr3* head) const;

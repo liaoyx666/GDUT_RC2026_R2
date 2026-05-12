@@ -5,7 +5,7 @@ namespace path
 	constexpr float NAV_FLAT_MOVE_BLEND_DIS = 0.4;
 	
 	
-	GraphPlan::GraphPlan(data::RobotPose& pose_, PathPlan3& plan_) : pose(pose_), plan(plan_)
+	GraphPlan::GraphPlan(PathPlan3& plan_) : plan(plan_)
 	{
 		
 	}
@@ -34,14 +34,14 @@ namespace path
 	
 	constexpr uint8_t GRAPH_PLAN_MAX_PATH_LEN = 15;
 	
-	bool GraphPlan::Plan(Destination dst_)
+	bool GraphPlan::Plan(NavPoint start, Destination dst_)
 	{
 		/*终点*/
 		dst = dst_;
 		
 		/*起点*/
-		last_nav.p = vector2d::Vector2D(pose.X(), pose.Y());
-		last_nav.yaw = pose.Yaw();
+		last_nav.p = start.p;//vector2d::Vector2D(pose.X(), pose.Y());
+		last_nav.yaw = start.yaw;//pose.Yaw();
 		
 		uint8_t path[GRAPH_PLAN_MAX_PATH_LEN];
 		uint8_t len = 0;

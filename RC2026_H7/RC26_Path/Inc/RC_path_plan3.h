@@ -30,8 +30,20 @@ namespace path
 		PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_);
 		~PathPlan3() = default;
 		
-		AddPointReturn Add_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end);
+		inline AddPointReturn Add_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end)
+		{
+			if (!is_start) return ADD_FULL; // 等待开始点生成
+			return Add_One_Point(p, blend_dis, l, h, e, end);
+		}
 		
+		inline AddPointReturn Add_Start_Point(vector2d::Vector2D p)
+		{
+			if (is_start) return ADD_FAIL;
+			AddPointReturn rt = Add_One_Point(p, 0, NULL, NULL, EVENT3_NULL, false);
+			is_start = true;
+			return rt;
+		}
+	
 		void Enable()
 		{
 			is_enable = true;
@@ -51,6 +63,8 @@ namespace path
 		void Task_Process() override;
 		
     private:
+		AddPointReturn Add_One_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end);
+	
 		Point3 point[PATHPLAN3_MAX_POINT_NUM]; /*储存路径点，循环数组*/
 		
 		TrajPlan3 plan; /*轨迹规划*/
@@ -62,6 +76,7 @@ namespace path
 		uint8_t tail;
 
 		bool is_enable;
+		bool is_start;
 		
 		void Delete_Point();
 		inline void Next_Path();

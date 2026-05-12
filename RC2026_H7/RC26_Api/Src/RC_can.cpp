@@ -3,7 +3,7 @@
  */
 #include "RC_can.h"
 
-#define MAX_CAN_RETRY_COUNT 10 // 最大重试次数
+#define MAX_CAN_RETRY_COUNT 18 // 最大重试次数
 
 extern "C" void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hcan, uint32_t RxFifo0ITs)
 {
@@ -199,11 +199,11 @@ namespace can
 					else
 					{
 						retry_count++;
-//						
-//						if (retry_count <= MAX_CAN_RETRY_COUNT)
-//						{
-//							osDelay(1); // 仅在未达到重试阈值时延时，避免无效延时
-//						}
+						
+						if (retry_count <= MAX_CAN_RETRY_COUNT)
+						{
+							osDelay(1); // 仅在未达到重试阈值时延时，避免无效延时
+						}
 					}
 				} while (send_success == false && retry_count <= MAX_CAN_RETRY_COUNT);
 

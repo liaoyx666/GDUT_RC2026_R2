@@ -11,6 +11,7 @@ namespace path
 		
 		plan.Load_Path(&path[0]);
 		is_enable = false;
+		is_start = false;
 	}
 	
 	/*任务函数*/
@@ -23,8 +24,7 @@ namespace path
 		Next_Path();
 	}
 	
-	
-	AddPointReturn PathPlan3::Add_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end)
+	AddPointReturn PathPlan3::Add_One_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end)
 	{
 		if (Point_FreeSpace() == 0) return ADD_FULL; /*无空间*/
 		
@@ -54,6 +54,11 @@ namespace path
 		tail = (tail + 1) % PATHPLAN3_MAX_POINT_NUM;
 		return ADD_SUCCESS;
 	}
+	
+//	AddPointReturn PathPlan3::Add_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end)
+//	{
+//		
+//	}
 	
 	void PathPlan3::Next_Path()
 	{

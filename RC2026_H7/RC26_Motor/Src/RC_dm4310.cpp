@@ -21,7 +21,7 @@
 namespace motor
 {
 	DM4310::DM4310(uint8_t id_, can::Can &can_, tim::Tim *tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
-		: can::CanHandler(can_), tim::TimHandler(tim_), JointM(1.f, is_reset_pos_), use_mit(use_mit_)
+		: can::CanHandler(can_), tim::TimHandler(tim_), JointM(1.f, is_reset_pos_), use_mit(use_mit_), lp_td(5, 1000, 1.2)
 	{
 		id = id_;// 电机id
 
@@ -50,7 +50,7 @@ namespace motor
 		pid_spd.Pid_Param_Init(0.025, 0.0007, 0, 0, 0.002, 0, 10, 5, 5, 5, 5);
 		
 		pid_pos.Pid_Mode_Init(false, false, 0.01, true);
-		pid_pos.Pid_Param_Init(150, 0, 10, 0, 0.002, 0, 10, 5, 5 ,5 ,5, 2, 1);
+		pid_pos.Pid_Param_Init(150, 0, 10, 0, 0.002, 0, 20, 5, 5 ,5 ,5, 10, 15);
 	}
 	
 	void DM4310::CanHandler_Register()
@@ -123,8 +123,6 @@ namespace motor
 		torque 			= uint_to_float(((rx_data[4] & 0x0f) << 8) | rx_data[5], T_MIN, T_MAX, 12);//计算扭矩电流N*m
 		temperature 	= (float)(int8_t)rx_data[6];//线圈温度
 		mos_temperature = (float)(int8_t)rx_data[7];//mos温度
-		
-		//out_pos = pos / gear_ratio;
 
 		if (is_reset_pos == true)
 		{
@@ -149,11 +147,11 @@ namespace motor
 		{
 			if (motor_mode == LOCAL_MIT_MODE)		//>本地计算mit模式
 			{
-				target_torque = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, ff_torque);
+				target_torque = pid_pos.Mit_Calculate(pos, rpm, target_pos, target_rpm, ff_torque + lp_td.filter(torque));
 			}
 			else if (motor_mode != TORQUE_MODE)		//> 力矩模式
 			{
-				float temp_target_rpm = 0;// 目标速度
+				float temp_target_rpm = 0;			// 目标速度
 				
 				if (motor_mode == RPM_MODE)			//> 速度模式
 				{

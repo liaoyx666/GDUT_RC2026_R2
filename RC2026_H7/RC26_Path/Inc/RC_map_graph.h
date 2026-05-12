@@ -141,10 +141,6 @@ namespace path
 			const float dotAC;
 	};
 
-	
-	
-	
-	
 	class MapGraph
     {
     public:

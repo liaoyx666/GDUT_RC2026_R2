@@ -26,6 +26,8 @@ namespace motor
 	private:
 		uint16_t id;
 
+		filter::SecondOrderLPF lp_td;
+	
 		uint8_t error_code;
 		float mos_temperature;
 		bool use_mit = false;
