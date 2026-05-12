@@ -1,6 +1,9 @@
 rc2026/tasks.o: ..\Middlewares\Third_Party\FreeRTOS\Source\tasks.c \
+  D:\keil\ARM\ARMCLANG\include\stdlib.h \
+  D:\keil\ARM\ARMCLANG\include\string.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
-  ..\Core\Inc\FreeRTOSConfig.h \
+  D:\keil\ARM\ARMCLANG\include\stddef.h \
+  D:\keil\ARM\ARMCLANG\include\stdint.h ..\Core\Inc\FreeRTOSConfig.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\portable.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h \

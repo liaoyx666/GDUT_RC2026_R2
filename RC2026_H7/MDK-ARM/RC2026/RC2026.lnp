@@ -142,7 +142,6 @@
 "rc2026\supportfunctionsf16.o"
 "rc2026\transformfunctions.o"
 "rc2026\transformfunctionsf16.o"
-"rc2026\windowfunctions.o"
 --strict --scatter "RC2026\RC2026.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

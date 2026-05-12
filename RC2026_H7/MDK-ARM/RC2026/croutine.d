@@ -1,6 +1,7 @@
 rc2026/croutine.o: ..\Middlewares\Third_Party\FreeRTOS\Source\croutine.c \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\FreeRTOS.h \
-  ..\Core\Inc\FreeRTOSConfig.h \
+  D:\keil\ARM\ARMCLANG\include\stddef.h \
+  D:\keil\ARM\ARMCLANG\include\stdint.h ..\Core\Inc\FreeRTOSConfig.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\projdefs.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\portable.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\deprecated_definitions.h \
