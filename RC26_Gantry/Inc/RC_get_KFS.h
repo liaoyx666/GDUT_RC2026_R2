@@ -28,24 +28,19 @@ class GetKFS
 				NORMAL,
 				FAST
 			};
-
-			GetKFS(gantry::Gantry& gantry_, Suction& suction_,lidar::LiDAR& lidar_);
+			GetKFS(Gantry& gantry_, Suction& suction_,lidar::LiDAR& lidar_);
 			~GetKFS() = default;
-
-
 			void Auto_Get_KFS();
-			
     private:
 			enum class CtrlMode
 			{
 					IDLE,
 					OPEN_LOOP,
 					CLOSE_LOOP_LASER,
-					CLOSE_LOOP_VISION,
 					Y_LOCK
 			};
 		
-						void Set_Task(ARM_TASK task_);
+			void Set_Task(ARM_TASK task_);
 			void Set_OpenLoop_Target(float x_m, float y_m, float z_m, float p_rad);
 			void Update_Laser_Distance();
 			void Update_Vision_Offset(float dx_m, float dy_m, float dz_m, float dp_m, bool valid);
@@ -73,7 +68,7 @@ class GetKFS
 			bool y_locked;
 
 			gantry::Gantry& gantry;
-			path::Event3 gantry_event[4];
+			path::Event3 gantry_event[3];
 			path::Event3* active_event;
 			Suction&  suction_;
 			lidar::LiDAR& lidar_;
@@ -98,19 +93,12 @@ class GetKFS
 			float base_target_y;
 			float base_target_z;
 			float base_target_p;
-			uint8_t step_gripper;
 			uint8_t step_suction;
 			uint8_t seq_idx;
 
 			float laser_distance_m;
 			float laser_target_m;
 			bool laser_valid;
-
-			float vision_dx_m;
-			float vision_dy_m;
-			float vision_dz_m;
-			float vision_dp_m;
-			bool  vision_valid;
     };
 
 }
