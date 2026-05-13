@@ -2,7 +2,6 @@
 #include "RC_gantry.h"
 #include "RC_event3.h"
 #include "RC_task.h"
-#include "RC_gripper.h"
 #include "RC_suction.h"
 #include "RC_LiDAR.h"
 #include "RC_timer.h"
@@ -16,10 +15,11 @@ enum class ARM_TASK : uint8_t
     PICK_UP_KFS_20CM_1,
 		PICK_UP_KFS_20CM_2,
 		PICK_UP_KFS_40CM_1,
+		PICK_DOWN_KFS_1,
     PICK_DOWN_KFS_2,
     HOME
 };
-class GetKFS: public task::ManagedTask
+class GetKFS
     {
     public:
 			enum class SpeedMode : uint8_t
@@ -32,15 +32,9 @@ class GetKFS: public task::ManagedTask
 			GetKFS(gantry::Gantry& gantry_, Suction& suction_,lidar::LiDAR& lidar_);
 			~GetKFS() = default;
 
-			void Set_Task(ARM_TASK task_);
-			void Set_OpenLoop_Target(float x_m, float y_m, float z_m, float p_rad);
-			void Update_Laser_Distance();
-			void Update_Vision_Offset(float dx_m, float dy_m, float dz_m, float dp_m, bool valid);
-			void Set_Ctrl_Mode(SpeedMode mode_);
-			void Set_Step_Delay(uint32_t delay_ms);
-			void Cancel();
-			bool Is_Busy() const;
-		
+
+			void Auto_Get_KFS();
+			
     private:
 			enum class CtrlMode
 			{
@@ -51,7 +45,16 @@ class GetKFS: public task::ManagedTask
 					Y_LOCK
 			};
 		
-			void Task_Process() override;
+						void Set_Task(ARM_TASK task_);
+			void Set_OpenLoop_Target(float x_m, float y_m, float z_m, float p_rad);
+			void Update_Laser_Distance();
+			void Update_Vision_Offset(float dx_m, float dy_m, float dz_m, float dp_m, bool valid);
+			void Set_Ctrl_Mode(SpeedMode mode_);
+			void Set_Step_Delay(uint32_t delay_ms);
+			void Cancel();
+			bool Is_Busy() const;
+			
+			
 			void Trigger_Task_By_Event();
 			bool Configure_Current_Step();
 			void Set_Step_Target(float x, float y, float z, float p, CtrlMode mode_);
