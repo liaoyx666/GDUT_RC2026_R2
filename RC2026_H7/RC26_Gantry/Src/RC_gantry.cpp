@@ -19,7 +19,7 @@ namespace gantry
 		motor::Motor& m_y_,
 		motor::Motor& m_z_,
 		motor::JointM& m_p_
-	) : motor_x(m_x_), motor_y(m_y_), motor_z(m_z_), motor_p(m_p_), task::ManagedTask("GantryTask", 31, 128, task::TASK_DELAY, 1)
+	) : motor_x(m_x_), motor_y(m_y_), motor_z(m_z_), motor_p(m_p_)//, task::ManagedTask("GantryTask", 31, 128, task::TASK_DELAY, 1)
 	{
 		target_x = 0;
 		target_y = 0;
@@ -104,9 +104,7 @@ namespace gantry
 	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_START_2 = PI;
 	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_END_2 = TWO_THIRD_PI;
 	
-	
-	
-	void Gantry::Task_Process()
+	void Gantry::Gantry_Base()
 	{
 		float x_pos = Get_X();
         float p_pos = Get_P();

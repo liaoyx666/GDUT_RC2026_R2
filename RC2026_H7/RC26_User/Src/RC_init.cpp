@@ -65,6 +65,19 @@ chassis::Omni4Chassis omni_4_chassis(
 	robot_pose
 );
 
+
+gantry::Gantry gan(
+	m2006d_can1_3_4,
+	m2006_can1_5,
+	m3508d_can1_1_2,
+	dm4310_can1_0x12
+);
+
+
+
+
+
+
 // 抬升
 chassis::LiftChassis lift(
 	m3508_can3_5, m3508_can3_6,
@@ -106,12 +119,7 @@ chassis::AutoLift auto_lift(
 	robot_pose
 );
 
-gantry::Gantry gan(
-	m2006d_can1_3_4,
-	m2006_can1_5,
-	m3508d_can1_1_2,
-	dm4310_can1_0x12
-);
+
 
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
 
@@ -163,13 +171,15 @@ void Main_Task(void *argument)
 //	start.p = vector2d::Vector2D(robot_pose.X(), robot_pose.Y());
 //	start.yaw = robot_pose.Yaw();
 
-	path::Destination dst;
-	dst.nav.p = vector2d::Vector2D(10.6, -4.53);//vector2d::Vector2D(8.79124641, -1.73101103);//path::MapGraph::Get_MF_Center(4);
-	dst.nav.yaw = -PI / 2.f;
-	dst.type = path::DST_END;
-	dst.event = EVENT3_NULL;
+//	path::Destination dst;
+//	dst.nav.p = vector2d::Vector2D(1.42, -4.53);//vector2d::Vector2D(10.6, -4.53);//vector2d::Vector2D(8.79124641, -1.73101103);//path::MapGraph::Get_MF_Center(4);
+//	dst.nav.yaw = -PI / 2.f;
+//	dst.type = path::DST_END;
+//	dst.event = EVENT3_NULL;
 
-	navigation.Add_Dst(dst.nav, path::DST_END, EVENT3_NULL);
+//	navigation.Add_Dst(dst.nav, path::DST_END, EVENT3_ID_13);
+
+navigation.Go_To_Get_KFS(1, path::DIR_R);
 
 //	
 //	graph_plan.Plan(start, dst);
@@ -178,20 +188,22 @@ void Main_Task(void *argument)
 	{
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
-
+	
 		getKFS.Auto_Get_KFS();
-		
-		
+
 //		gan.Set_X(x);
 //		gan.Set_Y(y);
 //		gan.Set_Z(z);
 //		gan.Set_P(p);
-//		
-		x_1 = gan.Get_X();
-		y_1 = gan.Get_Y();
-		z_1 = gan.Get_Z();
-		p_1 = gan.Get_P();
 	
+	x_1 = gan.Get_X();
+	y_1 = gan.Get_Y();
+	z_1 = gan.Get_Z();
+	p_1 = gan.Get_P();
+//	
+		
+		gan.Gantry_Base();
+		
 		if (remote_ctrl.swc == 0)
 		{
 			
@@ -223,10 +235,10 @@ void Main_Task(void *argument)
 			
 			chassis::LiftHeigth lh;
 			
-			if (remote_ctrl.swa == 0)
+//			if (remote_ctrl.swa == 0)
 				lh = chassis::LIFT_20;
-			else
-				lh = chassis::LIFT_40;
+//			else
+//				lh = chassis::LIFT_40;
 			
 			chassis::LiftDir ld;
 			
@@ -235,7 +247,7 @@ void Main_Task(void *argument)
 //			else
 //				ld = chassis::LIFT_R;
 			
-			//lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
+			lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
 			
 			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
@@ -244,7 +256,7 @@ void Main_Task(void *argument)
 	}
 }
 
-task::TaskCreator main_task("Main_Task", 20, 512, Main_Task, NULL);
+task::TaskCreator main_task("Main_Task", 20, 600, Main_Task, NULL);
 
 /*====================================初始化函数====================================*/
 

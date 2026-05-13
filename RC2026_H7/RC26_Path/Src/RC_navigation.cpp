@@ -88,12 +88,15 @@ namespace path
 		}
 		else
 		{
-			if (plan.Plan(last_navp, dst[head]))
+			if (Dst_Num() != 0)
 			{
-				last_navp = dst[head].nav;
+				if (plan.Plan(last_navp, dst[head]))
+				{
+					last_navp = dst[head].nav;
+				}
+				
+				Delete_Dst();
 			}
-			
-			Delete_Dst();
 		}
 	}
 }

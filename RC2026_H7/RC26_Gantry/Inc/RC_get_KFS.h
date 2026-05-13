@@ -15,6 +15,7 @@ enum class ARM_TASK : uint8_t
     PICK_UP_KFS_20CM_1,
 		PICK_UP_KFS_20CM_2,
 		PICK_UP_KFS_40CM_1,
+		PICK_DOWN_KFS_1,
     PICK_DOWN_KFS_2,
     HOME
 };
@@ -28,7 +29,7 @@ class GetKFS
 				FAST
 			};
 
-			GetKFS(gantry::Gantry& gantry_, Suction& suction_,lidar::LiDAR& lidar_);
+			GetKFS(Gantry& gantry_, Suction& suction_,lidar::LiDAR& lidar_);
 			~GetKFS() = default;
 
 
@@ -72,7 +73,7 @@ class GetKFS
 			bool y_locked;
 
 			gantry::Gantry& gantry;
-			path::Event3 gantry_event[4];
+			path::Event3 gantry_event[3];
 			path::Event3* active_event;
 			Suction&  suction_;
 			lidar::LiDAR& lidar_;

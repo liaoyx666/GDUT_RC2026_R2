@@ -19,7 +19,7 @@ namespace chassis
 		path::Event3(10, false, 0.1f),     // EVENT_DOWN_4_READY_L
 		path::Event3(11, false, 0.1f),     // EVENT_DOWN_2_READY_R
 		path::Event3(12, false, 0.1f)      // EVENT_DOWN_4_READY_R
-	}, task::ManagedTask("AutoLiftTask", 21, 128, task::TASK_DELAY, 1), track(track_), pose(pose_), lift(lift_)
+	}, task::ManagedTask("AutoLiftTask", 21, 150, task::TASK_DELAY, 1), track(track_), pose(pose_), lift(lift_)
 	{
 		check_flag = false;
 		lift_trig = false;

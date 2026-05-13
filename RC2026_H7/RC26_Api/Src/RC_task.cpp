@@ -23,7 +23,10 @@ namespace task
 		// 创建任务
 		TaskHandle = osThreadNew(func_, argument_, &Task_attributes);
 		
-		if (TaskHandle == NULL) Error_Handler();
+		if (TaskHandle == NULL)
+		{
+			Error_Handler();
+		}
 	}
 
 	/*--------------------------------------------------------------------------*/

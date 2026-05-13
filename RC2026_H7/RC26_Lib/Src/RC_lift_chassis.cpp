@@ -9,6 +9,9 @@ namespace chassis
 	) : L_lift(L_lift_), R_lift(R_lift_), chassis(chassis_), track(track_), L_wheel(L_wheel_), R_wheel(R_wheel_)
 	{
 		state = LIFT_RESET;
+		up_pos = -1;
+		down_pos = -1;
+		
 	}
 	
 	void LiftChassis::Set_wheel_Vel(float vel)
@@ -80,7 +83,6 @@ namespace chassis
 				if (a_ != LIFT_LOCK && trig)
 				{
 					d = d_;
-					
 
 					if (a_ == LIFT_UP)
 					{

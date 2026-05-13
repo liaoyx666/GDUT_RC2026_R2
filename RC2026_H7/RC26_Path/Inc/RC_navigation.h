@@ -9,8 +9,8 @@ namespace path
 {
 	constexpr uint8_t NAVIGATION_MAX_DESTINATION = 8;
 	
-	constexpr Event3_t GET_HIGH_40_KFS_EVENT = EVENT3_ID_13;
-	constexpr Event3_t GET_HIGH_20_KFS_EVENT = EVENT3_ID_14;
+	constexpr Event3_t GET_HIGH_20_KFS_EVENT = EVENT3_ID_13;
+	constexpr Event3_t GET_HIGH_40_KFS_EVENT = EVENT3_ID_14;
 	constexpr Event3_t GET_LOW_20_KFS_EVENT = EVENT3_ID_15;
 	
 	
