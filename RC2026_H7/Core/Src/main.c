@@ -117,6 +117,7 @@ int main(void)
   MX_TIM13_Init();
   MX_CORDIC_Init();
   MX_TIM2_Init();
+  MX_UART8_Init();
   /* USER CODE BEGIN 2 */
 	All_Init();
   /* USER CODE END 2 */

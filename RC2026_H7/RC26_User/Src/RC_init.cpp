@@ -51,7 +51,7 @@ ros::Map 		map(CDC_HS, 2);// 地图数据接收
 ros::BestPath 	MF_path(CDC_HS, 3);// 路径数据接收
 
 // 激光测距
-lidar::LiDAR lidar_1(huart3);
+lidar::LiDAR lidar_1(huart8);
 
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
@@ -113,6 +113,10 @@ gantry::Gantry gan(
 	dm4310_can1_0x12
 );
 
+gantry::Suction suck(GPIOG, GPIO_PIN_7);
+
+gantry::GetKFS getKFS(gan, suck, lidar_1);
+
 /*====================================DeBug====================================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
@@ -158,13 +162,13 @@ void Main_Task(void *argument)
 //	path::NavPoint start;
 //	start.p = vector2d::Vector2D(robot_pose.X(), robot_pose.Y());
 //	start.yaw = robot_pose.Yaw();
-//	
+
 	path::Destination dst;
 	dst.nav.p = vector2d::Vector2D(10.6, -4.53);//vector2d::Vector2D(8.79124641, -1.73101103);//path::MapGraph::Get_MF_Center(4);
 	dst.nav.yaw = -PI / 2.f;
 	dst.type = path::DST_END;
 	dst.event = EVENT3_NULL;
-	
+
 	navigation.Add_Dst(dst.nav, path::DST_END, EVENT3_NULL);
 
 //	
@@ -175,12 +179,14 @@ void Main_Task(void *argument)
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 
+		getKFS.Auto_Get_KFS();
 		
-		gan.Set_X(x);
-		gan.Set_Y(y);
-		gan.Set_Z(z);
-		gan.Set_P(p);
 		
+//		gan.Set_X(x);
+//		gan.Set_Y(y);
+//		gan.Set_Z(z);
+//		gan.Set_P(p);
+//		
 		x_1 = gan.Get_X();
 		y_1 = gan.Get_Y();
 		z_1 = gan.Get_Z();
@@ -253,7 +259,7 @@ void Motor_Config()
 	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 2000);
 	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
-	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 0.05, 0, 0.001, 0, 5, 5, 5, 5, 5, 20, 7);
+	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
 	
 	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);

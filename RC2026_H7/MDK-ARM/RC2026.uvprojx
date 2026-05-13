@@ -1412,6 +1412,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Gantry\Inc\RC_get_KFS.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_suction.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_suction.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_suction.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_suction.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

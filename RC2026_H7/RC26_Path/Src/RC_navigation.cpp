@@ -29,6 +29,50 @@ namespace path
 		}
 	}
 	
+	constexpr float GET_KFS_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.05f;
+	
+	/* 
+		去夹取KFS 
+		kfs_node : KFS所属结点(几号MF)
+		get_dir : 从哪个方向夹取
+	*/
+	bool Navigation::Go_To_Get_KFS(uint8_t kfs_node, Direction get_dir)
+	{
+		if (kfs_node < 1 || kfs_node > 12) return false;
+		
+		vector2d::Vector2D chassis_pos = MapGraph::Get_MF_Center(kfs_node);
+		
+		chassis_pos = MapGraph::Offset_On_Dir(chassis_pos, get_dir, GET_KFS_OFFSET);
+		
+		uint8_t chassis_node = MapGraph::Get_Node_On_Pos(chassis_pos);
+		
+		if (chassis_node == GRAPH_INVALID) return false;
+
+		Event3_t event = 0;
+		
+		switch (MapGraph::height[kfs_node] - MapGraph::height[chassis_node])
+		{
+			case 4:
+				event = GET_HIGH_40_KFS_EVENT;
+				break;
+			
+			case 2:
+				event = GET_HIGH_20_KFS_EVENT;
+				break;
+			
+			case -2:
+				event = GET_LOW_20_KFS_EVENT;
+				break;
+			
+			default:
+				return false;
+		}
+		
+		float yaw = MapGraph::Yaw_On_Dir(-get_dir);
+		
+		return Go_To_Do(chassis_pos, yaw, event);
+	}
+	
 	void Navigation::Task_Process()
 	{
 		if (!is_start)

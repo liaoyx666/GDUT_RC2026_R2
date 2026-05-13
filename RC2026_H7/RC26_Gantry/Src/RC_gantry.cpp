@@ -3,7 +3,7 @@
 namespace gantry
 {
 	constexpr float GANTRY_X_MAX = 0.64f;
-	constexpr float GANTRY_X_MIN = 0.03f;
+	constexpr float GANTRY_X_MIN = 0.f;
 	
 	constexpr float GANTRY_Y_MAX = 0.2f;
 	constexpr float GANTRY_Y_MIN = 0.f;

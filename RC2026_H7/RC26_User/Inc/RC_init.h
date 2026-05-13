@@ -39,7 +39,8 @@
 
 /* gantry */
 #include "RC_gantry.h"
-
+#include "RC_suction.h"
+#include "RC_get_KFS.h"
 
 /* ROS */
 #include "RC_radar.h"
