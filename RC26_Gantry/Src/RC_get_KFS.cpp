@@ -2,11 +2,6 @@
 
 namespace gantry
 {
-	float GetKFS::current_x = 0.f;
-	float GetKFS::current_y = 0.f;
-	float GetKFS::current_z = 0.f;
-	float GetKFS::current_p = 0.f;
-
 	constexpr float KFS_X_REACH_TH = 0.01f;
 	constexpr float KFS_Y_REACH_TH = 0.01f;
 	constexpr float KFS_Z_REACH_TH = 0.01f;
@@ -55,6 +50,13 @@ namespace gantry
 		base_target_z = target_z;
 		base_target_p = target_p;
 		
+		current_x = 0.0f;
+		current_y = 0.0f;
+		current_z = 0.0f;
+		current_p = 0.0f;
+		
+		kfs_num = 0;
+		
 		locked_y = 0.f;
 		y_locked = false;
 
@@ -75,10 +77,28 @@ namespace gantry
 
 	void GetKFS::Trigger_Task_By_Event()
 	{
-				 if (gantry_event[0].Is_Trig()) { active_event = &gantry_event[0]; Set_Task(ARM_TASK::PICK_UP_KFS_20CM_1); }
-		else if (gantry_event[1].Is_Trig()) { active_event = &gantry_event[1]; Set_Task(ARM_TASK::PICK_UP_KFS_20CM_2); }
-		else if (gantry_event[2].Is_Trig()) { active_event = &gantry_event[2]; Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1); }
-		else if (gantry_event[3].Is_Trig()) { active_event = &gantry_event[3]; Set_Task(ARM_TASK::PICK_DOWN_KFS_2); }
+				 if (gantry_event[0].Is_Trig())
+				{ 
+				active_event = &gantry_event[0]; 
+					if(kfs_num == 0)
+					{
+					Set_Task(ARM_TASK::PICK_UP_KFS_20CM_1);
+						kfs_num++;
+					}
+					else 
+					{
+						Set_Task(ARM_TASK::PICK_UP_KFS_20CM_2);
+					}
+				}
+						else if (gantry_event[1].Is_Trig())
+						{
+							active_event = &gantry_event[2]; Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1);
+							kfs_num ++;
+						}
+						else if (gantry_event[2].Is_Trig())
+						{ 
+						active_event = &gantry_event[3]; Set_Task(ARM_TASK::PICK_DOWN_KFS_2);
+										}
 	}
 
 	void GetKFS::Set_Step_Target(float x, float y, float z, float p, CtrlMode mode_)
@@ -126,9 +146,9 @@ namespace gantry
 					case 2: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(100000); 			Set_Step_Target(0.63f, 0.00f, 0.57f,  4.71f,	 CtrlMode::OPEN_LOOP); 				Set_Step_Act(1); return true;
 					case 3: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(1000); 				Set_Step_Target(0.63f, 0.00f, 0.75f,  4.71f,	 CtrlMode::OPEN_LOOP);    	  Set_Step_Act(1); return true;
 					case 4: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(1000); 				Set_Step_Target(0.30f, 0.00f, 0.50f,  1.57f,	 CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
-					case 5: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.16f, 0.00f, 0.40f,  1.4f,		 CtrlMode::Y_LOCK);       		Set_Step_Act(1); return true;
-					case 6: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.1f, 0.00f,  0.30f	, 1.0f, 	 CtrlMode::Y_LOCK);     		  Set_Step_Act(1); return true;
-					case 7: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.00f, 0.00f, 0.25f,  0.0f,		 CtrlMode::Y_LOCK);       		Set_Step_Act(1); return true;
+					case 5: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.16f, 0.00f, 0.40f,  1.4f,		 CtrlMode::Y_LOCK);        		Set_Step_Act(1); return true;
+					case 6: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.1f, 0.00f,  0.30f	, 1.0f, 	 CtrlMode::Y_LOCK);      		  Set_Step_Act(1); return true;
+					case 7: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.00f, 0.00f, 0.25f,  0.0f,		 CtrlMode::Y_LOCK);        		Set_Step_Act(1); return true;
 					case 8: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0);  		  		Set_Step_Target(0.0f, 0.00f, 0.20f, 0.0f,			 CtrlMode::Y_LOCK); 					Set_Step_Act(0); return true;
 					default: return false;
 				}
@@ -183,10 +203,14 @@ namespace gantry
 		{
 			case SpeedMode::SLOW:   scale = 0.15f; break;
 			case SpeedMode::FAST:   scale = 1.00f; break;
-			case SpeedMode::NORMAL:
+			case SpeedMode::NORMAL:	scale = 0.5f;
 			default:                scale = 0.5f; break;
 		}
-		gantry.Set_Speed_Scale(scale);
+
+		gantry.Set_X_Td(2000.f * scale, 8000.f * scale);
+		gantry.Set_Y_Td(1000.f * scale, 2000.f * scale);
+		gantry.Set_Z_Td(2000.f * scale, 8000.f * scale);
+		gantry.Set_P_Td(20.f   * scale, 7.f    * scale);
 	}
 
 	void GetKFS::Set_Task(ARM_TASK task_)
@@ -333,12 +357,10 @@ void GetKFS::Unlock_Y()
 		if (action_id == 0)
 		{
 			suction_.Off();
-			gantry.Set_Load_Mode(false);
 		}
 		if (action_id == 1)
 		{
 			suction_.On();
-			gantry.Set_Load_Mode(true);
 		}
 	}
 

@@ -15,10 +15,7 @@ namespace gantry
 	constexpr float GANTRY_Y_RAD_TO_M = 1.f / GANTRY_Y_M_TO_RAD;
 	constexpr float GANTRY_Z_RAD_TO_M = 1.f / GANTRY_Z_M_TO_RAD;
 	
-	
-		
 	constexpr float GANTRY_Y_OFFSET = 0.1;
-	
 	
 	class Gantry : public task::ManagedTask
     {
@@ -32,18 +29,42 @@ namespace gantry
 	
 		~Gantry() = default;
 		
+		// 设置位置
 		void Set_X(float m_);
 		void Set_Y(float m_);
 		void Set_Z(float m_);
 		void Set_P(float rad_);
-		void Set_Load_Mode(bool loaded_);
-		void Set_Speed_Scale(float scale_);
 		
-		inline float Get_X() { return  motor_x.Get_Out_Pos() * GANTRY_X_RAD_TO_M; }
-		inline float Get_Y() { return  motor_y.Get_Out_Pos() * GANTRY_Y_RAD_TO_M - GANTRY_Y_OFFSET; }
-		inline float Get_Z() { return  motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M; }
-		inline float Get_P() { return -motor_p.Get_Out_Pos(); }
+		// 获取位置
+		constexpr float Get_X() { return  motor_x.Get_Out_Pos() * GANTRY_X_RAD_TO_M; }
+		constexpr float Get_Y() { return  motor_y.Get_Out_Pos() * GANTRY_Y_RAD_TO_M - GANTRY_Y_OFFSET; }
+		constexpr float Get_Z() { return  motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M; }
+		constexpr float Get_P() { return -motor_p.Get_Out_Pos(); }
 
+		// 设置加速度，速度
+		constexpr void Set_X_Td(float a, float v) { motor_x.pid_pos.Set_Td(a, v); }
+		constexpr void Set_Y_Td(float a, float v) { motor_y.pid_pos.Set_Td(a, v); }
+		constexpr void Set_Z_Td(float a, float v) { motor_z.pid_pos.Set_Td(a, v); }
+		constexpr void Set_P_Td(float a, float v) { motor_p.pid_pos.Set_Td(a, v); }
+		
+		// 设置默认加速度，速度
+		constexpr void Set_Defualt_Td()
+		{
+			Set_X_Td(2000.f, 8000.f);
+			Set_Y_Td(2000.f, 8000.f);
+			Set_Z_Td(1000.f, 2000.f);
+			Set_P_Td(20.f  , 7.f   );
+		}
+		
+		// 回到默认位置
+		constexpr void Set_Reset_Pos()
+		{
+			Set_X(0);
+			Set_Y(0);
+			Set_Z(0);
+			Set_P(0);
+		}
+		
     private:
 		void Task_Process() override;
 		
@@ -52,11 +73,8 @@ namespace gantry
 		float target_z;
 		float target_p;
 
-
 		float p_max = 0;
 		float p_min = 0;
-		bool load_mode = false;
-		float speed_scale = 1.0f;
 		
 		motor::Motor& motor_x;
 		motor::Motor& motor_y;

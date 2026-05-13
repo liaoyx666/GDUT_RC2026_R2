@@ -60,12 +60,12 @@ class GetKFS: public task::ManagedTask
 			bool Reached_Target(float cmd_x, float cmd_y, float cmd_z, float cmd_p) ;
 			void Go_Next_Step();
 			void Finish_Current_Task();
-
+ 
 			void Do_Suction_Action(uint8_t action_id);
 			void Lock_Current_Y();
 			void Unlock_Y();
 
-		
+			uint8_t kfs_num;
 			float locked_y;
 			bool y_locked;
 
@@ -87,10 +87,10 @@ class GetKFS: public task::ManagedTask
 			float target_z;
 			float target_p;
 			bool mech_reached;
-			static float current_x;
-			static float current_y;
-			static float current_z;
-			static float current_p;
+			 float current_x;
+			 float current_y;
+			 float current_z;
+			 float current_p;
 			float base_target_x;
 			float base_target_y;
 			float base_target_z;

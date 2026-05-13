@@ -2,9 +2,8 @@
 
 namespace gantry
 {
-	
-	constexpr float GANTRY_X_MAX = 0.70f;
-	constexpr float GANTRY_X_MIN = 0.0f;
+	constexpr float GANTRY_X_MAX = 0.64f;
+	constexpr float GANTRY_X_MIN = 0.03f;
 	
 	constexpr float GANTRY_Y_MAX = 0.2f;
 	constexpr float GANTRY_Y_MIN = 0.f;
@@ -14,9 +13,6 @@ namespace gantry
 	
 	constexpr float GANTRY_P_MAX = TWO_THIRD_PI; // 270度
 	constexpr float GANTRY_P_MIN = 0.f;
-	
-
-	
 	
 	Gantry::Gantry(
 		motor::Motor& m_x_,
@@ -62,33 +58,6 @@ namespace gantry
 		if (rad_ > GANTRY_P_MAX) target_p = GANTRY_P_MAX;
 		else if (rad_ < GANTRY_P_MIN) target_p = GANTRY_P_MIN;
 		else target_p = rad_;
-	}
-
-	void Gantry::Set_Load_Mode(bool loaded_)
-	{
-		if (load_mode == loaded_)
-		{
-			return;
-		}
-		load_mode = loaded_;
-		Set_Speed_Scale(speed_scale);
-	}
-
-	void Gantry::Set_Speed_Scale(float scale_)
-	{
-		if (scale_ < 0.1f) scale_ = 0.1f;
-		if (scale_ > 1.0f) scale_ = 1.0f;
-		speed_scale = scale_;
-
-		// total scale = speed scale * load damping scale
-		const float load_s = load_mode ? 0.5f : 1.0f;
-		const float s = speed_scale * load_s;
-
-		// Only scale the last four parameters, as requested.
-		motor_x.pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500 * s, 500 * s, 2000 * s, 8000.f * s);
-		motor_z.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 3000, 1000, 500, 500 * s, 500 * s, 1000 * s, 2000.f * s);
-		motor_y.pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500 * s, 500 * s, 2000 * s, 8000.f * s);
-		motor_p.pid_pos.Pid_Param_Init(20, 0, 0.05, 0, 0.001, 0, 5, 5, 5, 5 * s, 5 * s, 20 * s, 7.f * s);
 	}
 	
 
@@ -187,11 +156,11 @@ namespace gantry
 		
 		if (target_p > p_max)
 		{
-			constr_p = p_max ;
+			constr_p = p_max - 0.1f;
 		}
 		else if (target_p < p_min)
 		{
-			constr_p = p_min ;
+			constr_p = p_min + 0.1f;
 		}
 		
 		motor_p.Set_Out_Mit_Pos(-constr_p);
