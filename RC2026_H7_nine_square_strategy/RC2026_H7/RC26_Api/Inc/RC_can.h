@@ -1,0 +1,93 @@
+/*适用STM32H723 FDCAN
+ *
+ *
+ *
+ */
+#pragma once
+#include "RC_task.h"
+
+#define MAX_CAN_TX_FRAME_NUM 8
+#define MAX_CAN_HANDLER_NUM 8
+#define MAX_CAN_NUM 3
+
+#ifdef __cplusplus
+namespace can
+{
+	struct CanTxFrame
+	{
+		uint32_t id;
+		uint32_t dlc;
+		uint8_t data[8];
+		
+		uint8_t hd_num;// can帧上挂载的设备数量（最多四个）
+		uint16_t hd_dx[4];// can帧上挂载的所有设备的设备索引
+		
+		uint32_t frame_type;
+		
+		bool new_message;
+		
+	};
+
+	class CanHandler;// 向前声明
+
+	class Can : public task::ManagedTask
+	{
+	public:
+		Can(FDCAN_HandleTypeDef &hcan_);
+		~Can() = default;
+		
+		void Can_Filter_Init(
+			uint32_t idType,
+			uint32_t bank, 
+			uint32_t fifo, 
+			uint32_t id, 
+			uint32_t maskId
+		);
+		
+		void Can_Start();
+		
+		uint8_t Add_CanHandler(CanHandler *CanHandler);
+		static void All_Can_Rx_It_Process(FDCAN_HandleTypeDef *hcan, uint32_t fifo);
+		
+		CanTxFrame tx_frame_list[MAX_CAN_TX_FRAME_NUM] = {0};// 发送帧列表
+		uint8_t hd_num = 0;// 设备总数
+		uint8_t tx_frame_num = 0;// 发送帧总数
+
+	private:
+		void Task_Process() override;
+
+		FDCAN_HandleTypeDef *hcan;
+		uint8_t can_list_dx;
+		
+		static uint8_t can_num;
+		static Can *can_list[MAX_CAN_NUM];
+	
+		CanHandler *hd_list[MAX_CAN_HANDLER_NUM] = {nullptr};// 设备指针
+	};
+
+	class CanHandler
+	{
+	public:
+		CanHandler(Can &can_);
+		~CanHandler() = default;
+
+		Can *can = nullptr;
+		uint8_t tx_frame_dx;
+		uint8_t hd_list_dx;
+		
+		/*------------------------需要被其子类初始化----------------------------*/
+		uint32_t can_frame_type;
+		uint32_t tx_id = 0;
+		
+		uint32_t rx_mask = 0;// 掩码
+		uint32_t rx_id = 0;
+		/*-------------------------需要被其子类初始化---------------------------*/
+			
+		virtual void Can_Tx_Process() = 0;// 发送前处理函数
+		virtual void Can_Rx_It_Process(uint32_t rx_id_, uint8_t *rx_data) = 0;// 中断接收处理函数
+		
+	protected:
+		virtual void CanHandler_Register() = 0;
+	};
+}
+#endif

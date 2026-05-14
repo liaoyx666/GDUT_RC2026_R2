@@ -1,0 +1,5 @@
+<launch>
+
+  <node pkg="nine_square_strategy" type="nine_square_strategy" name="nine_square_strategy" output="screen" required="true"/>
+
+</launch>

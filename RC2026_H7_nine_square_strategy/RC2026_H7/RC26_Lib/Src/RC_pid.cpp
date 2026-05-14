@@ -1,0 +1,379 @@
+#include "RC_pid.h"
+
+namespace pid
+{
+	void Pid::Pid_Mode_Init(bool incremental_, bool differential_prior_, float differential_lowpass_alpha_, bool use_td_)
+	{
+		incremental = incremental_;
+		
+		differential_prior = differential_prior_;// 微分先行	
+		
+		differential_lowpass_alpha_ = fabsf(differential_lowpass_alpha_);
+		if (differential_lowpass_alpha_ >= 1) differential_lowpass_alpha = 0;
+		else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
+		
+		use_td = use_td_;// 是否使用td
+	}
+
+	void Pid::Pid_Param_Init(
+		float kp_, float ki_, float kd_, float kf_, float delta_time_, float deadzone_, float output_limit_, 
+		float integral_limit_, float integral_separation_, float differential_limit_, float feed_forward_limit_,
+		float r_, float v2_max_
+	)
+	{
+		kp = kp_;
+		ki = ki_;
+		kd = kd_;
+		kf = kf_;// 前馈控制
+		
+		integral_limit = fabsf(integral_limit_);// 积分限幅
+		output_limit = fabsf(output_limit_);// 输出限幅
+		differential_limit = fabsf(differential_limit_);// 微分限幅
+		feed_forward_limit = fabsf(feed_forward_limit_);// 前馈限幅
+		
+		integral_separation = fabsf(integral_separation_);// 积分分离
+		deadzone = fabsf(deadzone_);// 死区
+
+		delta_time_ = fabsf(delta_time_);
+		if (delta_time_ == 0) delta_time_ = 0.001f;
+		else delta_time = delta_time_;// 时间差
+		
+		td.TD_Init(r_, delta_time_, v2_max_);
+	}
+	
+	void Pid::Set_Differential_lowpass_alpha(float differential_lowpass_alpha_)
+	{
+		differential_lowpass_alpha_ = fabsf(differential_lowpass_alpha_);
+		if (differential_lowpass_alpha_ >= 1) differential_lowpass_alpha = 0;
+		else differential_lowpass_alpha = differential_lowpass_alpha_;// 微分滤波
+	}
+	
+	
+
+	float Pid::Pid_Calculate(float real, float target, bool normalization, float unit)
+	{
+		float output = 0;
+		
+		unit = fabsf(unit);
+		float period = 2.f * unit;
+		
+		float temp_target;
+		
+		if (use_td)
+		{
+			temp_target = td.TD_Calculate(target, normalization, unit);
+		}
+		else
+		{
+			temp_target = target;
+		}
+		
+		float differential = 0, proportion = 0, feed_forward = 0;
+
+		float error = 0;
+		
+		/*-----------------------------------------前馈-------------------------------------------*/
+		if (kf != 0.f)
+		{
+			feed_forward = temp_target - last_target;
+			
+			if (normalization)// 归一化
+			{
+				if (feed_forward > unit) feed_forward = feed_forward - period;
+				else if (feed_forward < -unit) feed_forward = feed_forward + period;
+			}
+			
+			feed_forward =  feed_forward / delta_time * kf;
+			
+			// 前馈限幅
+			if (feed_forward_limit != 0.f)
+			{
+				if (feed_forward > feed_forward_limit) feed_forward = feed_forward_limit;
+				else if (feed_forward < -feed_forward_limit) feed_forward = -feed_forward_limit;
+			}
+		}
+		
+		/*---------------------------------------误差---------------------------------------------*/
+		error = temp_target - real;
+		
+		if (normalization)// 归一化
+		{
+			if (error > unit) error = error - period;
+			else if (error < -unit) error = error + period;
+		}
+
+		if (fabsf(error) < deadzone) error = 0;// 死区
+		
+		/*-----------------------------------------比例-------------------------------------------*/
+		if (kp != 0.f)
+		{
+			if (incremental) proportion = (error - last_error) * kp;
+			else proportion = error * kp;
+		}
+		
+		/*----------------------------------------积分--------------------------------------------*/
+		if (ki != 0.f)
+		{
+			if (incremental)
+			{
+				integral = error * ki;
+			}
+			else
+			{
+				// 积分分离
+				if (integral_separation != 0.f)
+				{
+					if (fabsf(error) < integral_separation)
+					{
+						integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
+					}
+				}
+				else
+				{
+					integral += (error + last_error) * delta_time * 0.5f * ki/* * (1.f / (1.f + (fabsf(error) / 100.f)))*/;// 梯形积分
+				}
+				
+				// 积分限幅
+				if (integral_limit != 0.f)
+				{
+					if (integral > integral_limit) integral = integral_limit;
+					else if (integral < -integral_limit) integral = -integral_limit;
+				}
+			}
+		}
+		
+		/*-----------------------------------------微分-------------------------------------------*/
+		if (kd != 0.f)
+		{
+			if (incremental)
+			{
+				//differential = (error - 2.f * last_error + previous_error) * kd;// 普通微分
+				differential = (error - last_error) / delta_time * kd;
+			}
+			else
+			{
+//				if (differential_prior)
+//				{
+//					differential = real - last_real;
+//					
+//					if (normalization)// 归一化
+//					{
+//						if (differential > unit) differential = differential - period;
+//						else if (differential < -unit) differential = differential + period;
+//					}
+//					
+//					differential = differential / delta_time * kd;// 微分先行
+//				}
+//				else
+//				{
+					differential = (error - last_error) / delta_time * kd;// 普通微分
+//				}
+				
+				// 微分滤波
+				differential = differential_lowpass_alpha * last_differential + (1.f - differential_lowpass_alpha) * differential;
+				
+				// 微分限幅
+				if (differential_limit != 0.f)
+				{
+					if (differential > differential_limit) differential = differential_limit;
+					else if (differential < -differential_limit) differential = -differential_limit;
+				}
+			}
+		}
+		
+		/*--------------------------------------- 输出---------------------------------------------*/
+		if (incremental)
+		{
+			output = proportion + integral/* + differential */+ last_output + feed_forward;
+		}
+		else
+		{
+			output = proportion + integral + differential + feed_forward;
+		}
+
+		// 输出限幅
+		if (output_limit != 0.f)
+		{
+			if (output > output_limit) output = output_limit;
+			else if (output < -output_limit) output = -output_limit;
+			
+			// 更新
+			last_output = output;
+		}
+		
+		/*----------------------------------------更新--------------------------------------------*/
+		previous_error = last_error;
+		last_error = error;
+		last_real = real;
+		last_target = temp_target;
+		last_differential = differential;
+
+		if (incremental)
+		{
+			output += differential;
+			
+			if (output > output_limit) output = output_limit;
+			else if (output < -output_limit) output = -output_limit;
+		}
+		
+		return output;
+	}
+	
+	/*mit模式*/
+	float Pid::Mit_Calculate(
+			float real_pos, float real_spd, 
+			float target_pos, float target_spd, float target_tor, 
+			bool normalization, float unit
+	)
+	{
+		/*输出值*/
+		float output = 0;
+		
+		unit = fabsf(unit);
+		
+		float period = 2.f * unit;
+		
+		float temp_target_pos;
+		
+		if (use_td)
+		{
+			float td_spd = 0;
+			
+			temp_target_pos = td.TD_Calculate(target_pos, normalization, unit, &td_spd);
+			
+			/*td输出期望速度*/
+			td_spd = td_spd * (60.0f / (2.0f * PI));
+			
+			/*替换原来的期望速度*/
+			target_spd = td_spd;
+		}
+		else
+		{
+			temp_target_pos = target_pos;
+		}
+		
+		float differential = 0, proportion = 0, feed_forward = 0;
+
+		float error = 0;
+		
+		/*-----------------------------------------前馈-------------------------------------------*/
+		if (kf != 0.f)
+		{
+			feed_forward = temp_target_pos - last_target;
+			
+			if (normalization)// 归一化
+			{
+				if (feed_forward > unit) feed_forward = feed_forward - period;
+				else if (feed_forward < -unit) feed_forward = feed_forward + period;
+			}
+			
+			feed_forward =  feed_forward / delta_time * kf;
+			
+			// 前馈限幅
+			if (feed_forward_limit != 0.f)
+			{
+				if (feed_forward > feed_forward_limit) feed_forward = feed_forward_limit;
+				else if (feed_forward < -feed_forward_limit) feed_forward = -feed_forward_limit;
+			}
+		}
+		
+		/*---------------------------------------误差---------------------------------------------*/
+		error = temp_target_pos - real_pos;
+		
+		if (normalization)// 归一化
+		{
+			if (error > unit) error = error - period;
+			else if (error < -unit) error = error + period;
+		}
+
+		if (fabsf(error) < deadzone) error = 0;// 死区
+		
+		/*-----------------------------------------比例-------------------------------------------*/
+		if (kp != 0.f)
+		{
+			proportion = error * kp;
+		}
+		
+		/*----------------------------------------积分--------------------------------------------*/
+		if (ki != 0.f)
+		{
+			// 积分分离
+			if (integral_separation != 0.f)
+			{
+				if (fabsf(error) < integral_separation)
+				{
+					integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
+				}
+			}
+			else
+			{
+				integral += (error + last_error) * delta_time * 0.5f * ki;// 梯形积分
+			}
+			
+			// 积分限幅
+			if (integral_limit != 0.f)
+			{
+				if (integral > integral_limit) integral = integral_limit;
+				else if (integral < -integral_limit) integral = -integral_limit;
+			}
+		}
+		
+		/*-----------------------------------------微分-------------------------------------------*/
+		if (kd != 0.f)
+		{
+			differential = kd * (target_spd - real_spd);
+			
+			// 微分滤波
+			differential = differential_lowpass_alpha * last_differential + (1.f - differential_lowpass_alpha) * differential;
+			
+			// 微分限幅
+			if (differential_limit != 0.f)
+			{
+				if (differential > differential_limit) differential = differential_limit;
+				else if (differential < -differential_limit) differential = -differential_limit;
+			}
+		}
+		
+		/*--------------------------------------- 输出---------------------------------------------*/
+
+		output = proportion + integral + differential + target_tor + feed_forward;
+
+		// 输出限幅
+		if (output_limit != 0.f)
+		{
+			if (output > output_limit) output = output_limit;
+			else if (output < -output_limit) output = -output_limit;
+			
+			// 更新
+			last_output = output;
+		}
+		
+		/*----------------------------------------更新--------------------------------------------*/
+		last_error = error;
+		last_target = temp_target_pos;
+		last_differential = differential;
+
+		return output;
+	}
+	
+	float Normalize(float data, float unit)
+	{
+		if (unit == 0) return 0;
+ 
+		if (unit < 0) unit = -unit;
+		
+		if (isnan(data) || isnan(unit) || isinf(data) || isinf(unit)) return 0;
+		
+		while(data > unit)
+			data = data - 2.f * unit;
+		while(data < -unit)
+			data = data + 2.f * unit;
+		return data;
+	}
+	
+	void Limit(float *input, float limit)
+	{
+		if (*input > limit) *input = limit;
+		else if (*input < -limit) *input = -limit;
+	}
+}

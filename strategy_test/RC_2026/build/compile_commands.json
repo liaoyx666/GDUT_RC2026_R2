@@ -1,0 +1,14 @@
+[
+{
+  "directory": "D:/Codings/C++/RC_2026/build",
+  "command": "D:\\Coding_Environment\\GCC\\mingw64\\bin\\g++.exe  @CMakeFiles/RC_2026.dir/includes_CXX.rsp -g -O0 -std=gnu++17 -Wall -Wextra -o CMakeFiles\\RC_2026.dir\\main.cpp.obj -c D:\\Codings\\C++\\RC_2026\\main.cpp",
+  "file": "D:/Codings/C++/RC_2026/main.cpp",
+  "output": "CMakeFiles/RC_2026.dir/main.cpp.obj"
+},
+{
+  "directory": "D:/Codings/C++/RC_2026/build",
+  "command": "D:\\Coding_Environment\\GCC\\mingw64\\bin\\g++.exe  @CMakeFiles/RC_2026.dir/includes_CXX.rsp -g -O0 -std=gnu++17 -Wall -Wextra -o CMakeFiles\\RC_2026.dir\\src\\Nine_Square\\Game_Strategy.cpp.obj -c D:\\Codings\\C++\\RC_2026\\src\\Nine_Square\\Game_Strategy.cpp",
+  "file": "D:/Codings/C++/RC_2026/src/Nine_Square/Game_Strategy.cpp",
+  "output": "CMakeFiles/RC_2026.dir/src/Nine_Square/Game_Strategy.cpp.obj"
+}
+]

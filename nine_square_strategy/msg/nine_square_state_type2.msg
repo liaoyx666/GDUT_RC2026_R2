@@ -1,0 +1,1 @@
+int32[9] nine_square_state

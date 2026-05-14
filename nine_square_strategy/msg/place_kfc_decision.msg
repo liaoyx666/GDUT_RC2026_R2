@@ -1,0 +1,2 @@
+int32 place_position
+int32 black_type

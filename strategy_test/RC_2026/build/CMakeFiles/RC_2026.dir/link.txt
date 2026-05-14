@@ -1,0 +1,3 @@
+D:\Coding_Environment\cmake\cmake-4.2.1-windows-x86_64\bin\cmake.exe -E rm -f CMakeFiles\RC_2026.dir/objects.a
+D:\Coding_Environment\GCC\mingw64\bin\ar.exe qc CMakeFiles\RC_2026.dir/objects.a @CMakeFiles\RC_2026.dir\objects1.rsp
+D:\Coding_Environment\GCC\mingw64\bin\g++.exe -g -O0 -Wl,--whole-archive CMakeFiles\RC_2026.dir/objects.a -Wl,--no-whole-archive -o D:\Codings\C++\RC_2026\bin\RC_2026.exe -Wl,--out-implib,D:\Codings\C++\RC_2026\bin\libRC_2026.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\RC_2026.dir\linkLibs.rsp
