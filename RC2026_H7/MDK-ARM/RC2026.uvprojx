@@ -1402,6 +1402,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_data_pool.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_auto_ctrl.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_User\Src\RC_auto_ctrl.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_auto_ctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_User\Inc\RC_auto_ctrl.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

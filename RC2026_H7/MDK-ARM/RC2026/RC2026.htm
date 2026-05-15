@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri May 15 14:08:10 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri May 15 20:51:21 2026
 <BR><P>
 <H3>Maximum Stack Usage =        448 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1160,6 +1160,7 @@ Global Symbols
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can::Can::Can_Start()
 <LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can::Can::Can_Filter_Init(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)
 <LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char)
+<LI><a href="#[21a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)
 </UL>
 
 <P><STRONG><a name="[93]"></a>ExitRun0Mode</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, system_stm32h7xx.o(.text.ExitRun0Mode))
@@ -4259,7 +4260,7 @@ Global Symbols
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[225]"></a>gantry::Gantry::Set_X(float)</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry5Set_XEf))
+<P><STRONG><a name="[225]"></a>gantry::Gantry::Set_X(float)</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry5Set_XEf))
 <BR><BR>[Called By]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
@@ -4274,13 +4275,18 @@ Global Symbols
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[21a]"></a>gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME))
-<BR><BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
+<P><STRONG><a name="[21a]"></a>gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&) &rArr; xQueueCreateMutex &rArr; xQueueGenericSend &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+</UL>
+<BR>[Calls]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
+<LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueCreateMutex
+</UL>
+<BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[32e]"></a>gantry::Gantry::Gantry__sub_object(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME), UNUSED)
+<P><STRONG><a name="[32e]"></a>gantry::Gantry::Gantry__sub_object(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME), UNUSED)
 
-<P><STRONG><a name="[22d]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 696 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
+<P><STRONG><a name="[22d]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 692 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = gantry::GetKFS::Auto_Get_KFS() &rArr; gantry::GetKFS::Trigger_Task_By_Event() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -5123,6 +5129,7 @@ Global Symbols
 <LI><a href="#[2b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInitialise
 </UL>
 <BR>[Called By]<UL><LI><a href="#[208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC(cdc::CDCType)
+<LI><a href="#[21a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)
 </UL>
 
 <P><STRONG><a name="[2b6]"></a>xQueueGenericCreateStatic</STRONG> (Thumb, 218 bytes, Stack size 24 bytes, queue.o(.text.xQueueGenericCreateStatic))

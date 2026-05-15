@@ -12,7 +12,8 @@ namespace gantry
 	constexpr float KFS_LASER_ERR_TH = 0.001f;   // 激光允许误差
 
 	// 激光数据有效范围
-	constexpr float raw_data_low_limit  = 0.02f;
+	constexpr float raw_data_low_limit  = 0.01f;
+ 
 	constexpr float raw_data_high_limit = 0.08f;
 
 	// pitch 判定阈值

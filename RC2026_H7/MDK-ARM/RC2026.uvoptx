@@ -1154,7 +1154,7 @@
 
   <Group>
     <GroupName>RC26_Api</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2439,6 +2439,30 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\RC26_User\Inc\RC_data_pool.h</PathWithFileName>
       <FilenameWithoutPath>RC_data_pool.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>15</GroupNumber>
+      <FileNumber>160</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Src\RC_auto_ctrl.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_auto_ctrl.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>15</GroupNumber>
+      <FileNumber>161</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_User\Inc\RC_auto_ctrl.h</PathWithFileName>
+      <FilenameWithoutPath>RC_auto_ctrl.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

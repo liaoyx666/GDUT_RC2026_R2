@@ -159,9 +159,9 @@ void Main_Task(void *argument)
 	
 	navigation.Go_To_Get_KFS(5, path::DIR_B);
 	
-	navigation.Go_To_Get_KFS(8, path::DIR_B);
+	navigation.Go_To_Get_KFS(6, path::DIR_L);
 	
-	navigation.Go_To_Do(vector2d::Vector2D(10.42, -4.53), PI / 2.f, 0x00);
+	navigation.Go_To_Do(vector2d::Vector2D(10.42, -4.53), PI / 2.f, EVENT3_NULL);
 	
 	for (;;)
 	{
@@ -243,13 +243,7 @@ void Path_Task(void *argument)
 	}
 }
 
-task::TaskCreator path_task("Path_Task", 30, 256, Path_Task, NULL);
-
-
-
-
-
-
+task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
 
 /*===================初始化函数=================*/

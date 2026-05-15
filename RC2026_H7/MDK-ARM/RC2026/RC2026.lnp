@@ -106,6 +106,7 @@
 "rc2026\rc_best_path.o"
 "rc2026\rc_init.o"
 "rc2026\rc_data_pool.o"
+"rc2026\rc_auto_ctrl.o"
 "rc2026\basicmathfunctions.o"
 "rc2026\basicmathfunctionsf16.o"
 "rc2026\bayesfunctions.o"
