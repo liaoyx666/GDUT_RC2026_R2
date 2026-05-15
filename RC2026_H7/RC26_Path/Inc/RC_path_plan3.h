@@ -24,7 +24,7 @@ namespace path
 	
 	
 	
-	class PathPlan3 : public task::ManagedTask
+	class PathPlan3// : public task::ManagedTask
     {
     public:
 		PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_);
@@ -56,11 +56,21 @@ namespace path
 			track.Disable();
 		}
 		
+		/*任务函数*/
+		inline void Plan()
+		{
+			/*生成路径*/
+			Plan_Path();
+			
+			/*切换路径*/
+			Next_Path();
+		}
+		
 		uint8_t Point_FreeSpace() const;
 		uint8_t Point_Num() const;
 		Path3 path[2]; /*路径，一个跟踪、一个规划*/
     protected:
-		void Task_Process() override;
+		
 		
     private:
 		AddPointReturn Add_One_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end);
@@ -79,8 +89,42 @@ namespace path
 		bool is_start;
 		
 		void Delete_Point();
-		inline void Next_Path();
-		inline void Plan_Path();
+	
+		inline void Next_Path()
+		{
+			if ((track.Is_End() || !track.Is_Load()) && path[dx].Is_Init())
+			{
+				if (track.Load_Path(&path[dx]))
+				{
+					dx = (dx + 1) % 2;
+					plan.Load_Path(&path[dx]);
+				}
+			}
+		}
+		
+		inline void Plan_Path()
+		{
+			while(Point_Num() != 0 && !path[dx].Is_Init())
+			{
+				TrajPlanReturn3 state = plan.Add_Point(point[head]);
+				
+				if (state == TRAJPLAN_OK)
+				{
+					/*点添加成功*/
+					head = (head + 1) % PATHPLAN3_MAX_POINT_NUM;
+				}
+				else if (state == TRAJPLAN_END)
+				{
+					/*添加结束*/
+					break;
+				}
+				else
+				{
+					/*点添加失败*/
+					break;
+				}
+			}
+		}
 	
 		friend class GraphPlan;
     };

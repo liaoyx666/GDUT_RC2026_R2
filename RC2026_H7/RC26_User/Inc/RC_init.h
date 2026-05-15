@@ -7,7 +7,6 @@
 #include "RC_serial.h"
 #include "RC_cdc.h"
 #include "RC_timer.h"
-#include "RC_cordic.h"
 
 /* motor */
 #include "RC_m3508.h"

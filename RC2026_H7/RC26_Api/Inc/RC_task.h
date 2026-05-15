@@ -43,7 +43,6 @@ namespace task
 			uint8_t ticks_
 		);
 		~ManagedTask() = default;
-	protected:
 	private:
 		uint8_t ticks;
 		TaskType task_type;

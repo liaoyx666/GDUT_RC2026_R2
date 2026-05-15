@@ -88,12 +88,19 @@ namespace chassis
 		void Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig);
 		bool Is_End() const {return (state == LIFT_RESET);}
 	
+		float up_pos;
+		float down_pos;
+		
+		LiftDir d;
+		
+		LiftState state;
+		
 	
     private:
 		void Set_wheel_Vel(float vel);
 	
 	
-		constexpr void Set_Front_Lift_Pos(float pos)
+		 void Set_Front_Lift_Pos(float pos)
 		{
 			if (d == LIFT_L)
 				L_lift.Set_Pos(pos * L_LIFT_POL);
@@ -101,7 +108,7 @@ namespace chassis
 				R_lift.Set_Pos(pos * R_LIFT_POL);
 		}
 	
-		constexpr void Set_Back_Lift_Pos(float pos)
+		 void Set_Back_Lift_Pos(float pos)
 		{
 			if (d == LIFT_L)
 				R_lift.Set_Pos(pos * R_LIFT_POL);
@@ -109,7 +116,7 @@ namespace chassis
 				L_lift.Set_Pos(pos * L_LIFT_POL);
 		}
 		
-		constexpr float Get_Front_Lift_Pos()
+		 float Get_Front_Lift_Pos()
 		{
 			if (d == LIFT_L)
 				return L_lift.Get_Pos() * L_LIFT_POL;
@@ -117,7 +124,7 @@ namespace chassis
 				return R_lift.Get_Pos() * R_LIFT_POL;
 		}
 		
-		constexpr float Get_Back_Lift_Pos()
+		 float Get_Back_Lift_Pos()
 		{
 			if (d == LIFT_L)
 				return R_lift.Get_Pos() * R_LIFT_POL;
@@ -126,7 +133,7 @@ namespace chassis
 		}
 		
 		
-		constexpr void Set_Front_Lift_Td(float r, float v2_max)
+		 void Set_Front_Lift_Td(float r, float v2_max)
 		{
 			if (d == LIFT_L)
 				L_lift.pid_pos.Set_Td(r, v2_max);
@@ -134,7 +141,7 @@ namespace chassis
 				R_lift.pid_pos.Set_Td(r, v2_max);
 		}
 		
-		constexpr void Set_Back_Lift_Td(float r, float v2_max)
+		 void Set_Back_Lift_Td(float r, float v2_max)
 		{
 			if (d == LIFT_L)
 				R_lift.pid_pos.Set_Td(r, v2_max);
@@ -142,7 +149,7 @@ namespace chassis
 				L_lift.pid_pos.Set_Td(r, v2_max);
 		}
 		
-		constexpr void Chassis_Stop()
+		 void Chassis_Stop()
 		{
 			if (chassis)
 				chassis->Force_Lin_Vel_Zero();
@@ -151,7 +158,7 @@ namespace chassis
 				track->Force_Tan_Vel_Zero();
 		}
 		
-		constexpr void Chassis_Start()
+		 void Chassis_Start()
 		{
 			if (chassis)
 				chassis->Unforce_Lin_Vel_Zero();
@@ -160,7 +167,7 @@ namespace chassis
 				track->Unforce_Tan_Vel_Zero();
 		}
 		
-		constexpr bool Get_Senser_Value(uint8_t n)
+		 bool Get_Senser_Value(uint8_t n)
 		{
 			if (n > 6 && n == 0) return false; 
 			
@@ -172,12 +179,7 @@ namespace chassis
 	
 		
 		
-		float up_pos;
-		float down_pos;
-		
-		LiftDir d;
-		
-		LiftState state;
+
 		bool senser_value[6];
 	
 		motor::Motor& L_lift;

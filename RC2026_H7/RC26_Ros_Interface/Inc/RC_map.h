@@ -2,7 +2,6 @@
 #include "RC_cdc.h"
 #include <arm_math.h>
 
-
 #ifdef __cplusplus
 namespace ros
 {

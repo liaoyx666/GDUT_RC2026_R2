@@ -5,7 +5,7 @@
 namespace path
 {
 	TrajTrack3::TrajTrack3(data::RobotPose& pose_, chassis::Chassis& chassis_, HeadCtrl& head_ctrl_, float deadzone_)
-	: task::ManagedTask("Track3Task", 30, 512, task::TASK_PERIOD, 1), chassis(chassis_), head_ctrl(head_ctrl_), pose(pose_)
+	: /*task::ManagedTask("Track3Task", 30, 512, task::TASK_PERIOD, 1), */chassis(chassis_), head_ctrl(head_ctrl_), pose(pose_)
 	{
 		path = nullptr;
 
@@ -20,22 +20,7 @@ namespace path
 		Reset();
 	}
 	
-	void TrajTrack3::Task_Process()
-	{
-		vector2d::Vector2D v = vector2d::Vector2D();
-
-		/*轨迹跟踪*/
-		if (!Calc_Vel(v))
-		{
-			v = vector2d::Vector2D();
-		}
-
-		if (is_enable)
-		{
-			/*设置底盘*/
-			chassis.Set_World_Lin_Vel(v);
-		}
-	}
+	
 	
 	
 	void TrajTrack3::Reset()

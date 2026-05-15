@@ -3,7 +3,7 @@
 #include <main.h>
 #ifdef __cplusplus
 
-using Event3_t = uint16_t;
+using Event3_t = uint32_t;
 
 
 constexpr Event3_t EVENT3_NULL  = 0;

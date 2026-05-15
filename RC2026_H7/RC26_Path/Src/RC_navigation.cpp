@@ -2,14 +2,14 @@
 
 namespace path
 {
-	Navigation::Navigation(GraphPlan& plan_) : plan(plan_), task::ManagedTask("NavigationTask", 19, 128, task::TASK_DELAY, 2)
+	Navigation::Navigation(GraphPlan& plan_) : plan(plan_), task::ManagedTask("NaviTask", 19, 256, task::TASK_DELAY, 2)
 	{
 		head = 0;
 		tail = 0;
 		is_start = false;
 	}
 	
-	bool Navigation::Add_Dst(NavPoint nav_, DstType type_, Event3_t event_)
+	bool Navigation::Add_Dst(const NavPoint& nav_, DstType type_, Event3_t event_)
 	{
 		if (Dst_FreeSpace() == 0) return false;
 		
@@ -72,6 +72,8 @@ namespace path
 		
 		return Go_To_Do(chassis_pos, yaw, event);
 	}
+	
+	
 	
 	void Navigation::Task_Process()
 	{

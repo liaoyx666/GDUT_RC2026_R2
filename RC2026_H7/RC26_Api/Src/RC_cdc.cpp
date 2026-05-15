@@ -1,6 +1,5 @@
 #include "RC_cdc.h"
 
-#define MAX_CDC_RETRY_COUNT 10// 最大重试次数
 
 extern "C" void CDC_It_Receive_HS(uint8_t* buf, uint32_t len)// C语言接口函数
 {
@@ -17,10 +16,10 @@ namespace cdc
 {
 	CDC *CDC::cdc_list[2] = {nullptr};
 	
-	CDC::CDC(CDCType cdc_type_) :
+	CDC::CDC(CDCType cdc_type_) : 
 		cdc_type(cdc_type_),
-		task::ManagedTask("Cdc", 35, 128, task::TASK_PERIOD, 1)
-		//receive_task("cdc_receive_task", 37, 128, CDC_All_Task_Receive_Process, &cdc_type)
+		task::ManagedTask("Cdc", 40, 128, task::TASK_PERIOD, 1),
+		tx_task("cdc_tx_task", 37, 128, CDC_All_Task_Tx_Process, &cdc_type)
 	{
 		if (cdc_type == USB_CDC_HS) cdc_list_dx = 0;
 		else cdc_list_dx = 1;
@@ -37,34 +36,6 @@ namespace cdc
 	void CDC::Task_Process()
 	{
 		Rx_Task();
-		Tx_Task();
-	}
-	
-	inline void CDC::Tx_Task()
-	{
-		uint8_t sending_buf_dx = (writing_buf_dx == 0) ? 1 : 0;
-		
-		if (send_buf_used[sending_buf_dx] != 0)
-		{
-			uint8_t retry_count = 0;
-			uint8_t result;
-			do
-			{
-				if (cdc_type == USB_CDC_HS)
-				{
-					result = CDC_Transmit_HS(send_buf[sending_buf_dx], send_buf_used[sending_buf_dx]);// 发送
-				}
-				retry_count++;
-			} while (result != USBD_OK && retry_count < MAX_CDC_RETRY_COUNT);
-			
-			send_buf_used[sending_buf_dx] = 0;// 清空已发送的缓冲区
-		}
-
-		if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE)// 获取互斥锁
-		{
-			writing_buf_dx = sending_buf_dx;// 切换缓冲区
-			xSemaphoreGive(xMutex); // 释放互斥锁
-		}
 	}
 	
 	bool CDC::CDC_AddToBuf(uint8_t *data, uint16_t len, uint16_t max_wait_time)
@@ -158,19 +129,21 @@ namespace cdc
 		}
 	}
 	
-//	void CDC::CDC_All_Task_Receive_Process(void *argument)
-//	{
-//		CDCType cdc_type_  = *(CDCType*)argument;
-//		uint8_t dx = (cdc_type_ == USB_CDC_HS) ? 0 : 1;
-//		
-//		if (cdc_list[dx] == nullptr) Error_Handler();
-//		
-//		for (;;)
-//		{
-//			cdc_list[dx]->CDC_Task_Receive_Process();
-//			osDelay(1);
-//		}
-//	}
+	
+	void CDC::CDC_All_Task_Tx_Process(void *argument)
+	{
+		CDCType cdc_type_  = *(CDCType*)argument;
+		uint8_t dx = (cdc_type_ == USB_CDC_HS) ? 0 : 1;
+		
+		if (cdc_list[dx] == nullptr) Error_Handler();
+		
+		for (;;)
+		{
+			cdc_list[dx]->CDC_Task_Tx_Process();
+			osDelay(1);
+		}
+	}
+	
 	
 	inline void CDC::Rx_Task()
 	{
@@ -250,10 +223,37 @@ namespace cdc
 		}
 	}
 	
-//	void CDC::CDC_Task_Receive_Process()
-//	{
-//		
-//	}
+	inline void CDC::Tx_Task()
+	{
+		uint8_t sending_buf_dx = (writing_buf_dx == 0) ? 1 : 0;
+		
+		if (send_buf_used[sending_buf_dx] != 0)
+		{
+			uint8_t retry_count = 0;
+			uint8_t result;
+			do
+			{
+				if (cdc_type == USB_CDC_HS)
+				{
+					result = CDC_Transmit_HS(send_buf[sending_buf_dx], send_buf_used[sending_buf_dx]);// 发送
+				}
+				retry_count++;
+			} while (result != USBD_OK && retry_count < MAX_CDC_RETRY_COUNT);
+			
+			send_buf_used[sending_buf_dx] = 0;// 清空已发送的缓冲区
+		}
+
+		if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE)// 获取互斥锁
+		{
+			writing_buf_dx = sending_buf_dx;// 切换缓冲区
+			xSemaphoreGive(xMutex); // 释放互斥锁
+		}
+	}
+	
+	void CDC::CDC_Task_Tx_Process()
+	{
+		Tx_Task();
+	}
 	
 	void CDC::CDC_Register_Handler(CDCHandler *hd)
 	{

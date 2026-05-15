@@ -1,27 +1,31 @@
 #include "RC_get_KFS.h"
-
 namespace gantry
 {
+	// ========================= 到位判定阈值 =========================
 	constexpr float KFS_X_REACH_TH = 0.03f;
 	constexpr float KFS_Y_REACH_TH = 0.03f;
 	constexpr float KFS_Z_REACH_TH = 0.03f;
-	constexpr float KFS_P_REACH_TH = 0.02f;
+	constexpr float KFS_P_REACH_TH = 0.03f;
 
-	constexpr float KFS_LASER_P = 0.06f;
-	constexpr float KFS_VISION_X_P = 0.5f;
-	constexpr float KFS_VISION_P_P = 0.5f;
-	constexpr float KFS_VISION_Z_P = 0.5f;
-	constexpr float KFS_VISION_Y_P = 0.5f;
+	// ========================= 激光闭环参数 =========================
+	constexpr float KFS_LASER_P = 0.10f;          // 激光闭环比例系数
+	constexpr float KFS_LASER_ERR_TH = 0.001f;   // 激光允许误差
 
-	constexpr float KFS_LASER_ERR_TH = 0.003f;
-	constexpr float KFS_VISION_X_ERR_TH = 0.06f;
-	constexpr float KFS_VISION_Y_ERR_TH = 0.06f;
-	constexpr float KFS_VISION_Z_ERR_TH = 0.06f;
-	constexpr float KFS_VISION_P_ERR_TH = 0.06f;
+	// 激光数据有效范围
+	constexpr float raw_data_low_limit  = 0.02f;
+	constexpr float raw_data_high_limit = 0.08f;
 
-	GetKFS::GetKFS(gantry::Gantry& gantry_ , Suction& suction_, lidar::LiDAR& lidar_)
+	// pitch 判定阈值
+	constexpr float pitch_detech_upper = 0.4f;
+
+	// 激光修正 Y 轴最大偏移限制
+	constexpr float lidar_offset_up_limit   = 0.2f;
+	constexpr float lidar_offset_down_limit = -0.2f;
+
+	GetKFS::GetKFS(gantry::Gantry& gantry_ , gantry::Suction& suction_, lidar::LiDAR& lidar_)
 		: gantry(gantry_),
-		  gantry_event{
+		  gantry_event
+			{
 			  path::Event3(13, true, 0.1f),//20
 			  path::Event3(14, true, 0.1f),//40
 			  path::Event3(15, true, 0.1f)//-20
@@ -38,7 +42,6 @@ namespace gantry
 		step_reached_ts = 0;
 		wait_step_delay = false;
 		seq_idx = 0;
-
 		target_x = 0.10f;
 		target_y = 0.00f;
 		target_z = 0.10f;
@@ -47,7 +50,6 @@ namespace gantry
 		base_target_y = target_y;
 		base_target_z = target_z;
 		base_target_p = target_p;
-		
 		current_x = 0.0f;
 		current_y = 0.0f;
 		current_z = 0.0f;
@@ -58,27 +60,21 @@ namespace gantry
 		locked_y = 0.f;
 		y_locked = false;
 
-		step_gripper = 0;
 		step_suction = 0;
 		
 		laser_target_m = 0.053f;
 		laser_distance_m = 0;
-		
 		laser_valid = false;
-
-		vision_dx_m = 0.f;
-		vision_dy_m = 0.f;
-		vision_dz_m = 0.f;
-		vision_dp_m = 0.f;
-		vision_valid = false;
 	}
-
+// ============================================================
+	// 设置控制速度模式
+	// ============================================================
 		void GetKFS::Set_Ctrl_Mode(SpeedMode mode_)
 	{
 		float scale = 1.0f;
 		switch (mode_)
 		{
-			case SpeedMode::SLOW:   scale = 0.15f; break;
+			case SpeedMode::SLOW:   scale = 0.2f; break;
 			case SpeedMode::FAST:   scale = 1.00f; break;
 			case SpeedMode::NORMAL:	scale = 0.5f;
 			default:                scale = 0.5f; break;
@@ -100,15 +96,15 @@ namespace gantry
 				switch (seq_idx)
 				{
 					case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0); 		   Set_Step_Target(0.03f, 0.00f, 0.2f, 0.00f,  CtrlMode::OPEN_LOOP);					Set_Step_Act(1); return true;
-					case 1: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);	  Set_Step_Target(0.62f, 0.00f, 0.52f, 4.65f, CtrlMode::OPEN_LOOP);				 Set_Step_Act(1); return true;
-					case 2: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(10000);   		Set_Step_Target(0.62f, 0.00f, 0.40f, 4.71f, CtrlMode::OPEN_LOOP);					Set_Step_Act(1); return true;
-					case 3: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0); 		   Set_Step_Target(0.62f, 0.00f, 0.55f, 4.71f, CtrlMode::OPEN_LOOP);					Set_Step_Act(1); return true;
+					case 1: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);	  Set_Step_Target(0.62f, 0.00f, 0.52f, 4.71f, CtrlMode::OPEN_LOOP);				 Set_Step_Act(1); return true;
+					case 2: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(10000);   		Set_Step_Target(0.62f, 0.00f, 0.43f, 4.71f, CtrlMode::OPEN_LOOP);					Set_Step_Act(1); return true;
+					case 3: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0); 		   Set_Step_Target(0.62f, 0.00f, 0.60f, 4.71f, CtrlMode::OPEN_LOOP);					Set_Step_Act(1); return true;
 					case 4: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.3f, 0.00f, 0.30f, 1.57f,  CtrlMode::OPEN_LOOP);				Set_Step_Act(1); return true;
-					case 5: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.3f, 0.00f, 0.35f, 1.57f,  CtrlMode::CLOSE_LOOP_LASER);  Set_Step_Act(1); return true;
+					case 5: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);  		 Set_Step_Target(0.3f, 0.00f, 0.35f, 1.57f,  CtrlMode::CLOSE_LOOP_LASER);  Set_Step_Act(1); return true;
 					case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.16f, 0.00f, 0.30f, 1.2f,  CtrlMode::Y_LOCK); 					 Set_Step_Act(1); return true;
-					case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.0f, 0.00f, 0.30f, 0.0f,   CtrlMode::Y_LOCK); 					 Set_Step_Act(1); return true;
-					case 8: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.0f, 0.00f, 0.25f, 0.0f,   CtrlMode::Y_LOCK); 					 Set_Step_Act(0); return true;
-					case 9: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.03f, 0.00f, 0.0f, 0.0f,   CtrlMode::OPEN_LOOP); 					 Set_Step_Act(0); return true;
+					case 7: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);  		 Set_Step_Target(0.0f, 0.00f, 0.30f, 0.0f,   CtrlMode::Y_LOCK); 					 Set_Step_Act(1); return true;
+					case 8: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);  		 Set_Step_Target(0.0f, 0.00f, 0.25f, 0.0f,   CtrlMode::Y_LOCK); 					 Set_Step_Act(0); return true;
+					case 9: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);  		 Set_Step_Target(0.03f, 0.00f, 0.0f, 0.0f,   CtrlMode::OPEN_LOOP); 					 Set_Step_Act(0); return true;
 					default: return false;
 				}
 
@@ -116,15 +112,15 @@ namespace gantry
 				switch (seq_idx)
 				{
 					case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0); 		   Set_Step_Target(0.03f, 0.00f, 0.2f,	 0.00f, CtrlMode::OPEN_LOOP);				Set_Step_Act(0); return true;
-					case 1: Set_Ctrl_Mode(SpeedMode::FAST); 	Set_Step_Delay(0);		   Set_Step_Target(0.63f, 0.00f, 0.52f,  4.6f, CtrlMode::OPEN_LOOP);				Set_Step_Act(1); return true;
-					case 2: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(10000);   Set_Step_Target(0.63f, 0.00f, 0.40f,  4.71f, CtrlMode::OPEN_LOOP); 			Set_Step_Act(1); return true;
-					case 3: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0); 		   Set_Step_Target(0.63f, 0.00f, 0.55f,  4.71f, CtrlMode::OPEN_LOOP);				Set_Step_Act(1); return true;
-					case 4: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.3f,  0.00f, 0.30f,  1.57f, CtrlMode::OPEN_LOOP); 			Set_Step_Act(1); return true;
-					case 5: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.3f,  0.00f, 0.50f,  1.57f, CtrlMode::CLOSE_LOOP_LASER);Set_Step_Act(1); return true;
-					case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.16f, 0.00f, 0.50f,  1.2f,  CtrlMode::Y_LOCK); 					Set_Step_Act(1); return true;
-					case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.1f,  0.00f, 0.50f,  1.0f,  CtrlMode::Y_LOCK); 			 		Set_Step_Act(1); return true;
-					case 8: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.0f,  0.00f, 0.50f,  0.0f,  CtrlMode::Y_LOCK);  				Set_Step_Act(0); return true;
-					case 9: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.03f, 0.00f, 0.0f, 0.0f,   CtrlMode::OPEN_LOOP); 					 Set_Step_Act(0); return true;
+					case 1: Set_Ctrl_Mode(SpeedMode::FAST); 	Set_Step_Delay(0);		   Set_Step_Target(0.62f, 0.00f, 0.52f,  4.71f, CtrlMode::OPEN_LOOP);				Set_Step_Act(1); return true;
+					case 2: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(10000);   Set_Step_Target(0.62f, 0.00f, 0.43f,  4.71f, CtrlMode::OPEN_LOOP); 			Set_Step_Act(1); return true;
+					case 3: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0); 		   Set_Step_Target(0.62f, 0.00f, 0.60f,  4.71f, CtrlMode::OPEN_LOOP);				Set_Step_Act(1); return true;
+					case 4: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.3f,  0.00f, 0.55f,  1.57f, CtrlMode::OPEN_LOOP); 			Set_Step_Act(1); return true;
+					case 5: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);  		 Set_Step_Target(0.3f,  0.00f, 0.55f,  1.57f, CtrlMode::CLOSE_LOOP_LASER);Set_Step_Act(1); return true;
+					case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.16f, 0.00f, 0.55f,  1.2f,  CtrlMode::Y_LOCK); 					Set_Step_Act(1); return true;
+					case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.1f,  0.00f, 0.55f,  1.0f,  CtrlMode::Y_LOCK); 			 		Set_Step_Act(1); return true;
+					case 8: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(10000);  		 Set_Step_Target(0.3f,  0.00f, 0.50f,  0.0f,  CtrlMode::Y_LOCK);  				Set_Step_Act(0); return true;
+					case 9: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);  		 Set_Step_Target(0.03f, 0.00f, 0.0f, 0.0f,   CtrlMode::OPEN_LOOP); 					 Set_Step_Act(0); return true;
 					default: return false;
 				}
 				
@@ -147,13 +143,13 @@ namespace gantry
 				case ARM_TASK::PICK_DOWN_KFS_1:
 				switch (seq_idx)
 				{
-					case 0: Set_Ctrl_Mode(SpeedMode::FAST);	Set_Step_Delay(0);	  						Set_Step_Target(0.64f, 0.00f,  0.08f,  4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(0); return true;
-					case 1: Set_Ctrl_Mode(SpeedMode::SLOW);	Set_Step_Delay(1000000);	  			Set_Step_Target(0.64f, 0.00f,  0.03f,  4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-					case 2: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(100);							Set_Step_Target(0.64f, 0.00f,  0.25f, 	4.71f, CtrlMode::OPEN_LOOP);				Set_Step_Act(1); return true;
+					case 0: Set_Ctrl_Mode(SpeedMode::FAST);	Set_Step_Delay(0);	  						Set_Step_Target(0.63f, 0.00f,  0.08f,  4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(0); return true;
+					case 1: Set_Ctrl_Mode(SpeedMode::SLOW);	Set_Step_Delay(1000000);	  			Set_Step_Target(0.63f, 0.00f,  0.03f,  4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+					case 2: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(100);							Set_Step_Target(0.63f, 0.00f,  0.25f, 	4.71f, CtrlMode::OPEN_LOOP);				Set_Step_Act(1); return true;
 					case 3: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.30f, 0.00f,	 0.35f, 1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
 					case 4: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.30f, 0.00f,  0.50f, 1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
-					case 5: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.16f, 0.00f, 0.40f,  1.4f,		 CtrlMode::Y_LOCK);        		Set_Step_Act(1); return true;
-					case 6: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.1f, 0.00f,  0.30f	, 1.0f, 	 CtrlMode::Y_LOCK);      		  Set_Step_Act(1); return true;
+					case 5: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.16f, 0.00f, 0.40f,  1.4f,		 CtrlMode::Y_LOCK);        		Set_Step_Act(1); return true;
+					case 6: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.1f, 0.00f,  0.30f	, 1.0f, 	 CtrlMode::Y_LOCK);      		  Set_Step_Act(1); return true;
 					case 7: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 						Set_Step_Target(0.00f, 0.00f, 0.25f,  0.0f,		 CtrlMode::Y_LOCK);        		Set_Step_Act(1); return true;
 					case 8: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0);  		  		Set_Step_Target(0.0f, 0.00f, 0.20f, 0.0f,			 CtrlMode::Y_LOCK); 					Set_Step_Act(0); return true;
 					case 9: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.03f, 0.00f, 0.0f, 0.0f,   CtrlMode::OPEN_LOOP); 					 Set_Step_Act(0); return true;
@@ -171,7 +167,7 @@ namespace gantry
 					case 4: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.30f, 0.00f, 0.50f, 1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
 					case 5: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.16f, 0.00f, 0.50f, 1.2f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
 					case 6: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.1f, 0.00f, 0.50f, 1.0f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
-					case 7: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.00f, 0.00f, 0.50f, 0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
+					case 7: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0); 								Set_Step_Target(0.03f, 0.00f, 0.50f, 0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
 					case 8: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);  		 Set_Step_Target(0.03f, 0.00f, 0.0f, 0.0f,   CtrlMode::OPEN_LOOP); 					 Set_Step_Act(0); return true;
 					default: return false;
 				}
@@ -208,7 +204,7 @@ namespace gantry
 				}
 					else if (gantry_event[1].Is_Trig())
 					{
-							active_event = &gantry_event[2]; 
+							active_event = &gantry_event[1]; 
 							if (kfs_num == 0)
 							{
 								Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1);
@@ -218,7 +214,7 @@ namespace gantry
 					
 					else if (gantry_event[2].Is_Trig())
 					{ 
-						active_event = &gantry_event[3]; 
+						active_event = &gantry_event[2]; 
 						if(kfs_num == 0)
 						{
 							Set_Task(ARM_TASK::PICK_DOWN_KFS_1);
@@ -249,11 +245,6 @@ namespace gantry
 		mode = mode_;
 	}
 	
-
-
-	
-
-
 	void GetKFS::Set_Task(ARM_TASK task_)
 	{
 		cur_task = task_;
@@ -278,30 +269,30 @@ namespace gantry
 		Set_Step_Delay(0);
 	}
 
-
+	// ============================================================
+	// 更新激光距离
+	// ============================================================
 	void GetKFS::Update_Laser_Distance()
 	{
 		float raw_data = (float)lidar_.distance / 1000.00f; //单位转化成米
-		if(raw_data > 0.02f && raw_data < 0.07f)
+		
+		if(raw_data > raw_data_low_limit&& raw_data < raw_data_high_limit)
 		{
 		laser_distance_m = raw_data;
-			laser_valid = 1 ;
+			laser_valid = true ;
+		}
+		else
+		{
+			laser_valid = false ;
 		}
 		
 	}
-
-	void GetKFS::Update_Vision_Offset(float dx_m, float dy_m, float dz_m, float dp_m, bool valid)
-	{
-		vision_dx_m = dx_m;
-		vision_dy_m = dy_m;
-		vision_dz_m = dz_m;
-		vision_dp_m = dp_m;
-		vision_valid = valid;
-	}
-	
+		// ============================================================
+	// 锁定当前 Y
+	// ============================================================
 	void GetKFS::Lock_Current_Y()
 {
-    locked_y = gantry.Get_Y();
+    locked_y = current_y;
     y_locked = true;
 }
 
@@ -310,6 +301,9 @@ void GetKFS::Unlock_Y()
     y_locked = false;
 }
 
+	// ============================================================
+	// 设置步骤延时
+	// ============================================================
 	void GetKFS::Set_Step_Delay(uint32_t delay_ms)
 	{
 		step_delay_ms = delay_ms ;
@@ -328,16 +322,13 @@ void GetKFS::Unlock_Y()
 	{
 		return busy;
 	}
-
+	// ============================================================
+	// 判断是否到达目标点
+	// ============================================================
 	bool GetKFS::Reached_Target(float cmd_x, float cmd_y, float cmd_z, float cmd_p)
 	{
-		current_x = gantry.Get_X();
-		current_y = gantry.Get_Y();
-		current_z = gantry.Get_Z();
-		current_p = gantry.Get_P();
-
 		bool mech_reached = false;
-		if (cmd_x < 0.4f)
+		if (cmd_x < pitch_detech_upper)
 		{
 			mech_reached =
 				fabsf(current_x - cmd_x) < KFS_X_REACH_TH &&
@@ -353,15 +344,6 @@ void GetKFS::Unlock_Y()
 				fabsf(current_p - cmd_p) < KFS_P_REACH_TH;
 		}
 		if (!mech_reached) return false;
-
-		if (mode == CtrlMode::CLOSE_LOOP_VISION)
-		{
-			return vision_valid &&
-				fabsf(vision_dx_m) < KFS_VISION_X_ERR_TH &&
-				fabsf(vision_dy_m) < KFS_VISION_Y_ERR_TH &&
-				fabsf(vision_dz_m) < KFS_VISION_Z_ERR_TH &&
-				fabsf(vision_dp_m) < KFS_VISION_P_ERR_TH;
-		}
 		if (mode == CtrlMode::CLOSE_LOOP_LASER)
 		{
 			return laser_valid &&
@@ -405,8 +387,16 @@ void GetKFS::Unlock_Y()
 		}
 	}
 
+	// ============================================================
+	// 自动抓取主逻辑
+	// ============================================================
 void GetKFS::Auto_Get_KFS()
 {
+		current_x = gantry.Get_X();
+		current_y = gantry.Get_Y();
+		current_z = gantry.Get_Z();
+		current_p = gantry.Get_P();
+	
     if (!busy)
         Trigger_Task_By_Event();
 
@@ -426,33 +416,21 @@ void GetKFS::Auto_Get_KFS()
 
         cmd_y += KFS_LASER_P * err * 0.01f;
 
-        if (cmd_y > 0.20f)
-            cmd_y = 0.20f;
+        if (cmd_y > lidar_offset_up_limit)
+            cmd_y =lidar_offset_up_limit;
 
-        if (cmd_y < -0.20f)
-            cmd_y = -0.20f;
+        if (cmd_y < lidar_offset_down_limit)
+            cmd_y = lidar_offset_down_limit;
     }
-
-
-    if (mode == CtrlMode::CLOSE_LOOP_VISION && vision_valid)
-    {
-        cmd_x = base_target_x + KFS_VISION_X_P * vision_dx_m;
-        cmd_y = base_target_y + KFS_VISION_Y_P * vision_dy_m;
-        cmd_z = base_target_z + KFS_VISION_Z_P * vision_dz_m;
-        cmd_p = base_target_p + KFS_VISION_P_P * vision_dp_m;
-    }
-
     if (mode == CtrlMode::Y_LOCK && y_locked)
     {
         cmd_y = locked_y;
     }
 
-
     target_x = cmd_x;
     target_y = cmd_y;
     target_z = cmd_z;
     target_p = cmd_p;
-
 
     gantry.Set_X(cmd_x);
     gantry.Set_Y(cmd_y);

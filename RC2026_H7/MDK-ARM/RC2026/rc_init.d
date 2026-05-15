@@ -55,8 +55,7 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Api\Inc\RC_cordic.h \
-  ..\Core\Inc\cordic.h ..\RC26_Motor\Inc\RC_m3508.h \
+  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Motor\Inc\RC_m3508.h \
   ..\RC26_Motor\Inc\RC_dji_motor.h ..\RC26_Motor\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
@@ -98,6 +97,4 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Path\Inc\RC_graph_plan.h ..\RC26_Path\Inc\RC_navigation.h \
   ..\RC26_Gantry\Inc\RC_gantry.h ..\RC26_Gantry\Inc\RC_suction.h \
   ..\RC26_Gantry\Inc\RC_get_KFS.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
-  ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\RC26_Path\Inc\RC_path2.h \
-  ..\RC26_Path\Inc\RC_bezier_curve.h ..\RC26_Ros_Interface\Inc\RC_map.h \
-  ..\Core\Inc\fdcan.h
+  ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\Core\Inc\fdcan.h

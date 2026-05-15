@@ -20,7 +20,7 @@ namespace path
         Navigation(GraphPlan& plan_);
         ~Navigation() = default;
 	
-		bool Add_Dst(NavPoint nav_, DstType type_, Event3_t event_);
+		bool Add_Dst(const NavPoint& nav_, DstType type_, Event3_t event_);
 		uint8_t Dst_FreeSpace() const { return (head - tail - 1 + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
 		uint8_t Dst_Num() const { return (tail - head + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
 		

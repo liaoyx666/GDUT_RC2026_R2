@@ -154,11 +154,11 @@ namespace gantry
 		
 		if (target_p > p_max)
 		{
-			constr_p = p_max - 0.1f;
+			constr_p = p_max;// - 0.1f;
 		}
 		else if (target_p < p_min)
 		{
-			constr_p = p_min + 0.1f;
+			constr_p = p_min;// + 0.1f;
 		}
 		
 		motor_p.Set_Out_Mit_Pos(-constr_p);

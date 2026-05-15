@@ -21,7 +21,7 @@ namespace data
 		return blue_left_side;
 	}
 	
-	RobotPose::RobotPose() : ManagedTask("ChassisTask", 10, 64, task::TASK_DELAY, 80)
+	RobotPose::RobotPose()// : ManagedTask("ChassisTask", 10, 64, task::TASK_DELAY, 80)
 	{
 		x = 0;
 		y = 0;
@@ -81,24 +81,8 @@ namespace data
 		orientation_is_valid = true;
 	}
 	
-	#define POSITION_TIME_OUT 1000000// us
-	#define ORIENTATION_TIME_OUT 1000000// us
+	
 
-	void RobotPose::Task_Process()
-	{
-		uint32_t delta_time = timer::Timer::Get_DeltaTime(position_last_time);
-		
-		if (delta_time > POSITION_TIME_OUT)
-		{
-			position_is_valid = false;
-		}
-
-		delta_time = timer::Timer::Get_DeltaTime(orientation_last_time);
-		
-		if (delta_time > ORIENTATION_TIME_OUT)
-		{
-			orientation_is_valid = false;
-		}
-	}
+	
 
 }

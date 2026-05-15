@@ -14,6 +14,8 @@
 
 #define MAX_RECEIVE_DATA_LEN 64
 
+#define MAX_CDC_RETRY_COUNT 10// 最大重试次数
+
 namespace cdc
 {
 	enum CDCType
@@ -63,14 +65,14 @@ namespace cdc
 
 		
 		/*-----------------------------接收数据---------------------------------------*/
-		//void CDC_Task_Receive_Process();// 处理接收数据的任务函数
-		//task::TaskCreator receive_task;// 创建处理接收数据的任务
+		void CDC_Task_Tx_Process();// 处理接收数据的任务函数
+		task::TaskCreator tx_task;// 创建处理接收数据的任务
 		
 		uint8_t receive_buf[MAX_RECEIVE_BUF_SIZE] = {0};// 接收环形缓冲区
 		volatile uint16_t receive_buf_head = 0;
 		volatile uint16_t receive_buf_tail = 0;
 		
-		//static void CDC_All_Task_Receive_Process(void *argument);// 管理所有处理接收数据的任务函数
+		static void CDC_All_Task_Tx_Process(void *argument);// 管理所有处理接收数据的任务函数
 		static void CDC_It_Receive(uint8_t* buf, uint32_t len, CDCType cdc_type_);// 中断接收函数
 		
 		void Rx_Task();
@@ -93,7 +95,8 @@ namespace cdc
     protected:
 		/*-----------------------------发送数据---------------------------------------*/
 		void Task_Process() override;// 发送数据任务函数
-		void Tx_Task();
+		
+		inline void Tx_Task();
 		/*-----------------------------发送数据---------------------------------------*/
 
     private:
