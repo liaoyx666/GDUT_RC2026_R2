@@ -76,7 +76,7 @@ class GetKFS
 			bool y_locked;
 
 			gantry::Gantry& gantry;
-			path::Event3 gantry_event[3];
+			path::Event3 gantry_event[4];
 			path::Event3* active_event;
 			Suction&  suction_;
 			lidar::LiDAR& lidar_;

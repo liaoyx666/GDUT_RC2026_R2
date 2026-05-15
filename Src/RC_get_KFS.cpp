@@ -28,7 +28,8 @@ namespace gantry
 			{
 			  path::Event3(13, true, 0.1f),//20
 			  path::Event3(14, true, 0.1f),//40
-			  path::Event3(15, true, 0.1f)//-20
+			  path::Event3(15, true, 0.1f),//-20
+				path::Event3(16, true, 0.1f)//pick
 		  },
 		  suction_(suction_),
 		  lidar_(lidar_)
@@ -269,95 +270,105 @@ namespace gantry
 	
 void GetKFS::Trigger_Task_By_Event()
 {
+    // =========================================================
+    // Event0 : 20cm Step1
+    // =========================================================
     if (gantry_event[0].Is_Trig())
     {
         active_event = &gantry_event[0];
 
-        // ========================= 第一组 =========================
         if (kfs_num == 0)
         {
-            if (step == 0)
-            {
-                Set_Task(ARM_TASK::PICK_UP_KFS_20CM_1_step1);
-                step ++;
-            }
-            else
-            {
-                Set_Task(ARM_TASK::PICK_UP_KFS_20CM_1_step2);
-                step = 0;
-                kfs_num++;
-            }
+            Set_Task(ARM_TASK::PICK_UP_KFS_20CM_1_step1);
         }
-        // ========================= 第二组 =========================
         else
         {
-            if (step == 0)
-            {
-                Set_Task(ARM_TASK::PICK_UP_KFS_20CM_2_step1);
-                step ++;
-            }
-            else
-            {
-                Set_Task(ARM_TASK::PICK_UP_KFS_20CM_2_step2);
-                step = 0;
-                kfs_num++;
-            }
+            Set_Task(ARM_TASK::PICK_UP_KFS_20CM_2_step1);
         }
     }
 
+    // =========================================================
+    // Event1 : 40cm Step1
+    // =========================================================
     else if (gantry_event[1].Is_Trig())
     {
         active_event = &gantry_event[1];
 
         if (kfs_num == 0)
         {
-            if (step == 0)
-            {
-                Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1_step1);
-                step ++;
-            }
-            else
-            {
-                Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1_step2);
-                step = 0;
-                kfs_num++;
-            }
+            Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1_step1);
+        }
+        else
+        {
+            Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1_step2);
         }
     }
 
+    // =========================================================
+    // Event2 : Down Step1
+    // =========================================================
     else if (gantry_event[2].Is_Trig())
     {
         active_event = &gantry_event[2];
 
-        // ========================= 第一组 =========================
         if (kfs_num == 0)
         {
-            if (step == 0)
-            {
-                Set_Task(ARM_TASK::PICK_DOWN_KFS_1_step1);
-                step ++;
-            }
-            else
-            {
-                Set_Task(ARM_TASK::PICK_DOWN_KFS_1_step2);
-                step = 0;
-                kfs_num++;
-            }
+            Set_Task(ARM_TASK::PICK_DOWN_KFS_1_step1);
         }
-        // ========================= 第二组 =========================
         else
         {
-            if (step == 0)
+            Set_Task(ARM_TASK::PICK_DOWN_KFS_2_step1);
+        }
+    }
+
+    // =========================================================
+    // Event3 : 执行所有 Step2
+    // =========================================================
+    else if (gantry_event[3].Is_Trig())
+    {
+        active_event = &gantry_event[3];
+
+        // 当前正在第几组
+        if (kfs_num == 0)
+        {
+            // 根据当前任务决定对应的 step2
+            switch (cur_task)
             {
-                Set_Task(ARM_TASK::PICK_DOWN_KFS_2_step1);
-                step ++;
+                case ARM_TASK::PICK_UP_KFS_20CM_1_step1:
+                    Set_Task(ARM_TASK::PICK_UP_KFS_20CM_1_step2);
+                    break;
+
+                case ARM_TASK::PICK_UP_KFS_40CM_1_step1:
+                    Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1_step2);
+                    break;
+
+                case ARM_TASK::PICK_DOWN_KFS_1_step1:
+                    Set_Task(ARM_TASK::PICK_DOWN_KFS_1_step2);
+                    break;
+
+                default:
+                    break;
             }
-            else
+
+            kfs_num++;
+        }
+        else
+        {
+            switch (cur_task)
             {
-                Set_Task(ARM_TASK::PICK_DOWN_KFS_2_step2);
-                step = 0;
-                kfs_num++;
+                case ARM_TASK::PICK_UP_KFS_20CM_2_step1:
+                    Set_Task(ARM_TASK::PICK_UP_KFS_20CM_2_step2);
+                    break;
+
+                case ARM_TASK::PICK_DOWN_KFS_2_step1:
+                    Set_Task(ARM_TASK::PICK_DOWN_KFS_2_step2);
+                    break;
+
+                default:
+                    break;
             }
+
+            kfs_num++;
         }
     }
 }
