@@ -74,7 +74,7 @@ class GetKFS
 			uint8_t kfs_num;
 			float locked_y;
 			bool y_locked;
-
+			GantryUser user;
 			gantry::Gantry& gantry;
 			path::Event3 gantry_event[4];
 			path::Event3* active_event;

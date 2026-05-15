@@ -32,7 +32,8 @@ namespace gantry
 				path::Event3(16, true, 0.1f)//pick
 		  },
 		  suction_(suction_),
-		  lidar_(lidar_)
+		  lidar_(lidar_),
+			user(gantry_)
 	{
 		active_event = nullptr;
 		mode = CtrlMode::IDLE;
@@ -462,6 +463,7 @@ void GetKFS::Unlock_Y()
 		active_event = nullptr;
 		stable_cnt = 0;
 		wait_step_delay = false;
+		user.Give_Control();
 	}
 
 	bool GetKFS::Is_Busy() const
@@ -508,6 +510,7 @@ void GetKFS::Unlock_Y()
 		mode = CtrlMode::IDLE;
 		stable_cnt = 0;
 		wait_step_delay = false;
+		user.Give_Control();
 		seq_idx = 0;
 		if (active_event != nullptr) { active_event->Finish(); active_event = nullptr; }
 	}
@@ -542,13 +545,10 @@ void GetKFS::Auto_Get_KFS()
 		current_y = gantry.Get_Y();
 		current_z = gantry.Get_Z();
 		current_p = gantry.Get_P();
-	
-    if (!busy)
-        Trigger_Task_By_Event();
-
-    if (mode == CtrlMode::IDLE || !busy)
-        return;
-
+		
+    if (!busy)  Trigger_Task_By_Event();
+    if (mode == CtrlMode::IDLE || !busy)  return;
+		if (!user.Take_Control()) return;
     Update_Laser_Distance();
 
     float cmd_x = target_x;
@@ -572,16 +572,18 @@ void GetKFS::Auto_Get_KFS()
     {
         cmd_y = locked_y;
     }
-
+		
+	
     target_x = cmd_x;
     target_y = cmd_y;
     target_z = cmd_z;
     target_p = cmd_p;
-
-    gantry.Set_X(cmd_x);
-    gantry.Set_Y(cmd_y);
-    gantry.Set_Z(cmd_z);
-    gantry.Set_P(cmd_p);
+		
+		
+    user.Set_X(cmd_x);
+    user.Set_Y(cmd_y);
+    user.Set_Z(cmd_z);
+    user.Set_P(cmd_p);
 
 
     if (Reached_Target(cmd_x, cmd_y, cmd_z, cmd_p))
