@@ -1,12 +1,14 @@
 #pragma once
 #include "RC_motor.h"
 #include "RC_task.h"
-
+#include "FreeRTOS.h"
+#include "semphr.h"
 #include "RC_serial.h"
 
 #ifdef __cplusplus
 namespace gantry
 {
+	
 	constexpr float GANTRY_X_M_TO_RAD = (float)(0.5 * TWO_PI / (26.0 * 0.003));
 	constexpr float GANTRY_Y_M_TO_RAD = (float)(TWO_PI / (20.0 * 1.5 * PI * 0.001));
 	constexpr float GANTRY_Z_M_TO_RAD = (float)(0.5 * TWO_PI / (20.0 * 0.005));
@@ -68,7 +70,8 @@ namespace gantry
 		void Gantry_Base();
 		
     private:
-		
+		SemaphoreHandle_t mutex;
+		uint8_t user_id; /*0代表空闲*/
 		
 		float target_x;
 		float target_y;
@@ -82,6 +85,84 @@ namespace gantry
 		motor::Motor& motor_y;
 		motor::Motor& motor_z;
 		motor::JointM& motor_p;// pitch
+	
+		friend class GantryUser;
+    };
+	
+
+	class GantryUser
+    {
+    public:
+		GantryUser(Gantry& gan_); /*id不能为0*/
+		~GantryUser() = default;
+		
+		constexpr void Set_X(float m_)
+		{
+			if (gan.user_id == id)
+				gan.Set_X(m_);
+		}
+		
+	    constexpr void Set_Y(float m_)
+		{
+			if (gan.user_id == id)
+				gan.Set_Y(m_);
+		}
+		
+	    constexpr void Set_Z(float m_)
+		{
+			if (gan.user_id == id)
+				gan.Set_Z(m_);
+		}
+		
+	    constexpr void Set_P(float rad_)
+		{
+			if (gan.user_id == id)
+				gan.Set_P(rad_);
+		}
+		
+		constexpr void Set_Defualt_Td()
+		{
+			if (gan.user_id == id)
+				gan.Set_Defualt_Td();
+		}
+		
+		constexpr void Set_Reset_Pos()
+		{
+			if (gan.user_id == id)
+				gan.Set_Reset_Pos();
+		}
+		
+		constexpr void Set_X_Td(float a, float v)
+		{ 
+			if (gan.user_id == id)
+				gan.Set_X_Td(a, v); 
+		}
+		
+		constexpr void Set_Y_Td(float a, float v)
+		{ 
+			if (gan.user_id == id)
+				gan.Set_Y_Td(a, v); 
+		}
+		
+		constexpr void Set_Z_Td(float a, float v)
+		{ 
+			if (gan.user_id == id)
+				gan.Set_Z_Td(a, v); 
+		}
+		
+		constexpr void Set_P_Td(float a, float v)
+		{ 
+			if (gan.user_id == id)
+				gan.Set_P_Td(a, v); 
+		}
+		
+		bool Take_Control();
+		void Give_Control();
+    private:
+		uint8_t id;
+		Gantry& gan;
+		
+		static uint8_t user_num;
     };
 }
 #endif

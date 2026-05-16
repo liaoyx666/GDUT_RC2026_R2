@@ -2,6 +2,45 @@
 
 namespace gantry
 {
+	uint8_t GantryUser::user_num = 0;
+	
+	GantryUser::GantryUser(Gantry& gan_) : gan(gan_)
+	{
+		user_num++;
+		id = user_num;
+	}
+	
+	bool GantryUser::Take_Control()
+	{
+		if (gan.user_id == id) return true;
+		if (gan.user_id != 0) return false;
+		bool is_success = false;
+		
+		if(xSemaphoreTake(gan.mutex, 0) == pdTRUE)
+		{
+			if (gan.user_id == 0)
+			{
+				gan.user_id = id;
+				is_success = true;
+			}
+			
+			xSemaphoreGive(gan.mutex);
+		}
+		
+		return is_success;
+	}
+	
+	void GantryUser::Give_Control()
+	{
+		if (gan.user_id == id)
+		{
+			gan.user_id = 0;
+		}
+	}
+	
+	
+	
+	/*------------------------------------------------------*/
 	constexpr float GANTRY_X_MAX = 0.64f;
 	constexpr float GANTRY_X_MIN = 0.f;
 	
@@ -28,6 +67,14 @@ namespace gantry
 		
 		p_max = GANTRY_P_MAX;
 		p_min = GANTRY_P_MIN;
+		
+		user_id = 0;
+		
+		mutex = xSemaphoreCreateMutex();
+		if (mutex == NULL)
+		{
+            Error_Handler();
+        }
 	}
 
 	void Gantry::Set_X(float m_)
@@ -154,11 +201,11 @@ namespace gantry
 		
 		if (target_p > p_max)
 		{
-			constr_p = p_max - 0.1f;
+			constr_p = p_max;// - 0.1f;
 		}
 		else if (target_p < p_min)
 		{
-			constr_p = p_min + 0.1f;
+			constr_p = p_min;// + 0.1f;
 		}
 		
 		motor_p.Set_Out_Mit_Pos(-constr_p);
