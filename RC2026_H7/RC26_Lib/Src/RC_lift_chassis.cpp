@@ -37,7 +37,7 @@ namespace chassis
 	constexpr float LIFT_LOAD_R           = 2000;
 	constexpr float LIFT_LOAD_V_MAX       = 8000;
 	
-	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.3f;
+	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.32f;
 	constexpr float LIFT_CHASSIS_FAST_VEL = 2.5f;
 
 

@@ -213,12 +213,12 @@ namespace path
 	
 	
 	
-	constexpr float UP_STAIR_HEAD_CHECK_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.2f;
+	constexpr float UP_STAIR_HEAD_CHECK_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.18f;
 	constexpr float UP_STAIR_HEAD_CHECK_VEL = 0.5f;
 	constexpr float UP_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float UP_STAIR_SLOW_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float UP_STAIR_SLOW_VEL = 0.3f;
+	constexpr float UP_STAIR_SLOW_VEL = 0.32f;
 	constexpr float UP_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float UP_STAIR_FINISH_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// - 0.1f;
@@ -239,7 +239,7 @@ namespace path
 		/*-------*/
 		if (s == 1) /* 是否从启动区上 */ 
 		{
-			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.3f); /*航向检查点坐标*/
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.5f); /*航向检查点坐标*/
 			if (!Add_Point_Wait(p, UP_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
 		}
 		else
@@ -266,12 +266,12 @@ namespace path
 		return true;
 	}
 	
-	constexpr float DOWN_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.2f;
+	constexpr float DOWN_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.18f;
 	constexpr float DOWN_STAIR_HEAD_CHECK_VEL = 0.5f;
 	constexpr float DOWN_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float DOWN_STAIR_SLOW_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float DOWN_STAIR_SLOW_VEL = 0.3f;
+	constexpr float DOWN_STAIR_SLOW_VEL = 0.32f;
 	constexpr float DOWN_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float DOWN_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// + 0.1f;

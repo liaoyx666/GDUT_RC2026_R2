@@ -34,6 +34,19 @@ namespace path
 				chassis.Set_Ang_Vel(vw);
 			}
 		}
+		
+		float Get_Delta_Yaw()
+		{
+			float delta = target_yaw - pose.Yaw();
+			
+			if (delta > PI)
+				delta -= PI;
+			else if (delta < -PI)
+				delta += PI;
+				
+			return delta;
+		}
+		
     protected:
 		
     private:

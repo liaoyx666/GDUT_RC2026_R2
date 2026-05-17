@@ -91,7 +91,7 @@ namespace path
 			HeadConstr3* head
 		) const;
 		
-		void Trig_Event_On_Len(float l_); /*触发事件*/
+		void Trig_Event_On_Len(float l_, float delta_yaw); /*触发事件*/
 		
 		bool Add_PathLonCon(float l, LonConstr3 c);
 		bool Add_PathHeadCon(float l, HeadConstr3 c);

@@ -15,25 +15,28 @@ cdc::CDC CDC_HS(cdc::USB_CDC_HS);
 
 /*===================Motor=================*/
 // 底盘电机
-motor::M3508 m3508_1_can1(1, can2, &tim13_500hz);
-motor::M3508 m3508_2_can1(2, can2, &tim13_500hz);
-motor::M3508 m3508_3_can1(3, can2, &tim13_500hz);
-motor::M3508 m3508_4_can1(4, can2, &tim13_500hz);
+motor::M3508 m3508_1_can1(1, can1, &tim13_500hz);
+motor::M3508 m3508_2_can1(2, can1, &tim13_500hz);
+motor::M3508 m3508_3_can1(3, can1, &tim13_500hz);
+motor::M3508 m3508_4_can1(4, can1, &tim13_500hz);
 
 // 龙门架电机
 motor::M2006D m2006d_can1_3_4(
-	3, can1, &tim13_500hz, 
-	4, can1, &tim13_500hz, 
+	3, can2, &tim13_500hz, 
+	4, can2, &tim13_500hz, 
 	36, motor::POL_REV, true
 );
 motor::M3508D m3508d_can1_1_2(
-	1, can1, &tim13_500hz, 
-	2, can1, &tim13_500hz, 
+	1, can2, &tim13_500hz, 
+	2, can2, &tim13_500hz, 
 	3591.f / 187.f, motor::POL_REV, true
 );
-motor::M2006 m2006_can1_5(5, can1, &tim13_500hz);
-motor::DM4310 dm4310_can1_0x12(0x12, can1, &tim7_1khz);
+motor::M2006 m2006_can1_5(5, can2, &tim13_500hz);
 
+motor::DM4340 dm4310_can1_0x12(0x12, can2, &tim7_1khz);
+
+
+	
 // 抬升电机
 motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
 motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);	
@@ -98,7 +101,7 @@ path::TrajTrack3 track(
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.0, 2.3),
+	path::LonConstr3(2.0, 2.1),
 	path::HeadConstr3(0, 3, 4, false),
 	track
 );
@@ -259,7 +262,8 @@ void Motor_Config()
 	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 2000);
 	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
-	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
+	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
+	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 0, 0.001, 0, 27, 5, 5, 5, 5, 20, 7);
 	
 	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);

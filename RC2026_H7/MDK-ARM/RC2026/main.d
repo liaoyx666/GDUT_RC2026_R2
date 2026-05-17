@@ -84,6 +84,7 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\dsp\window_functions.h \
   ..\RC26_Lib\Inc\RC_filter.h ..\RC26_Motor\Inc\RC_m2006.h \
   ..\RC26_Motor\Inc\RC_m6020.h ..\RC26_Motor\Inc\RC_dm4310.h \
+  ..\RC26_Motor\Inc\RC_dm_motor.h ..\RC26_Motor\Inc\RC_dm4340.h \
   ..\RC26_Motor\Inc\RC_go.h ..\RC26_Motor\Inc\RC_rs04.h \
   ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Motor\Inc\RC_j60.h \
   ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_flysky.h \

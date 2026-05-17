@@ -29,7 +29,7 @@ namespace path
 		}
 	}
 	
-	constexpr float GET_KFS_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.05f;
+	constexpr float GET_KFS_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.04f;
 	
 	/* 
 		去夹取KFS 
@@ -53,15 +53,15 @@ namespace path
 		switch (MapGraph::height[kfs_node] - MapGraph::height[chassis_node])
 		{
 			case 4:
-				event = GET_HIGH_40_KFS_EVENT;
+				event = GET_HIGH_40_KFS_READY_EVENT;
 				break;
 			
 			case 2:
-				event = GET_HIGH_20_KFS_EVENT;
+				event = GET_HIGH_20_KFS_READY_EVENT;
 				break;
 			
 			case -2:
-				event = GET_LOW_20_KFS_EVENT;
+				event = GET_LOW_20_KFS_READY_EVENT;
 				break;
 			
 			default:
@@ -70,7 +70,7 @@ namespace path
 		
 		float yaw = MapGraph::Yaw_On_Dir(-get_dir);
 		
-		return Go_To_Do(chassis_pos, yaw, event);
+		return Go_To_Do(chassis_pos, yaw, event | GET_PICK_KFS_EVENT);
 	}
 	
 	

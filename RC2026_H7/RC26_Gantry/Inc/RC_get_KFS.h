@@ -12,11 +12,17 @@ namespace gantry
 
 enum class ARM_TASK : uint8_t
 {
-    PICK_UP_KFS_20CM_1,
-		PICK_UP_KFS_20CM_2,
-		PICK_UP_KFS_40CM_1,
-		PICK_DOWN_KFS_1,
-    PICK_DOWN_KFS_2,
+    PICK_UP_KFS_20CM_1_step1,
+		PICK_UP_KFS_20CM_2_step1,
+		PICK_UP_KFS_40CM_1_step1,
+		PICK_DOWN_KFS_1_step1,
+    PICK_DOWN_KFS_2_step1,
+	
+		PICK_UP_KFS_20CM_1_step2,
+		PICK_UP_KFS_20CM_2_step2,
+		PICK_UP_KFS_40CM_1_step2,
+		PICK_DOWN_KFS_1_step2,
+    PICK_DOWN_KFS_2_step2,
     HOME
 };
 class GetKFS
@@ -32,6 +38,8 @@ class GetKFS
 			~GetKFS() = default;
 			void Auto_Get_KFS();
     private:
+			
+		uint8_t step;
 			enum class CtrlMode
 			{
 					IDLE,
@@ -48,7 +56,7 @@ class GetKFS
 			void Set_Step_Delay(uint32_t delay_ms);
 			void Cancel();
 			bool Is_Busy() const;
-			
+			void Finish_Event_Early();
 			
 			void Trigger_Task_By_Event();
 			bool Configure_Current_Step();
@@ -66,9 +74,9 @@ class GetKFS
 			uint8_t kfs_num;
 			float locked_y;
 			bool y_locked;
-
+			GantryUser user;
 			gantry::Gantry& gantry;
-			path::Event3 gantry_event[3];
+			path::Event3 gantry_event[4];
 			path::Event3* active_event;
 			Suction&  suction_;
 			lidar::LiDAR& lidar_;

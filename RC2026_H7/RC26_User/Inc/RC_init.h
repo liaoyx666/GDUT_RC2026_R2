@@ -13,6 +13,7 @@
 #include "RC_m2006.h"
 #include "RC_m6020.h"
 #include "RC_dm4310.h"
+#include "RC_dm4340.h"
 #include "RC_go.h"
 #include "RC_rs04.h"
 #include "RC_vesc.h"

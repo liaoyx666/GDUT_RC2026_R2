@@ -1113,6 +1113,16 @@
               <FilePath>..\RC26_Motor\Inc\RC_motor.h</FilePath>
             </File>
             <File>
+              <FileName>RC_dm_motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_dm_motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dm_motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_dm_motor.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_dji_motor.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Motor\Src\RC_dji_motor.cpp</FilePath>
@@ -1201,6 +1211,16 @@
               <FileName>RC_rs04.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_rs04.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dm4340.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_dm4340.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dm4340.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_dm4340.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1341,6 +1361,16 @@
               <FileName>RC_suction.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Gantry\Inc\RC_suction.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_put_KFS.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_put_KFS.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_put_KFS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_put_KFS.h</FilePath>
             </File>
           </Files>
         </Group>
