@@ -3,6 +3,7 @@
 #include "RC_pid.h"
 #include "RC_chassis.h"
 #include "RC_vector2d.h"
+#include "RC_gantry.h"
 
 #ifdef __cplusplus
 namespace aim
@@ -10,55 +11,55 @@ namespace aim
 	class Aim_Ctrl
 	{
 	public:
-		// 默认判稳参数（可在头文件中调试修改）
-		static constexpr uint16_t DEFAULT_FRAME = 20;
-		static constexpr float   DEFAULT_ERROR = 0.002f;
+		static constexpr uint16_t DEFAULT_FRAME = 60;
+		static constexpr float   DEFAULT_ERROR = 0.005f;
 
-		Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_, pid::Pid& yaw_pid_, pid::Pid& x_pid_);
+		Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_,
+	         gantry::Gantry& gantry_,
+	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_);
 
-		// 判稳数据轴枚举
 		enum Axis : uint8_t
 		{
 			Axis_X,
 			Axis_Y,
-			Axis_Z,
-			Axis_Yaw
+			Axis_Z
 		};
 
-		/* 帧判稳 — 内联于头文件以方便调试 ------------------------------------*/
-		// axis:       判稳数据轴
-		// frame_count: 判稳帧数
-		// error:      允许偏离窗口均值的最大误差
+		// 帧判稳 — 相机中断到场才推进窗口
 		bool Frame_Stable(Axis axis, uint16_t frame_count = DEFAULT_FRAME, float error = DEFAULT_ERROR)
 		{
-			if (frame_count > 64) frame_count = 64;             // 钳位到缓冲区上限
+			if (frame_count > 64) frame_count = 64;
+
 			Stable_Tracker& tracker = axis_tracker[axis];
+
+			// 无新帧 → 返回缓存结果
+			if (!camera.Check_New_Data())
+				return tracker.stable;
+
 			float current = Get_Data(axis);
 
 			tracker.sum += current;
-			if (tracker.frame_count < frame_count)              // 先填满窗口
+			if (tracker.frame_count < frame_count)
 			{
 				tracker.buffer[tracker.frame_count++] = current;
-				return false;
+				return tracker.stable = false;
 			}
 
-			tracker.sum -= tracker.buffer[tracker.index];        // 滑动窗口
+			tracker.sum -= tracker.buffer[tracker.index];
 			tracker.buffer[tracker.index] = current;
 			tracker.index = (tracker.index + 1) % frame_count;
 
-			float average = tracker.sum / (float)frame_count;   // 窗口均值
-			tracker.stable = (fabsf(current - average) <= error);// 稳定标志
-			return tracker.stable;
+			float average = tracker.sum / (float)frame_count;
+			return tracker.stable = (fabsf(current - average) <= error);
 		}
-		/*------------------------------------------------------------------------*/
 
-		void Reset();               // 复位状态机
-		void Run();                 // 状态机主循环，周期性调用
-		float Get_Y() const { return y_result; }  // 获取判稳后的y值
+		void Reset();
+		void Run();
+		float Get_Y() const { return y_result; }
 
 	private:
 		float Get_Data(Axis axis);
-		void Tracker_Clear();       // 清空四轴判稳追踪器
+		void Tracker_Clear();
 
 		struct Stable_Tracker
 		{
@@ -71,17 +72,18 @@ namespace aim
 
 		ros::Camera&     camera;
 		chassis::Chassis& chassis;
+		gantry::Gantry&  gantry;
 		pid::Pid&        yaw_pid;
-		pid::Pid&        x_pid;
+		pid::Pid&        z_pid;
+		pid::Pid&        y_pid;
 
 		enum Phase : uint8_t
 		{
-			Phase_Check,        // 异常判断 + 5帧确认
-			Phase_Yaw,          // yaw PID对准
-			Phase_X,            // x   PID对准
-			Phase_Z,            // z   对准（占位）
-			Phase_Y,            // y   判稳 + 存储
-			Phase_Done          // 完成
+			Phase_Check,
+			Phase_Yaw,
+			Phase_Z,
+			Phase_Y,
+			Phase_Done
 		};
 		Phase  phase    = Phase_Check;
 		float  y_result = 0;

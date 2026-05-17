@@ -15,7 +15,8 @@ namespace ros
 			y   = *(float*)(&buf[4]);
 			z   = *(float*)(&buf[8]);
 			yaw = *(float*)(&buf[12]);
-			event = 1;                              // 收到有效数据，置位
+			event = 1;
+			new_data = true;                    // 通知有新帧
 		}
 	}
 

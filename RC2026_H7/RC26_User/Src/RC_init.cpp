@@ -113,6 +113,15 @@ gantry::Gantry gan(
 	dm4310_can1_0x12
 );
 
+// 相机
+ros::Camera camera(CDC_HS, 6, robot_pose);
+
+// 相机对准
+pid::Pid aim_yaw_pid;
+pid::Pid aim_z_pid;
+pid::Pid aim_y_pid;
+aim::Aim_Ctrl aim_ctrl(camera, omni_4_chassis, gan, aim_yaw_pid, aim_z_pid, aim_y_pid);
+
 /*====================================DeBug====================================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
@@ -176,16 +185,21 @@ void Main_Task(void *argument)
 //		target = wave.Get_Signal();
 
 		
-		gan.Set_X(x);
-		gan.Set_Y(y);
-		gan.Set_Z(z);
-		gan.Set_P(p);
-		
+		if (0)  // TODO: 验证完改回 remote_ctrl.swc != 2
+		{
+			gan.Set_X(x);
+			gan.Set_Y(y);
+			gan.Set_Z(z);
+			gan.Set_P(p);
+		}
+
 		x_1 = gan.Get_X();
 		y_1 = gan.Get_Y();
 		z_1 = gan.Get_Z();
 		p_1 = gan.Get_P();
-	
+
+		camera.Send_QR_Req();
+
 		if (remote_ctrl.swc == 0)
 		{
 			
@@ -205,33 +219,42 @@ void Main_Task(void *argument)
 		else
 		{
 			path_plan.Disable();
-			
-			chassis::LiftAction la;
-		
-//			if (remote_ctrl.swb == 0)
-//				la = chassis::LIFT_LOCK;
-//			else if (remote_ctrl.swb == 1)
-				la = chassis::LIFT_UP;
-//			else
-//				la = chassis::LIFT_DOWN;
-			
-			chassis::LiftHeigth lh;
-			
-			if (remote_ctrl.swa == 0)
-				lh = chassis::LIFT_20;
+
+			if (remote_ctrl.swc == 2)
+			{
+				aim_ctrl.Run();
+			}
 			else
-				lh = chassis::LIFT_40;
-			
-			chassis::LiftDir ld;
-			
-//			if (remote_ctrl.swc == 0)
-				ld = chassis::LIFT_L;
-//			else
-//				ld = chassis::LIFT_R;
-			
-			//lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
-			
-			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
+			{
+				aim_ctrl.Run();  // TODO: 验证完滑动窗口改回 Reset
+
+				chassis::LiftAction la;
+
+//				if (remote_ctrl.swb == 0)
+//					la = chassis::LIFT_LOCK;
+//				else if (remote_ctrl.swb == 1)
+					la = chassis::LIFT_UP;
+//				else
+//					la = chassis::LIFT_DOWN;
+
+				chassis::LiftHeigth lh;
+
+				if (remote_ctrl.swa == 0)
+					lh = chassis::LIFT_20;
+				else
+					lh = chassis::LIFT_40;
+
+				chassis::LiftDir ld;
+
+//				if (remote_ctrl.swc == 0)
+					ld = chassis::LIFT_L;
+//				else
+//					ld = chassis::LIFT_R;
+
+				//lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
+
+				omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
+			}
 		}
 		
 		osDelay(1);
@@ -259,6 +282,11 @@ void Motor_Config()
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
 	m2006_can1_5    .Set_Pos_limit(486.15f, 0.f);
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
+
+	// 相机对准PID（待调参）
+	aim_yaw_pid.Pid_Param_Init(0.2, 0, 0, 0, 0.001, 0, 0.08, 1, 0, 0, 0, 50, 1.5);
+	aim_z_pid  .Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 0.01, 0.5, 0, 0, 0, 50, 0.01);
+	aim_y_pid  .Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 0.01, 0.5, 0, 0, 0, 50, 0.01);
 }
 
 

@@ -2,8 +2,11 @@
 
 namespace aim
 {
-	Aim_Ctrl::Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_, pid::Pid& yaw_pid_, pid::Pid& x_pid_)
-		: camera(camera_), chassis(chassis_), yaw_pid(yaw_pid_), x_pid(x_pid_)
+	Aim_Ctrl::Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_,
+	         gantry::Gantry& gantry_,
+	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_)
+		: camera(camera_), chassis(chassis_), gantry(gantry_),
+		  yaw_pid(yaw_pid_), z_pid(z_pid_), y_pid(y_pid_)
 	{
 
 	}
@@ -15,7 +18,6 @@ namespace aim
 		case Axis_X:   return camera.X();
 		case Axis_Y:   return camera.Y();
 		case Axis_Z:   return camera.Z();
-		case Axis_Yaw: return camera.Yaw();
 		default:       return 0;
 		}
 	}
@@ -37,14 +39,23 @@ namespace aim
 		float error = 0;
 		float output = 0;
 
+		// 四轴全零 = 相机未识别到目标，数据不予采纳
+		if (fabsf(camera.X()) < 1e-6f && fabsf(camera.Y()) < 1e-6f
+		 && fabsf(camera.Z()) < 1e-6f && fabsf(camera.Yaw()) < 1e-6f)
+			return;
+
 		switch (phase)
 		{
 		/*---- 阶段0：等待相机检测到目标，5帧判稳确认数据无异常 ----*/
 		case Phase_Check:
+#if 1  // TODO: 验证完滑窗改回 0
+			phase = Phase_Z; return;
+#else
 			if (camera.Event() == 0) return;                    // 相机未检测到目标，等待
+#endif
 
-			if (Frame_Stable(Axis_X, 5) && Frame_Stable(Axis_Y, 5)       // x/y/z/yaw 四轴均5帧稳定
-				&& Frame_Stable(Axis_Z, 5) && Frame_Stable(Axis_Yaw, 5))
+			if (Frame_Stable(Axis_X, 5) && Frame_Stable(Axis_Y, 5)&& Frame_Stable(Axis_Z, 5))       // x/y/z/yaw 四轴均5帧稳定
+				
 			{
 				Tracker_Clear();
 				phase = Phase_Yaw;
@@ -53,43 +64,37 @@ namespace aim
 
 		/*---- 阶段1：yaw角补正，PID闭环控制底盘角速度 ----*/
 		case Phase_Yaw:
-			error  = camera.Yaw();                              // yaw误差，目标为0
-			output = yaw_pid.Pid_Calculate(error, 0);           // PID解算角速度
-			chassis.Set_Ang_Vel(output);                        // 驱动底盘旋转
 
-			if (Frame_Stable(Axis_Yaw))                                // yaw判稳
-			{
-				chassis.Set_Ang_Vel(0);                         // 停止旋转
-				Tracker_Clear();
-				phase = Phase_X;
-			}
-			break;
-
-		/*---- 阶段2：x补正，PID闭环控制底盘世界x方向速度 ----*/
-		case Phase_X:
-			error  = camera.X();                                // x误差，目标为0
-			output = x_pid.Pid_Calculate(error, 0);             // PID解算线速度
-			chassis.Set_World_Lin_Vel(vector2d::Vector2D(output, 0));// 驱动底盘平移
-
-			if (Frame_Stable(Axis_X))                                // x判稳
-			{
-				chassis.Set_World_Lin_Vel(vector2d::Vector2D(0, 0));// 停止平移
-				Tracker_Clear();
 				phase = Phase_Z;
+
+			break;
+
+		/*---- 阶段2：z补正，PID闭环控制Gantry Z轴 ----*/
+		case Phase_Z:
+			error  = Get_Data(Axis_Z);
+			if (error >  0.01f) error =  0.01f;
+				if (error < -0.01f) error = -0.01f;
+				gantry.Set_Z(gantry.Get_Z() + error);
+
+			if (Frame_Stable(Axis_Z))
+			{ 
+				Tracker_Clear();
+				if(fabsf(error) < 0.002f)
+				phase = Phase_Y;
 			}
 			break;
 
-		/*---- 阶段3：z补正（上层机构执行，暂不实现） ----*/
-		case Phase_Z:
-			Tracker_Clear();
-			phase = Phase_Y;
-			break;
-
-		/*---- 阶段4：y补正，无PID，判稳后存储结果 ----*/
+		/*---- 阶段3：y补正，PID闭环控制Gantry Y轴 ----*/
 		case Phase_Y:
-			if (Frame_Stable(Axis_Y))                                // y判稳
+			error  = Get_Data(Axis_Y);
+			if (error >  0.01f) error =  0.01f;
+				if (error < -0.01f) error = -0.01f;
+				gantry.Set_Y(gantry.Get_Y() + error);
+
+			if (Frame_Stable(Axis_Y))
 			{
-				y_result = camera.Y();                          // 存储稳定后的y值
+				y_result = Get_Data(Axis_Y);
+				if(fabsf(error) < 0.002f)
 				phase = Phase_Done;
 			}
 			break;
