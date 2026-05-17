@@ -230,8 +230,7 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Api\Inc\RC_cordic.h \
-  ..\Core\Inc\cordic.h ..\RC26_Motor\Inc\RC_m3508.h \
+  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Motor\Inc\RC_m3508.h \
   ..\RC26_Motor\Inc\RC_dji_motor.h ..\RC26_Motor\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h \
   D:\keil\Packs\ARM\CMSIS-DSP\1.15.0\Include\arm_math.h \
@@ -262,6 +261,7 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   D:\keil\Packs\ARM\CMSIS-DSP\1.15.0\Include\dsp\window_functions.h \
   ..\RC26_Lib\Inc\RC_filter.h ..\RC26_Motor\Inc\RC_m2006.h \
   ..\RC26_Motor\Inc\RC_m6020.h ..\RC26_Motor\Inc\RC_dm4310.h \
+  ..\RC26_Motor\Inc\RC_dm_motor.h ..\RC26_Motor\Inc\RC_dm4340.h \
   ..\RC26_Motor\Inc\RC_go.h ..\RC26_Motor\Inc\RC_rs04.h \
   ..\RC26_Motor\Inc\RC_vesc.h ..\RC26_Motor\Inc\RC_j60.h \
   ..\RC26_Lib\Inc\RC_wave_generator.h ..\RC26_Lib\Inc\RC_flysky.h \
@@ -271,6 +271,7 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_lift_chassis.h \
   ..\RC26_Path\Inc\RC_traj_track3.h ..\RC26_Lib\Inc\RC_nonlinear_pid.h \
   ..\RC26_Path\Inc\RC_head_ctrl.h ..\RC26_Lib\Inc\RC_auto_lift.h \
+<<<<<<< HEAD
   ..\RC26_Path\Inc\RC_event3.h ..\RC26_Lib\Inc\RC_aim.h \
   ..\RC26_Ros_Interface\Inc\RC_camera.h ..\RC26_Gantry\Inc\RC_gantry.h \
   ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Path\Inc\RC_path3.h \
@@ -280,3 +281,12 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\RC26_Path\Inc\RC_path2.h \
   ..\RC26_Path\Inc\RC_bezier_curve.h ..\RC26_Ros_Interface\Inc\RC_map.h \
   ..\Core\Inc\fdcan.h
+=======
+  ..\RC26_Path\Inc\RC_event3.h ..\RC26_Path\Inc\RC_traj_plan3.h \
+  ..\RC26_Path\Inc\RC_path3.h ..\RC26_Path\Inc\RC_curve.h \
+  ..\RC26_Path\Inc\RC_path_plan3.h ..\RC26_Path\Inc\RC_map_graph.h \
+  ..\RC26_Path\Inc\RC_graph_plan.h ..\RC26_Path\Inc\RC_navigation.h \
+  ..\RC26_Gantry\Inc\RC_gantry.h ..\RC26_Gantry\Inc\RC_suction.h \
+  ..\RC26_Gantry\Inc\RC_get_KFS.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
+  ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\Core\Inc\fdcan.h
+>>>>>>> main

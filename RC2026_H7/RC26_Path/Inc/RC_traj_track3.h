@@ -16,7 +16,7 @@ namespace path
 	
 	class Path3;
 	
-	class TrajTrack3 : public task::ManagedTask
+	class TrajTrack3// : public task::ManagedTask
     {
     public:
 		TrajTrack3(data::RobotPose& pose_, chassis::Chassis& chassis_, HeadCtrl& head_ctrl_, float deadzone_);
@@ -43,8 +43,25 @@ namespace path
 		void Force_Tan_Vel_Zero() {tan_vel_zero = true;}
 		void Unforce_Tan_Vel_Zero() {tan_vel_zero = false;}
 		
+		inline void Traj_Track()
+		{
+			vector2d::Vector2D v = vector2d::Vector2D();
+
+			/*轨迹跟踪*/
+			if (!Calc_Vel(v))
+			{
+				v = vector2d::Vector2D();
+			}
+
+			if (is_enable)
+			{
+				/*设置底盘*/
+				chassis.Set_World_Lin_Vel(v);
+			}
+		}
+		
     protected:
-		void Task_Process() override;
+		
 		
     private:
 		void Reset();

@@ -1,9 +1,11 @@
 #pragma once
 #include "stdint.h"
+#include "arm_math.h"
+
 #include <main.h>
 #ifdef __cplusplus
 
-using Event3_t = uint16_t;
+using Event3_t = uint32_t;
 
 
 constexpr Event3_t EVENT3_NULL  = 0;
@@ -29,21 +31,22 @@ namespace path
 	constexpr float EVENT3_TRIG_MAX_THRESHOLD = 0.4f; /*触发事件最大阈值 m*/
 	constexpr float EVENT3_TRIG_MIN_THRESHOLD = 0.02f; /*触发事件最小阈值 m*/
 	
+	constexpr float EVENT3_YAW_ALIGN_MIN_THRESHOLD = 2.f / 180.f * PI; /*2度*/
+	
 	constexpr uint8_t EVENT3_MAX_EVENT_NUM = sizeof(Event3_t) * 8;/*事件最大定义数*/
 	
 	class Event3
     {
     public:
-		Event3(uint8_t id_, bool wait_finish_, float trig_threshold_ = 0);/*id_: 1 ~ EVENT3_MAX_EVENT_NUM*/
+		Event3(uint8_t id_, float trig_threshold_, bool wait_finish_, bool yaw_aligh_, float yaw_align_threshold_ = 0);/*id_: 1 ~ EVENT3_MAX_EVENT_NUM*/
 		~Event3() = default;
 		
 		bool Is_Trig();
 		void Finish();
 		
-		bool Wait_Finish() const {return wait_finish;}
-		
-    protected:
-		
+		constexpr bool Wait_Finish() const { return wait_finish; }
+		constexpr bool Yaw_Align() const { return yaw_align; }
+		constexpr bool Yaw_Align_Threshold() const { return yaw_align_threshold; }
     private:
 		bool Is_Finish();
 		void Trig_Once();
@@ -55,6 +58,9 @@ namespace path
 		bool finish_signal;
 	
 		bool wait_finish; /*路径结束时等待完成*/
+		bool yaw_align;
+	
+		float yaw_align_threshold;
 	
 		float trig_threshold; /*触发阈值*/
 	

@@ -5,7 +5,7 @@
 namespace path
 {
 	TrajTrack3::TrajTrack3(data::RobotPose& pose_, chassis::Chassis& chassis_, HeadCtrl& head_ctrl_, float deadzone_)
-	: task::ManagedTask("Track3Task", 30, 512, task::TASK_PERIOD, 1), chassis(chassis_), head_ctrl(head_ctrl_), pose(pose_)
+	: /*task::ManagedTask("Track3Task", 30, 512, task::TASK_PERIOD, 1), */chassis(chassis_), head_ctrl(head_ctrl_), pose(pose_)
 	{
 		path = nullptr;
 
@@ -20,22 +20,7 @@ namespace path
 		Reset();
 	}
 	
-	void TrajTrack3::Task_Process()
-	{
-		vector2d::Vector2D v = vector2d::Vector2D();
-
-		/*轨迹跟踪*/
-		if (!Calc_Vel(v))
-		{
-			v = vector2d::Vector2D();
-		}
-
-		if (is_enable)
-		{
-			/*设置底盘*/
-			chassis.Set_World_Lin_Vel(v);
-		}
-	}
+	
 	
 	
 	void TrajTrack3::Reset()
@@ -119,14 +104,18 @@ namespace path
 				last_w = head.w;
 			}
 			
+			float target_yaw;
+			
 			if (head.tan_head)
 			{
-				head_ctrl.Set_Yaw(tan.angle());
+				target_yaw = tan.angle();
 			}
 			else
 			{
-				head_ctrl.Set_Yaw(head.yaw);
+				target_yaw = head.yaw;
 			}
+			
+			head_ctrl.Set_Yaw(target_yaw);
 
 			if (last_a != lon.a)
 			{
@@ -144,14 +133,14 @@ namespace path
 			{
 				if (path->Pre_Align())
 				{
-					float delta_yaw = pose.Yaw() - head.yaw;
-					
-					if (delta_yaw < -PI)
-						delta_yaw += TWO_PI;
-					else if (delta_yaw > PI)
-						delta_yaw -= TWO_PI;
-					
-					if (fabsf(delta_yaw) <= TRAJTRACK3_PRE_ALIGN_THRESHOLD) /*yaw对齐后才能出发*/
+//					float delta_yaw = pose.Yaw() - head.yaw;
+//					
+//					if (delta_yaw < -PI)
+//						delta_yaw += TWO_PI;
+//					else if (delta_yaw > PI)
+//						delta_yaw -= TWO_PI;
+//					
+					if (fabsf(head_ctrl.Get_Delta_Yaw()) <= TRAJTRACK3_PRE_ALIGN_THRESHOLD) /*yaw对齐后才能出发*/
 						is_start = true;
 					else
 						is_start = false;
@@ -164,7 +153,7 @@ namespace path
 			
 			if (is_start)
 			{
-				path->Trig_Event_On_Len(l); /*触发事件*/
+				path->Trig_Event_On_Len(l, head_ctrl.Get_Delta_Yaw()); /*触发事件*/
 			}
 			
 			if (!is_start) /*还没出发*/

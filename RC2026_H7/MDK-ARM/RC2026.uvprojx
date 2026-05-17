@@ -937,26 +937,6 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Api\Inc\RC_timer.h</FilePath>
             </File>
-            <File>
-              <FileName>RC_modbus_rtu.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_modbus_rtu.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_modbus_rtu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_modbus_rtu.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_cordic.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Api\Src\RC_cordic.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_cordic.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Api\Inc\RC_cordic.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1018,36 +998,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_wave_generator.h</FilePath>
             </File>
             <File>
-              <FileName>RC_arm.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_arm.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_arm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_arm.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_storage.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_storage.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_storage.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_storage.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_auto_arm.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_auto_arm.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_auto_arm.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_auto_arm.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_vector2d.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_vector2d.cpp</FilePath>
@@ -1086,16 +1036,6 @@
               <FileName>RC_swerve_chassis.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_swerve_chassis.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_chassis_jack.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_chassis_jack.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_chassis_jack.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_chassis_jack.h</FilePath>
             </File>
             <File>
               <FileName>RC_photogate.cpp</FileName>
@@ -1181,6 +1121,16 @@
               <FileName>RC_motor.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_motor.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dm_motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_dm_motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dm_motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_dm_motor.h</FilePath>
             </File>
             <File>
               <FileName>RC_dji_motor.cpp</FileName>
@@ -1272,31 +1222,21 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Motor\Inc\RC_rs04.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_dm4340.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Motor\Src\RC_dm4340.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dm4340.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Motor\Inc\RC_dm4340.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>RC26_Path</GroupName>
           <Files>
-            <File>
-              <FileName>RC_bezier_curve.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Path\Src\RC_bezier_curve.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_bezier_curve.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Path\Inc\RC_bezier_curve.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path2.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Path\Src\RC_path2.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path2.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Path\Inc\RC_path2.h</FilePath>
-            </File>
             <File>
               <FileName>RC_curve.cpp</FileName>
               <FileType>8</FileType>
@@ -1422,6 +1362,26 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Gantry\Inc\RC_get_KFS.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_suction.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_suction.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_suction.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_suction.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_put_KFS.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_put_KFS.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_put_KFS.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_put_KFS.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1491,6 +1451,16 @@
               <FileName>RC_data_pool.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_User\Inc\RC_data_pool.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_auto_ctrl.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_User\Src\RC_auto_ctrl.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_auto_ctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_User\Inc\RC_auto_ctrl.h</FilePath>
             </File>
           </Files>
         </Group>

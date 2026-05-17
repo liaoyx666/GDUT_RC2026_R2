@@ -9,7 +9,12 @@ namespace data
 	const bool& Is_Side_Init();
 	const bool& Is_Blue_Left_Side();
 	
-	class RobotPose : public task::ManagedTask
+	
+	
+	#define POSITION_TIME_OUT 1000000// us
+	#define ORIENTATION_TIME_OUT 1000000// us
+	
+	class RobotPose// : public task::ManagedTask
     {
     public:
 		RobotPose();
@@ -29,11 +34,33 @@ namespace data
 		bool Is_Position_Valid() const {return position_is_valid;}
 		bool Is_Orientation_Valid() const {return orientation_is_valid;}
 		
+		
+		
+		
+		inline void Robot_Pose_Check()
+		{
+			uint32_t delta_time = timer::Timer::Get_DeltaTime(position_last_time);
+			
+			if (delta_time > POSITION_TIME_OUT)
+			{
+				position_is_valid = false;
+			}
+
+			delta_time = timer::Timer::Get_DeltaTime(orientation_last_time);
+			
+			if (delta_time > ORIENTATION_TIME_OUT)
+			{
+				orientation_is_valid = false;
+			}
+		}
+		
+		
+		
     protected:
 		
     
     private:
-		void Task_Process() override;
+		//void Task_Process() override;
 	
 		float x = 0;
 		float y = 0;

@@ -584,13 +584,13 @@ namespace path
 	}
 	
 	/*触发事件*/
-	void Path3::Trig_Event_On_Len(float l_)
+	void Path3::Trig_Event_On_Len(float l_, float delta_yaw)
 	{
 		if (!is_init || event_num == 0) return;
 		
 		bool update_event_dx = true;
 		
-		for (uint8_t i = event_dx; i < event_num &&  event[i].len - EVENT3_TRIG_MAX_THRESHOLD < l_; i++)
+		for (uint8_t i = event_dx; i < event_num && event[i].len - EVENT3_TRIG_MAX_THRESHOLD < l_; i++)
 		{
 			if (event[i].event == 0)
 				continue;
@@ -605,8 +605,11 @@ namespace path
 				
 				if (event[i].len - Event3::list[j]->trig_threshold < l_)
 				{
-					Event3::list[j]->Trig_Once(); /*触发一次*/
-					event[i].event &= ~(1 << j); /*防止重复触发*/
+					if (!Event3::list[j]->Yaw_Align() || fabsf(delta_yaw) < Event3::list[j]->Yaw_Align_Threshold())
+					{
+						Event3::list[j]->Trig_Once(); /*触发一次*/
+						event[i].event &= ~(1 << j); /*防止重复触发*/
+					}
 				}
 			}
 			

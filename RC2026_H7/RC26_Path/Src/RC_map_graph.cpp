@@ -122,7 +122,7 @@ namespace path
 			if (w < 1) w = 1;
 			if (h < 1) h = 1;
 			if (w > 3) w = 3;
-			if (w > 4) h = 4;
+			if (h > 4) h = 4;
 			
 			if (dx)
 			{

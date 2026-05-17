@@ -32,7 +32,7 @@ namespace can
 	Can *Can::can_list[MAX_CAN_NUM] = {nullptr};// 初始化can列表指针
 	uint8_t Can::can_num = 0;// 初始化can数量为0
 
-	Can::Can(FDCAN_HandleTypeDef &hcan_) : hcan(&hcan_), task::ManagedTask("Can", 43, 150, task::TASK_PERIOD, 1)
+	Can::Can(FDCAN_HandleTypeDef &hcan_) : hcan(&hcan_), task::ManagedTask("Can", 43, 128, task::TASK_PERIOD, 1)
 	{
 		taskENTER_CRITICAL();
 		

@@ -7,7 +7,7 @@
 #ifdef __cplusplus
 namespace path
 {
-	class HeadCtrl : public task::ManagedTask
+	class HeadCtrl// : public task::ManagedTask
     {
     public:
 		HeadCtrl(data::RobotPose& pose, chassis::Chassis& c, float deadzone_);
@@ -25,8 +25,30 @@ namespace path
 		void Enable() {is_enable = true;}
 		void Disable() {is_enable = false;}
 		
+		inline void Head_Ctrl()
+		{
+			if (is_enable)
+			{
+				float vw = pid.NPid_Calculate(target_yaw, pose.Yaw(), true, PI);
+				
+				chassis.Set_Ang_Vel(vw);
+			}
+		}
+		
+		float Get_Delta_Yaw()
+		{
+			float delta = target_yaw - pose.Yaw();
+			
+			if (delta > PI)
+				delta -= PI;
+			else if (delta < -PI)
+				delta += PI;
+				
+			return delta;
+		}
+		
     protected:
-		void Task_Process() override;
+		
     private:
 		float target_yaw;
 		data::RobotPose& pose;
