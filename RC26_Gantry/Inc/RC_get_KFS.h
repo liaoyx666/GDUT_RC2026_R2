@@ -6,6 +6,7 @@
 #include "RC_LiDAR.h"
 #include "RC_timer.h"
 #include <math.h>
+#include "RC_data_pool.h"
 #ifdef __cplusplus
 namespace gantry
 {
@@ -70,8 +71,7 @@ class GetKFS
 			void Do_Suction_Action(uint8_t action_id);
 			void Lock_Current_Y();
 			void Unlock_Y();
-
-			uint8_t kfs_num;
+			float kfs_num;
 			float locked_y;
 			bool y_locked;
 			GantryUser user;
@@ -107,6 +107,9 @@ class GetKFS
 			float laser_distance_m;
 			float laser_target_m;
 			bool laser_valid;
+			float laser_err_i ;
+
+		float laser_err_lpf ;
     };
 
 }
