@@ -242,7 +242,7 @@ namespace pid
 			temp_target_pos = td.TD_Calculate(target_pos, normalization, unit, &td_spd);
 			
 			/*td输出期望速度*/
-			td_spd = td_spd * (60.0f / (2.0f * PI));
+			td_spd = td_spd * (60.0f / TWO_PI);
 			
 			/*替换原来的期望速度*/
 			target_spd = td_spd;

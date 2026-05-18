@@ -253,102 +253,92 @@
         <Ww>
           <count>19</count>
           <WinNumber>1</WinNumber>
-          <ItemText>z</ItemText>
+          <ItemText>p_1</ItemText>
         </Ww>
         <Ww>
           <count>20</count>
           <WinNumber>1</WinNumber>
-          <ItemText>p</ItemText>
+          <ItemText>y_1</ItemText>
         </Ww>
         <Ww>
           <count>21</count>
           <WinNumber>1</WinNumber>
-          <ItemText>p_1</ItemText>
+          <ItemText>x_1</ItemText>
         </Ww>
         <Ww>
           <count>22</count>
           <WinNumber>1</WinNumber>
-          <ItemText>y_1</ItemText>
+          <ItemText>z_1</ItemText>
         </Ww>
         <Ww>
           <count>23</count>
           <WinNumber>1</WinNumber>
-          <ItemText>x_1</ItemText>
+          <ItemText>navigation</ItemText>
         </Ww>
         <Ww>
           <count>24</count>
           <WinNumber>1</WinNumber>
-          <ItemText>z_1</ItemText>
+          <ItemText>lidar_1</ItemText>
         </Ww>
         <Ww>
           <count>25</count>
           <WinNumber>1</WinNumber>
-          <ItemText>navigation</ItemText>
+          <ItemText>getKFS</ItemText>
         </Ww>
         <Ww>
           <count>26</count>
           <WinNumber>1</WinNumber>
-          <ItemText>lidar_1</ItemText>
+          <ItemText>auto_lift</ItemText>
         </Ww>
         <Ww>
           <count>27</count>
           <WinNumber>1</WinNumber>
-          <ItemText>getKFS</ItemText>
+          <ItemText>gan</ItemText>
         </Ww>
         <Ww>
           <count>28</count>
           <WinNumber>1</WinNumber>
-          <ItemText>auto_lift</ItemText>
+          <ItemText>navigation</ItemText>
         </Ww>
         <Ww>
           <count>29</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gan</ItemText>
+          <ItemText>defaultTaskHandle</ItemText>
         </Ww>
         <Ww>
           <count>30</count>
           <WinNumber>1</WinNumber>
-          <ItemText>uxHighWaterMark</ItemText>
+          <ItemText>pxCurrentTCB</ItemText>
         </Ww>
         <Ww>
           <count>31</count>
           <WinNumber>1</WinNumber>
-          <ItemText>navigation</ItemText>
+          <ItemText>auto_lift</ItemText>
         </Ww>
         <Ww>
           <count>32</count>
           <WinNumber>1</WinNumber>
-          <ItemText>defaultTaskHandle</ItemText>
+          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\remote_ctrl</ItemText>
         </Ww>
         <Ww>
           <count>33</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pxCurrentTCB</ItemText>
+          <ItemText>huart8</ItemText>
         </Ww>
         <Ww>
           <count>34</count>
           <WinNumber>1</WinNumber>
-          <ItemText>auto_lift</ItemText>
+          <ItemText>lidar_buffer</ItemText>
         </Ww>
         <Ww>
           <count>35</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\remote_ctrl</ItemText>
+          <ItemText>KFS_num</ItemText>
         </Ww>
         <Ww>
           <count>36</count>
           <WinNumber>1</WinNumber>
-          <ItemText>huart8</ItemText>
-        </Ww>
-        <Ww>
-          <count>37</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>buffer</ItemText>
-        </Ww>
-        <Ww>
-          <count>38</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>lidar_buffer</ItemText>
+          <ItemText>KFS_num</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -1729,7 +1719,7 @@
 
   <Group>
     <GroupName>RC26_Motor</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2025,7 +2015,7 @@
 
   <Group>
     <GroupName>RC26_Path</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

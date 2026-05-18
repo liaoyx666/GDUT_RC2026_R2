@@ -1,25 +1,35 @@
 #include "RC_data_pool.h"
 
+
+static uint8_t KFS_num = 2;
+
 namespace data
 {
+	/*==============左右半场=====================*/
 	static bool blue_left_side = true;  /*场地位置*/
 	static bool is_side_init = false;
-	
+
 	void Init_Side(bool blue_left_side_)
 	{
-		blue_left_side = blue_left_side_;
-		is_side_init = true;
+		if (!is_side_init)
+		{
+			blue_left_side = blue_left_side_;
+			is_side_init = true;
+		}
 	}
+	bool Is_Side_Init() { return is_side_init; }
+	bool Is_Blue_Left_Side() { return blue_left_side; }
+	/*============左右半场=======================*/
 	
-	const bool& Is_Side_Init()
-	{
-		return is_side_init;
-	}
 	
-	const bool& Is_Blue_Left_Side()
-	{
-		return blue_left_side;
-	}
+	/*==============携带KFS的数量=====================*/
+	 
+	uint8_t KFS_Num() { return KFS_num; }
+	void KFS_Add_One() { KFS_num++; }
+	void KFS_Sub_One() { KFS_num--; }
+	/*==============携带KFS的数量=====================*/
+	
+	
 	
 	RobotPose::RobotPose()// : ManagedTask("ChassisTask", 10, 64, task::TASK_DELAY, 80)
 	{

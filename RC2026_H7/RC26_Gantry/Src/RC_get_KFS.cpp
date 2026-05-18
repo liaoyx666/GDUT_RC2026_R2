@@ -82,10 +82,10 @@ namespace gantry
 			default:                scale = 0.5f; break;
 		}
 
-		gantry.Set_X_Td(2000.f * scale, 8000.f * scale);
-		gantry.Set_Y_Td(1000.f * scale, 2000.f * scale);
-		gantry.Set_Z_Td(2000.f * scale, 8000.f * scale);
-		gantry.Set_P_Td(20.f   * scale, 7.f    * scale);
+		user.Set_X_Td(2000.f * scale, 8000.f * scale);
+		user.Set_Y_Td(1000.f * scale, 2000.f * scale);
+		user.Set_Z_Td(2000.f * scale, 8000.f * scale);
+		user.Set_P_Td(20.f   * scale, 7.f    * scale);
 	}
 	
 void GetKFS::Finish_Event_Early()

@@ -25,7 +25,37 @@ constexpr Event3_t EVENT3_ID_13 = (1 << 12);
 constexpr Event3_t EVENT3_ID_14 = (1 << 13);
 constexpr Event3_t EVENT3_ID_15 = (1 << 14);
 constexpr Event3_t EVENT3_ID_16 = (1 << 15);
+constexpr Event3_t EVENT3_ID_17 = (1 << 16);
+constexpr Event3_t EVENT3_ID_18 = (1 << 17);
+constexpr Event3_t EVENT3_ID_19 = (1 << 18);
 
+
+
+
+
+
+constexpr Event3_t EVENT_HEAD_CHECK_F = EVENT3_ID_1;
+constexpr Event3_t EVENT_HEAD_CHECK_B = EVENT3_ID_2;
+constexpr Event3_t EVENT_HEAD_CHECK_L = EVENT3_ID_3;
+constexpr Event3_t EVENT_HEAD_CHECK_R = EVENT3_ID_4;
+
+constexpr Event3_t EVENT_UP_2_READY_L   = EVENT3_ID_5;
+constexpr Event3_t EVENT_UP_4_READY_L   = EVENT3_ID_6;
+constexpr Event3_t EVENT_UP_2_READY_R   = EVENT3_ID_7;
+constexpr Event3_t EVENT_UP_4_READY_R   = EVENT3_ID_8;
+constexpr Event3_t EVENT_DOWN_2_READY_L = EVENT3_ID_9;
+constexpr Event3_t EVENT_DOWN_4_READY_L = EVENT3_ID_10;
+constexpr Event3_t EVENT_DOWN_2_READY_R = EVENT3_ID_11;
+constexpr Event3_t EVENT_DOWN_4_READY_R = EVENT3_ID_12;
+
+constexpr Event3_t GET_HIGH_20_KFS_READY_EVENT 	= EVENT3_ID_13;
+constexpr Event3_t GET_HIGH_40_KFS_READY_EVENT 	= EVENT3_ID_14;
+constexpr Event3_t GET_LOW_20_KFS_READY_EVENT 	= EVENT3_ID_15;
+constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_16;
+
+constexpr Event3_t EVENT_PUT_KFS_2L = EVENT3_ID_17;
+constexpr Event3_t EVENT_PUT_KFS_3L = EVENT3_ID_18;
+	
 namespace path
 {
 	constexpr float EVENT3_TRIG_MAX_THRESHOLD = 0.4f; /*触发事件最大阈值 m*/

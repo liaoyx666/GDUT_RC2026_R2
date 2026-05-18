@@ -134,6 +134,9 @@ gantry::Suction suck(GPIOG, GPIO_PIN_7);
 // 取KFS
 gantry::GetKFS getKFS(gan, suck, lidar_1);
 
+gantry::PutKFS putKFS(gan, suck);
+
+
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
@@ -156,8 +159,7 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swd();
 //	wave.Init();
 
-	gan.Set_Defualt_Td();
-	gan.Set_Reset_Pos();
+	
 
 	
 	navigation.Go_To_Get_KFS(5, path::DIR_B);
@@ -178,6 +180,8 @@ void Main_Task(void *argument)
 		getKFS.Auto_Get_KFS();
 
 		gan.Gantry_Base();
+		
+		putKFS.Auto_Put_KFS();
 		
 //		gan.Set_X(x);
 //		gan.Set_Y(y);
@@ -221,6 +225,9 @@ void Main_Task(void *argument)
 
 			//lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
 			
+//			putKFS.Put_KFS(gantry::PUTKFS_2L, remote_ctrl.signal_swd());
+			
+			
 			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
@@ -253,17 +260,16 @@ task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
 void Motor_Config()
 {
-
-	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
-	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
+	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 		150, 890.12); /* (rad / s^2), (rad / s) */
+	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 		150, 890.12);
 	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
 	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
 	
-	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
-	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 2000);
-	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
+	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
+	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 314.16);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
-	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 0, 0.001, 0, 27, 5, 5, 5, 5, 20, 7);
+	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 			20, 5);
 	
 	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
@@ -275,6 +281,10 @@ void Motor_Config()
 
 void All_Init()
 {
+	// 电机配置
+	Motor_Config();
+	
+	
 	// CAN初始化
 	can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
 	can1.Can_Filter_Init(FDCAN_EXTENDED_ID, 2, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
@@ -303,6 +313,5 @@ void All_Init()
 	// 场地位置初始化
 	data::Init_Side(true);
 	
-	// 电机配置
-	Motor_Config();
+	gan.Init();
 }

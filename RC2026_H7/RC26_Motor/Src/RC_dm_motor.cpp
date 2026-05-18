@@ -77,7 +77,7 @@ namespace motor
 				pid::Limit(&target_rpm, V_MAX * 9.54929658551f);
 				
 				pos_int = float_to_uint(target_pos, P_MIN, P_MAX, 16);// rad
-				vel_int = float_to_uint(target_rpm / 9.54929658551f, V_MIN, V_MAX, 12);// rpm to rad
+				vel_int = float_to_uint(target_rpm * (1.f / 9.54929658551f), V_MIN, V_MAX, 12);// rpm to rad
 				kp_int  = float_to_uint(target_k_pos, KP_MIN, KP_MAX, 12);
 				kd_int  = float_to_uint(target_k_spd, KD_MIN, KD_MAX, 12);
 			}

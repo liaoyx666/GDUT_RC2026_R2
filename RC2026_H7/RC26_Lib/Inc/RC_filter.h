@@ -31,8 +31,8 @@ namespace filter
 	
 		float TD_Calculate(float v, bool normalization = false, float unit = PI, float* v2_return = NULL);
 		void TD_Init(float r_, float h_, float v2_max_ = 0.f);
-		void Set_R(float r_) {float r = r_;}
-		void Set_V2_Max(float v2_max_) {float v2_max = v2_max_;}
+		void Set_R(float r_) {r = r_;}
+		void Set_V2_Max(float v2_max_) {v2_max = v2_max_;}
 	
     protected:
 		

@@ -99,5 +99,5 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Path\Inc\RC_map_graph.h ..\RC26_Path\Inc\RC_graph_plan.h \
   ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Gantry\Inc\RC_gantry.h \
   ..\RC26_Gantry\Inc\RC_suction.h ..\RC26_Gantry\Inc\RC_get_KFS.h \
-  ..\RC26_Ros_Interface\Inc\RC_radar.h \
+  ..\RC26_Gantry\Inc\RC_put_KFS.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h

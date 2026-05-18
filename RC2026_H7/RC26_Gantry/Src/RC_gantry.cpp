@@ -137,16 +137,16 @@ namespace gantry
 	
 	// P_MAX1
 	constexpr float GANTRY_P_MAX_X_CONSTR_X_START_1 = 0;
-	constexpr float GANTRY_P_MAX_X_CONSTR_X_END_1 = 0.4;
-				
+	constexpr float GANTRY_P_MAX_X_CONSTR_X_END_1 = 0.3;
+
 	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_START_1 = HALF_PI;
 	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_END_1 = PI;
 	
 	
 	
 	// P_MAX2
-	constexpr float GANTRY_P_MAX_X_CONSTR_X_START_2 = 0.4;
-	constexpr float GANTRY_P_MAX_X_CONSTR_X_END_2 = 0.55;
+	constexpr float GANTRY_P_MAX_X_CONSTR_X_START_2 = 0.3;
+	constexpr float GANTRY_P_MAX_X_CONSTR_X_END_2 = 0.56;
 				
 	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_START_2 = PI;
 	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_END_2 = TWO_THIRD_PI;

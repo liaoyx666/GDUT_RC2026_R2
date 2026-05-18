@@ -35,22 +35,7 @@ namespace path
 		ACT_DOWN_HILL,
 		ACT_NULL,
 	};
-	
-	constexpr Event3_t EVENT_HEAD_CHECK_F = EVENT3_ID_1;
-	constexpr Event3_t EVENT_HEAD_CHECK_B = EVENT3_ID_2;
-	constexpr Event3_t EVENT_HEAD_CHECK_L = EVENT3_ID_3;
-	constexpr Event3_t EVENT_HEAD_CHECK_R = EVENT3_ID_4;
-	
-	constexpr Event3_t EVENT_UP_2_READY_L   = EVENT3_ID_5;
-	constexpr Event3_t EVENT_UP_4_READY_L   = EVENT3_ID_6;
-	constexpr Event3_t EVENT_UP_2_READY_R   = EVENT3_ID_7;
-	constexpr Event3_t EVENT_UP_4_READY_R   = EVENT3_ID_8;
-	constexpr Event3_t EVENT_DOWN_2_READY_L = EVENT3_ID_9;
-	constexpr Event3_t EVENT_DOWN_4_READY_L = EVENT3_ID_10;
-	constexpr Event3_t EVENT_DOWN_2_READY_R = EVENT3_ID_11;
-	constexpr Event3_t EVENT_DOWN_4_READY_R = EVENT3_ID_12;
-	
-	
+
 	class GraphPlan
     {
     public:
