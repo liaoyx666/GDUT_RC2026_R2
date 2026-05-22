@@ -42,6 +42,8 @@
 #include "RC_suction.h"
 #include "RC_get_KFS.h"
 #include "RC_put_KFS.h"
+#include "RC_get_weapon_head.h"
+#include "RC_dock.h"
 
 /* ROS */
 #include "RC_radar.h"

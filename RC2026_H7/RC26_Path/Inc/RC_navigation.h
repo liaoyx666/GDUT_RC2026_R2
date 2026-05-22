@@ -7,7 +7,7 @@
 #ifdef __cplusplus
 namespace path
 {
-	constexpr uint8_t NAVIGATION_MAX_DESTINATION = 10;
+	constexpr uint8_t NAVIGATION_MAX_DESTINATION = 15;
 	
 	class Navigation : public task::ManagedTask
     {
@@ -30,8 +30,8 @@ namespace path
 		
 		bool Go_To_Get_KFS(uint8_t kfs_node, Direction get_dir);
 		bool Go_To_Put_KFS_2L(uint8_t col); /*放二层， 1 ~ 3 列，靠近梅林大*/
-		
-		
+		bool Go_To_Get_Weapon_Head();
+		bool Go_To_Dock();
 		
     private:
 		uint8_t Dst_FreeSpace() const { return (head - tail - 1 + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }

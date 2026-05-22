@@ -28,7 +28,8 @@ constexpr Event3_t EVENT3_ID_16 = (1 << 15);
 constexpr Event3_t EVENT3_ID_17 = (1 << 16);
 constexpr Event3_t EVENT3_ID_18 = (1 << 17);
 constexpr Event3_t EVENT3_ID_19 = (1 << 18);
-
+constexpr Event3_t EVENT3_ID_20 = (1 << 19);
+constexpr Event3_t EVENT3_ID_21 = (1 << 20);
 
 
 
@@ -55,7 +56,11 @@ constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_16;
 
 constexpr Event3_t EVENT_PUT_KFS_2L_READY = EVENT3_ID_17;
 constexpr Event3_t EVENT_PUT_KFS_3L_READY = EVENT3_ID_18;
-constexpr Event3_t EVENT_PUT_KFS_PUT = EVENT3_ID_18;
+constexpr Event3_t EVENT_PUT_KFS_PUT = EVENT3_ID_19;
+
+constexpr Event3_t EVENT_GET_WEAPON_HEAD = EVENT3_ID_20;
+
+constexpr Event3_t EVENT_DOCK = EVENT3_ID_21;
 /*-----所有事件-----*/
 	
 namespace path

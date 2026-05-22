@@ -225,7 +225,7 @@ namespace path
 	constexpr float UP_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float UP_STAIR_SLOW_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float UP_STAIR_SLOW_VEL = 0.35f;
+	constexpr float UP_STAIR_SLOW_VEL = 0.36f;
 	constexpr float UP_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float UP_STAIR_FINISH_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// - 0.1f;
@@ -278,7 +278,7 @@ namespace path
 	constexpr float DOWN_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float DOWN_STAIR_SLOW_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float DOWN_STAIR_SLOW_VEL = 0.35f;
+	constexpr float DOWN_STAIR_SLOW_VEL = 0.36f;
 	constexpr float DOWN_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float DOWN_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// + 0.1f;

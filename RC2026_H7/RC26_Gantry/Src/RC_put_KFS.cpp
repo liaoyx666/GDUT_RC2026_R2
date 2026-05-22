@@ -321,7 +321,7 @@ namespace gantry
 //				}
 //				break;
 //			}
-				
+			
 			default:
 			{
 				put_state = PUTKFS_PUT_CLOSE_TO;

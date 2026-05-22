@@ -1372,6 +1372,36 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Gantry\Inc\RC_put_KFS.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_get_weapon_head.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_get_weapon_head.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_get_weapon_head.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_get_weapon_head.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_gripper.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_gripper.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_gripper.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_gripper.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dock.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_dock.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dock.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_dock.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

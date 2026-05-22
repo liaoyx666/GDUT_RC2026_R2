@@ -104,6 +104,38 @@ namespace path
 		return Go_To_Do(put_p, yaw, EVENT_PUT_KFS_2L_READY | EVENT_PUT_KFS_PUT);
 	}
 	
+	constexpr float GET_WEAPON_HEAD_X = 0.95;
+	constexpr float GET_WEAPON_HEAD_DIS = 1.0;
+	
+	bool Navigation::Go_To_Get_Weapon_Head()
+	{
+		float yaw;
+		vector2d::Vector2D p;
+		
+		p.x() = GET_WEAPON_HEAD_X;
+		
+		if (data::Is_Blue_Left_Side())
+		{
+			yaw = -HALF_PI;
+			p.y() = -(MapGraph::FIELD_WIDTH - GET_WEAPON_HEAD_DIS);
+		}
+		else
+		{
+			yaw = HALF_PI;
+			p.y() = -GET_WEAPON_HEAD_DIS;
+		}
+		
+		return Go_To_Do(p, yaw, EVENT_GET_WEAPON_HEAD);
+	}
+	
+	bool Navigation::Go_To_Dock()
+	{
+		float yaw = HALF_PI;
+		vector2d::Vector2D p = vector2d::Vector2D(1, -4);
+		
+		return Go_To_Do(p, yaw, EVENT_DOCK);
+	}
+	
 	
 	void Navigation::Task_Process()
 	{

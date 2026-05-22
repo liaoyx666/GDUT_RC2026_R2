@@ -33,6 +33,7 @@ motor::M3508D m3508d_can1_1_2(
 );
 motor::M2006 m2006_can1_5(5, can2, &tim13_500hz);
 motor::DM4340 dm4310_can1_0x12(0x12, can2, &tim7_1khz);
+motor::M2006 m2006_can1_7(7, can2, &tim13_500hz);
 
 // 抬升电机
 motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
@@ -132,7 +133,19 @@ gantry::GetKFS getKFS(gan, suck, lidar_1);
 // 放KFS
 gantry::PutKFS putKFS(gan, suck);
 
+// 夹爪
+gantry::Gripper gripper_(m2006_can1_7);
 
+// 夹取武器头
+gantry::GetWeaponHead get_weapon_head(
+	omni_4_chassis,
+	robot_pose,
+	gan,
+	gripper_,
+	path_plan
+);
+
+gantry::Dock dock(gripper_);
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
@@ -149,14 +162,23 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swa();
 	remote_ctrl.signal_swd();
 //	wave.Init();
-
-	navigation.Go_To_Get_KFS(1, path::DIR_B);
 	
-	navigation.Go_To_Get_KFS(4, path::DIR_B);
+	get_weapon_head.Set_Pick_Num(4); /*夹第4个武器（靠内小）*/
+	
+	
+	/*--------------------------------*/
+	navigation.Go_To_Get_Weapon_Head();
+
+	navigation.Go_To_Dock();
+	
+	navigation.Go_To_Get_KFS(5, path::DIR_B);
+	
+	navigation.Go_To_Get_KFS(6, path::DIR_L);
 	
 	navigation.Go_To_Put_KFS_2L(2);
 	
 	navigation.Go_To_Put_KFS_2L(3);
+	/*--------------------------------*/
 	
 	for (;;)
 	{
@@ -172,6 +194,10 @@ void Main_Task(void *argument)
 		gan.Gantry_Base();
 		
 		putKFS.Auto_Put_KFS();
+		
+		dock.Auto_Dock();
+		
+		get_weapon_head.Auto_Get_Weapon_Head();
 
 		x_1 = gan.Get_X();
 		y_1 = gan.Get_Y();
