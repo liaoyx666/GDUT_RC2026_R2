@@ -10,7 +10,7 @@ namespace path
 		
 	}
 	
-	bool GraphPlan::Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end) const
+	bool GraphPlan::Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end)
 	{
 		for (;;)
 		{
@@ -23,6 +23,13 @@ namespace path
 			}
 			else if (state == ADD_SUCCESS)
 			{
+				last_nav.p = p;
+				
+				if (h)
+				{
+					last_nav.yaw = h->yaw;
+				}
+				
 				return true;
 			}
 			else
@@ -218,7 +225,7 @@ namespace path
 	constexpr float UP_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float UP_STAIR_SLOW_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float UP_STAIR_SLOW_VEL = 0.32f;
+	constexpr float UP_STAIR_SLOW_VEL = 0.35f;
 	constexpr float UP_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float UP_STAIR_FINISH_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// - 0.1f;
@@ -237,9 +244,9 @@ namespace path
 		HeadConstr3 head = plan.plan.head_m;
 		
 		/*-------*/
-		if (s == 1) /* 是否从启动区上 */ 
+		if (/*s == 0*/ (last_nav.p - e_center).length() > 1.2f) /* 是否从启动区上 */ 
 		{
-			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.5f); /*航向检查点坐标*/
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET - 0.5f); /*航向检查点坐标*/
 			if (!Add_Point_Wait(p, UP_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
 		}
 		else
@@ -260,8 +267,8 @@ namespace path
 		p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_FINISH_OFFSET); /*完成点坐标*/
 		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*完成点*/
 		
-		last_nav.p = p;
-		last_nav.yaw = head.yaw;
+//		last_nav.p = p;
+//		last_nav.yaw = head.yaw;
 		
 		return true;
 	}
@@ -271,7 +278,7 @@ namespace path
 	constexpr float DOWN_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float DOWN_STAIR_SLOW_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float DOWN_STAIR_SLOW_VEL = 0.32f;
+	constexpr float DOWN_STAIR_SLOW_VEL = 0.35f;
 	constexpr float DOWN_STAIR_SLOW_ACC = 1.f;
 	
 	constexpr float DOWN_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// + 0.1f;
@@ -302,11 +309,20 @@ namespace path
 		lon.v = DOWN_STAIR_SLOW_VEL;
 		lon.a = DOWN_STAIR_SLOW_ACC;
 		head.w = 0; /*禁止转向*/
-		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_FINISH_OFFSET); /*完成点坐标*/
-		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*完成点*/
 		
-		last_nav.p = p;
-		last_nav.yaw = head.yaw;
+		if (e == 13)
+		{
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_FINISH_OFFSET + 0.13f); /*完成点坐标*/
+			if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*完成点*/
+		}
+		else
+		{
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_FINISH_OFFSET); /*完成点坐标*/
+			if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*完成点*/
+		}
+		
+//		last_nav.p = p;
+//		last_nav.yaw = head.yaw;
 		
 		return true;
 	}
@@ -336,21 +352,27 @@ namespace path
 			high = MapGraph::Offset_On_Dir(high, DIR_L, 0.75f);
 		}
 		
+		LonConstr3 lon = plan.plan.lon_m;
+		
 		if (h == 1)
 		{
-			if (!Add_Point_Wait(low, 0.3f, NULL, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(low, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
+			
+			lon.v = 1.3;
 			
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = -PI / 2.f;
-			if (!Add_Point_Wait(high, 0.3f, NULL, &head, EVENT3_NULL, false)) return false;
+			head.yaw = -HALF_PI;
+			if (!Add_Point_Wait(high, 0.3f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		else
 		{
-			if (!Add_Point_Wait(high, 0.3f, NULL, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
+			
+			lon.v = 1.3;
 			
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = -PI / 2.f;
-			if (!Add_Point_Wait(low, 0.3f, NULL, &head, EVENT3_NULL, false)) return false;
+			head.yaw = -HALF_PI;
+			if (!Add_Point_Wait(low, 0.3f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		
 		return true;

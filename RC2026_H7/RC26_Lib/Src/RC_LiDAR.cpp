@@ -2,7 +2,7 @@
 
 namespace lidar
 {
-    LiDAR::LiDAR(UART_HandleTypeDef &huart_, uint8_t* buf_) : serial::UartRx(huart_, buf_, LiDAR_RX_BUFFER_SIZE, true, true)
+    LiDAR::LiDAR(UART_HandleTypeDef &huart_, uint8_t* buf_) : serial::UartRx(huart_, buf_, LiDAR_RX_BUFFER_SIZE, true, true), filter(50, 1000, 0.707)
     {
 		
     }
@@ -21,9 +21,13 @@ namespace lidar
 			if (buf_[8] == sum)
 			{
 				strength = buf_[4] | (buf_[5] << 8);
-				if (strength > 100) {
-					distance = buf_[2] | (buf_[3] << 8);
-				}
+				//if (strength > 100) {
+					
+				distance = buf_[2] | (buf_[3] << 8);
+					
+				dis_filter = filter.filter((float)distance);
+					
+				//}
 				temperature = (buf_[6] | (buf_[7] << 8)) / 8 - 256;
 			}
 		}

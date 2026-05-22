@@ -59,10 +59,7 @@ namespace path
 				chassis.Set_World_Lin_Vel(v);
 			}
 		}
-		
-    protected:
-		
-		
+
     private:
 		void Reset();
 		bool Calc_Vel(vector2d::Vector2D& v_) const;
@@ -93,9 +90,6 @@ namespace path
 		data::RobotPose& pose;
 		chassis::Chassis& chassis;
 		HeadCtrl& head_ctrl;
-		
-		
     };
 }
-
 #endif

@@ -21,8 +21,6 @@ namespace path
 	}
 	
 	
-	
-	
 	void TrajTrack3::Reset()
 	{
 		last_wa = 0;
@@ -39,6 +37,7 @@ namespace path
 		tan_vel_zero = false;
 	}
 
+	
 	bool TrajTrack3::Load_Path(Path3* path_)
 	{
 		if (path_ == nullptr) return false;
@@ -49,6 +48,7 @@ namespace path
 		path = path_;
 		return true;
 	}
+	
 	
 	bool TrajTrack3::Calc_Vel(vector2d::Vector2D& v_) const
 	{
@@ -133,13 +133,6 @@ namespace path
 			{
 				if (path->Pre_Align())
 				{
-//					float delta_yaw = pose.Yaw() - head.yaw;
-//					
-//					if (delta_yaw < -PI)
-//						delta_yaw += TWO_PI;
-//					else if (delta_yaw > PI)
-//						delta_yaw -= TWO_PI;
-//					
 					if (fabsf(head_ctrl.Get_Delta_Yaw()) <= TRAJTRACK3_PRE_ALIGN_THRESHOLD) /*yaw对齐后才能出发*/
 						is_start = true;
 					else

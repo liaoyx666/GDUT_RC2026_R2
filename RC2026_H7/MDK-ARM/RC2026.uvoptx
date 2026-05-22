@@ -330,16 +330,6 @@
           <WinNumber>1</WinNumber>
           <ItemText>lidar_buffer</ItemText>
         </Ww>
-        <Ww>
-          <count>35</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>KFS_num</ItemText>
-        </Ww>
-        <Ww>
-          <count>36</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>KFS_num</ItemText>
-        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>
@@ -2146,8 +2136,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Path\Src\RC_path_plan3.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_path_plan3.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Path\Src\RC_head_ctrl.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_head_ctrl.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2158,8 +2148,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Path\Inc\RC_path_plan3.h</PathWithFileName>
-      <FilenameWithoutPath>RC_path_plan3.h</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Path\Inc\RC_head_ctrl.h</PathWithFileName>
+      <FilenameWithoutPath>RC_head_ctrl.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2170,8 +2160,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Path\Src\RC_head_ctrl.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_head_ctrl.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Path\Src\RC_path_plan3.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_path_plan3.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2182,8 +2172,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Path\Inc\RC_head_ctrl.h</PathWithFileName>
-      <FilenameWithoutPath>RC_head_ctrl.h</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Path\Inc\RC_path_plan3.h</PathWithFileName>
+      <FilenameWithoutPath>RC_path_plan3.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

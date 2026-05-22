@@ -12,6 +12,7 @@ namespace path
 	constexpr uint8_t GRAPH_INF = 0xFF; /*不可达标记（最大距离远小于255）*/
 	
 
+	
 	struct Graph
 	{
 		uint8_t node;
@@ -161,8 +162,23 @@ namespace path
 
 		static vector2d::Vector2D Offset_On_Dir(vector2d::Vector2D p, Direction dir, float offset);
 		
+	
+	
+	
+	
 		static constexpr float MF_SIZE = 1.2f;
 		static constexpr float CHASSIS_SIZE = 0.8f;
+	
+	
+		
+		static constexpr float FIELD_LENGTH = 12;
+		static constexpr float FIELD_WIDTH = 6;
+		
+		static constexpr float SUDOKU_SIZE = 0.54;
+		static constexpr float SUDOKU_COL_1_X = FIELD_LENGTH - 0.44 - (SUDOKU_SIZE / 2.0);
+		static constexpr float SUDOKU_COL_2_X = SUDOKU_COL_1_X - SUDOKU_SIZE;
+		static constexpr float SUDOKU_COL_3_X = SUDOKU_COL_2_X - SUDOKU_SIZE;
+	
 	
 		static constexpr int8_t height[GRAPH_NODE_NUM] = 
 		{

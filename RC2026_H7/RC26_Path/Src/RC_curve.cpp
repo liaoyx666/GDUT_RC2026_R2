@@ -461,8 +461,4 @@ namespace curve
 		
 		return len * t;
 	}
-	
-	
-	
-	
 }

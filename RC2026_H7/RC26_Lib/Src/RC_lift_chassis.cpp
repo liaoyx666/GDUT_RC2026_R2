@@ -29,7 +29,7 @@ namespace chassis
 		}
 	}
 	
-	constexpr float LIFT_POS_THRESHOLD    = 5.f;
+	constexpr float LIFT_POS_THRESHOLD    = 3.f;
 	
 	constexpr float LIFT_RESET_R          = 4000;
 	constexpr float LIFT_RESET_V_MAX      = 890.12;
@@ -37,7 +37,7 @@ namespace chassis
 	constexpr float LIFT_LOAD_R           = 2000;
 	constexpr float LIFT_LOAD_V_MAX       = 890.12;
 	
-	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.32f;
+	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.35f;
 	constexpr float LIFT_CHASSIS_FAST_VEL = 2.5f;
 
 
@@ -144,8 +144,8 @@ namespace chassis
 				Set_Back_Lift_Pos(down_pos - 10.f);
 				
 				if (
-					fabsf(Get_Front_Lift_Pos() - ZERO_POS + 10.f) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - down_pos + 10.f) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - (ZERO_POS - 10.f)) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - (down_pos - 10.f)) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_UP_FORWARD;
@@ -226,8 +226,8 @@ namespace chassis
 				Set_Back_Lift_Pos(ZERO_POS - 10.f);
 				
 				if (
-					fabsf(Get_Front_Lift_Pos() - down_pos + 10.f) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - ZERO_POS + 10.f) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - (down_pos - 10.f)) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - (ZERO_POS - 10.f)) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_DOWN_FORWARD;

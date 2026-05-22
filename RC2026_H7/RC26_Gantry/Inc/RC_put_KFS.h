@@ -17,8 +17,14 @@ namespace gantry
 	enum PutKFSGetState : uint8_t 
 	{
 		PUTKFS_GET_STRETCH = 0,
+		PUTKFS_GET_STRETCH_CHECK,
+		
 		PUTKFS_GET_TO_KFS,
+		PUTKFS_GET_TO_KFS_CHECK,
+		
 		PUTKFS_GET_WITHDRAW_SUCK,
+		PUTKFS_GET_WITHDRAW_SUCK_CHECK,
+		
 		PUTKFS_GET_KFS_OUT,
 	};
 	
@@ -35,10 +41,20 @@ namespace gantry
 	enum PutKFSPutState : uint8_t 
 	{
 		PUTKFS_PUT_CLOSE_TO = 0,
+		PUTKFS_PUT_CLOSE_TO_CHECK,
+		
 		PUTKFS_PUT_IN,
+		PUTKFS_PUT_IN_CHECK,
+		
 		PUTKFS_PUT_DOWN,
+		PUTKFS_PUT_DOWN_CHECK,
+		
 		PUTKFS_PUT_RELESE,
-		PUTKFS_PUT_OUT,
+		PUTKFS_PUT_RELESE_CHECK,
+		
+//		PUTKFS_PUT_OUT,
+//		PUTKFS_PUT_OUT_CHECK,
+		
 	};
 	
 
@@ -47,8 +63,7 @@ namespace gantry
     public:
 		PutKFS(Gantry& gan_, Suction& suck_);
 		~PutKFS() = default;
-		
-		void Put_KFS(PutKFSHeight h_, bool trig_);
+	
 		void Auto_Put_KFS();
     private:
 		
@@ -67,12 +82,11 @@ namespace gantry
 		float put_z;
 		GantryUser user;
 	
+
+		bool ready_trig;
 	
-		PutKFSHeight h;
-		bool put_trig;
 	
-	
-		path::Event3 put_event[2];
+		path::Event3 put_event[3];
     };
 }
 #endif

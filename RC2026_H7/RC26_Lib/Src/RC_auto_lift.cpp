@@ -9,7 +9,7 @@ namespace chassis
 		path::Event3(2, 0.07f, false, false),      // EVENT_HEAD_CHECK_B
 		path::Event3(3, 0.07f, false, false),      // EVENT_HEAD_CHECK_L
 		path::Event3(4, 0.07f, false, false),      // EVENT_HEAD_CHECK_R
-	}, lift_event{            
+	}, lift_event{      
 		path::Event3(5 , 0.1f, false, false),		// EVENT_UP_2_READY_L
 		path::Event3(6 , 0.3f, false, false),     // EVENT_UP_4_READY_L
 		path::Event3(7 , 0.1f, false, false),     // EVENT_UP_2_READY_R

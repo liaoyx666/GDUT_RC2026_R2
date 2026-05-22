@@ -100,7 +100,7 @@ namespace path
 		uint8_t Line_FreeSpace() const {return PATH3_MAX_LINE_NUM - line_num;}
 		uint8_t Arc_FreeSpace() const {return PATH3_MAX_ARC_NUM - arc_num;}
 		
-		const bool& Pre_Align() const {return pre_align;}
+		bool Pre_Align() const {return pre_align;}
     protected:
 		
     private:
@@ -111,18 +111,18 @@ namespace path
 	
 		bool Check_Near_Point(vector2d::Vector2D p_, uint8_t check_dx_, uint8_t* ndx_, vector2d::Vector2D* np, float* nt, float* nd) const;
 
-		curve::Line2D line[PATH3_MAX_LINE_NUM];
-		curve::Arc2D arc[PATH3_MAX_ARC_NUM];
-		curve::Curve2D* curve[PATH3_MAX_LINE_NUM + PATH3_MAX_ARC_NUM];
+		curve::Line2D line[PATH3_MAX_LINE_NUM]; /*直线*/
+		curve::Arc2D arc[PATH3_MAX_ARC_NUM]; /*圆弧*/
+		curve::Curve2D* curve[PATH3_MAX_LINE_NUM + PATH3_MAX_ARC_NUM]; /*曲线指针*/
 		
 		PathLonCon3 lon[PATHLONCON3_MAX_NUM]; /*路径速度、加速度分段约束*/
 		PathHeadCon3 head[PATHHEADCON3_MAX_NUM]; /*路径机器人yaw朝向分段约束*/
 		PathEvent3 event[PATHEVENT3_MAX_NUM]; /*路径触发事件组的位置*/
 		float len[PATH3_MAX_LINE_NUM + PATH3_MAX_ARC_NUM]; /*保存所有曲线终点的路程*/
 	
-		uint8_t lon_num;
-		uint8_t head_num;
-		uint8_t event_num;
+		uint8_t lon_num; /*纵向约束数量*/
+		uint8_t head_num; /*航向约束数量*/
+		uint8_t event_num; /*事件组数量*/
 	
 		mutable uint8_t lon_dx; /*保存上一次查找的索引，提升效率*/
 		mutable uint8_t head_dx; /*保存上一次查找的索引，提升效率*/
@@ -130,10 +130,10 @@ namespace path
 		mutable uint8_t len_dx; /*保存上一次查找的索引，提升效率*/
 		mutable uint8_t event_dx; /*保存上一次查找的索引*/
 		
-		uint8_t line_num;
-		uint8_t arc_num;
+		uint8_t line_num; /*直线数量*/
+		uint8_t arc_num; /*圆弧数量*/
 		
-		bool is_init;
+		bool is_init; /*是否初始化*/
 		Event3_t wait_event; /*终点处等待完成的事件*/
 		bool pre_align; /*是否出发前对齐航向*/
 	

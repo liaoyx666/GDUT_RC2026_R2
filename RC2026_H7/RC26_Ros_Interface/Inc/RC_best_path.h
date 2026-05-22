@@ -16,8 +16,6 @@ namespace ros
 		
 		constexpr bool Is_Init() {return is_init;}
 		
-		
-		
     private:
 		uint8_t path[BESTPATH_MAX_PATH_LEN];
 		uint8_t path_len;

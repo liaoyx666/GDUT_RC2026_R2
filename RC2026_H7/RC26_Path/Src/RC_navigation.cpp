@@ -29,7 +29,7 @@ namespace path
 		}
 	}
 	
-	constexpr float GET_KFS_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.04f;
+	constexpr float GET_KFS_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.03f;
 	
 	/* 
 		去夹取KFS 
@@ -73,6 +73,36 @@ namespace path
 		return Go_To_Do(chassis_pos, yaw, event | GET_PICK_KFS_EVENT);
 	}
 	
+	constexpr float PUT_KFS_DIS = 0.99;
+	
+	bool Navigation::Go_To_Put_KFS_2L(uint8_t col)
+	{
+		if (col < 1 || col > 3) return false;
+		
+		vector2d::Vector2D put_p;
+		float yaw;
+		
+		if (col == 1)
+			put_p.x() = MapGraph::SUDOKU_COL_1_X;
+		else if (col == 2)
+			put_p.x() = MapGraph::SUDOKU_COL_2_X;
+		else
+			put_p.x() = MapGraph::SUDOKU_COL_3_X;
+		
+		
+		if (data::Is_Blue_Left_Side())
+		{
+			put_p.y() = -(MapGraph::FIELD_WIDTH - PUT_KFS_DIS);
+			yaw = -HALF_PI;
+		}
+		else
+		{
+			put_p.y() = -PUT_KFS_DIS;
+			yaw = HALF_PI;
+		}
+			
+		return Go_To_Do(put_p, yaw, EVENT_PUT_KFS_2L_READY | EVENT_PUT_KFS_PUT);
+	}
 	
 	
 	void Navigation::Task_Process()

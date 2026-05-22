@@ -33,7 +33,7 @@ constexpr Event3_t EVENT3_ID_19 = (1 << 18);
 
 
 
-
+/*-----所有事件-----*/
 constexpr Event3_t EVENT_HEAD_CHECK_F = EVENT3_ID_1;
 constexpr Event3_t EVENT_HEAD_CHECK_B = EVENT3_ID_2;
 constexpr Event3_t EVENT_HEAD_CHECK_L = EVENT3_ID_3;
@@ -53,15 +53,17 @@ constexpr Event3_t GET_HIGH_40_KFS_READY_EVENT 	= EVENT3_ID_14;
 constexpr Event3_t GET_LOW_20_KFS_READY_EVENT 	= EVENT3_ID_15;
 constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_16;
 
-constexpr Event3_t EVENT_PUT_KFS_2L = EVENT3_ID_17;
-constexpr Event3_t EVENT_PUT_KFS_3L = EVENT3_ID_18;
+constexpr Event3_t EVENT_PUT_KFS_2L_READY = EVENT3_ID_17;
+constexpr Event3_t EVENT_PUT_KFS_3L_READY = EVENT3_ID_18;
+constexpr Event3_t EVENT_PUT_KFS_PUT = EVENT3_ID_18;
+/*-----所有事件-----*/
 	
 namespace path
 {
-	constexpr float EVENT3_TRIG_MAX_THRESHOLD = 0.4f; /*触发事件最大阈值 m*/
+	constexpr float EVENT3_TRIG_MAX_THRESHOLD = 1.0f; /*触发事件最大阈值 m*/
 	constexpr float EVENT3_TRIG_MIN_THRESHOLD = 0.02f; /*触发事件最小阈值 m*/
 	
-	constexpr float EVENT3_YAW_ALIGN_MIN_THRESHOLD = 2.f / 180.f * PI; /*2度*/
+	constexpr float EVENT3_YAW_ALIGN_MIN_THRESHOLD = 0.8f / 180.f * PI; /*2度*/
 	
 	constexpr uint8_t EVENT3_MAX_EVENT_NUM = sizeof(Event3_t) * 8;/*事件最大定义数*/
 	

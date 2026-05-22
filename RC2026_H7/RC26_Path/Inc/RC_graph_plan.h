@@ -45,7 +45,7 @@ namespace path
 		bool Plan(NavPoint start, Destination dst);
 		PathPlan3& plan;
     private:
-		bool Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end) const;
+		bool Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end);
 		
 		Event3_t Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir) const;
 	

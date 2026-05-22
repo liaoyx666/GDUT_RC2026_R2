@@ -32,11 +32,8 @@ motor::M3508D m3508d_can1_1_2(
 	3591.f / 187.f, motor::POL_REV, true
 );
 motor::M2006 m2006_can1_5(5, can2, &tim13_500hz);
-
 motor::DM4340 dm4310_can1_0x12(0x12, can2, &tim7_1khz);
 
-
-	
 // 抬升电机
 motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
 motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);	
@@ -45,8 +42,6 @@ motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);
 motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);
 motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
 
-	
-	
 /*====================数据池====================*/
 // 机器人位姿
 data::RobotPose robot_pose;
@@ -134,6 +129,7 @@ gantry::Suction suck(GPIOG, GPIO_PIN_7);
 // 取KFS
 gantry::GetKFS getKFS(gan, suck, lidar_1);
 
+// 放KFS
 gantry::PutKFS putKFS(gan, suck);
 
 
@@ -142,11 +138,6 @@ gantry::PutKFS putKFS(gan, suck);
 //SquareWave wave(1000, 3000);// 用于调pid
 float target = 0;
 float a = 0;
-
-float x = 0;
-float y = 0;
-float z = 0;
-float p = 0;
 
 float x_1 = 0;
 float y_1 = 0;
@@ -159,14 +150,13 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swd();
 //	wave.Init();
 
+	navigation.Go_To_Get_KFS(1, path::DIR_B);
 	
-
+	navigation.Go_To_Get_KFS(4, path::DIR_B);
 	
-	navigation.Go_To_Get_KFS(5, path::DIR_B);
+	navigation.Go_To_Put_KFS_2L(2);
 	
-	navigation.Go_To_Get_KFS(6, path::DIR_L);
-	
-	navigation.Go_To_Do(vector2d::Vector2D(10.42, -4.53), PI / 2.f, EVENT3_NULL);
+	navigation.Go_To_Put_KFS_2L(3);
 	
 	for (;;)
 	{
@@ -182,17 +172,11 @@ void Main_Task(void *argument)
 		gan.Gantry_Base();
 		
 		putKFS.Auto_Put_KFS();
-		
-//		gan.Set_X(x);
-//		gan.Set_Y(y);
-//		gan.Set_Z(z);
-//		gan.Set_P(p);
-	
+
 		x_1 = gan.Get_X();
 		y_1 = gan.Get_Y();
 		z_1 = gan.Get_Z();
 		p_1 = gan.Get_P();
-		
 		
 		if (remote_ctrl.swc == 0)
 		{
@@ -214,20 +198,6 @@ void Main_Task(void *argument)
 		{
 			path_plan.Disable();
 			
-			chassis::LiftAction la;
-			la = chassis::LIFT_UP;
-
-			chassis::LiftHeigth lh;
-			lh = chassis::LIFT_20;
-	
-			chassis::LiftDir ld;
-			ld = chassis::LIFT_L;
-
-			//lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
-			
-//			putKFS.Put_KFS(gantry::PUTKFS_2L, remote_ctrl.signal_swd());
-			
-			
 			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
@@ -239,29 +209,26 @@ task::TaskCreator main_task("Main_Task", 20, 512, Main_Task, NULL);
 
 
 
-
 void Path_Task(void *argument)
 {
-	
 	for (;;)
 	{
 		track.Traj_Track();
 		head_ctrl.Head_Ctrl();
 		auto_lift.Auto_Lift();
-		
+
 		osDelay(1);
 	}
 }
 
 task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
-
 /*===================初始化函数=================*/
 
 void Motor_Config()
 {
-	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 		150, 890.12); /* (rad / s^2), (rad / s) */
-	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 		150, 890.12);
+	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12); /* (rad / s^2), (rad / s) */
+	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12);
 	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
 	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
 	
@@ -269,7 +236,7 @@ void Motor_Config()
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 314.16);
 	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
-	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 			20, 5);
+	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
 	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
@@ -277,13 +244,10 @@ void Motor_Config()
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 }
 
-
-
 void All_Init()
 {
 	// 电机配置
 	Motor_Config();
-	
 	
 	// CAN初始化
 	can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
@@ -305,7 +269,6 @@ void All_Init()
 
 	// 时间戳初始化
 	timer::Timer::Timer_Start();
-	
 	
 	// 串口接收初始化
 	lidar_1.Uart_Rx_Start();
