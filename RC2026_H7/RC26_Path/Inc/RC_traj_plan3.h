@@ -78,7 +78,7 @@ namespace path
 		
 		TrajPlanState3 state;
 
-		vector2d::Vector2D dir;
+//		vector2d::Vector2D dir;
 	
 		float blend_dis;
 		

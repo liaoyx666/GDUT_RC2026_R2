@@ -49,7 +49,6 @@ namespace gantry
         chassis::Chassis& omni4chassis;
         GantryUser user;
 
-        pid::NonlinearPid chassis_npid_x;
         pid::NonlinearPid chassis_npid_y;
         path::HeadCtrl head_ctrl;
         Gripper& gripper; 
@@ -84,7 +83,7 @@ namespace gantry
 
 
         // 雷达偏移
-        static constexpr float RADAR_ERROR_X = 0.043f;
+        static constexpr float RADAR_ERROR_X = -0.02f;
         static constexpr float RADAR_ERROR_Y = 0.043f;
         static constexpr float RADAR_ERROR_YAW = -0.5f * PI / 180.f;
 
@@ -122,6 +121,9 @@ namespace gantry
         float target_y = 0.0f;
         float target_yaw = 0.0f;
 
+		float curr_x;
+		float curr_y;
+		
         uint32_t grab_start_time;
 
         path::Event3 weapon_event;

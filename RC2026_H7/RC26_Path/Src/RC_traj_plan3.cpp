@@ -29,7 +29,7 @@ namespace path
 		tmp_s_p = vector2d::Vector2D();
 		tmp_c = Point3();
 		
-		dir = vector2d::Vector2D();
+//		dir = vector2d::Vector2D();
 		
 		blend_dis = 0;
 	}
@@ -76,7 +76,7 @@ namespace path
 				
 				/*第一个点无约束*/
 				
-				dir = vector2d::Vector2D(); /*第一个点还没有方向向量*/
+//				dir = vector2d::Vector2D(); /*第一个点还没有方向向量*/
 				
 				state = TRAJPLAN_HAVE_START;
 				return TRAJPLAN_OK;
@@ -101,17 +101,17 @@ namespace path
 				
 				vector2d::Vector2D se = p.point - tmp_s_p; /*start -> end*/
 				
-				if (dir != vector2d::Vector2D()) /*dir不为0向量，说明已经生成dir*/
-				{
-					float cor_ag = vector2d::Vector2D::angleBetween(-dir, se); /*计算拐角角度*/
-					
-					if (path->curve[path->Curve_Num() - 1] != nullptr)
-					{
-						path->curve[path->Curve_Num() - 1]->Update_End_Vel(Calc_CornerVel(cor_ag)); /*计算上一曲线结束点的速度*/
-					}
-				}
+//				if (dir != vector2d::Vector2D()) /*dir不为0向量，说明已经生成dir*/
+//				{
+//					float cor_ag = vector2d::Vector2D::angleBetween(-dir, se); /*计算拐角角度*/
+//					
+//					if (path->curve[path->Curve_Num() - 1] != nullptr)
+//					{
+//						path->curve[path->Curve_Num() - 1]->Update_End_Vel(Calc_CornerVel(cor_ag)); /*计算上一曲线结束点的速度*/
+//					}
+//				}
 				
-				dir = se; /*更新方向向量*/
+//				dir = se; /*更新方向向量*/
 				
 				if (p.Is_End() || vector2d::Vector2D::isZero(p.blend_dis)) /*当前点为结束点 或 当前点不使用圆弧过渡*/
 				{
@@ -121,10 +121,10 @@ namespace path
 					
 					if (p.Is_End()) /*当前点是结束点*/
 					{
-						if (path->curve[path->Curve_Num() - 1] != nullptr)
-						{
-							path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
-						}
+//						if (path->curve[path->Curve_Num() - 1] != nullptr)
+//						{
+//							path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
+//						}
 						
 						Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 						
@@ -148,6 +148,8 @@ namespace path
 					blend_dis = p.blend_dis; /*希望的圆角距离*/
 					
 					tmp_c = p; /*希望平滑处理的拐点*/
+					
+//					dir = tmp_c.point - tmp_s_p; /*更新方向向量*/
 					
 					state = TRAJPLAN_HAVE_START_CORNER;
 					return TRAJPLAN_OK; /*添加成功*/
@@ -203,7 +205,7 @@ namespace path
 					
 					Add_Constr(tmp_c, path->Len()); /*取圆弧终点加入拐角点的约束*/
 
-					dir = p.point - tmp_c.point; /*更新方向向量*/
+//					dir = p.point - tmp_c.point; /*更新方向向量*/
 					
 					if (p.Is_End() || vector2d::Vector2D::isZero(p.blend_dis) || vector2d::Vector2D::isZero(blend_dis - ce_l))  
 					{
@@ -220,10 +222,10 @@ namespace path
 						
 						if (p.Is_End())
 						{
-							if (path->curve[path->Curve_Num() - 1] != nullptr)
-							{
-								path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
-							}
+//							if (path->curve[path->Curve_Num() - 1] != nullptr)
+//							{
+//								path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
+//							}
 							
 							Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 						
@@ -247,6 +249,8 @@ namespace path
 						
 						blend_dis = p.blend_dis;
 						
+//						dir = tmp_c.point - tmp_s_p; /*更新方向向量*/
+						
 						state = TRAJPLAN_HAVE_START_CORNER;
 						return TRAJPLAN_OK;
 					}
@@ -263,10 +267,10 @@ namespace path
 						/*当前点为结束点 或 当前点不使用圆弧过渡*/
 						path->Add_Line(tmp_c.point, p.point); /*!!!LINE++*/////////////
 						
-						if (path->curve[path->Curve_Num() - 1] != nullptr)
-						{
-							path->curve[path->Curve_Num() - 1]->Update_End_Vel(Calc_CornerVel(cor_ag)); /*计算上一曲线结束点的速度*/
-						}
+//						if (path->curve[path->Curve_Num() - 1] != nullptr)
+//						{
+//							path->curve[path->Curve_Num() - 1]->Update_End_Vel(Calc_CornerVel(cor_ag)); /*计算上一曲线结束点的速度*/
+//						}
 						
 						Add_Constr(p, path->Len()); /*加入约束*/
 						
@@ -274,10 +278,10 @@ namespace path
 			
 						if (p.Is_End())
 						{
-							if (path->curve[path->Curve_Num() - 1] != nullptr)
-							{
-								path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
-							}
+//							if (path->curve[path->Curve_Num() - 1] != nullptr)
+//							{
+//								path->curve[path->Curve_Num() - 1]->Update_End_Vel(0.f);/*设置曲线终点速度，路径终点为0*/
+//							}
 							
 							Add_MaxConstr(path->Len());  /*添加最大约束条件，防止整条路径无约束*/
 
@@ -294,7 +298,7 @@ namespace path
 					}
 					else /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 					{
-						dir = tmp_c.point - tmp_s_p; /*更新方向向量*/
+						//dir = tmp_c.point - tmp_s_p; /*更新方向向量*/
 						
 						tmp_s_p = tmp_c.point;
 						
@@ -302,6 +306,8 @@ namespace path
 						
 						blend_dis = p.blend_dis;
 						
+//						dir = tmp_c.point - tmp_s_p; /*更新方向向量*/
+
 						state = TRAJPLAN_HAVE_START_CORNER;
 						return TRAJPLAN_OK;
 					}
@@ -366,7 +372,10 @@ namespace path
 		float dis = 0; /*曲线长度*/
 
 		LonConstr3 c;
+		vector2d::Vector2D ce_dir;
 		
+		
+		// 终点速度设置为0
 		if (path->curve[path->Curve_Num() - 1] != nullptr)
 		{
 			path->curve[path->Curve_Num() - 1]->Update_End_Vel(0);
@@ -378,13 +387,25 @@ namespace path
 			{
 				if (i != path->Curve_Num() - 1) /*最后一条曲线的结束点速度为0*/
 				{
-					path->curve[i]->Update_End_Vel(fminf(c.v, path->curve[i + 1]->Vel_On_Len(0, c.a)));
+					vector2d::Vector2D cs_dir = -path->curve[i]->Get_End_Dir();
+					
+					path->curve[i]->Update_End_Vel(
+						fminf(
+							Calc_CornerVel(vector2d::Vector2D::angleBetween(cs_dir, ce_dir)), 
+							fminf(
+								c.v, 
+								path->curve[i + 1]->Vel_On_Len(0, c.a)
+							)
+						)
+					);
 				}
 
 				dis = path->curve[i]->Len(); /*这段曲线的长度*/
 				
 				path->Get_Constr_On_Len(l - dis / 2.f, &c, NULL); /*取曲线中点处的约束条件*/
-
+				
+				ce_dir = path->curve[i]->Get_Start_Dir();
+				
 				l -= dis;
 			}
 		}

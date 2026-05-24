@@ -373,7 +373,10 @@ namespace path
 			if (v != nullptr)
 			{
 				/*输出当前最小速度*/
-				*v = fminf(curve[ndx]->Vel_On_Len(l, c.a), c.v);				//<< 最小速度
+				*v = fminf(
+					curve[ndx]->Vel_On_Len(l, c.a), 							//<< 最小速度
+					c.v
+				);
 			}
 		}
 		/*----------------------------------------------------------------------*/

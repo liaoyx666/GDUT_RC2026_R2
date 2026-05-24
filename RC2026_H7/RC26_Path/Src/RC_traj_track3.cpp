@@ -9,8 +9,8 @@ namespace path
 	{
 		path = nullptr;
 
-		tan_pid.Init(1.8, 0, 3, 0.04, 2.5, deadzone_);
-		nor_pid.Init(1.8, 0, 3, 0.07, 2.5, 0);
+		tan_pid.Init(2.0, 0, 3, 0.03, 2.5, deadzone_);
+		nor_pid.Init(1.8, 0, 3, 0.03, 2.5, 0);
 		
 		ld_kf = 0.3f;
 		ld_min = 0.03f;
@@ -198,6 +198,11 @@ namespace path
 			/*--------------------------------nor-------------------------------------*/
 			float nor_v = nor_pid.NPid_Calculate(0, -d);
 			nor_v = fminf(nor_v, lon.v);
+			
+			if (tan_vel_zero)
+			{
+				nor_v = 0;
+			}
 			/*---------------------------------nor------------------------------------*/
 			
 			

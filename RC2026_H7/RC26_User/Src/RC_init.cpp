@@ -67,7 +67,7 @@ flysky::FlySky remote_ctrl(GPIO_PIN_8);
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 4, 4.5,
+	2.5, 4, 4.1,
 	5, 5, 6,
 	robot_pose
 );
@@ -97,7 +97,7 @@ path::TrajTrack3 track(
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.0, 2.1),
+	path::LonConstr3(2.0, 2.0),
 	path::HeadConstr3(0, 3, 4, false),
 	track
 );
@@ -165,15 +165,14 @@ void Main_Task(void *argument)
 	
 	get_weapon_head.Set_Pick_Num(4); /*夹第4个武器（靠内小）*/
 	
-	
 	/*--------------------------------*/
 	navigation.Go_To_Get_Weapon_Head();
 
 	navigation.Go_To_Dock();
 	
-	navigation.Go_To_Get_KFS(5, path::DIR_B);
-	
 	navigation.Go_To_Get_KFS(6, path::DIR_L);
+	
+	navigation.Go_To_Get_KFS(9, path::DIR_L);
 	
 	navigation.Go_To_Put_KFS_2L(2);
 	

@@ -244,7 +244,7 @@ namespace path
 		HeadConstr3 head = plan.plan.head_m;
 		
 		/*-------*/
-		if (/*s == 0*/ (last_nav.p - e_center).length() > 1.2f) /* 是否从启动区上 */ 
+		if (/*s == 0*/ (last_nav.p - e_center).length() > 2.f) /* 是否从启动区上 */ 
 		{
 			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET - 0.5f); /*航向检查点坐标*/
 			if (!Add_Point_Wait(p, UP_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
@@ -358,7 +358,7 @@ namespace path
 		{
 			if (!Add_Point_Wait(low, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
-			lon.v = 1.3;
+			lon.v = 1.6;
 			
 			HeadConstr3 head = plan.plan.head_m;
 			head.yaw = -HALF_PI;
@@ -368,7 +368,7 @@ namespace path
 		{
 			if (!Add_Point_Wait(high, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
-			lon.v = 1.3;
+			lon.v = 1.6;
 			
 			HeadConstr3 head = plan.plan.head_m;
 			head.yaw = -HALF_PI;
