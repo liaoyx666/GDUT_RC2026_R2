@@ -10,7 +10,7 @@ namespace path
 		
 	}
 	
-	bool GraphPlan::Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end) const
+	bool GraphPlan::Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end)
 	{
 		for (;;)
 		{
@@ -23,6 +23,13 @@ namespace path
 			}
 			else if (state == ADD_SUCCESS)
 			{
+				last_nav.p = p;
+				
+				if (h)
+				{
+					last_nav.yaw = h->yaw;
+				}
+				
 				return true;
 			}
 			else
@@ -103,7 +110,7 @@ namespace path
 		}
 	}
 	
-	Event3_t GraphPlan::Head_Check_Id(Direction dir) const
+	Event3_t GraphPlan::Head_Check_Id(Direction dir)
 	{
 		switch (dir)
 		{
@@ -214,14 +221,15 @@ namespace path
 	
 	
 	constexpr float UP_STAIR_HEAD_CHECK_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.18f;
-	constexpr float UP_STAIR_HEAD_CHECK_VEL = 0.5f;
 	constexpr float UP_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float UP_STAIR_SLOW_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float UP_STAIR_SLOW_VEL = 0.32f;
+	constexpr float UP_STAIR_SLOW_VEL = 0.36f;
 	constexpr float UP_STAIR_SLOW_ACC = 1.f;
 	
-	constexpr float UP_STAIR_FINISH_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// - 0.1f;
+	constexpr float UP_STAIR_FINISH_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;
+	
+	constexpr float UP_STAIR_HEAD_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.12f;
 	
 	bool GraphPlan::Up_Stair(uint8_t s, uint8_t e, int8_t h)
 	{
@@ -236,45 +244,84 @@ namespace path
 		LonConstr3 lon = plan.plan.lon_m;
 		HeadConstr3 head = plan.plan.head_m;
 		
-		/*-------*/
-		if (s == 1) /* 是否从启动区上 */ 
+		/* 距离上台阶后台阶中心距离 */
+		float dis = (last_nav.p - e_center).length();
+		if (dis > 2.f) /* 是否太远 */ 
 		{
-			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.5f); /*航向检查点坐标*/
-			if (!Add_Point_Wait(p, UP_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET - 0.5f); /*航向检查，触发点坐标*/
+		}
+		else if (dis < 0.65f) /* 是否太近 */ 
+		{
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.07f); /*航向检查，触发点坐标*/
 		}
 		else
 		{
-			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET); /*航向检查点坐标*/
-			if (!Add_Point_Wait(p, UP_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET); /*航向检查，触发点坐标*/
 		}
+		
+		/*-------*/
+		if (!Add_Point_Wait(
+			p, 
+			UP_STAIR_HEAD_CHECK_BLEND_DIS, 
+			NULL, 
+			NULL, 
+			ready_event | Head_Check_Id(dir), 
+			false
+		)) return false; /*航向检查，触发点*/
 		
 		/*-------*/
 		head.yaw = MapGraph::Yaw_On_Dir(dir);
 		p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_SLOW_OFFSET); /*减速点坐标*/
-		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*减速点*/
+		if (!Add_Point_Wait(
+			p, 
+			0, 
+			&lon, 
+			&head, 
+			EVENT3_NULL, 
+			false
+		)) return false; /*减速点*/
 		
 		/*-------*/
 		lon.v = UP_STAIR_SLOW_VEL;
 		lon.a = UP_STAIR_SLOW_ACC;
 		head.w = 0; /*禁止转向*/
 		p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_FINISH_OFFSET); /*完成点坐标*/
-		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*完成点*/
-		
-		last_nav.p = p;
-		last_nav.yaw = head.yaw;
+		if (!Add_Point_Wait(
+			p, 
+			0, 
+			&lon, 
+			&head, 
+			EVENT3_NULL, 
+			false
+		)) return false; /*完成点*/
+
+		/*-------*/
+		lon = plan.plan.lon_m;
+		head = plan.plan.head_m;
+		head.yaw = MapGraph::Yaw_On_Dir(dir);
+		p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_OFFSET); /*向前防止碰撞*/
+		if (!Add_Point_Wait(
+			p, 
+			0, 
+			&lon, 
+			&head, 
+			EVENT3_NULL, 
+			false
+		)) return false;
 		
 		return true;
 	}
 	
 	constexpr float DOWN_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.18f;
-	constexpr float DOWN_STAIR_HEAD_CHECK_VEL = 0.5f;
 	constexpr float DOWN_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
 	constexpr float DOWN_STAIR_SLOW_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.07f;
-	constexpr float DOWN_STAIR_SLOW_VEL = 0.32f;
+	constexpr float DOWN_STAIR_SLOW_VEL = 0.36f;
 	constexpr float DOWN_STAIR_SLOW_ACC = 1.f;
 	
-	constexpr float DOWN_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;// + 0.1f;
+	constexpr float DOWN_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;
+	
+	constexpr float DOWN_STAIR_HEAD_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.12f;
 	
 	bool GraphPlan::Down_Stair(uint8_t s, uint8_t e, int8_t h)
 	{
@@ -289,24 +336,66 @@ namespace path
 		LonConstr3 lon = plan.plan.lon_m;
 		HeadConstr3 head = plan.plan.head_m;
 		
+		/* 距离下台阶后台阶中心距离 */
+		float dis = (last_nav.p - MapGraph::Offset_On_Dir(s_center, move_dir, MapGraph::MF_SIZE)).length();
+		if (dis < 0.65f) /* 是否太近 */ 
+		{
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET + 0.07f); /*航向检查，触发点坐标*/
+		}
+		else
+		{
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET); /*航向检查，触发点坐标*/
+		}
+		
 		/*-------*/
-		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET); /*航向检查点坐标*/
-		if (!Add_Point_Wait(p, DOWN_STAIR_HEAD_CHECK_BLEND_DIS, NULL, NULL, ready_event | Head_Check_Id(dir), false)) return false; /*航向检查点*/
+		if (!Add_Point_Wait(
+			p, 
+			DOWN_STAIR_HEAD_CHECK_BLEND_DIS, 
+			NULL, 
+			NULL, 
+			ready_event | Head_Check_Id(dir), 
+			false
+		)) return false; /*航向检查点*/
 		
 		/*-------*/
 		head.yaw = MapGraph::Yaw_On_Dir(dir);
 		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_SLOW_OFFSET); /*减速点坐标*/
-		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*减速点*/
+		if (!Add_Point_Wait(
+			p, 
+			0, 
+			&lon, 
+			&head, 
+			EVENT3_NULL, 
+			false
+		)) return false; /*减速点*/
 		
 		/*-------*/
 		lon.v = DOWN_STAIR_SLOW_VEL;
 		lon.a = DOWN_STAIR_SLOW_ACC;
 		head.w = 0; /*禁止转向*/
 		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_FINISH_OFFSET); /*完成点坐标*/
-		if (!Add_Point_Wait(p, 0, &lon, &head, EVENT3_NULL, false)) return false; /*完成点*/
+		if (!Add_Point_Wait(
+			p, 
+			0, 
+			&lon, 
+			&head, 
+			EVENT3_NULL, 
+			false
+		)) return false; /*完成点*/
 		
-		last_nav.p = p;
-		last_nav.yaw = head.yaw;
+		/*-------*/
+		lon = plan.plan.lon_m;
+		head = plan.plan.head_m;
+		head.yaw = MapGraph::Yaw_On_Dir(dir);
+		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_OFFSET); /*向前防止碰撞*/
+		if (!Add_Point_Wait(
+			p, 
+			0, 
+			&lon, 
+			&head, 
+			EVENT3_NULL, 
+			false
+		)) return false;
 		
 		return true;
 	}
@@ -336,25 +425,29 @@ namespace path
 			high = MapGraph::Offset_On_Dir(high, DIR_L, 0.75f);
 		}
 		
+		LonConstr3 lon = plan.plan.lon_m;
+		
 		if (h == 1)
 		{
-			if (!Add_Point_Wait(low, 0.3f, NULL, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(low, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
+			
+			lon.v = 1.6;
 			
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = -PI / 2.f;
-			if (!Add_Point_Wait(high, 0.3f, NULL, &head, EVENT3_NULL, false)) return false;
+			head.yaw = -HALF_PI;
+			if (!Add_Point_Wait(high, 0.3f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		else
 		{
-			if (!Add_Point_Wait(high, 0.3f, NULL, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
+			
+			lon.v = 1.6;
 			
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = -PI / 2.f;
-			if (!Add_Point_Wait(low, 0.3f, NULL, &head, EVENT3_NULL, false)) return false;
+			head.yaw = -HALF_PI;
+			if (!Add_Point_Wait(low, 0.3f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		
 		return true;
 	}
-	
-
 }

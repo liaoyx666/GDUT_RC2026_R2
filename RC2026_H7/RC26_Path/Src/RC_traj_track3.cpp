@@ -9,8 +9,8 @@ namespace path
 	{
 		path = nullptr;
 
-		tan_pid.Init(1.8, 0, 3, 0.04, 2.5, deadzone_);
-		nor_pid.Init(1.8, 0, 3, 0.07, 2.5, 0);
+		tan_pid.Init(2.0, 0, 3, 0.03, 2.5, deadzone_);
+		nor_pid.Init(1.8, 0, 3, 0.03, 2.5, 0);
 		
 		ld_kf = 0.3f;
 		ld_min = 0.03f;
@@ -19,8 +19,6 @@ namespace path
 		
 		Reset();
 	}
-	
-	
 	
 	
 	void TrajTrack3::Reset()
@@ -39,6 +37,7 @@ namespace path
 		tan_vel_zero = false;
 	}
 
+	
 	bool TrajTrack3::Load_Path(Path3* path_)
 	{
 		if (path_ == nullptr) return false;
@@ -49,6 +48,7 @@ namespace path
 		path = path_;
 		return true;
 	}
+	
 	
 	bool TrajTrack3::Calc_Vel(vector2d::Vector2D& v_) const
 	{
@@ -133,13 +133,6 @@ namespace path
 			{
 				if (path->Pre_Align())
 				{
-//					float delta_yaw = pose.Yaw() - head.yaw;
-//					
-//					if (delta_yaw < -PI)
-//						delta_yaw += TWO_PI;
-//					else if (delta_yaw > PI)
-//						delta_yaw -= TWO_PI;
-//					
 					if (fabsf(head_ctrl.Get_Delta_Yaw()) <= TRAJTRACK3_PRE_ALIGN_THRESHOLD) /*yaw对齐后才能出发*/
 						is_start = true;
 					else
@@ -153,7 +146,7 @@ namespace path
 			
 			if (is_start)
 			{
-				path->Trig_Event_On_Len(l, head_ctrl.Get_Delta_Yaw()); /*触发事件*/
+				path->Trig_Event_On_Len(l, pose.Yaw()); /*触发事件*/
 			}
 			
 			if (!is_start) /*还没出发*/
@@ -205,6 +198,11 @@ namespace path
 			/*--------------------------------nor-------------------------------------*/
 			float nor_v = nor_pid.NPid_Calculate(0, -d);
 			nor_v = fminf(nor_v, lon.v);
+			
+			if (tan_vel_zero)
+			{
+				nor_v = 0;
+			}
 			/*---------------------------------nor------------------------------------*/
 			
 			

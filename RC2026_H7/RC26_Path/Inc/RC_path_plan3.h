@@ -43,7 +43,7 @@ namespace path
 			is_start = true;
 			return rt;
 		}
-	
+		
 		void Enable()
 		{
 			is_enable = true;

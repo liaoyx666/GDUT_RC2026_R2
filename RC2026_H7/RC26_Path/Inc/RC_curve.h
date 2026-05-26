@@ -16,6 +16,9 @@ namespace curve
 		virtual void Get_Tan_Nor_On_T(float t, vector2d::Vector2D* tan, vector2d::Vector2D* nor) const = 0;
 		virtual void Get_Near_Point_T_Dis(vector2d::Vector2D p, vector2d::Vector2D* near_p, float* near_t, float* near_d) const = 0;
 		virtual float Get_Len_On_T(float t) const = 0;
+	
+		virtual vector2d::Vector2D Get_Start_Dir() const = 0;
+		virtual vector2d::Vector2D Get_End_Dir() const = 0;
 		
 		/*曲线是否初始化*/
 		bool Is_Init() const {return is_init;}
@@ -49,6 +52,9 @@ namespace curve
 		void Get_Tan_Nor_On_T(float t, vector2d::Vector2D* tan_, vector2d::Vector2D* nor_) const override;
 		bool Get_Point_On_Len(float len_, vector2d::Vector2D* p) const override;
 		float Get_Len_On_T(float t) const override;
+	
+		vector2d::Vector2D Get_Start_Dir() const override {return dir;}
+		vector2d::Vector2D Get_End_Dir() const override {return dir;}
 
     private:
 		vector2d::Vector2D start;
@@ -73,7 +79,31 @@ namespace curve
 		void Get_Tan_Nor_On_T(float t, vector2d::Vector2D* tan_, vector2d::Vector2D* nor_) const override;
 		bool Get_Point_On_Len(float len_, vector2d::Vector2D* p) const override;
 		float Get_Len_On_T(float t) const override;
-
+		
+		vector2d::Vector2D Get_Start_Dir() const override
+		{
+			vector2d::Vector2D dir = vector2d::Vector2D(start_ag);
+			
+			if (delta_ag > 0)
+				dir = dir.perpendicular();
+			else
+				dir = -dir.perpendicular();
+			
+			return dir;
+		}
+		
+		vector2d::Vector2D Get_End_Dir() const override 
+		{
+			vector2d::Vector2D dir = vector2d::Vector2D(end_ag);
+			
+			if (delta_ag > 0)
+				dir = dir.perpendicular();
+			else
+				dir = -dir.perpendicular();
+			
+			return dir;
+		}
+		
     private:
 		float start_ag;
 		float end_ag;

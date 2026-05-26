@@ -1,10 +1,11 @@
 #pragma once
 
 #include "RC_serial.h"
+#include "RC_filter.h"
 
 #ifdef __cplusplus
 
-#define LiDAR_RX_BUFFER_SIZE 16
+#define LiDAR_RX_BUFFER_SIZE 32
 
 namespace lidar
 {
@@ -14,6 +15,7 @@ namespace lidar
 		LiDAR(UART_HandleTypeDef &huart_, uint8_t* buf_);
 		~LiDAR() = default;
 		uint16_t distance = 0;
+		float dis_filter = 0;
 	protected:
 	
 		uint16_t strength = 0;
@@ -23,8 +25,7 @@ namespace lidar
 	private:
 		void Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_) override;
 		uint8_t rx_buf[LiDAR_RX_BUFFER_SIZE] = {0};
-		//uint8_t raw_data[9] = {0};
-		//uint8_t last_address = 0;
+		filter::SecondOrderLPF filter;
     };
 }
 

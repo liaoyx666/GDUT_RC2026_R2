@@ -40,10 +40,10 @@ namespace path
 			float delta = target_yaw - pose.Yaw();
 			
 			if (delta > PI)
-				delta -= PI;
+				delta -= TWO_PI;
 			else if (delta < -PI)
-				delta += PI;
-				
+				delta += TWO_PI;
+			
 			return delta;
 		}
 		

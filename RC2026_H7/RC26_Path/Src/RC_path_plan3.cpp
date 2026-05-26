@@ -3,7 +3,7 @@
 namespace path
 {
 	PathPlan3::PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_)
-	: /*task::ManagedTask("PathPlan3Task", 26, 512, task::TASK_DELAY, 2),*/ plan(l, h), track(track_)
+	: plan(l, h), track(track_)
 	{
 		head = 0;
 		tail = 0;
@@ -13,7 +13,6 @@ namespace path
 		is_enable = false;
 		is_start = false;
 	}
-	
 	
 	
 	AddPointReturn PathPlan3::Add_One_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end)
@@ -46,16 +45,7 @@ namespace path
 		tail = (tail + 1) % PATHPLAN3_MAX_POINT_NUM;
 		return ADD_SUCCESS;
 	}
-	
-//	AddPointReturn PathPlan3::Add_Point(vector2d::Vector2D p, float blend_dis, const LonConstr3* l, const HeadConstr3* h, Event3_t e, bool end)
-//	{
-//		
-//	}
-	
-	
-	
-	
-	
+
 	
 	uint8_t PathPlan3::Point_FreeSpace() const
 	{

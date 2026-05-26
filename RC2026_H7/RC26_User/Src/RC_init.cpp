@@ -32,11 +32,9 @@ motor::M3508D m3508d_can1_1_2(
 	3591.f / 187.f, motor::POL_REV, true
 );
 motor::M2006 m2006_can1_5(5, can2, &tim13_500hz);
-
 motor::DM4340 dm4310_can1_0x12(0x12, can2, &tim7_1khz);
+motor::M2006 m2006_can1_7(7, can2, &tim13_500hz);
 
-
-	
 // 抬升电机
 motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
 motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);	
@@ -45,8 +43,6 @@ motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);
 motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);
 motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
 
-	
-	
 /*====================数据池====================*/
 // 机器人位姿
 data::RobotPose robot_pose;
@@ -62,6 +58,10 @@ ros::Radar radar(CDC_HS, 1, robot_pose);
 uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 lidar::LiDAR lidar_1(huart3, lidar_buffer);
 
+// 
+uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+HWT101CT hwt101ct(huart8, hwt101ct_buffer);
+
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
@@ -71,7 +71,7 @@ flysky::FlySky remote_ctrl(GPIO_PIN_8);
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 4, 4.5,
+	2.5, 4, 4.1,
 	5, 5, 6,
 	robot_pose
 );
@@ -101,8 +101,8 @@ path::TrajTrack3 track(
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.0, 2.1),
-	path::HeadConstr3(0, 3, 4, false),
+	path::LonConstr3(2.0, 1.8),
+	path::HeadConstr3(0, 4, 5, false),
 	track
 );
 
@@ -113,8 +113,10 @@ path::GraphPlan graph_plan(path_plan);
 path::Navigation navigation(graph_plan);
 
 // 抬升自动上下台阶
-chassis::AutoLift auto_lift(
-	lift,
+chassis::AutoLift auto_lift(lift);
+
+// 航向检查
+check::HeadCheck head_check(
 	track,
 	robot_pose
 );
@@ -134,25 +136,27 @@ gantry::Suction suck(GPIOG, GPIO_PIN_7);
 // 自动取KFS
 gantry::GetKFS getKFS(gan, suck, lidar_1);
 
-// 相机
-ros::Camera camera(CDC_HS, 6, robot_pose);
+// 放KFS
+gantry::PutKFS putKFS(gan, suck);
 
-// 相机对准
-pid::Pid aim_yaw_pid;
-pid::Pid aim_z_pid;
-pid::Pid aim_y_pid;
-aim::Aim_Ctrl aim_ctrl(camera, omni_4_chassis, gan, aim_yaw_pid, aim_z_pid, aim_y_pid);
+// 夹爪
+gantry::Gripper gripper_(m2006_can1_7);
 
-/*====================================DeBug====================================*/
+// 夹取武器头
+gantry::GetWeaponHead get_weapon_head(
+	omni_4_chassis,
+	robot_pose,
+	gan,
+	gripper_,
+	path_plan
+);
+
+gantry::Dock dock(gripper_);
+/*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
 float target = 0;
 float a = 0;
-
-float x = 0;
-float y = 0;
-float z = 0;
-float p = 0;
 
 float x_1 = 0;
 float y_1 = 0;
@@ -164,16 +168,26 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swa();
 	remote_ctrl.signal_swd();
 //	wave.Init();
+	
+	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
+	
+	/*--------------------------------*/
+	navigation.Go_To_Get_Weapon_Head();
 
-	gan.Set_Defualt_Td();
-	gan.Set_Reset_Pos();
-
+	navigation.Go_To_Dock();
 	
-	navigation.Go_To_Get_KFS(5, path::DIR_B);
+	navigation.Go_To_Get_KFS(3, path::DIR_B);
 	
-	navigation.Go_To_Get_KFS(6, path::DIR_L);
+	navigation.Go_To_Get_KFS(5, path::DIR_R);
 	
-	navigation.Go_To_Do(vector2d::Vector2D(10.42, -4.53), PI / 2.f, EVENT3_NULL);
+	navigation.Go_To_Get_KFS(11, path::DIR_B);
+	
+	navigation.Go_To_Put_KFS_2L(1);
+	
+	navigation.Go_To_Put_KFS_2L(2);
+	
+	navigation.Go_To_Put_KFS_2L(3);
+	/*--------------------------------*/
 	
 	for (;;)
 	{
@@ -188,21 +202,17 @@ void Main_Task(void *argument)
 
 		gan.Gantry_Base();
 		
-		if (remote_ctrl.swc != 2)
-		{
-			gan.Set_X(x);
-			gan.Set_Y(y);
-			gan.Set_Z(z);
-			gan.Set_P(p);
-		}
+		putKFS.Auto_Put_KFS();
+		
+		dock.Auto_Dock();
+		
+		get_weapon_head.Auto_Get_Weapon_Head();
 
 		x_1 = gan.Get_X();
 		y_1 = gan.Get_Y();
 		z_1 = gan.Get_Z();
 		p_1 = gan.Get_P();
-
-		camera.Send_QR_Req();
-
+		
 		if (remote_ctrl.swc == 0)
 		{
 			
@@ -222,42 +232,8 @@ void Main_Task(void *argument)
 		else
 		{
 			path_plan.Disable();
-
-			if (remote_ctrl.swc == 2)
-			{
-				aim_ctrl.Run();
-			}
-			else
-			{
-				aim_ctrl.Reset();
-
-				chassis::LiftAction la;
-
-//				if (remote_ctrl.swb == 0)
-//					la = chassis::LIFT_LOCK;
-//				else if (remote_ctrl.swb == 1)
-					la = chassis::LIFT_UP;
-//				else
-//					la = chassis::LIFT_DOWN;
-
-				chassis::LiftHeigth lh;
-
-				if (remote_ctrl.swa == 0)
-					lh = chassis::LIFT_20;
-				else
-					lh = chassis::LIFT_40;
-
-				chassis::LiftDir ld;
-
-//				if (remote_ctrl.swc == 0)
-					ld = chassis::LIFT_L;
-//				else
-//					ld = chassis::LIFT_R;
-
-				//lift.Lift(la, lh, ld, remote_ctrl.signal_swd());
-
-				omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
-			}
+			
+			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
 		osDelay(1);
@@ -266,40 +242,35 @@ void Main_Task(void *argument)
 
 task::TaskCreator main_task("Main_Task", 20, 512, Main_Task, NULL);
 
-
-
-
 void Path_Task(void *argument)
 {
-	
 	for (;;)
 	{
 		track.Traj_Track();
 		head_ctrl.Head_Ctrl();
 		auto_lift.Auto_Lift();
-		
+		head_check.Head_Check();
+
 		osDelay(1);
 	}
 }
 
 task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
-
 /*===================初始化函数=================*/
 
 void Motor_Config()
 {
-
-	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
-	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 8500);
+	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12); /* (rad / s^2), (rad / s) */
+	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12);
 	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
 	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
 	
-	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
-	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 2000);
-	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 0, 0.002, 0, 8000, 500, 500, 500, 500, 2000, 8000.f);
+	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
+	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 314.16);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
-	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 0, 0.001, 0, 27, 5, 5, 5, 5, 20, 7);
+	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
 	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
@@ -312,10 +283,11 @@ void Motor_Config()
 	aim_y_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
 }
 
-
-
 void All_Init()
 {
+	// 电机配置
+	Motor_Config();
+	
 	// CAN初始化
 	can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
 	can1.Can_Filter_Init(FDCAN_EXTENDED_ID, 2, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
@@ -337,13 +309,13 @@ void All_Init()
 	// 时间戳初始化
 	timer::Timer::Timer_Start();
 	
-	
 	// 串口接收初始化
 	lidar_1.Uart_Rx_Start();
+	
+	hwt101ct.Uart_Rx_Start();
 
 	// 场地位置初始化
 	data::Init_Side(true);
 	
-	// 电机配置
-	Motor_Config();
+	gan.Init();
 }

@@ -12,88 +12,6 @@ namespace motor
 		
 	}
 	
-	/**
-    * @brief 设置位置范围
-    * @note rad
-    * @param pos_max_:位置最大值
-	* @param pos_min_:位置最小值
-    */
-	void Motor::Set_Pos_limit(float pos_max_, float pos_min_)
-	{
-		if (pos_min_ > pos_max_) return;
-		if (pos_max_ > 6000) pos_max_ = 6000;
-		if (pos_min_ < -6000) pos_min_ = -6000;
-		pos_max = pos_max_;
-		pos_min = pos_min_;
-	}
-	
-	/**
-    * @brief 设置目标转速
-    * @note rpm
-    * @param target_rpm_:目标转速
-    */
-	void Motor::Set_Rpm(float target_rpm_)
-	{
-		target_rpm = target_rpm_;
-		
-		// 设置模式
-		motor_mode = RPM_MODE;
-	}
-	
-	/**
-    * @brief 设置目标位置
-    * @note rad
-    * @param target_pos_:目标位置
-    */
-	void Motor::Set_Pos(float target_pos_)
-	{
-		if (target_pos_ > pos_max) target_pos = pos_max;
-		else if (target_pos_ < pos_min) target_pos = pos_min;
-		else target_pos = target_pos_;
-		
-		// 设置模式
-		motor_mode = POS_MODE;	
-	}
-	
-	/**
-    * @brief 重置电机位置
-    * @note rad
-    * @param pos_:位置
-    */
-	void Motor::Reset_Pos(float pos_)
-	{
-		pos_offset = pos_ - pos;
-	}
-
-	/**
-    * @brief 设置输出轴转速
-    * @note rpm
-    * @param target_out_rpm_:期望输出轴转速
-    */
-	void Motor::Set_Out_Rpm(float target_out_rpm_)
-	{
-		Set_Rpm(target_out_rpm_ * gear_ratio);
-	}
-
-	/**
-    * @brief 设置输出轴位置
-    * @note rad
-    * @param target_out_rpm_:期望输出轴位置
-    */
-	void Motor::Set_Out_Pos(float target_out_pos_)
-	{
-		Set_Pos(target_out_pos_ * gear_ratio);
-	}
-	
-	/**
-    * @brief 重置输出轴位置
-    * @note rad
-    * @param out_pos_:输出轴位置
-    */
-	void Motor::Reset_Out_Pos(float out_pos_)
-	{
-		Reset_Pos(out_pos_ * gear_ratio);
-	}
 	
 	/*----------------------------------JointM------------------------------------------*/
 	JointM::JointM(float gear_ratio_, bool is_reset_pos_) : Motor(gear_ratio_, is_reset_pos_)
@@ -101,73 +19,6 @@ namespace motor
 		
 	}
 	
-	/**
-    * @brief 设置目标扭矩
-    * @note N * m
-    * @param target_torque_:目标扭矩
-    */
-	void JointM::Set_Torque(float target_torque_)
-	{
-		target_torque = target_torque_;
-		
-		// 设置模式
-		motor_mode = TORQUE_MODE;
-	}
-	
-	/**
-    * @brief 设置输出轴目标扭矩
-    * @note N * m
-    * @param target_out_torque_:输出轴目标扭矩
-    */
-	void JointM::Set_Out_Torque(float target_out_torque_)
-	{
-		Set_Torque(target_out_torque_ / gear_ratio);
-	}
-	
-	
-	void JointM::Set_Mit_Pos(float pos_)
-	{
-		if (pos_ > pos_max) target_pos = pos_max;
-		else if (pos_ < pos_min) target_pos = pos_min;
-		else target_pos = pos_;
-		
-		// 设置模式
-		motor_mode = LOCAL_MIT_MODE;
-	}
-	
-	void JointM::Set_Mit_Rpm(float rpm_)
-	{
-		target_rpm = rpm_;
-		
-		// 设置模式
-		motor_mode = LOCAL_MIT_MODE;
-	}
-	
-	void JointM::Set_Mit_Tor(float tor_)
-	{
-		ff_torque = tor_;
-		
-		// 设置模式
-		motor_mode = LOCAL_MIT_MODE;
-	}
-	
-	void JointM::Set_Out_Mit_Pos(float out_pos_)
-	{
-		Set_Mit_Pos(out_pos_ * gear_ratio);
-	}
-	
-	void JointM::Set_Out_Mit_Rpm(float out_rpm_)
-	{
-		Set_Mit_Rpm(out_rpm_ * gear_ratio);
-	}
-	
-	void JointM::Set_Out_Mit_Tor(float out_tor_)
-	{
-		Set_Mit_Tor(out_tor_ / gear_ratio);
-	}
-
-
-
 	/*----------------------------------工具函数------------------------------------------*/
 	int float_to_uint(float x_float, float x_min, float x_max, int bits)
 	{
@@ -184,34 +35,5 @@ namespace motor
 		float span = x_max - x_min;
 		float offset = x_min;
 		return ((float)x_int) * span / ((float)((1 << bits) - 1)) + offset;
-	}
-
-	// 预计算转换系数，避免重复计算
-	#ifndef RPM_TO_RADPS_RATIO
-	#define RPM_TO_RADPS_RATIO 	((2.0f * PI) / 60.0f)
-	#endif
-
-	#ifndef RADPS_TO_RPM_RATIO
-	#define RADPS_TO_RPM_RATIO 	(60.0f / (2.0f * PI))
-	#endif
-
-	/**
-	 * @brief 将转速从RPM(转/分钟)转换为rad/s(弧度/秒)
-	 * @param rpm 转速，单位：转/分钟
-	 * @return 角速度，单位：弧度/秒
-	 */
-	float rpm_to_radps(float rpm)
-	{
-		return rpm * RPM_TO_RADPS_RATIO;
-	}
-
-	/**
-	 * @brief 将角速度从rad/s(弧度/秒)转换为RPM(转/分钟)
-	 * @param radps 角速度，单位：弧度/秒
-	 * @return 转速，单位：转/分钟
-	 */
-	float radps_to_rpm(float radps)
-	{
-		return radps * RADPS_TO_RPM_RATIO;
 	}
 }

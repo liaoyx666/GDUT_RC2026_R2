@@ -31,17 +31,30 @@ namespace gantry
 	
 		~Gantry() = default;
 		
+		// 获取位置
+		constexpr float Get_X() { return  motor_x.Get_Out_Pos() * GANTRY_X_RAD_TO_M; }
+		constexpr float Get_Y() { return  motor_y.Get_Out_Pos() * GANTRY_Y_RAD_TO_M - GANTRY_Y_OFFSET; }
+		constexpr float Get_Z() { return  motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M; }
+		constexpr float Get_P() { return -motor_p.Get_Out_Pos(); }
+	
+	
+		constexpr void Init()
+		{
+			Set_Defualt_Td();
+			Set_Reset_Pos();
+		}
+		
+		void Gantry_Base();
+		
+    private:
+		
 		// 设置位置
 		void Set_X(float m_);
 		void Set_Y(float m_);
 		void Set_Z(float m_);
 		void Set_P(float rad_);
 		
-		// 获取位置
-		constexpr float Get_X() { return  motor_x.Get_Out_Pos() * GANTRY_X_RAD_TO_M; }
-		constexpr float Get_Y() { return  motor_y.Get_Out_Pos() * GANTRY_Y_RAD_TO_M - GANTRY_Y_OFFSET; }
-		constexpr float Get_Z() { return  motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M; }
-		constexpr float Get_P() { return -motor_p.Get_Out_Pos(); }
+		
 
 		// 设置加速度，速度
 		constexpr void Set_X_Td(float a, float v) { motor_x.pid_pos.Set_Td(a, v); }
@@ -52,24 +65,22 @@ namespace gantry
 		// 设置默认加速度，速度
 		constexpr void Set_Defualt_Td()
 		{
-			Set_X_Td(2000.f, 8000.f);
-			Set_Y_Td(2000.f, 8000.f);
-			Set_Z_Td(1000.f, 2000.f);
-			Set_P_Td(20.f  , 7.f   );
+			Set_X_Td(2000.f, 837.76f);
+			Set_Y_Td(2000.f, 837.76f);
+			Set_Z_Td(1000.f, 314.16 );
+			Set_P_Td(20.f  , 5      );
 		}
 		
 		// 回到默认位置
 		constexpr void Set_Reset_Pos()
 		{
-			Set_X(0.03);
+			Set_X(0.04);
 			Set_Y(0);
 			Set_Z(0);
 			Set_P(0);
 		}
 		
-		void Gantry_Base();
 		
-    private:
 		SemaphoreHandle_t mutex;
 		uint8_t user_id; /*0代表空闲*/
 		
@@ -155,6 +166,14 @@ namespace gantry
 			if (gan.user_id == id)
 				gan.Set_P_Td(a, v); 
 		}
+		
+		
+		constexpr float Get_X() { return gan.Get_X(); }
+		constexpr float Get_Y() { return gan.Get_Y(); }
+		constexpr float Get_Z() { return gan.Get_Z(); }
+		constexpr float Get_P() { return gan.Get_P(); }
+		
+		
 		
 		bool Take_Control();
 		void Give_Control();

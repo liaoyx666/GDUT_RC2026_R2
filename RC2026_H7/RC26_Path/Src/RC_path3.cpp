@@ -373,7 +373,10 @@ namespace path
 			if (v != nullptr)
 			{
 				/*输出当前最小速度*/
-				*v = fminf(curve[ndx]->Vel_On_Len(l, c.a), c.v);				//<< 最小速度
+				*v = fminf(
+					curve[ndx]->Vel_On_Len(l, c.a), 							//<< 最小速度
+					c.v
+				);
 			}
 		}
 		/*----------------------------------------------------------------------*/
@@ -508,22 +511,26 @@ namespace path
 	
 	void Path3::Get_Constr_On_Len(float l_, LonConstr3* lon_, HeadConstr3* head_) const
 	{
+		//使用左开右闭区间 (left, right]
 		if (!is_init) return;
 		
+		if (lon_dx >= lon_num) lon_dx = 0;
+		if (head_dx >= head_num) head_dx = 0;
+		/*--------------------------------------------------------------------*/
 		if (lon_ != nullptr && lon_num != 0 && lon_num <= PATHLONCON3_MAX_NUM)
 		{
-			float left = (lon_dx == 0 ? 0.f : lon[lon_dx - 1].len);
+			float left = (lon_dx == 0 ? 0 : lon[lon_dx - 1].len);
 			float right = lon[lon_dx].len;
 			
-			if (l_ < left)
+			if (l_ <= left)
 			{
 				/*向左查找，都不满足条件就第一个*/
 				while (lon_dx > 0)
 				{
 					lon_dx--;
 					
-					float left = (lon_dx == 0 ? 0.f : lon[lon_dx - 1].len);
-					float right = lon[lon_dx].len;
+					left = (lon_dx == 0 ? 0 : lon[lon_dx - 1].len);
+					right = lon[lon_dx].len;
 					
 					if (l_ > left && l_ <= right) break;
 				}
@@ -535,8 +542,8 @@ namespace path
 				{
 					lon_dx++;
 					
-					float left = (lon_dx == 0 ? 0.f : lon[lon_dx - 1].len);
-					float right = lon[lon_dx].len;
+					left = (lon_dx == 0 ? 0 : lon[lon_dx - 1].len);
+					right = lon[lon_dx].len;
 					
 					if (l_ > left && l_ <= right) break;
 				}
@@ -544,23 +551,21 @@ namespace path
 			
 			*lon_ = lon[lon_dx].c;
 		}
-		
-		
-		
+		/*--------------------------------------------------------------------*/
 		if (head_ != nullptr && head_num != 0 && head_num <= PATHHEADCON3_MAX_NUM)
 		{
-			float left = (head_dx == 0 ? 0.f : head[head_dx - 1].len);
+			float left = (head_dx == 0 ? 0 : head[head_dx - 1].len);
 			float right = head[head_dx].len;
 			
-			if (l_ < left)
+			if (l_ <= left)
 			{
 				/*向左查找，都不满足条件就第一个*/
 				while (head_dx > 0)
 				{
 					head_dx--;
 					
-					float left = (head_dx == 0 ? 0.f : head[head_dx - 1].len);
-					float right = head[head_dx].len;
+					left = (head_dx == 0 ? 0 : head[head_dx - 1].len);
+					right = head[head_dx].len;
 					
 					if (l_ > left && l_ <= right) break;
 				}
@@ -572,8 +577,8 @@ namespace path
 				{
 					head_dx++;
 					
-					float left = (head_dx == 0 ? 0.f : head[head_dx - 1].len);
-					float right = head[head_dx].len;
+					left = (head_dx == 0 ? 0 : head[head_dx - 1].len);
+					right = head[head_dx].len;
 					
 					if (l_ > left && l_ <= right) break;
 				}
@@ -581,10 +586,11 @@ namespace path
 			
 			*head_ = head[head_dx].c;
 		}
+		/*--------------------------------------------------------------------*/
 	}
 	
 	/*触发事件*/
-	void Path3::Trig_Event_On_Len(float l_, float delta_yaw)
+	void Path3::Trig_Event_On_Len(float l_, float yaw_)
 	{
 		if (!is_init || event_num == 0) return;
 		
@@ -605,7 +611,32 @@ namespace path
 				
 				if (event[i].len - Event3::list[j]->trig_threshold < l_)
 				{
-					if (!Event3::list[j]->Yaw_Align() || fabsf(delta_yaw) < Event3::list[j]->Yaw_Align_Threshold())
+					bool trig = false;
+					
+					if (Event3::list[j]->Yaw_Align())
+					{
+						HeadConstr3 h;
+						Get_Constr_On_Len(event[i].len, NULL, &h);
+						float target_yaw = h.yaw;
+						
+						float delta_yaw = target_yaw - yaw_;
+						
+						if (delta_yaw > PI)
+							delta_yaw -= TWO_PI;
+						else if (delta_yaw < -PI)
+							delta_yaw += TWO_PI;
+						
+						if (fabsf(delta_yaw) < Event3::list[j]->Yaw_Align_Threshold())
+						{
+							trig = true;
+						}
+					}
+					else
+					{
+						trig = true;
+					}
+					
+					if (trig)
 					{
 						Event3::list[j]->Trig_Once(); /*触发一次*/
 						event[i].event &= ~(1 << j); /*防止重复触发*/

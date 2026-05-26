@@ -7,13 +7,7 @@
 #ifdef __cplusplus
 namespace path
 {
-	constexpr uint8_t NAVIGATION_MAX_DESTINATION = 8;
-	
-	constexpr Event3_t GET_HIGH_20_KFS_READY_EVENT = EVENT3_ID_13;
-	constexpr Event3_t GET_HIGH_40_KFS_READY_EVENT = EVENT3_ID_14;
-	constexpr Event3_t GET_LOW_20_KFS_READY_EVENT = EVENT3_ID_15;
-	constexpr Event3_t GET_PICK_KFS_EVENT = EVENT3_ID_16;
-	
+	constexpr uint8_t NAVIGATION_MAX_DESTINATION = 15;
 	
 	class Navigation : public task::ManagedTask
     {
@@ -22,8 +16,7 @@ namespace path
         ~Navigation() = default;
 	
 		bool Add_Dst(const NavPoint& nav_, DstType type_, Event3_t event_);
-		uint8_t Dst_FreeSpace() const { return (head - tail - 1 + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
-		uint8_t Dst_Num() const { return (tail - head + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
+		
 		
 		inline bool Go_To_Do(vector2d::Vector2D p, float yaw, Event3_t event)
 		{
@@ -34,9 +27,18 @@ namespace path
 		}
 		
 		
-		bool Go_To_Get_KFS(uint8_t kfs_pos, Direction get_dir);
+		
+		bool Go_To_Get_KFS(uint8_t kfs_node, Direction get_dir);
+		bool Go_To_Put_KFS_2L(uint8_t col); /*放二层， 1 ~ 3 列，靠近梅林大*/
+		bool Go_To_Get_Weapon_Head();
+		bool Go_To_Dock();
 		
     private:
+		uint8_t Dst_FreeSpace() const { return (head - tail - 1 + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
+		uint8_t Dst_Num() const { return (tail - head + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
+	
+	
+	
 		void Task_Process() override;
 		
 		void Delete_Dst();
@@ -44,11 +46,10 @@ namespace path
         Destination dst[NAVIGATION_MAX_DESTINATION];
 		uint8_t head;
 		uint8_t tail;
-	
-		//data::RobotPose& pose;
+		
 		GraphPlan& plan;
 		
-		NavPoint last_navp;
+		NavPoint last_navp; /*储存上次终点作为下次起点*/
 	
 		bool is_start;
     };
