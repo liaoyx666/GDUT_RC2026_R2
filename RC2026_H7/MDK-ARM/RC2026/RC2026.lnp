@@ -78,12 +78,9 @@
 "rc2026\rc_omni_chassis.o"
 "rc2026\rc_lift_chassis.o"
 "rc2026\rc_auto_lift.o"
-<<<<<<< HEAD
 "rc2026\rc_aim.o"
-=======
 "rc2026\rc_hwt101ct.o"
 "rc2026\rc_head_check.o"
->>>>>>> main
 "rc2026\rc_motor.o"
 "rc2026\rc_dm_motor.o"
 "rc2026\rc_dji_motor.o"
@@ -101,8 +98,8 @@
 "rc2026\rc_path3.o"
 "rc2026\rc_traj_plan3.o"
 "rc2026\rc_traj_track3.o"
-"rc2026\rc_head_ctrl.o"
 "rc2026\rc_path_plan3.o"
+"rc2026\rc_head_ctrl.o"
 "rc2026\rc_map_graph.o"
 "rc2026\rc_graph_plan.o"
 "rc2026\rc_navigation.o"
@@ -110,9 +107,9 @@
 "rc2026\rc_get_kfs.o"
 "rc2026\rc_suction.o"
 "rc2026\rc_put_kfs.o"
+"rc2026\rc_dock.o"
 "rc2026\rc_get_weapon_head.o"
 "rc2026\rc_gripper.o"
-"rc2026\rc_dock.o"
 "rc2026\rc_map.o"
 "rc2026\rc_radar.o"
 "rc2026\rc_best_path.o"

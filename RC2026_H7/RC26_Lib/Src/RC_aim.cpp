@@ -6,6 +6,7 @@ namespace aim
 	         gantry::Gantry& gantry_,
 	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_)
 		: camera(camera_), chassis(chassis_), gantry(gantry_),
+		  user(gantry_),
 		  yaw_pid(yaw_pid_), z_pid(z_pid_), y_pid(y_pid_),
 		  z_lpf(0.60f, 1000.0f), y_lpf(0.60f, 1000.0f)
 	{
@@ -30,6 +31,7 @@ namespace aim
 
 	void Aim_Ctrl::Reset()
 	{
+		user.Give_Control();
 		Tracker_Clear();
 		phase    = Phase_Check;
 		y_result = 0;
@@ -46,6 +48,8 @@ namespace aim
 		if (fabsf(camera.X()) < 1e-6f && fabsf(camera.Y()) < 1e-6f
 		 && fabsf(camera.Z()) < 1e-6f && fabsf(camera.Yaw()) < 1e-6f)
 			return;
+
+		if (!user.Take_Control()) return;
 
 		switch (phase)
 		{
@@ -76,8 +80,8 @@ namespace aim
 			final_error_z = z_lpf.filter(error_z + gantry.Get_Z());
 			final_error_y = y_lpf.filter(error_y + gantry.Get_Y());
 
-			gantry.Set_Z(final_error_z);
-			gantry.Set_Y(final_error_y);
+			user.Set_Z(final_error_z);
+			user.Set_Y(final_error_y);
 
 			if (Frame_Stable(Axis_Z, COARSE_FRAME_COUNT, 0.02) &&
 			    Frame_Stable(Axis_Y, COARSE_FRAME_COUNT, 0.02) &&
@@ -94,7 +98,7 @@ namespace aim
 		case Phase_Z:
 			error  = Get_Data(Axis_Z);
 			final_error_z = z_lpf.filter(error + gantry.Get_Z());
-			gantry.Set_Z(final_error_z);
+			user.Set_Z(final_error_z);
 
 			if (Frame_Stable(Axis_Z))
 			{
@@ -108,7 +112,7 @@ namespace aim
 		case Phase_Y:
 			error  = Get_Data(Axis_Y);
 			final_error_y = y_lpf.filter(gantry.Get_Y() + error);
-			gantry.Set_Y(final_error_y);
+			user.Set_Y(final_error_y);
 
 			if (Frame_Stable(Axis_Y))
 			{

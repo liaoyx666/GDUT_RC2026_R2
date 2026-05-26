@@ -20,10 +20,10 @@ namespace aim
 
 		float final_error_z =0;
 	  float final_error_y =0;
-	
+
 		Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_,
-	         gantry::Gantry& gantry_,
-	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_ );
+		         gantry::Gantry& gantry_,
+		         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_ );
 
 		enum Axis : uint8_t
 		{
@@ -80,6 +80,7 @@ namespace aim
 		ros::Camera&     camera;
 		chassis::Chassis& chassis;
 		gantry::Gantry&  gantry;
+		gantry::GantryUser user;
 		pid::Pid&        yaw_pid;
 		pid::Pid&        z_pid;
 		pid::Pid&        y_pid;
