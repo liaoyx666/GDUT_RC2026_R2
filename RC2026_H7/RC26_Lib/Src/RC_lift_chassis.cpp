@@ -31,11 +31,11 @@ namespace chassis
 	
 	constexpr float LIFT_POS_THRESHOLD    = 3.f;
 	
-	constexpr float LIFT_RESET_R          = 5000;
-	constexpr float LIFT_RESET_V_MAX      = 890.12;
+	constexpr float LIFT_RESET_R          = 4500;
+	constexpr float LIFT_RESET_V_MAX      = 680;
 	
-	constexpr float LIFT_LOAD_R           = 3000;
-	constexpr float LIFT_LOAD_V_MAX       = 890.12;
+	constexpr float LIFT_LOAD_R           = 2800;
+	constexpr float LIFT_LOAD_V_MAX       = 680;
 	
 	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.36f;
 	constexpr float LIFT_CHASSIS_FAST_VEL = 2.5f;

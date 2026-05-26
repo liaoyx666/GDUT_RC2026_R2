@@ -70,7 +70,9 @@ namespace path
 		
 		float yaw = MapGraph::Yaw_On_Dir(-get_dir);
 		
-		return Go_To_Do(chassis_pos, yaw, event | GET_PICK_KFS_EVENT);
+		
+		
+		return Go_To_Do(chassis_pos, yaw, event | GET_PICK_KFS_EVENT | GraphPlan::Head_Check_Id(-get_dir));
 	}
 	
 	constexpr float PUT_KFS_DIS = 0.99;

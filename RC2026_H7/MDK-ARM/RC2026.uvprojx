@@ -1097,6 +1097,26 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_auto_lift.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_HWT101CT.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_HWT101CT.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_HWT101CT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_HWT101CT.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_head_check.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_head_check.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_head_check.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_head_check.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

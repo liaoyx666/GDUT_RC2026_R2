@@ -146,7 +146,7 @@ namespace path
 			
 			if (is_start)
 			{
-				path->Trig_Event_On_Len(l, head_ctrl.Get_Delta_Yaw()); /*触发事件*/
+				path->Trig_Event_On_Len(l, pose.Yaw()); /*触发事件*/
 			}
 			
 			if (!is_start) /*还没出发*/

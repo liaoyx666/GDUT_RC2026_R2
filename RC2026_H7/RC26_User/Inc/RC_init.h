@@ -27,6 +27,8 @@
 #include "RC_omni_chassis.h"
 #include "RC_lift_chassis.h"
 #include "RC_auto_lift.h"
+#include "RC_head_check.h"
+#include "RC_HWT101CT.h"
 
 /* path */
 #include "RC_traj_plan3.h"

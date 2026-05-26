@@ -3,7 +3,7 @@
 namespace path
 {
 	PathPlan3::PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_)
-	: /*task::ManagedTask("PathPlan3Task", 26, 512, task::TASK_DELAY, 2),*/ plan(l, h), track(track_)
+	: plan(l, h), track(track_)
 	{
 		head = 0;
 		tail = 0;

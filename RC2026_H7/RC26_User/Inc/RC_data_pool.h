@@ -36,16 +36,16 @@ namespace data
 		void Update_Position(float * x_, float * y_, float * z_);
 		void Update_Orientation(float * yaw_, float * roll_, float * pitch_);
 		
-		float X() const {return x;}
-		float Y() const {return y;}
-		float Z() const {return z;}
+		constexpr float X() const {return x;}
+		constexpr float Y() const {return y;}
+		constexpr float Z() const {return z;}
 		
-		float Yaw() const {return yaw;}
-		float Roll() const {return roll;}
-		float Pitch() const {return pitch;}
+		constexpr float Yaw() const {return yaw;}
+		constexpr float Roll() const {return roll;}
+		constexpr float Pitch() const {return pitch;}
 		
-		bool Is_Position_Valid() const {return position_is_valid;}
-		bool Is_Orientation_Valid() const {return orientation_is_valid;}
+		constexpr bool Is_Position_Valid() const {return position_is_valid;}
+		constexpr bool Is_Orientation_Valid() const {return orientation_is_valid;}
 		
 		inline void Robot_Pose_Check()
 		{

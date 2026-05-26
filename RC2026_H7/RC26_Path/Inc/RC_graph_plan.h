@@ -43,13 +43,15 @@ namespace path
 		~GraphPlan() = default;
         
 		bool Plan(NavPoint start, Destination dst);
+		static Event3_t Head_Check_Id(Direction dir);
+	
 		PathPlan3& plan;
     private:
 		bool Add_Point_Wait(vector2d::Vector2D p, float blend_dis, LonConstr3* l, HeadConstr3* h, Event3_t e, bool end);
 		
 		Event3_t Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir) const;
 	
-		Event3_t Head_Check_Id(Direction dir) const;
+		
 	
 		Action Get_Action(uint8_t s, uint8_t e, int8_t *h) const;
 		bool Action_Plan(uint8_t s, uint8_t e);

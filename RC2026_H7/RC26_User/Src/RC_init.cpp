@@ -58,6 +58,10 @@ ros::Radar radar(CDC_HS, 1, robot_pose);
 uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 lidar::LiDAR lidar_1(huart3, lidar_buffer);
 
+// 
+uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+HWT101CT hwt101ct(huart8, hwt101ct_buffer);
+
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
@@ -97,8 +101,8 @@ path::TrajTrack3 track(
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.0, 2.0),
-	path::HeadConstr3(0, 3, 4, false),
+	path::LonConstr3(2.0, 1.8),
+	path::HeadConstr3(0, 4, 5, false),
 	track
 );
 
@@ -109,8 +113,10 @@ path::GraphPlan graph_plan(path_plan);
 path::Navigation navigation(graph_plan);
 
 // 抬升自动上下台阶
-chassis::AutoLift auto_lift(
-	lift,
+chassis::AutoLift auto_lift(lift);
+
+// 航向检查
+check::HeadCheck head_check(
 	track,
 	robot_pose
 );
@@ -163,16 +169,20 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swd();
 //	wave.Init();
 	
-	get_weapon_head.Set_Pick_Num(4); /*夹第4个武器（靠内小）*/
+	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
 	/*--------------------------------*/
 	navigation.Go_To_Get_Weapon_Head();
 
 	navigation.Go_To_Dock();
 	
-	navigation.Go_To_Get_KFS(6, path::DIR_L);
+	navigation.Go_To_Get_KFS(3, path::DIR_B);
 	
-	navigation.Go_To_Get_KFS(9, path::DIR_L);
+	navigation.Go_To_Get_KFS(5, path::DIR_R);
+	
+	navigation.Go_To_Get_KFS(11, path::DIR_B);
+	
+	navigation.Go_To_Put_KFS_2L(1);
 	
 	navigation.Go_To_Put_KFS_2L(2);
 	
@@ -232,8 +242,6 @@ void Main_Task(void *argument)
 
 task::TaskCreator main_task("Main_Task", 20, 512, Main_Task, NULL);
 
-
-
 void Path_Task(void *argument)
 {
 	for (;;)
@@ -241,6 +249,7 @@ void Path_Task(void *argument)
 		track.Traj_Track();
 		head_ctrl.Head_Ctrl();
 		auto_lift.Auto_Lift();
+		head_check.Head_Check();
 
 		osDelay(1);
 	}
@@ -297,6 +306,8 @@ void All_Init()
 	
 	// 串口接收初始化
 	lidar_1.Uart_Rx_Start();
+	
+	hwt101ct.Uart_Rx_Start();
 
 	// 场地位置初始化
 	data::Init_Side(true);

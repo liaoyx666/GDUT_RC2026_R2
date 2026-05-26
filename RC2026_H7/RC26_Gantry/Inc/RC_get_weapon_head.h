@@ -70,7 +70,7 @@ namespace gantry
 
 
         // 龙门架三轴位置
-        static constexpr float GET_Z = 0.307129f;  
+        static constexpr float GET_Z = 0.327129f;  
         static constexpr float LIFT_UP_Z = 0.05f;//取到武器头后上升距离
         // 武器头坐标
         static constexpr float TARGET_WEAPON_Y = -6.0f;

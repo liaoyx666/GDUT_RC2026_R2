@@ -78,6 +78,8 @@
 "rc2026\rc_omni_chassis.o"
 "rc2026\rc_lift_chassis.o"
 "rc2026\rc_auto_lift.o"
+"rc2026\rc_hwt101ct.o"
+"rc2026\rc_head_check.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dm_motor.o"
 "rc2026\rc_dji_motor.o"
