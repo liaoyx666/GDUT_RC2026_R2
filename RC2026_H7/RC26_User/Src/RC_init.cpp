@@ -131,6 +131,9 @@ gantry::Gantry gan(
 // 吸盘 
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
 
+// 自动取KFS
+gantry::GetKFS getKFS(gan, suck, lidar_1);
+
 // 相机
 ros::Camera camera(CDC_HS, 6, robot_pose);
 
@@ -185,7 +188,7 @@ void Main_Task(void *argument)
 
 		gan.Gantry_Base();
 		
-		if (0)  // TODO: 验证完改回 remote_ctrl.swc != 2
+		if (remote_ctrl.swc != 2)
 		{
 			gan.Set_X(x);
 			gan.Set_Y(y);
@@ -226,7 +229,7 @@ void Main_Task(void *argument)
 			}
 			else
 			{
-				aim_ctrl.Run();  // TODO: 验证完滑动窗口改回 Reset
+				aim_ctrl.Reset();
 
 				chassis::LiftAction la;
 
@@ -305,8 +308,8 @@ void Motor_Config()
 
 	// 相机对准PID（待调参）
 	aim_yaw_pid.Pid_Param_Init(0.2, 0, 0, 0, 0.001, 0, 0.08, 1, 0, 0, 0, 50, 1.5);
-	aim_z_pid  .Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 0.01, 0.5, 0, 0, 0, 50, 0.01);
-	aim_y_pid  .Pid_Param_Init(2, 0, 0, 0, 0.001, 0, 0.01, 0.5, 0, 0, 0, 50, 0.01);
+	aim_z_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
+	aim_y_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
 }
 
 

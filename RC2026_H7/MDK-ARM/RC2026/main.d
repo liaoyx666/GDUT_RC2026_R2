@@ -68,19 +68,11 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Middlewares\ST\STM32_USB_Device_Library\Core\Inc\usbd_ctlreq.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\semphr.h \
   ..\Middlewares\Third_Party\FreeRTOS\Source\include\queue.h \
-<<<<<<< HEAD
-  ..\RC26_Api\Inc\RC_timer.h ..\RC26_Api\Inc\RC_cordic.h \
-  ..\RC26_Motor\Inc\RC_m3508.h ..\RC26_Motor\Inc\RC_dji_motor.h \
-  ..\RC26_Motor\Inc\RC_motor.h ..\RC26_Lib\Inc\RC_pid.h \
-  D:\keil\Packs\ARM\CMSIS-DSP\1.15.0\Include\arm_math.h \
-  D:\keil\Packs\ARM\CMSIS-DSP\1.15.0\Include\arm_math_types.h \
-=======
   ..\RC26_Api\Inc\RC_timer.h ..\RC26_Motor\Inc\RC_m3508.h \
   ..\RC26_Motor\Inc\RC_dji_motor.h ..\RC26_Motor\Inc\RC_motor.h \
   ..\RC26_Lib\Inc\RC_pid.h \
-  D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math.h \
-  D:\Keil5\ARM\PACK\ARM\CMSIS-DSP\1.16.2\Include\arm_math_types.h \
->>>>>>> main
+  D:\keil\Packs\ARM\CMSIS-DSP\1.15.0\Include\arm_math.h \
+  D:\keil\Packs\ARM\CMSIS-DSP\1.15.0\Include\arm_math_types.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   D:\keil\ARM\ARMCLANG\include\float.h \
   D:\keil\ARM\ARMCLANG\include\limits.h \
@@ -115,18 +107,11 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Lib\Inc\RC_lift_chassis.h ..\RC26_Path\Inc\RC_traj_track3.h \
   ..\RC26_Lib\Inc\RC_nonlinear_pid.h ..\RC26_Path\Inc\RC_head_ctrl.h \
   ..\RC26_Lib\Inc\RC_auto_lift.h ..\RC26_Path\Inc\RC_event3.h \
-<<<<<<< HEAD
   ..\RC26_Lib\Inc\RC_aim.h ..\RC26_Ros_Interface\Inc\RC_camera.h \
   ..\RC26_Gantry\Inc\RC_gantry.h ..\RC26_Path\Inc\RC_traj_plan3.h \
   ..\RC26_Path\Inc\RC_path3.h ..\RC26_Path\Inc\RC_curve.h \
   ..\RC26_Path\Inc\RC_path_plan3.h ..\RC26_Path\Inc\RC_map_graph.h \
   ..\RC26_Path\Inc\RC_graph_plan.h ..\RC26_Path\Inc\RC_navigation.h \
-=======
-  ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Path\Inc\RC_path3.h \
-  ..\RC26_Path\Inc\RC_curve.h ..\RC26_Path\Inc\RC_path_plan3.h \
-  ..\RC26_Path\Inc\RC_map_graph.h ..\RC26_Path\Inc\RC_graph_plan.h \
-  ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Gantry\Inc\RC_gantry.h \
   ..\RC26_Gantry\Inc\RC_suction.h ..\RC26_Gantry\Inc\RC_get_KFS.h \
->>>>>>> main
   ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h

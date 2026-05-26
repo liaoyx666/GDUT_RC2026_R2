@@ -271,22 +271,11 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_lift_chassis.h \
   ..\RC26_Path\Inc\RC_traj_track3.h ..\RC26_Lib\Inc\RC_nonlinear_pid.h \
   ..\RC26_Path\Inc\RC_head_ctrl.h ..\RC26_Lib\Inc\RC_auto_lift.h \
-<<<<<<< HEAD
   ..\RC26_Path\Inc\RC_event3.h ..\RC26_Lib\Inc\RC_aim.h \
   ..\RC26_Ros_Interface\Inc\RC_camera.h ..\RC26_Gantry\Inc\RC_gantry.h \
   ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Path\Inc\RC_path3.h \
   ..\RC26_Path\Inc\RC_curve.h ..\RC26_Path\Inc\RC_path_plan3.h \
   ..\RC26_Path\Inc\RC_map_graph.h ..\RC26_Path\Inc\RC_graph_plan.h \
-  ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
-  ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\RC26_Path\Inc\RC_path2.h \
-  ..\RC26_Path\Inc\RC_bezier_curve.h ..\RC26_Ros_Interface\Inc\RC_map.h \
-  ..\Core\Inc\fdcan.h
-=======
-  ..\RC26_Path\Inc\RC_event3.h ..\RC26_Path\Inc\RC_traj_plan3.h \
-  ..\RC26_Path\Inc\RC_path3.h ..\RC26_Path\Inc\RC_curve.h \
-  ..\RC26_Path\Inc\RC_path_plan3.h ..\RC26_Path\Inc\RC_map_graph.h \
-  ..\RC26_Path\Inc\RC_graph_plan.h ..\RC26_Path\Inc\RC_navigation.h \
-  ..\RC26_Gantry\Inc\RC_gantry.h ..\RC26_Gantry\Inc\RC_suction.h \
+  ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Gantry\Inc\RC_suction.h \
   ..\RC26_Gantry\Inc\RC_get_KFS.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h ..\Core\Inc\fdcan.h
->>>>>>> main

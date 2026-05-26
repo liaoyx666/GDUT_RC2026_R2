@@ -4,6 +4,7 @@
 #include "RC_chassis.h"
 #include "RC_vector2d.h"
 #include "RC_gantry.h"
+#include "RC_filter.h"
 
 #ifdef __cplusplus
 namespace aim
@@ -12,11 +13,17 @@ namespace aim
 	{
 	public:
 		static constexpr uint16_t DEFAULT_FRAME = 60;
-		static constexpr float   DEFAULT_ERROR = 0.005f;
+		static constexpr float   DEFAULT_ERROR = 0.002f;
 
+		static constexpr float    COARSE_STABLE_THRESHOLD = 0.002f;
+		static constexpr uint16_t COARSE_FRAME_COUNT      = 20;
+
+		float final_error_z =0;
+	  float final_error_y =0;
+	
 		Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_,
 	         gantry::Gantry& gantry_,
-	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_);
+	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_ );
 
 		enum Axis : uint8_t
 		{
@@ -77,10 +84,14 @@ namespace aim
 		pid::Pid&        z_pid;
 		pid::Pid&        y_pid;
 
+		filter::SecondOrderLPF z_lpf;
+		filter::SecondOrderLPF y_lpf;
+
 		enum Phase : uint8_t
 		{
 			Phase_Check,
 			Phase_Yaw,
+			Phase_YZ_Coarse,
 			Phase_Z,
 			Phase_Y,
 			Phase_Done

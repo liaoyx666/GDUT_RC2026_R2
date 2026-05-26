@@ -6,7 +6,8 @@ namespace aim
 	         gantry::Gantry& gantry_,
 	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_)
 		: camera(camera_), chassis(chassis_), gantry(gantry_),
-		  yaw_pid(yaw_pid_), z_pid(z_pid_), y_pid(y_pid_)
+		  yaw_pid(yaw_pid_), z_pid(z_pid_), y_pid(y_pid_),
+		  z_lpf(0.60f, 1000.0f), y_lpf(0.60f, 1000.0f)
 	{
 
 	}
@@ -38,6 +39,8 @@ namespace aim
 	{
 		float error = 0;
 		float output = 0;
+		float final_error_z = 0;
+		float final_error_y = 0;
 
 		// 四轴全零 = 相机未识别到目标，数据不予采纳
 		if (fabsf(camera.X()) < 1e-6f && fabsf(camera.Y()) < 1e-6f
@@ -48,14 +51,9 @@ namespace aim
 		{
 		/*---- 阶段0：等待相机检测到目标，5帧判稳确认数据无异常 ----*/
 		case Phase_Check:
-#if 1  // TODO: 验证完滑窗改回 0
-			phase = Phase_Z; return;
-#else
 			if (camera.Event() == 0) return;                    // 相机未检测到目标，等待
-#endif
 
-			if (Frame_Stable(Axis_X, 5) && Frame_Stable(Axis_Y, 5)&& Frame_Stable(Axis_Z, 5))       // x/y/z/yaw 四轴均5帧稳定
-				
+			if (Frame_Stable(Axis_X, 5) && Frame_Stable(Axis_Y, 5) && Frame_Stable(Axis_Z, 5))
 			{
 				Tracker_Clear();
 				phase = Phase_Yaw;
@@ -65,37 +63,58 @@ namespace aim
 		/*---- 阶段1：yaw角补正，PID闭环控制底盘角速度 ----*/
 		case Phase_Yaw:
 
-				phase = Phase_Z;
+				phase = Phase_YZ_Coarse;
 
 			break;
+
+		/*---- Y-Z粗调：双轴同时大步逼近 ----*/
+		case Phase_YZ_Coarse:
+		{
+			float error_z = Get_Data(Axis_Z);
+			float error_y = Get_Data(Axis_Y);
+
+			final_error_z = z_lpf.filter(error_z + gantry.Get_Z());
+			final_error_y = y_lpf.filter(error_y + gantry.Get_Y());
+
+			gantry.Set_Z(final_error_z);
+			gantry.Set_Y(final_error_y);
+
+			if (Frame_Stable(Axis_Z, COARSE_FRAME_COUNT, 0.02) &&
+			    Frame_Stable(Axis_Y, COARSE_FRAME_COUNT, 0.02) &&
+			    fabsf(error_z) < 0.05 &&
+			    fabsf(error_y) < 0.05)
+			{
+				Tracker_Clear();
+				phase = Phase_Z;
+			}
+			break;
+		}
 
 		/*---- 阶段2：z补正，PID闭环控制Gantry Z轴 ----*/
 		case Phase_Z:
 			error  = Get_Data(Axis_Z);
-			if (error >  0.01f) error =  0.01f;
-				if (error < -0.01f) error = -0.01f;
-				gantry.Set_Z(gantry.Get_Z() + error);
+			final_error_z = z_lpf.filter(error + gantry.Get_Z());
+			gantry.Set_Z(final_error_z);
 
 			if (Frame_Stable(Axis_Z))
-			{ 
+			{
 				Tracker_Clear();
-				if(fabsf(error) < 0.002f)
-				phase = Phase_Y;
+				if (fabsf(error) < 0.002f)
+					phase = Phase_Y;
 			}
 			break;
 
 		/*---- 阶段3：y补正，PID闭环控制Gantry Y轴 ----*/
 		case Phase_Y:
 			error  = Get_Data(Axis_Y);
-			if (error >  0.01f) error =  0.01f;
-				if (error < -0.01f) error = -0.01f;
-				gantry.Set_Y(gantry.Get_Y() + error);
+			final_error_y = y_lpf.filter(gantry.Get_Y() + error);
+			gantry.Set_Y(final_error_y);
 
 			if (Frame_Stable(Axis_Y))
 			{
 				y_result = Get_Data(Axis_Y);
-				if(fabsf(error) < 0.002f)
-				phase = Phase_Done;
+				if (fabsf(error) < 0.002f)
+					phase = Phase_Done;
 			}
 			break;
 
