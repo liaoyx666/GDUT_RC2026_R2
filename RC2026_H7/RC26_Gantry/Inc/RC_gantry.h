@@ -98,6 +98,7 @@ namespace gantry
 		motor::JointM& motor_p;// pitch
 	
 		friend class GantryUser;
+			friend class aim::Aim_Ctrl;
     };
 	
 

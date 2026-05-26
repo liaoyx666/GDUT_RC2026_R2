@@ -152,6 +152,15 @@ gantry::GetWeaponHead get_weapon_head(
 );
 
 gantry::Dock dock(gripper_);
+
+// 相机
+ros::Camera camera(CDC_HS, 6, robot_pose);
+
+// 相机对准
+pid::Pid aim_yaw_pid;
+pid::Pid aim_z_pid;
+pid::Pid aim_y_pid;
+aim::Aim_Ctrl aim_ctrl(camera, omni_4_chassis, gan, aim_yaw_pid, aim_z_pid, aim_y_pid);
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
@@ -208,6 +217,8 @@ void Main_Task(void *argument)
 		
 		get_weapon_head.Auto_Get_Weapon_Head();
 
+		camera.Send_QR_Req();
+
 		x_1 = gan.Get_X();
 		y_1 = gan.Get_Y();
 		z_1 = gan.Get_Z();
@@ -232,8 +243,16 @@ void Main_Task(void *argument)
 		else
 		{
 			path_plan.Disable();
-			
-			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
+
+			if (remote_ctrl.swc == 2)
+			{
+				aim_ctrl.Run();
+			}
+			else
+			{
+				aim_ctrl.Reset();
+				omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
+			}
 		}
 		
 		osDelay(1);

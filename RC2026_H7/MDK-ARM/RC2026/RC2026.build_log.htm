@@ -21,33 +21,54 @@ Target DLL:      CMSIS_AGDI.dll V1.33.16.0
 Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-<<<<<<< HEAD
 C:\Users\LENOVO\Desktop\GDUT_RC2026_R2-main\GDUT_RC2026_R2\RC2026_H7\MDK-ARM\RC2026.uvprojx
-Project File Date:  05/17/2026
-=======
-D:\Users\liaoy\Desktop\RC2026_R2\RC2026\RC2026_H7\MDK-ARM\RC2026.uvprojx
-Project File Date:  05/25/2026
->>>>>>> main
+Project File Date:  05/26/2026
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.21', folder: 'D:\keil\ARM\ARMCLANG\Bin'
 Build target 'RC2026'
-<<<<<<< HEAD
-compiling RC_timer.cpp...
 compiling RC_suction.cpp...
 compiling RC_gpio_exti.cpp...
+compiling RC_timer.cpp...
 compiling RC_serial.cpp...
+../RC26_Lib/Src/RC_aim.cpp(79): error: 'Set_Z' is a private member of 'gantry::Gantry'
+   79 |                         gantry.Set_Z(final_error_z);
+      |                                ^
+../RC26_Gantry/Inc\RC_gantry.h(54): note: declared private here
+   54 |                 void Set_Z(float m_);
+      |                      ^
+../RC26_Lib/Src/RC_aim.cpp(80): error: 'Set_Y' is a private member of 'gantry::Gantry'
+   80 |                         gantry.Set_Y(final_error_y);
+      |                                ^
+../RC26_Gantry/Inc\RC_gantry.h(53): note: declared private here
+   53 |                 void Set_Y(float m_);
+      |                      ^
+../RC26_Lib/Src/RC_aim.cpp(97): error: 'Set_Z' is a private member of 'gantry::Gantry'
+   97 |                         gantry.Set_Z(final_error_z);
+      |                                ^
+../RC26_Gantry/Inc\RC_gantry.h(54): note: declared private here
+   54 |                 void Set_Z(float m_);
+      |                      ^
+../RC26_Lib/Src/RC_aim.cpp(111): error: 'Set_Y' is a private member of 'gantry::Gantry'
+  111 |                         gantry.Set_Y(final_error_y);
+      |                                ^
+../RC26_Gantry/Inc\RC_gantry.h(53): note: declared private here
+   53 |                 void Set_Y(float m_);
+      |                      ^
+4 errors generated.
 compiling RC_aim.cpp...
+../RC26_User/Src/RC_init.cpp(281): error: use of undeclared identifier 'aim_yaw_pid'
+  281 |         aim_yaw_pid.Pid_Param_Init(0.2, 0, 0, 0, 0.001, 0, 0.08, 1, 0, 0, 0, 50, 1.5);
+      |         ^
+../RC26_User/Src/RC_init.cpp(282): error: use of undeclared identifier 'aim_z_pid'
+  282 |         aim_z_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
+      |         ^
+../RC26_User/Src/RC_init.cpp(283): error: use of undeclared identifier 'aim_y_pid'
+  283 |         aim_y_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
+      |         ^
+3 errors generated.
 compiling RC_init.cpp...
-linking...
-Program Size: Code=102668 RO-data=4064 RW-data=288 ZI-data=46368  
-=======
-compiling RC_lift_chassis.cpp...
-linking...
-Program Size: Code=104892 RO-data=4720 RW-data=388 ZI-data=45660  
->>>>>>> main
-FromELF: creating hex file...
-"RC2026\RC2026.axf" - 0 Error(s), 0 Warning(s).
+"RC2026\RC2026.axf" - 7 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -79,7 +100,6 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE@5.6.0
       Include file:  CMSIS/Core/Include/tz_context.h
 
-<<<<<<< HEAD
    * Component: ARM::CMSIS:DSP&Source@1.15.0
       Include file:  Include/arm_const_structs.h
       Include file:  Include/arm_const_structs_f16.h
@@ -115,46 +135,8 @@ Package Vendor: Keil
       Source file:   Source/TransformFunctions/TransformFunctions.c
       Source file:   Source/QuaternionMathFunctions/QuaternionMathFunctions.c
       Source file:   Source/BasicMathFunctions/BasicMathFunctionsF16.c
-Build Time Elapsed:  00:00:12
-=======
-   * Component: ARM::CMSIS:DSP&Source@1.16.2
-      Source file:   Source/BasicMathFunctions/BasicMathFunctions.c
-      Source file:   Source/QuaternionMathFunctions/QuaternionMathFunctions.c
-      Source file:   Source/BayesFunctions/BayesFunctions.c
-      Include file:  Include/arm_common_tables.h
-      Source file:   Source/CommonTables/CommonTables.c
-      Source file:   Source/ComplexMathFunctions/ComplexMathFunctions.c
-      Source file:   Source/ControllerFunctions/ControllerFunctions.c
-      Source file:   Source/FastMathFunctions/FastMathFunctions.c
-      Source file:   Source/DistanceFunctions/DistanceFunctions.c
-      Include file:  Include/arm_math_f16.h
-      Include file:  Include/arm_const_structs.h
-      Include file:  Include/arm_math.h
-      Include file:  Include/arm_common_tables_f16.h
-      Include file:  Include/arm_const_structs_f16.h
-      Source file:   Source/StatisticsFunctions/StatisticsFunctionsF16.c
-      Source file:   Source/BayesFunctions/BayesFunctionsF16.c
-      Source file:   Source/DistanceFunctions/DistanceFunctionsF16.c
-      Source file:   Source/BasicMathFunctions/BasicMathFunctionsF16.c
-      Source file:   Source/MatrixFunctions/MatrixFunctionsF16.c
-      Source file:   Source/ComplexMathFunctions/ComplexMathFunctionsF16.c
-      Source file:   Source/SupportFunctions/SupportFunctionsF16.c
-      Source file:   Source/InterpolationFunctions/InterpolationFunctionsF16.c
-      Source file:   Source/SVMFunctions/SVMFunctionsF16.c
-      Source file:   Source/FastMathFunctions/FastMathFunctionsF16.c
-      Source file:   Source/WindowFunctions/WindowFunctions.c
-      Source file:   Source/TransformFunctions/TransformFunctions.c
-      Source file:   Source/TransformFunctions/TransformFunctionsF16.c
-      Source file:   Source/FilteringFunctions/FilteringFunctionsF16.c
-      Source file:   Source/FilteringFunctions/FilteringFunctions.c
-      Source file:   Source/StatisticsFunctions/StatisticsFunctions.c
-      Source file:   Source/SVMFunctions/SVMFunctions.c
-      Source file:   Source/InterpolationFunctions/InterpolationFunctions.c
-      Source file:   Source/SupportFunctions/SupportFunctions.c
-      Source file:   Source/CommonTables/CommonTablesF16.c
-      Source file:   Source/MatrixFunctions/MatrixFunctions.c
+Target not created.
 Build Time Elapsed:  00:00:06
->>>>>>> main
 </pre>
 </body>
 </html>
