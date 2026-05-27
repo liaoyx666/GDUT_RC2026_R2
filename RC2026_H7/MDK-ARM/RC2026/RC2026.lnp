@@ -81,7 +81,6 @@
 "rc2026\rc_aim.o"
 "rc2026\rc_hwt101ct.o"
 "rc2026\rc_head_check.o"
-"rc2026\rc_qeo.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dm_motor.o"
 "rc2026\rc_dji_motor.o"
@@ -114,11 +113,7 @@
 "rc2026\rc_map.o"
 "rc2026\rc_radar.o"
 "rc2026\rc_best_path.o"
-<<<<<<< HEAD
 "rc2026\rc_camera.o"
-=======
-"rc2026\rc_kfs_pose.o"
->>>>>>> main
 "rc2026\rc_init.o"
 "rc2026\rc_data_pool.o"
 "rc2026\rc_auto_ctrl.o"

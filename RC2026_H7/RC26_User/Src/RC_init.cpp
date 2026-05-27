@@ -52,8 +52,6 @@ data::RobotPose robot_pose;
 // 雷达数据接收
 ros::Radar radar(CDC_HS, 1, robot_pose);
 
-
-
 /*===================外置模块=================*/
 
 // 激光测�?
