@@ -7,8 +7,8 @@
 
 using Event3_t = uint32_t;
 
-constexpr Event3_t EVENT3_NULL  = 0;
 
+constexpr Event3_t EVENT3_NULL  = 0;
 constexpr Event3_t EVENT3_ID_1  = (1 << 0);
 constexpr Event3_t EVENT3_ID_2  = (1 << 1);
 constexpr Event3_t EVENT3_ID_3  = (1 << 2);
@@ -19,7 +19,6 @@ constexpr Event3_t EVENT3_ID_7  = (1 << 6);
 constexpr Event3_t EVENT3_ID_8  = (1 << 7);
 constexpr Event3_t EVENT3_ID_9  = (1 << 8);
 constexpr Event3_t EVENT3_ID_10 = (1 << 9);
-
 constexpr Event3_t EVENT3_ID_11 = (1 << 10);
 constexpr Event3_t EVENT3_ID_12 = (1 << 11);
 constexpr Event3_t EVENT3_ID_13 = (1 << 12);
@@ -30,20 +29,11 @@ constexpr Event3_t EVENT3_ID_17 = (1 << 16);
 constexpr Event3_t EVENT3_ID_18 = (1 << 17);
 constexpr Event3_t EVENT3_ID_19 = (1 << 18);
 constexpr Event3_t EVENT3_ID_20 = (1 << 19);
-
 constexpr Event3_t EVENT3_ID_21 = (1 << 20);
 constexpr Event3_t EVENT3_ID_22 = (1 << 21);
-constexpr Event3_t EVENT3_ID_23 = (1 << 22);
-constexpr Event3_t EVENT3_ID_24 = (1 << 23);
-constexpr Event3_t EVENT3_ID_25 = (1 << 24);
-constexpr Event3_t EVENT3_ID_26 = (1 << 25);
-constexpr Event3_t EVENT3_ID_27 = (1 << 26);
-constexpr Event3_t EVENT3_ID_28 = (1 << 27);
-constexpr Event3_t EVENT3_ID_29 = (1 << 28);
-constexpr Event3_t EVENT3_ID_30 = (1 << 29);
 
-constexpr Event3_t EVENT3_ID_31 = (1 << 30);
-constexpr Event3_t EVENT3_ID_32 = (1 << 31);
+
+
 
 /*-----所有事件-----*/
 constexpr Event3_t EVENT_HEAD_CHECK_F = EVENT3_ID_1;
@@ -67,14 +57,14 @@ constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_16;
 
 constexpr Event3_t EVENT_PUT_KFS_2L_READY = EVENT3_ID_17;
 constexpr Event3_t EVENT_PUT_KFS_3L_READY = EVENT3_ID_18;
-constexpr Event3_t EVENT_PUT_KFS_PUT = 		EVENT3_ID_19;
+constexpr Event3_t EVENT_PUT_KFS_PUT = EVENT3_ID_19;
 
 constexpr Event3_t EVENT_GET_WEAPON_HEAD = EVENT3_ID_20;
 
 constexpr Event3_t EVENT_DOCK = EVENT3_ID_21;
 constexpr Event3_t EVENT_AIM  = EVENT3_ID_22;
 /*-----所有事件-----*/
-
+	
 namespace path
 {
 	constexpr float EVENT3_TRIG_MAX_THRESHOLD = 1.0f; /*触发事件最大阈值 m*/
