@@ -2,12 +2,13 @@
 
 namespace aim
 {
-	Aim_Ctrl::Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_,
+	Aim_Ctrl::Aim_Ctrl(ros::Camera& camera_,
 	         gantry::Gantry& gantry_,
-	         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_)
-		: camera(camera_), chassis(chassis_), gantry(gantry_),
+	         pid::Pid& z_pid_, pid::Pid& y_pid_)
+		: camera(camera_), gantry(gantry_),
 		  user(gantry_),
-		  yaw_pid(yaw_pid_), z_pid(z_pid_), y_pid(y_pid_),
+		  z_pid(z_pid_), y_pid(y_pid_),
+		  aim_event(22, 0.1f, true, true),
 		  z_lpf(0.60f, 1000.0f), y_lpf(0.60f, 1000.0f)
 	{
 
@@ -33,7 +34,7 @@ namespace aim
 	{
 		user.Give_Control();
 		Tracker_Clear();
-		phase    = Phase_Check;
+		phase    = Phase_Idle;
 		y_result = 0;
 	}
 
@@ -43,6 +44,19 @@ namespace aim
 		float output = 0;
 		float final_error_z = 0;
 		float final_error_y = 0;
+
+		/*---- 空闲：等待事件触发 ----*/
+		if (phase == Phase_Idle)
+		{
+			if (aim_event.Is_Trig())
+			{
+				Tracker_Clear();
+				phase = Phase_Check;
+			}
+			return;
+		}
+
+		camera.Send_QR_Req();
 
 		// 四轴全零 = 相机未识别到目标，数据不予采纳
 		if (fabsf(camera.X()) < 1e-6f && fabsf(camera.Y()) < 1e-6f
@@ -124,7 +138,12 @@ namespace aim
 
 		/*---- 阶段5：对准完成 ----*/
 		case Phase_Done:
+			aim_event.Finish();
+			user.Give_Control();
+			phase = Phase_Idle;
+			break;
 		default:
+			phase = Phase_Idle;
 			break;
 		}
 	}

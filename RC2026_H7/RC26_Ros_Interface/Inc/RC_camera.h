@@ -24,10 +24,8 @@ namespace ros
 			return false;
 		}
 
-		void Send_ICP_Front();      // id=a → 正面，相机开启
-		void Send_ICP_Top();        // id=b → 顶面，相机开启
 		void Send_QR_Req();         // id=c → 二维码识别，相机开启
-		void Send_Cam_Close();      // id=d → 相机通道关闭
+		void Send_QR_Close();       // id=d → 相机通道关闭
 
 	protected:
 		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;

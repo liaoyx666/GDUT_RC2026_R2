@@ -5,6 +5,7 @@
 #include "RC_vector2d.h"
 #include "RC_gantry.h"
 #include "RC_filter.h"
+#include "RC_event3.h"
 
 #ifdef __cplusplus
 namespace aim
@@ -21,9 +22,9 @@ namespace aim
 		float final_error_z =0;
 	  float final_error_y =0;
 
-		Aim_Ctrl(ros::Camera& camera_, chassis::Chassis& chassis_,
+		Aim_Ctrl(ros::Camera& camera_,
 		         gantry::Gantry& gantry_,
-		         pid::Pid& yaw_pid_, pid::Pid& z_pid_, pid::Pid& y_pid_ );
+		         pid::Pid& z_pid_, pid::Pid& y_pid_ );
 
 		enum Axis : uint8_t
 		{
@@ -62,6 +63,7 @@ namespace aim
 
 		void Reset();
 		void Run();
+		bool Is_Done() const { return phase == Phase_Done; }
 		float Get_Y() const { return y_result; }
 
 	private:
@@ -78,18 +80,19 @@ namespace aim
 		} axis_tracker[4];
 
 		ros::Camera&     camera;
-		chassis::Chassis& chassis;
 		gantry::Gantry&  gantry;
 		gantry::GantryUser user;
-		pid::Pid&        yaw_pid;
 		pid::Pid&        z_pid;
 		pid::Pid&        y_pid;
+
+		path::Event3     aim_event;
 
 		filter::SecondOrderLPF z_lpf;
 		filter::SecondOrderLPF y_lpf;
 
 		enum Phase : uint8_t
 		{
+			Phase_Idle,
 			Phase_Check,
 			Phase_Yaw,
 			Phase_YZ_Coarse,
@@ -97,7 +100,7 @@ namespace aim
 			Phase_Y,
 			Phase_Done
 		};
-		Phase  phase    = Phase_Check;
+		Phase  phase    = Phase_Idle;
 		float  y_result = 0;
 	};
 }

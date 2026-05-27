@@ -20,27 +20,15 @@ namespace ros
 		}
 	}
 
-	void Camera::Send_ICP_Front()
-	{
-		uint8_t data = 1;
-		cdc->CDC_Send_Pkg(0x0A, &data, 1, 1000);   // id=a → 正面
-	}
-
-	void Camera::Send_ICP_Top()
-	{
-		uint8_t data = 1;
-		cdc->CDC_Send_Pkg(0x0B, &data, 1, 1000);   // id=b → 顶面
-	}
-
 	void Camera::Send_QR_Req()
 	{
 		uint8_t data = 1;
-		cdc->CDC_Send_Pkg(0x0C, &data, 1, 1000);   // id=c → 二维码识别
+		cdc->CDC_Send_Pkg(0x06, &data, 1, 1000);   // id=c → 二维码识别
 	}
 
-	void Camera::Send_Cam_Close()
+	void Camera::Send_QR_Close()
 	{
 		uint8_t data = 1;
-		cdc->CDC_Send_Pkg(0x0D, &data, 1, 1000);   // id=d → 相机关闭
+		cdc->CDC_Send_Pkg(0x07, &data, 1, 1000);   // id=d → 相机关闭
 	}
 }
