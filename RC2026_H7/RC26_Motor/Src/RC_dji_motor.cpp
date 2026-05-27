@@ -115,7 +115,7 @@ namespace motor
 		current 	= (float)(int16_t)(((uint16_t)rx_data[4] << 8) | (uint16_t)rx_data[5]);
 		temperature = (float)(int8_t)rx_data[6];
 		
-		angle 		= (float)encoder * (1.f / 8192.f) * TWO_PI;
+		angle 		= (float)encoder / 8192.f * TWO_PI;
 		
 		// 计算转子旋转圈数
 		if (can_rx_is_first != true)
@@ -173,7 +173,6 @@ namespace motor
 			is_reset_pos = false;
 		}
 	}
-
 	
 	float DjiMotor::Get_Out_Angle()
 	{

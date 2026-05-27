@@ -1117,24 +1117,6 @@
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_head_check.cpp</FilePath>
             </File>
-<<<<<<< HEAD
-=======
-            <File>
-              <FileName>RC_head_check.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_head_check.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_QEO.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_QEO.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_QEO.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_QEO.h</FilePath>
-            </File>
->>>>>>> main
           </Files>
         </Group>
         <Group>
@@ -1461,7 +1443,6 @@
               <FilePath>..\RC26_Ros_Interface\Inc\RC_best_path.h</FilePath>
             </File>
             <File>
-<<<<<<< HEAD
               <FileName>RC_camera.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Ros_Interface\Inc\RC_camera.h</FilePath>
@@ -1470,16 +1451,6 @@
               <FileName>RC_camera.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Ros_Interface\Src\RC_camera.cpp</FilePath>
-=======
-              <FileName>RC_KFS_pose.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Ros_Interface\Src\RC_KFS_pose.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_KFS_pose.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Ros_Interface\Inc\RC_KFS_pose.h</FilePath>
->>>>>>> main
             </File>
           </Files>
         </Group>
