@@ -1117,6 +1117,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_head_check.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_QEO.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_QEO.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_QEO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_QEO.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1456,6 +1466,16 @@
               <FileName>RC_best_path.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Ros_Interface\Inc\RC_best_path.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_KFS_pose.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_KFS_pose.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_KFS_pose.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_KFS_pose.h</FilePath>
             </File>
           </Files>
         </Group>
