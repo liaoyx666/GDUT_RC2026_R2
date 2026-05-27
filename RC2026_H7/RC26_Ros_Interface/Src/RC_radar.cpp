@@ -20,7 +20,6 @@ namespace ros
 			robot_pose->Update_Position(&x, &y, &z);
 				
 			robot_pose->Update_Orientation(&yaw, NULL, NULL);
-
 		}
 	}
 	
