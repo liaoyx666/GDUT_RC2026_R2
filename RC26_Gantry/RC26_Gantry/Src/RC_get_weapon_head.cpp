@@ -2,8 +2,8 @@
 // 夹爪反馈
 
 #include "RC_get_weapon_head.h"
-float test_z = 0.02;
-float test_interval = 0.22;
+float test_z = 0.05;
+float test_interval = 0.25;
 
 float test_vel = 2.5f;
 float Kp = 2.9f; 
@@ -192,21 +192,22 @@ void GetWeaponHead::Reset_Task() {
                 StopChassis();
                 if (timer::Timer::Get_DeltaTime(grab_start_time) >= 500000) {
                     state = State::ACTION_LIFT_Z;
-					weapon_event.Finish();
-					path_plan.Enable();
                 }
                 break;
 
             case State::ACTION_LIFT_Z:
                 user.Set_Z((GET_Z) + LIFT_UP_Z);
+				user.Set_P(0.0f);
                 if (fabsf(user.Get_Z() - (GET_Z + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE) {
                     state = State::ACTION_RETRACT_X;
+					weapon_event.Finish();
+					path_plan.Enable();
                 }
                 break;
 
             case State::ACTION_RETRACT_X:
                 user.Set_X(GANTRY_RETRACT_X);
-                user.Set_P(0.0f);
+                //user.Set_P(0.0f);
                 if (fabsf(user.Get_X() - GANTRY_RETRACT_X) < GANTRY_POS_TOLERANCE) {
                     state = State::ACTION_RETRACT_YZ;
                 }

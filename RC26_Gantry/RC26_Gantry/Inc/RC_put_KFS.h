@@ -51,10 +51,6 @@ namespace gantry
 		
 		PUTKFS_PUT_RELESE,
 		PUTKFS_PUT_RELESE_CHECK,
-		
-//		PUTKFS_PUT_OUT,
-//		PUTKFS_PUT_OUT_CHECK,
-		
 	};
 	
 

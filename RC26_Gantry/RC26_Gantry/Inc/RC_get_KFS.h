@@ -52,7 +52,8 @@ class GetKFS
 					IDLE,
 					OPEN_LOOP,
 					CLOSE_LOOP_LASER,
-					Y_LOCK
+					Y_LOCK,
+					CLOSE_LOOP_CAM,
 			};
 		
 			void Set_Task(ARM_TASK task_);
@@ -64,7 +65,7 @@ class GetKFS
 			void Cancel();
 			bool Is_Busy() const;
 			void Finish_Event_Early();
-			
+			void Update_Camera_Distance();
 			void Trigger_Task_By_Event();
 			bool Configure_Current_Step();
 			void Set_Step_Target(float x, float y, float z, float p, CtrlMode mode_);
@@ -114,6 +115,11 @@ class GetKFS
 			float laser_target_m;
 			bool laser_valid;
 			float laser_err_i ;
+
+		float cam_err_i;         // 摄像头 I 积分项
+		float cam_target_pixel;  // 视觉期望中心像素位置
+		float camera_distance_m; // 当前视觉检测到的像素位置
+		bool  camera_valid;
 
 		float laser_err_lpf ;
     };
