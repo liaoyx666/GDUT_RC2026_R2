@@ -51,16 +51,33 @@ namespace gantry
 					
 					ready_trig = false;
 					
-					if (data::KFS_Num() == 0) return;
-					else if (data::KFS_Num() == 1) get_z = PUTKFS_GET_KFS_LOW_Z;
-					else get_z = PUTKFS_GET_KFS_HIGH_Z;
+					if (data::KFS_Num() == 0)
+					{
+						return;
+					}
+					else if (data::KFS_Num() == 1)
+					{
+						get_z = PUTKFS_GET_KFS_LOW_Z;
+						get_state = PUTKFS_GET_STRETCH;
+						
+						phase = PUTKFS_GET_PHASE;
+					}
+					else if (data::KFS_Num() == 2)
+					{
+						get_z = PUTKFS_GET_KFS_HIGH_Z;
+						get_state = PUTKFS_GET_STRETCH;
+						
+						phase = PUTKFS_GET_PHASE;
+					}
+					else
+					{
+						get_state = PUTKFS_GET_KFS_OUT;
+						
+						phase = PUTKFS_PUT_PHASE;
+					}
 					
-					suck.Off();
-					
-					get_state = PUTKFS_GET_STRETCH;
 					put_state = PUTKFS_PUT_CLOSE_TO;
 					
-					phase = PUTKFS_GET_PHASE;
 				}
 				break;
 			}
@@ -114,6 +131,8 @@ namespace gantry
 		{
 			case PUTKFS_GET_STRETCH:
 			{
+				suck.Off();
+				
 				user.Set_X(PUTKFS_GET_KFS_STRETCH_X);
 				user.Set_Y(0);
 				user.Set_P(0);
@@ -125,7 +144,7 @@ namespace gantry
 			case PUTKFS_GET_STRETCH_CHECK:
 			{
 				if(
-					user.Get_X() > (PUTKFS_GET_KFS_STRETCH_X - PUTKFS_POS_THRESTHOLD_BIG)
+					user.Get_X() > (PUTKFS_GET_KFS_STRETCH_X - PUTKFS_POS_THRESTHOLD_SMALL)
 				)
 				{
 					get_state = PUTKFS_GET_TO_KFS;
@@ -170,7 +189,7 @@ namespace gantry
 			{
 				if (
 					fabsf(user.Get_X() - PUTKFS_GET_KFS_WITHDRAW_X) < PUTKFS_POS_THRESTHOLD_SMALL &&
-					timer::Timer::Get_DeltaTime(last_time) > 500000
+					timer::Timer::Get_DeltaTime(last_time) > 1000000
 				)
 				{
 					get_state = PUTKFS_GET_KFS_OUT;
@@ -207,7 +226,7 @@ namespace gantry
 	constexpr float PUTKFS_PUT_KFS_DOWN_DELTA_Z = 0.03;
 	constexpr float PUTKFS_PUT_KFS_OUT_X = 0.32;
 	
-	constexpr float PUTKFS_PUT_KFS_CLOSE_P = 2.3;
+	constexpr float PUTKFS_PUT_KFS_CLOSE_P = 2.1;
 	constexpr float PUTKFS_PUT_KFS_CLOSE_DELTA_Z = 0.3;
 	
 	bool PutKFS::Put_KFS_Phase()
@@ -227,8 +246,8 @@ namespace gantry
 			case PUTKFS_PUT_CLOSE_TO_CHECK:
 			{
 				if (
-					fabsf(user.Get_Z() - (put_z - PUTKFS_PUT_KFS_CLOSE_DELTA_Z))     < PUTKFS_POS_THRESTHOLD_BIG &&
-					fabsf(user.Get_P() - PUTKFS_PUT_KFS_CLOSE_P)                     < PUTKFS_ANG_THRESTHOLD_BIG
+					fabsf(user.Get_Z() - (put_z - PUTKFS_PUT_KFS_CLOSE_DELTA_Z))     < PUTKFS_POS_THRESTHOLD_SMALL &&
+					fabsf(user.Get_P() - PUTKFS_PUT_KFS_CLOSE_P)                     < PUTKFS_ANG_THRESTHOLD_SMALL
 				)
 				{
 					put_state = PUTKFS_PUT_IN;
@@ -240,6 +259,7 @@ namespace gantry
 			case PUTKFS_PUT_IN:
 			{
 				user.Set_Z_Td(500.f, 314.16);
+				user.Set_P_Td(3, 5);
 				
 				user.Set_X(PUTKFS_PUT_KFS_IN_X);
 				user.Set_Z(put_z);
@@ -298,30 +318,10 @@ namespace gantry
 				)
 				{
 					return true;
-					//put_state = PUTKFS_PUT_OUT;
 				}
 				break;
 			}
-			
-//			case PUTKFS_PUT_OUT:
-//			{
-//				user.Set_X(PUTKFS_PUT_KFS_OUT_X);
-//				
-//				put_state = PUTKFS_PUT_OUT_CHECK;
-//				break;
-//			}
-//			
-//			case PUTKFS_PUT_OUT_CHECK:
-//			{
-//				if (
-//					fabsf(user.Get_X() - PUTKFS_PUT_KFS_OUT_X) < PUTKFS_POS_THRESTHOLD_SMALL
-//				)
-//				{
-//					return true;
-//				}
-//				break;
-//			}
-				
+
 			default:
 			{
 				put_state = PUTKFS_PUT_CLOSE_TO;

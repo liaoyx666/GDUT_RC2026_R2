@@ -74,7 +74,7 @@ namespace gantry
 		// 回到默认位置
 		constexpr void Set_Reset_Pos()
 		{
-			Set_X(0.03);
+			Set_X(0.04);
 			Set_Y(0);
 			Set_Z(0);
 			Set_P(0);

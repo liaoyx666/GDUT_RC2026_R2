@@ -1,0 +1,142 @@
+#pragma once
+#include "RC_event3.h"
+#include "RC_task.h"
+#include "RC_data_pool.h"
+#include "RC_chassis.h"
+#include "RC_gantry.h"
+#include "RC_head_ctrl.h"
+#include "RC_nonlinear_pid.h"
+#include "RC_gripper.h"
+#include "RC_path_plan3.h"
+
+#ifdef __cplusplus
+namespace gantry
+{
+    class GetWeaponHead
+    {
+    public:
+        GetWeaponHead(
+        chassis::Chassis& omni4chassis_,
+        data::RobotPose& pose_,
+        Gantry& gantry_, 
+        Gripper& gripper_, 
+        path::PathPlan3& path_plan_
+    );        
+        ~GetWeaponHead() = default;
+
+        void Set_Pick_Num(int num) { pick_num = num; }
+        void Auto_Get_Weapon_Head();
+
+        bool Chassis3AxisPosControl(float target_x, float target_y, float target_yaw);   
+
+
+    private:
+        
+        enum class State : uint8_t {
+            IDLE,           // 待机：监听触发事件并检查 picked 标志
+            ALIGN_CHASSIS,  // 准备：底盘对齐目标角度
+            ACTION_GRAB_1,  // 执行：夹爪前伸
+            ACTION_GRAB_2,  // 执行：夹爪夹紧
+            ACTION_GRAB_2_1, // 执行：夹紧后等待，确保夹爪动作完成
+            ACTION_LIFT_Z,  // 夹紧后 Z 轴先向上抬升 15cm
+            ACTION_RETRACT_X,  // 夹紧后 X 轴单动收回，防止干涉
+            ACTION_RETRACT_YZ, // X 轴安全收回后，Y 轴和 Z 轴归零
+            CHECK_RESULT    // 反馈：检查结果，失败则迭代下一个
+        } state;
+
+        // path::Event3 trigger_event; 
+        data::RobotPose& pose;
+        chassis::Chassis& omni4chassis;
+        GantryUser user;
+
+        pid::NonlinearPid chassis_npid_y;
+        path::HeadCtrl head_ctrl;
+        Gripper& gripper; 
+
+        uint8_t current_target_idx; 
+        bool picked; 
+
+        // 起始点x、y、yaw(底盘起始方框左下角为零点)
+        static constexpr float START_Y = -4.2f; 
+        static constexpr float START_YAW = 0.0f;   
+        // （夹爪横移的距离）即夹爪y轴方向
+        static constexpr float HALF_CHASSIS_X = 0.10f;   
+        // （从底盘中心到夹爪的距离）即夹爪x轴方向
+        static constexpr float HALF_CHASSIS_Y = 0.41227f; 
+        // 武器头数量
+        static constexpr uint8_t WEAPON_NUM = 6; 
+
+
+
+
+        // 龙门架三轴位置
+        static constexpr float GET_Z = 0.327129f;  
+        static constexpr float LIFT_UP_Z = 0.05f;//取到武器头后上升距离
+        // 武器头坐标
+        static constexpr float TARGET_WEAPON_Y = -6.0f;
+        // 先定义原始坐标
+        static constexpr float WEAPON_X_RAW[WEAPON_NUM] = {
+            0.45f, 0.65f, 0.85f, 1.05f, 1.25f, 1.445f 
+        };
+
+
+
+
+        // 雷达偏移
+        static constexpr float RADAR_ERROR_X = -0.02f;
+        static constexpr float RADAR_ERROR_Y = 0.043f;
+        static constexpr float RADAR_ERROR_YAW = -0.5f * PI / 180.f;
+
+        // 底盘目标角度
+        static constexpr float TARGET_YAW = -(PI / 2.0f) + RADAR_ERROR_YAW;   
+
+        // 事件触发距离(即夹爪初始状态距离武器头的y轴距离小于等于TRIG_DIST时触发)
+        static constexpr float TRIG_DIST = 0.5f; 
+        // 夹取准备位置(即夹爪初始状态距离武器头的y轴距离小于等于READY_DIST时才往前伸夹爪，在这之前调整地盘靠近夹爪)
+        static constexpr float READY_DIST = 0.3f;
+
+		// 最终坐标 = 原始 + 偏移（编译器自动计算）
+		static constexpr float weapon_heads_x[WEAPON_NUM] = {
+		  WEAPON_X_RAW[0] + RADAR_ERROR_X,
+		  WEAPON_X_RAW[1] + RADAR_ERROR_X,
+		  WEAPON_X_RAW[2] + RADAR_ERROR_X,
+		  WEAPON_X_RAW[3] + RADAR_ERROR_X,
+		  WEAPON_X_RAW[4] + RADAR_ERROR_X,
+		  WEAPON_X_RAW[5] + RADAR_ERROR_X
+		};
+
+	   
+        // 底盘停止的阈值
+        static constexpr float YAW_TOLERANCE = 1.0f * PI / 180.f; 
+        static constexpr float GANTRY_POS_TOLERANCE = 0.018f;
+        static constexpr float POS_TOLERANCE = 0.01f;
+
+        // Y轴触发基准
+        static constexpr float TRIG_POINT_Y = TARGET_WEAPON_Y + TRIG_DIST + HALF_CHASSIS_Y; // 底盘
+        static constexpr float READY_POINT_Y = TARGET_WEAPON_Y + READY_DIST + HALF_CHASSIS_Y - RADAR_ERROR_Y;
+        static constexpr float GANTRY_RETRACT_X = 0.03f;
+
+
+        float target_x = 0.0f;
+        float target_y = 0.0f;
+        float target_yaw = 0.0f;
+
+		float curr_x;
+		float curr_y;
+		
+        uint32_t grab_start_time;
+
+        path::Event3 weapon_event;
+        path::PathPlan3& path_plan;
+
+        int pick_num;
+
+        void StopChassis();
+        void Reset_Task();
+        // 外部接口：手动指定夹取几号头 (1-6)
+        void Pick(uint8_t num);      
+        // 外部接口：自动选择最近的夹取
+        void Pick_Nearest();      
+    };
+}
+#endif

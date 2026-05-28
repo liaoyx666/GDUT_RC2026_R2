@@ -1,17 +1,13 @@
-#include "RC_gripper.h"
-Gripper::Gripper(motor::DjiMotor& m)
+#include "RC_gripper.h" // 请确保与你的实际头文件名一致
+
+namespace gantry
 {
-    motor_ = &m;
+    Gripper::Gripper(motor::DjiMotor& m_p_)
+        : motor_p(m_p_)
+    {
+        // 默认初始化为打开状态
+        Open();
+    }
+
+
 }
-
-void Gripper::Open()
-{
-    motor_->Set_Current(open_current);
-}
-
-void Gripper::Close()
-{
-    motor_->Set_Current(close_current);
-}
-
-
