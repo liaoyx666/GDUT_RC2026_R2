@@ -144,7 +144,7 @@ gantry::Gantry gan(
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
 
 // 取KFS
-gantry::GetKFS getKFS(gan, suck, lidar_1);
+gantry::GetKFS getKFS(gan, suck, laser);
 
 // 放KFS
 gantry::PutKFS putKFS(gan, suck);

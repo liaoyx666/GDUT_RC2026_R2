@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu May 28 19:33:26 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu May 28 20:41:07 2026
 <BR><P>
 <H3>Maximum Stack Usage =        472 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3678,7 +3678,7 @@ Global Symbols
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Dock(gantry::Gripper&)
 <LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)
 <LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
-<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&)
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 </UL>
 
 <P><STRONG><a name="[341]"></a>path::Event3::Event3__sub_object(unsigned char, float, bool, bool, float)</STRONG> (Thumb, 80 bytes, Stack size 8 bytes, rc_event3.o(.text._ZN4path6Event3C2Ehfbbf), UNUSED)
@@ -4412,7 +4412,7 @@ Global Symbols
 <P><STRONG><a name="[2b1]"></a>gantry::GantryUser::GantryUser(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE))
 <BR><BR>[Called By]<UL><LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)
 <LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
-<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&)
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 </UL>
 
 <P><STRONG><a name="[352]"></a>gantry::GantryUser::GantryUser__sub_object(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE), UNUSED)
@@ -4546,8 +4546,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[2b4]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 130 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<P><STRONG><a name="[2b4]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 138 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
 <LI><a href="#[2b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
@@ -4565,7 +4565,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2b3]"></a>gantry::GetKFS::Trigger_Task_By_Event()</STRONG> (Thumb, 248 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS21Trigger_Task_By_EventEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = gantry::GetKFS::Trigger_Task_By_Event() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = gantry::GetKFS::Trigger_Task_By_Event() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
 <LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Add_One()
@@ -4575,8 +4575,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2b5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 924 bytes, Stack size 72 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<P><STRONG><a name="[2b5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 848 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
@@ -4584,8 +4584,8 @@ Global Symbols
 <LI><a href="#[2b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
 
-<P><STRONG><a name="[229]"></a>gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&)</STRONG> (Thumb, 228 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN5lidar5LiDARE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
+<P><STRONG><a name="[229]"></a>gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 232 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[299]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Event3(unsigned char, float, bool, bool, float)
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::GantryUser(gantry::Gantry&)
@@ -4593,7 +4593,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[356]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&)</STRONG> (Thumb, 228 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN5lidar5LiDARE), UNUSED)
+<P><STRONG><a name="[356]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 232 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
 
 <P><STRONG><a name="[23c]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 264 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
@@ -6149,7 +6149,7 @@ Local Symbols
 <LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)
 <LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
 <LI><a href="#[228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Suction::Suction(GPIO_TypeDef*, unsigned short)
-<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&)
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 <LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)
 <LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Navigation(path::GraphPlan&)
 <LI><a href="#[223]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::GraphPlan(path::PathPlan3&)

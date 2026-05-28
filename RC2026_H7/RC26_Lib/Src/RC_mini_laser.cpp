@@ -3,7 +3,7 @@
 namespace mini_laser
 {
     MiniLaser::MiniLaser(UART_HandleTypeDef &huart_, uint8_t* buf_)
-        : serial::UartRx(huart_, buf_, MINI_LASER_RX_BUFFER_SIZE, true, true), filter(150, 1000, 0.707)
+        : serial::UartRx(huart_, buf_, MINI_LASER_RX_BUFFER_SIZE, true, true), filter(120, 1000, 0.707)
     {
 		dis_filter = 0;
     }
