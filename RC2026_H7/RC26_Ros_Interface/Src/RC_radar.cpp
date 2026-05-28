@@ -26,7 +26,7 @@ namespace ros
 	void Radar::Reposition()
 	{
 		uint8_t ack = 1;
-		cdc->CDC_Send_Pkg(4, &ack, 1, 1000);
+		cdc->CDC_Send_Pkg(4, &ack, 1, 100);
 	}
 
 	

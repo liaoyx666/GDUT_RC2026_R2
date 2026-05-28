@@ -29,6 +29,8 @@
 #include "RC_auto_lift.h"
 #include "RC_head_check.h"
 #include "RC_HWT101CT.h"
+#include "RC_imu_fusion.h"
+#include "RC_mini_laser.h"
 
 /* path */
 #include "RC_traj_plan3.h"

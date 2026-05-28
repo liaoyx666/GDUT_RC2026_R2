@@ -12,11 +12,10 @@ namespace ros
 		~Radar() = default;
 		
 		void Reposition();
-		
-    protected:
-		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;
-		
+		constexpr float Yaw() const { return yaw; }
     private:
+		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;
+	
 		float x = 0, y = 0, z = 0, yaw = 0;
 		data::RobotPose* robot_pose;
     };

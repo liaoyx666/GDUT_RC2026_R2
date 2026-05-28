@@ -58,7 +58,11 @@ ros::Radar radar(CDC_HS, 1, robot_pose);
 
 // 激光测距
 uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-lidar::LiDAR lidar_1(huart3, lidar_buffer);
+lidar::LiDAR lidar_1(huart1, lidar_buffer);
+
+// 
+uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+mini_laser::MiniLaser laser(huart3, laser_buffer);
 
 // 
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
@@ -66,6 +70,10 @@ HWT101CT hwt101ct(huart8, hwt101ct_buffer);
 
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
+
+
+//fusion::ImuFusion imu_fusion(radar, hwt101ct);
+
 
 /*==================底盘=======================*/
 
@@ -196,6 +204,12 @@ void Main_Task(void *argument)
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 		
+		//imu_fusion.Fusion();
+		
+		//hwt101ct.Set_Yaw(0);
+		
+		//uart_printf("%f,%f\n", radar.Yaw(), hwt101ct.Yaw());
+		
 		path_plan.Plan();
 		
 		robot_pose.Robot_Pose_Check();
@@ -308,7 +322,7 @@ void All_Init()
 	
 	// 串口接收初始化
 	lidar_1.Uart_Rx_Start();
-	
+	laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
 
 	// 场地位置初始化
