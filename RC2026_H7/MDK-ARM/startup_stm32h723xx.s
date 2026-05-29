@@ -244,7 +244,7 @@ __Vectors_End
 __Vectors_Size  EQU  __Vectors_End - __Vectors
 
                 AREA    |.text|, CODE, READONLY
-  
+
 ; Reset handler
 Reset_Handler    PROC
                  EXPORT  Reset_Handler                    [WEAK]
@@ -252,7 +252,7 @@ Reset_Handler    PROC
         IMPORT  SystemInit
         IMPORT  __main
 
- NULL                  LDR     R0, =ExitRun0Mode
+NULL                  LDR     R0, =ExitRun0Mode
                  BLX     R0
                  LDR     R0, =SystemInit
                  BLX     R0

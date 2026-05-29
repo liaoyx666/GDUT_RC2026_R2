@@ -4,8 +4,8 @@ namespace fusion
 {
 	ImuFusion::ImuFusion(ros::Radar& radar_, HWT101CT& imu_) : radar(radar_), imu(imu_), filter(0.00001, 1000, 2)
 	{
-		 yaw_fused = 0.0f;
-    integral = 0.0f;  // 积分清零
+		yaw_fused = 0.0f;
+		integral = 0.0f;  // 积分清零
 	}
 	
 	void ImuFusion::Fusion()
