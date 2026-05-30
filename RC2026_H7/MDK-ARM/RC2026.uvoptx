@@ -358,7 +358,7 @@
         <Ww>
           <count>40</count>
           <WinNumber>1</WinNumber>
-          <ItemText>raw_data</ItemText>
+          <ItemText>imu_fusion</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

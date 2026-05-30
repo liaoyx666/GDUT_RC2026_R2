@@ -16,10 +16,15 @@ namespace fusion
     private:
 		ros::Radar& radar;
 		HWT101CT& imu;
+	
+		uint32_t last_time;
 		filter::SecondOrderLPF filter;
 	
-    float yaw_fused;  // 融合输出角度
-    float integral;   // 弱积分（仅消漂移）
-    };
+		// 卡尔曼滤波状态变量 (类成员)
+		float angle = 0;        // 融合角度 (rad)
+		float bias = 0;         // 角速度偏置估计 (rad/s)
+		float P[2][2];      // 协方差矩阵
+		bool first_run = 1;     // 首次运行标志
+	};
 }
 #endif

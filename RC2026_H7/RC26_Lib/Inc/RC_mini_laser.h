@@ -14,13 +14,11 @@ namespace mini_laser
         MiniLaser(UART_HandleTypeDef &huart_, uint8_t* buf_);
         virtual ~MiniLaser() {}
 		float distance = 0.0f;
+			
 		float dis_filter;
+			
     private:
         void Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_) override;
-        //uint8_t rx_buf[MINI_LASER_RX_BUFFER_SIZE] = {0};
-
-		uint16_t dist_mm = 0;
-        filter::SecondOrderLPF filter;
 		
     };
 }

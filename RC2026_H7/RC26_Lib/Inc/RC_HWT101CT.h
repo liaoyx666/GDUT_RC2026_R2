@@ -18,6 +18,9 @@ public:
 	HWT101CT(UART_HandleTypeDef &huart_, uint8_t* buf_);
 	~HWT101CT() = default;
 	constexpr float Yaw() const {return yaw;}
+	
+	constexpr float W() const {return w;}
+	
 	constexpr void Set_Yaw(const float yaw_)
 	{
 		float e = raw - yaw_;
@@ -28,20 +31,12 @@ public:
 			e += TWO_PI;
 
 		offset = e;
-//		
-//		float y = raw - offset;
-//				
-//		if (y > PI)
-//			y -= TWO_PI;
-//		else if (y < -PI)
-//			y += TWO_PI;
-//		
-//		yaw = y;
 	}
 private:
 	void Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_) override;
 	float yaw;
 	float raw;
+	float w;
 	float offset;
 	bool is_init;
 };

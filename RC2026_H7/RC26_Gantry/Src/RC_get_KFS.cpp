@@ -8,7 +8,7 @@ namespace gantry
 	constexpr float KFS_P_REACH_TH = 0.02f;
 
 	// ========================= 激光闭环参数 =========================
-	constexpr float KFS_LASER_P = 0.35f;
+	constexpr float KFS_LASER_P = 0.40f;
 	constexpr float KFS_LASER_I = 0.003f;
 	constexpr float LASER_LPF_ALPHA = 0.08f;
 	constexpr float KFS_LASER_ERR_TH = 0.0015f;   // 激光允许误差
@@ -72,7 +72,7 @@ namespace gantry
 
 		step_suction = 0;
 		step = 0;
-		laser_target_m = 0.070f;
+		laser_target_m = 0.085f;
 		laser_distance_m = 0;
 		laser_valid = false;
 	}
@@ -471,7 +471,7 @@ void GetKFS::Trigger_Task_By_Event()
 	// ============================================================
 	void GetKFS::Update_Laser_Distance()
 	{
-		float raw_data = (float)laser_.dis_filter / 1000.00f; //单位转化成米
+		float raw_data = (float)laser_.distance / 1000.00f; //单位转化成米
 		
 		if(raw_data > raw_data_low_limit&& raw_data < raw_data_high_limit)
 		{
