@@ -83,6 +83,8 @@
 "rc2026\rc_qeo.o"
 "rc2026\rc_imu_fusion.o"
 "rc2026\rc_mini_laser.o"
+"rc2026\serial1protocol.o"
+"rc2026\rc_combine.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dm_motor.o"
 "rc2026\rc_dji_motor.o"

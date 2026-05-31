@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat May 30 16:01:34 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sun May 31 12:20:06 2026
 <BR><P>
 <H3>Maximum Stack Usage =        472 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -864,8 +864,6 @@ Global Symbols
 <P><STRONG><a name="[1e9]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[1e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemClock_Config
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USBD_CDC_Init
-<LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Path3()
-<LI><a href="#[26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Reset()
 <LI><a href="#[272]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Line2D::Line2D()
 <LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Line2D::Init(vector2d::Vector2D, vector2d::Vector2D)
 <LI><a href="#[29c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::Motor::Motor(float, bool)
@@ -874,6 +872,8 @@ Global Symbols
 <LI><a href="#[210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim::Tim::Tim(TIM_HandleTypeDef&)
 <LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC(cdc::CDCType)
 <LI><a href="#[211]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can::Can::Can(FDCAN_HandleTypeDef&)
+<LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Path3()
+<LI><a href="#[26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Reset()
 </UL>
 
 <P><STRONG><a name="[152]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text))
@@ -3590,8 +3590,8 @@ Global Symbols
 <P><STRONG><a name="[269]"></a>path::Path3::Trig_Event_On_Len(float, float)</STRONG> (Thumb, 388 bytes, Stack size 128 bytes, rc_path3.o(.text._ZN4path5Path317Trig_Event_On_LenEff))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = path::Path3::Trig_Event_On_Len(float, float) &rArr; path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
 </UL>
-<BR>[Calls]<UL><LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
-<LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Trig_Once()
+<BR>[Calls]<UL><LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Trig_Once()
+<LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
 </UL>
 <BR>[Called By]<UL><LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const
 </UL>
@@ -3865,10 +3865,10 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 176 + Unknown Stack Size
 <LI>Call Chain = path::PathPlan3::PathPlan3(path::LonConstr3, path::HeadConstr3, path::TrajTrack3&) &rArr; path::TrajPlan3::TrajPlan3(path::LonConstr3, path::HeadConstr3)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Path3()
-<LI><a href="#[288]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::TrajPlan3(path::LonConstr3, path::HeadConstr3)
+<BR>[Calls]<UL><LI><a href="#[288]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::TrajPlan3(path::LonConstr3, path::HeadConstr3)
 <LI><a href="#[274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Point3::Point3()
 <LI><a href="#[287]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Load_Path(path::Path3*)
+<LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Path3()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
@@ -3890,11 +3890,11 @@ Global Symbols
 <P><STRONG><a name="[28f]"></a>path::TrajPlan3::Calc_End_Vel()</STRONG> (Thumb, 436 bytes, Stack size 120 bytes, rc_traj_plan3.o(.text._ZN4path9TrajPlan312Calc_End_VelEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = path::TrajPlan3::Calc_End_Vel() &rArr; curve::Curve2D::Vel_On_Len(float, float) const &rArr; calcVel(float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
-<BR>[Calls]<UL><LI><a href="#[275]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::LonConstr3::LonConstr3()
-<LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
-<LI><a href="#[291]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Curve2D::Vel_On_Len(float, float) const
+<BR>[Calls]<UL><LI><a href="#[291]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Curve2D::Vel_On_Len(float, float) const
 <LI><a href="#[290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_atan2_f32
 <LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
+<LI><a href="#[275]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::LonConstr3::LonConstr3()
+<LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
 </UL>
 <BR>[Called By]<UL><LI><a href="#[285]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Add_Point(path::Point3)
 </UL>
@@ -3912,12 +3912,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 400 + Unknown Stack Size
 <LI>Call Chain = path::TrajPlan3::Add_Point(path::Point3) &rArr; path::TrajPlan3::Calc_End_Vel() &rArr; curve::Curve2D::Vel_On_Len(float, float) const &rArr; calcVel(float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
-<BR>[Calls]<UL><LI><a href="#[294]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_Wait_Event_At_End(unsigned int)
-<LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_PathHeadCon(float, path::HeadConstr3)
-<LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_PathLonCon(float, path::LonConstr3)
-<LI><a href="#[26d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_Arc(vector2d::Vector2D, vector2d::Vector2D, float, bool)
-<LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_Line(vector2d::Vector2D, vector2d::Vector2D)
-<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
+<BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
 <LI><a href="#[290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_atan2_f32
 <LI><a href="#[279]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_add_f32
 <LI><a href="#[278]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_scale_f32
@@ -3925,6 +3920,11 @@ Global Symbols
 <LI><a href="#[28f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Calc_End_Vel()
 <LI><a href="#[292]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Add_MaxConstr(float)
 <LI><a href="#[289]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Add_Constr(path::Point3, float)
+<LI><a href="#[294]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_Wait_Event_At_End(unsigned int)
+<LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_PathHeadCon(float, path::HeadConstr3)
+<LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_PathLonCon(float, path::LonConstr3)
+<LI><a href="#[26d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_Arc(vector2d::Vector2D, vector2d::Vector2D, float, bool)
+<LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Add_Line(vector2d::Vector2D, vector2d::Vector2D)
 <LI><a href="#[293]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
@@ -4310,6 +4310,7 @@ Global Symbols
 <P><STRONG><a name="[298]"></a>filter::SecondOrderLPF::filter(float)</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, rc_filter.o(.text._ZN6filter14SecondOrderLPF6filterEf))
 <BR><BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DmMotor::Tim_It_Process()
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lidar::LiDAR::Uart_Rx_It_Process(unsigned char*, unsigned short)
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[299]"></a>filter::SecondOrderLPF::SecondOrderLPF(float, float, float)</STRONG> (Thumb, 224 bytes, Stack size 16 bytes, rc_filter.o(.text._ZN6filter14SecondOrderLPFC2Efff))
@@ -4319,6 +4320,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DmMotor::DmMotor(unsigned char, can::Can&, tim::Tim*, bool, float, float, bool, float, float, float, float, float)
 <LI><a href="#[21a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lidar::LiDAR::LiDAR(__UART_HandleTypeDef&, unsigned char*)
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 </UL>
 
 <P><STRONG><a name="[34f]"></a>filter::SecondOrderLPF::SecondOrderLPF__sub_object(float, float, float)</STRONG> (Thumb, 224 bytes, Stack size 16 bytes, rc_filter.o(.text._ZN6filter14SecondOrderLPFC2Efff), UNUSED)
@@ -4523,10 +4525,11 @@ Global Symbols
 
 <P><STRONG><a name="[355]"></a>gantry::Gantry::Gantry__sub_object(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME), UNUSED)
 
-<P><STRONG><a name="[23a]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 736 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
+<P><STRONG><a name="[23a]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 716 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = gantry::GetKFS::Auto_Get_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
+<LI><a href="#[298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::SecondOrderLPF::filter(float)
 <LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Num()
 <LI><a href="#[2b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Trigger_Task_By_Event()
 <LI><a href="#[2b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
@@ -4539,8 +4542,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[2b4]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 138 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<P><STRONG><a name="[2b4]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 134 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
 <LI><a href="#[2b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
@@ -4558,7 +4561,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2b3]"></a>gantry::GetKFS::Trigger_Task_By_Event()</STRONG> (Thumb, 248 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS21Trigger_Task_By_EventEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = gantry::GetKFS::Trigger_Task_By_Event() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = gantry::GetKFS::Trigger_Task_By_Event() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
 <LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Add_One()
@@ -4568,8 +4571,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2b5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 840 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<P><STRONG><a name="[2b5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 992 bytes, Stack size 72 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
@@ -4577,16 +4580,17 @@ Global Symbols
 <LI><a href="#[2b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
 
-<P><STRONG><a name="[229]"></a>gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 232 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
+<P><STRONG><a name="[229]"></a>gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 248 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE))
+<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&) &rArr; filter::SecondOrderLPF::SecondOrderLPF(float, float, float) &rArr; __hardfp_tanf &rArr; __mathlib_rredf2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Event3(unsigned char, float, bool, bool, float)
+<LI><a href="#[299]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::SecondOrderLPF::SecondOrderLPF(float, float, float)
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::GantryUser(gantry::Gantry&)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[356]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 232 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
+<P><STRONG><a name="[356]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 248 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
 
 <P><STRONG><a name="[23c]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 264 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
@@ -4810,13 +4814,7 @@ Global Symbols
 <P><STRONG><a name="[241]"></a>path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const</STRONG> (Thumb, 1708 bytes, Stack size 208 bytes, rc_traj_track3.o(.text._ZNK4path10TrajTrack38Calc_VelERN8vector2d8Vector2DE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 384<LI>Call Chain = path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const &rArr; path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const &rArr; curve::Curve2D::Vel_On_Len(float, float) const &rArr; calcVel(float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
-<BR>[Calls]<UL><LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::HeadConstr3::HeadConstr3()
-<LI><a href="#[275]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::LonConstr3::LonConstr3()
-<LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Trig_Event_On_Len(float, float)
-<LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const
-<LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Point_On_T(float, vector2d::Vector2D*) const
-<LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Point_On_Len(float, vector2d::Vector2D*) const
-<LI><a href="#[2c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Finish()
+<BR>[Calls]<UL><LI><a href="#[2c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Finish()
 <LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
 <LI><a href="#[290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_atan2_f32
 <LI><a href="#[243]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NPid_Calculate(float, float, bool, float)
@@ -4827,6 +4825,12 @@ Global Symbols
 <LI><a href="#[2bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sin_f32
 <LI><a href="#[278]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_scale_f32
 <LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
+<LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::HeadConstr3::HeadConstr3()
+<LI><a href="#[275]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::LonConstr3::LonConstr3()
+<LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Trig_Event_On_Len(float, float)
+<LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const
+<LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Point_On_T(float, vector2d::Vector2D*) const
+<LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Point_On_Len(float, vector2d::Vector2D*) const
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Path_Task(void*)
 </UL>
@@ -4842,23 +4846,23 @@ Global Symbols
 <P><STRONG><a name="[2c2]"></a>path::Path3::Get_Point_On_Len(float, vector2d::Vector2D*) const</STRONG> (Thumb, 280 bytes, Stack size 16 bytes, rc_path3.o(.text._ZNK4path5Path316Get_Point_On_LenEfPN8vector2d8Vector2DE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = path::Path3::Get_Point_On_Len(float, vector2d::Vector2D*) const
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Point_On_T(float, vector2d::Vector2D*) const
-<LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const
+<BR>[Called By]<UL><LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const
+<LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Point_On_T(float, vector2d::Vector2D*) const
 </UL>
 
 <P><STRONG><a name="[26a]"></a>path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const</STRONG> (Thumb, 552 bytes, Stack size 8 bytes, rc_path3.o(.text._ZNK4path5Path317Get_Constr_On_LenEfPNS_10LonConstr3EPNS_11HeadConstr3E))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
 </UL>
-<BR>[Called By]<UL><LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Trig_Event_On_Len(float, float)
+<BR>[Called By]<UL><LI><a href="#[28f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Calc_End_Vel()
+<LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Trig_Event_On_Len(float, float)
 <LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const
-<LI><a href="#[28f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Calc_End_Vel()
 </UL>
 
 <P><STRONG><a name="[2bf]"></a>path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const</STRONG> (Thumb, 796 bytes, Stack size 120 bytes, rc_path3.o(.text._ZNK4path5Path349Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_HeadEN8vector2d8Vector2DEPS2_PfS4_S4_S3_S3_S4_S4_PNS_10LonConstr3EPNS_11HeadConstr3E))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const &rArr; curve::Curve2D::Vel_On_Len(float, float) const &rArr; calcVel(float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
-<BR>[Calls]<UL><LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
-<LI><a href="#[291]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Curve2D::Vel_On_Len(float, float) const
+<BR>[Calls]<UL><LI><a href="#[291]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Curve2D::Vel_On_Len(float, float) const
+<LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Constr_On_Len(float, path::LonConstr3*, path::HeadConstr3*) const
 </UL>
 <BR>[Called By]<UL><LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const
 </UL>
@@ -4967,8 +4971,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcVel(float, float, float)
 <LI><a href="#[231]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const
-<LI><a href="#[28f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Calc_End_Vel()
+<BR>[Called By]<UL><LI><a href="#[28f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Calc_End_Vel()
+<LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Get_Near_Point_T_Len_Dis_Tan_Nor_Vel_Cur_Lon_Head(vector2d::Vector2D, vector2d::Vector2D*, float*, float*, float*, vector2d::Vector2D*, vector2d::Vector2D*, float*, float*, path::LonConstr3*, path::HeadConstr3*) const
 </UL>
 
 <P><STRONG><a name="[eb]"></a>non-virtual thunk to flysky::FlySky::EXTI_Prosess()</STRONG> (Thumb, 114 bytes, Stack size 0 bytes, rc_flysky.o(.text._ZThn12_N6flysky6FlySky12EXTI_ProsessEv))
@@ -5063,8 +5067,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_pure_virtual
-<LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_acquire
+<BR>[Called By]<UL><LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_acquire
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_pure_virtual
 </UL>
 
 <P><STRONG><a name="[279]"></a>arm_add_f32</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, basicmathfunctions.o(.text.arm_add_f32))
@@ -6075,9 +6079,9 @@ Local Symbols
 <LI>Call Chain = __cxx_global_var_init &rArr; __cxa_guard_acquire &rArr; abort_message &rArr; abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
-<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 <LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_release
 <LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_acquire
+<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_map_graph.o(.init_array)
 </UL>
@@ -6086,9 +6090,9 @@ Local Symbols
 <LI>Call Chain = __cxx_global_var_init.1 &rArr; __cxa_guard_acquire &rArr; abort_message &rArr; abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
-<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 <LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_release
 <LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_acquire
+<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_map_graph.o(.init_array)
 </UL>
@@ -6097,9 +6101,9 @@ Local Symbols
 <LI>Call Chain = __cxx_global_var_init.2 &rArr; __cxa_guard_acquire &rArr; abort_message &rArr; abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
-<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 <LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_release
 <LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_acquire
+<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_map_graph.o(.init_array)
 </UL>
@@ -6108,9 +6112,9 @@ Local Symbols
 <LI>Call Chain = __cxx_global_var_init.3 &rArr; __cxa_guard_acquire &rArr; abort_message &rArr; abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
-<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 <LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_release
 <LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxa_guard_acquire
+<LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_dot_prod_f32
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_map_graph.o(.init_array)
 </UL>

@@ -8,6 +8,8 @@
 #include <math.h>
 #include "RC_data_pool.h"
 #include "RC_mini_laser.h"
+#include "RC_filter.h"
+
 #ifdef __cplusplus
 namespace gantry
 {
@@ -122,7 +124,10 @@ class GetKFS
 		float camera_distance_m; // 当前视觉检测到的像素位置
 		bool  camera_valid;
 
-		float laser_err_lpf ;
+		
+		filter::SecondOrderLPF filter;
+
+		//float laser_err_lpf ;
     };
 
 }
