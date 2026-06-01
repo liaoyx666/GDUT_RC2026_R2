@@ -19,7 +19,11 @@ namespace fusion
 	
 		uint32_t last_time;
 
-		bool first_run = 1;     // 首次运行标志
+		bool is_init;  
+		
+		const float kp = 0.005f;
+	
+		float last_radar_yaw;
 	
 		bool reset_flag;
 	};

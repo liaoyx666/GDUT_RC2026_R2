@@ -29,6 +29,12 @@ namespace gantry
 	constexpr float KFS_CAM_ERR_TH = 2.0f;        // 像素允许误差值 (pixel)
 	constexpr float cam_offset_up_limit   = 0.5f; // Y轴最大修正限制
 	constexpr float cam_offset_down_limit = -0.5f;
+	
+	// ========================= 激光丢失重试参数 =========================
+	constexpr uint32_t LASER_LOST_TIMEOUT_US = 1000000; // 1s
+	constexpr uint8_t  LASER_RETRY_MAX       = 2;       // 最大重试次数
+
+
 	GetKFS::GetKFS(gantry::Gantry& gantry_ , gantry::Suction& suction_, mini_laser::MiniLaser& laser_)
 		: gantry(gantry_),
 		  gantry_event
@@ -69,7 +75,9 @@ namespace gantry
 		kfs_num = 0;
 		locked_y = 0.f;
 		y_locked = false;
-
+		laser_lost_ts = 0;
+		laser_lost_start = false;
+		laser_retry_cnt = 0;
 		step_suction = 0;
 		step = 0;
 		laser_target_m = 0.085f;
@@ -282,7 +290,8 @@ bool GetKFS::Configure_Current_Step()
         default:
             if (seq_idx == 0)
             {
-                Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0); Set_Step_Target(0.03f, 0.00f, 0.0f, 0.00f, CtrlMode::OPEN_LOOP); Set_Step_Act(0);
+				
+                Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0); Set_Step_Target(0.03f, 0.00f, 0.2f, 0.00f, CtrlMode::OPEN_LOOP); Set_Step_Act(0);
                 return true;
             }
             return false;
@@ -297,15 +306,15 @@ bool GetKFS::Configure_Current_Step()
     switch (cur_task)
     {
         case ARM_TASK::PICK_UP_KFS_20CM_1_step2:
-            if (seq_idx == 2) Finish_Event_Early();
+            if (seq_idx == 4) Finish_Event_Early();
             break;
 
         case ARM_TASK::PICK_UP_KFS_20CM_2_step2:
-            if (seq_idx == 2) Finish_Event_Early();
+            if (seq_idx == 4) Finish_Event_Early();
             break;
 
         case ARM_TASK::PICK_UP_KFS_40CM_1_step2:
-            if (seq_idx == 2) Finish_Event_Early();
+            if (seq_idx == 4) Finish_Event_Early();
             break;
 
         case ARM_TASK::PICK_DOWN_KFS_1_step2:
@@ -443,16 +452,44 @@ void GetKFS::Trigger_Task_By_Event()
 		mode = mode_;
 	}
 	
-	void GetKFS::Set_Task(ARM_TASK task_)
-	{
-		cur_task = task_;
-		seq_idx = 0;
-		stable_cnt = 0;
-		y_locked = false;
-		wait_step_delay = false;
-		busy = Configure_Current_Step();
-		if (!busy) mode = CtrlMode::IDLE;
-	}
+void GetKFS::Set_Task(ARM_TASK task_)
+{
+    cur_task = task_;
+
+    seq_idx = 0;
+
+    stable_cnt = 0;
+
+    y_locked = false;
+
+    wait_step_delay = false;
+
+    laser_retry_cnt = 0;
+
+    laser_lost_start = false;
+
+    busy = Configure_Current_Step();
+
+    if (!busy)
+        mode = CtrlMode::IDLE;
+}
+
+void GetKFS::Restart_Current_Task()
+{
+    seq_idx = 0;
+
+    stable_cnt = 0;
+
+    wait_step_delay = false;
+
+    y_locked = false;
+
+    laser_lost_start = false;
+
+    laser_retry_cnt++;
+
+    Configure_Current_Step();
+}
 
 	void GetKFS::Set_OpenLoop_Target(float x_m, float y_m, float z_m, float p_rad)
 	{
@@ -625,27 +662,51 @@ void GetKFS::Auto_Get_KFS()
     float cmd_z = target_z;
     float cmd_p = target_p;
 
-   if (mode == CtrlMode::CLOSE_LOOP_LASER && laser_valid)
+if (mode == CtrlMode::CLOSE_LOOP_LASER)
 {
-    float err = laser_target_m - laser_distance_m;
+    if (!laser_valid)
+    {
+        if (!laser_lost_start)
+        {
+            laser_lost_ts = timer::Timer::Get_TimeStamp();
 
-   //laser_err_i += err * KFS_LASER_I;
+            laser_lost_start = true;
+        }
+        else
+        {
+            if (timer::Timer::Get_DeltaTime(laser_lost_ts)
+                >= LASER_LOST_TIMEOUT_US)
+            {
+                if (laser_retry_cnt >= LASER_RETRY_MAX)
+                {
+                    Finish_Current_Task();
+					Set_Task(ARM_TASK::HOME);
+					data::KFS_Sub_One();
+                    return;
+                }
 
-//    if (laser_err_i > 0.05f)
-//        laser_err_i = 0.05f;
+                Restart_Current_Task();
 
-//    if (laser_err_i < -0.05f)
-//        laser_err_i = -0.05f;
+                return;
+            }
+        }
+    }
+    else
+    {
+        laser_lost_start = false;
 
-    //cmd_y  = base_target_y  + err ;
-	cmd_y  +=  err ;
-	cmd_y = filter.filter(cmd_y);
-	
-    if (cmd_y > lidar_offset_up_limit)
-        cmd_y = lidar_offset_up_limit;
+        float err = laser_target_m - laser_distance_m;
 
-    if (cmd_y < lidar_offset_down_limit)
-        cmd_y = lidar_offset_down_limit;
+        cmd_y += err;
+
+        cmd_y = filter.filter(cmd_y);
+
+        if (cmd_y > lidar_offset_up_limit)
+            cmd_y = lidar_offset_up_limit;
+
+        if (cmd_y < lidar_offset_down_limit)
+            cmd_y = lidar_offset_down_limit;
+    }
 }
     if (mode == CtrlMode::Y_LOCK && y_locked)
     {

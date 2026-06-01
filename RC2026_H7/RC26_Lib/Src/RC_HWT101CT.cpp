@@ -23,6 +23,8 @@ void HWT101CT::Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_)
 		{
 			raw = (float)( (int16_t)( (buf_[7 + 11] << 8) | buf_[6 + 11]) ) * (float)(1.0 / 32768.0 * PI);
 			
+			if (raw > 4 || raw < -4) return;
+			
 			if (is_init)
 			{
 				float y = raw - offset;
@@ -44,6 +46,4 @@ void HWT101CT::Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_)
 			}
 		}
 	}
-	
-	
 }

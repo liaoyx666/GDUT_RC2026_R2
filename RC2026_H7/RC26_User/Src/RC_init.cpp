@@ -74,6 +74,13 @@ flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
 fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
+qeo::QEO chassis_qeo(
+	m3508_1_can1, m3508_2_can1,
+	m3508_3_can1, m3508_4_can1,
+	robot_pose,
+	tim4_500hz,
+	radar
+);
 
 /*==================底盘=======================*/
 
@@ -81,8 +88,8 @@ fusion::ImuFusion imu_fusion(radar, hwt101ct);
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 4, 4.1,
-	5, 5, 6,
+	2.5, 3, 4,
+	5, 6, 7,
 	robot_pose
 );
 
@@ -205,10 +212,14 @@ void Main_Task(void *argument)
 //		target = wave.Get_Signal();
 		
 		imu_fusion.Fusion();
+		float fusion_yaw = hwt101ct.Yaw();
+		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
+		
+		chassis_qeo.Iteration();
 		
 		//hwt101ct.Set_Yaw(0);
 		
-		uart_printf("%f,%f,%f,%f\n", radar.Yaw(), hwt101ct.Yaw(), hwt101ct.W(), hwt101ct.Delay_Yaw());
+		uart_printf("%f,%f\n", radar.X(), chassis_qeo.X());
 		
 		path_plan.Plan();
 		

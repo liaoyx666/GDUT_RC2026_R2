@@ -6,7 +6,7 @@
 #ifdef __cplusplus
 
 constexpr uint8_t HWT101CT_RX_BUFFER_SIZE = 32;
-constexpr uint8_t HWT101CT_DELAY_FRAME = 20; // 15帧  40ms
+constexpr uint8_t HWT101CT_DELAY_FRAME = 30; // 30帧  60ms
 
 
 class HWT101CT : public serial::UartRx

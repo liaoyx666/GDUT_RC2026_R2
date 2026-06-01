@@ -77,7 +77,7 @@ class GetKFS
 			bool Reached_Target(float cmd_x, float cmd_y, float cmd_z, float cmd_p) ;
 			void Go_Next_Step();
 			void Finish_Current_Task();
- 
+			void Restart_Current_Task();
 			void Do_Suction_Action(uint8_t action_id);
 			void Lock_Current_Y();
 			void Unlock_Y();
@@ -123,7 +123,9 @@ class GetKFS
 		float cam_target_pixel;  // 视觉期望中心像素位置
 		float camera_distance_m; // 当前视觉检测到的像素位置
 		bool  camera_valid;
-
+		uint32_t laser_lost_ts;
+		bool laser_lost_start;
+		uint8_t laser_retry_cnt;
 		
 		filter::SecondOrderLPF filter;
 

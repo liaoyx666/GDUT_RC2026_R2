@@ -31,6 +31,7 @@
 #include "RC_HWT101CT.h"
 #include "RC_imu_fusion.h"
 #include "RC_mini_laser.h"
+#include "RC_QEO.h"
 
 /* path */
 #include "RC_traj_plan3.h"

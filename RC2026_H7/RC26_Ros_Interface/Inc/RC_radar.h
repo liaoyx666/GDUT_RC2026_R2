@@ -13,6 +13,8 @@ namespace ros
 		
 		void Reposition();
 		constexpr float Yaw() const { return yaw; }
+		constexpr float X() const { return x; }
+		
     private:
 		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;
 	
