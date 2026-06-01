@@ -11,6 +11,14 @@ namespace qeo
 	  tim::TimHandler(&tim_),
 	  radar(radar_)
 	{
+		now_dx = 0;
+		is_init = false;
 		
+		reset_flag_x = false;
+		reset_flag_y = false;
+		
+		last_radar_x = 0;
+		last_time_x = 0;
+		last_time_y = 0;
 	}
 }

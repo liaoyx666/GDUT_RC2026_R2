@@ -12,13 +12,19 @@ namespace ros
 	{
 		if (len == 16)
 		{
-			x   = *(float*)(&buf[0]);
-			y   = *(float*)(&buf[4]);
-			z   = *(float*)(&buf[8]);
-			yaw = *(float*)(&buf[12]);
+			float x_ = *(float*)(&buf[0]);
+			float y_ = *(float*)(&buf[4]);
+			
+			if (fabsf(x_) < 30) x = x_;
+			if (fabsf(y_) < 30) y = y_;
+			
+			z = *(float*)(&buf[8]);
+			
+			float yaw_ = *(float*)(&buf[12]);
+			
+			if (fabsf(yaw_) < 4) yaw = yaw_;
 			
 			robot_pose->Update_Position(&x, &y, &z);
-				
 			//robot_pose->Update_Orientation(&yaw, NULL, NULL);
 		}
 	}

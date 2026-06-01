@@ -74,6 +74,7 @@ flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
 fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
+
 qeo::QEO chassis_qeo(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
@@ -199,11 +200,11 @@ void Main_Task(void *argument)
 	
 	navigation.Go_To_Get_KFS(11, path::DIR_B);
 	
-	navigation.Go_To_Put_KFS_2L(1);
-	
-	navigation.Go_To_Put_KFS_2L(2);
-	
-	navigation.Go_To_Put_KFS_2L(3);
+//	navigation.Go_To_Put_KFS_2L(1);
+//	
+//	navigation.Go_To_Put_KFS_2L(2);
+//	
+//	navigation.Go_To_Put_KFS_2L(3);
 	/*--------------------------------*/
 	
 	for (;;)
@@ -215,11 +216,17 @@ void Main_Task(void *argument)
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
-		chassis_qeo.Iteration();
+		chassis_qeo.Fusion();
 		
-		//hwt101ct.Set_Yaw(0);
 		
-		uart_printf("%f,%f\n", radar.X(), chassis_qeo.X());
+		float fusion_x = chassis_qeo.X();
+		float fusion_y = chassis_qeo.Y();
+		//robot_pose.Update_Position(&fusion_x, &fusion_y, NULL);
+		uart_printf("%f,%f\n", fusion_x, fusion_y);
+		
+		
+		
+		
 		
 		path_plan.Plan();
 		
