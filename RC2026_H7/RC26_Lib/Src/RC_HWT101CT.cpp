@@ -2,6 +2,7 @@
 
 HWT101CT::HWT101CT(UART_HandleTypeDef &huart_, uint8_t* buf_) : serial::UartRx(huart_, buf_, HWT101CT_RX_BUFFER_SIZE, true, true)
 {
+	now_dx = 0;
 	yaw = 0;
 	raw = 0;
 	w = 0;
@@ -32,6 +33,9 @@ void HWT101CT::Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_)
 					y += TWO_PI;
 				
 				yaw = y;
+
+				delay_yaw[now_dx] = yaw;
+				now_dx = (now_dx + 1) % HWT101CT_DELAY_FRAME;
 			}
 			else
 			{
@@ -39,9 +43,6 @@ void HWT101CT::Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_)
 				is_init = true;
 			}
 		}
-		
-		
-		
 	}
 	
 	

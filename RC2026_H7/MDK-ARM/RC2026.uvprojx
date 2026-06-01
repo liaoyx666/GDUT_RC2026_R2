@@ -1397,6 +1397,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Path\Inc\RC_navigation.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_point_lock.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_point_lock.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_point_lock.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_point_lock.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

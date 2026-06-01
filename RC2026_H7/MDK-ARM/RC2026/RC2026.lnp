@@ -107,6 +107,7 @@
 "rc2026\rc_map_graph.o"
 "rc2026\rc_graph_plan.o"
 "rc2026\rc_navigation.o"
+"rc2026\rc_point_lock.o"
 "rc2026\rc_gantry.o"
 "rc2026\rc_get_kfs.o"
 "rc2026\rc_suction.o"

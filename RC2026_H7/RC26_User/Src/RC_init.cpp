@@ -72,7 +72,7 @@ HWT101CT hwt101ct(huart8, hwt101ct_buffer);
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
 
-//fusion::ImuFusion imu_fusion(radar, hwt101ct);
+fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
 
 /*==================底盘=======================*/
@@ -204,18 +204,18 @@ void Main_Task(void *argument)
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 		
-		//imu_fusion.Fusion();
+		imu_fusion.Fusion();
 		
 		//hwt101ct.Set_Yaw(0);
 		
-		//uart_printf("%f,%f\n", radar.Yaw(), hwt101ct.Yaw());
+		uart_printf("%f,%f,%f,%f\n", radar.Yaw(), hwt101ct.Yaw(), hwt101ct.W(), hwt101ct.Delay_Yaw());
 		
 		path_plan.Plan();
 		
 		robot_pose.Robot_Pose_Check();
 		
 		getKFS.Auto_Get_KFS();
-
+		
 		gan.Gantry_Base();
 		
 		putKFS.Auto_Put_KFS();
