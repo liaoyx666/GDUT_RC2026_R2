@@ -30,7 +30,7 @@ GetWeaponHead::GetWeaponHead(
         head_ctrl(pose_, omni4chassis_, 0.01f)
     {
         state = State::IDLE;
-        picked = false; 
+        picked = false;
         current_target_idx = 0;
         grab_start_time = 0;
 
