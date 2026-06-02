@@ -7,9 +7,16 @@
 #include "RC_tim.h"
 #include "RC_radar.h"
 
-namespace qeo
+namespace fusion
 {
 	constexpr uint8_t QEO_DELAY_FRAME = 65; // 30帧  60ms
+	
+	enum QEOMode : uint8_t
+	{
+		FUSION_MODE = 0,
+		RADAR_MODE,
+		QEO_MODE,
+	};
 	
 	
 	class QEO : public tim::TimHandler
@@ -44,30 +51,34 @@ namespace qeo
 			now_dx = (now_dx + 1) % QEO_DELAY_FRAME;
 		}
 		
-		
 		constexpr float Delay_X() const { return delay_pos[(now_dx + 1) % QEO_DELAY_FRAME].x(); }
 		constexpr float Delay_Y() const { return delay_pos[(now_dx + 1) % QEO_DELAY_FRAME].y(); }
-		
-		
 		
 		constexpr float X() const { return pos.x(); }
 		constexpr float Y() const { return pos.y(); }
 		
-		
-		
 		constexpr void Set_X(float x_) { pos.x() = x_; }
 		constexpr void Set_Y(float y_) { pos.y() = y_; }
-		
 		
 		constexpr float Vel_X() const { return vel.x(); }
 		constexpr float Vel_Y() const { return vel.y(); }
 		
-		
 		void Fusion()
 		{
+			if (mode == QEO_MODE) return;
+			
 			float radar_x = radar.X();
 			float radar_y = radar.Y();
 			
+			if (mode == RADAR_MODE)
+			{
+				Set_X(radar_x);
+				Set_Y(radar_y);
+				is_init = false;
+				return;
+			}
+			
+			/*--------------------------------------------*/
 			if (is_init)
 			{
 				if (last_radar_x != radar_x)
@@ -85,11 +96,7 @@ namespace qeo
 					
 					Set_X(pos_x);
 					Set_Y(pos_y);
-					
-					
-					
-					
-					
+					/*-------------------------------------*/
 					if (fabsf(error_x) > 0.2)
 					{
 						Set_X(radar_x);
@@ -110,13 +117,7 @@ namespace qeo
 						
 						reset_flag_x = false;
 					}
-					
-					
-					
-					
-					
-					
-					
+					/*-------------------------------------*/
 					if (fabsf(error_y) > 0.2)
 					{
 						Set_Y(radar_y);
@@ -137,6 +138,7 @@ namespace qeo
 						
 						reset_flag_y = false;
 					}
+					/*-------------------------------------*/
 				}
 			}
 			else
@@ -147,23 +149,22 @@ namespace qeo
 			}
 		}
 		
-		
-		
     private:
 		void Tim_It_Process() override 
 		{
 			Iteration();
 		}
-	
+		
 		static constexpr float RAD45 = 0.785398;
-		static constexpr float COS45 = 0.70710678118654752440084436210485;
 		static constexpr float QEO_POS_TO_M = 187.0 / 3591.0 * 0.064 / 2.0 * 0.9721559268098647573587907716786;
 		
 		motor::DjiMotor& m1;
 		motor::DjiMotor& m2;
 		motor::DjiMotor& m3;
 		motor::DjiMotor& m4;
-	
+		
+		data::RobotPose& pose;
+		
 		vector2d::Vector2D pos;
 		vector2d::Vector2D delay_pos[QEO_DELAY_FRAME];
 		uint8_t now_dx;
@@ -178,13 +179,13 @@ namespace qeo
 		
 		vector2d::Vector2D vel;
 		
-		
 		bool reset_flag_x;
 		bool reset_flag_y;
 		
 		bool is_init;
 		
-		data::RobotPose& pose;
+		QEOMode mode;
+		friend class FusionCtrl;
     };
 }
 #endif

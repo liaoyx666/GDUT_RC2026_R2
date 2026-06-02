@@ -6,6 +6,13 @@
 
 namespace fusion
 {
+	enum ImuFusionMode : uint8_t
+	{
+		IMU_FUSION_MODE = 0,
+		IMU_RADAR_MODE,
+	};
+	
+	
 	class ImuFusion
     {
     public:
@@ -26,6 +33,9 @@ namespace fusion
 		float last_radar_yaw;
 	
 		bool reset_flag;
+	
+		ImuFusionMode mode;
+		friend class FusionCtrl;
 	};
 }
 #endif

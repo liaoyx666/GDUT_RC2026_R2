@@ -8,11 +8,20 @@ namespace fusion
 		last_time = 0;
 		last_radar_yaw = 0;
 		is_init = false;
+		
+		mode = IMU_FUSION_MODE;
 	}
 	
 	void ImuFusion::Fusion()
 	{
 		float radar_yaw = radar.Yaw();
+		
+		if (mode == IMU_RADAR_MODE)
+		{
+			imu.Set_Yaw(radar_yaw);
+			is_init = false;
+			return;
+		}
 		
 		if (is_init)
 		{

@@ -32,6 +32,7 @@
 #include "RC_imu_fusion.h"
 #include "RC_mini_laser.h"
 #include "RC_QEO.h"
+#include "RC_fusion_ctrl.h"
 
 /* path */
 #include "RC_traj_plan3.h"
