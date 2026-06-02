@@ -33,6 +33,7 @@
 #include "RC_mini_laser.h"
 #include "RC_QEO.h"
 #include "RC_Aim.h"
+#include "RC_fusion_ctrl.h"
 
 /* path */
 #include "RC_traj_plan3.h"
@@ -55,6 +56,7 @@
 #include "RC_radar.h"
 #include "RC_best_path.h"
 #include "RC_camera_dock.h"
+#include "RC_aim.h"
 
 /* HAL */
 #include "fdcan.h"

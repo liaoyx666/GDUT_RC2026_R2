@@ -3,6 +3,7 @@
 #include "gpio.h"
 #include "RC_chassis.h"
 #include "RC_traj_track3.h"
+#include "RC_event3.h"
 
 #ifdef __cplusplus
 namespace chassis
@@ -36,7 +37,7 @@ namespace chassis
 		GPIO_PIN_8,
 		GPIO_PIN_2
 	};
-		
+	
 	enum LiftState : uint8_t
 	{
 		LIFT_RESET = 0, 	/* 默认状态 */
@@ -88,19 +89,55 @@ namespace chassis
 		void Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig);
 		bool Is_End() const {return (state == LIFT_RESET);}
 	
-		float up_pos;
-		float down_pos;
+		/*------------------------------------*/
 		
-		LiftDir d;
+		inline void Auto_Lift()
+		{
+			// EVENT_UP_2_READY_L
+			// EVENT_UP_4_READY_L
+			// EVENT_UP_2_READY_R
+			// EVENT_UP_4_READY_R
+			// EVENT_DOWN_2_READY_L
+			// EVENT_DOWN_4_READY_L
+			// EVENT_DOWN_2_READY_R
+			// EVENT_DOWN_4_READY_R
+			
+			if (Is_End())
+			{
+				for (uint8_t i = 0; i < 8; i++)
+				{
+					if (lift_event[i].Is_Trig())
+					{
+						if (i < 4)
+							la = LIFT_UP;
+						else
+							la = LIFT_DOWN;
+						
+						if ((i % 2) == 0)
+							lh = LIFT_20;
+						else
+							lh = LIFT_40;
+							
+						 if ((i % 4) < 2)
+							ld = LIFT_L;  // 左
+						else
+							ld = LIFT_R;  // 右
+						
+						lift_trig = true;
+						break;
+					}
+				}
+			}
+			
+			Lift(la, lh, ld, lift_trig);
+			
+			if (lift_trig) lift_trig = false;
+		}
 		
-		LiftState state;
-		
-	
     private:
 		void Set_wheel_Vel(float vel);
 	
-	
-		 void Set_Front_Lift_Pos(float pos)
+		void Set_Front_Lift_Pos(float pos)
 		{
 			if (d == LIFT_L)
 				L_lift.Set_Pos(pos * L_LIFT_POL);
@@ -108,7 +145,7 @@ namespace chassis
 				R_lift.Set_Pos(pos * R_LIFT_POL);
 		}
 	
-		 void Set_Back_Lift_Pos(float pos)
+		void Set_Back_Lift_Pos(float pos)
 		{
 			if (d == LIFT_L)
 				R_lift.Set_Pos(pos * R_LIFT_POL);
@@ -116,7 +153,7 @@ namespace chassis
 				L_lift.Set_Pos(pos * L_LIFT_POL);
 		}
 		
-		 float Get_Front_Lift_Pos()
+		float Get_Front_Lift_Pos()
 		{
 			if (d == LIFT_L)
 				return L_lift.Get_Pos() * L_LIFT_POL;
@@ -124,7 +161,7 @@ namespace chassis
 				return R_lift.Get_Pos() * R_LIFT_POL;
 		}
 		
-		 float Get_Back_Lift_Pos()
+		float Get_Back_Lift_Pos()
 		{
 			if (d == LIFT_L)
 				return R_lift.Get_Pos() * R_LIFT_POL;
@@ -133,7 +170,7 @@ namespace chassis
 		}
 		
 		
-		 void Set_Front_Lift_Td(float r, float v2_max)
+		void Set_Front_Lift_Td(float r, float v2_max)
 		{
 			if (d == LIFT_L)
 				L_lift.pid_pos.Set_Td(r, v2_max);
@@ -141,7 +178,7 @@ namespace chassis
 				R_lift.pid_pos.Set_Td(r, v2_max);
 		}
 		
-		 void Set_Back_Lift_Td(float r, float v2_max)
+		void Set_Back_Lift_Td(float r, float v2_max)
 		{
 			if (d == LIFT_L)
 				R_lift.pid_pos.Set_Td(r, v2_max);
@@ -158,7 +195,7 @@ namespace chassis
 				track->Force_Tan_Vel_Zero();
 		}
 		
-		 void Chassis_Start()
+		void Chassis_Start()
 		{
 			if (chassis)
 				chassis->Unforce_Lin_Vel_Zero();
@@ -167,7 +204,7 @@ namespace chassis
 				track->Unforce_Tan_Vel_Zero();
 		}
 		
-		 bool Get_Senser_Value(uint8_t n)
+		bool Get_Senser_Value(uint8_t n)
 		{
 			if (n > 6 && n == 0) return false; 
 			
@@ -177,9 +214,13 @@ namespace chassis
 				return senser_value[7 - n - 1];
 		}
 	
+		float up_pos;
+		float down_pos;
+		
+		LiftDir d;
+		LiftState state;
 		
 		
-
 		bool senser_value[6];
 	
 		motor::Motor& L_lift;
@@ -190,6 +231,15 @@ namespace chassis
 		
 		chassis::Chassis* chassis;
 		path::TrajTrack3* track;
+		
+		/*---------------------------*/
+		
+		path::Event3 lift_event[8];
+		
+		bool lift_trig;
+		LiftAction la;
+		LiftHeigth lh;
+		LiftDir ld;
     };
 }
 #endif

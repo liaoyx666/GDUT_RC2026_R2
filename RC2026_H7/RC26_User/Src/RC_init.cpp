@@ -1,4 +1,4 @@
-#include "RC_init.h"
+﻿#include "RC_init.h"
 /*==================外设==================*/
 // 定时中断
 tim::Tim tim7_1khz(htim7);
@@ -75,13 +75,15 @@ flysky::FlySky remote_ctrl(GPIO_PIN_8);
 fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
 
-qeo::QEO chassis_qeo(
+fusion::QEO chassis_qeo(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
 	robot_pose,
 	tim4_500hz,
 	radar
 );
+
+fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
 
 /*==================底盘=======================*/
 
@@ -131,7 +133,7 @@ path::GraphPlan graph_plan(path_plan);
 path::Navigation navigation(graph_plan);
 
 // 抬升自动上下台阶
-chassis::AutoLift auto_lift(lift);
+//chassis::AutoLift auto_lift(lift);
 
 // 航向检�?
 check::HeadCheck head_check(
@@ -198,23 +200,23 @@ void Main_Task(void *argument)
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
 	/*--------------------------------*/
-	navigation.Go_To_Get_Weapon_Head();
+	//navigation.Go_To_Get_Weapon_Head();
 
-	navigation.Go_To_Aim(); // Demo: 拾取武器头后→aim对准→dock
+	navigation.Go_To_Aim(); // Demo: 全程只跑aim事件
 
-	navigation.Go_To_Dock();
+	//navigation.Go_To_Dock();
 	
-	navigation.Go_To_Get_KFS(3, path::DIR_B);
+	//navigation.Go_To_Get_KFS(3, path::DIR_B);
 	
-	navigation.Go_To_Get_KFS(5, path::DIR_R);
+	//navigation.Go_To_Get_KFS(5, path::DIR_R);
 	
-	navigation.Go_To_Get_KFS(11, path::DIR_B);
+	//navigation.Go_To_Get_KFS(11, path::DIR_B);
 	
-//	navigation.Go_To_Put_KFS_2L(1);
-//	
-//	navigation.Go_To_Put_KFS_2L(2);
-//	
-//	navigation.Go_To_Put_KFS_2L(3);
+	//navigation.Go_To_Put_KFS_2L(1);
+	
+	//navigation.Go_To_Put_KFS_2L(2);
+	
+	//navigation.Go_To_Put_KFS_2L(3);
 	/*--------------------------------*/
 	
 	for (;;)
@@ -222,17 +224,33 @@ void Main_Task(void *argument)
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 		
+//		if (
+//			robot_pose.Y() > -1.5 && 
+//			robot_pose.X() > 7.3 - 0.5 && 
+//			robot_pose.X() < 7.3 + 1.5 + 0.5
+//		)
+//		{
+//			fusion_ctrl.Radar_Mode();
+//		}
+//		else
+//		{
+//			fusion_ctrl.Fusion_Mode();
+//		}
+//		
+		
+		
 		imu_fusion.Fusion();
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
-		chassis_qeo.Fusion();
-		
-		
-		float fusion_x = chassis_qeo.X();
-		float fusion_y = chassis_qeo.Y();
+		//chassis_qeo.Fusion();
+		//float fusion_x = chassis_qeo.X();
+		//float fusion_y = chassis_qeo.Y();
 		//robot_pose.Update_Position(&fusion_x, &fusion_y, NULL);
-		uart_printf("%f,%f\n", fusion_x, fusion_y);
+		
+		
+		
+		//uart_printf("%f,%f\n", robot_pose.X(), robot_pose.Y());
 		
 		
 		
@@ -251,7 +269,7 @@ void Main_Task(void *argument)
 //		dock.Auto_Dock();
 		aim_ctrl.Run();
 
-		get_weapon_head.Auto_Get_Weapon_Head();
+	//	get_weapon_head.Auto_Get_Weapon_Head();
 //		aim_ctrl.Demo_Trig();
 		// Demo: SWC=2 时持续触发 aim，用于调试相机对准
 		if (remote_ctrl.swc == 2)
@@ -260,10 +278,10 @@ void Main_Task(void *argument)
 		}
 
 
-		x_1 = gan.Get_X();
-		y_1 = gan.Get_Y();
-		z_1 = gan.Get_Z();
-		p_1 = gan.Get_P();
+//		x_1 = gan.Get_X();
+//		y_1 = gan.Get_Y();
+//		z_1 = gan.Get_Z();
+//		p_1 = gan.Get_P();
 		
 		if (remote_ctrl.swc == 0)
 		{
@@ -284,14 +302,7 @@ void Main_Task(void *argument)
 		else
 		{
 			path_plan.Disable();
-
-			if (remote_ctrl.swc == 2)
-			{
-			}
-			else
-			{
-				omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
-			}
+			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
 		osDelay(1);
@@ -306,7 +317,7 @@ void Path_Task(void *argument)
 	{
 		track.Traj_Track();
 		head_ctrl.Head_Ctrl();
-		auto_lift.Auto_Lift();
+		lift.Auto_Lift();
 		head_check.Head_Check();
 
 		osDelay(1);

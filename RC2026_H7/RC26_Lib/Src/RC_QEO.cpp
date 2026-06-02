@@ -1,6 +1,6 @@
 #include "RC_QEO.h"
 
-namespace qeo
+namespace fusion
 {
 	QEO::QEO(motor::DjiMotor& m1_, motor::DjiMotor& m2_, motor::DjiMotor& m3_, motor::DjiMotor& m4_, data::RobotPose& pose_, tim::Tim& tim_, ros::Radar& radar_)
 	: m1(m1_),
@@ -20,5 +20,7 @@ namespace qeo
 		last_radar_x = 0;
 		last_time_x = 0;
 		last_time_y = 0;
+		
+		mode = FUSION_MODE;
 	}
 }

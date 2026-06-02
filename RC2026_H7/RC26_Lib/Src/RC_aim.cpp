@@ -8,7 +8,7 @@ namespace aim
 		: camera(camera_), gantry(gantry_),
 		  user(gantry_),
 		  z_pid(z_pid_), y_pid(y_pid_),
-		  aim_event(22, 0.1f, true, true),
+		  aim_event(23, 0.1f, true, true), // EVENT_AIM = EVENT3_ID_23
 		  z_lpf(0.60f, 1000.0f), y_lpf(0.60f, 1000.0f)
 	{
 

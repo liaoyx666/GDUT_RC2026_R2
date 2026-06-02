@@ -11,9 +11,6 @@ namespace data
 	bool Is_Blue_Left_Side();
 	/*================左右半场===================*/
 	
-	
-	
-	
 	/*==============携带KFS的数量=====================*/
 	uint8_t KFS_Num();
 	void KFS_Add_One();
@@ -21,13 +18,10 @@ namespace data
 	/*==============携带KFS的数量=====================*/
 	
 	
-	
-	
-	
 	#define POSITION_TIME_OUT 1000000// us
 	#define ORIENTATION_TIME_OUT 1000000// us
 
-	class RobotPose// : public task::ManagedTask
+	class RobotPose
     {
     public:
 		RobotPose();
@@ -89,7 +83,7 @@ namespace data
 
 
 
-
+	
 
 
 

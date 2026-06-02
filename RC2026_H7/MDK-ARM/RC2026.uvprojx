@@ -137,7 +137,7 @@
             <DriverSelection>4101</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2V8M.DLL</Flash2>
+          <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -1141,6 +1141,16 @@
               <FileName>RC_mini_laser.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_mini_laser.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_fusion_ctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_fusion_ctrl.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_fusion_ctrl.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_fusion_ctrl.cpp</FilePath>
             </File>
           </Files>
         </Group>
