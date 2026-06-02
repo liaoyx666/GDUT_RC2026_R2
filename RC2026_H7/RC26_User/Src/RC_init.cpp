@@ -168,7 +168,8 @@ gantry::GetWeaponHead get_weapon_head(
 	robot_pose,
 	gan,
 	gripper_,
-	path_plan
+	path_plan,
+	head_ctrl
 );
 
 gantry::Dock dock(gripper_);

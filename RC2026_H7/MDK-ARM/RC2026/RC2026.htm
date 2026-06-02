@@ -3,7 +3,11 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
+<<<<<<< HEAD
 <BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Tue Jun  2 21:30:14 2026
+=======
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Tue Jun  2 21:10:07 2026
+>>>>>>> main
 <BR><P>
 <H3>Maximum Stack Usage =        488 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3367,7 +3371,11 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 </UL>
+<<<<<<< HEAD
 <BR>[Called By]<UL><LI><a href="#[230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)
+=======
+<BR>[Called By]<UL><LI><a href="#[22f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
+>>>>>>> main
 </UL>
 
 <P><STRONG><a name="[341]"></a>pid::NonlinearPid::NonlinearPid__sub_object(float, float, float, float, float, float)</STRONG> (Thumb, 192 bytes, Stack size 40 bytes, rc_nonlinear_pid.o(.text._ZN3pid12NonlinearPidC2Effffff), UNUSED)
@@ -3698,6 +3706,7 @@ Global Symbols
 <P><STRONG><a name="[256]"></a>path::Event3::Event3(unsigned char, float, bool, bool, float)</STRONG> (Thumb, 80 bytes, Stack size 8 bytes, rc_event3.o(.text._ZN4path6Event3C2Ehfbbf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = path::Event3::Event3(unsigned char, float, bool, bool, float)
 </UL>
+<<<<<<< HEAD
 <BR>[Called By]<UL><LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check::HeadCheck::HeadCheck(path::TrajTrack3&, data::RobotPose&)
 <LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Aim_Ctrl(ros::Camera&, gantry::Gantry&, pid::Pid&, pid::Pid&)
 <LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, path::TrajTrack3*)
@@ -3705,6 +3714,14 @@ Global Symbols
 <LI><a href="#[231]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Dock(gantry::Gripper&)
 <LI><a href="#[22e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
+=======
+<BR>[Called By]<UL><LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check::HeadCheck::HeadCheck(path::TrajTrack3&, data::RobotPose&)
+<LI><a href="#[223]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, path::TrajTrack3*)
+<LI><a href="#[230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Dock(gantry::Gripper&)
+<LI><a href="#[22f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
+<LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
+<LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
+>>>>>>> main
 </UL>
 
 <P><STRONG><a name="[34c]"></a>path::Event3::Event3__sub_object(unsigned char, float, bool, bool, float)</STRONG> (Thumb, 80 bytes, Stack size 8 bytes, rc_event3.o(.text._ZN4path6Event3C2Ehfbbf), UNUSED)
@@ -3726,8 +3743,12 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NonlinearPid()
 <LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::Init(float, float, float, float, float, float)
 </UL>
+<<<<<<< HEAD
 <BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 <LI><a href="#[230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)
+=======
+<BR>[Called By]<UL><LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
+>>>>>>> main
 </UL>
 
 <P><STRONG><a name="[34e]"></a>path::HeadCtrl::HeadCtrl__sub_object(data::RobotPose&, chassis::Chassis&, float)</STRONG> (Thumb, 68 bytes, Stack size 24 bytes, rc_head_ctrl.o(.text._ZN4path8HeadCtrlC2ERN4data9RobotPoseERN7chassis7ChassisEf), UNUSED)
@@ -4474,15 +4495,23 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[242]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
+<<<<<<< HEAD
 <P><STRONG><a name="[255]"></a>gantry::GantryUser::GantryUser(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE))
 <BR><BR>[Called By]<UL><LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Aim_Ctrl(ros::Camera&, gantry::Gantry&, pid::Pid&, pid::Pid&)
 <LI><a href="#[230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)
 <LI><a href="#[22e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
+=======
+<P><STRONG><a name="[2b7]"></a>gantry::GantryUser::GantryUser(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE))
+<BR><BR>[Called By]<UL><LI><a href="#[22f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
+<LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
+<LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
+>>>>>>> main
 </UL>
 
 <P><STRONG><a name="[360]"></a>gantry::GantryUser::GantryUser__sub_object(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE), UNUSED)
 
+<<<<<<< HEAD
 <P><STRONG><a name="[230]"></a>gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)</STRONG> (Thumb, 148 bytes, Stack size 40 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERNS_7GripperERN4path9PathPlan3E))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&) &rArr; path::HeadCtrl::HeadCtrl(data::RobotPose&, chassis::Chassis&, float) &rArr; pid::NonlinearPid::Init(float, float, float, float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
@@ -4490,11 +4519,42 @@ Global Symbols
 <LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Event3(unsigned char, float, bool, bool, float)
 <LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NonlinearPid(float, float, float, float, float, float)
 <LI><a href="#[225]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::HeadCtrl::HeadCtrl(data::RobotPose&, chassis::Chassis&, float)
+=======
+<P><STRONG><a name="[242]"></a>gantry::GetWeaponHead::Auto_Get_Weapon_Head()</STRONG> (Thumb, 1608 bytes, Stack size 64 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHead20Auto_Get_Weapon_HeadEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = gantry::GetWeaponHead::Auto_Get_Weapon_Head() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::Set_Current(float)
+<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NPid_Calculate(float, float, bool, float)
+<LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::Chassis::Set_World_Lin_Vel(vector2d::Vector2D)
+<LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::Chassis::Set_Ang_Vel(float)
+<LI><a href="#[2b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_P(float)
+<LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
+<LI><a href="#[2b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
+<LI><a href="#[2b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_X(float)
+<LI><a href="#[2b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
+<LI><a href="#[2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
+<LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
+<LI><a href="#[249]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
+</UL>
+
+<P><STRONG><a name="[22f]"></a>gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)</STRONG> (Thumb, 172 bytes, Stack size 32 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERNS_7GripperERN4path9PathPlan3ERNSB_8HeadCtrlEb))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool) &rArr; pid::NonlinearPid::NonlinearPid(float, float, float, float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
+</UL>
+<BR>[Calls]<UL><LI><a href="#[29a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Event3(unsigned char, float, bool, bool, float)
+<LI><a href="#[25b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NonlinearPid(float, float, float, float, float, float)
+<LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::GantryUser(gantry::Gantry&)
+>>>>>>> main
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
+<<<<<<< HEAD
 <P><STRONG><a name="[361]"></a>gantry::GetWeaponHead::GetWeaponHead__sub_object(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)</STRONG> (Thumb, 148 bytes, Stack size 40 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERNS_7GripperERN4path9PathPlan3E), UNUSED)
+=======
+<P><STRONG><a name="[35c]"></a>gantry::GetWeaponHead::GetWeaponHead__sub_object(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)</STRONG> (Thumb, 172 bytes, Stack size 32 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERNS_7GripperERN4path9PathPlan3ERNSB_8HeadCtrlEb), UNUSED)
+>>>>>>> main
 
 <P><STRONG><a name="[231]"></a>gantry::Dock::Dock(gantry::Gripper&)</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, rc_dock.o(.text._ZN6gantry4DockC2ERNS_7GripperE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = gantry::Dock::Dock(gantry::Gripper&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
@@ -4812,6 +4872,7 @@ Global Symbols
 
 <P><STRONG><a name="[249]"></a>chassis::Chassis::Set_Ang_Vel(float)</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, rc_chassis.o(.text._ZN7chassis7Chassis11Set_Ang_VelEf))
 <BR><BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Path_Task(void*)
+<LI><a href="#[242]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 </UL>
 
 <P><STRONG><a name="[ee]"></a>chassis::Chassis::Task_Process()</STRONG> (Thumb, 1376 bytes, Stack size 112 bytes, rc_chassis.o(.text._ZN7chassis7Chassis12Task_ProcessEv))
@@ -6198,6 +6259,7 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_map_graph.o(.init_array)
 </UL>
+<<<<<<< HEAD
 <P><STRONG><a name="[f6]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1428 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
 <LI>Call Chain = _GLOBAL__sub_I_RC_init.cpp &rArr; chassis::Omni4Chassis::Omni4Chassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, float, float, float, float, float, float, data::RobotPose&) &rArr; chassis::Chassis::Chassis__sub_object(float, float, float, float, float, float, data::RobotPose&) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
@@ -6239,6 +6301,45 @@ Local Symbols
 <LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::PathPlan3(path::LonConstr3, path::HeadConstr3, path::TrajTrack3&)
 <LI><a href="#[226]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::TrajTrack3(data::RobotPose&, chassis::Chassis&, path::HeadCtrl&, float)
 <LI><a href="#[1eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+=======
+<P><STRONG><a name="[f5]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1324 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
+<BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
+<LI>Call Chain = _GLOBAL__sub_I_RC_init.cpp &rArr; chassis::Omni4Chassis::Omni4Chassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, float, float, float, float, float, float, data::RobotPose&) &rArr; chassis::Chassis::Chassis__sub_object(float, float, float, float, float, float, data::RobotPose&) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+</UL>
+<BR>[Calls]<UL><LI><a href="#[218]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DM4340::DM4340(unsigned char, can::Can&, tim::Tim*, bool, float, float, bool)
+<LI><a href="#[216]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M3508D::M3508D(unsigned char, can::Can&, tim::Tim*, unsigned char, can::Can&, tim::Tim*, float, motor::MotorPol, bool)
+<LI><a href="#[214]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M3508::M3508(unsigned char, can::Can&, tim::Tim*, float, bool)
+<LI><a href="#[215]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M2006D::M2006D(unsigned char, can::Can&, tim::Tim*, unsigned char, can::Can&, tim::Tim*, float, motor::MotorPol, bool)
+<LI><a href="#[217]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M2006::M2006(unsigned char, can::Can&, tim::Tim*, float, bool)
+<LI><a href="#[221]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fusion::FusionCtrl::FusionCtrl(fusion::QEO&, fusion::ImuFusion&)
+<LI><a href="#[21c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mini_laser::MiniLaser::MiniLaser(__UART_HandleTypeDef&, unsigned char*)
+<LI><a href="#[21f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fusion::ImuFusion::ImuFusion(ros::Radar&, HWT101CT&)
+<LI><a href="#[220]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fusion::QEO::QEO(motor::DjiMotor&, motor::DjiMotor&, motor::DjiMotor&, motor::DjiMotor&, data::RobotPose&, tim::Tim&, ros::Radar&)
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check::HeadCheck::HeadCheck(path::TrajTrack3&, data::RobotPose&)
+<LI><a href="#[21d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWT101CT::HWT101CT(__UART_HandleTypeDef&, unsigned char*)
+<LI><a href="#[223]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, path::TrajTrack3*)
+<LI><a href="#[222]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::Omni4Chassis::Omni4Chassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, float, float, float, float, float, float, data::RobotPose&)
+<LI><a href="#[21b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lidar::LiDAR::LiDAR(__UART_HandleTypeDef&, unsigned char*)
+<LI><a href="#[21e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flysky::FlySky::FlySky(unsigned short)
+<LI><a href="#[211]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim::Tim::Tim(TIM_HandleTypeDef&)
+<LI><a href="#[213]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC(cdc::CDCType)
+<LI><a href="#[231]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task::TaskCreator::TaskCreator(char const*, unsigned char, unsigned short, void (*)(void*), void*)
+<LI><a href="#[212]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can::Can::Can(FDCAN_HandleTypeDef&)
+<LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::RobotPose::RobotPose()
+<LI><a href="#[21a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Radar::Radar(cdc::CDC&, unsigned char, data::RobotPose&)
+<LI><a href="#[230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Dock(gantry::Gripper&)
+<LI><a href="#[22e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gripper::Gripper(motor::DjiMotor&)
+<LI><a href="#[22f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
+<LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
+<LI><a href="#[22b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Suction::Suction(GPIO_TypeDef*, unsigned short)
+<LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
+<LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)
+<LI><a href="#[228]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Navigation(path::GraphPlan&)
+<LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::GraphPlan(path::PathPlan3&)
+<LI><a href="#[226]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::PathPlan3(path::LonConstr3, path::HeadConstr3, path::TrajTrack3&)
+<LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::HeadCtrl::HeadCtrl(data::RobotPose&, chassis::Chassis&, float)
+<LI><a href="#[225]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::TrajTrack3(data::RobotPose&, chassis::Chassis&, path::HeadCtrl&, float)
+>>>>>>> main
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_init.o(.init_array)
 </UL><P>
