@@ -5,7 +5,7 @@
 namespace path
 {
 	TrajTrack3::TrajTrack3(data::RobotPose& pose_, chassis::Chassis& chassis_, HeadCtrl& head_ctrl_, float deadzone_)
-	: /*task::ManagedTask("Track3Task", 30, 512, task::TASK_PERIOD, 1), */chassis(chassis_), head_ctrl(head_ctrl_), pose(pose_)
+	: chassis(chassis_), head_ctrl(head_ctrl_), pose(pose_)
 	{
 		path = nullptr;
 

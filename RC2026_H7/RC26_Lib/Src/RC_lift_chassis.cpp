@@ -37,6 +37,10 @@ namespace chassis
 	constexpr float LIFT_LOAD_R           = 2800;
 	constexpr float LIFT_LOAD_V_MAX       = 680;
 	
+	
+	
+	constexpr float LIFT_CHASSIS_UP_VEL = 0.4f;
+	
 	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.36f;
 	constexpr float LIFT_CHASSIS_FAST_VEL = 2.5f;
 
@@ -114,7 +118,7 @@ namespace chassis
 			case LIFT_UP_READY:
 			{
 				Chassis_Start();
-				if (chassis) chassis->Set_Max_Linear_Vel(LIFT_CHASSIS_SLOW_VEL);
+				if (chassis) chassis->Set_Max_Linear_Vel(LIFT_CHASSIS_UP_VEL);
 				
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
@@ -156,7 +160,7 @@ namespace chassis
 			case LIFT_UP_FORWARD:
 			{
 				Chassis_Start();
-				if (chassis) chassis->Set_Max_Linear_Vel(LIFT_CHASSIS_SLOW_VEL);
+				if (chassis) chassis->Set_Max_Linear_Vel(LIFT_CHASSIS_UP_VEL);
 				
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);

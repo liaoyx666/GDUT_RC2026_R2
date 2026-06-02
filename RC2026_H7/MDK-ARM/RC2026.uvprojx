@@ -1117,6 +1117,31 @@
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_head_check.cpp</FilePath>
             </File>
+            <File>
+              <FileName>RC_imu_fusion.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_imu_fusion.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_imu_fusion.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_imu_fusion.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_QEO.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_QEO.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_mini_laser.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_mini_laser.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_mini_laser.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_mini_laser.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

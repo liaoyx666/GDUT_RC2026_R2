@@ -28,11 +28,11 @@ namespace path
 			head = (head + 1) % NAVIGATION_MAX_DESTINATION;
 		}
 	}
-
-	constexpr float GET_KFS_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.03f;
-
-	/*
-		去夹取KFS
+	
+	constexpr float GET_KFS_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.02f;
+	
+	/* 
+		去夹取KFS 
 		kfs_node : KFS所属结点(几号MF)
 		get_dir : 从哪个方向夹取
 	*/

@@ -58,7 +58,11 @@ ros::Radar radar(CDC_HS, 1, robot_pose);
 
 // 激光测�?
 uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-lidar::LiDAR lidar_1(huart3, lidar_buffer);
+lidar::LiDAR lidar_1(huart1, lidar_buffer);
+
+// 
+uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+mini_laser::MiniLaser laser(huart3, laser_buffer);
 
 // 
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
@@ -67,14 +71,26 @@ HWT101CT hwt101ct(huart8, hwt101ct_buffer);
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
+
+fusion::ImuFusion imu_fusion(radar, hwt101ct);
+
+
+qeo::QEO chassis_qeo(
+	m3508_1_can1, m3508_2_can1,
+	m3508_3_can1, m3508_4_can1,
+	robot_pose,
+	tim4_500hz,
+	radar
+);
+
 /*==================底盘=======================*/
 
 // 全向轮底�?
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 4, 4.1,
-	5, 5, 6,
+	2.5, 3, 4,
+	5, 6, 7,
 	robot_pose
 );
 
@@ -135,8 +151,8 @@ gantry::Gantry gan(
 // 吸盘 
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
 
-// 自动取KFS
-gantry::GetKFS getKFS(gan, suck, lidar_1);
+// 取KFS
+gantry::GetKFS getKFS(gan, suck, laser);
 
 // 放KFS
 gantry::PutKFS putKFS(gan, suck);
@@ -194,11 +210,11 @@ void Main_Task(void *argument)
 	
 	navigation.Go_To_Get_KFS(11, path::DIR_B);
 	
-	navigation.Go_To_Put_KFS_2L(1);
-	
-	navigation.Go_To_Put_KFS_2L(2);
-	
-	navigation.Go_To_Put_KFS_2L(3);
+//	navigation.Go_To_Put_KFS_2L(1);
+//	
+//	navigation.Go_To_Put_KFS_2L(2);
+//	
+//	navigation.Go_To_Put_KFS_2L(3);
 	/*--------------------------------*/
 	
 	for (;;)
@@ -206,12 +222,28 @@ void Main_Task(void *argument)
 //		wave.Set_Amplitude(a);
 //		target = wave.Get_Signal();
 		
+		imu_fusion.Fusion();
+		float fusion_yaw = hwt101ct.Yaw();
+		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
+		
+		chassis_qeo.Fusion();
+		
+		
+		float fusion_x = chassis_qeo.X();
+		float fusion_y = chassis_qeo.Y();
+		//robot_pose.Update_Position(&fusion_x, &fusion_y, NULL);
+		uart_printf("%f,%f\n", fusion_x, fusion_y);
+		
+		
+		
+		
+		
 		path_plan.Plan();
 		
 		robot_pose.Robot_Pose_Check();
 		
 		getKFS.Auto_Get_KFS();
-
+		
 		gan.Gantry_Base();
 		
 		putKFS.Auto_Put_KFS();
@@ -335,7 +367,7 @@ void All_Init()
 	
 	// 串口接收初始�?
 	lidar_1.Uart_Rx_Start();
-	
+	laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
 
 	// 场地位置初始�?

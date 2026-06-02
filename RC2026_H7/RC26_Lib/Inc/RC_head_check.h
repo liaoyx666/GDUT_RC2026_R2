@@ -5,7 +5,7 @@
 #ifdef __cplusplus
 namespace check
 {
-	constexpr float HEAD_CHEAK_THRESHOLD = 2.5f * PI / 180.f; /*4度*/
+	constexpr float HEAD_CHEAK_THRESHOLD = 0.7f * PI / 180.f; /*4度*/
 
 	class HeadCheck
     {

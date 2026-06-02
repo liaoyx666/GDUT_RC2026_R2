@@ -51,7 +51,7 @@ namespace gantry
 
         pid::NonlinearPid chassis_npid_y;
         path::HeadCtrl head_ctrl;
-        Gripper& gripper; 
+        Gripper& gripper;
 
         uint8_t current_target_idx; 
         bool picked; 

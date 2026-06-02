@@ -31,10 +31,11 @@ namespace motor
 		
 		void Reset_Out_Angle(float out_angle_);// 重置输出轴角度0 ~ 2pi
 		
-		constexpr void Set_Cycle_Zero()
+		constexpr void Set_Pos_Zero()
 		{
 			cycle = 0;
-			pos = cycle * TWO_PI + angle + pos_offset;
+			pos_offset = -angle;
+			pos = 0;
 		}
 		
     protected:
