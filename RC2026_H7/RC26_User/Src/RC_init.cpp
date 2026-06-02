@@ -156,7 +156,7 @@ gantry::GetWeaponHead get_weapon_head(
 gantry::Dock dock(gripper_);
 
 // 相机
-ros::Camera camera(CDC_HS, 6, robot_pose);
+ros::Camera camera(CDC_HS, 6);
 
 // 相机对准
 pid::Pid aim_z_pid;
@@ -183,6 +183,8 @@ void Main_Task(void *argument)
 	
 	/*--------------------------------*/
 	navigation.Go_To_Get_Weapon_Head();
+
+	navigation.Go_To_Aim(); // Demo: 拾取武器头后→aim对准→dock
 
 	navigation.Go_To_Dock();
 	
@@ -214,10 +216,16 @@ void Main_Task(void *argument)
 		
 		putKFS.Auto_Put_KFS();
 		
-		dock.Auto_Dock();
+//		dock.Auto_Dock();
 		aim_ctrl.Run();
 
 		get_weapon_head.Auto_Get_Weapon_Head();
+//		aim_ctrl.Demo_Trig();
+		// Demo: SWC=2 时持续触发 aim，用于调试相机对准
+		if (remote_ctrl.swc == 2)
+		{
+			
+		}
 
 
 		x_1 = gan.Get_X();

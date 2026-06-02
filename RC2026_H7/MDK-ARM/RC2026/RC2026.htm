@@ -3,19 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<<<<<<< HEAD
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Wed May 27 22:45:06 2026
-=======
-<<<<<<< HEAD
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Wed May 27 22:04:07 2026
-=======
-<<<<<<< HEAD
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Wed May 27 21:44:33 2026
-=======
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed May 27 21:52:46 2026
->>>>>>> main
->>>>>>> parent of 376be22 (Revert "999")
->>>>>>> parent of ade570b (Revert "Reapply "14"")
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6210000: Last Updated: Tue Jun  2 17:56:39 2026
 <BR><P>
 <H3>Maximum Stack Usage =        480 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -233,7 +221,7 @@ Function Pointers
  <LI><a href="#[bf]">cdc::CDC::Task_Process()</a> from rc_cdc.o(.text._ZN3cdc3CDC12Task_ProcessEv) referenced from rc_cdc.o(.rodata._ZTVN3cdc3CDCE)
  <LI><a href="#[b7]">cdc::CDC::CDC_All_Task_Tx_Process(void*)</a> from rc_cdc.o(.text._ZN3cdc3CDC23CDC_All_Task_Tx_ProcessEPv) referenced 2 times from rc_cdc.o(.text._ZN3cdc3CDCC2ENS_7CDCTypeE)
  <LI><a href="#[c0]">ros::Radar::CDC_Receive_Process(unsigned char*, unsigned short)</a> from rc_radar.o(.text._ZN3ros5Radar19CDC_Receive_ProcessEPht) referenced from rc_radar.o(.rodata._ZTVN3ros5RadarE)
- <LI><a href="#[c1]">ros::Camera::CDC_Receive_Process(unsigned char*, unsigned short)</a> from rc_camera.o(.text._ZN3ros6Camera19CDC_Receive_ProcessEPht) referenced from rc_camera.o(.rodata._ZTVN3ros6CameraE)
+ <LI><a href="#[c1]">ros::Camera::CDC_Receive_Process(unsigned char*, unsigned short)</a> from rc_camera_dock.o(.text._ZN3ros6Camera19CDC_Receive_ProcessEPht) referenced from rc_camera_dock.o(.rodata._ZTVN3ros6CameraE)
  <LI><a href="#[c2]">path::Navigation::Task_Process()</a> from rc_navigation.o(.text._ZN4path10Navigation12Task_ProcessEv) referenced from rc_navigation.o(.rodata._ZTVN4path10NavigationE)
  <LI><a href="#[b8]">task::ManagedTask::All_Task_Process(void*)</a> from rc_task.o(.text._ZN4task11ManagedTask16All_Task_ProcessEPv) referenced 2 times from rc_task.o(.text._ZN4task11ManagedTaskC2EPKchtNS_8TaskTypeEh)
  <LI><a href="#[d1]">lidar::LiDAR::Uart_Rx_It_Process(unsigned char*, unsigned short)</a> from rc_lidar.o(.text._ZN5lidar5LiDAR18Uart_Rx_It_ProcessEPht) referenced from rc_lidar.o(.rodata._ZTVN5lidar5LiDARE)
@@ -1523,7 +1511,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_GPIO_Init
 <LI><a href="#[2b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
 <LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[132]"></a>HAL_GetTick</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32h7xx_hal.o(.text.HAL_GetTick))
@@ -3144,17 +3132,17 @@ Global Symbols
 <LI><a href="#[231]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flysky::FlySky::signal_swd()
 <LI><a href="#[230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flysky::FlySky::signal_swa()
 <LI><a href="#[23e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::Chassis::Set_World_Vel(vector2d::Vector2D, float)
-<LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
+<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
 <LI><a href="#[23d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Radar::Reposition()
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
-<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Auto_Dock()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
-<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry_Base()
-<LI><a href="#[233]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Dock()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Dock()
+<LI><a href="#[233]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Aim()
 <LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_Weapon_Head()
-<LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Put_KFS_2L(unsigned char)
-<LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
+<LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Put_KFS_2L(unsigned char)
+<LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
+<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry_Base()
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp)
 </UL>
@@ -3178,17 +3166,16 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[23b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Run()
 </UL>
 
-<P><STRONG><a name="[23b]"></a>aim::Aim_Ctrl::Run()</STRONG> (Thumb, 1608 bytes, Stack size 48 bytes, rc_aim.o(.text._ZN3aim8Aim_Ctrl3RunEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 224 + Unknown Stack Size
-<LI>Call Chain = aim::Aim_Ctrl::Run() &rArr; ros::Camera::Send_QR_Req() &rArr; cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short) &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[23b]"></a>aim::Aim_Ctrl::Run()</STRONG> (Thumb, 1232 bytes, Stack size 48 bytes, rc_aim.o(.text._ZN3aim8Aim_Ctrl3RunEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 232 + Unknown Stack Size
+<LI>Call Chain = aim::Aim_Ctrl::Run() &rArr; ros::Camera::QR_Enable() &rArr; cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short) &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Frame_Stable(aim::Aim_Ctrl::Axis, unsigned short, float)
-<LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
 <LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
 <LI><a href="#[249]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
+<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::QR_Enable()
 <LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
-<LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::Send_QR_Req()
+<LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 <LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::SecondOrderLPF::filter(float)
 <LI><a href="#[1e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
@@ -3263,7 +3250,7 @@ Global Symbols
 <P><STRONG><a name="[265]"></a>cdc::CDCHandler::CDCHandler__sub_object(cdc::CDC&, unsigned char)</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, rc_cdc.o(.text._ZN3cdc10CDCHandlerC2ERNS_3CDCEh))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = cdc::CDCHandler::CDCHandler__sub_object(cdc::CDC&, unsigned char)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::Camera(cdc::CDC&, unsigned char, data::RobotPose&)
+<BR>[Called By]<UL><LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::Camera(cdc::CDC&, unsigned char)
 <LI><a href="#[215]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Radar::Radar(cdc::CDC&, unsigned char, data::RobotPose&)
 </UL>
 
@@ -3274,7 +3261,7 @@ Global Symbols
 <LI><a href="#[259]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
 </UL>
-<BR>[Called By]<UL><LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::Send_QR_Req()
+<BR>[Called By]<UL><LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::QR_Enable()
 <LI><a href="#[23d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Radar::Reposition()
 </UL>
 
@@ -3421,26 +3408,26 @@ Global Symbols
 
 <P><STRONG><a name="[339]"></a>ros::Radar::Radar__sub_object(cdc::CDC&, unsigned char, data::RobotPose&)</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, rc_radar.o(.text._ZN3ros5RadarC2ERN3cdc3CDCEhRN4data9RobotPoseE), UNUSED)
 
-<P><STRONG><a name="[246]"></a>ros::Camera::Send_QR_Req()</STRONG> (Thumb, 36 bytes, Stack size 16 bytes, rc_camera.o(.text._ZN3ros6Camera11Send_QR_ReqEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = ros::Camera::Send_QR_Req() &rArr; cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short) &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[c1]"></a>ros::Camera::CDC_Receive_Process(unsigned char*, unsigned short)</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, rc_camera_dock.o(.text._ZN3ros6Camera19CDC_Receive_ProcessEPht))
+<BR>[Address Reference Count : 1]<UL><LI> rc_camera_dock.o(.rodata._ZTVN3ros6CameraE)
+</UL>
+<P><STRONG><a name="[247]"></a>ros::Camera::QR_Enable()</STRONG> (Thumb, 38 bytes, Stack size 24 bytes, rc_camera_dock.o(.text._ZN3ros6Camera9QR_EnableEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = ros::Camera::QR_Enable() &rArr; cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short) &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[257]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[23b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Run()
 </UL>
 
-<P><STRONG><a name="[c1]"></a>ros::Camera::CDC_Receive_Process(unsigned char*, unsigned short)</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, rc_camera.o(.text._ZN3ros6Camera19CDC_Receive_ProcessEPht))
-<BR>[Address Reference Count : 1]<UL><LI> rc_camera.o(.rodata._ZTVN3ros6CameraE)
-</UL>
-<P><STRONG><a name="[229]"></a>ros::Camera::Camera(cdc::CDC&, unsigned char, data::RobotPose&)</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, rc_camera.o(.text._ZN3ros6CameraC2ERN3cdc3CDCEhRN4data9RobotPoseE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ros::Camera::Camera(cdc::CDC&, unsigned char, data::RobotPose&) &rArr; cdc::CDCHandler::CDCHandler__sub_object(cdc::CDC&, unsigned char)
+<P><STRONG><a name="[229]"></a>ros::Camera::Camera(cdc::CDC&, unsigned char)</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, rc_camera_dock.o(.text._ZN3ros6CameraC2ERN3cdc3CDCEh))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = ros::Camera::Camera(cdc::CDC&, unsigned char) &rArr; cdc::CDCHandler::CDCHandler__sub_object(cdc::CDC&, unsigned char)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDCHandler::CDCHandler__sub_object(cdc::CDC&, unsigned char)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[33a]"></a>ros::Camera::Camera__sub_object(cdc::CDC&, unsigned char, data::RobotPose&)</STRONG> (Thumb, 38 bytes, Stack size 8 bytes, rc_camera.o(.text._ZN3ros6CameraC2ERN3cdc3CDCEhRN4data9RobotPoseE), UNUSED)
+<P><STRONG><a name="[33a]"></a>ros::Camera::Camera__sub_object(cdc::CDC&, unsigned char)</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, rc_camera_dock.o(.text._ZN3ros6CameraC2ERN3cdc3CDCEh), UNUSED)
 
 <P><STRONG><a name="[266]"></a>tim::TimHandler::TimHandler__sub_object(tim::Tim*)</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, rc_tim.o(.text._ZN3tim10TimHandlerC2EPNS_3TimE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = tim::TimHandler::TimHandler__sub_object(tim::Tim*)
@@ -3470,7 +3457,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2b8]"></a>data::KFS_Sub_One()</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, rc_data_pool.o(.text._ZN4data11KFS_Sub_OneEv))
-<BR><BR>[Called By]<UL><LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<BR><BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
 <P><STRONG><a name="[281]"></a>data::Is_Side_Init()</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, rc_data_pool.o(.text._ZN4data12Is_Side_InitEv))
@@ -3479,7 +3466,7 @@ Global Symbols
 
 <P><STRONG><a name="[26e]"></a>data::Is_Blue_Left_Side()</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, rc_data_pool.o(.text._ZN4data17Is_Blue_Left_SideEv))
 <BR><BR>[Called By]<UL><LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_Weapon_Head()
-<LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Put_KFS_2L(unsigned char)
+<LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Put_KFS_2L(unsigned char)
 <LI><a href="#[289]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Down_Hill(signed char)
 <LI><a href="#[27e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::MapGraph::Dir_From_To(unsigned char, unsigned char)
 <LI><a href="#[269]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::MapGraph::Get_MF_Center(unsigned char)
@@ -3487,8 +3474,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2b1]"></a>data::KFS_Num()</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, rc_data_pool.o(.text._ZN4data7KFS_NumEv))
-<BR><BR>[Called By]<UL><LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<BR><BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 <LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Trigger_Task_By_Event()
 </UL>
 
@@ -3528,7 +3515,7 @@ Global Symbols
 
 <P><STRONG><a name="[33d]"></a>path::LonConstr3::LonConstr3__sub_object()</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rc_path3.o(.text._ZN4path10LonConstr3C2Ev), UNUSED)
 
-<P><STRONG><a name="[233]"></a>path::Navigation::Go_To_Dock()</STRONG> (Thumb, 144 bytes, Stack size 8 bytes, rc_navigation.o(.text._ZN4path10Navigation10Go_To_DockEv))
+<P><STRONG><a name="[234]"></a>path::Navigation::Go_To_Dock()</STRONG> (Thumb, 144 bytes, Stack size 8 bytes, rc_navigation.o(.text._ZN4path10Navigation10Go_To_DockEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = path::Navigation::Go_To_Dock()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
@@ -3542,7 +3529,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_navigation.o(.rodata._ZTVN4path10NavigationE)
 </UL>
-<P><STRONG><a name="[234]"></a>path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)</STRONG> (Thumb, 264 bytes, Stack size 48 bytes, rc_navigation.o(.text._ZN4path10Navigation13Go_To_Get_KFSEhNS_9DirectionE))
+<P><STRONG><a name="[235]"></a>path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)</STRONG> (Thumb, 264 bytes, Stack size 48 bytes, rc_navigation.o(.text._ZN4path10Navigation13Go_To_Get_KFSEhNS_9DirectionE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction) &rArr; path::MapGraph::Get_Node_On_Pos(vector2d::Vector2D) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[26d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Head_Check_Id(path::Direction)
@@ -3554,7 +3541,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[235]"></a>path::Navigation::Go_To_Put_KFS_2L(unsigned char)</STRONG> (Thumb, 200 bytes, Stack size 16 bytes, rc_navigation.o(.text._ZN4path10Navigation16Go_To_Put_KFS_2LEh))
+<P><STRONG><a name="[236]"></a>path::Navigation::Go_To_Put_KFS_2L(unsigned char)</STRONG> (Thumb, 200 bytes, Stack size 16 bytes, rc_navigation.o(.text._ZN4path10Navigation16Go_To_Put_KFS_2LEh))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = path::Navigation::Go_To_Put_KFS_2L(unsigned char)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::Is_Blue_Left_Side()
@@ -3570,6 +3557,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
+<P><STRONG><a name="[233]"></a>path::Navigation::Go_To_Aim()</STRONG> (Thumb, 144 bytes, Stack size 8 bytes, rc_navigation.o(.text._ZN4path10Navigation9Go_To_AimEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = path::Navigation::Go_To_Aim()
+</UL>
+<BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
+</UL>
+
 <P><STRONG><a name="[21f]"></a>path::Navigation::Navigation(path::GraphPlan&)</STRONG> (Thumb, 88 bytes, Stack size 24 bytes, rc_navigation.o(.text._ZN4path10NavigationC2ERNS_9GraphPlanE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 256<LI>Call Chain = path::Navigation::Navigation(path::GraphPlan&) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
@@ -3581,7 +3574,7 @@ Global Symbols
 <P><STRONG><a name="[33e]"></a>path::Navigation::Navigation__sub_object(path::GraphPlan&)</STRONG> (Thumb, 88 bytes, Stack size 24 bytes, rc_navigation.o(.text._ZN4path10NavigationC2ERNS_9GraphPlanE), UNUSED)
 
 <P><STRONG><a name="[28d]"></a>path::TrajTrack3::Load_Path(path::Path3*)</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, rc_traj_track3.o(.text._ZN4path10TrajTrack39Load_PathEPNS_5Path3E))
-<BR><BR>[Called By]<UL><LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
+<BR><BR>[Called By]<UL><LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
 </UL>
 
 <P><STRONG><a name="[21c]"></a>path::TrajTrack3::TrajTrack3(data::RobotPose&, chassis::Chassis&, path::HeadCtrl&, float)</STRONG> (Thumb, 188 bytes, Stack size 72 bytes, rc_traj_track3.o(.text._ZN4path10TrajTrack3C2ERN4data9RobotPoseERN7chassis7ChassisERNS_8HeadCtrlEf))
@@ -3681,11 +3674,9 @@ Global Symbols
 <P><STRONG><a name="[341]"></a>path::Path3::Path3__sub_object()</STRONG> (Thumb, 140 bytes, Stack size 24 bytes, rc_path3.o(.text._ZN4path5Path3C2Ev), UNUSED)
 
 <P><STRONG><a name="[23f]"></a>path::Event3::Finish()</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rc_event3.o(.text._ZN4path6Event36FinishEv))
-<BR><BR>[Called By]<UL><LI><a href="#[23b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Run()
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Path_Task(void*)
+<BR><BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Path_Task(void*)
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
-<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Auto_Dock()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[2b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
 
@@ -3693,8 +3684,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[23b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Run()
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Path_Task(void*)
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
-<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Auto_Dock()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Trigger_Task_By_Event()
 </UL>
 
@@ -3744,7 +3734,7 @@ Global Symbols
 <P><STRONG><a name="[344]"></a>path::HeadCtrl::HeadCtrl__sub_object(data::RobotPose&, chassis::Chassis&, float)</STRONG> (Thumb, 68 bytes, Stack size 24 bytes, rc_head_ctrl.o(.text._ZN4path8HeadCtrlC2ERN4data9RobotPoseERN7chassis7ChassisEf), UNUSED)
 
 <P><STRONG><a name="[26c]"></a>path::MapGraph::Yaw_On_Dir(path::Direction)</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, rc_map_graph.o(.text._ZN4path8MapGraph10Yaw_On_DirENS_9DirectionE))
-<BR><BR>[Called By]<UL><LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
+<BR><BR>[Called By]<UL><LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
 <LI><a href="#[287]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Down_Ready_Id_Dir(path::Direction, signed char, path::Direction&) const
 <LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char)
 <LI><a href="#[28a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char)
@@ -3766,13 +3756,13 @@ Global Symbols
 <LI><a href="#[27f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_scale_f32
 <LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::Is_Blue_Left_Side()
 </UL>
-<BR>[Called By]<UL><LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
+<BR>[Called By]<UL><LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
 <LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char)
 <LI><a href="#[28a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char)
 </UL>
 
 <P><STRONG><a name="[26a]"></a>path::MapGraph::Offset_On_Dir(vector2d::Vector2D, path::Direction, float)</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, rc_map_graph.o(.text._ZN4path8MapGraph13Offset_On_DirEN8vector2d8Vector2DENS_9DirectionEf))
-<BR><BR>[Called By]<UL><LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
+<BR><BR>[Called By]<UL><LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
 <LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char)
 <LI><a href="#[28a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char)
 <LI><a href="#[289]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Down_Hill(signed char)
@@ -3787,7 +3777,7 @@ Global Symbols
 <LI><a href="#[281]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::Is_Side_Init()
 <LI><a href="#[22f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
+<BR>[Called By]<UL><LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
 <LI><a href="#[284]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::MapGraph::Get_Path(vector2d::Vector2D, vector2d::Vector2D, unsigned char*, unsigned char&)
 </UL>
 
@@ -3845,7 +3835,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[26d]"></a>path::GraphPlan::Head_Check_Id(path::Direction)</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan13Head_Check_IdENS_9DirectionE))
-<BR><BR>[Called By]<UL><LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
+<BR><BR>[Called By]<UL><LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)
 </UL>
 
 <P><STRONG><a name="[267]"></a>path::GraphPlan::Plan(path::NavPoint, path::Destination)</STRONG> (Thumb, 276 bytes, Stack size 104 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan4PlanENS_8NavPointENS_11DestinationE))
@@ -3891,7 +3881,7 @@ Global Symbols
 <LI><a href="#[267]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Plan(path::NavPoint, path::Destination)
 </UL>
 
-<P><STRONG><a name="[236]"></a>path::PathPlan3::Plan()</STRONG> (Thumb, 234 bytes, Stack size 72 bytes, rc_init.o(.text._ZN4path9PathPlan34PlanEv))
+<P><STRONG><a name="[237]"></a>path::PathPlan3::Plan()</STRONG> (Thumb, 234 bytes, Stack size 72 bytes, rc_init.o(.text._ZN4path9PathPlan34PlanEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 480 + Unknown Stack Size
 <LI>Call Chain = path::PathPlan3::Plan() &rArr; path::TrajPlan3::Add_Point(path::Point3) &rArr; path::TrajPlan3::Calc_End_Vel() &rArr; curve::Curve2D::Vel_On_Len(float, float) const &rArr; calcVel(float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
@@ -3969,7 +3959,7 @@ Global Symbols
 <LI><a href="#[290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Add_Constr(path::Point3, float)
 <LI><a href="#[29a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
+<BR>[Called By]<UL><LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
 </UL>
 
 <P><STRONG><a name="[28e]"></a>path::TrajPlan3::Load_Path(path::Path3*)</STRONG> (Thumb, 160 bytes, Stack size 88 bytes, rc_traj_plan3.o(.text._ZN4path9TrajPlan39Load_PathEPNS_5Path3E))
@@ -3980,7 +3970,7 @@ Global Symbols
 <LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::LonConstr3::LonConstr3()
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Reset()
 </UL>
-<BR>[Called By]<UL><LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
+<BR>[Called By]<UL><LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
 <LI><a href="#[21d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::PathPlan3(path::LonConstr3, path::HeadConstr3, path::TrajTrack3&)
 </UL>
 
@@ -4297,7 +4287,6 @@ Global Symbols
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M2006D::Tim_It_Process()
 <LI><a href="#[226]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gripper::Gripper(motor::DjiMotor&)
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
-<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Dock::Auto_Dock()
 </UL>
 
 <P><STRONG><a name="[d2]"></a>motor::DjiMotor::Can_Tx_Process()</STRONG> (Thumb, 114 bytes, Stack size 8 bytes, rc_dji_motor.o(.text._ZN5motor8DjiMotor14Can_Tx_ProcessEv))
@@ -4425,11 +4414,11 @@ Global Symbols
 <P><STRONG><a name="[24b]"></a>gantry::GantryUser::Give_Control()</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUser12Give_ControlEv))
 <BR><BR>[Called By]<UL><LI><a href="#[23b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Run()
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[2b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
 
-<P><STRONG><a name="[247]"></a>gantry::GantryUser::Take_Control()</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, rc_gantry.o(.text._ZN6gantry10GantryUser12Take_ControlEv))
+<P><STRONG><a name="[246]"></a>gantry::GantryUser::Take_Control()</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, rc_gantry.o(.text._ZN6gantry10GantryUser12Take_ControlEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueSemaphoreTake
@@ -4437,8 +4426,8 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[23b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;aim::Aim_Ctrl::Run()
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[2ae]"></a>gantry::GantryUser::Set_Defualt_Td()</STRONG> (Thumb, 128 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry10GantryUser14Set_Defualt_TdEv))
@@ -4446,7 +4435,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float, float)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
 <P><STRONG><a name="[24d]"></a>gantry::GantryUser::GantryUser(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE))
@@ -4458,15 +4447,15 @@ Global Symbols
 
 <P><STRONG><a name="[353]"></a>gantry::GantryUser::GantryUser__sub_object(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE), UNUSED)
 
-<P><STRONG><a name="[23c]"></a>gantry::GetWeaponHead::Auto_Get_Weapon_Head()</STRONG> (Thumb, 1308 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHead20Auto_Get_Weapon_HeadEv))
+<P><STRONG><a name="[23c]"></a>gantry::GetWeaponHead::Auto_Get_Weapon_Head()</STRONG> (Thumb, 1304 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHead20Auto_Get_Weapon_HeadEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = gantry::GetWeaponHead::Auto_Get_Weapon_Head() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::Set_Current(float)
-<LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
+<BR>[Calls]<UL><LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
+<LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::Set_Current(float)
 <LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
 <LI><a href="#[249]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
 <LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
+<LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 <LI><a href="#[242]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NPid_Calculate(float, float, bool, float)
 <LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::Chassis::Set_World_Lin_Vel(vector2d::Vector2D)
@@ -4489,16 +4478,6 @@ Global Symbols
 
 <P><STRONG><a name="[354]"></a>gantry::GetWeaponHead::GetWeaponHead__sub_object(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)</STRONG> (Thumb, 148 bytes, Stack size 40 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERNS_7GripperERN4path9PathPlan3E), UNUSED)
 
-<P><STRONG><a name="[23a]"></a>gantry::Dock::Auto_Dock()</STRONG> (Thumb, 102 bytes, Stack size 8 bytes, rc_dock.o(.text._ZN6gantry4Dock9Auto_DockEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = gantry::Dock::Auto_Dock()
-</UL>
-<BR>[Calls]<UL><LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::Set_Current(float)
-<LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
-<LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
-</UL>
-<BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
-</UL>
-
 <P><STRONG><a name="[228]"></a>gantry::Dock::Dock(gantry::Gripper&)</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, rc_dock.o(.text._ZN6gantry4DockC2ERNS_7GripperE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = gantry::Dock::Dock(gantry::Gripper&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
 </UL>
@@ -4509,11 +4488,11 @@ Global Symbols
 
 <P><STRONG><a name="[355]"></a>gantry::Dock::Dock__sub_object(gantry::Gripper&)</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, rc_dock.o(.text._ZN6gantry4DockC2ERNS_7GripperE), UNUSED)
 
-<P><STRONG><a name="[238]"></a>gantry::Gantry::Gantry_Base()</STRONG> (Thumb, 592 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry11Gantry_BaseEv))
+<P><STRONG><a name="[239]"></a>gantry::Gantry::Gantry_Base()</STRONG> (Thumb, 592 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry11Gantry_BaseEv))
 <BR><BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[11f]"></a>gantry::Gantry::Init()</STRONG> (Thumb, 156 bytes, Stack size 24 bytes, rc_init.o(.text._ZN6gantry6Gantry4InitEv))
+<P><STRONG><a name="[11f]"></a>gantry::Gantry::Init()</STRONG> (Thumb, 152 bytes, Stack size 24 bytes, rc_init.o(.text._ZN6gantry6Gantry4InitEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = gantry::Gantry::Init()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
@@ -4530,8 +4509,8 @@ Global Symbols
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
 <LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[2af]"></a>gantry::Gantry::Set_X(float)</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry5Set_XEf))
@@ -4539,8 +4518,8 @@ Global Symbols
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
 <LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[24a]"></a>gantry::Gantry::Set_Y(float)</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry5Set_YEf))
@@ -4548,8 +4527,8 @@ Global Symbols
 <LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Init()
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[249]"></a>gantry::Gantry::Set_Z(float)</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry5Set_ZEf))
@@ -4558,8 +4537,8 @@ Global Symbols
 <LI><a href="#[23c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
 <LI><a href="#[2b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
-<LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[222]"></a>gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME))
@@ -4573,13 +4552,13 @@ Global Symbols
 
 <P><STRONG><a name="[356]"></a>gantry::Gantry::Gantry__sub_object(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME), UNUSED)
 
-<P><STRONG><a name="[237]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 736 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
+<P><STRONG><a name="[238]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 736 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = gantry::GetKFS::Auto_Get_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
 <LI><a href="#[249]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
+<LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Num()
 <LI><a href="#[2b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Trigger_Task_By_Event()
 <LI><a href="#[2b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
@@ -4596,7 +4575,7 @@ Global Symbols
 <LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 <LI><a href="#[2b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
 </UL>
-<BR>[Called By]<UL><LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<BR>[Called By]<UL><LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[2b5]"></a>gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)</STRONG> (Thumb, 204 bytes, Stack size 32 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS13Set_Ctrl_ModeENS0_9SpeedModeE))
@@ -4615,7 +4594,7 @@ Global Symbols
 <LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Num()
 <LI><a href="#[2b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
 </UL>
-<BR>[Called By]<UL><LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<BR>[Called By]<UL><LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
 <P><STRONG><a name="[2b4]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 928 bytes, Stack size 72 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
@@ -4638,14 +4617,14 @@ Global Symbols
 
 <P><STRONG><a name="[357]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&)</STRONG> (Thumb, 228 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN5lidar5LiDARE), UNUSED)
 
-<P><STRONG><a name="[239]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 264 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[23a]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 252 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
 <LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
 <LI><a href="#[249]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
 <LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
+<LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 <LI><a href="#[2b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
 <LI><a href="#[2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Sub_One()
@@ -4668,7 +4647,7 @@ Global Symbols
 <LI><a href="#[2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_P(float)
 <LI><a href="#[2af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_X(float)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
 <P><STRONG><a name="[2b7]"></a>gantry::PutKFS::Put_KFS_Phase()</STRONG> (Thumb, 612 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS13Put_KFS_PhaseEv))
@@ -4680,7 +4659,7 @@ Global Symbols
 <LI><a href="#[2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_P(float)
 <LI><a href="#[2af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_X(float)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
 <P><STRONG><a name="[225]"></a>gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)</STRONG> (Thumb, 108 bytes, Stack size 32 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFSC2ERNS_6GantryERNS_7SuctionE))
@@ -4922,7 +4901,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[28b]"></a>path::PathPlan3::Point_Num() const</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, rc_path_plan3.o(.text._ZNK4path9PathPlan39Point_NumEv))
-<BR><BR>[Called By]<UL><LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
+<BR><BR>[Called By]<UL><LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
 </UL>
 
 <P><STRONG><a name="[c9]"></a>curve::Arc2D::Get_End_Dir() const</STRONG> (Thumb, 66 bytes, Stack size 24 bytes, rc_curve.o(.text._ZNK5curve5Arc2D11Get_End_DirEv))
@@ -5572,7 +5551,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvSampleTimeNow
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvTimerTask
 <LI><a href="#[25c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueCreateMutex
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
+<LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[257]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short)
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC_All_Task_Tx_Process(void*)
 </UL>
@@ -5612,7 +5591,7 @@ Global Symbols
 <LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSuspendAll
 <LI><a href="#[1e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
 </UL>
-<BR>[Called By]<UL><LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
+<BR>[Called By]<UL><LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[257]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short)
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC_All_Task_Tx_Process(void*)
 </UL>
@@ -6163,7 +6142,7 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_map_graph.o(.init_array)
 </UL>
-<P><STRONG><a name="[f2]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1336 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
+<P><STRONG><a name="[f2]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1332 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
 <LI>Call Chain = _GLOBAL__sub_I_RC_init.cpp &rArr; chassis::Omni4Chassis::Omni4Chassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, float, float, float, float, float, float, data::RobotPose&) &rArr; chassis::Chassis::Chassis__sub_object(float, float, float, float, float, float, data::RobotPose&) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
@@ -6186,7 +6165,7 @@ Local Symbols
 <LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task::TaskCreator::TaskCreator(char const*, unsigned char, unsigned short, void (*)(void*), void*)
 <LI><a href="#[20d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can::Can::Can(FDCAN_HandleTypeDef&)
 <LI><a href="#[214]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::RobotPose::RobotPose()
-<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::Camera(cdc::CDC&, unsigned char, data::RobotPose&)
+<LI><a href="#[229]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Camera::Camera(cdc::CDC&, unsigned char)
 <LI><a href="#[215]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::Radar::Radar(cdc::CDC&, unsigned char, data::RobotPose&)
 <LI><a href="#[226]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gripper::Gripper(motor::DjiMotor&)
 <LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&)
@@ -6194,8 +6173,8 @@ Local Symbols
 <LI><a href="#[225]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
 <LI><a href="#[223]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Suction::Suction(GPIO_TypeDef*, unsigned short)
 <LI><a href="#[224]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, lidar::LiDAR&)
-<LI><a href="#[222]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)
 <LI><a href="#[21f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Navigation(path::GraphPlan&)
+<LI><a href="#[222]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)
 <LI><a href="#[21e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::GraphPlan(path::PathPlan3&)
 <LI><a href="#[21b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::HeadCtrl::HeadCtrl(data::RobotPose&, chassis::Chassis&, float)
 <LI><a href="#[21d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::PathPlan3(path::LonConstr3, path::HeadConstr3, path::TrajTrack3&)

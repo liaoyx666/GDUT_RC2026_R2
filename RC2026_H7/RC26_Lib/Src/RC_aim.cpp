@@ -56,7 +56,12 @@ namespace aim
 			return;
 		}
 
-		camera.Send_QR_Req();
+		/* 等待上位机确认 QR 通道就绪 */
+		if (!camera.Is_QR_Enabled())
+		{
+			camera.QR_Enable();
+			return;
+		}
 
 		// 四轴全零 = 相机未识别到目标，数据不予采纳
 		if (fabsf(camera.X()) < 1e-6f && fabsf(camera.Y()) < 1e-6f
@@ -71,11 +76,11 @@ namespace aim
 		case Phase_Check:
 			if (camera.Event() == 0) return;                    // 相机未检测到目标，等待
 
-			if (Frame_Stable(Axis_X, 5) && Frame_Stable(Axis_Y, 5) && Frame_Stable(Axis_Z, 5))
-			{
-				Tracker_Clear();
+	//		if (Frame_Stable(Axis_X, 5) && Frame_Stable(Axis_Y, 5) && Frame_Stable(Axis_Z, 5))
+	//		{
+	//			Tracker_Clear();
 				phase = Phase_Yaw;
-			}
+	//		}
 			break;
 
 		/*---- 阶段1：yaw角补正，PID闭环控制底盘角速度 ----*/
@@ -138,9 +143,11 @@ namespace aim
 
 		/*---- 阶段5：对准完成 ----*/
 		case Phase_Done:
-			aim_event.Finish();
+			// camera.QR_Disable();      // 正式: 通知上位机关闭QR
+			// aim_event.Finish();        // 正式: 通知导航aim完成
 			user.Give_Control();
-			phase = Phase_Idle;
+			Tracker_Clear();
+			phase = Phase_Check;          // 持续瞄准: 直接回到粗调循环; 正式改为 Phase_Idle
 			break;
 		default:
 			phase = Phase_Idle;

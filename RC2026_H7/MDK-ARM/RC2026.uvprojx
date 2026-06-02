@@ -1338,11 +1338,6 @@
               <FilePath>..\RC26_Path\Inc\RC_graph_plan.h</FilePath>
             </File>
             <File>
-              <FileName>RC_navigation.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Path\Src\RC_navigation.cpp</FilePath>
-            </File>
-            <File>
               <FileName>RC_navigation.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Path\Inc\RC_navigation.h</FilePath>
@@ -1353,14 +1348,19 @@
           <GroupName>RC26_Gantry</GroupName>
           <Files>
             <File>
+              <FileName>RC_gantry.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_gantry.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_gantry.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Gantry\Src\RC_gantry.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_gantry.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Gantry\Inc\RC_gantry.h</FilePath>
+              <FileName>RC_navigation.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_navigation.cpp</FilePath>
             </File>
             <File>
               <FileName>RC_get_KFS.cpp</FileName>
@@ -1443,14 +1443,24 @@
               <FilePath>..\RC26_Ros_Interface\Inc\RC_best_path.h</FilePath>
             </File>
             <File>
-              <FileName>RC_camera.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Ros_Interface\Inc\RC_camera.h</FilePath>
+              <FileName>RC_KFS_pose.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_KFS_pose.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_camera.cpp</FileName>
+              <FileName>RC_KFS_pose.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_KFS_pose.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_camera_dock.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_camera_dock.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_camera_dock.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\RC26_Ros_Interface\Src\RC_camera.cpp</FilePath>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_camera_dock.cpp</FilePath>
             </File>
           </Files>
         </Group>

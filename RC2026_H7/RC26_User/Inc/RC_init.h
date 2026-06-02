@@ -51,7 +51,7 @@
 /* ROS */
 #include "RC_radar.h"
 #include "RC_best_path.h"
-#include "RC_camera.h"
+#include "RC_camera_dock.h"
 
 /* HAL */
 #include "fdcan.h"

@@ -1114,7 +1114,7 @@
 
   <Group>
     <GroupName>RC26_Api</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2038,7 +2038,7 @@
 
   <Group>
     <GroupName>RC26_Path</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2261,18 +2261,6 @@
     <File>
       <GroupNumber>12</GroupNumber>
       <FileNumber>150</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Path\Src\RC_navigation.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_navigation.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>12</GroupNumber>
-      <FileNumber>151</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -2292,6 +2280,18 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>13</GroupNumber>
+      <FileNumber>151</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Gantry\Inc\RC_gantry.h</PathWithFileName>
+      <FilenameWithoutPath>RC_gantry.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>13</GroupNumber>
       <FileNumber>152</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
@@ -2305,12 +2305,12 @@
     <File>
       <GroupNumber>13</GroupNumber>
       <FileNumber>153</FileNumber>
-      <FileType>5</FileType>
+      <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Gantry\Inc\RC_gantry.h</PathWithFileName>
-      <FilenameWithoutPath>RC_gantry.h</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Path\Src\RC_navigation.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_navigation.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2426,7 +2426,7 @@
 
   <Group>
     <GroupName>RC26_Ros_Interface</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -2505,24 +2505,48 @@
     <File>
       <GroupNumber>14</GroupNumber>
       <FileNumber>169</FileNumber>
-      <FileType>5</FileType>
+      <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Ros_Interface\Inc\RC_camera.h</PathWithFileName>
-      <FilenameWithoutPath>RC_camera.h</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Ros_Interface\Src\RC_KFS_pose.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_KFS_pose.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
       <GroupNumber>14</GroupNumber>
       <FileNumber>170</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Inc\RC_KFS_pose.h</PathWithFileName>
+      <FilenameWithoutPath>RC_KFS_pose.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>14</GroupNumber>
+      <FileNumber>171</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Ros_Interface\Inc\RC_camera_dock.h</PathWithFileName>
+      <FilenameWithoutPath>RC_camera_dock.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>14</GroupNumber>
+      <FileNumber>172</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Ros_Interface\Src\RC_camera.cpp</PathWithFileName>
-      <FilenameWithoutPath>RC_camera.cpp</FilenameWithoutPath>
+      <PathWithFileName>..\RC26_Ros_Interface\Src\RC_camera_dock.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_camera_dock.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -2536,7 +2560,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>15</GroupNumber>
-      <FileNumber>171</FileNumber>
+      <FileNumber>173</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -2548,7 +2572,7 @@
     </File>
     <File>
       <GroupNumber>15</GroupNumber>
-      <FileNumber>172</FileNumber>
+      <FileNumber>174</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -2560,7 +2584,7 @@
     </File>
     <File>
       <GroupNumber>15</GroupNumber>
-      <FileNumber>173</FileNumber>
+      <FileNumber>175</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -2572,7 +2596,7 @@
     </File>
     <File>
       <GroupNumber>15</GroupNumber>
-      <FileNumber>174</FileNumber>
+      <FileNumber>176</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -2584,7 +2608,7 @@
     </File>
     <File>
       <GroupNumber>15</GroupNumber>
-      <FileNumber>175</FileNumber>
+      <FileNumber>177</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -2596,7 +2620,7 @@
     </File>
     <File>
       <GroupNumber>15</GroupNumber>
-      <FileNumber>176</FileNumber>
+      <FileNumber>178</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

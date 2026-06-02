@@ -1,6 +1,5 @@
 #pragma once
 #include "RC_cdc.h"
-#include "RC_data_pool.h"
 
 #ifdef __cplusplus
 namespace ros
@@ -8,7 +7,7 @@ namespace ros
 	class Camera : cdc::CDCHandler
 	{
 	public:
-		Camera(cdc::CDC &cdc_, uint8_t rx_id_, data::RobotPose& robot_pose_);
+		Camera(cdc::CDC &cdc_, uint8_t rx_id_);
 		~Camera() = default;
 
 		float X() const { return x; }
@@ -24,6 +23,10 @@ namespace ros
 			return false;
 		}
 
+		bool QR_Enable();                     // 发送 QR 请求，返回 Is_QR_Enabled()
+		bool QR_Disable();                    // 发送 QR 关闭，返回 !Is_QR_Enabled()
+		bool Is_QR_Enabled() const { return is_qr_enabled; }
+
 		void Send_QR_Req();         // id=c → 二维码识别，相机开启
 		void Send_QR_Close();       // id=d → 相机通道关闭
 
@@ -31,10 +34,11 @@ namespace ros
 		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;
 
 	private:
+		uint8_t id;
 		volatile float x = 0, y = 0, z = 0, yaw = 0;
 		volatile uint8_t event = 0;
 		volatile bool new_data = false;
-		data::RobotPose* robot_pose;
+		volatile bool is_qr_enabled = false;
 	};
 }
 #endif

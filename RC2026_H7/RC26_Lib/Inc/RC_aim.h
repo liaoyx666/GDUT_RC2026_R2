@@ -1,5 +1,5 @@
 #pragma once
-#include "RC_camera.h"
+#include "RC_camera_dock.h"
 #include "RC_pid.h"
 #include "RC_chassis.h"
 #include "RC_vector2d.h"
@@ -65,6 +65,16 @@ namespace aim
 		void Run();
 		bool Is_Done() const { return phase == Phase_Done; }
 		float Get_Y() const { return y_result; }
+
+		// Demo: 旁路 Event3 导航触发，aim 空闲时强制进入瞄准
+		void Demo_Trig()
+		{
+			if (phase == Phase_Idle)
+			{
+				Tracker_Clear();
+				phase = Phase_Check;
+			}
+		}
 
 	private:
 		float Get_Data(Axis axis);
