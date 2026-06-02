@@ -11,8 +11,6 @@ namespace path
 	constexpr uint8_t GRAPH_INVALID = 16;
 	constexpr uint8_t GRAPH_INF = 0xFF; /*不可达标记（最大距离远小于255）*/
 	
-
-	
 	struct Graph
 	{
 		uint8_t node;
@@ -28,7 +26,6 @@ namespace path
 		DIR_R =  4,
 		DIR_INVALID = 0,
 	};
-	
 	
 	// ==============================
 	// 1. 取反 -dir （掉头）
@@ -163,14 +160,9 @@ namespace path
 		static vector2d::Vector2D Offset_On_Dir(vector2d::Vector2D p, Direction dir, float offset);
 		
 	
-	
-	
-	
 		static constexpr float MF_SIZE = 1.2f;
 		static constexpr float CHASSIS_SIZE = 0.8f;
 	
-	
-		
 		static constexpr float FIELD_LENGTH = 12;
 		static constexpr float FIELD_WIDTH = 6;
 		
@@ -243,8 +235,6 @@ namespace path
 			{{13           , 1}, {GRAPH_INVALID, 0}, {GRAPH_INVALID, 0}, {GRAPH_INVALID, 0}}  // 14 对抗区 ARENA
 		};
 		
-		
-		
    private:		
 		
 		/*节点是否可到达（只有MF部分可设置）*/
@@ -266,7 +256,6 @@ namespace path
 			true,
 			true
 		};
-
 	};
 }
 #endif

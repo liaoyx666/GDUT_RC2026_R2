@@ -138,6 +138,14 @@ namespace path
 		return Go_To_Do(p, yaw, EVENT_DOCK);
 	}
 	
+		
+	
+	bool Go_To_Combine()
+	{
+		
+		return 1;
+	}
+	
 	
 	void Navigation::Task_Process()
 	{
@@ -165,4 +173,5 @@ namespace path
 			}
 		}
 	}
+
 }
