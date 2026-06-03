@@ -137,7 +137,7 @@
             <DriverSelection>4101</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash2>BIN\UL2V8M.DLL</Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -1098,19 +1098,14 @@
               <FilePath>..\RC26_Lib\Inc\RC_auto_lift.h</FilePath>
             </File>
             <File>
-              <FileName>RC_aim.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_aim.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_aim.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_aim.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_HWT101CT.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_HWT101CT.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_HWT101CT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_HWT101CT.h</FilePath>
             </File>
             <File>
               <FileName>RC_head_check.cpp</FileName>
@@ -1118,9 +1113,19 @@
               <FilePath>..\RC26_Lib\Src\RC_head_check.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_imu_fusion.h</FileName>
+              <FileName>RC_head_check.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_imu_fusion.h</FilePath>
+              <FilePath>..\RC26_Lib\Inc\RC_head_check.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_QEO.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_QEO.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_QEO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_QEO.h</FilePath>
             </File>
             <File>
               <FileName>RC_imu_fusion.cpp</FileName>
@@ -1128,9 +1133,9 @@
               <FilePath>..\RC26_Lib\Src\RC_imu_fusion.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_QEO.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_QEO.cpp</FilePath>
+              <FileName>RC_imu_fusion.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_imu_fusion.h</FilePath>
             </File>
             <File>
               <FileName>RC_mini_laser.cpp</FileName>
@@ -1143,14 +1148,34 @@
               <FilePath>..\RC26_Lib\Inc\RC_mini_laser.h</FilePath>
             </File>
             <File>
-              <FileName>RC_fusion_ctrl.h</FileName>
+              <FileName>Serial1Protocol.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\Serial1Protocol.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Serial1Protocol.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_fusion_ctrl.h</FilePath>
+              <FilePath>..\RC26_Lib\Inc\Serial1Protocol.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_combine.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_combine.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_combine.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_combine.h</FilePath>
             </File>
             <File>
               <FileName>RC_fusion_ctrl.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_fusion_ctrl.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_fusion_ctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_fusion_ctrl.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1333,16 +1358,6 @@
               <FilePath>..\RC26_Path\Inc\RC_traj_track3.h</FilePath>
             </File>
             <File>
-              <FileName>RC_path_plan3.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Path\Src\RC_path_plan3.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_path_plan3.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Path\Inc\RC_path_plan3.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_head_ctrl.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Path\Src\RC_head_ctrl.cpp</FilePath>
@@ -1351,6 +1366,16 @@
               <FileName>RC_head_ctrl.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Path\Inc\RC_head_ctrl.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path_plan3.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_path_plan3.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_path_plan3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_path_plan3.h</FilePath>
             </File>
             <File>
               <FileName>RC_map_graph.cpp</FileName>
@@ -1373,9 +1398,24 @@
               <FilePath>..\RC26_Path\Inc\RC_graph_plan.h</FilePath>
             </File>
             <File>
+              <FileName>RC_navigation.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_navigation.cpp</FilePath>
+            </File>
+            <File>
               <FileName>RC_navigation.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Path\Inc\RC_navigation.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_point_lock.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Path\Src\RC_point_lock.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_point_lock.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Path\Inc\RC_point_lock.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1383,19 +1423,14 @@
           <GroupName>RC26_Gantry</GroupName>
           <Files>
             <File>
-              <FileName>RC_gantry.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Gantry\Inc\RC_gantry.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_gantry.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Gantry\Src\RC_gantry.cpp</FilePath>
             </File>
             <File>
-              <FileName>RC_navigation.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Path\Src\RC_navigation.cpp</FilePath>
+              <FileName>RC_gantry.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_gantry.h</FilePath>
             </File>
             <File>
               <FileName>RC_get_KFS.cpp</FileName>
@@ -1428,19 +1463,44 @@
               <FilePath>..\RC26_Gantry\Inc\RC_put_KFS.h</FilePath>
             </File>
             <File>
-              <FileName>RC_dock.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Gantry\Src\RC_dock.cpp</FilePath>
-            </File>
-            <File>
               <FileName>RC_get_weapon_head.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Gantry\Src\RC_get_weapon_head.cpp</FilePath>
             </File>
             <File>
+              <FileName>RC_get_weapon_head.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_get_weapon_head.h</FilePath>
+            </File>
+            <File>
               <FileName>RC_gripper.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Gantry\Src\RC_gripper.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_gripper.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_gripper.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dock.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_dock.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_dock.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_dock.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_aim.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Gantry\Src\RC_aim.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_aim.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Gantry\Inc\RC_aim.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1488,14 +1548,14 @@
               <FilePath>..\RC26_Ros_Interface\Inc\RC_KFS_pose.h</FilePath>
             </File>
             <File>
-              <FileName>RC_camera_dock.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Ros_Interface\Inc\RC_camera_dock.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_camera_dock.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Ros_Interface\Src\RC_camera_dock.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_camera_dock.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_camera_dock.h</FilePath>
             </File>
           </Files>
         </Group>

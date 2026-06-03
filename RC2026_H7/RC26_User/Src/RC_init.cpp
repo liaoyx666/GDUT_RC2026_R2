@@ -1,4 +1,4 @@
-﻿#include "RC_init.h"
+#include "RC_init.h"
 /*==================外设==================*/
 // 定时中断
 tim::Tim tim7_1khz(htim7);
@@ -20,7 +20,7 @@ motor::M3508 m3508_2_can1(2, can1, &tim13_500hz);
 motor::M3508 m3508_3_can1(3, can1, &tim13_500hz);
 motor::M3508 m3508_4_can1(4, can1, &tim13_500hz);
 
-// 龙门架电�?
+// 龙门架电 ?
 motor::M2006D m2006d_can1_3_4(
 	3, can2, &tim13_500hz, 
 	4, can2, &tim13_500hz, 
@@ -39,15 +39,15 @@ motor::M2006 m2006_can1_7(7, can2, &tim13_500hz);
 motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
 motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);	
 
-// 辅助轮电�?
+// 辅助轮电 ?
 motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);
 motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
 
-/*====================数据�?===================*/
-// 机器人位�?
+/*====================数据 ?===================*/
+// 机器人位 ?
 data::RobotPose robot_pose;
 	
-/*===================上位机接�?==================*/
+/*===================上位机接 ?==================*/
 	
 // 雷达数据接收
 ros::Radar radar(CDC_HS, 1, robot_pose);
@@ -56,7 +56,7 @@ ros::Radar radar(CDC_HS, 1, robot_pose);
 
 /*===================外置模块=================*/
 
-// 激光测�?
+// 激光测 ?
 uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 lidar::LiDAR lidar_1(huart1, lidar_buffer);
 
@@ -87,7 +87,7 @@ fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
 
 /*==================底盘=======================*/
 
-// 全向轮底�?
+// 全向轮底 ?
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
@@ -126,7 +126,7 @@ path::PathPlan3 path_plan(
 	track
 );
 
-// 图规�?
+// 图规 ?
 path::GraphPlan graph_plan(path_plan);
 
 // 全图导航
@@ -135,14 +135,14 @@ path::Navigation navigation(graph_plan);
 // 抬升自动上下台阶
 //chassis::AutoLift auto_lift(lift);
 
-// 航向检�?
+// 航向检 ?
 check::HeadCheck head_check(
 	track,
 	robot_pose
 );
 
-/*==================上层龙门�?===================*/
-// 龙门�?
+/*==================上层龙门 ?===================*/
+// 龙门 ?
 gantry::Gantry gan(
 	m2006d_can1_3_4,
 	m2006_can1_5,
@@ -162,7 +162,7 @@ gantry::PutKFS putKFS(gan, suck);
 // 夹爪
 gantry::Gripper gripper_(m2006_can1_7);
 
-// 夹取武器�?
+// 夹取武器 ?
 gantry::GetWeaponHead get_weapon_head(
 	omni_4_chassis,
 	robot_pose,
@@ -201,7 +201,7 @@ void Main_Task(void *argument)
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
 	/*--------------------------------*/
-	//navigation.Go_To_Get_Weapon_Head();
+	navigation.Go_To_Get_Weapon_Head();
 
 	navigation.Go_To_Aim(); // Demo: 全程只跑aim事件
 
@@ -271,7 +271,7 @@ void Main_Task(void *argument)
 		aim_ctrl.Run();
 
 	//	get_weapon_head.Auto_Get_Weapon_Head();
-//		aim_ctrl.Demo_Trig();
+		aim_ctrl.Demo_Trig();
 		// Demo: SWC=2 时持续触发 aim，用于调试相机对准
 		if (remote_ctrl.swc == 2)
 		{
@@ -326,7 +326,7 @@ void Path_Task(void *argument)
 }
 
 task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
-/*===================初始化函�?================*/
+/*===================初始化函 ?================*/
 
 void Motor_Config()
 {
@@ -346,7 +346,7 @@ void Motor_Config()
 	m2006_can1_5    .Set_Pos_limit(486.15f, 0.f);
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 
-	// 相机对准PID（待调参�?
+	// 相机对准PID（待调参 ?
 	aim_z_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
 	aim_y_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
 }
@@ -356,7 +356,7 @@ void All_Init()
 	// 电机配置
 	Motor_Config();
 	
-	// CAN初始�?
+	// CAN初始 ?
 	can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
 	can1.Can_Filter_Init(FDCAN_EXTENDED_ID, 2, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
 	can1.Can_Start();
@@ -369,7 +369,7 @@ void All_Init()
 	can3.Can_Filter_Init(FDCAN_EXTENDED_ID, 6, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
 	can3.Can_Start();
 
-	// 定时中断初始�?
+	// 定时中断初始 ?
 	tim4_500hz.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
 	tim13_500hz.Tim_It_Start();
@@ -377,12 +377,12 @@ void All_Init()
 	// 时间戳初始化
 	timer::Timer::Timer_Start();
 	
-	// 串口接收初始�?
+	// 串口接收初始 ?
 	lidar_1.Uart_Rx_Start();
 	laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
 
-	// 场地位置初始�?
+	// 场地位置初始 ?
 	data::Init_Side(true);
 	
 	gan.Init();

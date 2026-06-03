@@ -33,7 +33,8 @@ namespace path
 		bool Go_To_Get_Weapon_Head();
 		bool Go_To_Dock();
 		bool Go_To_Combine();
-		
+		bool Go_To_Aim();
+			
     private:
 		uint8_t Dst_FreeSpace() const { return (head - tail - 1 + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
 		uint8_t Dst_Num() const { return (tail - head + NAVIGATION_MAX_DESTINATION) % NAVIGATION_MAX_DESTINATION; }
