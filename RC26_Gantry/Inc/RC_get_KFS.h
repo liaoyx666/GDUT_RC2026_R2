@@ -19,18 +19,22 @@ enum  ARM_TASK
     PICK_UP_KFS_20CM_1_step1,
 		PICK_UP_KFS_20CM_2_step1,
 		PICK_UP_KFS_20CM_3_step1,
+		PICK_UP_KFS_20CM_4_step1,
 		PICK_UP_KFS_40CM_1_step1,
 		PICK_DOWN_KFS_1_step1,
     PICK_DOWN_KFS_2_step1,
 		PICK_DOWN_KFS_3_step1,
-	
+		PICK_DOWN_KFS_4_step1,
 		PICK_UP_KFS_20CM_1_step2,
 		PICK_UP_KFS_20CM_2_step2,
 		PICK_UP_KFS_20CM_3_step2,
+		PICK_UP_KFS_20CM_4_step2,
+	
 		PICK_UP_KFS_40CM_1_step2,
 		PICK_DOWN_KFS_1_step2,
     PICK_DOWN_KFS_2_step2,
 		PICK_DOWN_KFS_3_step2,
+		PICK_DOWN_KFS_4_step2,
 	
     HOME
 };

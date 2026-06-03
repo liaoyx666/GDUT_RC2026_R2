@@ -175,11 +175,30 @@ bool GetKFS::Configure_Current_Step()
             {
 								case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.4f, 0.00f, 0.2f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 case 1: Set_Ctrl_Mode(SpeedMode::FAST); Set_Step_Delay(500000);     	 Set_Step_Target(0.55f, 0.00f, 0.20f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-								case 2: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0);         	  Set_Step_Target(0.4f,  0.00f, 0.20f, 2.0f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+								case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);         	  Set_Step_Target(0.12f,  0.00f, 0.4f, 2.3f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
 								default: return false;
         
             }
             
+        case ARM_TASK::PICK_UP_KFS_20CM_4_step1:
+            switch (seq_idx)
+            {
+                case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.4f, 0.00f, 0.4f,  3.0f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.2f, 0.00f, 0.6f, 1.5f, CtrlMode::OPEN_LOOP);        Set_Step_Act(0); return true;
+                default: return false;
+            }
+        
+        case ARM_TASK::PICK_UP_KFS_20CM_4_step2:
+            switch (seq_idx)
+            {
+								case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.4f, 0.00f, 0.2f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::FAST); Set_Step_Delay(500000);     	 Set_Step_Target(0.55f, 0.00f, 0.20f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+								case 2: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0);         	  Set_Step_Target(0.12f,  0.00f, 0.40f, 2.3f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+								default: return false;
+        
+            }
+						
+						
         case ARM_TASK::PICK_UP_KFS_40CM_1_step1:
             switch (seq_idx)
             {
@@ -271,6 +290,27 @@ bool GetKFS::Configure_Current_Step()
                 default: return false;    
             }
 
+        case ARM_TASK::PICK_DOWN_KFS_4_step1:
+            switch (seq_idx)
+            {
+                case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.4f, 0.00f, 0.4f,  3.0f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.2f, 0.00f, 0.6f, 1.5f, CtrlMode::OPEN_LOOP);        Set_Step_Act(0); return true;
+                default: return false;
+            }
+
+        case ARM_TASK::PICK_DOWN_KFS_4_step2:
+            switch (seq_idx)
+            {
+							  case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.63f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);     Set_Step_Target(0.63f, 0.00f, 0.05f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.20f, 0.00f, 0.40f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          Set_Step_Target(0.11f, 0.00f, 0.40f, 2.3f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+
+                default: return false;    
+            }
+						
+						
+						
         case ARM_TASK::HOME:
         default:
             if (seq_idx == 0)
@@ -346,6 +386,7 @@ void GetKFS::Trigger_Task_By_Event()
             case 0:  Set_Task(ARM_TASK::PICK_UP_KFS_20CM_1_step1); break;
             case 1:  Set_Task(ARM_TASK::PICK_UP_KFS_20CM_2_step1); break;
             case 2:  Set_Task(ARM_TASK::PICK_UP_KFS_20CM_3_step1); break;
+						case 3:  Set_Task(ARM_TASK::PICK_UP_KFS_20CM_4_step1); break;
             default: break; // 超过 3 个方块时不处理，或可以根据需求加入报错
         }
     }
@@ -371,6 +412,7 @@ void GetKFS::Trigger_Task_By_Event()
             case 0:  Set_Task(ARM_TASK::PICK_DOWN_KFS_1_step1); break;
             case 1:  Set_Task(ARM_TASK::PICK_DOWN_KFS_2_step1); break;
             case 2:  Set_Task(ARM_TASK::PICK_DOWN_KFS_3_step1); break;
+						case 3:  Set_Task(ARM_TASK::PICK_DOWN_KFS_4_step1); break;
             default: break;
         }
     }
@@ -394,7 +436,9 @@ void GetKFS::Trigger_Task_By_Event()
             case ARM_TASK::PICK_UP_KFS_20CM_3_step1:
                 Set_Task(ARM_TASK::PICK_UP_KFS_20CM_3_step2);
                 break;
-
+						case ARM_TASK::PICK_UP_KFS_20CM_4_step1:
+                Set_Task(ARM_TASK::PICK_UP_KFS_20CM_4_step2);
+                break;
             // ------ 40CM 夹取系列 ------
             case ARM_TASK::PICK_UP_KFS_40CM_1_step1:
                 Set_Task(ARM_TASK::PICK_UP_KFS_40CM_1_step2);
@@ -410,7 +454,10 @@ void GetKFS::Trigger_Task_By_Event()
             case ARM_TASK::PICK_DOWN_KFS_3_step1:
                 Set_Task(ARM_TASK::PICK_DOWN_KFS_3_step2); 
                 break;
-
+						case ARM_TASK::PICK_DOWN_KFS_4_step1:
+                Set_Task(ARM_TASK::PICK_DOWN_KFS_4_step2); 
+								data::KFS_Sub_One();
+                break;
             default:
                 break;
         }
