@@ -283,97 +283,97 @@
         <Ww>
           <count>25</count>
           <WinNumber>1</WinNumber>
-          <ItemText>auto_lift</ItemText>
+          <ItemText>gan</ItemText>
         </Ww>
         <Ww>
           <count>26</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gan</ItemText>
+          <ItemText>navigation</ItemText>
         </Ww>
         <Ww>
           <count>27</count>
           <WinNumber>1</WinNumber>
-          <ItemText>navigation</ItemText>
+          <ItemText>defaultTaskHandle</ItemText>
         </Ww>
         <Ww>
           <count>28</count>
           <WinNumber>1</WinNumber>
-          <ItemText>defaultTaskHandle</ItemText>
+          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\remote_ctrl</ItemText>
         </Ww>
         <Ww>
           <count>29</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pxCurrentTCB</ItemText>
+          <ItemText>huart8</ItemText>
         </Ww>
         <Ww>
           <count>30</count>
           <WinNumber>1</WinNumber>
-          <ItemText>auto_lift</ItemText>
+          <ItemText>lidar_buffer</ItemText>
         </Ww>
         <Ww>
           <count>31</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\remote_ctrl</ItemText>
+          <ItemText>putKFS</ItemText>
         </Ww>
         <Ww>
           <count>32</count>
           <WinNumber>1</WinNumber>
-          <ItemText>huart8</ItemText>
+          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\lift</ItemText>
         </Ww>
         <Ww>
           <count>33</count>
           <WinNumber>1</WinNumber>
-          <ItemText>lidar_buffer</ItemText>
+          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\putKFS</ItemText>
         </Ww>
         <Ww>
           <count>34</count>
           <WinNumber>1</WinNumber>
-          <ItemText>putKFS</ItemText>
+          <ItemText>hwt101ct</ItemText>
         </Ww>
         <Ww>
           <count>35</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\lift</ItemText>
+          <ItemText>hwt101ct_buffer</ItemText>
         </Ww>
         <Ww>
           <count>36</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\putKFS</ItemText>
+          <ItemText>laser</ItemText>
         </Ww>
         <Ww>
           <count>37</count>
           <WinNumber>1</WinNumber>
-          <ItemText>hwt101ct</ItemText>
+          <ItemText>imu_fusion</ItemText>
         </Ww>
         <Ww>
           <count>38</count>
           <WinNumber>1</WinNumber>
-          <ItemText>hwt101ct_buffer</ItemText>
+          <ItemText>suck</ItemText>
         </Ww>
         <Ww>
           <count>39</count>
           <WinNumber>1</WinNumber>
-          <ItemText>laser</ItemText>
+          <ItemText>chassis_qeo</ItemText>
         </Ww>
         <Ww>
           <count>40</count>
           <WinNumber>1</WinNumber>
-          <ItemText>imu_fusion</ItemText>
+          <ItemText>robot_pose</ItemText>
         </Ww>
         <Ww>
           <count>41</count>
           <WinNumber>1</WinNumber>
-          <ItemText>suck</ItemText>
+          <ItemText>best_path</ItemText>
         </Ww>
         <Ww>
           <count>42</count>
           <WinNumber>1</WinNumber>
-          <ItemText>chassis_qeo</ItemText>
+          <ItemText>graph</ItemText>
         </Ww>
         <Ww>
           <count>43</count>
           <WinNumber>1</WinNumber>
-          <ItemText>robot_pose</ItemText>
+          <ItemText>valid</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -1877,30 +1877,6 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Lib\Src\Serial1Protocol.cpp</PathWithFileName>
-      <FilenameWithoutPath>Serial1Protocol.cpp</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>115</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\RC26_Lib\Inc\Serial1Protocol.h</PathWithFileName>
-      <FilenameWithoutPath>Serial1Protocol.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>10</GroupNumber>
-      <FileNumber>116</FileNumber>
-      <FileType>8</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
       <PathWithFileName>..\RC26_Lib\Src\RC_combine.cpp</PathWithFileName>
       <FilenameWithoutPath>RC_combine.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -1908,7 +1884,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>117</FileNumber>
+      <FileNumber>115</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1920,7 +1896,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>118</FileNumber>
+      <FileNumber>116</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -1932,13 +1908,37 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>119</FileNumber>
+      <FileNumber>117</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\RC26_Lib\Inc\RC_fusion_ctrl.h</PathWithFileName>
       <FilenameWithoutPath>RC_fusion_ctrl.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>118</FileNumber>
+      <FileType>8</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Src\RC_IR_communication.cpp</PathWithFileName>
+      <FilenameWithoutPath>RC_IR_communication.cpp</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>10</GroupNumber>
+      <FileNumber>119</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\RC26_Lib\Inc\RC_IR_communication.h</PathWithFileName>
+      <FilenameWithoutPath>RC_IR_communication.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

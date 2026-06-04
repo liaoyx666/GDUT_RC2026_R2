@@ -314,7 +314,7 @@ namespace gantry
 			case PUTKFS_PUT_RELESE_CHECK:
 			{
 				if (
-					timer::Timer::Get_DeltaTime(last_time) > 300000
+					timer::Timer::Get_DeltaTime(last_time) > 900000
 				)
 				{
 					return true;

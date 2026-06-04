@@ -46,44 +46,6 @@ motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
 /*====================数据池====================*/
 // 机器人位姿
 data::RobotPose robot_pose;
-	
-/*===================上位机接口===================*/
-	
-// 雷达数据接收
-ros::Radar radar(CDC_HS, 1, robot_pose);
-
-
-
-/*===================外置模块=================*/
-
-// 激光测距
-uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-lidar::LiDAR lidar_1(huart1, lidar_buffer);
-
-// 
-uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-mini_laser::MiniLaser laser(huart3, laser_buffer);
-
-// 
-uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-HWT101CT hwt101ct(huart8, hwt101ct_buffer);
-
-// 遥控
-flysky::FlySky remote_ctrl(GPIO_PIN_8);
-
-
-fusion::ImuFusion imu_fusion(radar, hwt101ct);
-
-
-fusion::QEO chassis_qeo(
-	m3508_1_can1, m3508_2_can1,
-	m3508_3_can1, m3508_4_can1,
-	robot_pose,
-	tim4_500hz,
-	radar
-);
-
-fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
 
 /*==================底盘=======================*/
 
@@ -140,6 +102,48 @@ check::HeadCheck head_check(
 	track,
 	robot_pose
 );
+	
+/*===================上位机接口===================*/
+	
+// 雷达数据接收
+ros::Radar radar(CDC_HS, 1, robot_pose);
+
+ros::BestPath best_path(CDC_HS, 7, navigation);
+
+
+/*===================外置模块=================*/
+
+// 激光测距
+uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+lidar::LiDAR lidar_1(huart1, lidar_buffer);
+
+// 
+uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+mini_laser::MiniLaser laser(huart3, laser_buffer);
+
+// 
+uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+HWT101CT hwt101ct(huart8, hwt101ct_buffer);
+
+// 遥控
+flysky::FlySky remote_ctrl(GPIO_PIN_8);
+
+
+fusion::ImuFusion imu_fusion(radar, hwt101ct);
+
+
+fusion::QEO chassis_qeo(
+	m3508_1_can1, m3508_2_can1,
+	m3508_3_can1, m3508_4_can1,
+	robot_pose,
+	tim4_500hz,
+	radar
+);
+
+fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
+	
+//红外串口
+Serial1Protocol *m_serial1 = nullptr;
 
 /*==================上层龙门架====================*/
 // 龙门架
@@ -190,46 +194,10 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swd();
 //	wave.Init();
 	
-	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
-	/*--------------------------------*/
-	//navigation.Go_To_Get_Weapon_Head();
 
-	navigation.Go_To_Dock();
-	
-	navigation.Go_To_Get_KFS(3, path::DIR_B);
-	
-	navigation.Go_To_Get_KFS(5, path::DIR_R);
-	
-	navigation.Go_To_Get_KFS(11, path::DIR_B);
-	
-	navigation.Go_To_Put_KFS_2L(1);
-	
-	navigation.Go_To_Put_KFS_2L(2);
-	
-	navigation.Go_To_Put_KFS_2L(3);
-	/*--------------------------------*/
-	
 	for (;;)
 	{
-//		wave.Set_Amplitude(a);
-//		target = wave.Get_Signal();
-		
-//		if (
-//			robot_pose.Y() > -1.5 && 
-//			robot_pose.X() > 7.3 - 0.5 && 
-//			robot_pose.X() < 7.3 + 1.5 + 0.5
-//		)
-//		{
-//			fusion_ctrl.Radar_Mode();
-//		}
-//		else
-//		{
-//			fusion_ctrl.Fusion_Mode();
-//		}
-//		
-		
-		
 		imu_fusion.Fusion();
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
@@ -239,13 +207,7 @@ void Main_Task(void *argument)
 		//float fusion_y = chassis_qeo.Y();
 		//robot_pose.Update_Position(&fusion_x, &fusion_y, NULL);
 		
-		
-		
 		//uart_printf("%f,%f\n", robot_pose.X(), robot_pose.Y());
-		
-		
-		
-		
 		
 		path_plan.Plan();
 		
@@ -289,10 +251,20 @@ void Main_Task(void *argument)
 		}
 		
 		osDelay(1);
+		//remote_ctrl.signal_swa();
+		//remote_ctrl.signal_swd();
 	}
 }
 
-task::TaskCreator main_task("Main_Task", 20, 512, Main_Task, NULL);
+task::TaskCreator main_task("Main_Task", 22, 512, Main_Task, NULL);
+
+
+
+
+
+
+
+
 
 void Path_Task(void *argument)
 {
@@ -308,6 +280,47 @@ void Path_Task(void *argument)
 }
 
 task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
+
+
+
+
+
+void Plan_Task(void *argument)
+{
+	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
+	
+	navigation.Go_To_Get_Weapon_Head();
+
+	navigation.Go_To_Dock();
+	
+	best_path.Generate_Path();
+	
+	navigation.Go_To_Put_KFS_2L(1);
+	
+	navigation.Go_To_Put_KFS_2L(2);
+	
+	navigation.Go_To_Put_KFS_2L(3);
+	
+	for (;;)
+	{
+		osDelay(1);
+	}
+}
+
+task::TaskCreator plan_task("Plan_Task", 19, 256, Plan_Task, NULL);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*===================初始化函数=================*/
 
@@ -365,4 +378,8 @@ void All_Init()
 	data::Init_Side(true);
 	
 	gan.Init();
+	
+	//红外串口初始化
+    m_serial1 = &Serial1Protocol::getInstance();
+    m_serial1->init(&huart6);
 }

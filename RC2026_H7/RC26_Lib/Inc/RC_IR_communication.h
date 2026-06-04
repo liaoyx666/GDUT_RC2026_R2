@@ -1,15 +1,9 @@
-// Serial1Protocol.h
-#ifndef SERIAL1_PROTOCOL_H
-#define SERIAL1_PROTOCOL_H
+#ifndef RC_IR_COMMUNICATION_H
+#define RC_IR_COMMUNICATION_H
 
+#include "main.h"
 #include "string.h"
-#include <stdint.h>
-#include "usart.h"
-#include "RC_timer.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "RC_serial.h"
 
 /* 协议常量定义 */
 #define SERIAL1_FRAME_HEAD0     0xFC
@@ -26,6 +20,21 @@ extern "C" {
 /* 校验字节位定义 */
 #define SERIAL1_CHECKSUM_MASK   0x3F
 #define SERIAL1_PARITY_BIT_MASK 0x40
+#define DATA_BUFFER_SIZE        16
+
+typedef enum {
+    DATA_TYPE_KFS = 0,
+    DATA_TYPE_CMD = 1
+} DataType_t;
+
+// 数据包结构体
+typedef struct {
+    uint8_t type;     // 类型：KFS=0, CMD=1
+    union {
+        uint8_t cmd;      // 命令字节
+        uint8_t kfs[3];   // KFS 3字节数据
+    } data;
+} DataPacket_t;
 
 /* 状态枚举 */
 typedef enum {
@@ -40,106 +49,105 @@ typedef void (*Serial1SendResultCallback)(uint8_t* data, uint8_t parity, uint8_t
 /* 数据接收回调（串口2主动发来的数据） */
 typedef void (*Serial1DataReceiveCallback)(uint8_t* data, uint8_t parity);
 
-class Serial1Protocol {
+extern volatile uint8_t g_send_complete;
+extern volatile uint8_t g_send_success;
+
+#ifdef __cplusplus
+
+    class Serial1Protocol : public serial::UartRx {
 public:
     static Serial1Protocol& getInstance();
     
     void init(UART_HandleTypeDef* huart);
     void process(void);
     
-    // 主动发送指令（等待应答）
-    bool sendCommand(uint8_t* data);
-    
-    // 串口回调
-    void onUartReceive(uint8_t* buffer, uint16_t size);
+    // 串口中断回调接口
+    void Uart_Rx_It_Process(uint8_t* buffer, uint16_t size) override;
     void onUartTxComplete(void);
     
     void setSendResultCallback(Serial1SendResultCallback callback);
     void setDataReceiveCallback(Serial1DataReceiveCallback callback);
     
-    // 获取接收到的数据（轮询方式）
     void getReceivedData(uint8_t* data_out, uint8_t* parity_out);
-    bool hasNewData(void);
-
-private:
-    Serial1Protocol();
+    void waitForSendComplete(void);
+    void R1_Send_KFS(uint8_t KFS1, uint8_t KFS2, uint8_t KFS3);
+    void sendTestData(uint8_t d1, uint8_t d2, uint8_t d3); 
+    void sendAckFrame(void);
     
+    bool hasData() const { return m_has_latest_data; }
+    bool getLatestData(DataPacket_t* packet);
+    bool sendCommand(uint8_t* data);  
+
+    private:
+    Serial1Protocol();
+
+ 
     uint8_t calculateChecksum(uint8_t* data);
     void buildFrame(uint8_t* data, uint8_t parity, uint8_t* frame_out);
     int parseFrame(uint8_t* buffer, uint16_t size, uint8_t* data_out, uint8_t* parity_out);
     void sendFrame(uint8_t* data, uint8_t parity);
     uint32_t getTickMs(void);
-    void startSending(void);
     void notifySendResult(uint8_t success);
-    
-    void startRetransmit(void);
-    void stopRetransmit(void);
+    bool has_consecutive_zeros_exceed_10(const uint8_t* data); 
     
     // 奇偶位管理
     int findHistoryIndex(uint8_t* data);
     uint8_t getNextParity(uint8_t* data);
     void updateSendHistory(uint8_t* data, uint8_t parity);
-    
-    // 应答发送
-    void sendAckFrame(void);
+    void storeReceivedData(uint8_t* data, uint8_t parity);
     
 private:
     UART_HandleTypeDef* m_huart;
     
-    Serial1State_t m_state;
-    Serial1SendResultCallback m_resultCallback;
-    Serial1DataReceiveCallback m_dataReceiveCallback;
-    
-    // 主动发送相关
-    uint8_t m_current_send_data[SERIAL1_DATA_LEN];
-    uint8_t m_current_send_parity;
-    uint8_t m_uart_send_frame[SERIAL1_FRAME_LEN];
-    uint32_t m_send_start_time;
-    uint32_t m_send_first_start_time;
-    uint8_t m_send_batch_count;
-    uint32_t m_retry_count;
-    volatile uint8_t m_tx_complete;
-    uint8_t m_waiting_for_response;
-    
-    // 接收相关
-    uint8_t m_rx_buffer[30];
+     #if defined(__GNUC__)
+    uint8_t m_rx_work_buffer[32] __attribute__((aligned(32)));
+    #else
+    __align(32) uint8_t m_rx_buffer[32];
+    __align(32) uint8_t m_rx_work_buffer[32];
+    #endif
+
     volatile uint8_t m_rx_ready;
     volatile uint16_t m_rx_size;
     
+    // 主动发送相关
     uint8_t m_received_data[SERIAL1_DATA_LEN];
     uint8_t m_received_parity;
-    uint8_t m_new_data_available;
-    
-    // 接收去重（用于主动数据）
+    volatile uint8_t m_new_data_available;
     uint8_t m_last_rx_data[SERIAL1_DATA_LEN];
     uint8_t m_last_rx_parity;
     uint32_t m_last_rx_time;
+    uint32_t m_last_send_time; 
+    uint8_t m_last_processed_data[SERIAL1_DATA_LEN];   
+    uint8_t m_last_processed_parity;  
+
     
-    // 主动数据应答管理（用于判断相同数据重发）
-    uint8_t m_last_processed_data[SERIAL1_DATA_LEN];   // 上次处理的数据
-    uint8_t m_last_processed_parity;                  // 上次处理的奇偶
+    // 发送状态管理
+    Serial1State_t m_state;
+    Serial1SendResultCallback m_resultCallback;
+    Serial1DataReceiveCallback m_dataReceiveCallback;
+    uint8_t m_current_send_data[SERIAL1_DATA_LEN];
+    uint8_t m_current_send_parity;
+    uint8_t m_uart_send_frame[SERIAL1_FRAME_LEN];
+    uint8_t m_send_batch_count;
+    volatile uint8_t m_tx_complete;                  
     
     // 发送历史记录
     #define MAX_HISTORY 10
-    
     typedef struct {
         uint8_t data[SERIAL1_DATA_LEN];
         uint8_t last_parity;
         uint8_t send_count;
-    } SendHistory_t;
-    
+    } SendHistory_t;    
     SendHistory_t m_send_history[MAX_HISTORY];
-    uint8_t m_history_count;
-    
+    uint8_t m_history_count;   
     uint8_t m_command_send_data[SERIAL1_DATA_LEN];
     uint8_t m_command_send_parity;
     
-    // 定时器变量
-    uint32_t m_last_send_time;
+    // 最新数据存储
+    DataPacket_t m_latest_packet;      
+    volatile bool m_has_latest_data; // 上层多线程/多任务轮询时需确保可见性
 };
 
-#ifdef __cplusplus
-}
 #endif
 
 #endif

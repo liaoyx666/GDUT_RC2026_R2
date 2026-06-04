@@ -1148,16 +1148,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_mini_laser.h</FilePath>
             </File>
             <File>
-              <FileName>Serial1Protocol.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\Serial1Protocol.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Serial1Protocol.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\Serial1Protocol.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_combine.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_combine.cpp</FilePath>
@@ -1176,6 +1166,16 @@
               <FileName>RC_fusion_ctrl.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_fusion_ctrl.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_IR_communication.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_IR_communication.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_IR_communication.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_IR_communication.h</FilePath>
             </File>
           </Files>
         </Group>

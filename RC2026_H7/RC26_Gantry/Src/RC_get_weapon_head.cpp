@@ -221,7 +221,7 @@ GetWeaponHead::GetWeaponHead(
                 state = State::IDLE;
                 break;
         }
-        		head_ctrl.Head_Ctrl();
+        		//head_ctrl.Head_Ctrl();
     }
 
 void GetWeaponHead::StopChassis() {
