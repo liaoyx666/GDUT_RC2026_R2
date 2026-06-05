@@ -330,7 +330,7 @@
             <uGnu>1</uGnu>
             <useXO>0</useXO>
             <v6Lang>6</v6Lang>
-            <v6LangP>9</v6LangP>
+            <v6LangP>8</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -1177,6 +1177,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_fusion_ctrl.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_aim.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_aim.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_aim.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_aim.cpp</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1491,16 +1501,6 @@
               <FileName>RC_dock.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Gantry\Inc\RC_dock.h</FilePath>
-            </File>
-            <File>
-              <FileName>RC_aim.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Gantry\Src\RC_aim.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_aim.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Gantry\Inc\RC_aim.h</FilePath>
             </File>
           </Files>
         </Group>

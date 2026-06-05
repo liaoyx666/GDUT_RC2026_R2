@@ -1,4 +1,4 @@
-#include "RC_init.h"
+﻿#include "RC_init.h"
 /*==================外设==================*/
 // 定时中断
 tim::Tim tim7_1khz(htim7);
@@ -177,10 +177,10 @@ gantry::Dock dock(gripper_);
 // 相机
 ros::Camera camera(CDC_HS, 6);
 
+	// 相机对准 (PID内置于Aim_Ctrl)
+	aim::Aim_Ctrl aim_ctrl(camera, gan);
+
 // 相机对准
-pid::Pid aim_z_pid;
-pid::Pid aim_y_pid;
-aim::Aim_Ctrl aim_ctrl(camera, gan, aim_z_pid, aim_y_pid);
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
@@ -268,10 +268,10 @@ void Main_Task(void *argument)
 		putKFS.Auto_Put_KFS();
 		
 //		dock.Auto_Dock();
-		aim_ctrl.Run();
+		aim_ctrl.Auto_Aim();
 
-	//	get_weapon_head.Auto_Get_Weapon_Head();
-		aim_ctrl.Demo_Trig();
+		get_weapon_head.Auto_Get_Weapon_Head();
+//		aim_ctrl.Demo_Trig();
 		// Demo: SWC=2 时持续触发 aim，用于调试相机对准
 		if (remote_ctrl.swc == 2)
 		{
@@ -347,8 +347,6 @@ void Motor_Config()
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 
 	// 相机对准PID（待调参 ?
-	aim_z_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
-	aim_y_pid  .Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
 }
 
 void All_Init()

@@ -23,8 +23,7 @@ namespace aim
 	  float final_error_y =0;
 
 		Aim_Ctrl(ros::Camera& camera_,
-		         gantry::Gantry& gantry_,
-		         pid::Pid& z_pid_, pid::Pid& y_pid_ );
+		         gantry::Gantry& gantry_);
 
 		enum Axis : uint8_t
 		{
@@ -62,19 +61,9 @@ namespace aim
 		}
 
 		void Reset();
-		void Run();
+		void Auto_Aim();
 		bool Is_Done() const { return phase == Phase_Done; }
 		float Get_Y() const { return y_result; }
-
-		// Demo: 旁路 Event3 导航触发，aim 空闲时强制进入瞄准
-		void Demo_Trig()
-		{
-			if (phase == Phase_Idle)
-			{
-				Tracker_Clear();
-				phase = Phase_Check;
-			}
-		}
 
 	private:
 		float Get_Data(Axis axis);
@@ -92,17 +81,23 @@ namespace aim
 		ros::Camera&     camera;
 		gantry::Gantry&  gantry;
 		gantry::GantryUser user;
-		pid::Pid&        z_pid;
-		pid::Pid&        y_pid;
+		pid::Pid         z_pid;
+		pid::Pid         y_pid;
 
 		path::Event3     aim_event;
 
 		filter::SecondOrderLPF z_lpf;
 		filter::SecondOrderLPF y_lpf;
 
+		static constexpr float PRE_POS_X = 0.04f;
+		static constexpr float PRE_POS_Y = 0.0f;
+		static constexpr float PRE_POS_Z = 0.08f;
+		static constexpr float PRE_POS_THRESHOLD = 0.005f;
+
 		enum Phase : uint8_t
 		{
 			Phase_Idle,
+			Phase_PrePosition,
 			Phase_Check,
 			Phase_Yaw,
 			Phase_YZ_Coarse,

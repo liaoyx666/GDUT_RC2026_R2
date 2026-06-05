@@ -3,15 +3,15 @@
 namespace aim
 {
 	Aim_Ctrl::Aim_Ctrl(ros::Camera& camera_,
-	         gantry::Gantry& gantry_,
-	         pid::Pid& z_pid_, pid::Pid& y_pid_)
+	         gantry::Gantry& gantry_)
 		: camera(camera_), gantry(gantry_),
 		  user(gantry_),
-		  z_pid(z_pid_), y_pid(y_pid_),
 		  aim_event(23, 0.1f, true, true), // EVENT_AIM = EVENT3_ID_23
 		  z_lpf(0.60f, 1000.0f), y_lpf(0.60f, 1000.0f)
 	{
-
+		// AIM PID 参数 — 待调参
+		z_pid.Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
+		y_pid.Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
 	}
 
 	float Aim_Ctrl::Get_Data(Axis axis)
@@ -38,7 +38,7 @@ namespace aim
 		y_result = 0;
 	}
 
-	void Aim_Ctrl::Run()
+	void Aim_Ctrl::Auto_Aim()
 	{
 		float error = 0;
 		float output = 0;
