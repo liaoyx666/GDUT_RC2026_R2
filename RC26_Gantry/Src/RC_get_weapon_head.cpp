@@ -2,12 +2,14 @@
 // 夹爪反馈
 
 #include "RC_get_weapon_head.h"
-float test_z = 0.05;
-float test_interval = 0.25;
 
-float test_vel = 2.5f;
-float Kp = 2.9f; 
+float test_z = 0.03;//龙门架z轴多抬高高度
+float down_z_dist = 0.13;//龙门架下降时距离夹爪的距离
 
+float test_vel = 2.5f;// 底盘接近武器头时的最大速度（在夹爪触发前）
+float Kp = 2.9f; // 底盘接近武器头时的速度控制增益（在夹爪触发前）
+
+float chassis_y_error_threshold = 0.05f; // 底盘y轴误差阈值，当误差小于该值时认为y轴到位
 
 namespace gantry
 {
@@ -16,104 +18,75 @@ GetWeaponHead::GetWeaponHead(
     data::RobotPose& pose_,
     Gantry& gantry_,
     Gripper& gripper_,
-    path::PathPlan3& path_plan_
+    path::PathPlan3& path_plan_,
+	path::HeadCtrl& head_ctrl_,
+    bool blue_side_
     ):
-        // task::ManagedTask("GetWeaponHead", 34, 128, task::TASK_DELAY, 1),
         weapon_event(20, 0.8f, true, false),
         path_plan(path_plan_), 
-        //   trigger_event(1, true, 0.1f), 
+		head_ctrl(head_ctrl_),
         pose(pose_), omni4chassis(omni4chassis_),
-        user(gantry_),
+        user(gantry_),  
         gripper(gripper_),
-        // --- 新增：初始化三轴PID参数 (Kp, accel, delta, max_out, deadzone) ---
         chassis_npid_y(1.62f, 0.0f, 2.0f, 0.05f, 1.5f, 0.01f),
-        head_ctrl(pose_, omni4chassis_, 0.01f)
+        blue_side(blue_side_)
     {
         state = State::IDLE;
-        picked = false;
+        is_picked = false; 
         current_target_idx = 0;
         grab_start_time = 0;
 
-
-    }
-
-    void GetWeaponHead::Pick(uint8_t num) {
-        if (picked) return;
-        if (num >= 1 && num <= WEAPON_NUM) {
-            current_target_idx = num - 1;
-            state = State::ALIGN_CHASSIS;
+        if(blue_side) {
+            target_yaw = - PI / 2.f;
+            TARGET_WEAPON_Y = -6.0f;
+            READY_POINT_Y = TARGET_WEAPON_Y + READY_DIST + HALF_CHASSIS_Y;
         }
-    }
-
-    void GetWeaponHead::Pick_Nearest() {
-        if (picked) return; 
-        float min_dist = 999.0f;
-        uint8_t nearest = 0;
-        float curr_x;
-        float curr_y;
-
-
-        curr_x = pose.X();
-        curr_y = pose.Y();
-        
-
-        for (uint8_t i = 0; i < WEAPON_NUM; ++i) {
-            float dist = fabsf(curr_x - weapon_heads_x[i]);
-            if (dist < min_dist) {
-                min_dist = dist;
-                nearest = i;
-            }
+        else {// 红区
+            target_yaw = PI / 2.f;
+            TARGET_WEAPON_Y = 0.0f;
+            READY_POINT_Y = TARGET_WEAPON_Y - READY_DIST - HALF_CHASSIS_Y;
         }
-        current_target_idx = nearest;
-        state = State::ALIGN_CHASSIS;
-    }
 
-void GetWeaponHead::Reset_Task() {
-        state = State::IDLE;
-        picked = false;
     }
 
     void GetWeaponHead::Auto_Get_Weapon_Head() {
-        //head_ctrl.Head_Ctrl();  
 
-        // ================= 全局航向托管 =================
-        // 只要不是空闲或结束状态，就开启 head_ctrl 死死锁住目标角度
-        // 这样即使底盘线速度为0，受到撞击也会自动纠正角度
         if (state != State::IDLE && state != State::CHECK_RESULT) {
             head_ctrl.Enable();
-            head_ctrl.Set_Yaw(TARGET_YAW);
+            head_ctrl.Set_Yaw(target_yaw);
         } else {
             head_ctrl.Disable();
         }
 
-
         switch (state) {
             case State::IDLE:
-                // ===== 修复：空闲时底盘强制停 =====
-                // omni4chassis.Set_World_Lin_Vel(vector2d::Vector2D(0, 0));
                 if (weapon_event.Is_Trig()) {
                     Pick(pick_num); 
                     path_plan.Disable();
                     head_ctrl.Enable();
                 }
                 break;
-
+            //底盘x轴到位 夹爪z轴和y轴到位 才可以夹爪x轴往前伸 
+            //底盘y轴快到位时停下 直接夹爪x轴往前伸补偿
+            //算出夹爪x轴的实时位置 距离武器头5cm时下降一点z轴
             case State::ALIGN_CHASSIS:  {
                 if(!user.Take_Control()) {
                     break;
                 }
+
+                gripper.Open();
                 
-                curr_x = pose.X();
-                curr_y = pose.Y();
+                curr_x = pose.X() + RADAR_ERROR_X;
+                curr_y = pose.Y() + RADAR_ERROR_Y;
                 
                 // --- 底盘 X 轴控制 ---
-                float error_x = weapon_heads_x[current_target_idx] - curr_x;
+                float error_x = WEAPON_X_RAW[current_target_idx] - curr_x;
                 float abs_error_x = fabsf(error_x);
                 float target_vx = 0.0f;
 
                 bool x_in_range = (
-                curr_x + HALF_CHASSIS_X > weapon_heads_x[current_target_idx]) && 
-                (curr_x - HALF_CHASSIS_X < weapon_heads_x[current_target_idx]);
+                curr_x + HALF_CHASSIS_X > WEAPON_X_RAW[current_target_idx]) && 
+                (curr_x - HALF_CHASSIS_X < WEAPON_X_RAW[current_target_idx]);
                 
                 if (!x_in_range) {
 
@@ -133,7 +106,11 @@ void GetWeaponHead::Reset_Task() {
 
                 // --- 底盘 Y 轴控制 ---
                 float target_vy = chassis_npid_y.NPid_Calculate(READY_POINT_Y, curr_y, false, 0.0f);
-                bool y_ok = fabsf(curr_y - READY_POINT_Y) <= POS_TOLERANCE;
+                bool y_ok = false;
+                if(fabsf(curr_y - READY_POINT_Y) < chassis_y_error_threshold) {
+                    target_vy = 0.0f;
+                    y_ok = true;
+                }
 
                 omni4chassis.Set_World_Lin_Vel(vector2d::Vector2D(target_vx, target_vy));
 
@@ -145,38 +122,55 @@ void GetWeaponHead::Reset_Task() {
 
                 // --- 龙门架 Y 轴补偿 ---
                 float target_gantry_y = 0.0f;
-                bool gantry_ready = false;
+                bool gantry_yz_ready = false;
 
                 if (x_in_range) {
-                    target_gantry_y = weapon_heads_x[current_target_idx] - curr_x;
+                    target_gantry_y = WEAPON_X_RAW[current_target_idx] - curr_x;
                     user.Set_Y(target_gantry_y);
-                    gantry_ready = (fabsf(user.Get_Y() - target_gantry_y) < GANTRY_POS_TOLERANCE);
+                    gantry_yz_ready = (fabsf(user.Get_Y() - target_gantry_y) < GANTRY_POS_TOLERANCE)
+                                    && (fabsf(user.Get_Z() - (GET_Z + test_z)) < GANTRY_POS_TOLERANCE);
                 }
 
                 // --- 状态跳转判定 ---
-                if (x_in_range && gantry_ready) {
+                if (x_in_range && gantry_yz_ready) {
                     user.Set_X(READY_DIST);
                 }
-                if(user.Get_X() >= test_interval){
+
+                // --- 龙门架 X 轴补偿 ---
+                float target_gantry_x = 0.0f;
+                target_gantry_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y;
+                if(y_ok && x_in_range && gantry_yz_ready) {
+                    user.Set_X(target_gantry_x);
+                }
+
+                if(fabsf(TARGET_WEAPON_Y - curr_y) - (user.Get_X() + HALF_CHASSIS_Y) < down_z_dist) {
                     user.Set_Z(GET_Z);
                 }
-                if (x_in_range && y_ok && gantry_ready) {
+
+                bool all_ready = 
+                x_in_range && 
+                gantry_yz_ready && 
+                y_ok && 
+                (fabsf(TARGET_WEAPON_Y - curr_y) - (user.Get_X() + HALF_CHASSIS_Y) < down_z_dist);
+
+                if (all_ready) {
                     state = State::ACTION_GRAB_1;
                     StopChassis(); 
                 }
                 break;
             }
 
-            case State::ACTION_GRAB_1:
+            case State::ACTION_GRAB_1:{
                 // 底盘停止，只动云台
-                if(user.Get_X() >= test_interval){
-                    user.Set_Z(GET_Z);
-                }
+                user.Set_Z(GET_Z);
+                
                 StopChassis();
-                if (fabsf(user.Get_X() - READY_DIST) < GANTRY_POS_TOLERANCE) {
+                float current_target_gantry_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y;
+                if (fabsf(user.Get_X() - current_target_gantry_x) < GANTRY_POS_TOLERANCE) {
                     state = State::ACTION_GRAB_2;
                 }
                 break;
+            }
 
             case State::ACTION_GRAB_2:
                 StopChassis();
@@ -202,6 +196,7 @@ void GetWeaponHead::Reset_Task() {
                     state = State::ACTION_RETRACT_X;
 					weapon_event.Finish();
 					path_plan.Enable();
+                    head_ctrl.Disable();
                 }
                 break;
 
@@ -221,15 +216,49 @@ void GetWeaponHead::Reset_Task() {
                 break;
 
             case State::CHECK_RESULT:
-                picked = true;
+                // is_picked = true;
                 user.Give_Control();  // 归还权限
                 state = State::IDLE;
                 break;
         }
-
+        		//head_ctrl.Head_Ctrl();
     }
 
 void GetWeaponHead::StopChassis() {
         omni4chassis.Set_World_Lin_Vel(vector2d::Vector2D(0.0f, 0.0f));
     }
+
+void GetWeaponHead::Pick(uint8_t num) {
+    if (is_picked) return;
+    if (num >= 1 && num <= WEAPON_NUM) {
+        current_target_idx = num - 1;
+        state = State::ALIGN_CHASSIS;
+    }
 }
+
+void GetWeaponHead::Pick_Nearest() {
+    if (is_picked) return; 
+    float min_dist = 999.0f;
+    uint8_t nearest = 0;
+
+    curr_x = pose.X() + RADAR_ERROR_X;
+    curr_y = pose.Y() + RADAR_ERROR_Y;
+
+    for (uint8_t i = 0; i < WEAPON_NUM; ++i) {
+        float dist = fabsf(curr_x - WEAPON_X_RAW[i]);
+        if (dist < min_dist) {
+            min_dist = dist;
+            nearest = i;
+        }
+    }
+    current_target_idx = nearest;
+    state = State::ALIGN_CHASSIS;
+}
+
+void GetWeaponHead::Reset_Task() {
+    state = State::IDLE;
+    is_picked = false;
+}
+
+}
+
