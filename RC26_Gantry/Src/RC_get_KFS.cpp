@@ -93,7 +93,7 @@ namespace gantry
 		switch (mode_)
 		{
 			case SpeedMode::SLOW:   scale = 0.35f; break;
-			case SpeedMode::FAST:   scale = 1.00f; break;
+			case SpeedMode::FAST:   scale = 1.10f; break;
 			case SpeedMode::NORMAL:	scale = 0.5f;
 			default:                scale = 0.55f; break;
 		}
@@ -101,7 +101,7 @@ namespace gantry
 		user.Set_X_Td(2000.f * scale, 8000.f * scale);
 		user.Set_Y_Td(1000.f * scale, 2000.f * scale);
 		user.Set_Z_Td(2000.f * scale, 8000.f * scale);
-		user.Set_P_Td(16.f   * scale, 5.f    * scale);
+		user.Set_P_Td(20.f   * scale, 5.f    * scale);
 	}
 	
 void GetKFS::Finish_Event_Early()
@@ -279,7 +279,7 @@ bool GetKFS::Configure_Current_Step()
             switch (seq_idx)
             {
                 case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.63f, 0.00f, 0.10f,  4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-                case 1: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.63f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+             //   case 1: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.63f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 default: return false;
             }
 
