@@ -4,6 +4,7 @@
 #include "RC_event3.h"
 #include "RC_data_pool.h"
 #include "RC_path_plan3.h"
+//#include "RC_best_path.h"
 
 #ifdef __cplusplus
 namespace path
@@ -51,7 +52,7 @@ namespace path
     private:
 		
 		
-		Event3_t Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir) const;
+		Event3_t Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir, Direction& L_or_R) const;
 	
 		
 	

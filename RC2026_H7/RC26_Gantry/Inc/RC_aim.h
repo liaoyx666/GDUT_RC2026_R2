@@ -7,8 +7,9 @@
 #include "RC_filter.h"
 #include "RC_event3.h"
 
+
 #ifdef __cplusplus
-namespace aim
+namespace gantry
 {
 	class Aim_Ctrl
 	{
@@ -23,8 +24,7 @@ namespace aim
 	  float final_error_y =0;
 
 		Aim_Ctrl(ros::Camera& camera_,
-		         gantry::Gantry& gantry_,
-		         pid::Pid& z_pid_, pid::Pid& y_pid_ );
+		         gantry::Gantry& gantry_);
 
 		enum Axis : uint8_t
 		{
@@ -33,6 +33,14 @@ namespace aim
 			Axis_Z
 		};
 
+		bool check_error()
+		{
+			// 四轴全零 = 相机未识别到目标，数据不予采纳
+			return (fabsf(camera.X()) < 1e-6f && fabsf(camera.Y()) < 1e-6f
+			&& fabsf(camera.Z()) < 1e-6f && fabsf(camera.Yaw()) < 1e-6f);
+		}
+		
+		
 		// 帧判稳 — 相机中断到场才推进窗口
 		bool Frame_Stable(Axis axis, uint16_t frame_count = DEFAULT_FRAME, float error = DEFAULT_ERROR)
 		{
@@ -62,7 +70,7 @@ namespace aim
 		}
 
 		void Reset();
-		void Run();
+		void Auto_Aim();
 		bool Is_Done() const { return phase == Phase_Done; }
 		float Get_Y() const { return y_result; }
 
@@ -82,17 +90,28 @@ namespace aim
 		ros::Camera&     camera;
 		gantry::Gantry&  gantry;
 		gantry::GantryUser user;
-		pid::Pid&        z_pid;
-		pid::Pid&        y_pid;
+		pid::Pid         z_pid;
+		pid::Pid         y_pid;
 
 		path::Event3     aim_event;
 
 		filter::SecondOrderLPF z_lpf;
 		filter::SecondOrderLPF y_lpf;
 
+		static constexpr float PRE_POS_X = 0.04f;
+		static constexpr float PRE_POS_Y = 0.0f;
+		static constexpr float PRE_POS_Z = 0.08f;
+		static constexpr float PRE_POS_THRESHOLD = 0.005f;
+
+		bool finish_flag = false;
+		bool timer_flag = false;
+		
+		uint32_t last_time = 0 ;
+		
 		enum Phase : uint8_t
 		{
 			Phase_Idle,
+			Phase_PrePosition,
 			Phase_Check,
 			Phase_Yaw,
 			Phase_YZ_Coarse,

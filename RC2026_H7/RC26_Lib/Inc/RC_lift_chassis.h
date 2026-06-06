@@ -82,7 +82,7 @@ namespace chassis
 		LiftChassis(
 			motor::Motor& L_lift_, motor::Motor& R_lift_,
 			motor::Motor& L_wheel_, motor::Motor& R_wheel_,
-			chassis::Chassis* chassis_, path::TrajTrack3* track_
+			chassis::Chassis* chassis_/*, path::TrajTrack3* track_*/
 		);
 		~LiftChassis() = default;
 		
@@ -186,22 +186,22 @@ namespace chassis
 				L_lift.pid_pos.Set_Td(r, v2_max);
 		}
 		
-		 void Chassis_Stop()
+		void Chassis_Stop()
 		{
 			if (chassis)
-				chassis->Force_Lin_Vel_Zero();
+				chassis->Force_Lin_Vel_Zero(1);
 			
-			if (track)
-				track->Force_Tan_Vel_Zero();
+//			if (track)
+//				track->Force_Tan_Vel_Zero();
 		}
 		
 		void Chassis_Start()
 		{
 			if (chassis)
-				chassis->Unforce_Lin_Vel_Zero();
+				chassis->Unforce_Lin_Vel_Zero(1);
 
-			if (track)
-				track->Unforce_Tan_Vel_Zero();
+//			if (track)
+//				track->Unforce_Tan_Vel_Zero();
 		}
 		
 		bool Get_Senser_Value(uint8_t n)
@@ -230,7 +230,7 @@ namespace chassis
 		motor::Motor& R_wheel;
 		
 		chassis::Chassis* chassis;
-		path::TrajTrack3* track;
+		//path::TrajTrack3* track;
 		
 		/*---------------------------*/
 		

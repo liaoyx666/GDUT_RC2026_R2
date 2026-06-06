@@ -1,4 +1,5 @@
 #include "RC_graph_plan.h"
+#include "RC_best_path.h"
 
 namespace path
 {
@@ -149,7 +150,7 @@ namespace path
 	}
 	
 	
-	Event3_t GraphPlan::Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir) const
+	Event3_t GraphPlan::Up_Down_Ready_Id_Dir(Direction move_dir, int8_t h, Direction& head_dir, Direction& L_or_R) const
 	{
 		float yaw_L = MapGraph::Yaw_On_Dir(move_dir - 1); /*从左边上下的航向*/
 		float yaw_R = MapGraph::Yaw_On_Dir(move_dir + 1); /*从右边上下的航向*/
@@ -185,6 +186,7 @@ namespace path
 		if (delta_L < delta_R)
 		{
 			head_dir = move_dir - 1;
+			L_or_R = DIR_L;
 			switch (h)
 			{
 				case 2:
@@ -202,6 +204,7 @@ namespace path
 		else
 		{
 			head_dir = move_dir + 1;
+			L_or_R = DIR_R;
 			switch (h)
 			{
 				case 2:
@@ -219,7 +222,7 @@ namespace path
 	}
 	
 	
-	
+	/*========上台阶=========*/
 	constexpr float UP_STAIR_HEAD_CHECK_OFFSET = -MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.18f;
 	constexpr float UP_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
@@ -238,7 +241,8 @@ namespace path
 		vector2d::Vector2D p;
 		
 		Direction dir; /*航向方向*/
-		Event3_t ready_event = Up_Down_Ready_Id_Dir(move_dir, h, dir); /*准备事件*/
+		Direction L_or_R; /* 左边或右边上 */
+		Event3_t ready_event = Up_Down_Ready_Id_Dir(move_dir, h, dir, L_or_R); /*准备事件*/
 		
 		/*约束*/
 		LonConstr3 lon = plan.plan.lon_m;
@@ -252,11 +256,24 @@ namespace path
 		}
 		else if (dis < 0.67f) /* 是否太近 */ 
 		{
-			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.07f); /*航向检查，触发点坐标*/
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.08f); /*航向检查，触发点坐标*/
 		}
 		else
 		{
 			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET); /*航向检查，触发点坐标*/
+		}
+		
+		Event3_t wait_R1_event = EVENT3_NULL;
+		if (ros::BestPath::Is_Wait_R1_Pos(e))
+		{
+			if (L_or_R == DIR_L)
+			{
+				wait_R1_event = EVENT_WAIT_R1_L;
+			}
+			else
+			{
+				wait_R1_event = EVENT_WAIT_R1_R;
+			}
 		}
 		
 		/*-------*/
@@ -265,7 +282,7 @@ namespace path
 			UP_STAIR_HEAD_CHECK_BLEND_DIS, 
 			NULL, 
 			NULL, 
-			ready_event | Head_Check_Id(dir), 
+			ready_event | Head_Check_Id(dir) | wait_R1_event, 
 			false
 		)) return false; /*航向检查，触发点*/
 		
@@ -312,6 +329,7 @@ namespace path
 		return true;
 	}
 	
+	/*========下台阶=========*/
 	constexpr float DOWN_STAIR_HEAD_CHECK_OFFSET = MapGraph::MF_SIZE / 2.f - MapGraph::CHASSIS_SIZE / 2.f - 0.18f;
 	constexpr float DOWN_STAIR_HEAD_CHECK_BLEND_DIS = 0.3f;
 	
@@ -330,7 +348,8 @@ namespace path
 		vector2d::Vector2D p;
 		
 		Direction dir;
-		Event3_t ready_event = Up_Down_Ready_Id_Dir(move_dir, h, dir);
+		Direction L_or_R; /* 左边或右边下 */
+		Event3_t ready_event = Up_Down_Ready_Id_Dir(move_dir, h, dir, L_or_R);
 		
 		/*约束*/
 		LonConstr3 lon = plan.plan.lon_m;
@@ -340,11 +359,24 @@ namespace path
 		float dis = (last_nav.p - MapGraph::Offset_On_Dir(s_center, move_dir, MapGraph::MF_SIZE)).length();
 		if (dis < 0.67f) /* 是否太近 */ 
 		{
-			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET + 0.07f); /*航向检查，触发点坐标*/
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET + 0.08f); /*航向检查，触发点坐标*/
 		}
 		else
 		{
 			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET); /*航向检查，触发点坐标*/
+		}
+		
+		Event3_t wait_R1_event = EVENT3_NULL;
+		if (ros::BestPath::Is_Wait_R1_Pos(e))
+		{
+			if (L_or_R == DIR_L)
+			{
+				wait_R1_event = EVENT_WAIT_R1_L;
+			}
+			else
+			{
+				wait_R1_event = EVENT_WAIT_R1_R;
+			}
 		}
 		
 		/*-------*/
@@ -353,7 +385,7 @@ namespace path
 			DOWN_STAIR_HEAD_CHECK_BLEND_DIS, 
 			NULL, 
 			NULL, 
-			ready_event | Head_Check_Id(dir), 
+			ready_event | Head_Check_Id(dir) | wait_R1_event, 
 			false
 		)) return false; /*航向检查点*/
 		

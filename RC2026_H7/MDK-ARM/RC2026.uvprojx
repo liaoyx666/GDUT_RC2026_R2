@@ -1088,16 +1088,6 @@
               <FilePath>..\RC26_Lib\Inc\RC_lift_chassis.h</FilePath>
             </File>
             <File>
-              <FileName>RC_auto_lift.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\RC26_Lib\Src\RC_auto_lift.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>RC_auto_lift.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\RC26_Lib\Inc\RC_auto_lift.h</FilePath>
-            </File>
-            <File>
               <FileName>RC_HWT101CT.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\RC26_Lib\Src\RC_HWT101CT.cpp</FilePath>
@@ -1556,6 +1546,16 @@
               <FileName>RC_camera_dock.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\RC26_Ros_Interface\Inc\RC_camera_dock.h</FilePath>
+            </File>
+            <File>
+              <FileName>RC_wait_R1.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_wait_R1.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_wait_R1.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_wait_R1.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -62,7 +62,7 @@ chassis::Omni4Chassis omni_4_chassis(
 chassis::LiftChassis lift(
 	m3508_can3_5, m3508_can3_6,
 	m2006_can3_7, m2006_can3_8,
-	&omni_4_chassis, NULL
+	&omni_4_chassis
 );
 
 /*=====================路径规划==================*/
@@ -94,12 +94,9 @@ path::GraphPlan graph_plan(path_plan);
 // 全图导航
 path::Navigation navigation(graph_plan);
 
-// 抬升自动上下台阶
-//chassis::AutoLift auto_lift(lift);
-
 // 航向检查
 check::HeadCheck head_check(
-	track,
+	omni_4_chassis,
 	robot_pose
 );
 	
@@ -108,30 +105,35 @@ check::HeadCheck head_check(
 // 雷达数据接收
 ros::Radar radar(CDC_HS, 1, robot_pose);
 
+// 梅林路径接收，生成
 ros::BestPath best_path(CDC_HS, 7, navigation);
 
+// 等待清障
+ros::WaitR1 wait_R1(CDC_HS, 8, omni_4_chassis, head_ctrl);
+
+ros::Camera camera_aim(CDC_HS, 6);
 
 /*===================外置模块=================*/
 
 // 激光测距
-uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-lidar::LiDAR lidar_1(huart1, lidar_buffer);
+//uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+//lidar::LiDAR lidar_1(huart1, lidar_buffer);
 
-// 
+// 激光测距
 uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 mini_laser::MiniLaser laser(huart3, laser_buffer);
 
-// 
+// imu
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 HWT101CT hwt101ct(huart8, hwt101ct_buffer);
 
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
-
+// imu雷达融合
 fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
-
+// 底盘里程计
 fusion::QEO chassis_qeo(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
@@ -176,17 +178,25 @@ gantry::GetWeaponHead get_weapon_head(
 	head_ctrl
 );
 
-gantry::Dock dock(gripper_);
+// 对接
+//gantry::Dock dock(gripper_);
+
+gantry::Aim_Ctrl aim(camera_aim, gan);
+
+
+
+
+
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
-float target = 0;
-float a = 0;
+//float target = 0;
+//float a = 0;
 
-float x_1 = 0;
-float y_1 = 0;
-float z_1 = 0;
-float p_1 = 0;
+//float x_1 = 0;
+//float y_1 = 0;
+//float z_1 = 0;
+//float p_1 = 0;
 
 void Main_Task(void *argument)
 {
@@ -194,8 +204,6 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swd();
 //	wave.Init();
 	
-	
-
 	for (;;)
 	{
 		imu_fusion.Fusion();
@@ -219,10 +227,14 @@ void Main_Task(void *argument)
 		
 		putKFS.Auto_Put_KFS();
 		
-		dock.Auto_Dock();
+		//dock.Auto_Dock();
 		
 		get_weapon_head.Auto_Get_Weapon_Head();
 
+		wait_R1.Wait_R1();
+		
+		aim.Auto_Aim();
+		
 //		x_1 = gan.Get_X();
 //		y_1 = gan.Get_Y();
 //		z_1 = gan.Get_Z();
@@ -251,8 +263,6 @@ void Main_Task(void *argument)
 		}
 		
 		osDelay(1);
-		//remote_ctrl.signal_swa();
-		//remote_ctrl.signal_swd();
 	}
 }
 
@@ -370,7 +380,7 @@ void All_Init()
 	timer::Timer::Timer_Start();
 	
 	// 串口接收初始化
-	lidar_1.Uart_Rx_Start();
+	//lidar_1.Uart_Rx_Start();
 	laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
 

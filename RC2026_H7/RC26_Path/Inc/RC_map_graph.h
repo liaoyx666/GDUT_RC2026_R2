@@ -159,6 +159,17 @@ namespace path
 
 		static vector2d::Vector2D Offset_On_Dir(vector2d::Vector2D p, Direction dir, float offset);
 		
+		static bool Is_Valid(uint8_t node)
+		{
+			if (node >= GRAPH_NODE_NUM)
+			{
+				return false;
+			}
+			else
+			{
+				return valid[node];
+			}
+		}
 	
 		static constexpr float MF_SIZE = 1.2f;
 		static constexpr float CHASSIS_SIZE = 0.8f;

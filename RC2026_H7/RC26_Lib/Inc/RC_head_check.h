@@ -1,6 +1,7 @@
 #pragma once
 #include "RC_event3.h"
-#include "RC_traj_track3.h"
+//#include "RC_traj_track3.h"
+#include "RC_chassis.h"
 
 #ifdef __cplusplus
 namespace check
@@ -10,7 +11,7 @@ namespace check
 	class HeadCheck
     {
     public:
-		HeadCheck(path::TrajTrack3& track_, data::RobotPose& pose_);
+		HeadCheck(chassis::Chassis& chassis_, data::RobotPose& pose_);
 		~HeadCheck() = default;
 
 		inline void Head_Check()
@@ -59,11 +60,11 @@ namespace check
 				{
 					check_event[check_dx].Finish();
 					check_flag = false;
-					track.Unforce_Tan_Vel_Zero(); /*解除*/
+					chassis.Unforce_Lin_Vel_Zero(2); /*解除*/
 				}
 				else
 				{
-					track.Force_Tan_Vel_Zero(); /*强制停车*/
+					chassis.Force_Lin_Vel_Zero(2); /*强制停车*/
 				}
 			}
 		}
@@ -71,7 +72,7 @@ namespace check
     private:
 		path::Event3 check_event[4];
 	
-		path::TrajTrack3& track;
+		chassis::Chassis& chassis;
 		data::RobotPose& pose;
 		bool check_flag;
 		uint8_t check_dx;

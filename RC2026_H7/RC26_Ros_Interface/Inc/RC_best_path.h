@@ -2,7 +2,7 @@
 #include "RC_cdc.h"
 #include <string.h>
 #include "RC_navigation.h"
-#include "RC_map_graph.h"
+//#include "RC_map_graph.h"
 
 #ifdef __cplusplus
 
@@ -35,11 +35,28 @@ namespace ros
 		
 		void Generate_Path();
 		
+		static bool Is_Wait_R1_Pos(uint8_t node)
+		{
+			if (node == 0 || node > 12)
+				return false;
+			
+			for (uint8_t i = 0; i < wait_R1_num; i++)
+			{
+				if (wait_R1_pos[i] == node)
+				{
+					wait_R1_pos[i] = path::GRAPH_INVALID;
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
     private:
 		uint8_t path[BESTPATH_MAX_PATH_LEN];
 		uint8_t path_len;
-		uint8_t kfs_pick_num;
 	
+		uint8_t pick_kfs_num;
 		PickKfs pick_kfs[5];
 
 	
@@ -49,6 +66,12 @@ namespace ros
 	
 		PickKFSState state;
 		uint8_t current_path;
+
+		uint8_t R1_kfs_num;
+		uint8_t R1_kfs_pos[4];
+
+		static uint8_t wait_R1_num;
+		static uint8_t wait_R1_pos[4];
     };
 }
 #endif

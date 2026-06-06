@@ -35,6 +35,7 @@ namespace path
 			}
 		}
 		
+		/* 获取与目标yaw偏差 */
 		float Get_Delta_Yaw()
 		{
 			float delta = target_yaw - pose.Yaw();
