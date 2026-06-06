@@ -42,6 +42,7 @@
 #include "RC_map_graph.h"
 #include "RC_graph_plan.h"
 #include "RC_navigation.h"
+#include "RC_IR_communication.h"
 
 /* gantry */
 #include "RC_gantry.h"

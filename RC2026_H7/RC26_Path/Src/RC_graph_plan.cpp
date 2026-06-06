@@ -246,11 +246,11 @@ namespace path
 		
 		/* 距离上台阶后台阶中心距离 */
 		float dis = (last_nav.p - e_center).length();
-		if (dis > 2.f) /* 是否太远 */ 
+		if (dis > 1.85f) /* 是否太远 */ 
 		{
-			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET - 0.5f); /*航向检查，触发点坐标*/
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET - 0.6f); /*航向检查，触发点坐标*/
 		}
-		else if (dis < 0.65f) /* 是否太近 */ 
+		else if (dis < 0.67f) /* 是否太近 */ 
 		{
 			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET + 0.07f); /*航向检查，触发点坐标*/
 		}
@@ -338,7 +338,7 @@ namespace path
 		
 		/* 距离下台阶后台阶中心距离 */
 		float dis = (last_nav.p - MapGraph::Offset_On_Dir(s_center, move_dir, MapGraph::MF_SIZE)).length();
-		if (dis < 0.65f) /* 是否太近 */ 
+		if (dis < 0.67f) /* 是否太近 */ 
 		{
 			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_CHECK_OFFSET + 0.07f); /*航向检查，触发点坐标*/
 		}
