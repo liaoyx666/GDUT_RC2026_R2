@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Mon Jun  8 11:47:27 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Mon Jun  8 22:45:30 2026
 <BR><P>
 <H3>Maximum Stack Usage =        480 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -943,9 +943,9 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
 <LI>Call Chain = abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
-<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown
+<BR>[Calls]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_lib_shutdown
 <LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_SIGABRT
+<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_exit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort_message
 </UL>
@@ -1026,7 +1026,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__default_signal_display
 </UL>
 
-<P><STRONG><a name="[11f]"></a>All_Init</STRONG> (Thumb, 300 bytes, Stack size 24 bytes, rc_init.o(.text.All_Init))
+<P><STRONG><a name="[11f]"></a>All_Init</STRONG> (Thumb, 312 bytes, Stack size 24 bytes, rc_init.o(.text.All_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112 + Unknown Stack Size
 <LI>Call Chain = All_Init &rArr; Motor_Config()
 </UL>
@@ -3626,7 +3626,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2d2]"></a>data::KFS_Sub_One()</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, rc_data_pool.o(.text._ZN4data11KFS_Sub_OneEv))
-<BR><BR>[Called By]<UL><LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<BR><BR>[Called By]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
@@ -3871,7 +3871,7 @@ Global Symbols
 <LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::WaitR1::WaitR1(cdc::CDC&, unsigned char, chassis::Chassis&, path::HeadCtrl&)
 <LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Aim_Ctrl(ros::Camera&, gantry::Gantry&, chassis::Chassis&, gantry::Gripper&)
 <LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
+<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 <LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 </UL>
 
@@ -4610,7 +4610,7 @@ Global Symbols
 <P><STRONG><a name="[2cb]"></a>gantry::GantryUser::Give_Control()</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUser12Give_ControlEv))
 <BR><BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Auto_Aim()
 <LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[2d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Finish_Current_Task()
 <LI><a href="#[2cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
@@ -4643,13 +4643,13 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float, float)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
+<BR>[Called By]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 </UL>
 
 <P><STRONG><a name="[2cc]"></a>gantry::GantryUser::GantryUser(gantry::Gantry&)</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry10GantryUserC2ERNS_6GantryE))
 <BR><BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Aim_Ctrl(ros::Camera&, gantry::Gantry&, chassis::Chassis&, gantry::Gripper&)
 <LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
+<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 <LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 </UL>
 
@@ -4707,7 +4707,6 @@ Global Symbols
 <LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
@@ -4718,7 +4717,6 @@ Global Symbols
 <LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
@@ -4727,8 +4725,8 @@ Global Symbols
 <LI><a href="#[2c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Set_Reset_Pos()
 <LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Auto_Aim()
 <LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
+<LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
@@ -4739,7 +4737,6 @@ Global Symbols
 <LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
-<LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[245]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
@@ -4845,19 +4842,12 @@ Global Symbols
 
 <P><STRONG><a name="[375]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 276 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
 
-<P><STRONG><a name="[247]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 264 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[247]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 188 bytes, Stack size 8 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Set_Defualt_Td()
-<LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
+<BR>[Calls]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Get_KFS_Phase()
-<LI><a href="#[2d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Sub_One()
 <LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Num()
-<LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_P(float)
-<LI><a href="#[2c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
-<LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
-<LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_X(float)
-<LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 <LI><a href="#[2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
 <LI><a href="#[250]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
@@ -4865,7 +4855,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[2d6]"></a>gantry::PutKFS::Get_KFS_Phase()</STRONG> (Thumb, 528 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS13Get_KFS_PhaseEv))
+<P><STRONG><a name="[2d6]"></a>gantry::PutKFS::Get_KFS_Phase()</STRONG> (Thumb, 708 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS13Get_KFS_PhaseEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = gantry::PutKFS::Get_KFS_Phase()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -4878,20 +4868,24 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
-<P><STRONG><a name="[2d7]"></a>gantry::PutKFS::Put_KFS_Phase()</STRONG> (Thumb, 616 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS13Put_KFS_PhaseEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = gantry::PutKFS::Put_KFS_Phase()
+<P><STRONG><a name="[2d7]"></a>gantry::PutKFS::Put_KFS_Phase()</STRONG> (Thumb, 812 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS13Put_KFS_PhaseEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::PutKFS::Put_KFS_Phase() &rArr; gantry::GantryUser::Set_Defualt_Td()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float, float)
+<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Set_Defualt_Td()
+<LI><a href="#[2d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;data::KFS_Sub_One()
 <LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_P(float)
 <LI><a href="#[2c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
+<LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
 <LI><a href="#[2c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_X(float)
+<LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
-<P><STRONG><a name="[237]"></a>gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)</STRONG> (Thumb, 108 bytes, Stack size 32 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFSC2ERNS_6GantryERNS_7SuctionE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
+<P><STRONG><a name="[237]"></a>gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 120 bytes, Stack size 32 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Event3(unsigned char, float, bool, bool, float)
 <LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::GantryUser(gantry::Gantry&)
@@ -4899,7 +4893,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[376]"></a>gantry::PutKFS::PutKFS__sub_object(gantry::Gantry&, gantry::Suction&)</STRONG> (Thumb, 108 bytes, Stack size 32 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFSC2ERNS_6GantryERNS_7SuctionE), UNUSED)
+<P><STRONG><a name="[376]"></a>gantry::PutKFS::PutKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 120 bytes, Stack size 32 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
 
 <P><STRONG><a name="[238]"></a>gantry::Gripper::Gripper(motor::DjiMotor&)</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, rc_gripper.o(.text._ZN6gantry7GripperC2ERN5motor8DjiMotorE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = gantry::Gripper::Gripper(motor::DjiMotor&)
@@ -6422,7 +6416,7 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_map_graph.o(.init_array)
 </UL>
-<P><STRONG><a name="[f9]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1380 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
+<P><STRONG><a name="[f9]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1444 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
 <LI>Call Chain = _GLOBAL__sub_I_RC_init.cpp &rArr; chassis::Omni4Chassis::Omni4Chassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, float, float, float, float, float, float, data::RobotPose&) &rArr; chassis::Chassis::Chassis__sub_object(float, float, float, float, float, float, data::RobotPose&) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
@@ -6452,7 +6446,7 @@ Local Symbols
 <LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Aim_Ctrl(ros::Camera&, gantry::Gantry&, chassis::Chassis&, gantry::Gripper&)
 <LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gripper::Gripper(motor::DjiMotor&)
 <LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
-<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&)
+<LI><a href="#[237]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::PutKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 <LI><a href="#[235]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Suction::Suction(GPIO_TypeDef*, unsigned short)
 <LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 <LI><a href="#[234]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Gantry(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)

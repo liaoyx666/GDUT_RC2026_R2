@@ -15,7 +15,7 @@ namespace mini_laser
         virtual ~MiniLaser() {}
 		float distance = 0.0f;
 			
-		float dis_filter;
+		
 			
     private:
         void Uart_Rx_It_Process(uint8_t *buf_, uint16_t len_) override;

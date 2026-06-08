@@ -116,8 +116,13 @@ ros::Camera camera_aim(CDC_HS, 6);
 /*===================外置模块=================*/
 
 // 激光测距
-uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-mini_laser::MiniLaser laser(huart3, laser_buffer);
+uint8_t cali_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+mini_laser::MiniLaser cali_laser(huart3, cali_laser_buffer);
+
+
+// 激光测距
+uint8_t check_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+mini_laser::MiniLaser check_laser(huart1, check_laser_buffer);
 
 // imu
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
@@ -156,10 +161,10 @@ gantry::Gantry gan(
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
 
 // 取KFS
-gantry::GetKFS getKFS(gan, suck, laser);
+gantry::GetKFS getKFS(gan, suck, cali_laser);
 
 // 放KFS
-gantry::PutKFS putKFS(gan, suck);
+gantry::PutKFS putKFS(gan, suck, check_laser);
 
 // 夹爪
 gantry::Gripper gripper(m2006_can1_7);
@@ -374,7 +379,8 @@ void All_Init()
 	timer::Timer::Timer_Start();
 	
 	// 串口接收初始化
-	laser.Uart_Rx_Start();
+	cali_laser.Uart_Rx_Start();
+	check_laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
 
 	// 场地位置初始化

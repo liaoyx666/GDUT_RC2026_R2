@@ -3,6 +3,7 @@
 #include "RC_suction.h"
 #include "RC_timer.h"
 #include "RC_event3.h"
+#include "RC_mini_laser.h"
 
 #ifdef __cplusplus
 namespace gantry
@@ -26,6 +27,7 @@ namespace gantry
 		PUTKFS_GET_WITHDRAW_SUCK_CHECK,
 		
 		PUTKFS_GET_KFS_OUT,
+		PUTKFS_GET_KFS_OUT_CHECK,
 	};
 	
 	
@@ -40,8 +42,20 @@ namespace gantry
 	
 	enum PutKFSPutState : uint8_t 
 	{
-		PUTKFS_PUT_CLOSE_TO = 0,
-		PUTKFS_PUT_CLOSE_TO_CHECK,
+		//PUTKFS_PUT_CLOSE_TO = 0,
+		//PUTKFS_PUT_CLOSE_TO_CHECK,
+		PUTKFS_PUT_CHECK_SUDOKU = 0,
+		PUTKFS_PUT_CHECK_SUDOKU_CHECK,
+		
+		
+		PUTKFS_PUT_CHECK_SUDOKU_FAIL,
+		
+		
+		
+		PUTKFS_PUT_DROP,
+		PUTKFS_PUT_DROP_CHECK,
+		
+		
 		
 		PUTKFS_PUT_IN,
 		PUTKFS_PUT_IN_CHECK,
@@ -57,7 +71,7 @@ namespace gantry
 	class PutKFS
     {
     public:
-		PutKFS(Gantry& gan_, Suction& suck_);
+		PutKFS(Gantry& gan_, Suction& suck_, mini_laser::MiniLaser& laser_);
 		~PutKFS() = default;
 	
 		void Auto_Put_KFS();
@@ -74,15 +88,20 @@ namespace gantry
 	
 		uint32_t last_time;
 	
+		uint32_t last_check_time;
+	
 		float get_z;
 		float put_z;
 		GantryUser user;
 	
-
 		bool ready_trig;
 	
-	
 		path::Event3 put_event[3];
+	
+	
+		bool is_fail;
+	
+		mini_laser::MiniLaser& laser;
     };
 }
 #endif

@@ -14,18 +14,21 @@ namespace gantry
 	constexpr float PUTKFS_GET_KFS_LOW_Z = 0.1;
 	constexpr float PUTKFS_GET_KFS_HIGH_Z = 0.45;
 	
-	PutKFS::PutKFS(Gantry& gan_, Suction& suck_)
+	PutKFS::PutKFS(Gantry& gan_, Suction& suck_, mini_laser::MiniLaser& laser_)
 	 : 	user(gan_), 
 		suck(suck_), 
 		put_event{
 			path::Event3(17, 1.f, false, false),		//EVENT_PUT_KFS_2L_READY
 			path::Event3(18, 1.f, false, false),   		//EVENT_PUT_KFS_3L_READY
 			path::Event3(19, 0.03f, true, true) 	 	//EVENT_PUT_KFS_PUT
-		}
+		},
+		laser(laser_)
 	{
 		phase = PUTKFS_RESET;
 		last_time = 0;
+		last_check_time = 0;
 		ready_trig = false;
+		is_fail = false;
 	}
 	
 	void PutKFS::Auto_Put_KFS()
@@ -73,10 +76,16 @@ namespace gantry
 					{
 						get_state = PUTKFS_GET_KFS_OUT;
 						
-						phase = PUTKFS_PUT_PHASE;
+						phase = PUTKFS_GET_PHASE;
 					}
 					
-					put_state = PUTKFS_PUT_CLOSE_TO;
+					// 上次放失败
+					if (put_state == PUTKFS_PUT_CHECK_SUDOKU_FAIL)
+					{
+						get_state = PUTKFS_GET_KFS_OUT;
+					}
+					
+					put_state = PUTKFS_PUT_CHECK_SUDOKU;
 					
 				}
 				break;
@@ -100,11 +109,10 @@ namespace gantry
 				{
 					put_event[2].Finish();
 
-					user.Set_Defualt_Td();
-					user.Set_Reset_Pos();
+					//user.Set_Defualt_Td();
+					//user.Set_Reset_Pos();
 				
-					data::KFS_Sub_One();
-					user.Give_Control();
+					//user.Give_Control();
 					
 					phase = PUTKFS_RESET;
 				}
@@ -123,7 +131,19 @@ namespace gantry
 	
 	constexpr float PUTKFS_GET_KFS_STRETCH_X = 0.05;
 	constexpr float PUTKFS_GET_KFS_WITHDRAW_X = 0.0;
-	constexpr float PUTKFS_GET_KFS_OUT_X = 0.07;
+	constexpr float PUTKFS_GET_KFS_OUT_X = 0.27;
+	constexpr float PUTKFS_PUT_KFS_OUT_DELTA_Z = 0.06;
+	
+	
+	constexpr float PUTKFS_PUT_KFS_CLOSE_X = 0.2;
+	constexpr float PUTKFS_PUT_KFS_IN_X = 0.43;
+	constexpr float PUTKFS_PUT_KFS_DOWN_DELTA_Z = 0.03;
+	constexpr float PUTKFS_PUT_KFS_OUT_X = 0.32;
+	
+	constexpr float PUTKFS_PUT_KFS_CLOSE_P = 2.1;
+	constexpr float PUTKFS_PUT_KFS_CLOSE_DELTA_Z = 0.3;
+	
+	
 	
 	bool PutKFS::Get_KFS_Phase()
 	{
@@ -203,9 +223,23 @@ namespace gantry
 				user.Set_P_Td(4, 5);
 				
 				user.Set_X(PUTKFS_GET_KFS_OUT_X);
+				user.Set_Z(put_z - PUTKFS_PUT_KFS_OUT_DELTA_Z);
 				user.Set_P(HALF_PI);
 				
-				return true;
+				get_state = PUTKFS_GET_KFS_OUT_CHECK;
+				break;
+			}
+			
+			case PUTKFS_GET_KFS_OUT_CHECK:
+			{
+				if (
+					fabsf(user.Get_X() - PUTKFS_GET_KFS_OUT_X) < PUTKFS_POS_THRESTHOLD_SMALL && 
+					fabsf(user.Get_Z() - (put_z - PUTKFS_PUT_KFS_OUT_DELTA_Z)) < PUTKFS_POS_THRESTHOLD_SMALL && 
+					fabsf(user.Get_P() - HALF_PI) < PUTKFS_ANG_THRESTHOLD_SMALL
+				)
+				{
+					return true;
+				}
 				break;
 			}
 			
@@ -221,29 +255,66 @@ namespace gantry
 	
 	
 	
-	constexpr float PUTKFS_PUT_KFS_CLOSE_X = 0.2;
-	constexpr float PUTKFS_PUT_KFS_IN_X = 0.43;
-	constexpr float PUTKFS_PUT_KFS_DOWN_DELTA_Z = 0.03;
-	constexpr float PUTKFS_PUT_KFS_OUT_X = 0.32;
-	
-	constexpr float PUTKFS_PUT_KFS_CLOSE_P = 2.1;
-	constexpr float PUTKFS_PUT_KFS_CLOSE_DELTA_Z = 0.3;
+
 	
 	bool PutKFS::Put_KFS_Phase()
 	{
 		switch (put_state)
 		{
-			case PUTKFS_PUT_CLOSE_TO:
+			case PUTKFS_PUT_CHECK_SUDOKU:
+			{
+				last_time = last_time = timer::Timer::Get_TimeStamp();
+				last_check_time = last_time = timer::Timer::Get_TimeStamp();
+				put_state = PUTKFS_PUT_CHECK_SUDOKU_CHECK;
+				break;
+			}
+			
+			
+			
+			case PUTKFS_PUT_CHECK_SUDOKU_CHECK:
+			{
+				// 小于阈值更新
+				if (laser.distance < 500)
+				{
+					//last_check_time = last_time = timer::Timer::Get_TimeStamp();
+				}
+				
+				if (timer::Timer::Get_DeltaTime(last_check_time) > 600000) // 0.6s没检测到就成功
+				{
+					put_state = PUTKFS_PUT_DROP;
+				}
+				else if (timer::Timer::Get_DeltaTime(last_time) > 2000000) // 2s超时
+				{
+					put_state = PUTKFS_PUT_CHECK_SUDOKU_FAIL;
+				}
+				break;
+			}
+
+			/*--------------------------------------------*/
+			
+			case PUTKFS_PUT_CHECK_SUDOKU_FAIL:
+			{
+				is_fail = true;
+				return true;
+				break;
+			}
+			
+			/*--------------------------------------------*/
+			
+			
+			
+			
+			case PUTKFS_PUT_DROP:
 			{
 				user.Set_X(PUTKFS_PUT_KFS_CLOSE_X);
 				user.Set_Z(put_z - PUTKFS_PUT_KFS_CLOSE_DELTA_Z);
 				user.Set_P(PUTKFS_PUT_KFS_CLOSE_P);
 				
-				put_state = PUTKFS_PUT_CLOSE_TO_CHECK;
+				put_state = PUTKFS_PUT_DROP_CHECK;
 				break;
 			}
 			
-			case PUTKFS_PUT_CLOSE_TO_CHECK:
+			case PUTKFS_PUT_DROP_CHECK:
 			{
 				if (
 					fabsf(user.Get_Z() - (put_z - PUTKFS_PUT_KFS_CLOSE_DELTA_Z))     < PUTKFS_POS_THRESTHOLD_SMALL &&
@@ -252,9 +323,10 @@ namespace gantry
 				{
 					put_state = PUTKFS_PUT_IN;
 				}
-				
 				break;
 			}
+			
+			
 			
 			case PUTKFS_PUT_IN:
 			{
@@ -269,7 +341,6 @@ namespace gantry
 				break;
 			}
 			
-			
 			case PUTKFS_PUT_IN_CHECK:
 			{
 				if (
@@ -282,6 +353,9 @@ namespace gantry
 				}
 				break;
 			}
+			
+			
+			
 			
 			case PUTKFS_PUT_DOWN:
 			{
@@ -303,6 +377,9 @@ namespace gantry
 				break;
 			}
 			
+			
+			
+			
 			case PUTKFS_PUT_RELESE:
 			{
 				suck.Off();
@@ -317,14 +394,20 @@ namespace gantry
 					timer::Timer::Get_DeltaTime(last_time) > 900000
 				)
 				{
+					user.Set_Defualt_Td();
+					user.Set_Reset_Pos();
+					data::KFS_Sub_One();// 放成功
+					user.Give_Control();
 					return true;
 				}
 				break;
 			}
-
+			
+			/*--------------------------------------------*/
+			
 			default:
 			{
-				put_state = PUTKFS_PUT_CLOSE_TO;
+				put_state = PUTKFS_PUT_CHECK_SUDOKU;
 				break;
 			}
 		}
