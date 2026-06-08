@@ -18,7 +18,7 @@ namespace cdc
 	
 	CDC::CDC(CDCType cdc_type_) : 
 		cdc_type(cdc_type_),
-		task::ManagedTask("Cdc", 40, 128, task::TASK_PERIOD, 1),
+		task::ManagedTask("Cdc_Rx", 40, 128, task::TASK_PERIOD, 1),
 		tx_task("cdc_tx_task", 37, 128, CDC_All_Task_Tx_Process, &cdc_type)
 	{
 		if (cdc_type == USB_CDC_HS) cdc_list_dx = 0;
@@ -68,7 +68,7 @@ namespace cdc
 	
 	bool CDC::CDC_Send_Pkg(uint8_t id_, uint8_t *data, uint16_t len, uint16_t max_wait_time)
 	{
-		if (len <= 59)
+		if (len <= 58)
 		{
 			send_pkg_buf[0] = 0xaa;
 			send_pkg_buf[1] = 0x55;
@@ -243,10 +243,11 @@ namespace cdc
 			send_buf_used[sending_buf_dx] = 0;// 清空已发送的缓冲区
 		}
 
+		
 		if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE)// 获取互斥锁
 		{
 			writing_buf_dx = sending_buf_dx;// 切换缓冲区
-			xSemaphoreGive(xMutex); // 释放互斥锁
+			xSemaphoreGive(xMutex); // 释放互斥锁	
 		}
 	}
 	

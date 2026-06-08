@@ -16,15 +16,25 @@ namespace gantry
 
 enum  ARM_TASK
 {
+		/*			STEP1			*/
     PICK_UP_KFS_20CM_1_step1,
 		PICK_UP_KFS_20CM_2_step1,
 		PICK_UP_KFS_20CM_3_step1,
 		PICK_UP_KFS_20CM_4_step1,
+	
 		PICK_UP_KFS_40CM_1_step1,
+	
 		PICK_DOWN_KFS_1_step1,
     PICK_DOWN_KFS_2_step1,
 		PICK_DOWN_KFS_3_step1,
 		PICK_DOWN_KFS_4_step1,
+		
+		PICK_UP_KFS_0CM_1_step1,
+		PICK_UP_KFS_0CM_2_step1,	
+		PICK_UP_KFS_0CM_3_step1,
+		PICK_UP_KFS_0CM_4_step1,
+
+			/*		STEP2 				*/
 		PICK_UP_KFS_20CM_1_step2,
 		PICK_UP_KFS_20CM_2_step2,
 		PICK_UP_KFS_20CM_3_step2,
@@ -35,6 +45,12 @@ enum  ARM_TASK
     PICK_DOWN_KFS_2_step2,
 		PICK_DOWN_KFS_3_step2,
 		PICK_DOWN_KFS_4_step2,
+		
+		PICK_UP_KFS_0CM_1_step2,
+		PICK_UP_KFS_0CM_2_step2,	
+		PICK_UP_KFS_0CM_3_step2,
+		PICK_UP_KFS_0CM_4_step2,
+		
 	
     HOME
 };
@@ -90,7 +106,7 @@ class GetKFS
 			bool y_locked;
 			GantryUser user;
 			gantry::Gantry& gantry;
-			path::Event3 gantry_event[4];
+			path::Event3 gantry_event[5];
 			path::Event3* active_event;
 			Suction&  suction_;
 			mini_laser::MiniLaser& laser_;

@@ -76,8 +76,8 @@ namespace gantry
         };
 
         // 雷达偏移
-        static constexpr float RADAR_ERROR_X = -0.005f;
-        static constexpr float RADAR_ERROR_Y = 0.00f;
+        static constexpr float RADAR_ERROR_X = -0.017f;
+        static constexpr float RADAR_ERROR_Y = 0.009f;
         static constexpr float RADAR_ERROR_YAW = 0.0f * PI / 180.f;
 
         // 夹取准备位置(即夹爪初始状态距离武器头的y轴距离小于等于READY_DIST时才往前伸夹爪，在这之前调整地盘靠近夹爪)
@@ -111,7 +111,16 @@ namespace gantry
 
         void Pick(uint8_t num);      
         void Pick_Nearest(); 
+
+        bool sig1 = false;
+        bool sig2 = false;
+        bool sig3 = false;
+		
+		float pose_buf[5] = { 0 };
+		int length = 0;
         
+        bool gantry_yz_ready = false;
+
     };
 }
 #endif

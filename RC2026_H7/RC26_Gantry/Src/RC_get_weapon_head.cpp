@@ -3,11 +3,13 @@
 
 #include "RC_get_weapon_head.h"
 
-float test_z = 0.03;//龙门架z轴多抬高高度
+float test_z = 0.035;//龙门架z轴多抬高高度
 float down_z_dist = 0.13;//龙门架下降时距离夹爪的距离
 
+float GET_Z_ER = -0.02;//龙门架下降时距离夹爪的距离
+
 float test_vel = 2.5f;// 底盘接近武器头时的最大速度（在夹爪触发前）
-float Kp = 2.9f; // 底盘接近武器头时的速度控制增益（在夹爪触发前）
+float Kp = 5.0f; // 底盘接近武器头时的速度控制增益（在夹爪触发前）
 
 float chassis_y_error_threshold = 0.05f; // 底盘y轴误差阈值，当误差小于该值时认为y轴到位
 
@@ -28,7 +30,7 @@ GetWeaponHead::GetWeaponHead(
         pose(pose_), omni4chassis(omni4chassis_),
         user(gantry_),  
         gripper(gripper_),
-        chassis_npid_y(1.62f, 0.0f, 2.0f, 0.05f, 1.5f, 0.01f),
+        chassis_npid_y(1.6f, 0.0f, 2.0f, 0.05f, 1.5f, 0.01f),
         blue_side(blue_side_)
     {
         state = State::IDLE;
@@ -115,25 +117,41 @@ GetWeaponHead::GetWeaponHead(
                 omni4chassis.Set_World_Lin_Vel(vector2d::Vector2D(target_vx, target_vy));
 
                 // --- 预设云台高度和夹爪 ---
-                user.Set_X(GANTRY_RETRACT_X);
-                user.Set_Z((GET_Z + test_z));
+                if(!sig1)
+                {
+                    user.Set_X(GANTRY_RETRACT_X);
+                    sig1 = true;
+                }
+                user.Set_Z((GET_Z + test_z + GET_Z_ER));
                 user.Set_P(PI / 2.f);
                 gripper.Open();
 
                 // --- 龙门架 Y 轴补偿 ---
                 float target_gantry_y = 0.0f;
-                bool gantry_yz_ready = false;
 
-                if (x_in_range) {
-                    target_gantry_y = WEAPON_X_RAW[current_target_idx] - curr_x;
-                    user.Set_Y(target_gantry_y);
-                    gantry_yz_ready = (fabsf(user.Get_Y() - target_gantry_y) < GANTRY_POS_TOLERANCE)
-                                    && (fabsf(user.Get_Z() - (GET_Z + test_z)) < GANTRY_POS_TOLERANCE);
+                if(!sig3)
+                {
+                    if (x_in_range) {
+						
+                        target_gantry_y = WEAPON_X_RAW[current_target_idx] - curr_x;
+                        user.Set_Y(target_gantry_y);
+                        gantry_yz_ready = (fabsf(user.Get_Y() - target_gantry_y) < GANTRY_POS_TOLERANCE)
+                                        && (fabsf(user.Get_Z() - (GET_Z + test_z + GET_Z_ER)) < GANTRY_POS_TOLERANCE);
+                        if(gantry_yz_ready) {
+                            sig3 = true;
+                        }
+                    }
                 }
+
+
 
                 // --- 状态跳转判定 ---
                 if (x_in_range && gantry_yz_ready) {
-                    user.Set_X(READY_DIST);
+                    if(!sig2)
+                    {
+                        user.Set_X(READY_DIST);
+                        sig2 = true;
+                    }
                 }
 
                 // --- 龙门架 X 轴补偿 ---
@@ -143,15 +161,16 @@ GetWeaponHead::GetWeaponHead(
                     user.Set_X(target_gantry_x);
                 }
 
-                if(fabsf(TARGET_WEAPON_Y - curr_y) - (user.Get_X() + HALF_CHASSIS_Y) < down_z_dist) {
-                    user.Set_Z(GET_Z);
-                }
+                // if(fabsf(TARGET_WEAPON_Y - curr_y) - (user.Get_X() + HALF_CHASSIS_Y) < down_z_dist) {
+                //     user.Set_Z(GET_Z);
+                // }
 
                 bool all_ready = 
                 x_in_range && 
                 gantry_yz_ready && 
-                y_ok && 
-                (fabsf(TARGET_WEAPON_Y - curr_y) - (user.Get_X() + HALF_CHASSIS_Y) < down_z_dist);
+                y_ok 
+                //&& (fabsf(TARGET_WEAPON_Y - curr_y) - (user.Get_X() + HALF_CHASSIS_Y) < down_z_dist)
+                ;
 
                 if (all_ready) {
                     state = State::ACTION_GRAB_1;
@@ -162,7 +181,7 @@ GetWeaponHead::GetWeaponHead(
 
             case State::ACTION_GRAB_1:{
                 // 底盘停止，只动云台
-                user.Set_Z(GET_Z);
+                user.Set_Z(GET_Z + GET_Z_ER);
                 
                 StopChassis();
                 float current_target_gantry_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y;
@@ -184,15 +203,15 @@ GetWeaponHead::GetWeaponHead(
 
             case State::ACTION_GRAB_2_1:
                 StopChassis();
-                if (timer::Timer::Get_DeltaTime(grab_start_time) >= 500000) {
+                if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
                     state = State::ACTION_LIFT_Z;
                 }
                 break;
 
             case State::ACTION_LIFT_Z:
-                user.Set_Z((GET_Z) + LIFT_UP_Z);
+                user.Set_Z((GET_Z + GET_Z_ER) + LIFT_UP_Z);
 				user.Set_P(0.0f);
-                if (fabsf(user.Get_Z() - (GET_Z + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE) {
+                if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE) {
                     state = State::ACTION_RETRACT_X;
 					weapon_event.Finish();
 					path_plan.Enable();
@@ -230,6 +249,11 @@ void GetWeaponHead::StopChassis() {
 
 void GetWeaponHead::Pick(uint8_t num) {
     if (is_picked) return;
+    sig1 = false;
+    sig2 = false;
+    sig3 = false;
+    gantry_yz_ready = false;
+
     if (num >= 1 && num <= WEAPON_NUM) {
         current_target_idx = num - 1;
         state = State::ALIGN_CHASSIS;
@@ -243,6 +267,11 @@ void GetWeaponHead::Pick_Nearest() {
 
     curr_x = pose.X() + RADAR_ERROR_X;
     curr_y = pose.Y() + RADAR_ERROR_Y;
+
+    sig1 = false;
+    sig2 = false;
+    sig3 = false;
+    gantry_yz_ready = false;
 
     for (uint8_t i = 0; i < WEAPON_NUM; ++i) {
         float dist = fabsf(curr_x - WEAPON_X_RAW[i]);
@@ -261,4 +290,3 @@ void GetWeaponHead::Reset_Task() {
 }
 
 }
-

@@ -99,9 +99,9 @@ check::HeadCheck head_check(
 	omni_4_chassis,
 	robot_pose
 );
-	
+
 /*===================上位机接口===================*/
-	
+
 // 雷达数据接收
 ros::Radar radar(CDC_HS, 1, robot_pose);
 
@@ -114,10 +114,6 @@ ros::WaitR1 wait_R1(CDC_HS, 8, omni_4_chassis, head_ctrl);
 ros::Camera camera_aim(CDC_HS, 6);
 
 /*===================外置模块=================*/
-
-// 激光测距
-//uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-//lidar::LiDAR lidar_1(huart1, lidar_buffer);
 
 // 激光测距
 uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
@@ -166,25 +162,25 @@ gantry::GetKFS getKFS(gan, suck, laser);
 gantry::PutKFS putKFS(gan, suck);
 
 // 夹爪
-gantry::Gripper gripper_(m2006_can1_7);
+gantry::Gripper gripper(m2006_can1_7);
 
 // 夹取武器头
 gantry::GetWeaponHead get_weapon_head(
 	omni_4_chassis,
 	robot_pose,
 	gan,
-	gripper_,
+	gripper,
 	path_plan,
 	head_ctrl
 );
 
 // 对接
-//gantry::Dock dock(gripper_);
-
-gantry::Aim_Ctrl aim(camera_aim, gan);
-
-
-
+gantry::Aim_Ctrl aim(
+	camera_aim, 
+	gan,
+	omni_4_chassis,
+	gripper
+);
 
 
 /*==================Main_Task==================*/
@@ -226,8 +222,6 @@ void Main_Task(void *argument)
 		gan.Gantry_Base();
 		
 		putKFS.Auto_Put_KFS();
-		
-		//dock.Auto_Dock();
 		
 		get_weapon_head.Auto_Get_Weapon_Head();
 
@@ -380,7 +374,6 @@ void All_Init()
 	timer::Timer::Timer_Start();
 	
 	// 串口接收初始化
-	//lidar_1.Uart_Rx_Start();
 	laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
 

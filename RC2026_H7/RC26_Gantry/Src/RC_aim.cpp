@@ -3,15 +3,16 @@
 namespace gantry
 {
 	Aim_Ctrl::Aim_Ctrl(ros::Camera& camera_,
-	         gantry::Gantry& gantry_)
+		gantry::Gantry& gantry_,
+		chassis::Chassis& chassis_,
+		gantry::Gripper& gripper_)
 		: camera(camera_), gantry(gantry_),
+		  chassis(chassis_),
+		  gripper(gripper_),
 		  user(gantry_),
-		  aim_event(21, 0.1f, true, true), // EVENT_AIM = EVENT3_ID_23
+		  aim_event(21, 0.1f, true, true), // EVENT_AIM = EVENT3_ID_21
 		  z_lpf(0.60f, 1000.0f), y_lpf(0.60f, 1000.0f)
 	{
-		// AIM PID 参数 — 待调参
-		z_pid.Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
-		y_pid.Pid_Param_Init(0.2, 0, 0., 0, 0.001, 0.001, 0.002, 0.5, 0, 0, 0, 50, 0.01);
 	}
 
 	float Aim_Ctrl::Get_Data(Axis axis)
@@ -41,7 +42,6 @@ namespace gantry
 	void Aim_Ctrl::Auto_Aim()
 	{
 		float error = 0;
-		float output = 0;
 		float final_error_z = 0;
 		float final_error_y = 0;
 
@@ -51,7 +51,7 @@ namespace gantry
 			if (aim_event.Is_Trig())
 			{
 				Tracker_Clear();
-				phase = Phase_Check;
+				phase = Phase_PrePosition;
 			}
 			return;
 		}
@@ -63,65 +63,86 @@ namespace gantry
 			return;
 		}
 
-
-
 		if (!user.Take_Control()) return;
 
 		switch (phase)
 		{
-		/*---- 阶段0：等待相机检测到目标，5帧判稳确认数据无异常 ----*/
+		/*---- 阶段0：预定位，将龙门架移至预设起始位置 ----*/
+		case Phase_PrePosition:
+		{
+			user.Set_X(PRE_POS_X);
+			user.Set_Y(PRE_POS_Y);
+			user.Set_Z(PRE_POS_Z);
+
+			float dx = fabsf(gantry.Get_X() - PRE_POS_X);
+			float dy = fabsf(gantry.Get_Y() - PRE_POS_Y);
+			float dz = fabsf(gantry.Get_Z() - PRE_POS_Z);
+
+			if (dx < PRE_POS_THRESHOLD && dy < PRE_POS_THRESHOLD && dz < PRE_POS_THRESHOLD)
+			{
+				Tracker_Clear();
+				phase = Phase_Check;
+			}
+			break;
+		}
+
+		/*---- 阶段1：等待相机检测到目标 ----*/
 		case Phase_Check:
+
 			if (camera.Event() == 0) return;                    // 相机未检测到目标，等待
 
-	//		if (Frame_Stable(Axis_X, 5) && Frame_Stable(Axis_Y, 5) && Frame_Stable(Axis_Z, 5))
-	//		{
-	//			Tracker_Clear();
 				phase = Phase_Yaw;
-	//		}
+
 			break;
 
 		/*---- 阶段1：yaw角补正，PID闭环控制底盘角速度 ----*/
 		case Phase_Yaw:
+
+				chassis.Force_Lin_Vel_Zero(4);
 
 				phase = Phase_YZ_Coarse;
 
 			break;
 
 		/*---- Y-Z粗调：双轴同时大步逼近 ----*/
-		case Phase_YZ_Coarse:
-		{
-
-				float error_z = Get_Data(Axis_Z);
-				float error_y = Get_Data(Axis_Y);
-			if (!check_error())
-			{
-				final_error_z = z_lpf.filter(error_z + gantry.Get_Z());
-				final_error_y = y_lpf.filter(error_y + gantry.Get_Y());
-
-				user.Set_Z(final_error_z);
-				user.Set_Y(final_error_y);
-			}
-			
-			if (Frame_Stable(Axis_Z, COARSE_FRAME_COUNT, 0.02) &&
-			    Frame_Stable(Axis_Y, COARSE_FRAME_COUNT, 0.02) &&
-			    fabsf(error_z) < 0.05 &&
-			    fabsf(error_y) < 0.05 )
-			{
-				Tracker_Clear();
-				phase = Phase_Z;
-			}
-			break;
-		}
+		 case Phase_YZ_Coarse:
+		 {
+		// 	float error_z = Get_Data(Axis_Z);
+		// 	float error_y = Get_Data(Axis_Y);
+		//
+		// 	if (!check_error())
+		// 	{
+		// 		final_error_z = z_lpf.filter(error_z + gantry.Get_Z());
+		// 		final_error_y = y_lpf.filter(error_y + gantry.Get_Y());
+		//
+		// 		user.Set_Z(final_error_z);
+		// 		user.Set_Y(final_error_y);
+		// 	}
+		// 	else break;
+		//
+		// 	bool z_stable = Frame_Stable(Axis_Z, COARSE_FRAME_COUNT, COARSE_STABLE_THRESHOLD);
+		// 	bool y_stable = Frame_Stable(Axis_Y, COARSE_FRAME_COUNT, COARSE_STABLE_THRESHOLD);
+		//
+		// 	if (z_stable && y_stable &&
+		// 	    fabsf(error_z) < COARSE_STABLE_THRESHOLD &&
+		// 	    fabsf(error_y) < COARSE_STABLE_THRESHOLD)
+		// 	{
+		// 		Tracker_Clear();
+		 		phase = Phase_Z;
+		// 	}
+		// 	break;
+		 }
 
 		/*---- 阶段2：z补正，PID闭环控制Gantry Z轴 ----*/
 		case Phase_Z:
 			if (!check_error())
-			{			
+			{
 				error  = Get_Data(Axis_Z);
 				final_error_z = z_lpf.filter(error + gantry.Get_Z());
 				user.Set_Z(final_error_z);
 			}
-			
+			else break;
+
 			if (Frame_Stable(Axis_Z))
 			{
 				Tracker_Clear();
@@ -138,7 +159,8 @@ namespace gantry
 				final_error_y = y_lpf.filter(gantry.Get_Y() + error);
 				user.Set_Y(final_error_y);
 			}
-			
+			else break;
+
 			if (Frame_Stable(Axis_Y))
 			{
 				y_result = Get_Data(Axis_Y);
@@ -151,28 +173,30 @@ namespace gantry
 		case Phase_Done:
 			if(finish_flag)
 			{
-				if(!timer_flag)
+				gripper.Open();
+
+				if(!timer_flag && !camera.Is_QR_Enabled())
 				{
 					timer_flag = 1;
 					last_time = timer::Timer::Get_TimeStamp();
 				}
-				
-				if(timer::Timer::Get_DeltaTime(last_time) > 1000000)
-				{
-					aim_event.Finish();        // 正式: 通知导航aim完成
-					user.Give_Control();
-					Tracker_Clear();
-					phase = Phase_Idle;          // 持续瞄准: 直接回到粗调循环; 正式改为 Phase_Idle
-					
-				}
-				
+
 				if (camera.Is_QR_Enabled())
 				{
-					camera.QR_Disable();  // 正式: 通知上位机关闭QR
+					camera.QR_Disable();
 				}
-     	  
+				
+				if(timer::Timer::Get_DeltaTime(last_time) > 3000000)
+				{
+					chassis.Unforce_Lin_Vel_Zero(4);
+					user.Set_Reset_Pos();
+					Tracker_Clear();
+					user.Give_Control();
+					aim_event.Finish();
+					phase = Phase_Idle;
 
-			
+				}
+
 			}
 
 			break;
