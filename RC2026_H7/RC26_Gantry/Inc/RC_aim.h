@@ -1,14 +1,14 @@
 #pragma once
 #include "RC_camera_dock.h"
-#include "RC_pid.h"
+
 #include "RC_chassis.h"
-#include "RC_vector2d.h"
 #include "RC_gantry.h"
 #include "RC_filter.h"
 #include "RC_event3.h"
+#include "RC_gripper.h"
 
 #ifdef __cplusplus
-namespace aim
+namespace gantry
 {
 	class Aim_Ctrl
 	{
@@ -16,14 +16,13 @@ namespace aim
 		static constexpr uint16_t DEFAULT_FRAME = 60;
 		static constexpr float   DEFAULT_ERROR = 0.002f;
 
-		static constexpr float    COARSE_STABLE_THRESHOLD = 0.002f;
+		static constexpr float    COARSE_STABLE_THRESHOLD = 0.005f;
 		static constexpr uint16_t COARSE_FRAME_COUNT      = 20;
 
-		float final_error_z =0;
-	  float final_error_y =0;
-
 		Aim_Ctrl(ros::Camera& camera_,
-		         gantry::Gantry& gantry_);
+		         gantry::Gantry& gantry_,
+				 chassis::Chassis& chassis_,
+				 gantry::Gripper& gripper_);
 
 		enum Axis : uint8_t
 		{
@@ -31,6 +30,14 @@ namespace aim
 			Axis_Y,
 			Axis_Z
 		};
+
+		bool check_error()
+		{
+			// 四轴全零 = 相机未识别到目标，数据不予采纳
+			return (fabsf(camera.X()) < 1e-6f && fabsf(camera.Y()) < 1e-6f
+			&& fabsf(camera.Z()) < 1e-6f && fabsf(camera.Yaw()) < 1e-6f);
+		}
+
 
 		// 帧判稳 — 相机中断到场才推进窗口
 		bool Frame_Stable(Axis axis, uint16_t frame_count = DEFAULT_FRAME, float error = DEFAULT_ERROR)
@@ -80,9 +87,9 @@ namespace aim
 
 		ros::Camera&     camera;
 		gantry::Gantry&  gantry;
+		chassis::Chassis& chassis;
+		gantry::Gripper&  gripper;
 		gantry::GantryUser user;
-		pid::Pid         z_pid;
-		pid::Pid         y_pid;
 
 		path::Event3     aim_event;
 
@@ -93,6 +100,11 @@ namespace aim
 		static constexpr float PRE_POS_Y = 0.0f;
 		static constexpr float PRE_POS_Z = 0.08f;
 		static constexpr float PRE_POS_THRESHOLD = 0.005f;
+
+		bool finish_flag = false;
+		bool timer_flag = false;
+
+		uint32_t last_time = 0 ;
 
 		enum Phase : uint8_t
 		{

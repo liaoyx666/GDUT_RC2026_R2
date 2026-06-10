@@ -45,10 +45,18 @@ namespace chassis
 		void Chassis_Enable() {is_enable = true;}
 		
 		// 线速度强制为零
-		void Force_Lin_Vel_Zero() {lin_vel_zero = true;}
+		void Force_Lin_Vel_Zero(uint8_t id) 
+		{
+			lin_vel_zero |= (1UL << id);
+		}
 		
 		// 解除线速度强制为零
-		void Unforce_Lin_Vel_Zero() {lin_vel_zero = false;}
+		void Unforce_Lin_Vel_Zero(uint8_t id)
+		{
+			lin_vel_zero &= ~(1UL << id);
+		}
+		
+		bool Is_Force_Lin_Vel_Zero() const { return (bool)lin_vel_zero; }
 		
 		// 失能
 		void Chassis_Disable() {is_enable = false;}
@@ -104,7 +112,7 @@ namespace chassis
 		
 		bool is_init = false;
 		bool is_enable = true;
-		bool lin_vel_zero = false;
+		uint8_t lin_vel_zero = false;
 		
 		data::RobotPose& pose;
     };

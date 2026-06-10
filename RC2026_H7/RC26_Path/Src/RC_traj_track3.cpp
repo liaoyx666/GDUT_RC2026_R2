@@ -34,7 +34,7 @@ namespace path
 		
 		is_start = false;
 		is_end = false;
-		tan_vel_zero = false;
+		//tan_vel_zero = false;
 	}
 
 	
@@ -55,7 +55,7 @@ namespace path
 		if (path == nullptr) return false;
 		if (!path->Is_Init()) return false;
 
-		if (is_enable)
+		if (is_enable && !chassis.Is_Force_Lin_Vel_Zero())
 		{
 			float t; /*参数*/
 			float l; /*到终点的距离*/
@@ -186,12 +186,12 @@ namespace path
 			float delta = chassis::Limit_Accel(tan_v - last_tan_v, lon.a, dt);
 			if (delta > 0) tan_v = last_tan_v + delta; /*只限制加速，不限制减速，减速靠pid*/
 			last_tan_v = tan_v; /*更新*/
-			
-			if (tan_vel_zero)
-			{
-				tan_v = 0;
-				last_tan_v = 0;
-			}
+//			
+//			if (tan_vel_zero)
+//			{
+//				tan_v = 0;
+//				last_tan_v = 0;
+//			}
 			/*---------------------------------tan------------------------------------*/
 			
 			
@@ -199,10 +199,10 @@ namespace path
 			float nor_v = nor_pid.NPid_Calculate(0, -d);
 			nor_v = fminf(nor_v, lon.v);
 			
-			if (tan_vel_zero)
-			{
-				nor_v = 0;
-			}
+//			if (tan_vel_zero)
+//			{
+//				nor_v = 0;
+//			}
 			/*---------------------------------nor------------------------------------*/
 			
 			

@@ -40,8 +40,8 @@ namespace path
 		
 		bool Is_Load() const {return (bool)path;}
 		
-		void Force_Tan_Vel_Zero() {tan_vel_zero = true;}
-		void Unforce_Tan_Vel_Zero() {tan_vel_zero = false;}
+		//void Force_Tan_Vel_Zero() {tan_vel_zero = true;}
+		//void Unforce_Tan_Vel_Zero() {tan_vel_zero = false;}
 		
 		inline void Traj_Track()
 		{
@@ -85,7 +85,7 @@ namespace path
 		mutable bool is_end;
 
 		bool is_enable;
-		bool tan_vel_zero; /*强制切向速度为0*/
+		//bool tan_vel_zero; /*强制切向速度为0*/
 		
 		data::RobotPose& pose;
 		chassis::Chassis& chassis;

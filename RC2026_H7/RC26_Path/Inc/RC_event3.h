@@ -73,10 +73,10 @@ constexpr Event3_t EVENT_GET_WEAPON_HEAD = EVENT3_ID_20;
 
 constexpr Event3_t EVENT_DOCK = EVENT3_ID_21;
 
-
 constexpr Event3_t EVENT_COMBINE = EVENT3_ID_22;
-constexpr Event3_t EVENT_AIM     = EVENT3_ID_23;
 
+constexpr Event3_t EVENT_WAIT_R1_L = EVENT3_ID_23;
+constexpr Event3_t EVENT_WAIT_R1_R = EVENT3_ID_24;
 
 /*-----所有事件-----*/
 

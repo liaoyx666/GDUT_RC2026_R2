@@ -26,7 +26,6 @@
 #include "RC_LiDAR.h"
 #include "RC_omni_chassis.h"
 #include "RC_lift_chassis.h"
-#include "RC_auto_lift.h"
 #include "RC_head_check.h"
 #include "RC_HWT101CT.h"
 #include "RC_imu_fusion.h"
@@ -50,13 +49,14 @@
 #include "RC_get_KFS.h"
 #include "RC_put_KFS.h"
 #include "RC_get_weapon_head.h"
-#include "RC_dock.h"
+//#include "RC_dock.h"
+#include "RC_aim.h"
 
 /* ROS */
 #include "RC_radar.h"
 #include "RC_best_path.h"
+#include "RC_wait_R1.h"
 #include "RC_camera_dock.h"
-#include "RC_aim.h"
 
 /* HAL */
 #include "fdcan.h"

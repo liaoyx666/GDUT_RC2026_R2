@@ -39,6 +39,7 @@ namespace ros
 	bool Camera::QR_Enable()
 	{
 		Send_QR_Req();
+		
 		return is_qr_enabled;
 	}
 

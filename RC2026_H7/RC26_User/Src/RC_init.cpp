@@ -1,4 +1,4 @@
-﻿#include "RC_init.h"
+#include "RC_init.h"
 /*==================外设==================*/
 // 定时中断
 tim::Tim tim7_1khz(htim7);
@@ -20,7 +20,7 @@ motor::M3508 m3508_2_can1(2, can1, &tim13_500hz);
 motor::M3508 m3508_3_can1(3, can1, &tim13_500hz);
 motor::M3508 m3508_4_can1(4, can1, &tim13_500hz);
 
-// 龙门架电 ?
+// 龙门架电机
 motor::M2006D m2006d_can1_3_4(
 	3, can2, &tim13_500hz, 
 	4, can2, &tim13_500hz, 
@@ -39,58 +39,17 @@ motor::M2006 m2006_can1_7(7, can2, &tim13_500hz);
 motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
 motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);	
 
-// 辅助轮电 ?
+// 辅助轮电机
 motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);
 motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
 
-/*====================数据 ?===================*/
-// 机器人位 ?
+/*====================数据池====================*/
+// 机器人位姿
 data::RobotPose robot_pose;
-<<<<<<< HEAD
-	
-/*===================上位机接 ?==================*/
-	
-// 雷达数据接收
-ros::Radar radar(CDC_HS, 1, robot_pose);
-
-
-
-/*===================外置模块=================*/
-
-// 激光测 ?
-uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-lidar::LiDAR lidar_1(huart1, lidar_buffer);
-
-// 
-uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-mini_laser::MiniLaser laser(huart3, laser_buffer);
-
-// 
-uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-HWT101CT hwt101ct(huart8, hwt101ct_buffer);
-
-// 遥控
-flysky::FlySky remote_ctrl(GPIO_PIN_8);
-
-
-fusion::ImuFusion imu_fusion(radar, hwt101ct);
-
-
-fusion::QEO chassis_qeo(
-	m3508_1_can1, m3508_2_can1,
-	m3508_3_can1, m3508_4_can1,
-	robot_pose,
-	tim4_500hz,
-	radar
-);
-
-fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
-=======
->>>>>>> main
 
 /*==================底盘=======================*/
 
-// 全向轮底 ?
+// 全向轮底盘
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
@@ -103,7 +62,7 @@ chassis::Omni4Chassis omni_4_chassis(
 chassis::LiftChassis lift(
 	m3508_can3_5, m3508_can3_6,
 	m2006_can3_7, m2006_can3_8,
-	&omni_4_chassis, NULL
+	&omni_4_chassis
 );
 
 /*=====================路径规划==================*/
@@ -129,18 +88,15 @@ path::PathPlan3 path_plan(
 	track
 );
 
-// 图规 ?
+// 图规划
 path::GraphPlan graph_plan(path_plan);
 
 // 全图导航
 path::Navigation navigation(graph_plan);
 
-// 抬升自动上下台阶
-//chassis::AutoLift auto_lift(lift);
-
-// 航向检 ?
+// 航向检查
 check::HeadCheck head_check(
-	track,
+	omni_4_chassis,
 	robot_pose
 );
 	
@@ -149,30 +105,35 @@ check::HeadCheck head_check(
 // 雷达数据接收
 ros::Radar radar(CDC_HS, 1, robot_pose);
 
+// 梅林路径接收，生成
 ros::BestPath best_path(CDC_HS, 7, navigation);
 
+// 等待清障
+ros::WaitR1 wait_R1(CDC_HS, 8, omni_4_chassis, head_ctrl);
+
+ros::Camera camera_aim(CDC_HS, 6);
 
 /*===================外置模块=================*/
 
 // 激光测距
-uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-lidar::LiDAR lidar_1(huart1, lidar_buffer);
+//uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+//lidar::LiDAR lidar_1(huart1, lidar_buffer);
 
-// 
+// 激光测距
 uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 mini_laser::MiniLaser laser(huart3, laser_buffer);
 
-// 
+// imu
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 HWT101CT hwt101ct(huart8, hwt101ct_buffer);
 
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
-
+// imu雷达融合
 fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
-
+// 底盘里程计
 fusion::QEO chassis_qeo(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
@@ -186,8 +147,8 @@ fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
 //红外串口
 Serial1Protocol *m_serial1 = nullptr;
 
-/*==================上层龙门 ?===================*/
-// 龙门 ?
+/*==================上层龙门架====================*/
+// 龙门架
 gantry::Gantry gan(
 	m2006d_can1_3_4,
 	m2006_can1_5,
@@ -207,7 +168,7 @@ gantry::PutKFS putKFS(gan, suck);
 // 夹爪
 gantry::Gripper gripper_(m2006_can1_7);
 
-// 夹取武器 ?
+// 夹取武器头
 gantry::GetWeaponHead get_weapon_head(
 	omni_4_chassis,
 	robot_pose,
@@ -217,25 +178,25 @@ gantry::GetWeaponHead get_weapon_head(
 	head_ctrl
 );
 
-gantry::Dock dock(gripper_);
+// 对接
+//gantry::Dock dock(gripper_);
 
-// 相机
-ros::Camera camera(CDC_HS, 6);
+gantry::Aim_Ctrl aim(camera_aim, gan, omni_4_chassis, gripper_);
 
-	// 相机对准 (PID内置于Aim_Ctrl)
-	aim::Aim_Ctrl aim_ctrl(camera, gan);
 
-// 相机对准
+
+
+
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
-float target = 0;
-float a = 0;
+//float target = 0;
+//float a = 0;
 
-float x_1 = 0;
-float y_1 = 0;
-float z_1 = 0;
-float p_1 = 0;
+//float x_1 = 0;
+//float y_1 = 0;
+//float z_1 = 0;
+//float p_1 = 0;
 
 void Main_Task(void *argument)
 {
@@ -243,31 +204,6 @@ void Main_Task(void *argument)
 	remote_ctrl.signal_swd();
 //	wave.Init();
 	
-	
-<<<<<<< HEAD
-	/*--------------------------------*/
-	navigation.Go_To_Get_Weapon_Head();
-
-	navigation.Go_To_Aim(); // Demo: 全程只跑aim事件
-
-	//navigation.Go_To_Dock();
-	
-	//navigation.Go_To_Get_KFS(3, path::DIR_B);
-	
-	//navigation.Go_To_Get_KFS(5, path::DIR_R);
-	
-	//navigation.Go_To_Get_KFS(11, path::DIR_B);
-	
-	//navigation.Go_To_Put_KFS_2L(1);
-	
-	//navigation.Go_To_Put_KFS_2L(2);
-	
-	//navigation.Go_To_Put_KFS_2L(3);
-	/*--------------------------------*/
-	
-=======
-
->>>>>>> main
 	for (;;)
 	{
 		imu_fusion.Fusion();
@@ -291,18 +227,14 @@ void Main_Task(void *argument)
 		
 		putKFS.Auto_Put_KFS();
 		
-//		dock.Auto_Dock();
-		aim_ctrl.Auto_Aim();
-
+		//dock.Auto_Dock();
+		
 		get_weapon_head.Auto_Get_Weapon_Head();
-//		aim_ctrl.Demo_Trig();
-		// Demo: SWC=2 时持续触发 aim，用于调试相机对准
-		if (remote_ctrl.swc == 2)
-		{
-			
-		}
 
-
+		wait_R1.Wait_R1();
+		
+		aim.Auto_Aim();
+		
 //		x_1 = gan.Get_X();
 //		y_1 = gan.Get_Y();
 //		z_1 = gan.Get_Z();
@@ -331,8 +263,6 @@ void Main_Task(void *argument)
 		}
 		
 		osDelay(1);
-		//remote_ctrl.signal_swa();
-		//remote_ctrl.signal_swd();
 	}
 }
 
@@ -360,9 +290,6 @@ void Path_Task(void *argument)
 }
 
 task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
-<<<<<<< HEAD
-/*===================初始化函 ?================*/
-=======
 
 
 
@@ -406,7 +333,6 @@ task::TaskCreator plan_task("Plan_Task", 19, 256, Plan_Task, NULL);
 
 
 /*===================初始化函数=================*/
->>>>>>> main
 
 void Motor_Config()
 {
@@ -425,8 +351,6 @@ void Motor_Config()
 	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
 	m2006_can1_5    .Set_Pos_limit(486.15f, 0.f);
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
-
-	// 相机对准PID（待调参 ?
 }
 
 void All_Init()
@@ -434,7 +358,7 @@ void All_Init()
 	// 电机配置
 	Motor_Config();
 	
-	// CAN初始 ?
+	// CAN初始化
 	can1.Can_Filter_Init(FDCAN_STANDARD_ID, 1, FDCAN_FILTER_TO_RXFIFO0, 0, 0);
 	can1.Can_Filter_Init(FDCAN_EXTENDED_ID, 2, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
 	can1.Can_Start();
@@ -447,7 +371,7 @@ void All_Init()
 	can3.Can_Filter_Init(FDCAN_EXTENDED_ID, 6, FDCAN_FILTER_TO_RXFIFO1, 0, 0);
 	can3.Can_Start();
 
-	// 定时中断初始 ?
+	// 定时中断初始化
 	tim4_500hz.Tim_It_Start();
 	tim7_1khz.Tim_It_Start();
 	tim13_500hz.Tim_It_Start();
@@ -455,12 +379,12 @@ void All_Init()
 	// 时间戳初始化
 	timer::Timer::Timer_Start();
 	
-	// 串口接收初始 ?
-	lidar_1.Uart_Rx_Start();
+	// 串口接收初始化
+	//lidar_1.Uart_Rx_Start();
 	laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
 
-	// 场地位置初始 ?
+	// 场地位置初始化
 	data::Init_Side(true);
 	
 	gan.Init();
