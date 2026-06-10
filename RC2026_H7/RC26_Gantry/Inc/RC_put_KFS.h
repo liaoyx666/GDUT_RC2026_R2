@@ -90,7 +90,7 @@ namespace gantry
 					navi.Go_To_Put_KFS_2L(3);
 				}
 				
-				is_fail = true;
+				is_fail = false;
 			}
 		}
     private:
