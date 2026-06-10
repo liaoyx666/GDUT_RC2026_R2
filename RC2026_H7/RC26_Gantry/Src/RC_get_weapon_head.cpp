@@ -213,13 +213,18 @@ GetWeaponHead::GetWeaponHead(
 				user.Set_P(0.0f);
                 if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE) {
                     state = State::ACTION_RETRACT_X;
-					weapon_event.Finish();
-					path_plan.Enable();
-                    head_ctrl.Disable();
+grab_start_time = timer::Timer::Get_TimeStamp();
                 }
                 break;
 
             case State::ACTION_RETRACT_X:
+
+if (timer::Timer::Get_DeltaTime(grab_start_time) >= 500000) {
+    weapon_event.Finish();
+    path_plan.Enable();
+    head_ctrl.Disable();
+}
+
                 user.Set_X(GANTRY_RETRACT_X);
                 //user.Set_P(0.0f);
                 if (fabsf(user.Get_X() - GANTRY_RETRACT_X) < GANTRY_POS_TOLERANCE) {

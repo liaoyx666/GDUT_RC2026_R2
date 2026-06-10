@@ -122,7 +122,7 @@ mini_laser::MiniLaser cali_laser(huart3, cali_laser_buffer);
 
 // 激光测距
 uint8_t check_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-mini_laser::MiniLaser check_laser(huart1, check_laser_buffer);
+mini_laser::MiniLaser check_laser(huart2, check_laser_buffer);
 
 // imu
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
@@ -156,7 +156,7 @@ gantry::Gantry gan(
 	m3508d_can1_1_2,
 	dm4310_can1_0x12
 );	
-	
+
 // 吸盘 
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
 
@@ -164,7 +164,7 @@ gantry::Suction suck(GPIOG, GPIO_PIN_7);
 gantry::GetKFS getKFS(gan, suck, cali_laser);
 
 // 放KFS
-gantry::PutKFS putKFS(gan, suck, check_laser);
+gantry::PutKFS putKFS(gan, suck, check_laser, navigation);
 
 // 夹爪
 gantry::Gripper gripper(m2006_can1_7);
@@ -304,14 +304,15 @@ void Plan_Task(void *argument)
 	
 	best_path.Generate_Path();
 	
-	navigation.Go_To_Put_KFS_2L(1);
+	//navigation.Go_To_Put_KFS_2L(1);
 	
 	navigation.Go_To_Put_KFS_2L(2);
 	
-	navigation.Go_To_Put_KFS_2L(3);
+	//navigation.Go_To_Put_KFS_2L(3);
 	
 	for (;;)
 	{
+		putKFS.Put_Fail_Navi();
 		osDelay(1);
 	}
 }

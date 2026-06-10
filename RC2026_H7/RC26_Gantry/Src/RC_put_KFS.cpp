@@ -14,7 +14,7 @@ namespace gantry
 	constexpr float PUTKFS_GET_KFS_LOW_Z = 0.1;
 	constexpr float PUTKFS_GET_KFS_HIGH_Z = 0.45;
 	
-	PutKFS::PutKFS(Gantry& gan_, Suction& suck_, mini_laser::MiniLaser& laser_)
+	PutKFS::PutKFS(Gantry& gan_, Suction& suck_, mini_laser::MiniLaser& laser_, path::Navigation& navi_)
 	 : 	user(gan_), 
 		suck(suck_), 
 		put_event{
@@ -22,13 +22,15 @@ namespace gantry
 			path::Event3(18, 1.f, false, false),   		//EVENT_PUT_KFS_3L_READY
 			path::Event3(19, 0.03f, true, true) 	 	//EVENT_PUT_KFS_PUT
 		},
-		laser(laser_)
+		laser(laser_),
+		navi(navi_)
 	{
 		phase = PUTKFS_RESET;
 		last_time = 0;
 		last_check_time = 0;
 		ready_trig = false;
 		is_fail = false;
+		fail_num = 0;
 	}
 	
 	void PutKFS::Auto_Put_KFS()
@@ -274,9 +276,9 @@ namespace gantry
 			case PUTKFS_PUT_CHECK_SUDOKU_CHECK:
 			{
 				// 小于阈值更新
-				if (laser.distance < 500)
+				if (laser.distance < 600)
 				{
-					//last_check_time = last_time = timer::Timer::Get_TimeStamp();
+					last_check_time = timer::Timer::Get_TimeStamp();
 				}
 				
 				if (timer::Timer::Get_DeltaTime(last_check_time) > 600000) // 0.6s没检测到就成功
@@ -295,6 +297,7 @@ namespace gantry
 			case PUTKFS_PUT_CHECK_SUDOKU_FAIL:
 			{
 				is_fail = true;
+				fail_num++;
 				return true;
 				break;
 			}

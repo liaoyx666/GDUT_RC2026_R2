@@ -1,7 +1,7 @@
 #include "RC_data_pool.h"
 
 
-static uint8_t KFS_num = 2;
+static uint8_t KFS_num = 0;
 
 namespace data
 {

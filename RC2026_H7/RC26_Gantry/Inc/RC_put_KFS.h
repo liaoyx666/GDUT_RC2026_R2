@@ -4,6 +4,7 @@
 #include "RC_timer.h"
 #include "RC_event3.h"
 #include "RC_mini_laser.h"
+#include "RC_navigation.h"
 
 #ifdef __cplusplus
 namespace gantry
@@ -71,14 +72,34 @@ namespace gantry
 	class PutKFS
     {
     public:
-		PutKFS(Gantry& gan_, Suction& suck_, mini_laser::MiniLaser& laser_);
+		PutKFS(Gantry& gan_, Suction& suck_, mini_laser::MiniLaser& laser_, path::Navigation& navi_);
 		~PutKFS() = default;
 	
 		void Auto_Put_KFS();
+	
+		void Put_Fail_Navi()
+		{
+			if (is_fail)
+			{
+				if (fail_num == 1)
+				{
+					navi.Go_To_Put_KFS_2L(1);
+				}
+				else if (fail_num == 2)
+				{
+					navi.Go_To_Put_KFS_2L(3);
+				}
+				
+				is_fail = true;
+			}
+		}
     private:
 		
 		bool Get_KFS_Phase();
 		bool Put_KFS_Phase();
+	
+		
+	
 		
 		PutKFSPhase phase;
 		PutKFSGetState get_state;
@@ -93,13 +114,14 @@ namespace gantry
 		float get_z;
 		float put_z;
 		GantryUser user;
-	
+		
 		bool ready_trig;
-	
+		
 		path::Event3 put_event[3];
-	
-	
+		path::Navigation& navi;
+		
 		bool is_fail;
+		uint8_t fail_num;
 	
 		mini_laser::MiniLaser& laser;
     };
