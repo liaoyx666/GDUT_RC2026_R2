@@ -63,7 +63,10 @@ constexpr Event3_t EVENT_DOWN_4_READY_R = EVENT3_ID_12;
 constexpr Event3_t GET_HIGH_20_KFS_READY_EVENT 	= EVENT3_ID_13;
 constexpr Event3_t GET_HIGH_40_KFS_READY_EVENT 	= EVENT3_ID_14;
 constexpr Event3_t GET_LOW_20_KFS_READY_EVENT 	= EVENT3_ID_15;
-constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_16;
+constexpr Event3_t GET_LOW_0_KFS_READY_EVENT	= EVENT3_ID_16;
+
+
+
 
 constexpr Event3_t EVENT_PUT_KFS_2L_READY = EVENT3_ID_17;
 constexpr Event3_t EVENT_PUT_KFS_3L_READY = EVENT3_ID_18;
@@ -78,6 +81,8 @@ constexpr Event3_t EVENT_COMBINE = EVENT3_ID_22;
 constexpr Event3_t EVENT_WAIT_R1_L = EVENT3_ID_23;
 constexpr Event3_t EVENT_WAIT_R1_R = EVENT3_ID_24;
 
+
+constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_25;
 /*-----所有事件-----*/
 
 namespace path

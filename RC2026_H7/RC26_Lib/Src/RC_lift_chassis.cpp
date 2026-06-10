@@ -40,7 +40,7 @@ namespace chassis
 		}
 	}
 	
-	constexpr float LIFT_POS_THRESHOLD    = 3.f;
+	constexpr float LIFT_POS_THRESHOLD    = 7.f;
 	
 	constexpr float LIFT_RESET_R          = 4500;
 	constexpr float LIFT_RESET_V_MAX      = 680;
@@ -107,7 +107,7 @@ namespace chassis
 					{
 						state = LIFT_DOWN_READY;
 					}
-					
+
 					
 					if (h_ == LIFT_20)
 					{
@@ -155,12 +155,12 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS - 10.f);
-				Set_Back_Lift_Pos(down_pos - 10.f);
+				Set_Front_Lift_Pos(ZERO_POS - 7.f);
+				Set_Back_Lift_Pos(down_pos - 7.f);
 				
 				if (
-					fabsf(Get_Front_Lift_Pos() - (ZERO_POS - 10.f)) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - (down_pos - 10.f)) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - (ZERO_POS - 7.f)) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - (down_pos - 7.f)) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_UP_FORWARD;
@@ -176,8 +176,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS - 10.f);
-				Set_Back_Lift_Pos(down_pos - 10.f);
+				Set_Front_Lift_Pos(ZERO_POS - 7.f);
+				Set_Back_Lift_Pos(down_pos - 7.f);
 				
 				if (
 					Get_Senser_Value(4)
@@ -237,12 +237,12 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
-				Set_Front_Lift_Pos(down_pos - 10.f);
-				Set_Back_Lift_Pos(ZERO_POS - 10.f);
+				Set_Front_Lift_Pos(down_pos - 7.f);
+				Set_Back_Lift_Pos(ZERO_POS - 7.f);
 				
 				if (
-					fabsf(Get_Front_Lift_Pos() - (down_pos - 10.f)) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - (ZERO_POS - 10.f)) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - (down_pos - 7.f)) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - (ZERO_POS - 7.f)) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_DOWN_FORWARD;
@@ -258,8 +258,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
-				Set_Front_Lift_Pos(down_pos - 10.f);
-				Set_Back_Lift_Pos(ZERO_POS - 10.f);
+				Set_Front_Lift_Pos(down_pos - 7.f);
+				Set_Back_Lift_Pos(ZERO_POS - 7.f);
 				
 				if (
 					!Get_Senser_Value(5)

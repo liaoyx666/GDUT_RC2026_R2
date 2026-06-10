@@ -140,10 +140,20 @@ namespace path
 	
 		
 	
-	bool Go_To_Combine()
+	bool Navigation::Go_To_Combine()
 	{
+		float yaw = -HALF_PI;
+		vector2d::Vector2D p = vector2d::Vector2D(1, -4);
+
+		return Go_To_Do(p, yaw, EVENT_COMBINE);
+	}
+	
+	bool Navigation::Go_To_Combine_Ready()
+	{
+		float yaw = -HALF_PI;
+		vector2d::Vector2D p = vector2d::Vector2D(1, -4);
 		
-		return 1;
+		return Go_To_Do(p, yaw, EVENT3_NULL);
 	}
 	
 	

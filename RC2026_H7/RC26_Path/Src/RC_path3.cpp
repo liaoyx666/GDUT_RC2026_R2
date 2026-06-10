@@ -55,6 +55,8 @@ namespace path
 	
 	void Path3::Reset()
 	{
+		is_init = false;
+		
 		line_num = 0;
 		arc_num = 0;
 		
@@ -73,7 +75,6 @@ namespace path
 		memset(curve, 0, sizeof(curve));
 		
 		pre_align = false;
-		is_init = false;
 	}
 	
 	bool Path3::Add_Line(vector2d::Vector2D start_, vector2d::Vector2D end_)

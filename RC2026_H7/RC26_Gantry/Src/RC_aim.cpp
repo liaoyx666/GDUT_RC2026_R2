@@ -175,7 +175,7 @@ namespace gantry
 			{
 				gripper.Open();
 
-				if(!timer_flag)
+				if(!timer_flag && !camera.Is_QR_Enabled())
 				{
 					timer_flag = 1;
 					last_time = timer::Timer::Get_TimeStamp();
@@ -186,7 +186,7 @@ namespace gantry
 					camera.QR_Disable();
 				}
 				
-				if(timer::Timer::Get_DeltaTime(last_time) > 2000000)
+				if(timer::Timer::Get_DeltaTime(last_time) > 3000000)
 				{
 					chassis.Unforce_Lin_Vel_Zero(4);
 					user.Set_Reset_Pos();
@@ -196,8 +196,6 @@ namespace gantry
 					phase = Phase_Idle;
 
 				}
-
-
 
 			}
 

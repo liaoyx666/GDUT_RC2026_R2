@@ -130,8 +130,9 @@ namespace path
 						
 						path->Add_Wait_Event_At_End(p.event);
 						
-						path->is_init = true; /*路径生成完成*/
 						Calc_End_Vel(); /********/
+						
+						path->is_init = true; /*路径生成完成*/
 						
 						return TRAJPLAN_END;
 					}
@@ -231,8 +232,9 @@ namespace path
 						
 							path->Add_Wait_Event_At_End(p.event);
 							
-							path->is_init = true; /*路径生成完成*/
 							Calc_End_Vel(); /********/
+							
+							path->is_init = true; /*路径生成完成*/
 							
 							return TRAJPLAN_END;
 						}
@@ -287,8 +289,9 @@ namespace path
 
 							path->Add_Wait_Event_At_End(p.event);
 							
-							path->is_init = true; /*路径生成完成*/
 							Calc_End_Vel(); /********/
+							
+							path->is_init = true; /*路径生成完成*/
 							
 							return TRAJPLAN_END;
 						}
@@ -365,7 +368,7 @@ namespace path
 	
 	void TrajPlan3::Calc_End_Vel()
 	{
-		if (path == nullptr || !path->Is_Init()) return;
+		if (path == nullptr || path->Is_Init()) return;
 		
 		float l = path->Len(); /*路径总长度*/
 		

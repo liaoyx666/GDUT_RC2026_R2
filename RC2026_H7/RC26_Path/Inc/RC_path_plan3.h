@@ -24,7 +24,7 @@ namespace path
 	
 	
 	
-	class PathPlan3// : public task::ManagedTask
+	class PathPlan3
     {
     public:
 		PathPlan3(LonConstr3 l, HeadConstr3 h, TrajTrack3& track_);

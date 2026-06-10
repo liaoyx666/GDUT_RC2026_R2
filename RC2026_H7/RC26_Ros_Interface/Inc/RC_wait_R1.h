@@ -10,6 +10,10 @@ namespace ros
 	enum WaitR1State : uint8_t
 	{
 		WAIT_R1_WAIT_TRIG = 0,
+<<<<<<< HEAD
+=======
+		WAIT_R1_STOP,
+>>>>>>> main
 		WAIT_R1_WAIT_EMPTY,
 	};
 	
@@ -22,6 +26,14 @@ namespace ros
 			
 		void Wait_R1()
 		{
+<<<<<<< HEAD
+=======
+			if (is_empty && state != WAIT_R1_WAIT_EMPTY)
+			{
+				Close();
+			}
+			
+>>>>>>> main
 			switch (state)
 			{
 				case WAIT_R1_WAIT_TRIG:
@@ -30,23 +42,49 @@ namespace ros
 					
 					if (wait_event_L.Is_Trig())
 					{
+<<<<<<< HEAD
 						state = WAIT_R1_WAIT_EMPTY;
 						is_empty = false;
+=======
+						state = WAIT_R1_STOP;
+>>>>>>> main
 						is_L = true;
 					}
 					else if (wait_event_R.Is_Trig())
 					{
+<<<<<<< HEAD
 						state = WAIT_R1_WAIT_EMPTY;
 						is_empty = false;
+=======
+						state = WAIT_R1_STOP;
+>>>>>>> main
 						is_L = false;
 					}
 					break;
 				}
 				
+<<<<<<< HEAD
 				case WAIT_R1_WAIT_EMPTY:
 				{
 					chassis.Force_Lin_Vel_Zero(3);
 					
+=======
+				case WAIT_R1_STOP:
+				{
+					chassis.Force_Lin_Vel_Zero(3);
+					
+					// 等待上次关闭
+					if (!is_empty)
+					{
+						state = WAIT_R1_WAIT_EMPTY;
+					}
+					
+					break;
+				}
+				
+				case WAIT_R1_WAIT_EMPTY:
+				{
+>>>>>>> main
 					// yaw对齐后再请求数据
 					if (fabsf(head_ctrl.Get_Delta_Yaw()) < (4.f / 180.f * PI))
 					{
@@ -60,9 +98,15 @@ namespace ros
 						}
 					}
 					
+<<<<<<< HEAD
 					if (is_empty)
 					{
 						is_empty = false;
+=======
+					// 开启说明可以通行
+					if (is_empty)
+					{
+>>>>>>> main
 						state = WAIT_R1_WAIT_TRIG;
 					}
 					break;
@@ -77,6 +121,7 @@ namespace ros
     private:
 		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override
 		{
+<<<<<<< HEAD
 			if (len == 1 && buf[0] == 1)
 			{
 				is_empty = true;
@@ -89,6 +134,22 @@ namespace ros
 	
 		bool is_empty;
 	
+=======
+			if (len == 1)
+			{
+				if (buf[0] == 1)
+				{
+					is_empty = true;
+				}
+				else if (buf[0] == 0)
+				{
+					is_empty = false;
+				}
+			}
+		}
+
+		bool is_empty;
+>>>>>>> main
 		WaitR1State state;
 	
 		void Request_L()
@@ -103,10 +164,26 @@ namespace ros
 			cdc->CDC_Send_Pkg(id, &send, 1, 0); /*不等待*/
 		}
 		
+<<<<<<< HEAD
 		bool is_L;
 		uint8_t id;
 		chassis::Chassis& chassis;
 		path::HeadCtrl& head_ctrl;
+=======
+		void Close()
+		{
+			uint8_t send = 0;
+			cdc->CDC_Send_Pkg(id, &send, 1, 0); /*不等待*/
+		}
+		
+
+		bool is_L;
+		uint8_t id;
+		
+		chassis::Chassis& chassis;
+		path::HeadCtrl& head_ctrl;
+		
+>>>>>>> main
 		path::Event3 wait_event_L;
 		path::Event3 wait_event_R;
     };

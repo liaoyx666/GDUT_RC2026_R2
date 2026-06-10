@@ -99,9 +99,9 @@ check::HeadCheck head_check(
 	omni_4_chassis,
 	robot_pose
 );
-	
+
 /*===================上位机接口===================*/
-	
+
 // 雷达数据接收
 ros::Radar radar(CDC_HS, 1, robot_pose);
 
@@ -116,6 +116,7 @@ ros::Camera camera_aim(CDC_HS, 6);
 /*===================外置模块=================*/
 
 // 激光测距
+<<<<<<< HEAD
 //uint8_t lidar_buffer[LiDAR_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 //lidar::LiDAR lidar_1(huart1, lidar_buffer);
 
@@ -123,6 +124,16 @@ ros::Camera camera_aim(CDC_HS, 6);
 uint8_t laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 mini_laser::MiniLaser laser(huart3, laser_buffer);
 
+=======
+uint8_t cali_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+mini_laser::MiniLaser cali_laser(huart3, cali_laser_buffer);
+
+
+// 激光测距
+uint8_t check_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+mini_laser::MiniLaser check_laser(huart2, check_laser_buffer);
+
+>>>>>>> main
 // imu
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 HWT101CT hwt101ct(huart8, hwt101ct_buffer);
@@ -155,36 +166,45 @@ gantry::Gantry gan(
 	m3508d_can1_1_2,
 	dm4310_can1_0x12
 );	
-	
+
 // 吸盘 
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
 
 // 取KFS
-gantry::GetKFS getKFS(gan, suck, laser);
+gantry::GetKFS getKFS(gan, suck, cali_laser);
 
 // 放KFS
-gantry::PutKFS putKFS(gan, suck);
+gantry::PutKFS putKFS(gan, suck, check_laser, navigation);
 
 // 夹爪
-gantry::Gripper gripper_(m2006_can1_7);
+gantry::Gripper gripper(m2006_can1_7);
 
 // 夹取武器头
 gantry::GetWeaponHead get_weapon_head(
 	omni_4_chassis,
 	robot_pose,
 	gan,
-	gripper_,
+	gripper,
 	path_plan,
 	head_ctrl
 );
 
 // 对接
+<<<<<<< HEAD
 //gantry::Dock dock(gripper_);
 
 gantry::Aim_Ctrl aim(camera_aim, gan, omni_4_chassis, gripper_);
 
 
 
+=======
+gantry::Aim_Ctrl aim(
+	camera_aim, 
+	gan,
+	omni_4_chassis,
+	gripper
+);
+>>>>>>> main
 
 
 /*==================Main_Task==================*/
@@ -227,8 +247,11 @@ void Main_Task(void *argument)
 		
 		putKFS.Auto_Put_KFS();
 		
+<<<<<<< HEAD
 		//dock.Auto_Dock();
 		
+=======
+>>>>>>> main
 		get_weapon_head.Auto_Get_Weapon_Head();
 
 		wait_R1.Wait_R1();
@@ -305,14 +328,15 @@ void Plan_Task(void *argument)
 	
 	best_path.Generate_Path();
 	
-	navigation.Go_To_Put_KFS_2L(1);
+	//navigation.Go_To_Put_KFS_2L(1);
 	
 	navigation.Go_To_Put_KFS_2L(2);
 	
-	navigation.Go_To_Put_KFS_2L(3);
+	//navigation.Go_To_Put_KFS_2L(3);
 	
 	for (;;)
 	{
+		putKFS.Put_Fail_Navi();
 		osDelay(1);
 	}
 }
@@ -380,8 +404,13 @@ void All_Init()
 	timer::Timer::Timer_Start();
 	
 	// 串口接收初始化
+<<<<<<< HEAD
 	//lidar_1.Uart_Rx_Start();
 	laser.Uart_Rx_Start();
+=======
+	cali_laser.Uart_Rx_Start();
+	check_laser.Uart_Rx_Start();
+>>>>>>> main
 	hwt101ct.Uart_Rx_Start();
 
 	// 场地位置初始化
