@@ -132,30 +132,48 @@ namespace path
 	
 	bool Navigation::Go_To_Dock()
 	{
-		float yaw = HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(1, -4);
+		float yaw;
+		vector2d::Vector2D p;
+		
+		if (data::Is_Blue_Left_Side())
+		{
+			yaw = HALF_PI;
+			p = vector2d::Vector2D(1, -4);
+		}
+		else
+		{
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(1, -4);
+		}
 		
 		return Go_To_Do(p, yaw, EVENT_DOCK);
 	}
 	
-		
 	
-	bool Navigation::Go_To_Combine()
-	{
-		float yaw = -HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(1, -4);
-
-		return Go_To_Do(p, yaw, EVENT_COMBINE);
-	}
+	
 	
 	bool Navigation::Go_To_Combine_Ready()
 	{
 		float yaw = -HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(1, -4);
+		vector2d::Vector2D p = vector2d::Vector2D(12 - 0.98 - 0.8, -4.9);
 		
-		return Go_To_Do(p, yaw, EVENT3_NULL);
+		return Go_To_Do(p, yaw, EVENT_UP_4_READY_L);
+	}
+			
+	
+	
+	
+	
+	bool Navigation::Go_To_Combine()
+	{
+		float yaw = -HALF_PI;
+		vector2d::Vector2D p = vector2d::Vector2D(12 - 0.98 + 0.4, -4.9);
+
+		return Go_To_Do(p, yaw, EVENT_COMBINE);
 	}
 	
+	
+
 	
 	void Navigation::Task_Process()
 	{

@@ -116,6 +116,8 @@ namespace gantry
         bool sig2 = false;
         bool sig3 = false;
 		
+		bool sig4 = false;
+		
 		float pose_buf[5] = { 0 };
 		int length = 0;
         

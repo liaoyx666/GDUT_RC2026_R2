@@ -10,7 +10,10 @@ namespace combine
 	
 	void Combine::Auto_Combine()
 	{
-		
+		if (combine_event.Is_Trig())
+		{
+			chassis.Chassis_Disable();
+		}
 		
 	}
 

@@ -419,7 +419,14 @@ namespace path
 		lon = plan.plan.lon_m;
 		head = plan.plan.head_m;
 		head.yaw = MapGraph::Yaw_On_Dir(dir);
-		p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_OFFSET); /*向前防止碰撞*/
+		if (e == 13)
+		{
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_OFFSET + 0.08); /*向前防止碰撞*/
+		}
+		else
+		{
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_OFFSET); /*向前防止碰撞*/
+		}
 		if (!Add_Point_Wait(
 			p, 
 			0, 

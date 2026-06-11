@@ -187,6 +187,7 @@ gantry::Aim_Ctrl aim(
 	gripper
 );
 
+combine::Combine com(omni_4_chassis, lift);
 
 /*==================Main_Task==================*/
 // 方波发生
@@ -233,6 +234,8 @@ void Main_Task(void *argument)
 		wait_R1.Wait_R1();
 		
 		aim.Auto_Aim();
+		
+		com.Auto_Combine();
 		
 //		x_1 = gan.Get_X();
 //		y_1 = gan.Get_Y();
@@ -303,16 +306,23 @@ void Plan_Task(void *argument)
 	navigation.Go_To_Dock();
 	
 	best_path.Generate_Path();
-	
-	//navigation.Go_To_Put_KFS_2L(1);
-	
+
 	navigation.Go_To_Put_KFS_2L(2);
-	
-	//navigation.Go_To_Put_KFS_2L(3);
-	
+
 	for (;;)
 	{
 		putKFS.Put_Fail_Navi();
+		
+		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd())
+		{
+			navigation.Go_To_Combine_Ready();
+		}
+		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd())
+		{
+			navigation.Go_To_Combine();
+		}
+		
+		
 		osDelay(1);
 	}
 }
