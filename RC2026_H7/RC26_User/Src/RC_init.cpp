@@ -53,17 +53,11 @@ data::RobotPose robot_pose;
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 3, 4,
+	2.5, 4, 4,
 	5, 6, 7,
 	robot_pose
 );
 
-// 抬升
-chassis::LiftChassis lift(
-	m3508_can3_5, m3508_can3_6,
-	m2006_can3_7, m2006_can3_8,
-	&omni_4_chassis
-);
 
 /*=====================路径规划==================*/
 // 航向控制
@@ -83,7 +77,7 @@ path::TrajTrack3 track(
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.5, 1.8),
+	path::LonConstr3(2.5, 2.0),
 	path::HeadConstr3(0, 4, 5, false),
 	track
 );
@@ -115,12 +109,12 @@ ros::Camera camera_aim(CDC_HS, 6);
 
 /*===================外置模块=================*/
 
-// 激光测距
+// 激光测距校准
 uint8_t cali_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 mini_laser::MiniLaser cali_laser(huart3, cali_laser_buffer);
 
 
-// 激光测距
+// 激光测距检查
 uint8_t check_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 mini_laser::MiniLaser check_laser(huart2, check_laser_buffer);
 
@@ -143,8 +137,15 @@ fusion::QEO chassis_qeo(
 	radar
 );
 
-fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
-	
+
+// 抬升
+chassis::LiftChassis lift(
+	m3508_can3_5, m3508_can3_6,
+	m2006_can3_7, m2006_can3_8,
+	&omni_4_chassis, chassis_qeo
+);
+
+
 //红外串口
 Serial1Protocol *m_serial1 = nullptr;
 
@@ -188,6 +189,7 @@ gantry::Aim_Ctrl aim(
 	gripper
 );
 
+// 合体
 combine::Combine com(
 	omni_4_chassis, 
 	lift,

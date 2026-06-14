@@ -3,7 +3,7 @@
 
 #include "RC_get_weapon_head.h"
 
-float test_z = 0.035;//龙门架z轴多抬高高度
+float test_z = 0.045;//龙门架z轴多抬高高度
 float down_z_dist = 0.13;//龙门架下降时距离夹爪的距离
 
 float GET_Z_ER = -0.02;//龙门架下降时距离夹爪的距离
@@ -38,8 +38,8 @@ GetWeaponHead::GetWeaponHead(
         state = State::IDLE;
         is_picked = false; 
         current_target_idx = 0;
-        grab_start_time_1 = 0;
-		grab_start_time_2 = 0;
+        grab_start_time = 0;
+
         if(blue_side) {
             target_yaw = - PI / 2.f;
             TARGET_WEAPON_Y = -6.0f;
@@ -196,13 +196,16 @@ GetWeaponHead::GetWeaponHead(
             case State::ACTION_GRAB_2:
                 StopChassis();
                 gripper.Close();
-                grab_start_time_1 = timer::Timer::Get_TimeStamp();
+//                 if (gripper.IsPickSuccess()) {
+//     // 夹到了！
+// }
+                grab_start_time = timer::Timer::Get_TimeStamp();
                 state = State::ACTION_GRAB_2_1;
                 break;
 
             case State::ACTION_GRAB_2_1:
                 StopChassis();
-                if (timer::Timer::Get_DeltaTime(grab_start_time_1) >= 1000000) {
+                if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
                     state = State::ACTION_LIFT_Z;
                 }
                 break;
@@ -210,18 +213,8 @@ GetWeaponHead::GetWeaponHead(
             case State::ACTION_LIFT_Z:
                 user.Set_Z((GET_Z + GET_Z_ER) + LIFT_UP_Z);
 				user.Set_P(0.0f);
-                if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE && 
-					fabsf(user.Get_P() - (0.0f)) < GANTRY_PITCH_TOLERANCE) {
-                    if (gripper.IsPickSuccess()) {
-                        // 夹到了！
-                        is_picked = true;
-                        sig4 = false;
+                if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE ) {
                         state = State::ACTION_RETRACT_X;
-                        grab_start_time_2 = timer::Timer::Get_TimeStamp();
-                    }
-                    else {
-                        Pick_Next();
-                    }
                 }
                 break;
 
@@ -230,7 +223,15 @@ GetWeaponHead::GetWeaponHead(
                 user.Set_X(GANTRY_RETRACT_X);
                 //user.Set_P(0.0f);
                 if (fabsf(user.Get_X() - GANTRY_RETRACT_X) < GANTRY_POS_TOLERANCE) {
+                    if(laser.distance < 50.0f) {
+					weapon_event.Finish();
+					path_plan.Enable();
+					head_ctrl.Disable();
                     state = State::ACTION_RETRACT_YZ;
+                    }
+                    else {
+                        Pick_Next();
+                    }
                 }
                 break;
 
@@ -242,21 +243,12 @@ GetWeaponHead::GetWeaponHead(
                 break;
 
             case State::CHECK_RESULT:
+                // is_picked = true;
                 user.Give_Control();  // 归还权限
                 state = State::IDLE;
                 break;
         }
         		//head_ctrl.Head_Ctrl();
-		
-		if(!sig4)
-			{
-				if (timer::Timer::Get_DeltaTime(grab_start_time_2) >= 1000000) {
-					weapon_event.Finish();
-					path_plan.Enable();
-					head_ctrl.Disable();
-					sig4 = true;
-				}
-			}
 
     }
 
@@ -269,13 +261,15 @@ void GetWeaponHead::Pick(uint8_t num) {
     sig1 = false;
     sig2 = false;
     sig3 = false;
-	sig4 = false;
+    sig4 = true;
     gantry_yz_ready = false;
 
     if (num >= 1 && num <= WEAPON_NUM) {
         current_target_idx = num - 1;
         state = State::ALIGN_CHASSIS;
     }
+	else
+	{current_target_idx = 0;}
 }
 
 void GetWeaponHead::Pick_Nearest() {
@@ -289,7 +283,7 @@ void GetWeaponHead::Pick_Nearest() {
     sig1 = false;
     sig2 = false;
     sig3 = false;
-		    sig4 = false;
+    sig4 = true;
 
     gantry_yz_ready = false;
 
@@ -309,30 +303,16 @@ void GetWeaponHead::Reset_Task() {
     is_picked = false;
 }
 
-bool GetWeaponHead::IsPickSuccess(){
-    return (laser.distance <= GET_LASER_DIST); 
-}
-
-void GetWeaponHead::Pick_Next() {
-    if (is_picked) return;
-    sig1 = false;
-    sig2 = false;
-    sig3 = false;
-    sig4 = false;
-    gantry_yz_ready = false;
-
-    if (current_target_idx < WEAPON_NUM - 1) {
-        current_target_idx++;
-        state = State::ALIGN_CHASSIS;
-    } else {
-        is_picked = false;
-        user.Give_Control();
-        state = State::IDLE;
-        weapon_event.Finish();
-        path_plan.Enable();
-        head_ctrl.Disable();
-        sig4 = true;
+void GetWeaponHead::Pick_Next()  {
+    if(current_target_idx < WEAPON_NUM-1) {
+        Pick(current_target_idx+2);
     }
+	else{
+		Pick(1);
+	}
+    
 }
+        
+
 
 }

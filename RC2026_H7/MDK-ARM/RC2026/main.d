@@ -93,9 +93,9 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Lib\Inc\RC_vector2d.h ..\RC26_Api\Inc\RC_chassis.h \
   ..\RC26_Lib\Inc\RC_lift_chassis.h ..\RC26_Path\Inc\RC_traj_track3.h \
   ..\RC26_Lib\Inc\RC_nonlinear_pid.h ..\RC26_Path\Inc\RC_head_ctrl.h \
-  ..\RC26_Path\Inc\RC_event3.h ..\RC26_Lib\Inc\RC_head_check.h \
-  ..\RC26_Lib\Inc\RC_HWT101CT.h ..\RC26_Lib\Inc\RC_imu_fusion.h \
-  ..\RC26_Lib\Inc\RC_mini_laser.h ..\RC26_Lib\Inc\RC_QEO.h \
+  ..\RC26_Path\Inc\RC_event3.h ..\RC26_Lib\Inc\RC_QEO.h \
+  ..\RC26_Lib\Inc\RC_head_check.h ..\RC26_Lib\Inc\RC_HWT101CT.h \
+  ..\RC26_Lib\Inc\RC_imu_fusion.h ..\RC26_Lib\Inc\RC_mini_laser.h \
   ..\RC26_Lib\Inc\RC_fusion_ctrl.h ..\RC26_Lib\Inc\RC_combine.h \
   ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Path\Inc\RC_path3.h \
   ..\RC26_Path\Inc\RC_curve.h ..\RC26_Path\Inc\RC_path_plan3.h \

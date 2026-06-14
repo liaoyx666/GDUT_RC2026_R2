@@ -244,10 +244,6 @@ namespace path
 		Direction L_or_R; /* 左边或右边上 */
 		Event3_t ready_event = Up_Down_Ready_Id_Dir(move_dir, h, dir, L_or_R); /*准备事件*/
 		
-		/*约束*/
-		LonConstr3 lon = plan.plan.lon_m;
-		HeadConstr3 head = plan.plan.head_m;
-		
 		/* 距离上台阶后台阶中心距离 */
 		float dis = (last_nav.p - e_center).length();
 		if (dis > 1.85f) /* 是否太远 */ 
@@ -286,6 +282,12 @@ namespace path
 			false
 		)) return false; /*航向检查，触发点*/
 		
+		
+		/*约束*/
+		LonConstr3 lon = plan.plan.lon_m;
+		HeadConstr3 head = plan.plan.head_m;	
+			
+			
 		/*-------*/
 		head.yaw = MapGraph::Yaw_On_Dir(dir);
 		p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_SLOW_OFFSET); /*减速点坐标*/
@@ -293,15 +295,15 @@ namespace path
 			p, 
 			0, 
 			&lon, 
-			&head, 
+			NULL, 
 			EVENT3_NULL, 
 			false
 		)) return false; /*减速点*/
 		
 		/*-------*/
-		lon.v = UP_STAIR_SLOW_VEL;
+		//lon.v = UP_STAIR_SLOW_VEL;
 		lon.a = UP_STAIR_SLOW_ACC;
-		head.w = 0; /*禁止转向*/
+		//head.w = 0; /*禁止转向*/
 		p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_FINISH_OFFSET); /*完成点坐标*/
 		if (!Add_Point_Wait(
 			p, 

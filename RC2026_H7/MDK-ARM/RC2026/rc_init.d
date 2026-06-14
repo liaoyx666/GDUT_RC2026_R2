@@ -92,9 +92,9 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Api\Inc\RC_chassis.h ..\RC26_Lib\Inc\RC_lift_chassis.h \
   ..\RC26_Path\Inc\RC_traj_track3.h ..\RC26_Lib\Inc\RC_nonlinear_pid.h \
   ..\RC26_Path\Inc\RC_head_ctrl.h ..\RC26_Path\Inc\RC_event3.h \
+  ..\RC26_Lib\Inc\RC_QEO.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Lib\Inc\RC_head_check.h ..\RC26_Lib\Inc\RC_HWT101CT.h \
-  ..\RC26_Lib\Inc\RC_imu_fusion.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
-  ..\RC26_Lib\Inc\RC_mini_laser.h ..\RC26_Lib\Inc\RC_QEO.h \
+  ..\RC26_Lib\Inc\RC_imu_fusion.h ..\RC26_Lib\Inc\RC_mini_laser.h \
   ..\RC26_Lib\Inc\RC_fusion_ctrl.h ..\RC26_Lib\Inc\RC_combine.h \
   ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Path\Inc\RC_map_graph.h \
   ..\RC26_Path\Inc\RC_graph_plan.h ..\RC26_Path\Inc\RC_path_plan3.h \

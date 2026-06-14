@@ -4,6 +4,7 @@
 #include "RC_chassis.h"
 #include "RC_traj_track3.h"
 #include "RC_event3.h"
+#include "RC_QEO.h"
 
 #ifdef __cplusplus
 namespace chassis
@@ -43,9 +44,13 @@ namespace chassis
 		LIFT_RESET = 0, 	/* 默认状态 */
 		
 		LIFT_UP_READY, 		/* 准备上台阶 */
+		LIFT_UP_READY_CHECK,
 		LIFT_UP_RISE, 		/* 抬升 */
+		LIFT_UP_RISE_CHECK,
 		LIFT_UP_FORWARD, 	/* 前进 */
+		LIFT_UP_FORWARD_CHECK,
 		LIFT_UP_WITHDRAW, 	/* 收回机构 */
+		LIFT_UP_WITHDRAW_CHECK,
 		
 		LIFT_DOWN_READY, 	/* 准备下台阶 */
 		LIFT_DOWN_STRETCH, 	/* 伸出机构 */
@@ -82,7 +87,7 @@ namespace chassis
 		LiftChassis(
 			motor::Motor& L_lift_, motor::Motor& R_lift_,
 			motor::Motor& L_wheel_, motor::Motor& R_wheel_,
-			chassis::Chassis* chassis_/*, path::TrajTrack3* track_*/
+			chassis::Chassis* chassis_, fusion::QEO& qeo_
 		);
 		~LiftChassis() = default;
 		
@@ -190,18 +195,24 @@ namespace chassis
 		{
 			if (chassis)
 				chassis->Force_Lin_Vel_Zero(1);
-			
-//			if (track)
-//				track->Force_Tan_Vel_Zero();
 		}
 		
 		void Chassis_Start()
 		{
 			if (chassis)
 				chassis->Unforce_Lin_Vel_Zero(1);
-
-//			if (track)
-//				track->Unforce_Tan_Vel_Zero();
+		}
+		
+		void Chassis_Stop_Spin()
+		{
+			if (chassis)
+				chassis->Force_Ang_Vel_Zero(1);
+		}
+			
+		void Chassis_Start_Spin()
+		{
+			if (chassis)
+				chassis->Unforce_Ang_Vel_Zero(1);
 		}
 		
 		bool Get_Senser_Value(uint8_t n)
@@ -213,6 +224,30 @@ namespace chassis
 			else
 				return senser_value[7 - n - 1];
 		}
+		
+		
+		
+		void Reset_Pos()
+		{
+			qeo.Set_X(0);
+			qeo.Set_Y(0);
+		}
+		
+		
+		float Get_Dis()
+		{
+			float dis = qeo.Y();
+			
+			if (d == LIFT_L)
+			{
+				return dis;
+			}
+			else
+			{
+				return -dis;
+			}
+		}
+
 	
 		float up_pos;
 		float down_pos;
@@ -230,7 +265,7 @@ namespace chassis
 		motor::Motor& R_wheel;
 		
 		chassis::Chassis* chassis;
-		//path::TrajTrack3* track;
+		fusion::QEO& qeo;
 		
 		/*---------------------------*/
 		

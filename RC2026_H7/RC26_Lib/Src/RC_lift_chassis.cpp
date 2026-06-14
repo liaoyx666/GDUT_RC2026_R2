@@ -5,8 +5,8 @@ namespace chassis
 	LiftChassis::LiftChassis(
 		motor::Motor& L_lift_, motor::Motor& R_lift_,
 		motor::Motor& L_wheel_, motor::Motor& R_wheel_,
-		chassis::Chassis* chassis_/*, path::TrajTrack3* track_*/
-	) : L_lift(L_lift_), R_lift(R_lift_), chassis(chassis_), /*track(track_), */L_wheel(L_wheel_), R_wheel(R_wheel_),
+		chassis::Chassis* chassis_, fusion::QEO& qeo_
+	) : L_lift(L_lift_), R_lift(R_lift_), chassis(chassis_), qeo(qeo_), L_wheel(L_wheel_), R_wheel(R_wheel_),
 	lift_event{
 		path::Event3(5 , 0.1f, false, false),	  // EVENT_UP_2_READY_L
 		path::Event3(6 , 0.5f, false, false),     // EVENT_UP_4_READY_L
@@ -50,11 +50,17 @@ namespace chassis
 	
 	
 	
-	constexpr float LIFT_CHASSIS_UP_VEL = 0.4f;
+	constexpr float LIFT_CHASSIS_UP_VEL = 0.3f;
 	
 	constexpr float LIFT_CHASSIS_SLOW_VEL = 0.36f;
-	constexpr float LIFT_CHASSIS_FAST_VEL = 2.5f;
+	constexpr float LIFT_CHASSIS_FAST_VEL = 2.8f;
+	
+	
+	constexpr float LIFT_CHASSIS_SLOW_ACC = 2.5f;
+	constexpr float LIFT_CHASSIS_FAST_ACC = 4.f;
 
+	
+	constexpr float LIFT_CHASSIS_DIS = 0.4f;
 
 	void LiftChassis::Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig)
 	{
@@ -87,6 +93,8 @@ namespace chassis
 			case LIFT_RESET:
 			{
 				Chassis_Start();
+				Chassis_Start_Spin();
+				if (chassis) chassis->Set_Lin_Accel(LIFT_CHASSIS_FAST_ACC);
 				if (chassis) chassis->Set_Max_Linear_Vel(LIFT_CHASSIS_FAST_VEL);
 				
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
@@ -129,6 +137,8 @@ namespace chassis
 			case LIFT_UP_READY:
 			{
 				Chassis_Start();
+				Chassis_Start_Spin();
+				
 				if (chassis) chassis->Set_Max_Linear_Vel(LIFT_CHASSIS_UP_VEL);
 				
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
@@ -137,6 +147,11 @@ namespace chassis
 				Set_Front_Lift_Pos(up_pos);
 				Set_Back_Lift_Pos(ZERO_POS);
 				
+				state = LIFT_UP_READY_CHECK;
+				break;
+			}
+			case LIFT_UP_READY_CHECK:
+			{
 				if (
 					Get_Senser_Value(1) && 
 					fabsf(Get_Front_Lift_Pos() - up_pos) < LIFT_POS_THRESHOLD &&
@@ -151,6 +166,8 @@ namespace chassis
 			case LIFT_UP_RISE:
 			{
 				Chassis_Stop();
+				Chassis_Stop_Spin();
+				
 				
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
@@ -158,6 +175,11 @@ namespace chassis
 				Set_Front_Lift_Pos(ZERO_POS - 7.f);
 				Set_Back_Lift_Pos(down_pos - 7.f);
 				
+				state = LIFT_UP_RISE_CHECK;
+				break;
+			}
+			case LIFT_UP_RISE_CHECK:
+			{
 				if (
 					fabsf(Get_Front_Lift_Pos() - (ZERO_POS - 7.f)) < LIFT_POS_THRESHOLD && 
 					fabsf(Get_Back_Lift_Pos() - (down_pos - 7.f)) < LIFT_POS_THRESHOLD
@@ -171,13 +193,37 @@ namespace chassis
 			case LIFT_UP_FORWARD:
 			{
 				Chassis_Start();
-				if (chassis) chassis->Set_Max_Linear_Vel(LIFT_CHASSIS_UP_VEL);
+				Chassis_Stop_Spin();
+				Reset_Pos();
+				if (chassis) chassis->Set_Lin_Accel(LIFT_CHASSIS_SLOW_ACC);
 				
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
 				Set_Front_Lift_Pos(ZERO_POS - 7.f);
 				Set_Back_Lift_Pos(down_pos - 7.f);
+				
+				state = LIFT_UP_FORWARD_CHECK;
+				break;
+			}
+			case LIFT_UP_FORWARD_CHECK:
+			{
+				float max_vel = 0;
+				float dis = Get_Dis();
+				
+				if (dis < LIFT_CHASSIS_DIS)
+				{
+					max_vel = sqrtf((LIFT_CHASSIS_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC + (LIFT_CHASSIS_UP_VEL * LIFT_CHASSIS_UP_VEL));
+					
+					max_vel = fminf(max_vel, LIFT_CHASSIS_FAST_VEL);
+					max_vel = fmaxf(max_vel, LIFT_CHASSIS_UP_VEL);
+				}
+				else
+				{
+					max_vel = LIFT_CHASSIS_UP_VEL;
+				}
+				
+				if (chassis) chassis->Set_Max_Linear_Vel(max_vel);
 				
 				if (
 					Get_Senser_Value(4)
@@ -190,6 +236,7 @@ namespace chassis
 			
 			case LIFT_UP_WITHDRAW:
 			{
+				if (chassis) chassis->Set_Lin_Accel(LIFT_CHASSIS_FAST_ACC);
 				Chassis_Stop();
 				
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
@@ -198,6 +245,11 @@ namespace chassis
 				Set_Front_Lift_Pos(RESET_POS);
 				Set_Back_Lift_Pos(RESET_POS);
 				
+				state = LIFT_UP_WITHDRAW_CHECK;
+				break;
+			}
+			case LIFT_UP_WITHDRAW_CHECK:
+			{
 				if (
 					Get_Back_Lift_Pos() > ZERO_POS
 				)
