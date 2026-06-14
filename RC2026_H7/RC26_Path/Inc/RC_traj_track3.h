@@ -36,12 +36,20 @@ namespace path
 			head_ctrl.Disable();
 		}
 		
-		const bool& Is_End() const {return is_end;}
+		constexpr bool Is_End() const {return is_end;}
 		
 		bool Is_Load() const {return (bool)path;}
 		
-		//void Force_Tan_Vel_Zero() {tan_vel_zero = true;}
-		//void Unforce_Tan_Vel_Zero() {tan_vel_zero = false;}
+		
+		// 强制结束
+		constexpr void Force_End()
+		{
+			if (path)
+			{
+				is_end = true;
+			}
+		}
+		
 		
 		inline void Traj_Track()
 		{

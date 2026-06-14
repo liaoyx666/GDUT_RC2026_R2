@@ -7,11 +7,13 @@ namespace path
 		head = 0;
 		tail = 0;
 		is_start = false;
+		is_close = false;
 	}
 	
 	bool Navigation::Add_Dst(const NavPoint& nav_, DstType type_, Event3_t event_)
 	{
 		if (Dst_FreeSpace() == 0) return false;
+		if (is_close) return false; /*关闭*/
 		
 		dst[tail].nav = nav_;
 		dst[tail].type = type_;
@@ -159,7 +161,7 @@ namespace path
 		
 		return Go_To_Do(p, yaw, EVENT_UP_4_READY_L);
 	}
-			
+
 	
 	
 	
@@ -167,28 +169,34 @@ namespace path
 	bool Navigation::Go_To_Combine()
 	{
 		float yaw = -HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(12 - 0.98 + 0.4, -4.9);
+		vector2d::Vector2D p = vector2d::Vector2D(12 - 0.98 + 0.41, -4.9);
 
-		return Go_To_Do(p, yaw, EVENT_COMBINE);
+		bool success = Go_To_Do(p, yaw, EVENT_COMBINE);
+		
+		Close(); // 禁止添加目的地
+		
+		return success;
 	}
 	
 	
+	
+	bool Navigation::Uncombine(vector2d::Vector2D p, float yaw)
+	{
+		plan.plan.Force_End(); // 强制上一路径结束
+		
+		Update_Last_Navp(p, yaw); // 更新起点
+		Open(); // 允许添加目的地
+		vector2d::Vector2D dir = vector2d::Vector2D(yaw - HALF_PI) * 1.2f; // 移动方向
+		
+		Event3::Trig_Event(EVENT_COMBINE | EVENT_DOWN_4_READY_R);// 直接触发合体事件和下台阶事件，实现解体
+		
+		return Go_To_Do(p + dir, yaw, EVENT3_NULL);
+	}
 
 	
 	void Navigation::Task_Process()
 	{
-		if (!is_start)
-		{
-			//	全局起点
-			vector2d::Vector2D start_point(0.42, -4.53);
-			plan.plan.Add_Start_Point(start_point);
-			
-			last_navp.p = start_point;
-			last_navp.yaw = 0;
-			
-			is_start = true;
-		}
-		else
+		if (is_start)
 		{
 			if (Dst_Num() != 0)
 			{

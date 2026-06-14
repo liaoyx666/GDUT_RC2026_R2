@@ -41,10 +41,6 @@ namespace gantry
 
 	void Aim_Ctrl::Auto_Aim()
 	{
-		float error = 0;
-		float final_error_z = 0;
-		float final_error_y = 0;
-
 		/*---- 空闲：等待事件触发 ----*/
 		if (phase == Phase_Idle)
 		{
@@ -133,25 +129,7 @@ namespace gantry
 		// 	break;
 		 }
 
-		/*---- 阶段2：z补正，PID闭环控制Gantry Z轴 ----*/
-		case Phase_Z:
-			if (!check_error())
-			{
-				error  = Get_Data(Axis_Z);
-				final_error_z = z_lpf.filter(error + gantry.Get_Z());
-				user.Set_Z(final_error_z);
-			}
-			else break;
-
-			if (Frame_Stable(Axis_Z))
-			{
-				Tracker_Clear();
-				if (fabsf(error) < 0.02f)
-					phase = Phase_Y;
-			}
-			break;
-
-		/*---- 阶段3：y补正，PID闭环控制Gantry Y轴 ----*/
+		/*---- 阶段2：y补正，PID闭环控制Gantry Y轴 ----*/
 		case Phase_Y:
 			if (!check_error())
 			{
@@ -159,12 +137,50 @@ namespace gantry
 				final_error_y = y_lpf.filter(gantry.Get_Y() + error);
 				user.Set_Y(final_error_y);
 			}
-			else break;
+			else 
+				break;
 
 			if (Frame_Stable(Axis_Y))
 			{
-				y_result = Get_Data(Axis_Y);
-				if (fabsf(error) < 0.02f)
+				Tracker_Clear();
+				if (fabsf(error) < 0.001f)
+					phase = Phase_Z;
+			}
+			break;
+		 
+		/*---- 阶段3：z补正，PID闭环控制Gantry Z轴 ----*/
+		case Phase_Z:
+			if (!check_error())
+			{
+				error  = Get_Data(Axis_Z);
+				final_error_z = z_lpf.filter(error + gantry.Get_Z());
+				user.Set_Z(final_error_z);
+			}
+			else 
+				break;
+			
+			if (Frame_Stable(Axis_Z))
+			{
+				Tracker_Clear();
+				if (fabsf(error) < 0.001f)
+					phase = Phase_Y2;
+			}
+			break;
+			
+		case Phase_Y2:
+			if (!check_error())
+			{
+				error  = Get_Data(Axis_Y);
+				final_error_y = y_lpf.filter(gantry.Get_Y() + error);
+				user.Set_Y(final_error_y);
+			}
+			else 
+				break;
+
+			if (Frame_Stable(Axis_Y))
+			{
+				Tracker_Clear();
+				if (fabsf(error) < 0.001f)
 					phase = Phase_Done;
 			}
 			break;
@@ -175,12 +191,12 @@ namespace gantry
 			{
 				gripper.Open();
 
-				if(!timer_flag && !camera.Is_QR_Enabled())
+				if(!timer_flag)
 				{
-					timer_flag = 1;
 					last_time = timer::Timer::Get_TimeStamp();
+					timer_flag = 1;
 				}
-
+				
 				if (camera.Is_QR_Enabled())
 				{
 					camera.QR_Disable();
@@ -193,10 +209,9 @@ namespace gantry
 					Tracker_Clear();
 					user.Give_Control();
 					aim_event.Finish();
+					timer_done = 1;
 					phase = Phase_Idle;
-
 				}
-
 			}
 
 			break;

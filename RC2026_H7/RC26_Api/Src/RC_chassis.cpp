@@ -142,7 +142,7 @@ namespace chassis
 		last_vw = vw;
 
 		/************************前馈*************************/
-		v = v.rotate(-vw * 0.11f);
+		v = v.rotate(-vw * 0.02f);
 		
 		if (is_init == false && vector2d::Vector2D::isZero(v.lengthSquared()) && fabsf(vw) < 1e-6)
 		{

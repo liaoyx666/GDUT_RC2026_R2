@@ -31,6 +31,8 @@ namespace gantry
 		ready_trig = false;
 		is_fail = false;
 		fail_num = 0;
+		is_check = false;
+		height = PUTKFS_2L;
 	}
 	
 	void PutKFS::Auto_Put_KFS()
@@ -43,11 +45,15 @@ namespace gantry
 				{
 					ready_trig = true;
 					put_z = PUTKFS_2L_Z;
+					is_check = true;
+					height = PUTKFS_2L;
 				}
 				else if (put_event[1].Is_Trig())
 				{
 					ready_trig = true;
 					put_z = PUTKFS_3L_Z;
+					is_check = false;
+					height = PUTKFS_3L;
 				}
 				
 				if (ready_trig)
@@ -111,11 +117,6 @@ namespace gantry
 				{
 					put_event[2].Finish();
 
-					//user.Set_Defualt_Td();
-					//user.Set_Reset_Pos();
-				
-					//user.Give_Control();
-					
 					phase = PUTKFS_RESET;
 				}
 				break;
@@ -146,6 +147,10 @@ namespace gantry
 	constexpr float PUTKFS_PUT_KFS_CLOSE_DELTA_Z = 0.3;
 	
 	
+	
+	constexpr float PUTKFS_PUT_KFS_IN_X_3L = 0.42;
+	constexpr float PUTKFS_PUT_KFS_IN_P_3L = 2.6;
+	constexpr float PUTKFS_PUT_KFS_IN_Z_3L = 0.86;
 	
 	bool PutKFS::Get_KFS_Phase()
 	{
@@ -224,11 +229,22 @@ namespace gantry
 				user.Set_X_Td(500, 837.76);
 				user.Set_P_Td(4, 5);
 				
-				user.Set_X(PUTKFS_GET_KFS_OUT_X);
-				user.Set_Z(put_z - PUTKFS_PUT_KFS_OUT_DELTA_Z);
-				user.Set_P(HALF_PI);
-				
-				get_state = PUTKFS_GET_KFS_OUT_CHECK;
+				if (is_check)
+				{
+					user.Set_X(PUTKFS_GET_KFS_OUT_X);
+					user.Set_Z(put_z - PUTKFS_PUT_KFS_OUT_DELTA_Z);
+					user.Set_P(HALF_PI);
+					
+					get_state = PUTKFS_GET_KFS_OUT_CHECK;
+				}
+				else
+				{
+					user.Set_X(PUTKFS_PUT_KFS_CLOSE_X);
+					user.Set_Z(put_z - PUTKFS_PUT_KFS_CLOSE_DELTA_Z);
+					user.Set_P(PUTKFS_PUT_KFS_CLOSE_P);
+
+					return true;
+				}
 				break;
 			}
 			
@@ -276,16 +292,20 @@ namespace gantry
 			case PUTKFS_PUT_CHECK_SUDOKU_CHECK:
 			{
 				// 小于阈值更新
-				if (laser.distance < 600)
+				if (laser.distance < 350)
 				{
 					last_check_time = timer::Timer::Get_TimeStamp();
 				}
 				
-				if (timer::Timer::Get_DeltaTime(last_check_time) > 600000) // 0.6s没检测到就成功
+				if (!is_check)
 				{
 					put_state = PUTKFS_PUT_DROP;
 				}
-				else if (timer::Timer::Get_DeltaTime(last_time) > 2000000) // 2s超时
+				else if (timer::Timer::Get_DeltaTime(last_check_time) > 400000) // 0.4s没检测到就成功
+				{
+					put_state = PUTKFS_PUT_DROP;
+				}
+				else if (timer::Timer::Get_DeltaTime(last_time) > 1000000) // 2s超时
 				{
 					put_state = PUTKFS_PUT_CHECK_SUDOKU_FAIL;
 				}
@@ -324,7 +344,14 @@ namespace gantry
 					fabsf(user.Get_P() - PUTKFS_PUT_KFS_CLOSE_P)                     < PUTKFS_ANG_THRESTHOLD_SMALL
 				)
 				{
-					put_state = PUTKFS_PUT_IN;
+					if (height == PUTKFS_2L)
+					{
+						put_state = PUTKFS_PUT_IN;
+					}
+					else
+					{
+						put_state = PUTKFS_PUT_IN_3L;
+					}
 				}
 				break;
 			}
@@ -408,6 +435,61 @@ namespace gantry
 			
 			/*--------------------------------------------*/
 			
+			
+			case PUTKFS_PUT_IN_3L:
+			{
+				user.Set_X(PUTKFS_PUT_KFS_IN_X_3L);
+				user.Set_Z(PUTKFS_PUT_KFS_IN_Z_3L);
+				user.Set_P(PUTKFS_PUT_KFS_IN_P_3L);
+				
+				put_state = PUTKFS_PUT_IN_CHECK_3L;
+				break;
+			}
+			
+			case PUTKFS_PUT_IN_CHECK_3L:
+			{
+				if (
+					fabsf(user.Get_X() - PUTKFS_PUT_KFS_IN_X_3L) < PUTKFS_POS_THRESTHOLD_SMALL &&
+					fabsf(user.Get_Z() - PUTKFS_PUT_KFS_IN_Z_3L) < PUTKFS_POS_THRESTHOLD_SMALL &&
+					fabsf(user.Get_P() - PUTKFS_PUT_KFS_IN_P_3L) < PUTKFS_ANG_THRESTHOLD_SMALL
+				)
+				{
+					put_state = PUTKFS_PUT_RELESE_3L;
+				}
+				
+				
+				break;
+			}
+		
+			
+			
+			
+			case PUTKFS_PUT_RELESE_3L:
+			{
+				suck.Off();
+				last_time = timer::Timer::Get_TimeStamp();
+				
+				put_state = PUTKFS_PUT_RELESE_CHECK_3L;
+
+				break;
+			}
+			
+			case PUTKFS_PUT_RELESE_CHECK_3L:
+			{	
+				if (
+					timer::Timer::Get_DeltaTime(last_time) > 900000
+				)
+				{
+					user.Set_Defualt_Td();
+					user.Set_Reset_Pos();
+					data::KFS_Sub_One();// 放成功
+					user.Give_Control();
+					return true;
+				}
+				break;
+			}
+				
+			/*--------------------------------------------*/
 			default:
 			{
 				put_state = PUTKFS_PUT_CHECK_SUDOKU;

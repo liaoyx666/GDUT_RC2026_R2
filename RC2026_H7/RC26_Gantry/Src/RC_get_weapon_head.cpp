@@ -19,6 +19,7 @@ GetWeaponHead::GetWeaponHead(
     chassis::Chassis& omni4chassis_,
     data::RobotPose& pose_,
     Gantry& gantry_,
+    mini_laser::MiniLaser& laser_,
     Gripper& gripper_,
     path::PathPlan3& path_plan_,
 	path::HeadCtrl& head_ctrl_,
@@ -29,6 +30,7 @@ GetWeaponHead::GetWeaponHead(
 		head_ctrl(head_ctrl_),
         pose(pose_), omni4chassis(omni4chassis_),
         user(gantry_),  
+        laser(laser_),
         gripper(gripper_),
         chassis_npid_y(1.6f, 0.0f, 2.0f, 0.05f, 1.5f, 0.01f),
         blue_side(blue_side_)
@@ -36,8 +38,8 @@ GetWeaponHead::GetWeaponHead(
         state = State::IDLE;
         is_picked = false; 
         current_target_idx = 0;
-        grab_start_time = 0;
-
+        grab_start_time_1 = 0;
+		grab_start_time_2 = 0;
         if(blue_side) {
             target_yaw = - PI / 2.f;
             TARGET_WEAPON_Y = -6.0f;
@@ -194,16 +196,13 @@ GetWeaponHead::GetWeaponHead(
             case State::ACTION_GRAB_2:
                 StopChassis();
                 gripper.Close();
-//                 if (gripper.IsPickSuccess()) {
-//     // 夹到了！
-// }
-                grab_start_time = timer::Timer::Get_TimeStamp();
+                grab_start_time_1 = timer::Timer::Get_TimeStamp();
                 state = State::ACTION_GRAB_2_1;
                 break;
 
             case State::ACTION_GRAB_2_1:
                 StopChassis();
-                if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
+                if (timer::Timer::Get_DeltaTime(grab_start_time_1) >= 1000000) {
                     state = State::ACTION_LIFT_Z;
                 }
                 break;
@@ -211,9 +210,18 @@ GetWeaponHead::GetWeaponHead(
             case State::ACTION_LIFT_Z:
                 user.Set_Z((GET_Z + GET_Z_ER) + LIFT_UP_Z);
 				user.Set_P(0.0f);
-                if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE) {
-                    state = State::ACTION_RETRACT_X;
-grab_start_time = timer::Timer::Get_TimeStamp();
+                if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE && 
+					fabsf(user.Get_P() - (0.0f)) < GANTRY_PITCH_TOLERANCE) {
+                    if (gripper.IsPickSuccess()) {
+                        // 夹到了！
+                        is_picked = true;
+                        sig4 = false;
+                        state = State::ACTION_RETRACT_X;
+                        grab_start_time_2 = timer::Timer::Get_TimeStamp();
+                    }
+                    else {
+                        Pick_Next();
+                    }
                 }
                 break;
 
@@ -234,7 +242,6 @@ grab_start_time = timer::Timer::Get_TimeStamp();
                 break;
 
             case State::CHECK_RESULT:
-                // is_picked = true;
                 user.Give_Control();  // 归还权限
                 state = State::IDLE;
                 break;
@@ -243,11 +250,10 @@ grab_start_time = timer::Timer::Get_TimeStamp();
 		
 		if(!sig4)
 			{
-				if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
+				if (timer::Timer::Get_DeltaTime(grab_start_time_2) >= 1000000) {
 					weapon_event.Finish();
 					path_plan.Enable();
 					head_ctrl.Disable();
-					
 					sig4 = true;
 				}
 			}
@@ -263,7 +269,7 @@ void GetWeaponHead::Pick(uint8_t num) {
     sig1 = false;
     sig2 = false;
     sig3 = false;
-	    sig4 = false;
+	sig4 = false;
     gantry_yz_ready = false;
 
     if (num >= 1 && num <= WEAPON_NUM) {
@@ -301,6 +307,32 @@ void GetWeaponHead::Pick_Nearest() {
 void GetWeaponHead::Reset_Task() {
     state = State::IDLE;
     is_picked = false;
+}
+
+bool GetWeaponHead::IsPickSuccess(){
+    return (laser.distance <= GET_LASER_DIST); 
+}
+
+void GetWeaponHead::Pick_Next() {
+    if (is_picked) return;
+    sig1 = false;
+    sig2 = false;
+    sig3 = false;
+    sig4 = false;
+    gantry_yz_ready = false;
+
+    if (current_target_idx < WEAPON_NUM - 1) {
+        current_target_idx++;
+        state = State::ALIGN_CHASSIS;
+    } else {
+        is_picked = false;
+        user.Give_Control();
+        state = State::IDLE;
+        weapon_event.Finish();
+        path_plan.Enable();
+        head_ctrl.Disable();
+        sig4 = true;
+    }
 }
 
 }

@@ -43,21 +43,20 @@ namespace gantry
 	
 	enum PutKFSPutState : uint8_t 
 	{
-		//PUTKFS_PUT_CLOSE_TO = 0,
-		//PUTKFS_PUT_CLOSE_TO_CHECK,
 		PUTKFS_PUT_CHECK_SUDOKU = 0,
 		PUTKFS_PUT_CHECK_SUDOKU_CHECK,
 		
+		/*--------------------------*/
 		
 		PUTKFS_PUT_CHECK_SUDOKU_FAIL,
 		
-		
+		/*--------------------------*/
 		
 		PUTKFS_PUT_DROP,
 		PUTKFS_PUT_DROP_CHECK,
 		
-		
-		
+		/*--------------------------*/
+
 		PUTKFS_PUT_IN,
 		PUTKFS_PUT_IN_CHECK,
 		
@@ -66,6 +65,14 @@ namespace gantry
 		
 		PUTKFS_PUT_RELESE,
 		PUTKFS_PUT_RELESE_CHECK,
+		
+		/*--------------------------*/
+		
+		PUTKFS_PUT_IN_3L,
+		PUTKFS_PUT_IN_CHECK_3L,
+		
+		PUTKFS_PUT_RELESE_3L,
+		PUTKFS_PUT_RELESE_CHECK_3L,
 	};
 	
 
@@ -98,7 +105,7 @@ namespace gantry
 		bool Get_KFS_Phase();
 		bool Put_KFS_Phase();
 	
-		
+		PutKFSHeight height;
 	
 		
 		PutKFSPhase phase;
@@ -122,6 +129,8 @@ namespace gantry
 		
 		bool is_fail;
 		uint8_t fail_num;
+		
+		bool is_check;
 	
 		mini_laser::MiniLaser& laser;
     };

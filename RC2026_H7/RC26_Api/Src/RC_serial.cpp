@@ -13,14 +13,14 @@ extern "C" void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart_, uint16_t 
 
 
 
-// 串口 DMA 发送完成回调函数
-extern "C" void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart_)
-{
-    if (huart_->Instance == USART6) 
-    {
-        Serial1Protocol::getInstance().onUartTxComplete();
-    }
-}
+//// 串口 DMA 发送完成回调函数
+//extern "C" void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart_)
+//{
+//    if (huart_->Instance == USART6) 
+//    {
+//        Serial1Protocol::getInstance().onUartTxComplete();
+//    }
+//}
 
 
 extern "C" void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)

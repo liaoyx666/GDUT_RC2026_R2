@@ -96,10 +96,10 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Lib\Inc\RC_imu_fusion.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Lib\Inc\RC_mini_laser.h ..\RC26_Lib\Inc\RC_QEO.h \
   ..\RC26_Lib\Inc\RC_fusion_ctrl.h ..\RC26_Lib\Inc\RC_combine.h \
-  ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Path\Inc\RC_path3.h \
-  ..\RC26_Path\Inc\RC_curve.h ..\RC26_Path\Inc\RC_path_plan3.h \
-  ..\RC26_Path\Inc\RC_map_graph.h ..\RC26_Path\Inc\RC_graph_plan.h \
-  ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Lib\Inc\RC_IR_communication.h \
+  ..\RC26_Path\Inc\RC_navigation.h ..\RC26_Path\Inc\RC_map_graph.h \
+  ..\RC26_Path\Inc\RC_graph_plan.h ..\RC26_Path\Inc\RC_path_plan3.h \
+  ..\RC26_Path\Inc\RC_path3.h ..\RC26_Path\Inc\RC_curve.h \
+  ..\RC26_Path\Inc\RC_traj_plan3.h ..\RC26_Lib\Inc\RC_IR_communication.h \
   ..\RC26_Gantry\Inc\RC_gantry.h ..\RC26_Gantry\Inc\RC_suction.h \
   ..\RC26_Gantry\Inc\RC_get_KFS.h ..\RC26_Gantry\Inc\RC_put_KFS.h \
   ..\RC26_Gantry\Inc\RC_get_weapon_head.h \

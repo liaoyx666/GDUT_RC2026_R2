@@ -468,23 +468,23 @@ namespace path
 		
 		if (h == 1)
 		{
-			if (!Add_Point_Wait(low, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(low, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
-			lon.v = 1.6;
+			lon.v = 1.8;
 			
 			HeadConstr3 head = plan.plan.head_m;
 			head.yaw = -HALF_PI;
-			if (!Add_Point_Wait(high, 0.3f, &lon, &head, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high, 0.35f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		else
 		{
-			if (!Add_Point_Wait(high, 0.3f, &lon, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
-			lon.v = 1.6;
+			lon.v = 1.8;
 			
 			HeadConstr3 head = plan.plan.head_m;
 			head.yaw = -HALF_PI;
-			if (!Add_Point_Wait(low, 0.3f, &lon, &head, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(low, 0.35f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		
 		return true;

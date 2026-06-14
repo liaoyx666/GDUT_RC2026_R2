@@ -1,7 +1,7 @@
 #include "RC_data_pool.h"
 
 
-static uint8_t KFS_num = 0;
+
 
 namespace data
 {
@@ -23,8 +23,10 @@ namespace data
 	
 	
 	/*==============携带KFS的数量=====================*/
-	 
+	static uint8_t KFS_num = 0;
+	
 	uint8_t KFS_Num() { return KFS_num; }
+	void Set_KFS_Num(uint8_t kfs_num) { KFS_num = kfs_num; }
 	void KFS_Add_One() { KFS_num++; }
 	void KFS_Sub_One() { KFS_num--; }
 	/*==============携带KFS的数量=====================*/

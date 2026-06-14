@@ -8,6 +8,8 @@
 #include "RC_nonlinear_pid.h"
 #include "RC_gripper.h"
 #include "RC_path_plan3.h"
+#include "RC_mini_laser.h"
+
 
 #ifdef __cplusplus
 namespace gantry
@@ -19,6 +21,7 @@ namespace gantry
         chassis::Chassis& omni4chassis_,
         data::RobotPose& pose_,
         Gantry& gantry_, 
+        mini_laser::MiniLaser& laser_,
         Gripper& gripper_, 
         path::PathPlan3& path_plan_,
 	    path::HeadCtrl& head_ctrl_,
@@ -52,6 +55,7 @@ namespace gantry
         path::Event3 weapon_event;
         path::PathPlan3& path_plan;
 		path::HeadCtrl& head_ctrl;
+        mini_laser::MiniLaser& laser;
 
         pid::NonlinearPid chassis_npid_y;
 
@@ -67,6 +71,8 @@ namespace gantry
         static constexpr float GET_Z = 0.327129f;  
         static constexpr float LIFT_UP_Z = 0.05f;//取到武器头后上升距离
         static constexpr float GANTRY_RETRACT_X = 0.03f;//龙门架复位后X轴位置
+
+        static constexpr float GET_LASER_DIST = 20;// 单位：mm
 
         // 武器头坐标
         float TARGET_WEAPON_Y = -6.0f;
@@ -86,6 +92,7 @@ namespace gantry
         // 底盘停止的阈值
         static constexpr float YAW_TOLERANCE = 1.0f * PI / 180.f; 
         static constexpr float GANTRY_POS_TOLERANCE = 0.018f;
+		static constexpr float GANTRY_PITCH_TOLERANCE = 0.17f;
         static constexpr float POS_TOLERANCE = 0.01f;
 
         // Y轴触发基准
@@ -99,11 +106,12 @@ namespace gantry
 		float curr_y;
 		
         uint32_t init_time;
-        uint32_t grab_start_time;
+        uint32_t grab_start_time_1;
+        uint32_t grab_start_time_2;
 
         int pick_num;
         uint8_t current_target_idx; 
-        bool is_picked;    // 是否已成功夹取
+        bool is_picked = false;    // 是否已成功夹取
         bool blue_side; // 蓝区/红区标志
 
         void StopChassis();
@@ -111,6 +119,9 @@ namespace gantry
 
         void Pick(uint8_t num);      
         void Pick_Nearest(); 
+        void Pick_Next(); 
+
+        bool IsPickSuccess();
 
         bool sig1 = false;
         bool sig2 = false;

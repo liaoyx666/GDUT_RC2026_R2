@@ -78,12 +78,12 @@ path::TrajTrack3 track(
 	robot_pose,
 	omni_4_chassis,
 	head_ctrl,
-	0.005
+	0.008
 );
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.0, 1.8),
+	path::LonConstr3(2.5, 1.8),
 	path::HeadConstr3(0, 4, 5, false),
 	track
 );
@@ -155,7 +155,7 @@ gantry::Gantry gan(
 	m2006_can1_5,
 	m3508d_can1_1_2,
 	dm4310_can1_0x12
-);	
+);
 
 // 吸盘 
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
@@ -174,6 +174,7 @@ gantry::GetWeaponHead get_weapon_head(
 	omni_4_chassis,
 	robot_pose,
 	gan,
+	check_laser,
 	gripper,
 	path_plan,
 	head_ctrl
@@ -187,7 +188,11 @@ gantry::Aim_Ctrl aim(
 	gripper
 );
 
-combine::Combine com(omni_4_chassis, lift);
+combine::Combine com(
+	omni_4_chassis, 
+	lift,
+	path_plan
+);
 
 /*==================Main_Task==================*/
 // 方波发生
@@ -212,13 +217,7 @@ void Main_Task(void *argument)
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
-		//chassis_qeo.Fusion();
-		//float fusion_x = chassis_qeo.X();
-		//float fusion_y = chassis_qeo.Y();
-		//robot_pose.Update_Position(&fusion_x, &fusion_y, NULL);
-		
-		//uart_printf("%f,%f\n", robot_pose.X(), robot_pose.Y());
-		
+
 		path_plan.Plan();
 		
 		robot_pose.Robot_Pose_Check();
@@ -237,10 +236,7 @@ void Main_Task(void *argument)
 		
 		com.Auto_Combine();
 		
-//		x_1 = gan.Get_X();
-//		y_1 = gan.Get_Y();
-//		z_1 = gan.Get_Z();
-//		p_1 = gan.Get_P();
+
 		
 		if (remote_ctrl.swc == 0)
 		{
@@ -299,6 +295,9 @@ task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
 void Plan_Task(void *argument)
 {
+	// 全局起点
+	navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
 	navigation.Go_To_Get_Weapon_Head();
@@ -313,13 +312,20 @@ void Plan_Task(void *argument)
 	{
 		putKFS.Put_Fail_Navi();
 		
-		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd())
+		
+		
+		
+		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd() && !com.Is_Combine())
 		{
 			navigation.Go_To_Combine_Ready();
 		}
-		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd())
+		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd() && !com.Is_Combine())
 		{
 			navigation.Go_To_Combine();
+		}
+		else if (remote_ctrl.swb == 0 && remote_ctrl.signal_swd() && com.Is_Combine())
+		{
+			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
 		}
 		
 		

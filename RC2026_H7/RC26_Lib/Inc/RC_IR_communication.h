@@ -63,37 +63,26 @@ public:
     
     // 串口中断回调接口
     void Uart_Rx_It_Process(uint8_t* buffer, uint16_t size) override;
-    void onUartTxComplete(void);
-    
-    void setSendResultCallback(Serial1SendResultCallback callback);
-    void setDataReceiveCallback(Serial1DataReceiveCallback callback);
-    
+
     void getReceivedData(uint8_t* data_out, uint8_t* parity_out);
-    void waitForSendComplete(void);
     void R1_Send_KFS(uint8_t KFS1, uint8_t KFS2, uint8_t KFS3);
-    void sendTestData(uint8_t d1, uint8_t d2, uint8_t d3); 
     void sendAckFrame(void);
     
     bool hasData() const { return m_has_latest_data; }
     bool getLatestData(DataPacket_t* packet);
-    bool sendCommand(uint8_t* data);  
-
+    void onUartReceive(uint8_t* buffer, uint16_t size);
+    
     private:
-    Serial1Protocol();
-
- 
+    Serial1Protocol(); 
     uint8_t calculateChecksum(uint8_t* data);
     void buildFrame(uint8_t* data, uint8_t parity, uint8_t* frame_out);
     int parseFrame(uint8_t* buffer, uint16_t size, uint8_t* data_out, uint8_t* parity_out);
     void sendFrame(uint8_t* data, uint8_t parity);
-    uint32_t getTickMs(void);
-    void notifySendResult(uint8_t success);
     bool has_consecutive_zeros_exceed_10(const uint8_t* data); 
     
     // 奇偶位管理
     int findHistoryIndex(uint8_t* data);
     uint8_t getNextParity(uint8_t* data);
-    void updateSendHistory(uint8_t* data, uint8_t parity);
     void storeReceivedData(uint8_t* data, uint8_t parity);
     
 private:
@@ -127,7 +116,6 @@ private:
     Serial1DataReceiveCallback m_dataReceiveCallback;
     uint8_t m_current_send_data[SERIAL1_DATA_LEN];
     uint8_t m_current_send_parity;
-    uint8_t m_uart_send_frame[SERIAL1_FRAME_LEN];
     uint8_t m_send_batch_count;
     volatile uint8_t m_tx_complete;                  
     
