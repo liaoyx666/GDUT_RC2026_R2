@@ -122,6 +122,9 @@ mini_laser::MiniLaser check_laser(huart2, check_laser_buffer);
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 HWT101CT hwt101ct(huart8, hwt101ct_buffer);
 
+uint8_t ir_buffer[IR_COM_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+IR::IRCom ir_com(huart6, ir_buffer);
+
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
@@ -137,7 +140,6 @@ fusion::QEO chassis_qeo(
 	radar
 );
 
-
 // 抬升
 chassis::LiftChassis lift(
 	m3508_can3_5, m3508_can3_6,
@@ -146,8 +148,7 @@ chassis::LiftChassis lift(
 );
 
 
-//红外串口
-Serial1Protocol *m_serial1 = nullptr;
+
 
 /*==================上层龙门架====================*/
 // 龙门架
@@ -401,13 +402,12 @@ void All_Init()
 	cali_laser.Uart_Rx_Start();
 	check_laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
+	ir_com.Uart_Rx_Start();
 
 	// 场地位置初始化
 	data::Init_Side(true);
 	
 	gan.Init();
 	
-	//红外串口初始化
-    m_serial1 = &Serial1Protocol::getInstance();
-    m_serial1->init(&huart6);
+
 }
