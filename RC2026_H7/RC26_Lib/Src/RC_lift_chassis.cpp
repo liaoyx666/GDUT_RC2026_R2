@@ -27,7 +27,7 @@ namespace chassis
 	
 	void LiftChassis::Set_wheel_Vel(float vel)
 	{
-		if (state != LIFT_RESET)
+		if (state != LIFT_RESET_CHECK)
 		{
 			vel *= LIFT_WHEEL_VEL_TO_RPM;
 			L_wheel.Set_Out_Rpm(vel);
@@ -53,7 +53,7 @@ namespace chassis
 	
 	
 	constexpr float LIFT_CHASSIS_UP_VEL   = 0.36f;
-	constexpr float LIFT_CHASSIS_DOWN_VEL = 0.36f;
+	constexpr float LIFT_CHASSIS_DOWN_VEL = 0.35f;
 	constexpr float LIFT_CHASSIS_FAST_VEL = 2.8f;
 	
 	constexpr float LIFT_CHASSIS_SLOW_ACC = 2.8f;
@@ -61,7 +61,8 @@ namespace chassis
 
 	
 	
-	constexpr float LIFT_CHASSIS_DIS = 0.4f;
+	constexpr float LIFT_CHASSIS_UP_DIS = 0.35f;
+	constexpr float LIFT_CHASSIS_DOWN_DIS = 0.3f;
 
 	void LiftChassis::Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig)
 	{
@@ -209,9 +210,9 @@ namespace chassis
 				float dis = Get_Dis(); // 里程计当前值
 				float max_vel = 0; // 最大速度
 				
-				if (dis < LIFT_CHASSIS_DIS)
+				if (dis < LIFT_CHASSIS_UP_DIS)
 				{
-					max_vel = sqrtf((LIFT_CHASSIS_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC + (LIFT_CHASSIS_UP_VEL * LIFT_CHASSIS_UP_VEL));
+					max_vel = sqrtf((LIFT_CHASSIS_UP_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC + (LIFT_CHASSIS_UP_VEL * LIFT_CHASSIS_UP_VEL));
 					
 					max_vel = fminf(max_vel, LIFT_CHASSIS_FAST_VEL);
 					max_vel = fmaxf(max_vel, LIFT_CHASSIS_UP_VEL);
@@ -332,9 +333,9 @@ namespace chassis
 				float dis = Get_Dis(); // 里程计当前值
 				float max_vel = 0; // 最大速度
 				
-				if (dis < LIFT_CHASSIS_DIS)
+				if (dis < LIFT_CHASSIS_DOWN_DIS)
 				{
-					max_vel = sqrtf((LIFT_CHASSIS_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC + (LIFT_CHASSIS_DOWN_VEL * LIFT_CHASSIS_DOWN_VEL));
+					max_vel = sqrtf((LIFT_CHASSIS_DOWN_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC + (LIFT_CHASSIS_DOWN_VEL * LIFT_CHASSIS_DOWN_VEL));
 					
 					max_vel = fminf(max_vel, LIFT_CHASSIS_FAST_VEL);
 					max_vel = fmaxf(max_vel, LIFT_CHASSIS_DOWN_VEL);

@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 #include "RC_event3.h"
 #include "RC_task.h"
 #include "RC_data_pool.h"
@@ -9,6 +10,9 @@
 #include "RC_gripper.h"
 #include "RC_path_plan3.h"
 #include "RC_mini_laser.h"
+#ifndef PI
+#define PI 3.1415926535f
+#endif
 
 #ifdef __cplusplus
 namespace gantry
@@ -27,106 +31,122 @@ namespace gantry
         bool blue_side = true
     );        
         ~GetWeaponHead() = default;
-
         void Set_Pick_Num(int num) { pick_num = num; }
         void Auto_Get_Weapon_Head();
-
-
-    private:
         
-        enum class State : uint8_t {
-            IDLE,           // 待机：监听触发事件并检查 picked 标志
-            ALIGN_CHASSIS,  // 准备：底盘对齐目标角度
-            ACTION_GRAB_1,  // 执行：夹爪前伸
-            ACTION_GRAB_2,  // 执行：夹爪夹紧
-            ACTION_GRAB_2_1, // 执行：夹紧后等待，确保夹爪动作完成
-            ACTION_LIFT_Z,  // 夹紧后 Z 轴先向上抬升 15cm
-            ACTION_RETRACT_X,  // 夹紧后 X 轴单动收回，防止干涉
-            ACTION_RETRACT_YZ, // X 轴安全收回后，Y 轴和 Z 轴归零
-            CHECK_RESULT    // 反馈：检查结果，失败则迭代下一个
-        } state;
+    private:
+        void StopChassis();
+        void Pick(uint8_t num);      
+        void Pick_Next(); 
+
+        bool MoveChassis(float world_x, float world_y, float deadzone);
+        void Set_Yaw(float yaw);
+
+        void Cal_Current_Pos();// 注意激光数据跳变
+
+        bool Set_Gantry_X(float target_x);
+        bool Set_Gantry_Y(float target_y);
+        bool Set_Gantry_Z(float target_z);
+        void Set_Gantry_Pitch(float target_pitch);
+
+        enum class CHASSIS_STATE : uint8_t {
+            Chassis_Idle,    // 等待触发
+            Chassis_Align,  // 调整底盘位置，到达死区即停(x轴在范围内即可)
+            Chassis_Ready,  
+
+            Gantry_Grab_Y, 
+
+        };
+
+        enum class GANTRY_STATE : uint8_t {
+            Gantry_Idle,           // 等待触发
+            Gantry_Ready_Z_Pitch,  // z_pitch写死，y根据底盘位置调整，只要z到达预设高度，x可以提前伸出到Gantry_Ready_X
+            Gantry_Ready_X,  // x轴伸出到预设位置
+            Gantry_Down_Z,   // Chssis_Ready以及Gantry_Y就位后，下降z轴到预设位置
+            Gantry_Grab_X,
+            Gantry_Grab,
+            Wait_Gantry_Grab, 
+
+            Gantry_Up_Z_Pitch,
+            Gantry_Re_Ready_X,
+            Judge_Grab, 
+
+            Gantry_Result,// 根据Judge_Grab判断是否夹取成功，成功则直接结束，失败则进入Pick_Next回到上面的状态机
+            
+            // 成功 释放底盘
+            Gantry_Restoration_X,
+            Gantry_Restoration_YZ,
+
+            // 失败 底盘y和龙门架y都就位时 重新进入Gantry_Down_Z
+            Gantry_Retry, 
+
+        };
 
         data::RobotPose& pose;
         chassis::Chassis& omni4chassis;
         GantryUser user;
         Gripper& gripper; 
         mini_laser::MiniLaser& laser;
-
         path::Event3 weapon_event;
         path::PathPlan3& path_plan;
 		path::HeadCtrl& head_ctrl;
+        pid::NonlinearPid chassis_npid_;
 
-        pid::NonlinearPid chassis_npid_y;
+        CHASSIS_STATE chassis_state;
+        GANTRY_STATE  gantry_state;
 
+        bool PICK_SUCCESS_FLAG = false;
 
-        // （夹爪横移的距离）即夹爪y轴方向
-        static constexpr float HALF_CHASSIS_X = 0.10f;   
         // （从底盘中心到夹爪的距离）即夹爪x轴方向
         static constexpr float HALF_CHASSIS_Y = 0.41227f; 
         // 武器头数量
         static constexpr uint8_t WEAPON_NUM = 6; 
+
+        // 武器头坐标
+        float TARGET_WEAPON_Y = -6.0f;
+        // 先定义原始坐标
+        static constexpr float WEAPON_X_RAW[7] = {
+            0.0f, 0.45f, 0.65f, 0.85f, 1.05f, 1.25f, 1.45f //跟pick_num对齐，第一个0.0不用
+        };
+
+        //取武器头底盘需要的位姿
+        float chassis_target_x ;
+        float chassis_target_y ;
+        float target_yaw ;
+        float chassis_target_yaw ; 
+
+		float curr_x;
+		float curr_y;
+
+        uint32_t grab_start_time;
+
+        int pick_num;
+        bool blue_side; // 蓝区/红区标志
 
         // 龙门架三轴位置
         static constexpr float GET_Z = 0.327129f;  
         static constexpr float LIFT_UP_Z = 0.05f;//取到武器头后上升距离
         static constexpr float GANTRY_RETRACT_X = 0.03f;//龙门架复位后X轴位置
 
-        // 武器头坐标
-        float TARGET_WEAPON_Y = -6.0f;
-        // 先定义原始坐标
-        static constexpr float WEAPON_X_RAW[WEAPON_NUM] = {
-            0.45f, 0.65f, 0.85f, 1.05f, 1.25f, 1.45f 
-        };
+        static constexpr float READY_GANTRY_DIST = 0.04f;
+        static constexpr float READY_CHASSIS_DIST = 0.3f;
 
-        // 雷达偏移
-        static constexpr float RADAR_ERROR_X = -0.017f;
-        static constexpr float RADAR_ERROR_Y = 0.009f;
-        static constexpr float RADAR_ERROR_YAW = 0.0f * PI / 180.f;
+        // 停止阈值
+        static constexpr float GANTRY_POS_TOLERANCE = 0.018f;
+        static constexpr float CHASSIS_POS_TOLERANCE = 0.03f;
+        static constexpr uint32_t WAIT_GANTRY_GRAB_TIME =  1000000U ; // 单位：us
 
-        // 夹取准备位置(即夹爪初始状态距离武器头的y轴距离小于等于READY_DIST时才往前伸夹爪，在这之前调整地盘靠近夹爪)
-        static constexpr float READY_DIST = 0.3f;
-	   
-        // 底盘停止的阈值
-        static constexpr float YAW_TOLERANCE = 1.0f * PI / 180.f; 
-        static constexpr float GANTRY_POS_TOLERANCE = 0.01f;
-        static constexpr float GANTRY_PITCH_TOLERANCE = 0.174533f; // 10度
-        static constexpr float POS_TOLERANCE = 0.01f;
+        uint8_t detect_cnt = 0;
+        static constexpr float GRAB_DETECT_THRESH = 20.0f;
+        bool rst_y_done = false;
+        bool rst_z_done = false;
 
         // Y轴触发基准
         float READY_POINT_Y;
 
-        float target_x = 0.0f;
-        float target_y = 0.0f;
-        float target_yaw = - PI / 2.f; 
-
-		float curr_x;
-		float curr_y;
-		
-        uint32_t init_time;
-        uint32_t grab_start_time;
-
-        int pick_num;
-        uint8_t current_target_idx; 
-        bool is_picked;    // 是否已成功夹取
-        bool blue_side; // 蓝区/红区标志
-
-        void StopChassis();
-        void Reset_Task();
-
-        void Pick(uint8_t num);      
-        void Pick_Nearest(); 
-        void Pick_Next(); 
-
-        bool sig1 = false;
-        bool sig2 = false;
-        bool sig3 = false;
-		
-		bool sig4 = false;
-		
-		float pose_buf[5] = { 0 };
-		int length = 0;
-        
-        bool gantry_yz_ready = false;
+        // 雷达偏移
+        static constexpr float RADAR_ERROR_X = 0.0f;
+        static constexpr float RADAR_ERROR_Y = 0.0f;
 
     };
 }

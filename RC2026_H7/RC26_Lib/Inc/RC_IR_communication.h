@@ -8,6 +8,47 @@ constexpr uint8_t IR_COM_RX_BUFFER_SIZE = 32;
 
 namespace IR
 {
+	constexpr uint8_t IR_MAX_CMD = 10;
+	constexpr uint8_t IR_INVALID_CMD = 0;
+	
+	
+	// 红外命令
+	class IRCmd
+    {
+    public:
+		IRCmd(uint8_t id_);
+		~IRCmd() = default;
+
+		bool Get_Cmd()
+		{
+			if (new_cmd)
+			{
+				new_cmd = false;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		
+    private:
+		static IRCmd* cmd_list[IR_MAX_CMD];
+		volatile bool new_cmd;
+	
+		friend class IRCom;
+    };
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	constexpr uint8_t IR_COM_FRAME_HEAD0 = 0xFC;
 	constexpr uint8_t IR_COM_FRAME_HEAD1 = 0xFB;
 	constexpr uint8_t IR_COM_FRAME_TAIL0 = 0xFD;
@@ -21,41 +62,23 @@ namespace IR
 	
 	
 	
-	
+	// 红外通讯
 	class IRCom : public serial::UartRx
     {
     public:
 		IRCom(UART_HandleTypeDef &huart_, uint8_t* buf_);
 		~IRCom() = default;
 
-	
-		uint8_t Get_Cmd()
-		{
-			uint8_t c;
-			
-			if (new_cmd)
-			{
-				c = cmd;
-				new_cmd = false;
-			}
-			else
-			{
-				c = 0; // 无效
-			}
-			
-			return c;
-		}
-		
     private:
 		void Uart_Rx_It_Process(uint8_t* buf_, uint16_t len_) override;
 		uint8_t Check_Sum(uint8_t* data);
 		
 		volatile bool last_parity;
-		volatile bool is_last_parity_init;
-		volatile bool new_cmd;
-		volatile uint8_t cmd;
-
+		volatile bool is_init;
+		volatile uint8_t last_cmd;
+		
 		UART_HandleTypeDef &huart;
+		
     };
 }
 

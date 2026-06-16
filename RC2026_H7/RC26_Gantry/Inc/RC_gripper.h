@@ -17,6 +17,9 @@ namespace gantry
         constexpr void Close(){
             motor_p.Set_Current(CLOSE_CURRENT);
         }
+        constexpr void Stop(){
+            motor_p.Set_Current(0);
+        }
         constexpr bool IsPickSuccess(){
             float current_pos = motor_p.Get_Out_Pos();
             return (current_pos >= PICK_MIN_POS) && (current_pos <= PICK_MAX_POS);
