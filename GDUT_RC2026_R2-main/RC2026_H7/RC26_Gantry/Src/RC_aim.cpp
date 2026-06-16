@@ -11,7 +11,8 @@ namespace gantry
 		  gripper(gripper_),
 		  user(gantry_),
 		  aim_event(21, 0.1f, true, true), // EVENT_AIM = EVENT3_ID_21
-		  z_lpf(0.50f, 1000.0f), y_lpf(0.50f, 1000.0f)
+		  z_lpf(0.50f, 1000.0f), y_lpf(0.50f, 1000.0f),
+			ir(1)
 	{
 	}
 
@@ -185,10 +186,13 @@ namespace gantry
 					phase = Phase_Done;
 			}
 			break;
-
+		case Phase_Wait:
+			if()
+				
 		/*---- 阶段5：对准完成 ----*/
 		case Phase_Done:
-			if(aim_finish_flag)
+			
+			if()
 			{
 				gripper.Open();
 

@@ -6,6 +6,8 @@
 #include "RC_filter.h"
 #include "RC_event3.h"
 #include "RC_gripper.h"
+#include "RC_IR_communication.h"
+
 
 #ifdef __cplusplus
 namespace gantry
@@ -23,7 +25,10 @@ namespace gantry
 		         gantry::Gantry& gantry_,
 				 chassis::Chassis& chassis_,
 				 gantry::Gripper& gripper_);
-
+		
+	  IR::IRCmd ir;
+	
+	
 		enum Axis : uint8_t
 		{
 			Axis_X,
