@@ -445,6 +445,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>ir_buffer</ItemText>
         </Ww>
+        <Ww>
+          <count>58</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>get_weapon_head</ItemText>
+        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>

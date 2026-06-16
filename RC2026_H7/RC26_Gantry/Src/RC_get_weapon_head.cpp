@@ -196,6 +196,7 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
             weapon_event.Finish();
             path_plan.Enable();
             head_ctrl.Disable();
+			chassis_state = CHASSIS_STATE::Chassis_Idle;
         }
         else {
             gantry_state = GANTRY_STATE::Gantry_Retry;
@@ -274,7 +275,7 @@ bool GetWeaponHead::MoveChassis(float world_x, float world_y, float deadzone) {
         target_vy = chassis_vx * sinf(angle_to_target);
         omni4chassis.Set_World_Lin_Vel(vector2d::Vector2D(target_vx, target_vy));
     }
-
+	
     return false;
 }
 
