@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Mon Jun 15 22:36:05 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Tue Jun 16 12:12:34 2026
 <BR><P>
 <H3>Maximum Stack Usage =        480 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3240,7 +3240,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Curve2D::Vel_On_Len(float, float) const
 </UL>
 
-<P><STRONG><a name="[b5]"></a>Main_Task(void*)</STRONG> (Thumb, 400 bytes, Stack size 8 bytes, rc_init.o(.text._Z9Main_TaskPv))
+<P><STRONG><a name="[b5]"></a>Main_Task(void*)</STRONG> (Thumb, 456 bytes, Stack size 8 bytes, rc_init.o(.text._Z9Main_TaskPv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 480 + Unknown Stack Size
 <LI>Call Chain = Main_Task(void*) &rArr; path::PathPlan3::Plan() &rArr; path::TrajPlan3::Add_Point(path::Point3) &rArr; path::TrajPlan3::Calc_End_Vel() &rArr; curve::Curve2D::Vel_On_Len(float, float) const &rArr; calcVel(float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
@@ -3722,7 +3722,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[c9]"></a>path::Navigation::Task_Process()</STRONG> (Thumb, 192 bytes, Stack size 32 bytes, rc_navigation.o(.text._ZN4path10Navigation12Task_ProcessEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 384<LI>Call Chain = path::Navigation::Task_Process() &rArr; path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<BR><BR>[Stack]<UL><LI>Max Depth = 368<LI>Call Chain = path::Navigation::Task_Process() &rArr; path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Plan(path::NavPoint, path::Destination)
 </UL>
@@ -3923,7 +3923,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;combine::Combine::Combine(chassis::Chassis&, chassis::LiftChassis&, path::PathPlan3&)
 <LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check::HeadCheck::HeadCheck(chassis::Chassis&, data::RobotPose&)
-<LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, fusion::QEO&)
+<LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis&, fusion::QEO&)
 <LI><a href="#[22a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ros::WaitR1::WaitR1(cdc::CDC&, unsigned char, chassis::Chassis&, path::HeadCtrl&)
 <LI><a href="#[239]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Aim_Ctrl(ros::Camera&, gantry::Gantry&, chassis::Chassis&, gantry::Gripper&)
 <LI><a href="#[238]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, bool)
@@ -4023,8 +4023,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Plan(path::NavPoint, path::Destination)
 </UL>
 
-<P><STRONG><a name="[299]"></a>path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char)</STRONG> (Thumb, 1004 bytes, Stack size 136 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan10Down_StairEhha))
-<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[299]"></a>path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char)</STRONG> (Thumb, 960 bytes, Stack size 120 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan10Down_StairEhha))
+<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
@@ -4040,7 +4040,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[29b]"></a>path::GraphPlan::Action_Plan(unsigned char, unsigned char)</STRONG> (Thumb, 110 bytes, Stack size 8 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan11Action_PlanEhh))
-<BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[299]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char)
 <LI><a href="#[29d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char)
@@ -4066,7 +4066,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[27b]"></a>path::GraphPlan::Plan(path::NavPoint, path::Destination)</STRONG> (Thumb, 276 bytes, Stack size 104 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan4PlanENS_8NavPointENS_11DestinationE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 352<LI>Call Chain = path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<BR><BR>[Stack]<UL><LI>Max Depth = 336<LI>Call Chain = path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[29b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Action_Plan(unsigned char, unsigned char)
@@ -4076,8 +4076,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Task_Process()
 </UL>
 
-<P><STRONG><a name="[29d]"></a>path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char)</STRONG> (Thumb, 964 bytes, Stack size 112 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan8Up_StairEhha))
-<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[29d]"></a>path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char)</STRONG> (Thumb, 940 bytes, Stack size 104 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan8Up_StairEhha))
+<BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_sub_f32
@@ -5033,7 +5033,7 @@ Global Symbols
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWT101CT::HWT101CT(__UART_HandleTypeDef&, unsigned char*)
 </UL>
 
-<P><STRONG><a name="[252]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3506 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
+<P><STRONG><a name="[252]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3404 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
@@ -5043,15 +5043,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Path_Task(void*)
 </UL>
 
-<P><STRONG><a name="[232]"></a>chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, fusion::QEO&)</STRONG> (Thumb, 240 bytes, Stack size 40 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassisC2ERN5motor5MotorES3_S3_S3_PNS_7ChassisERN6fusion3QEOE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, fusion::QEO&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
+<P><STRONG><a name="[232]"></a>chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis&, fusion::QEO&)</STRONG> (Thumb, 240 bytes, Stack size 40 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassisC2ERN5motor5MotorES3_S3_S3_RNS_7ChassisERN6fusion3QEOE))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis&, fusion::QEO&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[275]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Event3(unsigned char, float, bool, bool, float)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[37b]"></a>chassis::LiftChassis::LiftChassis__sub_object(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, fusion::QEO&)</STRONG> (Thumb, 240 bytes, Stack size 40 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassisC2ERN5motor5MotorES3_S3_S3_PNS_7ChassisERN6fusion3QEOE), UNUSED)
+<P><STRONG><a name="[37b]"></a>chassis::LiftChassis::LiftChassis__sub_object(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis&, fusion::QEO&)</STRONG> (Thumb, 240 bytes, Stack size 40 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassisC2ERN5motor5MotorES3_S3_S3_RNS_7ChassisERN6fusion3QEOE), UNUSED)
 
 <P><STRONG><a name="[2dd]"></a>chassis::Limit_Accel(float, float, float)</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, rc_chassis.o(.text._ZN7chassis11Limit_AccelEfff))
 <BR><BR>[Called By]<UL><LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const
@@ -5433,11 +5433,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2aa]"></a>arm_atan2_f32</STRONG> (Thumb, 548 bytes, Stack size 0 bytes, fastmathfunctions.o(.text.arm_atan2_f32))
-<BR><BR>[Called By]<UL><LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Init(vector2d::Vector2D, vector2d::Vector2D, float, bool)
+<BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
+<LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Init(vector2d::Vector2D, vector2d::Vector2D, float, bool)
 <LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const
 <LI><a href="#[2a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Calc_End_Vel()
 <LI><a href="#[29f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Add_Point(path::Point3)
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
 </UL>
 
 <P><STRONG><a name="[281]"></a>arm_cos_f32</STRONG> (Thumb, 128 bytes, Stack size 0 bytes, fastmathfunctions.o(.text.arm_cos_f32))
@@ -5452,7 +5452,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[296]"></a>arm_dot_prod_f32</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, basicmathfunctions.o(.text.arm_dot_prod_f32))
-<BR><BR>[Called By]<UL><LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Init(vector2d::Vector2D, vector2d::Vector2D, float, bool)
+<BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
+<LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Init(vector2d::Vector2D, vector2d::Vector2D, float, bool)
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Line2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
 <LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Line2D::Init(vector2d::Vector2D, vector2d::Vector2D)
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxx_global_var_init.3
@@ -5467,7 +5468,6 @@ Global Symbols
 <LI><a href="#[2a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Calc_End_Vel()
 <LI><a href="#[29f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Add_Point(path::Point3)
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Tan_Nor_On_T(float, vector2d::Vector2D*, vector2d::Vector2D*) const
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
 </UL>
 
 <P><STRONG><a name="[283]"></a>arm_scale_f32</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, basicmathfunctions.o(.text.arm_scale_f32))
@@ -5496,7 +5496,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[295]"></a>arm_sub_f32</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, basicmathfunctions.o(.text.arm_sub_f32))
-<BR><BR>[Called By]<UL><LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Init(vector2d::Vector2D, vector2d::Vector2D, float, bool)
+<BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
+<LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Init(vector2d::Vector2D, vector2d::Vector2D, float, bool)
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Line2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
 <LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Line2D::Init(vector2d::Vector2D, vector2d::Vector2D)
 <LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__cxx_global_var_init.3
@@ -5509,7 +5510,6 @@ Global Symbols
 <LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajTrack3::Calc_Vel(vector2d::Vector2D&) const
 <LI><a href="#[29f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::TrajPlan3::Add_Point(path::Point3)
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Tan_Nor_On_T(float, vector2d::Vector2D*, vector2d::Vector2D*) const
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Get_Near_Point_T_Dis(vector2d::Vector2D, vector2d::Vector2D*, float*, float*) const
 </UL>
 
 <P><STRONG><a name="[106]"></a>main</STRONG> (Thumb, 346 bytes, Stack size 16 bytes, main.o(.text.main))
@@ -6494,7 +6494,7 @@ Local Symbols
 <LI><a href="#[231]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fusion::QEO::QEO(motor::DjiMotor&, motor::DjiMotor&, motor::DjiMotor&, motor::DjiMotor&, data::RobotPose&, tim::Tim&, ros::Radar&)
 <LI><a href="#[227]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check::HeadCheck::HeadCheck(chassis::Chassis&, data::RobotPose&)
 <LI><a href="#[22d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWT101CT::HWT101CT(__UART_HandleTypeDef&, unsigned char*)
-<LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis*, fusion::QEO&)
+<LI><a href="#[232]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::LiftChassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, chassis::Chassis&, fusion::QEO&)
 <LI><a href="#[221]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::Omni4Chassis::Omni4Chassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, float, float, float, float, float, float, data::RobotPose&)
 <LI><a href="#[22f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flysky::FlySky::FlySky(unsigned short)
 <LI><a href="#[218]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tim::Tim::Tim(TIM_HandleTypeDef&)

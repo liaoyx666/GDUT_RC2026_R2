@@ -9,15 +9,15 @@
 #ifdef __cplusplus
 namespace chassis
 {
-	#define ZERO_POS 	( 0.f)
-	#define UP_20_POS 	( 295.f + ZERO_POS)
-	#define UP_40_POS 	( 590.f + ZERO_POS)
-	#define DOWN_20_POS (-295.f + ZERO_POS)
-	#define DOWN_40_POS (-590.f + ZERO_POS)
-	#define RESET_POS 	( 100.f)
+	constexpr float ZERO_POS    = 0.f;
+    constexpr float UP_20_POS   = 295.f + ZERO_POS;
+    constexpr float UP_40_POS   = 590.f + ZERO_POS;
+    constexpr float DOWN_20_POS = -295.f + ZERO_POS;
+    constexpr float DOWN_40_POS = -590.f + ZERO_POS;
+    constexpr float RESET_POS   = 100.f;
 
-	#define L_LIFT_POL 	(-1.f)
-	#define R_LIFT_POL 	(-1.f)
+    constexpr float L_LIFT_POL  = -1.f;
+    constexpr float R_LIFT_POL  = -1.f;
 	
 	const static GPIO_TypeDef* SENSER_GPIO_PORT[6] =
 	{
@@ -42,6 +42,7 @@ namespace chassis
 	enum LiftState : uint8_t
 	{
 		LIFT_RESET = 0, 	/* 默认状态 */
+		LIFT_RESET_CHECK,
 		
 		LIFT_UP_READY, 		/* 准备上台阶 */
 		LIFT_UP_READY_CHECK,
@@ -53,10 +54,15 @@ namespace chassis
 		LIFT_UP_WITHDRAW_CHECK,
 		
 		LIFT_DOWN_READY, 	/* 准备下台阶 */
+		LIFT_DOWN_READY_CHECK,
 		LIFT_DOWN_STRETCH, 	/* 伸出机构 */
+		LIFT_DOWN_STRETCH_CHECK,
 		LIFT_DOWN_FORWARD, 	/* 前进 */
+		LIFT_DOWN_FORWARD_CHECK,
 		LIFT_DOWN_FALL, 	/* 下降 */
+		LIFT_DOWN_FALL_CHECK,
 		LIFT_DOWN_WITHDRAW,	/* 收回机构 */
+		LIFT_DOWN_WITHDRAW_CHECK,
 	};
 	
 	enum LiftDir : uint8_t
@@ -87,7 +93,7 @@ namespace chassis
 		LiftChassis(
 			motor::Motor& L_lift_, motor::Motor& R_lift_,
 			motor::Motor& L_wheel_, motor::Motor& R_wheel_,
-			chassis::Chassis* chassis_, fusion::QEO& qeo_
+			chassis::Chassis& chassis_, fusion::QEO& qeo_
 		);
 		~LiftChassis() = default;
 		
@@ -193,31 +199,27 @@ namespace chassis
 		
 		void Chassis_Stop()
 		{
-			if (chassis)
-				chassis->Force_Lin_Vel_Zero(1);
+			chassis.Force_Lin_Vel_Zero(1);
 		}
 		
 		void Chassis_Start()
 		{
-			if (chassis)
-				chassis->Unforce_Lin_Vel_Zero(1);
+			chassis.Unforce_Lin_Vel_Zero(1);
 		}
 		
 		void Chassis_Stop_Spin()
 		{
-			if (chassis)
-				chassis->Force_Ang_Vel_Zero(1);
+			chassis.Force_Ang_Vel_Zero(1);
 		}
 			
 		void Chassis_Start_Spin()
 		{
-			if (chassis)
-				chassis->Unforce_Ang_Vel_Zero(1);
+			chassis.Unforce_Ang_Vel_Zero(1);
 		}
 		
 		bool Get_Senser_Value(uint8_t n)
 		{
-			if (n > 6 && n == 0) return false; 
+			if (n > 6 || n == 0) return false; 
 			
 			if (d == LIFT_L)
 				return senser_value[n - 1];
@@ -264,7 +266,7 @@ namespace chassis
 		motor::Motor& L_wheel;
 		motor::Motor& R_wheel;
 		
-		chassis::Chassis* chassis;
+		chassis::Chassis& chassis;
 		fusion::QEO& qeo;
 		
 		/*---------------------------*/

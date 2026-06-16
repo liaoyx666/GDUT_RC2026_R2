@@ -144,7 +144,7 @@ fusion::QEO chassis_qeo(
 chassis::LiftChassis lift(
 	m3508_can3_5, m3508_can3_6,
 	m2006_can3_7, m2006_can3_8,
-	&omni_4_chassis, chassis_qeo
+	omni_4_chassis, chassis_qeo
 );
 
 
@@ -203,10 +203,12 @@ combine::Combine com(
 //float target = 0;
 //float a = 0;
 
-//float x_1 = 0;
-//float y_1 = 0;
-//float z_1 = 0;
-//float p_1 = 0;
+
+uint8_t cmd = 0;
+
+uint8_t count = 0;
+
+
 
 void Main_Task(void *argument)
 {
@@ -220,7 +222,20 @@ void Main_Task(void *argument)
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
+		
+		
+		
+		
+		uint8_t c = ir_com.Get_Cmd();
 
+		if (c != 0)
+		{
+			cmd = c;
+			count++;
+		}
+		
+		
+		
 		path_plan.Plan();
 		
 		robot_pose.Robot_Pose_Check();
