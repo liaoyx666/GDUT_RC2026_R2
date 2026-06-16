@@ -83,6 +83,8 @@ constexpr Event3_t EVENT_WAIT_R1_R = EVENT3_ID_24;
 
 
 constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_25;
+
+
 /*-----所有事件-----*/
 
 namespace path
@@ -103,6 +105,21 @@ namespace path
 		bool Is_Trig();
 		void Finish();
 		
+		static void Trig_Event(Event3_t event)
+		{
+			for (uint8_t i = 0; i < EVENT3_MAX_EVENT_NUM; i++)
+			{
+				if ((1 << i) & event)
+				{
+					if (list[i] != nullptr)
+					{
+						list[i]->Trig_Once();
+					}
+				}
+			}
+		}
+	
+	
 		constexpr bool Wait_Finish() const { return wait_finish; }
 		constexpr bool Yaw_Align() const { return yaw_align; }
 		constexpr bool Yaw_Align_Threshold() const { return yaw_align_threshold; }

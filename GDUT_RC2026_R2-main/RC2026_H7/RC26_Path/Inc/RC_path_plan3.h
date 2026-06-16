@@ -44,6 +44,13 @@ namespace path
 			return rt;
 		}
 		
+		void Force_End()
+		{
+			track.Force_End();
+		}
+		
+		constexpr bool Is_End() const { return track.Is_End(); }
+		
 		void Enable()
 		{
 			is_enable = true;

@@ -8,6 +8,7 @@
 #include "RC_nonlinear_pid.h"
 #include "RC_gripper.h"
 #include "RC_path_plan3.h"
+#include "RC_mini_laser.h"
 
 #ifdef __cplusplus
 namespace gantry
@@ -19,6 +20,7 @@ namespace gantry
         chassis::Chassis& omni4chassis_,
         data::RobotPose& pose_,
         Gantry& gantry_, 
+        mini_laser::MiniLaser& laser_,
         Gripper& gripper_, 
         path::PathPlan3& path_plan_,
 	    path::HeadCtrl& head_ctrl_,
@@ -48,6 +50,7 @@ namespace gantry
         chassis::Chassis& omni4chassis;
         GantryUser user;
         Gripper& gripper; 
+        mini_laser::MiniLaser& laser;
 
         path::Event3 weapon_event;
         path::PathPlan3& path_plan;
@@ -85,7 +88,8 @@ namespace gantry
 	   
         // 底盘停止的阈值
         static constexpr float YAW_TOLERANCE = 1.0f * PI / 180.f; 
-        static constexpr float GANTRY_POS_TOLERANCE = 0.018f;
+        static constexpr float GANTRY_POS_TOLERANCE = 0.01f;
+        static constexpr float GANTRY_PITCH_TOLERANCE = 0.174533f; // 10度
         static constexpr float POS_TOLERANCE = 0.01f;
 
         // Y轴触发基准
@@ -111,6 +115,7 @@ namespace gantry
 
         void Pick(uint8_t num);      
         void Pick_Nearest(); 
+        void Pick_Next(); 
 
         bool sig1 = false;
         bool sig2 = false;

@@ -23,13 +23,16 @@ namespace chassis
 		// 设置机器人坐标速度
 		void Set_Robot_Vel(vector2d::Vector2D v_, float vw_);
 		
-		// 设置世界坐标送速度
+		// 设置世界坐标速度
 		void Set_World_Vel(vector2d::Vector2D v_, float vw_);
-			
+		
+		// 设置机器人坐标线速度
 		void Set_Robot_Lin_Vel(vector2d::Vector2D v_);
-			
+		
+		// 设置世界坐标线速度
 		void Set_World_Lin_Vel(vector2d::Vector2D v_);
 		
+		// 设置角速度
 		void Set_Ang_Vel(float vw_);
 		
 		// 获取底盘当前线速度
@@ -44,24 +47,31 @@ namespace chassis
 		// 使能
 		void Chassis_Enable() {is_enable = true;}
 		
-		// 线速度强制为零
-		void Force_Lin_Vel_Zero(uint8_t id) 
-		{
-			lin_vel_zero |= (1UL << id);
-		}
+		// 线速度强制为0
+		void Force_Lin_Vel_Zero(uint8_t id) { lin_vel_zero |= (1UL << id); }
 		
-		// 解除线速度强制为零
-		void Unforce_Lin_Vel_Zero(uint8_t id)
-		{
-			lin_vel_zero &= ~(1UL << id);
-		}
+		// 解除线速度强制为0
+		void Unforce_Lin_Vel_Zero(uint8_t id) { lin_vel_zero &= ~(1UL << id); }
 		
+		// 底盘线速度是否被强制为0
 		bool Is_Force_Lin_Vel_Zero() const { return (bool)lin_vel_zero; }
+		
+		
+		// 角速度强制为0
+		void Force_Ang_Vel_Zero(uint8_t id) { ang_vel_zero |= (1UL << id); }
+		
+		// 解除角速度强制为0
+		void Unforce_Ang_Vel_Zero(uint8_t id) { ang_vel_zero &= ~(1UL << id); }
+		
+		
+		
+		// 设置线加速度
+		void Set_Lin_Accel(float lin_accel_) { linear_accel = lin_accel_; }
 		
 		// 失能
 		void Chassis_Disable() {is_enable = false;}
 		
-		//
+		// 底盘是否初始化
 		bool Is_Init() const {return is_init;}
 		
 		// 再次初始化
@@ -113,6 +123,7 @@ namespace chassis
 		bool is_init = false;
 		bool is_enable = true;
 		uint8_t lin_vel_zero = false;
+		uint8_t ang_vel_zero = false;
 		
 		data::RobotPose& pose;
     };

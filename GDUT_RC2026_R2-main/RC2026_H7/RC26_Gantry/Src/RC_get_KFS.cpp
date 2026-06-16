@@ -39,10 +39,10 @@ namespace gantry
 		: gantry(gantry_),
 		  gantry_event
 		{
-				path::Event3(13, 0.50f, true, true, 2.0f),//20
-				path::Event3(14, 0.50f, true, true, 2.0f),//40
-				path::Event3(15, 0.50f, true, true, 2.0f),//-20
-				path::Event3(16, 0.50f, true, true, 2.0f),//0
+				path::Event3(13, 0.50f, true, true, 2.5f),//20
+				path::Event3(14, 0.50f, true, true, 2.5f),//40
+				path::Event3(15, 0.50f, true, true, 2.5f),//-20
+				path::Event3(16, 0.50f, true, true, 2.5f),//0
 				path::Event3(25, 0.02f, true, true)//pick
 		  },
 		  suction_(suction_),
@@ -135,7 +135,7 @@ bool GetKFS::Configure_Current_Step()
 								case 2: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0);          		Set_Step_Target(0.2f,  0.00f, 0.16f, 1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 case 3: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(10000);      Set_Step_Target(0.2f,  0.00f, 0.16f, 1.57f, CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
                 case 4: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.20f,  0.00f, 0.16f, 1.57f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-                case 5: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);        	  Set_Step_Target(0.00f, 0.00f, 0.00f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
+                case 5: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);        	  Set_Step_Target(0.00f, 0.00f, 0.03f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
 								case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(100000);        	  Set_Step_Target(0.00f, 0.00f, 0.01f ,0.0f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 								case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);        	  Set_Step_Target(0.01f, 0.00f, 0.01f ,0.0f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
                 default: return false;

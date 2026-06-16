@@ -9,8 +9,8 @@ namespace path
 	{
 		path = nullptr;
 
-		tan_pid.Init(2.0, 0, 3, 0.03, 2.5, deadzone_);
-		nor_pid.Init(1.8, 0, 3, 0.03, 2.5, 0);
+		tan_pid.Init(2.3, 0, 3, 0.03, 2.5, deadzone_);
+		nor_pid.Init(2.3, 0, 3, 0.03, 2.5, 0);
 		
 		ld_kf = 0.3f;
 		ld_min = 0.03f;
@@ -34,7 +34,6 @@ namespace path
 		
 		is_start = false;
 		is_end = false;
-		//tan_vel_zero = false;
 	}
 
 	
@@ -186,23 +185,14 @@ namespace path
 			float delta = chassis::Limit_Accel(tan_v - last_tan_v, lon.a, dt);
 			if (delta > 0) tan_v = last_tan_v + delta; /*只限制加速，不限制减速，减速靠pid*/
 			last_tan_v = tan_v; /*更新*/
-//			
-//			if (tan_vel_zero)
-//			{
-//				tan_v = 0;
-//				last_tan_v = 0;
-//			}
 			/*---------------------------------tan------------------------------------*/
+			
+			
 			
 			
 			/*--------------------------------nor-------------------------------------*/
 			float nor_v = nor_pid.NPid_Calculate(0, -d);
 			nor_v = fminf(nor_v, lon.v);
-			
-//			if (tan_vel_zero)
-//			{
-//				nor_v = 0;
-//			}
 			/*---------------------------------nor------------------------------------*/
 			
 			

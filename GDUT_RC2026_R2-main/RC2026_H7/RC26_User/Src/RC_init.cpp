@@ -53,17 +53,11 @@ data::RobotPose robot_pose;
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 3, 4,
+	2.5, 4, 4,
 	5, 6, 7,
 	robot_pose
 );
 
-// 抬升
-chassis::LiftChassis lift(
-	m3508_can3_5, m3508_can3_6,
-	m2006_can3_7, m2006_can3_8,
-	&omni_4_chassis
-);
 
 /*=====================路径规划==================*/
 // 航向控制
@@ -78,12 +72,12 @@ path::TrajTrack3 track(
 	robot_pose,
 	omni_4_chassis,
 	head_ctrl,
-	0.005
+	0.008
 );
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.0, 1.8),
+	path::LonConstr3(2.5, 2.0),
 	path::HeadConstr3(0, 4, 5, false),
 	track
 );
@@ -115,18 +109,21 @@ ros::Camera camera_aim(CDC_HS, 6);
 
 /*===================外置模块=================*/
 
-// 激光测距
+// 激光测距校准
 uint8_t cali_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 mini_laser::MiniLaser cali_laser(huart3, cali_laser_buffer);
 
 
-// 激光测距
+// 激光测距检查
 uint8_t check_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 mini_laser::MiniLaser check_laser(huart2, check_laser_buffer);
 
 // imu
 uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 HWT101CT hwt101ct(huart8, hwt101ct_buffer);
+
+uint8_t ir_buffer[IR_COM_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+IR::IRCom ir_com(huart6, ir_buffer);
 
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
@@ -143,10 +140,15 @@ fusion::QEO chassis_qeo(
 	radar
 );
 
-fusion::FusionCtrl fusion_ctrl(chassis_qeo, imu_fusion);
-	
-//红外串口
-Serial1Protocol *m_serial1 = nullptr;
+// 抬升
+chassis::LiftChassis lift(
+	m3508_can3_5, m3508_can3_6,
+	m2006_can3_7, m2006_can3_8,
+	omni_4_chassis, chassis_qeo
+);
+
+
+
 
 /*==================上层龙门架====================*/
 // 龙门架
@@ -155,7 +157,7 @@ gantry::Gantry gan(
 	m2006_can1_5,
 	m3508d_can1_1_2,
 	dm4310_can1_0x12
-);	
+);
 
 // 吸盘 
 gantry::Suction suck(GPIOG, GPIO_PIN_7);
@@ -174,6 +176,7 @@ gantry::GetWeaponHead get_weapon_head(
 	omni_4_chassis,
 	robot_pose,
 	gan,
+	check_laser,
 	gripper,
 	path_plan,
 	head_ctrl
@@ -187,7 +190,12 @@ gantry::Aim_Ctrl aim(
 	gripper
 );
 
-combine::Combine com(omni_4_chassis, lift);
+// 合体
+combine::Combine com(
+	omni_4_chassis, 
+	lift,
+	path_plan
+);
 
 /*==================Main_Task==================*/
 // 方波发生
@@ -195,10 +203,12 @@ combine::Combine com(omni_4_chassis, lift);
 //float target = 0;
 //float a = 0;
 
-//float x_1 = 0;
-//float y_1 = 0;
-//float z_1 = 0;
-//float p_1 = 0;
+
+uint8_t cmd = 0;
+
+uint8_t count = 0;
+
+
 
 void Main_Task(void *argument)
 {
@@ -212,12 +222,19 @@ void Main_Task(void *argument)
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
-		//chassis_qeo.Fusion();
-		//float fusion_x = chassis_qeo.X();
-		//float fusion_y = chassis_qeo.Y();
-		//robot_pose.Update_Position(&fusion_x, &fusion_y, NULL);
 		
-		//uart_printf("%f,%f\n", robot_pose.X(), robot_pose.Y());
+		
+		
+		
+		uint8_t c = ir_com.Get_Cmd();
+
+		if (c != 0)
+		{
+			cmd = c;
+			count++;
+		}
+		
+		
 		
 		path_plan.Plan();
 		
@@ -237,10 +254,7 @@ void Main_Task(void *argument)
 		
 		com.Auto_Combine();
 		
-//		x_1 = gan.Get_X();
-//		y_1 = gan.Get_Y();
-//		z_1 = gan.Get_Z();
-//		p_1 = gan.Get_P();
+
 		
 		if (remote_ctrl.swc == 0)
 		{
@@ -299,6 +313,9 @@ task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
 void Plan_Task(void *argument)
 {
+	// 全局起点
+	navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
 	navigation.Go_To_Get_Weapon_Head();
@@ -313,13 +330,20 @@ void Plan_Task(void *argument)
 	{
 		putKFS.Put_Fail_Navi();
 		
-		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd())
+		
+		
+		
+		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd() && !com.Is_Combine())
 		{
 			navigation.Go_To_Combine_Ready();
 		}
-		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd())
+		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd() && !com.Is_Combine())
 		{
 			navigation.Go_To_Combine();
+		}
+		else if (remote_ctrl.swb == 0 && remote_ctrl.signal_swd() && com.Is_Combine())
+		{
+			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
 		}
 		
 		
@@ -393,13 +417,12 @@ void All_Init()
 	cali_laser.Uart_Rx_Start();
 	check_laser.Uart_Rx_Start();
 	hwt101ct.Uart_Rx_Start();
+	ir_com.Uart_Rx_Start();
 
 	// 场地位置初始化
 	data::Init_Side(true);
 	
 	gan.Init();
 	
-	//红外串口初始化
-    m_serial1 = &Serial1Protocol::getInstance();
-    m_serial1->init(&huart6);
+
 }

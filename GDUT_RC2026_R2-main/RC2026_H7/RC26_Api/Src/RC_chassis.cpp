@@ -21,6 +21,7 @@ namespace chassis
 		is_init = false;
 		is_enable = true;
 		lin_vel_zero = false;
+		ang_vel_zero = false;
 		
 		last_time = 0;
 	}
@@ -44,6 +45,11 @@ namespace chassis
 		if (lin_vel_zero)
 		{
 			target_v = vector2d::Vector2D();
+		}
+		
+		if (ang_vel_zero)
+		{
+			target_vw = 0;
 		}
 		
 		/************************速度限幅*************************/
@@ -142,7 +148,7 @@ namespace chassis
 		last_vw = vw;
 
 		/************************前馈*************************/
-		v = v.rotate(-vw * 0.11f);
+		v = v.rotate(-vw * 0.02f);
 		
 		if (is_init == false && vector2d::Vector2D::isZero(v.lengthSquared()) && fabsf(vw) < 1e-6)
 		{

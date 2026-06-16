@@ -3,7 +3,7 @@
 
 #include "RC_get_weapon_head.h"
 
-float test_z = 0.035;//龙门架z轴多抬高高度
+float test_z = 0.045;//龙门架z轴多抬高高度
 float down_z_dist = 0.13;//龙门架下降时距离夹爪的距离
 
 float GET_Z_ER = -0.02;//龙门架下降时距离夹爪的距离
@@ -19,6 +19,7 @@ GetWeaponHead::GetWeaponHead(
     chassis::Chassis& omni4chassis_,
     data::RobotPose& pose_,
     Gantry& gantry_,
+    mini_laser::MiniLaser& laser_,
     Gripper& gripper_,
     path::PathPlan3& path_plan_,
 	path::HeadCtrl& head_ctrl_,
@@ -29,6 +30,7 @@ GetWeaponHead::GetWeaponHead(
 		head_ctrl(head_ctrl_),
         pose(pose_), omni4chassis(omni4chassis_),
         user(gantry_),  
+        laser(laser_),
         gripper(gripper_),
         chassis_npid_y(1.6f, 0.0f, 2.0f, 0.05f, 1.5f, 0.01f),
         blue_side(blue_side_)
@@ -211,9 +213,8 @@ GetWeaponHead::GetWeaponHead(
             case State::ACTION_LIFT_Z:
                 user.Set_Z((GET_Z + GET_Z_ER) + LIFT_UP_Z);
 				user.Set_P(0.0f);
-                if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE) {
-                    state = State::ACTION_RETRACT_X;
-grab_start_time = timer::Timer::Get_TimeStamp();
+                if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE ) {
+                        state = State::ACTION_RETRACT_X;
                 }
                 break;
 
@@ -222,7 +223,15 @@ grab_start_time = timer::Timer::Get_TimeStamp();
                 user.Set_X(GANTRY_RETRACT_X);
                 //user.Set_P(0.0f);
                 if (fabsf(user.Get_X() - GANTRY_RETRACT_X) < GANTRY_POS_TOLERANCE) {
+                    if(laser.distance < 50.0f) {
+					weapon_event.Finish();
+					path_plan.Enable();
+					head_ctrl.Disable();
                     state = State::ACTION_RETRACT_YZ;
+                    }
+                    else {
+                        Pick_Next();
+                    }
                 }
                 break;
 
@@ -240,17 +249,6 @@ grab_start_time = timer::Timer::Get_TimeStamp();
                 break;
         }
         		//head_ctrl.Head_Ctrl();
-		
-		if(!sig4)
-			{
-				if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
-					weapon_event.Finish();
-					path_plan.Enable();
-					head_ctrl.Disable();
-					
-					sig4 = true;
-				}
-			}
 
     }
 
@@ -263,13 +261,15 @@ void GetWeaponHead::Pick(uint8_t num) {
     sig1 = false;
     sig2 = false;
     sig3 = false;
-	    sig4 = false;
+    sig4 = true;
     gantry_yz_ready = false;
 
     if (num >= 1 && num <= WEAPON_NUM) {
         current_target_idx = num - 1;
         state = State::ALIGN_CHASSIS;
     }
+	else
+	{current_target_idx = 0;}
 }
 
 void GetWeaponHead::Pick_Nearest() {
@@ -283,7 +283,7 @@ void GetWeaponHead::Pick_Nearest() {
     sig1 = false;
     sig2 = false;
     sig3 = false;
-		    sig4 = false;
+    sig4 = true;
 
     gantry_yz_ready = false;
 
@@ -302,5 +302,17 @@ void GetWeaponHead::Reset_Task() {
     state = State::IDLE;
     is_picked = false;
 }
+
+void GetWeaponHead::Pick_Next()  {
+    if(current_target_idx < WEAPON_NUM-1) {
+        Pick(current_target_idx+2);
+    }
+	else{
+		Pick(1);
+	}
+    
+}
+        
+
 
 }
