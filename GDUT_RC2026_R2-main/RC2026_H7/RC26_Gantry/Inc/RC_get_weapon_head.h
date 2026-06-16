@@ -119,6 +119,8 @@ namespace gantry
         bool time_sig1 = true;
 
 		
+		bool sig4 = false;
+		
 		float pose_buf[5] = { 0 };
 		int length = 0;
         

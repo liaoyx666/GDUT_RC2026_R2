@@ -32,6 +32,7 @@
 #include "RC_mini_laser.h"
 #include "RC_QEO.h"
 #include "RC_fusion_ctrl.h"
+#include "RC_combine.h"
 
 /* path */
 #include "RC_traj_plan3.h"
@@ -51,6 +52,7 @@
 #include "RC_get_weapon_head.h"
 //#include "RC_dock.h"
 #include "RC_aim.h"
+
 
 /* ROS */
 #include "RC_radar.h"

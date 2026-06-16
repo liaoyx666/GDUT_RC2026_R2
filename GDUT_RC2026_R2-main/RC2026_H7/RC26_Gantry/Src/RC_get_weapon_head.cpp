@@ -202,7 +202,6 @@ GetWeaponHead::GetWeaponHead(
                 break;
 
             case State::ACTION_GRAB_2_1:
-							
                 StopChassis();
                 if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
                     state = State::ACTION_LIFT_Z;
@@ -215,12 +214,11 @@ GetWeaponHead::GetWeaponHead(
                 if (fabsf(user.Get_Z() - (GET_Z + GET_Z_ER + LIFT_UP_Z)) < GANTRY_POS_TOLERANCE) {
                     state = State::ACTION_RETRACT_X;
 grab_start_time = timer::Timer::Get_TimeStamp();
-																	time_sig1 = false;
-
                 }
                 break;
 
             case State::ACTION_RETRACT_X:
+
                 user.Set_X(GANTRY_RETRACT_X);
                 //user.Set_P(0.0f);
                 if (fabsf(user.Get_X() - GANTRY_RETRACT_X) < GANTRY_POS_TOLERANCE) {
@@ -242,15 +240,18 @@ grab_start_time = timer::Timer::Get_TimeStamp();
                 break;
         }
         		//head_ctrl.Head_Ctrl();
-										if(!time_sig1)
-						{
-							if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
-									weapon_event.Finish();
-									path_plan.Enable();
-									head_ctrl.Disable();
-									time_sig1 = true;
-								}
-						}
+		
+		if(!sig4)
+			{
+				if (timer::Timer::Get_DeltaTime(grab_start_time) >= 1000000) {
+					weapon_event.Finish();
+					path_plan.Enable();
+					head_ctrl.Disable();
+					
+					sig4 = true;
+				}
+			}
+
     }
 
 void GetWeaponHead::StopChassis() {
@@ -262,7 +263,7 @@ void GetWeaponHead::Pick(uint8_t num) {
     sig1 = false;
     sig2 = false;
     sig3 = false;
-	time_sig1 = true;
+	    sig4 = false;
     gantry_yz_ready = false;
 
     if (num >= 1 && num <= WEAPON_NUM) {
@@ -282,7 +283,8 @@ void GetWeaponHead::Pick_Nearest() {
     sig1 = false;
     sig2 = false;
     sig3 = false;
-	time_sig1 = true;
+		    sig4 = false;
+
     gantry_yz_ready = false;
 
     for (uint8_t i = 0; i < WEAPON_NUM; ++i) {
