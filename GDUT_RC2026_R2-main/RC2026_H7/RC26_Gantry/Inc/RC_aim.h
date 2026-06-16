@@ -13,7 +13,7 @@ namespace gantry
 	class Aim_Ctrl
 	{
 	public:
-		static constexpr uint16_t DEFAULT_FRAME = 30;
+		static constexpr uint16_t DEFAULT_FRAME = 60;
 		static constexpr float   DEFAULT_ERROR = 0.001f;
 
 		static constexpr float    COARSE_STABLE_THRESHOLD = 0.002f;
@@ -103,7 +103,7 @@ namespace gantry
 		static constexpr float PRE_POS_Z = 0.0f;
 		static constexpr float PRE_POS_THRESHOLD = 0.005f;
 
-		bool finish_flag = false;
+		bool aim_finish_flag = false;
 		bool timer_flag = false;
 		uint8_t timer_done = 0;
 

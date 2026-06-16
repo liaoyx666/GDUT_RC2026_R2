@@ -11,7 +11,7 @@ namespace gantry
 		  gripper(gripper_),
 		  user(gantry_),
 		  aim_event(21, 0.1f, true, true), // EVENT_AIM = EVENT3_ID_21
-		  z_lpf(0.60f, 1000.0f), y_lpf(0.60f, 1000.0f)
+		  z_lpf(0.50f, 1000.0f), y_lpf(0.50f, 1000.0f)
 	{
 	}
 
@@ -141,10 +141,11 @@ namespace gantry
 				final_error_y = y_lpf.filter(gantry.Get_Y() + error);
 				user.Set_Y(final_error_y);
 			}
-
+			else
+				break;
 			if (Frame_Stable(Axis_Y))
 			{
-				y_result = Get_Data(Axis_Y);
+				Tracker_Clear();
 				if (fabsf(error) < 0.002f)
 					phase = Phase_Z;
 			}
@@ -158,8 +159,26 @@ namespace gantry
 				final_error_z = z_lpf.filter(error + gantry.Get_Z());
 				user.Set_Z(final_error_z);
 			}
-
+			else
+				break;
 			if (Frame_Stable(Axis_Z))
+			{
+				Tracker_Clear();
+				if (fabsf(error) < 0.002f)
+					phase = Phase_Y2;
+			}
+			break;
+			
+		case Phase_Y2:
+			if (!check_error())
+			{
+				error  = Get_Data(Axis_Y);
+				final_error_y = y_lpf.filter(gantry.Get_Y() + error);
+				user.Set_Y(final_error_y);
+			}
+			else
+				break;
+			if (Frame_Stable(Axis_Y))
 			{
 				Tracker_Clear();
 				if (fabsf(error) < 0.002f)
@@ -169,7 +188,7 @@ namespace gantry
 
 		/*---- 阶段5：对准完成 ----*/
 		case Phase_Done:
-			if(finish_flag)
+			if(aim_finish_flag)
 			{
 				gripper.Open();
 
