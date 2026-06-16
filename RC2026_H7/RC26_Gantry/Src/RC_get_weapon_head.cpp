@@ -21,7 +21,14 @@ GetWeaponHead::GetWeaponHead(
     laser(laser_),
     gripper(gripper_),
     blue_side(blue_side_),
-    chassis_npid_(1.6f, 0.0f, 2.0f, 0.05f, 1.5f, 0.05)
+    chassis_npid_(
+        1.6f,// kp
+        0.0f,// kd
+        2.0f,// acc
+        0.3f,// delta
+        1.5f,// max_out
+        0.02// deadzone 小于CHASSIS_POS_TOLERANCE
+            )
 {
 
     if(blue_side) {
@@ -237,14 +244,13 @@ void GetWeaponHead::Pick(uint8_t num) {
 }
 
 void GetWeaponHead::Pick_Next() {
-    if(pick_num < WEAPON_NUM) {
-        Set_Pick_Num(pick_num+1);
-        Pick(pick_num+1);
+    pick_num++;
+    if(pick_num <= WEAPON_NUM) {
     }
     else {
-        Set_Pick_Num(1);
-        Pick(1);
-    }
+        pick_num = 1;
+    }        
+    Pick(pick_num);
     gantry_state = GANTRY_STATE::Gantry_Down_Z;
 }
 
@@ -299,7 +305,7 @@ bool GetWeaponHead::Set_Gantry_Y(float target_y){
         return true;
     }
     return false;
-}
+} 
 
 bool GetWeaponHead::Set_Gantry_Z(float target_z){
     if(!user.Take_Control()) {

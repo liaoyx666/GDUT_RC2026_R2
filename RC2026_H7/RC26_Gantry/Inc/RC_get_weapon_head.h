@@ -128,16 +128,16 @@ namespace gantry
         static constexpr float LIFT_UP_Z = 0.05f;//取到武器头后上升距离
         static constexpr float GANTRY_RETRACT_X = 0.03f;//龙门架复位后X轴位置
 
-        static constexpr float READY_GANTRY_DIST = 0.04f;
+        static constexpr float READY_GANTRY_DIST = 0.075f;
         static constexpr float READY_CHASSIS_DIST = 0.3f;
 
         // 停止阈值
         static constexpr float GANTRY_POS_TOLERANCE = 0.018f;
-        static constexpr float CHASSIS_POS_TOLERANCE = 0.03f;
+        static constexpr float CHASSIS_POS_TOLERANCE = 0.04f;
         static constexpr uint32_t WAIT_GANTRY_GRAB_TIME =  1000000U ; // 单位：us
 
         uint8_t detect_cnt = 0;
-        static constexpr float GRAB_DETECT_THRESH = 20.0f;
+        static constexpr float GRAB_DETECT_THRESH = 100.0f;
         bool rst_y_done = false;
         bool rst_z_done = false;
 
