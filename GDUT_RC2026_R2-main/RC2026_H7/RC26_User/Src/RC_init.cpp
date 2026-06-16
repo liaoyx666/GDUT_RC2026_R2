@@ -204,11 +204,6 @@ combine::Combine com(
 //float a = 0;
 
 
-uint8_t cmd = 0;
-
-uint8_t count = 0;
-
-
 
 void Main_Task(void *argument)
 {
@@ -226,14 +221,7 @@ void Main_Task(void *argument)
 		
 		
 		
-		uint8_t c = ir_com.Get_Cmd();
 
-		if (c != 0)
-		{
-			cmd = c;
-			count++;
-		}
-		
 		
 		
 		path_plan.Plan();
@@ -318,9 +306,9 @@ void Plan_Task(void *argument)
 	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
-	navigation.Go_To_Get_Weapon_Head();
+	//navigation.Go_To_Get_Weapon_Head();
 
-	navigation.Go_To_Dock();
+	//navigation.Go_To_Dock();
 	
 	best_path.Generate_Path();
 
@@ -423,6 +411,4 @@ void All_Init()
 	data::Init_Side(true);
 	
 	gan.Init();
-	
-
 }

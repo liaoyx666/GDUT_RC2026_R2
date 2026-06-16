@@ -98,7 +98,7 @@ namespace chassis
 		~LiftChassis() = default;
 		
 		void Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig);
-		bool Is_End() const {return (state == LIFT_RESET);}
+		bool Is_End() const {return (state == LIFT_RESET_CHECK);}
 	
 		/*------------------------------------*/
 		
