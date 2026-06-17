@@ -52,6 +52,7 @@
 #include "RC_get_weapon_head.h"
 //#include "RC_dock.h"
 #include "RC_aim.h"
+#include "RC_stick_edge.h"
 
 
 /* ROS */

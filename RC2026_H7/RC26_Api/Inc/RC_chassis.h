@@ -63,8 +63,6 @@ namespace chassis
 		// 解除角速度强制为0
 		void Unforce_Ang_Vel_Zero(uint8_t id) { ang_vel_zero &= ~(1UL << id); }
 		
-		
-		
 		// 设置线加速度
 		void Set_Lin_Accel(float lin_accel_) { linear_accel = lin_accel_; }
 		

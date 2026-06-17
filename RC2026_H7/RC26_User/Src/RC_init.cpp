@@ -197,13 +197,22 @@ combine::Combine com(
 	path_plan
 );
 
+
+StickEdge stick_edge(
+	omni_4_chassis, 
+	path_plan, 
+	gan,
+	gripper
+);
+
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
 //float target = 0;
 //float a = 0;
 
-
+bool en_flag = false;
+bool dis_flag = false;
 
 void Main_Task(void *argument)
 {
@@ -220,8 +229,7 @@ void Main_Task(void *argument)
 		
 		
 		
-		
-
+		stick_edge.Stick_Edge();
 		
 		
 		path_plan.Plan();
@@ -258,11 +266,24 @@ void Main_Task(void *argument)
 		
 		if (remote_ctrl.swa == 1)
 		{
-			path_plan.Enable();
+			dis_flag = false;
+			
+			if (!en_flag)
+			{
+				path_plan.Enable();
+				en_flag = true;
+			}
 		}
 		else
 		{
-			path_plan.Disable();
+			en_flag = false;
+			
+			if (!dis_flag)
+			{
+				path_plan.Disable();
+				dis_flag = true;
+			}
+			
 			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
@@ -306,9 +327,12 @@ void Plan_Task(void *argument)
 	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
-	//navigation.Go_To_Get_Weapon_Head();
+	navigation.Go_To_Get_Weapon_Head();
 
 	//navigation.Go_To_Dock();
+	
+	navigation.Go_To_Stick_Edge();
+	
 	
 	best_path.Generate_Path();
 

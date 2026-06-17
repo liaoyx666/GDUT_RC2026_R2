@@ -1167,6 +1167,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Lib\Inc\RC_IR_communication.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_stick_edge.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Lib\Src\RC_stick_edge.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_stick_edge.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Lib\Inc\RC_stick_edge.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

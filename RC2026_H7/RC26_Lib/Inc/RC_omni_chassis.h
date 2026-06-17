@@ -34,7 +34,17 @@ namespace chassis
             float max_av, float aa, float ad,
 			data::RobotPose& pose_
         );
-
+	
+	void Set_Max_Current(float max_c_)
+	{
+		drive_motor[0]->pid_spd.Set_output_limit(max_c_);
+		drive_motor[1]->pid_spd.Set_output_limit(max_c_);
+		drive_motor[2]->pid_spd.Set_output_limit(max_c_);
+		drive_motor[3]->pid_spd.Set_output_limit(max_c_);
+	}
+			
+			
+			
     void Chassis_Re_Init() override;
 
     private:

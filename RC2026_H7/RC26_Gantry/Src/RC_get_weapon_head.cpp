@@ -22,7 +22,7 @@ GetWeaponHead::GetWeaponHead(
     gripper(gripper_),
     blue_side(blue_side_),
     chassis_npid_(
-        1.6f,// kp
+        1.2f,// kp
         0.0f,// kd
         2.0f,// acc
         0.3f,// delta
@@ -82,9 +82,11 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         break;
 
     case CHASSIS_STATE::Gantry_Grab_Y:
+        MoveChassis(chassis_target_x, chassis_target_y, CHASSIS_POS_TOLERANCE);
         if (Set_Gantry_Y( WEAPON_X_RAW[pick_num] - curr_x )) {
             chassis_state = CHASSIS_STATE::Chassis_Ready;
         }
+
         break;
 
     case CHASSIS_STATE::Chassis_Ready:
@@ -196,7 +198,7 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
             weapon_event.Finish();
             path_plan.Enable();
             head_ctrl.Disable();
-			chassis_state = CHASSIS_STATE::Chassis_Idle;
+            chassis_state = CHASSIS_STATE::Chassis_Idle;
         }
         else {
             gantry_state = GANTRY_STATE::Gantry_Retry;
@@ -275,9 +277,10 @@ bool GetWeaponHead::MoveChassis(float world_x, float world_y, float deadzone) {
         target_vy = chassis_vx * sinf(angle_to_target);
         omni4chassis.Set_World_Lin_Vel(vector2d::Vector2D(target_vx, target_vy));
     }
-	
+
     return false;
 }
+
 
 void GetWeaponHead::Set_Yaw(float yaw) {
     head_ctrl.Set_Yaw(yaw);

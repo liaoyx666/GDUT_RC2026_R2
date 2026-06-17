@@ -85,6 +85,7 @@
 "rc2026\rc_combine.o"
 "rc2026\rc_fusion_ctrl.o"
 "rc2026\rc_ir_communication.o"
+"rc2026\rc_stick_edge.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dm_motor.o"
 "rc2026\rc_dji_motor.o"

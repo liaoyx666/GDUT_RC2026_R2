@@ -19,7 +19,7 @@ namespace gantry
 	
 	constexpr float GANTRY_Y_OFFSET = 0.1;
 	
-	class Gantry// : public task::ManagedTask
+	class Gantry
     {
     public:
 		Gantry(

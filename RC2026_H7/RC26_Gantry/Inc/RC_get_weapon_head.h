@@ -40,6 +40,7 @@ namespace gantry
         void Pick_Next(); 
 
         bool MoveChassis(float world_x, float world_y, float deadzone);
+        
         void Set_Yaw(float yaw);
 
         void Cal_Current_Pos();// 注意激光数据跳变
