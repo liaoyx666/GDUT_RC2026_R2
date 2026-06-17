@@ -418,11 +418,11 @@ bool GetKFS::Configure_Current_Step()
     switch (cur_task)
     {
         case ARM_TASK::PICK_UP_KFS_20CM_1_step2:
-            if (seq_idx == 3) Finish_Event_Early();
+            if (seq_idx == 4) Finish_Event_Early();
             break;
 
         case ARM_TASK::PICK_UP_KFS_20CM_2_step2:
-            if (seq_idx == 3) Finish_Event_Early();
+            if (seq_idx == 4) Finish_Event_Early();
             break;
 
         case ARM_TASK::PICK_UP_KFS_40CM_1_step2:

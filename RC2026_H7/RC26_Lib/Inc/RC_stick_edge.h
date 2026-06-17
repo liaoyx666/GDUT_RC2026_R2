@@ -61,12 +61,13 @@ public:
 			case STICK_DOCK_DIS_PATH:
 			{
 				p.Disable(); // 路径规划失能
-				c.Set_Max_Current(2000);
+				c.Set_Max_Current(3000);
 				
-				user.Set_X(0.09);
-				user.Set_Y(0.1);
-				user.Set_Z(0.025);
-				user.Set_P(0);
+				user.Set_X(0.0);
+				user.Set_Y(0.09);
+				user.Set_Z(0.033);
+				user.Set_P_Max_T(3);
+				user.Set_P(0.2);
 				
 				
 				state = STICK_DOCK_GET_TIME;
@@ -97,8 +98,17 @@ public:
 			
 			case STICK_DOCK_STOP:
 			{
+				c.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.2));
+				c.Set_Ang_Vel(0);
+				
 				if (ir_cmd.Get_Cmd())
 				{
+					//user.Set_P_Max_T(27);
+					user.Set_P(0.5);
+					 
+					user.Set_Z(0);
+					
+					gripper.Open();
 					state = STICK_DOCK_WAIT;
 					last_time = timer::Timer::Get_TimeStamp();
 				}
@@ -108,7 +118,7 @@ public:
 			
 			case STICK_DOCK_WAIT:
 			{
-				if (timer::Timer::Get_DeltaTime(last_time) > 3000000)
+				if (timer::Timer::Get_DeltaTime(last_time) > 6000000)
 				{
 					state = STICK_DOCK_FINISH;
 				}
@@ -119,6 +129,7 @@ public:
 			
 			case STICK_DOCK_FINISH:
 			{
+				user.Set_P_Max_T(27);
 				c.Set_Max_Current(16384);
 				user.Set_Reset_Pos();
 				user.Give_Control();

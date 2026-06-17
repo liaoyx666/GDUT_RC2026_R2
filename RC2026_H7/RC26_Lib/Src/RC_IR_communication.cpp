@@ -23,7 +23,7 @@ namespace IR
 		)
 		{
 			bool parity = (bool)(buf_[5] & IR_COM_PARITY_BIT_MASK);
-			uint8_t cmd = buf_[2];
+			uint8_t cmd = buf_[4];
 			bool is_new = false;
 			
 			if (!is_init)

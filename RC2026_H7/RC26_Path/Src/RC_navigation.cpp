@@ -197,13 +197,13 @@ namespace path
 	bool Navigation::Go_To_Stick_Edge()
 	{
 		float yaw = HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(0.8, -5);
+		vector2d::Vector2D p = vector2d::Vector2D(0.8, -5.2);
 		
 		
 		if (!Pass_Do(p, yaw, EVENT_HEAD_CHECK_L))
 			return false;
 		
-		p = vector2d::Vector2D(0.5, -5);
+		p = vector2d::Vector2D(0.46, -5.2);
 		
 		
 		return Go_To_Do(p, yaw, EVENT_STICK_L_EDGE);

@@ -81,6 +81,12 @@ namespace gantry
 		}
 		
 		
+		void Set_P_Max_T(float max_)
+		{
+			motor_p.pid_pos.Set_output_limit(max_);
+		}
+		
+		
 		SemaphoreHandle_t mutex;
 		uint8_t user_id; /*0代表空闲*/
 		
@@ -167,6 +173,12 @@ namespace gantry
 				gan.Set_P_Td(a, v); 
 		}
 		
+		
+		void Set_P_Max_T(float max_)
+		{
+			if (gan.user_id == id)
+				gan.Set_P_Max_T(max_);
+		}
 		
 		constexpr float Get_X() { return gan.Get_X(); }
 		constexpr float Get_Y() { return gan.Get_Y(); }

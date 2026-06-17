@@ -205,6 +205,12 @@ StickEdge stick_edge(
 	gripper
 );
 
+
+/*==================IR====================*/
+IR::IRCmd combine_ready_cmd(2);
+IR::IRCmd combine_cmd(3);
+IR::IRCmd put_3L_cmd(4);
+
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
@@ -330,7 +336,7 @@ void Plan_Task(void *argument)
 	navigation.Go_To_Get_Weapon_Head();
 
 	//navigation.Go_To_Dock();
-	
+
 	navigation.Go_To_Stick_Edge();
 	
 	
@@ -345,19 +351,37 @@ void Plan_Task(void *argument)
 		
 		
 		
-		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd() && !com.Is_Combine())
+//		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd() && !com.Is_Combine())
+//		{
+//			navigation.Go_To_Combine_Ready();
+//		}
+//		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd() && !com.Is_Combine())
+//		{
+//			navigation.Go_To_Combine();
+//		}
+//		else if (remote_ctrl.swb == 0 && remote_ctrl.signal_swd() && com.Is_Combine())
+//		{
+//			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
+//		}
+		
+		
+		if (combine_ready_cmd.Get_Cmd() && !com.Is_Combine())
 		{
 			navigation.Go_To_Combine_Ready();
 		}
-		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd() && !com.Is_Combine())
+		else if (combine_cmd.Get_Cmd() && !com.Is_Combine())
 		{
 			navigation.Go_To_Combine();
 		}
-		else if (remote_ctrl.swb == 0 && remote_ctrl.signal_swd() && com.Is_Combine())
-		{
-			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
-		}
+//		else if (combine_cmd.Get_Cmd() && com.Is_Combine())
+//		{
+//			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
+//		}
 		
+		if (put_3L_cmd.Get_Cmd())
+		{
+			path::Event3::Trig_Event(EVENT_PUT_KFS_3L_READY | EVENT_PUT_KFS_PUT);
+		}
 		
 		osDelay(1);
 	}

@@ -158,305 +158,250 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>a</ItemText>
+          <ItemText>radar</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>radar</ItemText>
+          <ItemText>track</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>track</ItemText>
+          <ItemText>tim7_1khz</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>tim7_1khz</ItemText>
+          <ItemText>m3508_can3_5</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>lidar_1</ItemText>
+          <ItemText>htim2</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_can3_5</ItemText>
+          <ItemText>htim4</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>htim2</ItemText>
+          <ItemText>m3508_can3_5</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>htim4</ItemText>
+          <ItemText>m3508_can3_6</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_can3_5</ItemText>
+          <ItemText>path_plan</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_can3_6</ItemText>
+          <ItemText>CDC_HS</ItemText>
         </Ww>
         <Ww>
           <count>10</count>
           <WinNumber>1</WinNumber>
-          <ItemText>path_plan</ItemText>
+          <ItemText>omni_4_chassis</ItemText>
         </Ww>
         <Ww>
           <count>11</count>
           <WinNumber>1</WinNumber>
-          <ItemText>CDC_HS</ItemText>
+          <ItemText>remote_ctrl</ItemText>
         </Ww>
         <Ww>
           <count>12</count>
           <WinNumber>1</WinNumber>
-          <ItemText>omni_4_chassis</ItemText>
+          <ItemText>m2006d_can1_3_4</ItemText>
         </Ww>
         <Ww>
           <count>13</count>
           <WinNumber>1</WinNumber>
-          <ItemText>remote_ctrl</ItemText>
+          <ItemText>m3508d_can1_1_2</ItemText>
         </Ww>
         <Ww>
           <count>14</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m2006d_can1_3_4</ItemText>
+          <ItemText>m2006_can1_5</ItemText>
         </Ww>
         <Ww>
           <count>15</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508d_can1_1_2</ItemText>
+          <ItemText>dm4310_can1_0x12</ItemText>
         </Ww>
         <Ww>
           <count>16</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m2006_can1_5</ItemText>
+          <ItemText>navigation</ItemText>
         </Ww>
         <Ww>
           <count>17</count>
           <WinNumber>1</WinNumber>
-          <ItemText>dm4310_can1_0x12</ItemText>
+          <ItemText>getKFS</ItemText>
         </Ww>
         <Ww>
           <count>18</count>
           <WinNumber>1</WinNumber>
-          <ItemText>p_1</ItemText>
+          <ItemText>gan</ItemText>
         </Ww>
         <Ww>
           <count>19</count>
           <WinNumber>1</WinNumber>
-          <ItemText>y_1</ItemText>
+          <ItemText>navigation</ItemText>
         </Ww>
         <Ww>
           <count>20</count>
           <WinNumber>1</WinNumber>
-          <ItemText>x_1</ItemText>
+          <ItemText>defaultTaskHandle</ItemText>
         </Ww>
         <Ww>
           <count>21</count>
           <WinNumber>1</WinNumber>
-          <ItemText>z_1</ItemText>
+          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\remote_ctrl</ItemText>
         </Ww>
         <Ww>
           <count>22</count>
           <WinNumber>1</WinNumber>
-          <ItemText>navigation</ItemText>
+          <ItemText>huart8</ItemText>
         </Ww>
         <Ww>
           <count>23</count>
           <WinNumber>1</WinNumber>
-          <ItemText>lidar_1</ItemText>
+          <ItemText>putKFS</ItemText>
         </Ww>
         <Ww>
           <count>24</count>
           <WinNumber>1</WinNumber>
-          <ItemText>getKFS</ItemText>
+          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\lift</ItemText>
         </Ww>
         <Ww>
           <count>25</count>
           <WinNumber>1</WinNumber>
-          <ItemText>gan</ItemText>
+          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\putKFS</ItemText>
         </Ww>
         <Ww>
           <count>26</count>
           <WinNumber>1</WinNumber>
-          <ItemText>navigation</ItemText>
+          <ItemText>hwt101ct</ItemText>
         </Ww>
         <Ww>
           <count>27</count>
           <WinNumber>1</WinNumber>
-          <ItemText>defaultTaskHandle</ItemText>
+          <ItemText>hwt101ct_buffer</ItemText>
         </Ww>
         <Ww>
           <count>28</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\remote_ctrl</ItemText>
+          <ItemText>imu_fusion</ItemText>
         </Ww>
         <Ww>
           <count>29</count>
           <WinNumber>1</WinNumber>
-          <ItemText>huart8</ItemText>
+          <ItemText>suck</ItemText>
         </Ww>
         <Ww>
           <count>30</count>
           <WinNumber>1</WinNumber>
-          <ItemText>lidar_buffer</ItemText>
+          <ItemText>chassis_qeo</ItemText>
         </Ww>
         <Ww>
           <count>31</count>
           <WinNumber>1</WinNumber>
-          <ItemText>putKFS</ItemText>
+          <ItemText>robot_pose</ItemText>
         </Ww>
         <Ww>
           <count>32</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\lift</ItemText>
+          <ItemText>best_path</ItemText>
         </Ww>
         <Ww>
           <count>33</count>
           <WinNumber>1</WinNumber>
-          <ItemText>\\RC2026\../RC26_User/Src/RC_init.cpp\putKFS</ItemText>
+          <ItemText>graph</ItemText>
         </Ww>
         <Ww>
           <count>34</count>
           <WinNumber>1</WinNumber>
-          <ItemText>hwt101ct</ItemText>
+          <ItemText>valid</ItemText>
         </Ww>
         <Ww>
           <count>35</count>
           <WinNumber>1</WinNumber>
-          <ItemText>hwt101ct_buffer</ItemText>
+          <ItemText>wait_R1</ItemText>
         </Ww>
         <Ww>
           <count>36</count>
           <WinNumber>1</WinNumber>
-          <ItemText>laser</ItemText>
+          <ItemText>aim</ItemText>
         </Ww>
         <Ww>
           <count>37</count>
           <WinNumber>1</WinNumber>
-          <ItemText>imu_fusion</ItemText>
+          <ItemText>camera_aim</ItemText>
         </Ww>
         <Ww>
           <count>38</count>
           <WinNumber>1</WinNumber>
-          <ItemText>suck</ItemText>
+          <ItemText>m3508_can3_5</ItemText>
         </Ww>
         <Ww>
           <count>39</count>
           <WinNumber>1</WinNumber>
-          <ItemText>chassis_qeo</ItemText>
+          <ItemText>m3508_can3_6</ItemText>
         </Ww>
         <Ww>
           <count>40</count>
           <WinNumber>1</WinNumber>
-          <ItemText>robot_pose</ItemText>
+          <ItemText>check_laser</ItemText>
         </Ww>
         <Ww>
           <count>41</count>
           <WinNumber>1</WinNumber>
-          <ItemText>best_path</ItemText>
+          <ItemText>cali_laser</ItemText>
         </Ww>
         <Ww>
           <count>42</count>
           <WinNumber>1</WinNumber>
-          <ItemText>graph</ItemText>
+          <ItemText>head_ctrl</ItemText>
         </Ww>
         <Ww>
           <count>43</count>
           <WinNumber>1</WinNumber>
-          <ItemText>valid</ItemText>
+          <ItemText>suck</ItemText>
         </Ww>
         <Ww>
           <count>44</count>
           <WinNumber>1</WinNumber>
-          <ItemText>wait_R1</ItemText>
+          <ItemText>check_laser</ItemText>
         </Ww>
         <Ww>
           <count>45</count>
           <WinNumber>1</WinNumber>
-          <ItemText>aim</ItemText>
+          <ItemText>ir_com</ItemText>
         </Ww>
         <Ww>
           <count>46</count>
           <WinNumber>1</WinNumber>
-          <ItemText>camera_aim</ItemText>
+          <ItemText>ir_buffer</ItemText>
         </Ww>
         <Ww>
           <count>47</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_can3_5</ItemText>
+          <ItemText>get_weapon_head</ItemText>
         </Ww>
         <Ww>
           <count>48</count>
           <WinNumber>1</WinNumber>
-          <ItemText>m3508_can3_6</ItemText>
-        </Ww>
-        <Ww>
-          <count>49</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>check_laser</ItemText>
-        </Ww>
-        <Ww>
-          <count>50</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>cali_laser</ItemText>
-        </Ww>
-        <Ww>
-          <count>51</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>head_ctrl</ItemText>
-        </Ww>
-        <Ww>
-          <count>52</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>suck</ItemText>
-        </Ww>
-        <Ww>
-          <count>53</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>check_laser</ItemText>
-        </Ww>
-        <Ww>
-          <count>54</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>count</ItemText>
-        </Ww>
-        <Ww>
-          <count>55</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>cmd</ItemText>
-        </Ww>
-        <Ww>
-          <count>56</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ir_com</ItemText>
-        </Ww>
-        <Ww>
-          <count>57</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>ir_buffer</ItemText>
-        </Ww>
-        <Ww>
-          <count>58</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>get_weapon_head</ItemText>
-        </Ww>
-        <Ww>
-          <count>59</count>
-          <WinNumber>1</WinNumber>
           <ItemText>omni_4_chassis</ItemText>
         </Ww>
         <Ww>
-          <count>60</count>
+          <count>49</count>
           <WinNumber>1</WinNumber>
           <ItemText>stick_edge</ItemText>
         </Ww>

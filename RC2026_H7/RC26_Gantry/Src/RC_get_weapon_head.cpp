@@ -197,7 +197,7 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
             gantry_state = GANTRY_STATE::Gantry_Restoration_X;
             weapon_event.Finish();
             path_plan.Enable();
-            head_ctrl.Disable();
+            // head_ctrl.Disable();
             chassis_state = CHASSIS_STATE::Chassis_Idle;
         }
         else {
