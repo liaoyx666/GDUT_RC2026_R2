@@ -233,7 +233,7 @@ void Main_Task(void *argument)
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
 		
-		
+		get_weapon_head.Auto_Get_Weapon_Head();
 		
 		stick_edge.Stick_Edge();
 		
@@ -244,11 +244,11 @@ void Main_Task(void *argument)
 		
 		getKFS.Auto_Get_KFS();
 		
-		gan.Gantry_Base();
+		
 		
 		putKFS.Auto_Put_KFS();
 		
-		get_weapon_head.Auto_Get_Weapon_Head();
+		
 
 		wait_R1.Wait_R1();
 		
@@ -256,7 +256,7 @@ void Main_Task(void *argument)
 		
 		com.Auto_Combine();
 		
-
+		gan.Gantry_Base();
 		
 		if (remote_ctrl.swc == 0)
 		{
@@ -279,7 +279,7 @@ void Main_Task(void *argument)
 				path_plan.Enable();
 				en_flag = true;
 			}
-		}
+		} 
 		else
 		{
 			en_flag = false;
@@ -333,11 +333,11 @@ void Plan_Task(void *argument)
 	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
-	navigation.Go_To_Get_Weapon_Head();
+	//navigation.Go_To_Get_Weapon_Head();
 
 	//navigation.Go_To_Dock();
 
-	navigation.Go_To_Stick_Edge();
+	//navigation.Go_To_Stick_Edge();
 	
 	
 	best_path.Generate_Path();
