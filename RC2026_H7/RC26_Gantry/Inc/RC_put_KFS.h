@@ -84,21 +84,31 @@ namespace gantry
 	
 		void Auto_Put_KFS();
 	
-		void Put_Fail_Navi()
+		bool Put_First_Fail_Navi()
 		{
+			bool is_end = false;
+			
 			if (is_fail)
 			{
 				if (fail_num == 1)
 				{
 					navi.Go_To_Put_KFS_2L(1);
+					is_end = true;
 				}
 				else if (fail_num == 2)
 				{
 					navi.Go_To_Put_KFS_2L(3);
+					is_end = true;
+				}
+				else if (fail_num == 3)
+				{
+					is_end = true;
 				}
 				
 				is_fail = false;
 			}
+			
+			return is_end;
 		}
     private:
 		

@@ -133,7 +133,8 @@ class GetKFS
 			float base_target_p;
 			uint8_t step_suction;
 			uint8_t seq_idx;
-
+			float err;
+			uint8_t cor_cnt ;
 			float laser_distance_m;
 			float laser_target_m;
 			bool laser_valid;

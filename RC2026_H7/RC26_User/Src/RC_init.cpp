@@ -323,21 +323,25 @@ void Path_Task(void *argument)
 task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
 
-
+uint8_t state = 0;
 
 
 void Plan_Task(void *argument)
 {
+	osDelay(200);
+	
+	ir_com.Clear_All_Cmd();
+	
 	// 全局起点
 	navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
 	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
-	//navigation.Go_To_Get_Weapon_Head();
-
+	navigation.Go_To_Get_Weapon_Head();
+	
 	//navigation.Go_To_Dock();
 
-	//navigation.Go_To_Stick_Edge();
+	navigation.Go_To_Stick_Edge();
 	
 	
 	best_path.Generate_Path();
@@ -346,42 +350,86 @@ void Plan_Task(void *argument)
 
 	for (;;)
 	{
-		putKFS.Put_Fail_Navi();
+		
+		putKFS.Put_First_Fail_Navi();
+		
+		
+		switch (state)
+		{
+			case 0:
+			{
+				if (1)
+				{
+					state = 1;
+				}
+				break;
+			}
+			
+			
+			case 1:
+			{
+				if (combine_ready_cmd.Get_Cmd() && !com.Is_Combine())
+				{
+					navigation.Go_To_Combine_Ready();
+					
+					state = 2;
+				}
+				break;
+			}
+			
+			
+			case 2:
+			{
+				if (combine_cmd.Get_Cmd() && !com.Is_Combine())
+				{
+					navigation.Go_To_Combine();
+					
+					state = 3;
+				}
+				break;
+			}
+			
+			
+			case 3:
+			{
+				if (put_3L_cmd.Get_Cmd())
+				{
+					path::Event3::Trig_Event(EVENT_PUT_KFS_3L_READY | EVENT_PUT_KFS_PUT);
+					
+					state = 4;
+				}
+				break;
+			}
+			
+			
+			default:
+			{
+				state = 0;
+				break;
+			}
+			
+		}
 		
 		
 		
 		
-//		if (remote_ctrl.swb == 1 && remote_ctrl.signal_swd() && !com.Is_Combine())
-//		{
-//			navigation.Go_To_Combine_Ready();
-//		}
-//		else if (remote_ctrl.swb == 2 && remote_ctrl.signal_swd() && !com.Is_Combine())
+		
+		
+		
+		
+		
+		
+		
+//		else if (combine_cmd.Get_Cmd() && !com.Is_Combine())
 //		{
 //			navigation.Go_To_Combine();
 //		}
-//		else if (remote_ctrl.swb == 0 && remote_ctrl.signal_swd() && com.Is_Combine())
-//		{
-//			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
-//		}
-		
-		
-		if (combine_ready_cmd.Get_Cmd() && !com.Is_Combine())
-		{
-			navigation.Go_To_Combine_Ready();
-		}
-		else if (combine_cmd.Get_Cmd() && !com.Is_Combine())
-		{
-			navigation.Go_To_Combine();
-		}
 //		else if (combine_cmd.Get_Cmd() && com.Is_Combine())
 //		{
 //			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
 //		}
 		
-		if (put_3L_cmd.Get_Cmd())
-		{
-			path::Event3::Trig_Event(EVENT_PUT_KFS_3L_READY | EVENT_PUT_KFS_PUT);
-		}
+		
 		
 		osDelay(1);
 	}

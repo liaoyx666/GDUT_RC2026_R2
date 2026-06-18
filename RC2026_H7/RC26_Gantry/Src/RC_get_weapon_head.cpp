@@ -33,7 +33,7 @@ GetWeaponHead::GetWeaponHead(
 
     if(blue_side) {
         target_yaw = - PI / 2.f;
-        TARGET_WEAPON_Y = -6.0f;
+        TARGET_WEAPON_Y = -6.015f;
 
         READY_POINT_Y = TARGET_WEAPON_Y + READY_CHASSIS_DIST + HALF_CHASSIS_Y;
     }
