@@ -306,9 +306,9 @@ void Plan_Task(void *argument)
 	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
 	
-	//navigation.Go_To_Get_Weapon_Head();
+	navigation.Go_To_Get_Weapon_Head();
 
-	//navigation.Go_To_Dock();
+	navigation.Go_To_Dock();
 	
 	best_path.Generate_Path();
 

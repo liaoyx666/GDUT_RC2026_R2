@@ -147,7 +147,7 @@ namespace gantry
 			if (Frame_Stable(Axis_Y))
 			{
 				Tracker_Clear();
-				if (fabsf(error) < 0.002f)
+				if (fabsf(error) < 0.001f)
 					phase = Phase_Z;
 			}
 			break;
@@ -156,7 +156,7 @@ namespace gantry
 		case Phase_Z:
 			if (!check_error())
 			{
-				error  = Get_Data(Axis_Z);
+				error  = Get_Data(Axis_Z) + bais;
 				final_error_z = z_lpf.filter(error + gantry.Get_Z());
 				user.Set_Z(final_error_z);
 			}
@@ -165,7 +165,7 @@ namespace gantry
 			if (Frame_Stable(Axis_Z))
 			{
 				Tracker_Clear();
-				if (fabsf(error) < 0.002f)
+				if (fabsf(error) < 0.001f)
 					phase = Phase_Y2;
 			}
 			break;
@@ -182,18 +182,20 @@ namespace gantry
 			if (Frame_Stable(Axis_Y))
 			{
 				Tracker_Clear();
-				if (fabsf(error) < 0.002f)
-					phase = Phase_Done;
+				if (fabsf(error) < 0.001f)
+					phase = Phase_Wait;
 			}
 			break;
+			
 		case Phase_Wait:
-			if()
-				
+			if(ir.Get_Cmd())
+			{
+				phase = Phase_Done;
+			}
+			break;
 		/*---- 阶段5：对准完成 ----*/
 		case Phase_Done:
-			
-			if()
-			{
+
 				gripper.Open();
 
 				if(!timer_flag)
@@ -217,7 +219,6 @@ namespace gantry
 					timer_done = 1;
 					phase = Phase_Idle;
 				}
-			}
 
 			break;
 		default:

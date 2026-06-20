@@ -76,7 +76,9 @@ namespace gantry
 		void Auto_Aim();
 		bool Is_Done() const { return phase == Phase_Done; }
 		float Get_Y() const { return y_result; }
-
+		
+		float bais = -0.016;
+		
 	private:
 		float Get_Data(Axis axis);
 		void Tracker_Clear();
@@ -124,6 +126,7 @@ namespace gantry
 			Phase_Z,
 			Phase_Y,
 			Phase_Y2,
+			Phase_Wait,
 			Phase_Done
 		};
 		Phase  phase    = Phase_Idle;
