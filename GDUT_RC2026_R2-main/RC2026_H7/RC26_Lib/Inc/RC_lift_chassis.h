@@ -31,12 +31,12 @@ namespace chassis
 	
 	constexpr static uint16_t SENSER_GPIO_PIN[6] =
 	{
-		GPIO_PIN_3,
+		GPIO_PIN_8,
 		GPIO_PIN_9,
 		GPIO_PIN_1,
 		GPIO_PIN_0,
 		GPIO_PIN_8,
-		GPIO_PIN_2
+		GPIO_PIN_7
 	};
 	
 	enum LiftState : uint8_t

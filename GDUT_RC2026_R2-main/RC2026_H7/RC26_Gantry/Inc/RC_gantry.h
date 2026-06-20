@@ -19,7 +19,7 @@ namespace gantry
 	
 	constexpr float GANTRY_Y_OFFSET = 0.1;
 	
-	class Gantry// : public task::ManagedTask
+	class Gantry
     {
     public:
 		Gantry(
@@ -78,6 +78,12 @@ namespace gantry
 			Set_Y(0);
 			Set_Z(0);
 			Set_P(0);
+		}
+		
+		
+		void Set_P_Max_T(float max_)
+		{
+			motor_p.pid_pos.Set_output_limit(max_);
 		}
 		
 		
@@ -167,6 +173,12 @@ namespace gantry
 				gan.Set_P_Td(a, v); 
 		}
 		
+		
+		void Set_P_Max_T(float max_)
+		{
+			if (gan.user_id == id)
+				gan.Set_P_Max_T(max_);
+		}
 		
 		constexpr float Get_X() { return gan.Get_X(); }
 		constexpr float Get_Y() { return gan.Get_Y(); }

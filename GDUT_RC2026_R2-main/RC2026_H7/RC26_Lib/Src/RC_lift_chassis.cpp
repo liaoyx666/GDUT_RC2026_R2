@@ -53,7 +53,7 @@ namespace chassis
 	
 	
 	constexpr float LIFT_CHASSIS_UP_VEL   = 0.36f;
-	constexpr float LIFT_CHASSIS_DOWN_VEL = 0.35f;
+	constexpr float LIFT_CHASSIS_DOWN_VEL = 0.36f;
 	constexpr float LIFT_CHASSIS_FAST_VEL = 2.8f;
 	
 	constexpr float LIFT_CHASSIS_SLOW_ACC = 2.8f;

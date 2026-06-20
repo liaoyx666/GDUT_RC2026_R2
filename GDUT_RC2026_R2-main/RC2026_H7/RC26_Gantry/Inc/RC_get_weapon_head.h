@@ -40,6 +40,7 @@ namespace gantry
         void Pick_Next(); 
 
         bool MoveChassis(float world_x, float world_y, float deadzone);
+        
         void Set_Yaw(float yaw);
 
         void Cal_Current_Pos();// 注意激光数据跳变
@@ -128,7 +129,7 @@ namespace gantry
         static constexpr float LIFT_UP_Z = 0.05f;//取到武器头后上升距离
         static constexpr float GANTRY_RETRACT_X = 0.03f;//龙门架复位后X轴位置
 
-        static constexpr float READY_GANTRY_DIST = 0.075f;
+        static constexpr float READY_GANTRY_DIST = 0.16f;
         static constexpr float READY_CHASSIS_DIST = 0.3f;
 
         // 停止阈值

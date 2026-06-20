@@ -618,9 +618,8 @@ namespace path
 					{
 						HeadConstr3 h;
 						Get_Constr_On_Len(event[i].len, NULL, &h);
-						float target_yaw = h.yaw;
 						
-						float delta_yaw = target_yaw - yaw_;
+						float delta_yaw = h.yaw - yaw_;
 						
 						if (delta_yaw > PI)
 							delta_yaw -= TWO_PI;

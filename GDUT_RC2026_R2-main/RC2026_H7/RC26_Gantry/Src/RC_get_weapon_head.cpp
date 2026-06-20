@@ -22,7 +22,7 @@ GetWeaponHead::GetWeaponHead(
     gripper(gripper_),
     blue_side(blue_side_),
     chassis_npid_(
-        1.6f,// kp
+        1.2f,// kp
         0.0f,// kd
         2.0f,// acc
         0.3f,// delta
@@ -33,7 +33,7 @@ GetWeaponHead::GetWeaponHead(
 
     if(blue_side) {
         target_yaw = - PI / 2.f;
-        TARGET_WEAPON_Y = -6.0f;
+        TARGET_WEAPON_Y = -6.015f;
 
         READY_POINT_Y = TARGET_WEAPON_Y + READY_CHASSIS_DIST + HALF_CHASSIS_Y;
     }
@@ -82,9 +82,11 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         break;
 
     case CHASSIS_STATE::Gantry_Grab_Y:
+        MoveChassis(chassis_target_x, chassis_target_y, CHASSIS_POS_TOLERANCE);
         if (Set_Gantry_Y( WEAPON_X_RAW[pick_num] - curr_x )) {
             chassis_state = CHASSIS_STATE::Chassis_Ready;
         }
+
         break;
 
     case CHASSIS_STATE::Chassis_Ready:
@@ -195,7 +197,8 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
             gantry_state = GANTRY_STATE::Gantry_Restoration_X;
             weapon_event.Finish();
             path_plan.Enable();
-            head_ctrl.Disable();
+            // head_ctrl.Disable();
+            chassis_state = CHASSIS_STATE::Chassis_Idle;
         }
         else {
             gantry_state = GANTRY_STATE::Gantry_Retry;
@@ -277,6 +280,7 @@ bool GetWeaponHead::MoveChassis(float world_x, float world_y, float deadzone) {
 
     return false;
 }
+
 
 void GetWeaponHead::Set_Yaw(float yaw) {
     head_ctrl.Set_Yaw(yaw);

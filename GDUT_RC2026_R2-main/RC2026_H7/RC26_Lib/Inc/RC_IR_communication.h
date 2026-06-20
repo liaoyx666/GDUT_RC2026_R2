@@ -11,7 +11,6 @@ namespace IR
 	constexpr uint8_t IR_MAX_CMD = 10;
 	constexpr uint8_t IR_INVALID_CMD = 0;
 	
-	
 	// 红外命令
 	class IRCmd
     {
@@ -31,6 +30,7 @@ namespace IR
 				return false;
 			}
 		}
+		
 		
 		
     private:
@@ -69,6 +69,19 @@ namespace IR
 		IRCom(UART_HandleTypeDef &huart_, uint8_t* buf_);
 		~IRCom() = default;
 
+		void Clear_All_Cmd()
+		{
+			for (uint8_t i = 0; i < IR_MAX_CMD; i++)
+			{
+				if (IRCmd::cmd_list[i] != nullptr)
+				{
+					IRCmd::cmd_list[i]->Get_Cmd();
+				}
+			}
+		}
+		
+	
+	
     private:
 		void Uart_Rx_It_Process(uint8_t* buf_, uint16_t len_) override;
 		uint8_t Check_Sum(uint8_t* data);

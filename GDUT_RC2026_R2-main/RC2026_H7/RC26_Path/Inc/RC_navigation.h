@@ -26,6 +26,15 @@ namespace path
 		}
 		
 		
+		inline bool Pass_Do(vector2d::Vector2D p, float yaw, Event3_t event)
+		{
+			NavPoint nav;
+			nav.p = p;
+			nav.yaw = yaw;
+			return Add_Dst(nav, DST_PASS, event);
+		}
+		
+		
 		void Update_Last_Navp(vector2d::Vector2D p, float yaw)
 		{
 			last_navp.p = p;
@@ -53,6 +62,8 @@ namespace path
 		bool Go_To_Combine();
 		bool Go_To_Combine_Ready();
 		bool Uncombine(vector2d::Vector2D p, float yaw);
+		
+		bool Go_To_Stick_Edge();
 		/*------------------------------------------------------------*/
 		
     private:

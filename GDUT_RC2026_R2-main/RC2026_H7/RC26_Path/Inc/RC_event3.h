@@ -82,7 +82,10 @@ constexpr Event3_t EVENT_WAIT_R1_L = EVENT3_ID_23;
 constexpr Event3_t EVENT_WAIT_R1_R = EVENT3_ID_24;
 
 
-constexpr Event3_t GET_PICK_KFS_EVENT 			= EVENT3_ID_25;
+constexpr Event3_t GET_PICK_KFS_EVENT = EVENT3_ID_25;
+
+
+constexpr Event3_t  EVENT_STICK_L_EDGE = EVENT3_ID_26;
 
 
 /*-----所有事件-----*/
