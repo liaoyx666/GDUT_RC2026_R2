@@ -62,18 +62,18 @@ namespace gantry
 					
 					ready_trig = false;
 					
-					if (data::KFS_Num() == 0)
+					if (data::KFSNum::Get_KFS_Num() == 0)
 					{
 						return;
 					}
-					else if (data::KFS_Num() == 1)
+					else if (data::KFSNum::Get_KFS_Num() == 1)
 					{
 						get_z = PUTKFS_GET_KFS_LOW_Z;
 						get_state = PUTKFS_GET_STRETCH;
 						
 						phase = PUTKFS_GET_PHASE;
 					}
-					else if (data::KFS_Num() == 2)
+					else if (data::KFSNum::Get_KFS_Num() == 2)
 					{
 						get_z = PUTKFS_GET_KFS_HIGH_Z;
 						get_state = PUTKFS_GET_STRETCH;
@@ -426,7 +426,7 @@ namespace gantry
 				{
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
-					data::KFS_Sub_One();// 放成功
+					data::KFSNum::KFS_Sub_One();// 放成功
 					user.Give_Control();
 					return true;
 				}
@@ -482,7 +482,7 @@ namespace gantry
 				{
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
-					data::KFS_Sub_One();// 放成功
+					data::KFSNum::KFS_Sub_One();// 放成功
 					user.Give_Control();
 					return true;
 				}

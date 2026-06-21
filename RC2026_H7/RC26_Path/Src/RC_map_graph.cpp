@@ -96,8 +96,8 @@ namespace path
 
 	uint8_t MapGraph::Get_Node_On_Pos(vector2d::Vector2D p)
 	{
-		if (!data::Is_Side_Init()) return GRAPH_INVALID;
-		uint8_t dx = (uint8_t)data::Is_Blue_Left_Side();
+		if (!data::Side::Is_Side_Init()) return GRAPH_INVALID;
+		uint8_t dx = (uint8_t)data::Side::Is_Blue_Left_Side();
 		
 		if (MC[dx].Is_Point_In(p)) return 0;
 		
@@ -142,7 +142,7 @@ namespace path
 	{
 		if (n_ < 1 || n_ > 12) return vector2d::Vector2D();
 		
-		uint8_t dx = (uint8_t)data::Is_Blue_Left_Side();
+		uint8_t dx = (uint8_t)data::Side::Is_Blue_Left_Side();
 		uint8_t w = (n_ - 1) % 3 + 1;
 		uint8_t h = (n_ - 1) / 3 + 1;
 	
@@ -197,7 +197,7 @@ namespace path
 
 		/*都在梅林内*/
 		int8_t d = (int8_t)t - (int8_t)f;
-		if (data::Is_Blue_Left_Side()) /*蓝方 左*/
+		if (data::Side::Is_Blue_Left_Side()) /*蓝方 左*/
 		{
 			if (d ==  1) return DIR_R;
 			if (d == -1) return DIR_L;

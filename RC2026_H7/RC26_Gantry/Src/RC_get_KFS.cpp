@@ -460,7 +460,7 @@ bool GetKFS::Configure_Current_Step()
 
 void GetKFS::Trigger_Task_By_Event()
 {
-    uint8_t kfs_count = data::KFS_Num();
+    uint8_t kfs_count = data::KFSNum::Get_KFS_Num();
     // =========================================================
     // Event0 : 20cm Step1 (根据当前数量，依次执行第 1, 2, 3 组任务的 step1)
     // =========================================================
@@ -574,7 +574,7 @@ void GetKFS::Trigger_Task_By_Event()
                 break;
         }
 
-        data::KFS_Add_One();
+        data::KFSNum::KFS_Add_One();
     }
 }
 	
@@ -792,7 +792,7 @@ void GetKFS::Unlock_Y()
 void GetKFS::Auto_Get_KFS()
 {
 	
-	  kfs_num = data::KFS_Num();
+	  kfs_num = data::KFSNum::Get_KFS_Num();
 		current_x = gantry.Get_X();
 		current_y = gantry.Get_Y();
 		current_z = gantry.Get_Z();
@@ -828,7 +828,7 @@ if (mode == CtrlMode::CLOSE_LOOP_LASER)
                 {
                     Finish_Current_Task();
 					Set_Task(ARM_TASK::HOME);
-					data::KFS_Sub_One();
+					data::KFSNum::KFS_Sub_One();
                     return;
                 }
 

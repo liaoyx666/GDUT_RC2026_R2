@@ -5,35 +5,17 @@
 
 namespace data
 {
-	/*==============左右半场=====================*/
-	static bool blue_left_side = true;  /*场地位置*/
-	static bool is_side_init = false;
 
-	void Init_Side(bool blue_left_side_)
-	{
-		if (!is_side_init)
-		{
-			blue_left_side = blue_left_side_;
-			is_side_init = true;
-		}
-	}
-	bool Is_Side_Init() { return is_side_init; }
-	bool Is_Blue_Left_Side() { return blue_left_side; }
-	/*============左右半场=======================*/
-	
-	
-	/*==============携带KFS的数量=====================*/
-	static uint8_t KFS_num = 0;
-	
-	uint8_t KFS_Num() { return KFS_num; }
-	void Set_KFS_Num(uint8_t kfs_num) { KFS_num = kfs_num; }
-	void KFS_Add_One() { KFS_num++; }
-	void KFS_Sub_One() { KFS_num--; }
-	/*==============携带KFS的数量=====================*/
+
 	
 	
 	
-	RobotPose::RobotPose()// : ManagedTask("ChassisTask", 10, 64, task::TASK_DELAY, 80)
+	
+	
+	
+	
+	/*==============坐标=====================*/
+	RobotPose::RobotPose()
 	{
 		x = 0;
 		y = 0;
@@ -92,9 +74,6 @@ namespace data
 		orientation_last_time = timer::Timer::Get_TimeStamp();
 		orientation_is_valid = true;
 	}
-	
-	
-
-	
+	/*==============坐标=====================*/
 
 }

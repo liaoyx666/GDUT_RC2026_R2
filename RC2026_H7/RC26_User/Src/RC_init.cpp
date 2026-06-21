@@ -237,19 +237,14 @@ void Main_Task(void *argument)
 		
 		stick_edge.Stick_Edge();
 		
-		
 		path_plan.Plan();
 		
 		robot_pose.Robot_Pose_Check();
 		
 		getKFS.Auto_Get_KFS();
 		
-		
-		
 		putKFS.Auto_Put_KFS();
 		
-		
-
 		wait_R1.Wait_R1();
 		
 		aim.Auto_Aim();
@@ -328,14 +323,30 @@ uint8_t state = 0;
 
 void Plan_Task(void *argument)
 {
-	osDelay(200);
+	while(!data::AllData::Is_All_Init())
+	{
+		osDelay(10);
+	}
 	
+	osDelay(200);
 	ir_com.Clear_All_Cmd();
 	
-	// 全局起点
-	navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+	
 	
 	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
+	
+	
+	// 初始化全局起点
+	if (data::BootArea::Is_Boot_At_Mc())
+	{
+		navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+	}
+	else
+	{
+		navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+	}
+	
+	
 	
 	navigation.Go_To_Get_Weapon_Head();
 	
@@ -417,20 +428,7 @@ void Plan_Task(void *argument)
 		
 		
 		
-		
-		
-		
-//		else if (combine_cmd.Get_Cmd() && !com.Is_Combine())
-//		{
-//			navigation.Go_To_Combine();
-//		}
-//		else if (combine_cmd.Get_Cmd() && com.Is_Combine())
-//		{
-//			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
-//		}
-		
-		
-		
+
 		osDelay(1);
 	}
 }
@@ -503,8 +501,12 @@ void All_Init()
 	hwt101ct.Uart_Rx_Start();
 	ir_com.Uart_Rx_Start();
 
-	// 场地位置初始化
-	data::Init_Side(true);
+	// 初始化数据
+	data::Side::Init_Is_Blue_Left_Side(true);
+	data::KFSNum::Init_KFS_Num(0);
+	data::HaveWeapon::Init_Have_Weapon(false);
+	data::IsDock::Init_Is_Dock(true);
+	data::BootArea::Init_Is_Boot_At_Mc(true);
 	
 	gan.Init();
 }

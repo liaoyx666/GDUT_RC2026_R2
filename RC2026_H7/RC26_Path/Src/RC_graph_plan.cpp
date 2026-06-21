@@ -451,7 +451,7 @@ namespace path
 		vector2d::Vector2D low;
 		vector2d::Vector2D high;
 		
-		uint8_t dx = data::Is_Blue_Left_Side();
+		uint8_t dx = data::Side::Is_Blue_Left_Side();
 		
 		if (dx)
 		{

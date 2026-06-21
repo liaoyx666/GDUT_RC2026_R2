@@ -94,7 +94,7 @@ namespace path
 			put_p.x() = MapGraph::SUDOKU_COL_3_X;
 		
 		
-		if (data::Is_Blue_Left_Side())
+		if (data::Side::Is_Blue_Left_Side())
 		{
 			put_p.y() = -(MapGraph::FIELD_WIDTH - PUT_KFS_DIS);
 			yaw = -HALF_PI;
@@ -118,7 +118,7 @@ namespace path
 		
 		p.x() = GET_WEAPON_HEAD_X;
 		
-		if (data::Is_Blue_Left_Side())
+		if (data::Side::Is_Blue_Left_Side())
 		{
 			yaw = -HALF_PI;
 			p.y() = -(MapGraph::FIELD_WIDTH - GET_WEAPON_HEAD_DIS);
@@ -137,7 +137,7 @@ namespace path
 		float yaw;
 		vector2d::Vector2D p;
 		
-		if (data::Is_Blue_Left_Side())
+		if (data::Side::Is_Blue_Left_Side())
 		{
 			yaw = HALF_PI;
 			p = vector2d::Vector2D(1, -4);
