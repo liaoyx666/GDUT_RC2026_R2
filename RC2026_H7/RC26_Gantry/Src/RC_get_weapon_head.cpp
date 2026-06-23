@@ -10,7 +10,7 @@ GetWeaponHead::GetWeaponHead(
     Gripper& gripper_, 
     path::PathPlan3& path_plan_,
     path::HeadCtrl& head_ctrl_,
-    bool blue_side_
+    Computer_Side computer_side_
     ):
     weapon_event(20, 0.8f, true, false),
     path_plan(path_plan_), 
@@ -20,9 +20,9 @@ GetWeaponHead::GetWeaponHead(
     user(gantry_),  
     laser(laser_),
     gripper(gripper_),
-    blue_side(blue_side_),
+    computer_side(computer_side_),
     chassis_npid_(
-        1.2f,// kp
+        1.5f,// kp
         0.0f,// kd
         2.0f,// acc
         0.3f,// delta
@@ -30,20 +30,6 @@ GetWeaponHead::GetWeaponHead(
         0.02// deadzone 小于CHASSIS_POS_TOLERANCE
             )
 {
-
-    if(blue_side) {
-        target_yaw = - PI / 2.f;
-        TARGET_WEAPON_Y = -6.015f;
-
-        READY_POINT_Y = TARGET_WEAPON_Y + READY_CHASSIS_DIST + HALF_CHASSIS_Y;
-    }
-    else {// 红区
-        target_yaw = PI / 2.f;
-        TARGET_WEAPON_Y = 0.0f;
-
-        READY_POINT_Y = TARGET_WEAPON_Y - READY_CHASSIS_DIST - HALF_CHASSIS_Y;
-    }
-
     chassis_state = CHASSIS_STATE::Chassis_Idle;
     gantry_state = GANTRY_STATE::Gantry_Idle;
     gripper.Stop();
@@ -54,6 +40,8 @@ GetWeaponHead::GetWeaponHead(
     chassis_target_x = 0.0f;
     chassis_target_y = 0.0f;
     chassis_target_yaw = 0.0f; 
+
+    UpdateSideParam();
 
 }
 
@@ -83,8 +71,14 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
 
     case CHASSIS_STATE::Gantry_Grab_Y:
         MoveChassis(chassis_target_x, chassis_target_y, CHASSIS_POS_TOLERANCE);
-        if (Set_Gantry_Y( WEAPON_X_RAW[pick_num] - curr_x )) {
+
+        if(computer_side == Computer_Side::RED_SIDE) {
+            user.Set_Y(curr_x - WEAPON_X_RAW[pick_num]);
             chassis_state = CHASSIS_STATE::Chassis_Ready;
+        } else {
+            user.Set_Y(WEAPON_X_RAW[pick_num] - curr_x);
+                            chassis_state = CHASSIS_STATE::Chassis_Ready;
+
         }
 
         break;
@@ -94,7 +88,14 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         if(!user.Take_Control()) {
             break;
         }
-        user.Set_Y(WEAPON_X_RAW[pick_num] - curr_x);
+
+        if(computer_side == Computer_Side::RED_SIDE) {
+            user.Set_Y(curr_x - WEAPON_X_RAW[pick_num]);
+        } else {
+            user.Set_Y(WEAPON_X_RAW[pick_num] - curr_x);
+        }
+
+        
         break;
 
     default:
@@ -248,11 +249,9 @@ void GetWeaponHead::Pick(uint8_t num) {
 
 void GetWeaponHead::Pick_Next() {
     pick_num++;
-    if(pick_num <= WEAPON_NUM) {
-    }
-    else {
+    if(pick_num > WEAPON_NUM) {
         pick_num = 1;
-    }        
+    }      
     Pick(pick_num);
     gantry_state = GANTRY_STATE::Gantry_Down_Z;
 }
@@ -331,8 +330,30 @@ void GetWeaponHead::Set_Gantry_Pitch(float target_pitch){
     return ;
 }
 
+void GetWeaponHead::Set_Side(bool side) { 
+	if(side == true)
+	{
+		this->computer_side = Computer_Side::BLUE_SIDE; 
+	}
+	else
+	{
+		this->computer_side = Computer_Side::RED_SIDE; 
+	}
+    UpdateSideParam(); 
+}
 
-
+void GetWeaponHead::UpdateSideParam()
+{
+    if(computer_side == Computer_Side::BLUE_SIDE) {
+        target_yaw = - PI / 2.f;
+        TARGET_WEAPON_Y = -6.0f;
+        READY_POINT_Y = TARGET_WEAPON_Y + READY_CHASSIS_DIST + HALF_CHASSIS_Y;
+    } else {
+        target_yaw = PI / 2.f;
+        TARGET_WEAPON_Y = 6.0f;
+        READY_POINT_Y = TARGET_WEAPON_Y - READY_CHASSIS_DIST - HALF_CHASSIS_Y;
+    }
+}
 
 
 }

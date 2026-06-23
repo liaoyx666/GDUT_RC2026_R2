@@ -53,7 +53,7 @@ data::RobotPose robot_pose;
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 4, 4,
+	2.8, 4, 4,
 	5, 6, 7,
 	robot_pose
 );
@@ -77,8 +77,8 @@ path::TrajTrack3 track(
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.5, 2.0),
-	path::HeadConstr3(0, 4, 5, false),
+	path::LonConstr3(2.8, 2.5),
+	path::HeadConstr3(0, 5, 5.5, false),
 	track
 );
 
@@ -217,6 +217,10 @@ IR::IRCmd put_3L_cmd(4);
 //float target = 0;
 //float a = 0;
 
+bool auto_flag = 0;
+
+
+
 bool en_flag = false;
 bool dis_flag = false;
 
@@ -263,9 +267,9 @@ void Main_Task(void *argument)
 			{
 				radar.Reposition(); /*雷达重定位*/
 			}
-		}
+		} 
 		
-		if (remote_ctrl.swa == 1)
+		if (/*remote_ctrl.swa*/auto_flag == 1)
 		{
 			dis_flag = false;
 			
@@ -274,7 +278,7 @@ void Main_Task(void *argument)
 				path_plan.Enable();
 				en_flag = true;
 			}
-		} 
+		}
 		else
 		{
 			en_flag = false;
@@ -332,14 +336,21 @@ void Plan_Task(void *argument)
 	ir_com.Clear_All_Cmd();
 	
 	
-	
-	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
+	get_weapon_head.Set_Side(data::Side::Is_Blue_Left_Side());
+	get_weapon_head.Set_Pick_Num(data::PickWeaponNum::Get_Pick_Num()); /*夹第4个武器（靠内小）*/
 	
 	
 	// 初始化全局起点
 	if (data::BootArea::Is_Boot_At_Mc())
 	{
-		navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+		}
+		else
+		{
+			navigation.Add_Start(vector2d::Vector2D(0.42, 4.53), 0);
+		}
 	}
 	else
 	{
@@ -457,9 +468,9 @@ void Motor_Config()
 	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
 	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
 	
-	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 314.16);
-	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
 	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
@@ -502,11 +513,12 @@ void All_Init()
 	ir_com.Uart_Rx_Start();
 
 	// 初始化数据
-	data::Side::Init_Is_Blue_Left_Side(true);
+	data::Side::Init_Is_Blue_Left_Side(false);
 	data::KFSNum::Init_KFS_Num(0);
 	data::HaveWeapon::Init_Have_Weapon(false);
 	data::IsDock::Init_Is_Dock(true);
 	data::BootArea::Init_Is_Boot_At_Mc(true);
+	data::PickWeaponNum::Init_Pick_Num(1);
 	
 	gan.Init();
 }

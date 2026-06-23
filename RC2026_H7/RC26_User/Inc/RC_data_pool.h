@@ -157,7 +157,7 @@ namespace data
     private:
 		static inline bool is_dock = false;
 		static inline bool is_init = false;
-	
+		
 		friend class AllData;
     };
 	/*==============是否对接=====================*/
@@ -210,7 +210,8 @@ namespace data
 				KFSNum::Is_KFS_Num_Init() 			&&
 				HaveWeapon::Is_Have_Weapon_Init() 	&&
 				IsDock::Is_Dock_Init()				&&
-				BootArea::Is_Boot_Area_Init()
+				BootArea::Is_Boot_Area_Init()		&&
+				PickWeaponNum::Is_Pick_Num_Init()
 			);
 		}
     };

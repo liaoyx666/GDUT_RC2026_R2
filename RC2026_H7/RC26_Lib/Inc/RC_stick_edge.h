@@ -64,7 +64,14 @@ public:
 				c.Set_Max_Current(3000);
 				
 				user.Set_X(0.0);
-				user.Set_Y(0.09);
+				if (data::Side::Is_Blue_Left_Side())
+				{
+					user.Set_Y(0.09);
+				}
+				else
+				{
+					user.Set_Y(-0.09);
+				}
 				user.Set_Z(0.033);
 				user.Set_P_Max_T(3);
 				user.Set_P(0.2);
@@ -88,7 +95,14 @@ public:
 			
 			case STICK_DOCK_STICK:
 			{
-				c.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.2));
+				if (data::Side::Is_Blue_Left_Side())
+				{
+					c.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.2));
+				}
+				else
+				{
+					c.Set_Robot_Lin_Vel(vector2d::Vector2D(0, -0.2));
+				}
 				c.Set_Ang_Vel(0);
 
 				state = STICK_DOCK_STOP;
@@ -98,7 +112,14 @@ public:
 			
 			case STICK_DOCK_STOP:
 			{
-				c.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.2));
+				if (data::Side::Is_Blue_Left_Side())
+				{
+					c.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.2));
+				}
+				else
+				{
+					c.Set_Robot_Lin_Vel(vector2d::Vector2D(0, -0.2));
+				}
 				c.Set_Ang_Vel(0);
 				
 				if (ir_cmd.Get_Cmd())

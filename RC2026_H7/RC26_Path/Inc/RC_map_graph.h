@@ -200,25 +200,25 @@ namespace path
 		*/
 		static const inline Area MC[2] = 
 		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)), 
+			Area(vector2d::Vector2D(0, 6), vector2d::Vector2D(3.2, 6), vector2d::Vector2D(0, 0)), 
 			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(3.2, 0), vector2d::Vector2D(0, -6))
 		}; /*武馆*/
 		
 		static const inline Area MF[2] = 
 		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
+			Area(vector2d::Vector2D(3.2, 4.8), vector2d::Vector2D(8, 4.8), vector2d::Vector2D(3.2, 1.2)),
 			Area(vector2d::Vector2D(3.2, -1.2), vector2d::Vector2D(8, -1.2), vector2d::Vector2D(3.2, -4.8))
 		}; /*梅林*/
 		
 		static const inline Area EXIT[2] = 
 		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
+			Area(vector2d::Vector2D(8, 6), vector2d::Vector2D(9.45, 6), vector2d::Vector2D(8, 0)),
 			Area(vector2d::Vector2D(8, 0), vector2d::Vector2D(9.45, 0), vector2d::Vector2D(8, -6))
 		}; /*出口*/
 	
 		static const inline Area ARENA[2] = 
 		{
-			Area(vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0), vector2d::Vector2D(0, 0)),
+			Area(vector2d::Vector2D(9.45, 6), vector2d::Vector2D(12, 6), vector2d::Vector2D(9.45, 0)),
 			Area(vector2d::Vector2D(9.45, 0), vector2d::Vector2D(12, 0), vector2d::Vector2D(9.45, -6))
 		}; /*对抗区*/
 

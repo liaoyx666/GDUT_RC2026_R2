@@ -101,7 +101,7 @@ namespace path
 		}
 		else
 		{
-			put_p.y() = -PUT_KFS_DIS;
+			put_p.y() = (MapGraph::FIELD_WIDTH - PUT_KFS_DIS);
 			yaw = HALF_PI;
 		}
 			
@@ -126,7 +126,7 @@ namespace path
 		else
 		{
 			yaw = HALF_PI;
-			p.y() = -GET_WEAPON_HEAD_DIS;
+			p.y() = (MapGraph::FIELD_WIDTH - GET_WEAPON_HEAD_DIS);
 		}
 		
 		return Go_To_Do(p, yaw, EVENT_GET_WEAPON_HEAD);
@@ -145,7 +145,7 @@ namespace path
 		else
 		{
 			yaw = -HALF_PI;
-			p = vector2d::Vector2D(1, -4);
+			p = vector2d::Vector2D(1, 4);
 		}
 		
 		return Go_To_Do(p, yaw, EVENT_DOCK);
@@ -156,8 +156,19 @@ namespace path
 	
 	bool Navigation::Go_To_Combine_Ready()
 	{
-		float yaw = -HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(12 - 0.98 - 0.8, -4.9);
+		float yaw;
+		vector2d::Vector2D p;
+		
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(12 - 0.98 - 0.8, -4.9);
+		}
+		else
+		{
+			yaw = HALF_PI;
+			p = vector2d::Vector2D(12 - 0.98 - 0.8, 4.9);
+		}
 		
 		return Go_To_Do(p, yaw, EVENT_UP_4_READY_L);
 	}
@@ -168,8 +179,19 @@ namespace path
 	
 	bool Navigation::Go_To_Combine()
 	{
-		float yaw = -HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(12 - 0.98 + 0.41, -4.9);
+		float yaw;
+		vector2d::Vector2D p;
+		
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(12 - 0.98 + 0.41, -4.9);
+		}
+		else
+		{
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(12 - 0.98 + 0.41, 4.9);
+		}
 
 		bool success = Go_To_Do(p, yaw, EVENT_COMBINE);
 		
@@ -196,14 +218,35 @@ namespace path
 	
 	bool Navigation::Go_To_Stick_Edge()
 	{
-		float yaw = HALF_PI;
-		vector2d::Vector2D p = vector2d::Vector2D(0.8, -5.2);
+		float yaw;
+		vector2d::Vector2D p;
 		
+		Event3_t event;
 		
-		if (!Pass_Do(p, yaw, EVENT_HEAD_CHECK_L))
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			event = EVENT_HEAD_CHECK_L;
+			yaw = HALF_PI;
+			p = vector2d::Vector2D(0.8, -5.2);
+		}
+		else
+		{
+			event = EVENT_HEAD_CHECK_R;
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(0.8, 5.2);
+		}
+		
+		if (!Pass_Do(p, yaw, event))
 			return false;
 		
-		p = vector2d::Vector2D(0.46, -5.2);
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			p = vector2d::Vector2D(0.46, -5.2);
+		}
+		else
+		{
+			p = vector2d::Vector2D(0.46, 5.2);
+		}
 		
 		
 		return Go_To_Do(p, yaw, EVENT_STICK_L_EDGE);

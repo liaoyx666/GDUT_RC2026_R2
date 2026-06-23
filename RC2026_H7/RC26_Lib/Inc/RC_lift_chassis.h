@@ -21,22 +21,22 @@ namespace chassis
 	
 	const static GPIO_TypeDef* SENSER_GPIO_PORT[6] =
 	{
-		GPIOE,
+		GPIOC,
 		GPIOA,
 		GPIOG,
 		GPIOG,
 		GPIOA,
-		GPIOE
+		GPIOD
 	};
 	
 	constexpr static uint16_t SENSER_GPIO_PIN[6] =
 	{
-		GPIO_PIN_8,
+		GPIO_PIN_12,
 		GPIO_PIN_9,
 		GPIO_PIN_1,
 		GPIO_PIN_0,
 		GPIO_PIN_8,
-		GPIO_PIN_7
+		GPIO_PIN_2
 	};
 	
 	enum LiftState : uint8_t
