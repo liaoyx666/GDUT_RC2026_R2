@@ -236,7 +236,7 @@ namespace path
 			p = vector2d::Vector2D(0.8, 5.2);
 		}
 		
-		if (!Pass_Do(p, yaw, event))
+		if (!Go_To_Do(p, yaw, event))
 			return false;
 		
 		if (data::Side::Is_Blue_Left_Side())
