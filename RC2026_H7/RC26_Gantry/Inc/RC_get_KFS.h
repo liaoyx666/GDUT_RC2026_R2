@@ -76,7 +76,7 @@ class GetKFS
 					OPEN_LOOP,
 					CLOSE_LOOP_LASER,
 					Y_LOCK,
-					CLOSE_LOOP_CAM,
+					Check,
 			};
 		
 			void Set_Task(ARM_TASK task_);

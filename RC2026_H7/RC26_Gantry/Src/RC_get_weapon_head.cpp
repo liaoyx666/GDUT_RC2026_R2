@@ -22,11 +22,11 @@ GetWeaponHead::GetWeaponHead(
     gripper(gripper_),
     computer_side(computer_side_),
     chassis_npid_(
-        1.5f,// kp
+        1.9f,// kp
         0.0f,// kd
-        2.0f,// acc
-        0.3f,// delta
-        1.5f,// max_out
+        4.0f,// acc
+        0.05f,// delta
+        2.8f,// max_out
         0.02// deadzone 小于CHASSIS_POS_TOLERANCE
             )
 {
@@ -42,6 +42,7 @@ GetWeaponHead::GetWeaponHead(
     chassis_target_yaw = 0.0f; 
 
     UpdateSideParam();
+    Set_Ctrl_Mode(SpeedMode::NORMAL);
 
 }
 
@@ -157,14 +158,15 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         break;
     
     case GANTRY_STATE::Gantry_Up_Z_Pitch:
-        Set_Gantry_Pitch(0.0f);
-        if( Set_Gantry_Z( GET_Z + LIFT_UP_Z ) ) {
+        
+        if( Set_Gantry_Z( GET_Z + LIFT_UP_Z + LIFT_UP_Z_ ) ) {
             gantry_state = GANTRY_STATE::Gantry_Re_Ready_X;
         }
         break;
 
     case GANTRY_STATE::Gantry_Re_Ready_X:
         {
+            Set_Gantry_Pitch(0.0f);
             float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y - READY_GANTRY_DIST;
             
             if( Set_Gantry_X(gantry_ready_x) ) {
@@ -197,7 +199,7 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         if(PICK_SUCCESS_FLAG) {
             gantry_state = GANTRY_STATE::Gantry_Restoration_X;
             weapon_event.Finish();
-            path_plan.Enable();
+            // path_plan.Enable();
             // head_ctrl.Disable();
             chassis_state = CHASSIS_STATE::Chassis_Idle;
         }
@@ -272,7 +274,7 @@ bool GetWeaponHead::MoveChassis(float world_x, float world_y, float deadzone) {
     } else {
         float chassis_vx = chassis_npid_.NPid_Calculate(error_dist, 0.0f, false, 0.0f);
         float angle_to_target = atan2f(error_y, error_x);
-        target_vx = chassis_vx * cosf(angle_to_target);
+        target_vx = chassis_vx * cosf(angle_to_target);     
         target_vy = chassis_vx * sinf(angle_to_target);
         omni4chassis.Set_World_Lin_Vel(vector2d::Vector2D(target_vx, target_vy));
     }
@@ -353,6 +355,23 @@ void GetWeaponHead::UpdateSideParam()
         TARGET_WEAPON_Y = 6.0f;
         READY_POINT_Y = TARGET_WEAPON_Y - READY_CHASSIS_DIST - HALF_CHASSIS_Y;
     }
+}
+
+void GetWeaponHead::Set_Ctrl_Mode(SpeedMode mode_)
+{
+    float scale = 1.0f;
+    switch (mode_)
+    {
+        case SpeedMode::SLOW:   scale = 0.35f; break;
+        case SpeedMode::FAST:   scale = 1.5f; break;
+        case SpeedMode::NORMAL:	scale = 1.0f;
+        default:                scale = 0.55f; break;
+    }
+
+    user.Set_X_Td(2000.f * scale, 8000.f * scale);
+    user.Set_Y_Td(1000.f * scale, 2000.f * scale);
+    user.Set_Z_Td(2000.f * scale, 8000.f * scale);
+    user.Set_P_Td(24.f   * scale, 12.f    * scale);
 }
 
 

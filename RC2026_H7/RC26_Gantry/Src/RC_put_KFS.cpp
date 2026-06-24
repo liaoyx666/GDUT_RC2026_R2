@@ -31,6 +31,7 @@ namespace gantry
 		ready_trig = false;
 		is_fail = false;
 		fail_num = 0;
+		success_num = 0;
 		is_check = false;
 		height = PUTKFS_2L;
 	}
@@ -427,6 +428,7 @@ namespace gantry
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
 					data::KFSNum::KFS_Sub_One();// 放成功
+					success_num++;
 					user.Give_Control();
 					return true;
 				}
@@ -483,6 +485,7 @@ namespace gantry
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
 					data::KFSNum::KFS_Sub_One();// 放成功
+					success_num++;
 					user.Give_Control();
 					return true;
 				}

@@ -410,6 +410,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>auto_flag</ItemText>
         </Ww>
+        <Ww>
+          <count>51</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>auto_flag</ItemText>
+        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>

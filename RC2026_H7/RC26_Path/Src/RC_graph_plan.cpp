@@ -479,11 +479,11 @@ namespace path
 		
 		if (h == 1)
 		{
-			if (!Add_Point_Wait(low, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(low, 0.5f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
 			lon.v = 2.0;
 			
-			if (!Add_Point_Wait(high, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high, 0.5f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
 			
 			lon = plan.plan.lon_m;
@@ -496,7 +496,7 @@ namespace path
 			{
 				head.yaw = HALF_PI;
 			}
-			if (!Add_Point_Wait(high + offset, 0.6f, &lon, &head, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high + offset, 0.8f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		else
 		{

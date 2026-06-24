@@ -253,6 +253,27 @@ namespace path
 	}
 
 	
+	// 避让r1在对抗区
+	bool Navigation::Go_To_Avoid_R1_In_ARENA()
+	{
+		float yaw;
+		vector2d::Vector2D p;
+		
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(10.3, -4.9);
+		}
+		else
+		{
+			yaw = HALF_PI;
+			p = vector2d::Vector2D(10.3, 4.9);
+		}
+		
+		return Go_To_Do(p, yaw, EVENT3_NULL);
+	}
+	
+	
 	void Navigation::Task_Process()
 	{
 		if (is_start)

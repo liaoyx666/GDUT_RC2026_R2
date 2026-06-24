@@ -88,17 +88,19 @@ namespace gantry
 		{
 			bool is_end = false;
 			
+			if (success_num) return true;
+			
+			if (fail_num == 3) return true;
+			
 			if (is_fail)
 			{
 				if (fail_num == 1)
 				{
 					navi.Go_To_Put_KFS_2L(1);
-					is_end = true;
 				}
 				else if (fail_num == 2)
 				{
 					navi.Go_To_Put_KFS_2L(3);
-					is_end = true;
 				}
 				else if (fail_num == 3)
 				{
@@ -139,6 +141,7 @@ namespace gantry
 		
 		bool is_fail;
 		uint8_t fail_num;
+		uint8_t success_num;
 		
 		bool is_check;
 	

@@ -54,7 +54,7 @@ chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
 	2.8, 4, 4,
-	5, 6, 7,
+	5, 7, 7,
 	robot_pose
 );
 
@@ -78,7 +78,7 @@ path::TrajTrack3 track(
 // 路径规划
 path::PathPlan3 path_plan(
 	path::LonConstr3(2.8, 2.5),
-	path::HeadConstr3(0, 5, 5.5, false),
+	path::HeadConstr3(0, 5, 6, false),
 	track
 );
 
@@ -217,7 +217,7 @@ IR::IRCmd put_3L_cmd(4);
 //float target = 0;
 //float a = 0;
 
-bool auto_flag = 0;
+//bool auto_flag = 0;
 
 
 
@@ -269,7 +269,7 @@ void Main_Task(void *argument)
 			}
 		} 
 		
-		if (/*remote_ctrl.swa*/auto_flag == 1)
+		if (remote_ctrl.swa)
 		{
 			dis_flag = false;
 			
@@ -322,7 +322,24 @@ void Path_Task(void *argument)
 task::TaskCreator path_task("Path_Task", 31, 256, Path_Task, NULL);
 
 
-uint8_t state = 0;
+
+
+enum AutoState : uint8_t
+{
+	STATE_PUT_2L = 0,
+	STATE_AVOID_R1,
+	STATE_COMBINE_READY,
+	STATE_COMBINE,
+	STATE_PUT_3L,
+	STATE_END
+};
+
+
+
+AutoState state = STATE_PUT_2L;
+
+
+
 
 
 void Plan_Task(void *argument)
@@ -373,52 +390,60 @@ void Plan_Task(void *argument)
 	for (;;)
 	{
 		
-		putKFS.Put_First_Fail_Navi();
+		
 		
 		
 		switch (state)
 		{
-			case 0:
+			case STATE_PUT_2L:
 			{
-				if (1)
+				if (putKFS.Put_First_Fail_Navi())
 				{
-					state = 1;
+					state = STATE_AVOID_R1;
 				}
 				break;
 			}
 			
+			case STATE_AVOID_R1:
+			{
+				if (navigation.Go_To_Avoid_R1_In_ARENA())
+				{
+					state = STATE_COMBINE_READY;
+				}
+				break;
+			}
 			
-			case 1:
+			case STATE_COMBINE_READY:
 			{
 				if (combine_ready_cmd.Get_Cmd() && !com.Is_Combine())
 				{
 					navigation.Go_To_Combine_Ready();
 					
-					state = 2;
+					state = STATE_COMBINE;
 				}
 				break;
 			}
 			
 			
-			case 2:
+			case STATE_COMBINE:
 			{
 				if (combine_cmd.Get_Cmd() && !com.Is_Combine())
 				{
 					navigation.Go_To_Combine();
 					
-					state = 3;
+					state = STATE_PUT_3L;
 				}
 				break;
 			}
 			
 			
-			case 3:
+			case STATE_PUT_3L:
 			{
 				if (put_3L_cmd.Get_Cmd())
 				{
 					path::Event3::Trig_Event(EVENT_PUT_KFS_3L_READY | EVENT_PUT_KFS_PUT);
 					
-					state = 4;
+					state = STATE_END;
 				}
 				break;
 			}
@@ -426,7 +451,7 @@ void Plan_Task(void *argument)
 			
 			default:
 			{
-				state = 0;
+				state = STATE_END;
 				break;
 			}
 			
