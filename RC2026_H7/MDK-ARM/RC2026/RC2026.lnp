@@ -123,6 +123,7 @@
 "rc2026\rc_kfs_pose.o"
 "rc2026\rc_camera_dock.o"
 "rc2026\rc_wait_r1.o"
+"rc2026\rc_get_data.o"
 "rc2026\rc_init.o"
 "rc2026\rc_data_pool.o"
 "rc2026\rc_auto_ctrl.o"

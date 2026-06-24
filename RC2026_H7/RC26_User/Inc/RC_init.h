@@ -60,6 +60,7 @@
 #include "RC_best_path.h"
 #include "RC_wait_R1.h"
 #include "RC_camera_dock.h"
+#include "RC_get_data.h"
 
 /* HAL */
 #include "fdcan.h"

@@ -42,7 +42,7 @@ GetWeaponHead::GetWeaponHead(
     chassis_target_yaw = 0.0f; 
 
     UpdateSideParam();
-    Set_Ctrl_Mode(SpeedMode::NORMAL);
+    Set_Ctrl_Mode(SpeedMode::FAST);
 
 }
 
@@ -199,7 +199,7 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         if(PICK_SUCCESS_FLAG) {
             gantry_state = GANTRY_STATE::Gantry_Restoration_X;
             weapon_event.Finish();
-            // path_plan.Enable();
+             path_plan.Enable();
             // head_ctrl.Disable();
             chassis_state = CHASSIS_STATE::Chassis_Idle;
         }

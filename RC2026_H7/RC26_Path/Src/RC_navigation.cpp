@@ -262,12 +262,12 @@ namespace path
 		if (data::Side::Is_Blue_Left_Side())
 		{
 			yaw = -HALF_PI;
-			p = vector2d::Vector2D(10.3, -4.9);
+			p = vector2d::Vector2D(10.3, -4);
 		}
 		else
 		{
 			yaw = HALF_PI;
-			p = vector2d::Vector2D(10.3, 4.9);
+			p = vector2d::Vector2D(10.3, 4);
 		}
 		
 		return Go_To_Do(p, yaw, EVENT3_NULL);

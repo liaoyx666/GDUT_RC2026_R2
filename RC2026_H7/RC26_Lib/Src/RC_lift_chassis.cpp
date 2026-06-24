@@ -9,9 +9,9 @@ namespace chassis
 	) : L_lift(L_lift_), R_lift(R_lift_), chassis(chassis_), qeo(qeo_), L_wheel(L_wheel_), R_wheel(R_wheel_),
 	lift_event{
 		path::Event3(5 , 0.1f, false, false),	  // EVENT_UP_2_READY_L
-		path::Event3(6 , 0.5f, false, false),     // EVENT_UP_4_READY_L
+		path::Event3(6 , 0.3f, false, false),     // EVENT_UP_4_READY_L
 		path::Event3(7 , 0.1f, false, false),     // EVENT_UP_2_READY_R
-		path::Event3(8 , 0.5f, false, false),     // EVENT_UP_4_READY_R
+		path::Event3(8 , 0.3f, false, false),     // EVENT_UP_4_READY_R
 		path::Event3(9 , 0.1f, false, false),     // EVENT_DOWN_2_READY_L
 		path::Event3(10, 0.1f, false, false),     // EVENT_DOWN_4_READY_L
 		path::Event3(11, 0.1f, false, false),     // EVENT_DOWN_2_READY_R

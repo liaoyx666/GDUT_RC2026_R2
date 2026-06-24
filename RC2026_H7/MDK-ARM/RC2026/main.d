@@ -108,4 +108,5 @@ rc2026/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\RC26_Ros_Interface\Inc\RC_camera_dock.h \
   ..\RC26_Lib\Inc\RC_stick_edge.h ..\RC26_Ros_Interface\Inc\RC_radar.h \
   ..\RC26_Ros_Interface\Inc\RC_best_path.h \
-  ..\RC26_Ros_Interface\Inc\RC_wait_R1.h
+  ..\RC26_Ros_Interface\Inc\RC_wait_R1.h \
+  ..\RC26_Ros_Interface\Inc\RC_get_data.h

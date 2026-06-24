@@ -1567,6 +1567,16 @@
               <FileType>5</FileType>
               <FilePath>..\RC26_Ros_Interface\Inc\RC_wait_R1.h</FilePath>
             </File>
+            <File>
+              <FileName>RC_get_data.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\RC26_Ros_Interface\Src\RC_get_data.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>RC_get_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\RC26_Ros_Interface\Inc\RC_get_data.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

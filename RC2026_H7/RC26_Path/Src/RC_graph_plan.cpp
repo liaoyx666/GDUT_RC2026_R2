@@ -145,8 +145,9 @@ namespace path
 	bool GraphPlan::Flat_Move(Destination dst)
 	{
 		HeadConstr3 h = plan.plan.head_m;
+		LonConstr3 l = plan.plan.lon_m;
 		h.yaw = dst.nav.yaw;
-		return Add_Point_Wait(dst.nav.p, NAV_FLAT_MOVE_BLEND_DIS, NULL, &h, dst.event, (bool)dst.type);
+		return Add_Point_Wait(dst.nav.p, NAV_FLAT_MOVE_BLEND_DIS, &l, &h, dst.event, (bool)dst.type);
 	}
 	
 	
@@ -248,7 +249,7 @@ namespace path
 		float dis = (last_nav.p - e_center).length();
 		if (dis > 1.85f) /* 是否太远 */ 
 		{
-			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET - 0.6f); /*航向检查，触发点坐标*/
+			p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_HEAD_CHECK_OFFSET - 0.25f); /*航向检查，触发点坐标*/
 		}
 		else if (dis < 0.67f) /* 是否太近 */ 
 		{
@@ -496,7 +497,7 @@ namespace path
 			{
 				head.yaw = HALF_PI;
 			}
-			if (!Add_Point_Wait(high + offset, 0.8f, &lon, &head, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high + offset, 1.2f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		else
 		{

@@ -31,7 +31,7 @@ namespace ros
 			
 			// 应答
 			uint8_t ack = 1;
-			cdc->CDC_Send_Pkg(7, &ack, 1, 1000);
+			cdc->CDC_Send_Pkg(7, &ack, 1, 10);
 		}
 	}
 	
