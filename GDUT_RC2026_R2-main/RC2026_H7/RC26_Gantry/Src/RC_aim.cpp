@@ -11,7 +11,7 @@ namespace gantry
 		  gripper(gripper_),
 		  user(gantry_),
 		  aim_event(21, 0.1f, true, true), // EVENT_AIM = EVENT3_ID_21
-		  z_lpf(0.50f, 1000.0f), y_lpf(0.50f, 1000.0f),
+		  y_lpf(0.50f, 1000.0f),
 			ir(1)
 	{
 	}
@@ -36,15 +36,14 @@ namespace gantry
 	{
 		user.Give_Control();
 		Tracker_Clear();
-		phase    = Phase_Idle;
-		y_result = 0;
+		phase       = Phase_Idle;
+		y_result    = 0;
+		timer_flag  = 0;
+		timer_done  = 0;
 	}
 
 	void Aim_Ctrl::Auto_Aim()
 	{
-		float error = 0;
-		float final_error_z = 0;
-		float final_error_y = 0;
 
 		/*---- 空闲：等待事件触发 ----*/
 		if (phase == Phase_Idle)
@@ -68,18 +67,22 @@ namespace gantry
 
 		switch (phase)
 		{
-		/*---- 阶段0：预定位，将龙门架移至预设起始位置 ----*/
+		/*---- 阶段0：预定位（四轴 + Pitch 前倾 + 力矩限幅，复用 Stick 策略）----*/
 		case Phase_PrePosition:
 		{
-			user.Set_X(PRE_POS_X);
-			user.Set_Y(PRE_POS_Y);
-			user.Set_Z(PRE_POS_Z);
+			user.Set_X(DOCK_POS_X);
+			user.Set_Y(DOCK_POS_Y);
+			user.Set_Z(DOCK_POS_Z);
+			user.Set_P_Max_T(DOCK_P_MAX_T);
+			user.Set_P(DOCK_POS_P);
 
-			float dx = fabsf(gantry.Get_X() - PRE_POS_X);
-			float dy = fabsf(gantry.Get_Y() - PRE_POS_Y);
-			float dz = fabsf(gantry.Get_Z() - PRE_POS_Z);
+			float dx = fabsf(gantry.Get_X() - DOCK_POS_X);
+			float dy = fabsf(gantry.Get_Y() - DOCK_POS_Y);
+			float dz = fabsf(gantry.Get_Z() - DOCK_POS_Z);
+			float dp = fabsf(gantry.Get_P() - DOCK_POS_P);
 
-			if (dx < PRE_POS_THRESHOLD && dy < PRE_POS_THRESHOLD && dz < PRE_POS_THRESHOLD)
+			if (dx < DOCK_POS_THRESHOLD && dy < DOCK_POS_THRESHOLD &&
+			    dz < DOCK_POS_THRESHOLD && dp < DOCK_POS_THRESHOLD)
 			{
 				Tracker_Clear();
 				phase = Phase_Check;
@@ -96,81 +99,20 @@ namespace gantry
 
 			break;
 
-		/*---- 阶段1：yaw角补正，PID闭环控制底盘角速度 ----*/
+		/*---- 阶段2：yaw 补正（占位，锁底盘平动）----*/
 		case Phase_Yaw:
 
 				chassis.Force_Lin_Vel_Zero(4);
 
-				phase = Phase_YZ_Coarse;
+				// TODO: 基于 camera.Yaw() 闭环控制底盘角速度
+				// target_w = pid.Calculate(0, camera.Yaw());
+				// chassis.Set_Ang_Vel(target_w);
+				phase = Phase_Y;
 
 			break;
 
-		/*---- Y-Z粗调：双轴同时大步逼近 ----*/
-		 case Phase_YZ_Coarse:
-		 {
-		// 	float error_z = Get_Data(Axis_Z);
-		// 	float error_y = Get_Data(Axis_Y);
-		//
-		// 	if (!check_error())
-		// 	{
-		// 		final_error_z = z_lpf.filter(error_z + gantry.Get_Z());
-		// 		final_error_y = y_lpf.filter(error_y + gantry.Get_Y());
-		//
-		// 		user.Set_Z(final_error_z);
-		// 		user.Set_Y(final_error_y);
-		// 	}
-		// 	else break;
-		//
-		// 	bool z_stable = Frame_Stable(Axis_Z, COARSE_FRAME_COUNT, COARSE_STABLE_THRESHOLD);
-		// 	bool y_stable = Frame_Stable(Axis_Y, COARSE_FRAME_COUNT, COARSE_STABLE_THRESHOLD);
-		//
-		// 	if (z_stable && y_stable &&
-		// 	    fabsf(error_z) < COARSE_STABLE_THRESHOLD &&
-		// 	    fabsf(error_y) < COARSE_STABLE_THRESHOLD)
-		// 	{
-		// 		Tracker_Clear();
-		 		phase = Phase_Z;
-		// 	}
-		// 	break;
-		 }
-
-		/*---- 阶段2：y补正，PID闭环控制Gantry Y轴 ----*/
+		/*---- 阶段3：Y 轴视觉闭环 ----*/
 		case Phase_Y:
-			if (!check_error())
-			{
-				error  = Get_Data(Axis_Y);
-				final_error_y = y_lpf.filter(gantry.Get_Y() + error);
-				user.Set_Y(final_error_y);
-			}
-			else
-				break;
-			if (Frame_Stable(Axis_Y))
-			{
-				Tracker_Clear();
-				if (fabsf(error) < 0.001f)
-					phase = Phase_Z;
-			}
-			break;
-		 
-		/*---- 阶段3：z补正，PID闭环控制Gantry Z轴 ----*/
-		case Phase_Z:
-			if (!check_error())
-			{
-				error  = Get_Data(Axis_Z) + bais;
-				final_error_z = z_lpf.filter(error + gantry.Get_Z());
-				user.Set_Z(final_error_z);
-			}
-			else
-				break;
-			if (Frame_Stable(Axis_Z))
-			{
-				Tracker_Clear();
-				if (fabsf(error) < 0.001f)
-					phase = Phase_Y2;
-			}
-			break;
-			
-		case Phase_Y2:
 			if (!check_error())
 			{
 				error  = Get_Data(Axis_Y);
@@ -186,41 +128,46 @@ namespace gantry
 					phase = Phase_Wait;
 			}
 			break;
-			
-		case Phase_Wait:
-			if(ir.Get_Cmd())
-			{
-				phase = Phase_Done;
-			}
-			break;
-		/*---- 阶段5：对准完成 ----*/
-		case Phase_Done:
 
-				gripper.Open();
+	/*---- 阶段4：等待红外确认 ----*/
+	case Phase_Wait:
+		if(ir.Get_Cmd())
+		{
+			phase = Phase_Release;
+		}
+		break;
 
-				if(!timer_flag)
-				{
-					last_time = timer::Timer::Get_TimeStamp();
-					timer_flag = 1;
-				}
-				
-				if (camera.Is_QR_Enabled())
-				{
-					camera.QR_Disable();
-				}
-				
-				if(timer::Timer::Get_DeltaTime(last_time) > 3000000)
-				{
-					chassis.Unforce_Lin_Vel_Zero(4);
-					user.Set_Reset_Pos();
-					Tracker_Clear();
-					user.Give_Control();
-					aim_event.Finish();
-					timer_done = 1;
-					phase = Phase_Idle;
-				}
+	/*---- 阶段5：松爪并计时 ----*/
+	case Phase_Release:
+		
+		gripper.Open();
 
-			break;
+		last_time = timer::Timer::Get_TimeStamp();
+		phase = Phase_Done;
+	
+		break;
+
+	/*---- 阶段6：计时到，恢复 ----*/
+	case Phase_Done:
+		
+		if (camera.Is_QR_Enabled())
+		{
+			camera.QR_Disable();
+		}
+
+	
+		if(timer::Timer::Get_DeltaTime(last_time) > 6000000)
+		{
+			user.Set_P_Max_T(RESTORE_P_MAX_T);  // 恢复满力矩
+			chassis.Unforce_Lin_Vel_Zero(4);
+			user.Set_Reset_Pos();
+			Tracker_Clear();
+			user.Give_Control();
+			aim_event.Finish();
+			timer_done = 1;
+			phase = Phase_Idle;
+		}
+		break;
 		default:
 			phase = Phase_Idle;
 			break;

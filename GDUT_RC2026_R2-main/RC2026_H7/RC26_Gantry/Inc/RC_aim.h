@@ -18,17 +18,14 @@ namespace gantry
 		static constexpr uint16_t DEFAULT_FRAME = 60;
 		static constexpr float   DEFAULT_ERROR = 0.001f;
 
-		static constexpr float    COARSE_STABLE_THRESHOLD = 0.002f;
-		static constexpr uint16_t COARSE_FRAME_COUNT      = 60;
-
 		Aim_Ctrl(ros::Camera& camera_,
 		         gantry::Gantry& gantry_,
 				 chassis::Chassis& chassis_,
 				 gantry::Gripper& gripper_);
-		
+
 	  IR::IRCmd ir;
-	
-	
+
+
 		enum Axis : uint8_t
 		{
 			Axis_X,
@@ -76,14 +73,13 @@ namespace gantry
 		void Auto_Aim();
 		bool Is_Done() const { return phase == Phase_Done; }
 		float Get_Y() const { return y_result; }
-		
+
 		float bais = -0.016;
-		
+
 	private:
 		float Get_Data(Axis axis);
 		void Tracker_Clear();
 				float error = 0;
-		float final_error_z = 0;
 		float final_error_y = 0;
 		struct Stable_Tracker
 		{
@@ -102,13 +98,16 @@ namespace gantry
 
 		path::Event3 aim_event;
 
-		filter::SecondOrderLPF z_lpf;
 		filter::SecondOrderLPF y_lpf;
 
-		static constexpr float PRE_POS_X = 0.05f;
-		static constexpr float PRE_POS_Y = 0.0f;
-		static constexpr float PRE_POS_Z = 0.0f;
-		static constexpr float PRE_POS_THRESHOLD = 0.005f;
+		// Stick 对接姿态（与 StickEdge 一致）
+		static constexpr float DOCK_POS_X         = 0.0f;
+		static constexpr float DOCK_POS_Y         = 0.09f;
+		static constexpr float DOCK_POS_Z         = 0.033f;
+		static constexpr float DOCK_POS_P         = 0.2f;
+		static constexpr float DOCK_P_MAX_T       = 3.0f;
+		static constexpr float RESTORE_P_MAX_T    = 27.0f;
+		static constexpr float DOCK_POS_THRESHOLD = 0.002f;
 
 		bool aim_finish_flag = false;
 		bool timer_flag = false;
@@ -122,11 +121,9 @@ namespace gantry
 			Phase_PrePosition,
 			Phase_Check,
 			Phase_Yaw,
-			Phase_YZ_Coarse,
-			Phase_Z,
 			Phase_Y,
-			Phase_Y2,
 			Phase_Wait,
+			Phase_Release,
 			Phase_Done
 		};
 		Phase  phase    = Phase_Idle;

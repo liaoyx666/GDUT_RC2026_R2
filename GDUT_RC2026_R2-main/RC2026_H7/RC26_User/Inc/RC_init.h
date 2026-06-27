@@ -79,7 +79,6 @@ extern "C" {
 
 /* C interface */
 void All_Init();
-//void vApplicationIdleHook(void);
 
 #ifdef __cplusplus
 }

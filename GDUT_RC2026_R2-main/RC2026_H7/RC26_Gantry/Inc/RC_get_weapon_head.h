@@ -20,35 +20,11 @@ namespace gantry
     class GetWeaponHead
     {
     public:
-        GetWeaponHead(
-        chassis::Chassis& omni4chassis_,
-        data::RobotPose& pose_,
-        Gantry& gantry_, 
-        mini_laser::MiniLaser& laser_,
-        Gripper& gripper_, 
-        path::PathPlan3& path_plan_,
-	    path::HeadCtrl& head_ctrl_,
-        bool blue_side = true
-    );        
-        ~GetWeaponHead() = default;
-        void Set_Pick_Num(int num) { pick_num = num; }
-        void Auto_Get_Weapon_Head();
-        
-    private:
-        void StopChassis();
-        void Pick(uint8_t num);      
-        void Pick_Next(); 
 
-        bool MoveChassis(float world_x, float world_y, float deadzone);
-        
-        void Set_Yaw(float yaw);
-
-        void Cal_Current_Pos();// 注意激光数据跳变
-
-        bool Set_Gantry_X(float target_x);
-        bool Set_Gantry_Y(float target_y);
-        bool Set_Gantry_Z(float target_z);
-        void Set_Gantry_Pitch(float target_pitch);
+        enum class Computer_Side : uint8_t {
+            BLUE_SIDE = 1,
+            RED_SIDE = 0
+        };
 
         enum class CHASSIS_STATE : uint8_t {
             Chassis_Idle,    // 等待触发
@@ -82,6 +58,39 @@ namespace gantry
             Gantry_Retry, 
 
         };
+
+        GetWeaponHead(
+        chassis::Chassis& omni4chassis_,
+        data::RobotPose& pose_,
+        Gantry& gantry_, 
+        mini_laser::MiniLaser& laser_,
+        Gripper& gripper_, 
+        path::PathPlan3& path_plan_,
+	    path::HeadCtrl& head_ctrl_,
+        Computer_Side computer_side_ = Computer_Side::BLUE_SIDE
+    );        
+        ~GetWeaponHead() = default;
+        void Set_Side(bool side);
+        void Set_Pick_Num(int num) { pick_num = num; }
+        void Auto_Get_Weapon_Head();
+        
+    private:
+        void StopChassis();
+        void Pick(uint8_t num);      
+        void Pick_Next(); 
+
+        bool MoveChassis(float world_x, float world_y, float deadzone);
+        
+        void Set_Yaw(float yaw);
+
+        void Cal_Current_Pos();// 注意激光数据跳变
+
+        bool Set_Gantry_X(float target_x);
+        bool Set_Gantry_Y(float target_y);
+        bool Set_Gantry_Z(float target_z);
+        void Set_Gantry_Pitch(float target_pitch);
+
+        void UpdateSideParam();
 
         data::RobotPose& pose;
         chassis::Chassis& omni4chassis;
@@ -122,7 +131,7 @@ namespace gantry
         uint32_t grab_start_time;
 
         int pick_num;
-        bool blue_side; // 蓝区/红区标志
+        Computer_Side computer_side; // 蓝区/红区标志
 
         // 龙门架三轴位置
         static constexpr float GET_Z = 0.327129f;  
@@ -130,11 +139,11 @@ namespace gantry
         static constexpr float GANTRY_RETRACT_X = 0.03f;//龙门架复位后X轴位置
 
         static constexpr float READY_GANTRY_DIST = 0.16f;
-        static constexpr float READY_CHASSIS_DIST = 0.3f;
+        static constexpr float READY_CHASSIS_DIST = 0.22f;
 
         // 停止阈值
-        static constexpr float GANTRY_POS_TOLERANCE = 0.018f;
-        static constexpr float CHASSIS_POS_TOLERANCE = 0.04f;
+        static constexpr float GANTRY_POS_TOLERANCE = 0.01f;
+        static constexpr float CHASSIS_POS_TOLERANCE = 0.06f;
         static constexpr uint32_t WAIT_GANTRY_GRAB_TIME =  1000000U ; // 单位：us
 
         uint8_t detect_cnt = 0;

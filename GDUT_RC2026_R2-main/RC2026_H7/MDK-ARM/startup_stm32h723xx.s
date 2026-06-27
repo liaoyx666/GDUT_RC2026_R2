@@ -219,7 +219,7 @@ __Vectors       DCD     __initial_sp                      ; Top of Stack
                 DCD     LPTIM5_IRQHandler                 ; LP TIM5 global interrupt                                          
                 DCD     LPUART1_IRQHandler                ; LP UART1 interrupt                                                
                 DCD     0                                 ; Reserved                                                                              
-                DCD     CRS_IRQHandler                    ; Clock Recovery Global Interrupt
+                DCD     CRS_IRQHandler                    ; Clock Recovery Global Interrupt                                   
                 DCD     ECC_IRQHandler                    ; ECC diagnostic Global Interrupt                                              
                 DCD     SAI4_IRQHandler                   ; SAI4 global interrupt                                                
                 DCD     DTS_IRQHandler                    ; DTS  interrupt                                
@@ -252,7 +252,8 @@ Reset_Handler    PROC
         IMPORT  SystemInit
         IMPORT  __main
 
-                 LDR     R0, =ExitRun0Mode
+
+NULL                  LDR     R0, =ExitRun0Mode
                  BLX     R0
                  LDR     R0, =SystemInit
                  BLX     R0

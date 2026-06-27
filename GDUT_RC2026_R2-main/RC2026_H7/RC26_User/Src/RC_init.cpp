@@ -53,7 +53,7 @@ data::RobotPose robot_pose;
 chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
-	2.5, 4, 4,
+	2.8, 4, 4,
 	5, 6, 7,
 	robot_pose
 );
@@ -77,8 +77,8 @@ path::TrajTrack3 track(
 
 // 路径规划
 path::PathPlan3 path_plan(
-	path::LonConstr3(2.5, 2.0),
-	path::HeadConstr3(0, 4, 5, false),
+	path::LonConstr3(2.8, 2.5),
+	path::HeadConstr3(0, 5, 5.5, false),
 	track
 );
 
@@ -217,6 +217,10 @@ IR::IRCmd put_3L_cmd(4);
 //float target = 0;
 //float a = 0;
 
+bool auto_flag = 0;
+
+
+
 bool en_flag = false;
 bool dis_flag = false;
 
@@ -237,19 +241,14 @@ void Main_Task(void *argument)
 		
 		stick_edge.Stick_Edge();
 		
-		
 		path_plan.Plan();
 		
 		robot_pose.Robot_Pose_Check();
 		
 		getKFS.Auto_Get_KFS();
 		
-		
-		
 		putKFS.Auto_Put_KFS();
 		
-		
-
 		wait_R1.Wait_R1();
 		
 		aim.Auto_Aim();
@@ -268,9 +267,9 @@ void Main_Task(void *argument)
 			{
 				radar.Reposition(); /*雷达重定位*/
 			}
-		}
+		} 
 		
-		if (remote_ctrl.swa == 1)
+		if (/*remote_ctrl.swa*/auto_flag == 1)
 		{
 			dis_flag = false;
 			
@@ -279,7 +278,7 @@ void Main_Task(void *argument)
 				path_plan.Enable();
 				en_flag = true;
 			}
-		} 
+		}
 		else
 		{
 			en_flag = false;
@@ -328,109 +327,119 @@ uint8_t state = 0;
 
 void Plan_Task(void *argument)
 {
-	osDelay(200);
+	while(!data::AllData::Is_All_Init())
+	{
+		osDelay(10);
+	}
 	
+	osDelay(200);
 	ir_com.Clear_All_Cmd();
 	
-	// 全局起点
-	navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
 	
-	get_weapon_head.Set_Pick_Num(1); /*夹第4个武器（靠内小）*/
+	get_weapon_head.Set_Side(data::Side::Is_Blue_Left_Side());
+	get_weapon_head.Set_Pick_Num(data::PickWeaponNum::Get_Pick_Num()); /*夹第4个武器（靠内小）*/
+	
+	
+	// 初始化全局起点
+	if (data::BootArea::Is_Boot_At_Mc())
+	{
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+		}
+		else
+		{
+			navigation.Add_Start(vector2d::Vector2D(0.42, 4.53), 0);
+		}
+	}
+	else
+	{
+		navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
+	}
+	
+	
 	
 	navigation.Go_To_Get_Weapon_Head();
 	
-	//navigation.Go_To_Dock();
+	navigation.Go_To_Dock();
 
-	navigation.Go_To_Stick_Edge();
+//	navigation.Go_To_Stick_Edge();
 	
 	
-	best_path.Generate_Path();
+//	best_path.Generate_Path();
 
-	navigation.Go_To_Put_KFS_2L(2);
+//	navigation.Go_To_Put_KFS_2L(2);
 
 	for (;;)
 	{
 		
-		putKFS.Put_First_Fail_Navi();
+//		putKFS.Put_First_Fail_Navi();
 		
 		
-		switch (state)
-		{
-			case 0:
-			{
-				if (1)
-				{
-					state = 1;
-				}
-				break;
-			}
-			
-			
-			case 1:
-			{
-				if (combine_ready_cmd.Get_Cmd() && !com.Is_Combine())
-				{
-					navigation.Go_To_Combine_Ready();
-					
-					state = 2;
-				}
-				break;
-			}
-			
-			
-			case 2:
-			{
-				if (combine_cmd.Get_Cmd() && !com.Is_Combine())
-				{
-					navigation.Go_To_Combine();
-					
-					state = 3;
-				}
-				break;
-			}
-			
-			
-			case 3:
-			{
-				if (put_3L_cmd.Get_Cmd())
-				{
-					path::Event3::Trig_Event(EVENT_PUT_KFS_3L_READY | EVENT_PUT_KFS_PUT);
-					
-					state = 4;
-				}
-				break;
-			}
-			
-			
-			default:
-			{
-				state = 0;
-				break;
-			}
-			
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-//		else if (combine_cmd.Get_Cmd() && !com.Is_Combine())
+//		switch (state)
 //		{
-//			navigation.Go_To_Combine();
-//		}
-//		else if (combine_cmd.Get_Cmd() && com.Is_Combine())
-//		{
-//			navigation.Uncombine(vector2d::Vector2D(robot_pose.X(), robot_pose.Y()), robot_pose.Yaw());
+//			case 0:
+//			{
+//				if (1)
+//				{
+//					state = 1;
+//				}
+//				break;
+//			}
+//			
+//			
+//			case 1:
+//			{
+//				if (combine_ready_cmd.Get_Cmd() && !com.Is_Combine())
+//				{
+//					navigation.Go_To_Combine_Ready();
+//					
+//					state = 2;
+//				}
+//				break;
+//			}
+//			
+//			
+//			case 2:
+//			{
+//				if (combine_cmd.Get_Cmd() && !com.Is_Combine())
+//				{
+//					navigation.Go_To_Combine();
+//					
+//					state = 3;
+//				}
+//				break;
+//			}
+//			
+//			
+//			case 3:
+//			{
+//				if (put_3L_cmd.Get_Cmd())
+//				{
+//					path::Event3::Trig_Event(EVENT_PUT_KFS_3L_READY | EVENT_PUT_KFS_PUT);
+//					
+//					state = 4;
+//				}
+//				break;
+//			}
+//			
+//			
+//			default:
+//			{
+//				state = 0;
+//				break;
+//			}
+//			
 //		}
 		
 		
 		
+		
+		
+		
+		
+		
+
 		osDelay(1);
 	}
 }
@@ -459,9 +468,9 @@ void Motor_Config()
 	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
 	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
 	
-	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 314.16);
-	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 8000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
 	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
@@ -503,8 +512,13 @@ void All_Init()
 	hwt101ct.Uart_Rx_Start();
 	ir_com.Uart_Rx_Start();
 
-	// 场地位置初始化
-	data::Init_Side(true);
+	// 初始化数据
+	data::Side::Init_Is_Blue_Left_Side(true);
+	data::KFSNum::Init_KFS_Num(0);
+	data::HaveWeapon::Init_Have_Weapon(false);
+	data::IsDock::Init_Is_Dock(true);
+	data::BootArea::Init_Is_Boot_At_Mc(true);
+	data::PickWeaponNum::Init_Pick_Num(1);
 	
 	gan.Init();
 }

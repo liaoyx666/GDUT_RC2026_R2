@@ -232,7 +232,7 @@ namespace path
 	
 	constexpr float UP_STAIR_FINISH_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;
 	
-	constexpr float UP_STAIR_HEAD_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.12f;
+	constexpr float UP_STAIR_HEAD_OFFSET = -MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.1f;
 	
 	bool GraphPlan::Up_Stair(uint8_t s, uint8_t e, int8_t h)
 	{
@@ -341,7 +341,7 @@ namespace path
 	
 	constexpr float DOWN_STAIR_FINISH_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f;
 	
-	constexpr float DOWN_STAIR_HEAD_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.12f;
+	constexpr float DOWN_STAIR_HEAD_OFFSET = MapGraph::MF_SIZE / 2.f + MapGraph::CHASSIS_SIZE / 2.f + 0.1f;
 	
 	bool GraphPlan::Down_Stair(uint8_t s, uint8_t e, int8_t h)
 	{
@@ -427,7 +427,7 @@ namespace path
 		head.yaw = MapGraph::Yaw_On_Dir(dir);
 		if (e == 13)
 		{
-			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_OFFSET + 0.08); /*向前防止碰撞*/
+			p = MapGraph::Offset_On_Dir(s_center, move_dir, DOWN_STAIR_HEAD_OFFSET + 0.1); /*向前防止碰撞*/
 		}
 		else
 		{
@@ -450,8 +450,9 @@ namespace path
 	{
 		vector2d::Vector2D low;
 		vector2d::Vector2D high;
+		vector2d::Vector2D offset;
 		
-		uint8_t dx = data::Is_Blue_Left_Side();
+		uint8_t dx = data::Side::Is_Blue_Left_Side();
 		
 		if (dx)
 		{
@@ -460,6 +461,8 @@ namespace path
 			
 			high = MapGraph::Offset_On_Dir(MapGraph::ARENA[dx].Get_A() + MapGraph::ARENA[dx].Get_AB(), DIR_B, 0.6f);
 			high = MapGraph::Offset_On_Dir(high, DIR_R, 0.75f);
+			
+			offset = vector2d::Vector2D(0, -3);
 		}
 		else
 		{
@@ -468,6 +471,8 @@ namespace path
 			
 			high = MapGraph::Offset_On_Dir(MapGraph::ARENA[dx].Get_A() + MapGraph::EXIT[dx].Get_AC() + MapGraph::ARENA[dx].Get_AB(), DIR_B, 0.6f);
 			high = MapGraph::Offset_On_Dir(high, DIR_L, 0.75f);
+			
+			offset = vector2d::Vector2D(0, 3);
 		}
 		
 		LonConstr3 lon = plan.plan.lon_m;
@@ -476,20 +481,38 @@ namespace path
 		{
 			if (!Add_Point_Wait(low, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
-			lon.v = 1.8;
+			lon.v = 2.0;
 			
+			if (!Add_Point_Wait(high, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
+			
+			
+			lon = plan.plan.lon_m;
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = -HALF_PI;
-			if (!Add_Point_Wait(high, 0.35f, &lon, &head, EVENT3_NULL, false)) return false;
+			if (dx)
+			{
+				head.yaw = -HALF_PI;
+			}
+			else
+			{
+				head.yaw = HALF_PI;
+			}
+			if (!Add_Point_Wait(high + offset, 0.6f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		else
 		{
 			if (!Add_Point_Wait(high, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
-			lon.v = 1.8;
+			lon.v = 2.0;
 			
 			HeadConstr3 head = plan.plan.head_m;
-			head.yaw = -HALF_PI;
+			if (dx)
+			{
+				head.yaw = -HALF_PI;
+			}
+			else
+			{
+				head.yaw = HALF_PI;
+			}
 			if (!Add_Point_Wait(low, 0.35f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
 		

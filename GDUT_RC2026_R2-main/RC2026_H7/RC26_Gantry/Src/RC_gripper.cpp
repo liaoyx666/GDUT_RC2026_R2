@@ -6,7 +6,7 @@ namespace gantry
         : motor_p(m_p_)
     {
         // 默认初始化为打开状态
-        motor_p.Set_Current(0);
+        Open();
     }
 
 

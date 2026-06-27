@@ -5,19 +5,221 @@
 #ifdef __cplusplus
 namespace data
 {
+	/*================启动区===================*/
+	class BootArea
+    {
+    public:
+		BootArea() = delete;
+		~BootArea() = delete;
+
+		// 初始化启动区
+		static void Init_Is_Boot_At_Mc(bool is_boot_at_mc_)
+		{
+			if (!is_init)
+			{
+				is_boot_at_mc = is_boot_at_mc_;
+				is_init = true;
+			}
+		}
+		
+		static bool Is_Boot_Area_Init() { return is_init; }
+		static bool Is_Boot_At_Mc() { return is_boot_at_mc; }
+    private:
+		static inline bool is_boot_at_mc = true;// 是否在武馆启动（默认启动区）
+		static inline bool is_init = false;
+    };
+	/*================启动区===================*/
+	
+	
+	
+	
+	
+	
+	
+	
 	/*================左右半场===================*/
-	void Init_Side(bool blue_left_side_);
-	bool Is_Side_Init();
-	bool Is_Blue_Left_Side();
+	class Side
+    {
+    public:
+		Side() = delete;
+		~Side() = delete;
+		
+		// 初始化场地位置
+		static void Init_Is_Blue_Left_Side(bool blue_left_side_)
+		{
+			if (!is_init)
+			{
+				blue_left_side = blue_left_side_;
+				is_init = true;
+			}
+		}
+		
+		static bool Is_Side_Init() { return is_init; }
+		static bool Is_Blue_Left_Side() { return blue_left_side; }
+	
+    private:
+		static inline bool blue_left_side = true;  /*场地位置*/
+		static inline bool is_init = false;
+	
+		friend class AllData;
+    };
 	/*================左右半场===================*/
+	
+	
+	
+	
+	
+	
 	
 	/*==============携带KFS的数量=====================*/
-	uint8_t KFS_Num();
-	void KFS_Add_One();
-	void KFS_Sub_One();
+	class KFSNum
+    {
+    public:
+		KFSNum() = delete;
+		~KFSNum() = delete;
+    
+		// 初始化KFS数量
+		static void Init_KFS_Num(uint8_t kfs_num)
+		{
+			if (!is_init)
+			{
+				KFS_num = kfs_num;
+				is_init = true;
+			}
+		}
+		
+		static bool Is_KFS_Num_Init() { return is_init; }
+		static uint8_t Get_KFS_Num() { return KFS_num; }
+		static void KFS_Add_One() { KFS_num++; }
+		static void KFS_Sub_One() { KFS_num--; }
+		
+    private:
+		static inline uint8_t KFS_num = 0;
+		static inline bool is_init = false;
+	
+		friend class AllData;
+    };
 	/*==============携带KFS的数量=====================*/
 	
 	
+	
+	
+	
+	/*==============是否持有武器=====================*/
+	class HaveWeapon
+    {
+    public:
+		HaveWeapon() = delete;
+		~HaveWeapon() = delete;
+    
+		static void Init_Have_Weapon(bool have)
+		{
+			if (!is_init)
+			{
+				have_weapon = have;
+				is_init = true;
+			}
+		}
+		
+		static bool Is_Have_Weapon_Init() { return is_init; }
+		static bool Have_Weapon() { return have_weapon; }
+
+    private:
+		static inline bool have_weapon = false;
+		static inline bool is_init = false;
+	
+		friend class AllData;
+    };
+	/*==============是否持有武器=====================*/
+	
+	
+	
+	
+	/*==============是否对接=====================*/
+	class IsDock
+    {
+    public:
+		IsDock() = delete;
+		~IsDock() = delete;
+
+		static void Init_Is_Dock(bool is_dock_)
+		{
+			if (!is_init)
+			{
+				is_dock = is_dock_;
+				is_init = true;
+			}
+		}
+		
+		static bool Is_Dock_Init() { return is_init; }
+		static bool Is_Dock() { return is_dock; }
+		
+    private:
+		static inline bool is_dock = false;
+		static inline bool is_init = false;
+		
+		friend class AllData;
+    };
+	/*==============是否对接=====================*/
+	
+
+	
+	/*==============取武器编号=====================*/
+	class PickWeaponNum
+    {
+    public:
+		PickWeaponNum() = delete;
+		~PickWeaponNum() = delete;
+
+		static void Init_Pick_Num(uint8_t pick_num_)
+		{
+			if (!is_init)
+			{
+				if (pick_num_ > 6)
+				{
+					pick_num_ = 0;
+				}
+				
+				pick_num = pick_num_;
+				is_init = true;
+			}
+		}
+		
+		static bool Is_Pick_Num_Init() { return is_init; }
+		static bool Get_Pick_Num() { return pick_num; }
+		
+    private:
+		static inline bool pick_num = false;
+		static inline bool is_init = false;
+	
+		friend class AllData;
+    };
+	/*==============取武器编号=====================*/
+	
+	
+	class AllData
+    {
+    public:
+		AllData() = delete;
+		~AllData() = delete;
+
+		static bool Is_All_Init()
+		{
+			return (
+				Side::Is_Side_Init() 				&&
+				KFSNum::Is_KFS_Num_Init() 			&&
+				HaveWeapon::Is_Have_Weapon_Init() 	&&
+				IsDock::Is_Dock_Init()				&&
+				BootArea::Is_Boot_Area_Init()		&&
+				PickWeaponNum::Is_Pick_Num_Init()
+			);
+		}
+    };
+	
+	
+	
+	
+	/*==============坐标=====================*/
 	#define POSITION_TIME_OUT 1000000// us
 	#define ORIENTATION_TIME_OUT 1000000// us
 
@@ -74,18 +276,7 @@ namespace data
 		bool orientation_is_valid = false;
 		uint32_t orientation_last_time = 0;
     };
-	
-
-
-
-
-
-
-
-	
-
-
-
+	/*==============坐标=====================*/
 
 
 }
