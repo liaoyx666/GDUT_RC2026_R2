@@ -19,24 +19,35 @@ namespace chassis
     constexpr float L_LIFT_POL  = -1.f;
     constexpr float R_LIFT_POL  = -1.f;
 	
+	
+	/*
+	a2
+	d14
+	c12
+	g1
+	d15
+	f9
+	*/
+	
+	
 	const static GPIO_TypeDef* SENSER_GPIO_PORT[6] =
 	{
+		GPIOA,
+		GPIOD,
 		GPIOC,
-		GPIOA,
 		GPIOG,
-		GPIOG,
-		GPIOA,
-		GPIOD
+		GPIOD,
+		GPIOF
 	};
 	
 	constexpr static uint16_t SENSER_GPIO_PIN[6] =
 	{
+		GPIO_PIN_2,
+		GPIO_PIN_14,
 		GPIO_PIN_12,
-		GPIO_PIN_9,
 		GPIO_PIN_1,
-		GPIO_PIN_0,
-		GPIO_PIN_8,
-		GPIO_PIN_2
+		GPIO_PIN_15,
+		GPIO_PIN_9
 	};
 	
 	enum LiftState : uint8_t
@@ -222,9 +233,9 @@ namespace chassis
 			if (n > 6 || n == 0) return false; 
 			
 			if (d == LIFT_L)
-				return senser_value[n - 1];
+				return !senser_value[n - 1];
 			else
-				return senser_value[7 - n - 1];
+				return !senser_value[7 - n - 1];
 		}
 		
 		

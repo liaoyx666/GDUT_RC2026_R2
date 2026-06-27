@@ -27,8 +27,8 @@ motor::M2006D m2006d_can1_3_4(
 	36, motor::POL_REV, true
 );
 motor::M3508D m3508d_can1_1_2(
-	1, can2, &tim13_500hz, 
-	2, can2, &tim13_500hz, 
+	1, can3, &tim13_500hz, 
+	2, can3, &tim13_500hz, 
 	3591.f / 187.f, motor::POL_REV, true
 );
 motor::M2006 m2006_can1_5(5, can2, &tim13_500hz);
@@ -237,6 +237,12 @@ void Main_Task(void *argument)
 		imu_fusion.Fusion();
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
+		
+//		m2006d_can1_3_4.Set_Current(0);
+//		m3508d_can1_1_2.Set_Current(0);
+//		m2006_can1_5.Set_Current(0);
+//		
+		
 		
 		
 		get_weapon_head.Auto_Get_Weapon_Head();
@@ -498,13 +504,13 @@ void Motor_Config()
 	
 	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 4000, 1000, 500, 500, 500, 1000, 314.16);
-	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(170, 0, 2.5, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
 	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
-	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
-	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
-	m2006_can1_5    .Set_Pos_limit(486.15f, 0.f);
+	m2006d_can1_3_4 .Set_Pos_limit(874.770203f, 0.f);
+	m3508d_can1_1_2 .Set_Pos_limit(0.f, -541.696167f);
+	m2006_can1_5    .Set_Pos_limit(511.869476f, 0.f);
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 }
 

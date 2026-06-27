@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Jun 24 22:42:23 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat Jun 27 23:35:21 2026
 <BR><P>
 <H3>Maximum Stack Usage =        480 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -79,9 +79,9 @@ Function Pointers
  <LI><a href="#[5c]">ETH_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[5d]">ETH_WKUP_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[26]">EXTI0_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
- <LI><a href="#[48]">EXTI15_10_IRQHandler</a> from stm32h7xx_it.o(.text.EXTI15_10_IRQHandler) referenced from startup_stm32h723xx.o(RESET)
+ <LI><a href="#[48]">EXTI15_10_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[27]">EXTI1_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
- <LI><a href="#[28]">EXTI2_IRQHandler</a> from stm32h7xx_it.o(.text.EXTI2_IRQHandler) referenced from startup_stm32h723xx.o(RESET)
+ <LI><a href="#[28]">EXTI2_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[29]">EXTI3_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[2a]">EXTI4_IRQHandler</a> from startup_stm32h723xx.o(.text) referenced from startup_stm32h723xx.o(RESET)
  <LI><a href="#[37]">EXTI9_5_IRQHandler</a> from stm32h7xx_it.o(.text.EXTI9_5_IRQHandler) referenced from startup_stm32h723xx.o(RESET)
@@ -564,7 +564,13 @@ Global Symbols
 <P><STRONG><a name="[26]"></a>EXTI0_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
+<P><STRONG><a name="[48]"></a>EXTI15_10_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
+</UL>
 <P><STRONG><a name="[27]"></a>EXTI1_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
+</UL>
+<P><STRONG><a name="[28]"></a>EXTI2_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
 <P><STRONG><a name="[29]"></a>EXTI3_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_stm32h723xx.o(.text))
@@ -1161,22 +1167,8 @@ Global Symbols
 <P><STRONG><a name="[1d]"></a>DebugMon_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32h7xx_it.o(.text.DebugMon_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[48]"></a>EXTI15_10_IRQHandler</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, stm32h7xx_it.o(.text.EXTI15_10_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = EXTI15_10_IRQHandler
-</UL>
-<BR>[Calls]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
-</UL>
-<BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
-</UL>
-<P><STRONG><a name="[28]"></a>EXTI2_IRQHandler</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32h7xx_it.o(.text.EXTI2_IRQHandler))
+<P><STRONG><a name="[37]"></a>EXTI9_5_IRQHandler</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32h7xx_it.o(.text.EXTI9_5_IRQHandler))
 <BR><BR>[Calls]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
-</UL>
-<BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
-</UL>
-<P><STRONG><a name="[37]"></a>EXTI9_5_IRQHandler</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, stm32h7xx_it.o(.text.EXTI9_5_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = EXTI9_5_IRQHandler
-</UL>
-<BR>[Calls]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_IRQHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
@@ -1537,9 +1529,7 @@ Global Symbols
 <P><STRONG><a name="[132]"></a>HAL_GPIO_EXTI_IRQHandler</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, stm32h7xx_hal_gpio.o(.text.HAL_GPIO_EXTI_IRQHandler))
 <BR><BR>[Calls]<UL><LI><a href="#[15b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_EXTI_Callback
 </UL>
-<BR>[Called By]<UL><LI><a href="#[48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI15_10_IRQHandler
-<LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
-<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI2_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
 </UL>
 
 <P><STRONG><a name="[159]"></a>HAL_GPIO_Init</STRONG> (Thumb, 418 bytes, Stack size 48 bytes, stm32h7xx_hal_gpio.o(.text.HAL_GPIO_Init))
@@ -2338,8 +2328,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[1d5]"></a>MX_GPIO_Init</STRONG> (Thumb, 430 bytes, Stack size 64 bytes, gpio.o(.text.MX_GPIO_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
+<P><STRONG><a name="[1d5]"></a>MX_GPIO_Init</STRONG> (Thumb, 356 bytes, Stack size 56 bytes, gpio.o(.text.MX_GPIO_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
 <LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_NVIC_EnableIRQ
@@ -3227,7 +3217,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[121]"></a>Motor_Config()</STRONG> (Thumb, 552 bytes, Stack size 88 bytes, rc_init.o(.text._Z12Motor_Configv))
+<P><STRONG><a name="[121]"></a>Motor_Config()</STRONG> (Thumb, 544 bytes, Stack size 88 bytes, rc_init.o(.text._Z12Motor_Configv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = Motor_Config()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::Pid::Pid_Param_Init(float, float, float, float, float, float, float, float, float, float, float, float, float)
@@ -3724,7 +3714,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
 
-<P><STRONG><a name="[27e]"></a>path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)</STRONG> (Thumb, 288 bytes, Stack size 48 bytes, rc_navigation.o(.text._ZN4path10Navigation13Go_To_Get_KFSEhNS_9DirectionE))
+<P><STRONG><a name="[27e]"></a>path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction)</STRONG> (Thumb, 316 bytes, Stack size 48 bytes, rc_navigation.o(.text._ZN4path10Navigation13Go_To_Get_KFSEhNS_9DirectionE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction) &rArr; path::MapGraph::Get_Node_On_Pos(vector2d::Vector2D) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[285]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Head_Check_Id(path::Direction)
@@ -4862,7 +4852,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2d5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 1656 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<P><STRONG><a name="[2d5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 1616 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
@@ -5445,9 +5435,9 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 9]<UL><LI> rc_serial.o(.rodata._ZTVN6serial6UartRxE)
 <LI> rc_chassis.o(.rodata._ZTVN7chassis7ChassisE)
+<LI> rc_can.o(.rodata._ZTVN3can10CanHandlerE)
 <LI> rc_gpio_exti.o(.rodata._ZTVN4gpio8GpioExtiE)
 <LI> rc_task.o(.rodata._ZTVN4task11ManagedTaskE)
-<LI> rc_can.o(.rodata._ZTVN3can10CanHandlerE)
 <LI> rc_cdc.o(.rodata._ZTVN3cdc10CDCHandlerE)
 <LI> rc_tim.o(.rodata._ZTVN3tim10TimHandlerE)
 <LI> rc_dji_motor.o(.rodata._ZTVN5motor8DjiMotorE)
@@ -6158,7 +6148,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Curve2D::Vel_On_Len(float, float) const
+<BR>[Called By]<UL><LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcVel(float, float, float)
+<LI><a href="#[2ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Curve2D::Vel_On_Len(float, float) const
 <LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)
 <LI><a href="#[272]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NonlinearPid(float, float, float, float, float, float)
 <LI><a href="#[253]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::NonlinearPid::NPid_Calculate(float, float, bool, float)
@@ -6167,7 +6158,6 @@ Global Symbols
 <LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::MapGraph::Get_Node_On_Pos(vector2d::Vector2D)
 <LI><a href="#[28b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;curve::Arc2D::Init(vector2d::Vector2D, vector2d::Vector2D, float, bool)
-<LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcVel(float, float, float)
 </UL>
 
 <P><STRONG><a name="[2ae]"></a>__hardfp_tanf</STRONG> (Thumb, 322 bytes, Stack size 16 bytes, tanf.o(i.__hardfp_tanf))

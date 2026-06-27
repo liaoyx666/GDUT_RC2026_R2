@@ -48,11 +48,13 @@ namespace path
 		
 		uint8_t chassis_node = MapGraph::Get_Node_On_Pos(chassis_pos);
 		
+		int8_t h = MapGraph::height[kfs_node] - MapGraph::height[chassis_node];// 夹取高度
+		
 		if (chassis_node == GRAPH_INVALID) return false;
 
 		Event3_t event = 0;
 		
-		switch (MapGraph::height[kfs_node] - MapGraph::height[chassis_node])
+		switch (h)
 		{
 			case 4:
 				event = GET_HIGH_40_KFS_READY_EVENT;
@@ -64,6 +66,7 @@ namespace path
 			
 			case -2:
 				event = GET_LOW_20_KFS_READY_EVENT;
+				chassis_pos = MapGraph::Offset_On_Dir(chassis_pos, get_dir, -0.02);
 				break;
 			
 			default:
