@@ -142,7 +142,7 @@ namespace chassis
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
 				Set_Front_Lift_Pos(up_pos);
-				Set_Back_Lift_Pos(ZERO_POS);
+				Set_Back_Lift_Pos(ZERO_POS + DELTA_H);
 				
 				state = LIFT_UP_READY_CHECK;
 				break;
@@ -152,7 +152,7 @@ namespace chassis
 				if (
 					Get_Senser_Value(1) && 
 					fabsf(Get_Front_Lift_Pos() - up_pos) < LIFT_POS_THRESHOLD &&
-					fabsf(Get_Back_Lift_Pos() - ZERO_POS) < LIFT_POS_THRESHOLD
+					fabsf(Get_Back_Lift_Pos() - (ZERO_POS + DELTA_H)) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_UP_RISE;
@@ -169,8 +169,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS - 7.f);
-				Set_Back_Lift_Pos(down_pos - 7.f);
+				Set_Front_Lift_Pos(ZERO_POS - DELTA_H_BIG);
+				Set_Back_Lift_Pos(down_pos - DELTA_H);
 				
 				state = LIFT_UP_RISE_CHECK;
 				break;
@@ -178,8 +178,8 @@ namespace chassis
 			case LIFT_UP_RISE_CHECK:
 			{
 				if (
-					fabsf(Get_Front_Lift_Pos() - (ZERO_POS - 7.f)) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - (down_pos - 7.f)) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - (ZERO_POS - DELTA_H_BIG)) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - (down_pos - DELTA_H)) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_UP_FORWARD;
@@ -199,8 +199,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS - 7.f);
-				Set_Back_Lift_Pos(down_pos - 7.f);
+				//Set_Front_Lift_Pos(ZERO_POS - DELTA_H);
+				//Set_Back_Lift_Pos(down_pos - DELTA_H);
 				
 				state = LIFT_UP_FORWARD_CHECK;
 				break;
@@ -269,7 +269,7 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS);
+				Set_Front_Lift_Pos(ZERO_POS + DELTA_H);
 				Set_Back_Lift_Pos(RESET_POS);
 				
 				state = LIFT_DOWN_READY_CHECK;
@@ -295,8 +295,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
-				Set_Front_Lift_Pos(down_pos - 7.f);
-				Set_Back_Lift_Pos(ZERO_POS - 7.f);
+				Set_Front_Lift_Pos(down_pos - DELTA_H);
+				Set_Back_Lift_Pos(ZERO_POS - DELTA_H_BIG);
 				
 				state = LIFT_DOWN_STRETCH_CHECK;
 				break;
@@ -304,8 +304,8 @@ namespace chassis
 			case LIFT_DOWN_STRETCH_CHECK:
 			{
 				if (
-					fabsf(Get_Front_Lift_Pos() - (down_pos - 7.f)) < LIFT_POS_THRESHOLD && 
-					fabsf(Get_Back_Lift_Pos() - (ZERO_POS - 7.f)) < LIFT_POS_THRESHOLD
+					fabsf(Get_Front_Lift_Pos() - (down_pos - DELTA_H)) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Back_Lift_Pos() - (ZERO_POS - DELTA_H_BIG)) < LIFT_POS_THRESHOLD
 				)
 				{
 					state = LIFT_DOWN_FORWARD;
@@ -322,8 +322,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				Set_Back_Lift_Td(LIFT_RESET_R, LIFT_RESET_V_MAX);
 				
-				Set_Front_Lift_Pos(down_pos - 7.f);
-				Set_Back_Lift_Pos(ZERO_POS - 7.f);
+				//Set_Front_Lift_Pos(down_pos - DELTA_H);
+				//Set_Back_Lift_Pos(ZERO_POS - DELTA_H);
 				
 				state = LIFT_DOWN_FORWARD_CHECK;
 				break;
@@ -365,7 +365,7 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS);
+				Set_Front_Lift_Pos(ZERO_POS + DELTA_H);
 				Set_Back_Lift_Pos(up_pos);
 				
 				state = LIFT_DOWN_FALL_CHECK;
@@ -374,7 +374,7 @@ namespace chassis
 			case LIFT_DOWN_FALL_CHECK:
 			{
 				if (
-					fabsf(Get_Front_Lift_Pos() - ZERO_POS) < LIFT_POS_THRESHOLD && 
+					fabsf(Get_Front_Lift_Pos() - (ZERO_POS + DELTA_H)) < LIFT_POS_THRESHOLD && 
 					fabsf(Get_Back_Lift_Pos() - up_pos) < LIFT_POS_THRESHOLD)
 				{
 					state = LIFT_DOWN_WITHDRAW;

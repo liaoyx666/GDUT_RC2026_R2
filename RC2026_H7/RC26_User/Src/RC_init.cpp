@@ -40,8 +40,8 @@ motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
 motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);	
 
 // 辅助轮电机
-motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);
-motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
+motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);// 
+motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);// 前
 
 /*====================数据池====================*/
 // 机器人位姿
@@ -241,8 +241,9 @@ void Main_Task(void *argument)
 //		m2006d_can1_3_4.Set_Current(0);
 //		m3508d_can1_1_2.Set_Current(0);
 //		m2006_can1_5.Set_Current(0);
-//		
-		
+
+//		m3508_can3_5.Set_Current(0);
+//		m3508_can3_6.Set_Current(0);
 		
 		
 		get_weapon_head.Auto_Get_Weapon_Head();
@@ -499,12 +500,12 @@ void Motor_Config()
 {
 	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12); /* (rad / s^2), (rad / s) */
 	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12);
-	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
-	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
+	m3508_can3_5.Set_Pos_limit(630.598022f, -599.155273f);
+	m3508_can3_6.Set_Pos_limit(624.f, -606.26532f);
 	
 	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 4000, 1000, 500, 500, 500, 1000, 314.16);
-	m2006_can1_5.		pid_pos.Pid_Param_Init(170, 0, 2.5, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(140, 0, 2, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
 	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
