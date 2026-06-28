@@ -141,16 +141,12 @@ class GetKFS
 			float laser_target_m;
 			bool laser_valid;
 			float laser_err_i ;
-
-		float cam_err_i;         // 摄像头 I 积分项
-		float cam_target_pixel;  // 视觉期望中心像素位置
-		float camera_distance_m; // 当前视觉检测到的像素位置
-		bool  camera_valid;
+			
 		uint32_t laser_lost_ts;
 		bool laser_lost_start;
 		uint8_t laser_retry_cnt;
 		
-		filter::SecondOrderLPF filter;
+	//	filter::SecondOrderLPF filter;
 
 		//float laser_err_lpf ;
     };

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sun Jun 28 12:36:27 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sun Jun 28 13:33:04 2026
 <BR><P>
 <H3>Maximum Stack Usage =        480 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -411,8 +411,8 @@ Global Symbols
 <P><STRONG><a name="[339]"></a>__rt_lib_init_return</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libinit2.o(.ARM.Collect$$libinit$$00000035))
 
 <P><STRONG><a name="[10a]"></a>__rt_lib_shutdown</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown.o(.ARM.Collect$$libshutdown$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_ls
-<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+<BR><BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_ls
 </UL>
 
 <P><STRONG><a name="[33a]"></a>__rt_lib_shutdown_cpp_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$00000002))
@@ -908,12 +908,12 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
+<BR>[Called By]<UL><LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
+<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
+<LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 <LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
 <LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fmodf
-<LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
-<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
 </UL>
 
 <P><STRONG><a name="[113]"></a>__rt_heap_descriptor</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rt_heap_descriptor_intlibspace.o(.text))
@@ -941,9 +941,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[10c]"></a>_sys_exit</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, sys_exit.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_exit
+<BR><BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
+<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_exit_exit
 <LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__sig_exit
-<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
 </UL>
 
 <P><STRONG><a name="[352]"></a>__user_libspace</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, libspace.o(.text), UNUSED)
@@ -3873,7 +3873,7 @@ Global Symbols
 <LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 <LI><a href="#[2d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Finish_Current_Task()
-<LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
+<LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
 
 <P><STRONG><a name="[255]"></a>path::Event3::Is_Trig()</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, rc_event3.o(.text._ZN4path6Event37Is_TrigEv))
@@ -4521,10 +4521,6 @@ Global Symbols
 <LI><a href="#[21e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::M2006::M2006(unsigned char, can::Can&, tim::Tim*, float, bool)
 </UL>
 
-<P><STRONG><a name="[2d4]"></a>filter::SecondOrderLPF::reset()</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, rc_filter.o(.text._ZN6filter14SecondOrderLPF5resetEv))
-<BR><BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
-</UL>
-
 <P><STRONG><a name="[2bd]"></a>filter::SecondOrderLPF::filter(float)</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, rc_filter.o(.text._ZN6filter14SecondOrderLPF6filterEf))
 <BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DmMotor::Tim_It_Process()
 <LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Auto_Aim()
@@ -4537,7 +4533,6 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DmMotor::DmMotor(unsigned char, can::Can&, tim::Tim*, bool, float, float, bool, float, float, float, float, float)
 <LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Aim_Ctrl::Aim_Ctrl(ros::Camera&, gantry::Gantry&, chassis::Chassis&, gantry::Gripper&)
-<LI><a href="#[236]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)
 </UL>
 
 <P><STRONG><a name="[377]"></a>filter::SecondOrderLPF::SecondOrderLPF__sub_object(float, float, float)</STRONG> (Thumb, 224 bytes, Stack size 16 bytes, rc_filter.o(.text._ZN6filter14SecondOrderLPFC2Efff), UNUSED)
@@ -4633,7 +4628,7 @@ Global Symbols
 <LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::Auto_Get_Weapon_Head()
 <LI><a href="#[2d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Put_KFS_Phase()
 <LI><a href="#[2d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Finish_Current_Task()
-<LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
+<LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
 
 <P><STRONG><a name="[2c4]"></a>gantry::GantryUser::Take_Control()</STRONG> (Thumb, 80 bytes, Stack size 8 bytes, rc_gantry.o(.text._ZN6gantry10GantryUser12Take_ControlEv))
@@ -4700,10 +4695,10 @@ Global Symbols
 <LI><a href="#[2cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 <LI><a href="#[2c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Take_Control()
 <LI><a href="#[257]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
-<LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
-<LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
 <LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 <LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
+<LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
+<LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
@@ -4796,16 +4791,15 @@ Global Symbols
 
 <P><STRONG><a name="[37e]"></a>gantry::Gantry::Gantry__sub_object(motor::Motor&, motor::Motor&, motor::Motor&, motor::JointM&)</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, rc_gantry.o(.text._ZN6gantry6GantryC2ERN5motor5MotorES3_S3_RNS1_6JointME), UNUSED)
 
-<P><STRONG><a name="[24a]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 896 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
+<P><STRONG><a name="[24a]"></a>gantry::GetKFS::Auto_Get_KFS()</STRONG> (Thumb, 864 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Auto_Get_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = gantry::GetKFS::Auto_Get_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
-<LI><a href="#[2d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::SecondOrderLPF::reset()
+<LI><a href="#[2d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Restart_Current_Task()
 <LI><a href="#[2d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Task(gantry::ARM_TASK)
 <LI><a href="#[2d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Trigger_Task_By_Event()
 <LI><a href="#[2d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Finish_Current_Task()
-<LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
-<LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
+<LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 <LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_P(float)
 <LI><a href="#[2c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Z(float)
 <LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::Gantry::Set_Y(float)
@@ -4815,10 +4809,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[2d6]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 144 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<P><STRONG><a name="[2d5]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 154 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
+<BR>[Calls]<UL><LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
 <LI><a href="#[2cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
 <LI><a href="#[257]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Finish()
 </UL>
@@ -4830,10 +4824,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float, float)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
+<BR>[Called By]<UL><LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
 </UL>
 
-<P><STRONG><a name="[2d2]"></a>gantry::GetKFS::Finish_Current_Task()</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS19Finish_Current_TaskEv))
+<P><STRONG><a name="[2d2]"></a>gantry::GetKFS::Finish_Current_Task()</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS19Finish_Current_TaskEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = gantry::GetKFS::Finish_Current_Task()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
@@ -4842,47 +4836,54 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
+<P><STRONG><a name="[2d4]"></a>gantry::GetKFS::Restart_Current_Task()</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS20Restart_Current_TaskEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::Restart_Current_Task() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
+</UL>
+<BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+</UL>
+
 <P><STRONG><a name="[2d1]"></a>gantry::GetKFS::Trigger_Task_By_Event()</STRONG> (Thumb, 308 bytes, Stack size 24 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS21Trigger_Task_By_EventEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = gantry::GetKFS::Trigger_Task_By_Event() &rArr; gantry::GetKFS::Set_Task(gantry::ARM_TASK) &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = gantry::GetKFS::Trigger_Task_By_Event() &rArr; gantry::GetKFS::Set_Task(gantry::ARM_TASK) &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[255]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
 <LI><a href="#[2d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Task(gantry::ARM_TASK)
-<LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
+<LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2d5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 1616 bytes, Stack size 48 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<P><STRONG><a name="[2d6]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 3784 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
-<BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
+<BR>[Called By]<UL><LI><a href="#[2d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Restart_Current_Task()
 <LI><a href="#[2d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Task(gantry::ARM_TASK)
 <LI><a href="#[2d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Trigger_Task_By_Event()
-<LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
+<LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Go_Next_Step()
 </UL>
 
 <P><STRONG><a name="[2d3]"></a>gantry::GetKFS::Set_Task(gantry::ARM_TASK)</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS8Set_TaskENS_8ARM_TASKE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = gantry::GetKFS::Set_Task(gantry::ARM_TASK) &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = gantry::GetKFS::Set_Task(gantry::ARM_TASK) &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
+<BR>[Calls]<UL><LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 <LI><a href="#[2d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Trigger_Task_By_Event()
 </UL>
 
-<P><STRONG><a name="[236]"></a>gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 276 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&) &rArr; filter::SecondOrderLPF::SecondOrderLPF(float, float, float) &rArr; __hardfp_tanf &rArr; __mathlib_rredf2
+<P><STRONG><a name="[236]"></a>gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 256 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::GetKFS(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&) &rArr; path::Event3::Event3(unsigned char, float, bool, bool, float)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::GantryUser(gantry::Gantry&)
 <LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Event3(unsigned char, float, bool, bool, float)
-<LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::SecondOrderLPF::SecondOrderLPF(float, float, float)
 </UL>
 <BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[37f]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 276 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
+<P><STRONG><a name="[37f]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 256 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
 
 <P><STRONG><a name="[24b]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 208 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
@@ -6093,9 +6094,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[317]"></a>__ARM_fpclassifyf</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, fpclassifyf.o(i.__ARM_fpclassifyf))
-<BR><BR>[Called By]<UL><LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
+<BR><BR>[Called By]<UL><LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
+<LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
-<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
 </UL>
 
 <P><STRONG><a name="[2cc]"></a>__hardfp_atan2f</STRONG> (Thumb, 594 bytes, Stack size 32 bytes, atan2f.o(i.__hardfp_atan2f))
@@ -6175,9 +6176,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[31c]"></a>__mathlib_flt_infnan</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_infnan))
-<BR><BR>[Called By]<UL><LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
+<BR><BR>[Called By]<UL><LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
+<LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
-<LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 
 <P><STRONG><a name="[319]"></a>__mathlib_flt_infnan2</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_infnan2))
@@ -6185,24 +6186,24 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[31b]"></a>__mathlib_flt_invalid</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_invalid))
-<BR><BR>[Called By]<UL><LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
+<BR><BR>[Called By]<UL><LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
+<LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
 <LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fmodf
-<LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 
 <P><STRONG><a name="[318]"></a>__mathlib_flt_underflow</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_underflow))
-<BR><BR>[Called By]<UL><LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
+<BR><BR>[Called By]<UL><LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
+<LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
-<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
 </UL>
 
 <P><STRONG><a name="[31a]"></a>__mathlib_rredf2</STRONG> (Thumb, 316 bytes, Stack size 20 bytes, rredf.o(i.__mathlib_rredf2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = __mathlib_rredf2
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
+<BR>[Called By]<UL><LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
+<LI><a href="#[2ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_tanf
 <LI><a href="#[2ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
-<LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 
 <P><STRONG><a name="[31e]"></a>__fpl_fnaninf</STRONG> (Thumb, 140 bytes, Stack size 8 bytes, fnaninf.o(x$fpl$fnaninf))
