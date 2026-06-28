@@ -29,8 +29,8 @@ namespace gantry
         motor::DjiMotor& motor_p;
 
         // ==================== 电流与位置常量 ====================
-        float OPEN_CURRENT = -2000.0f;  // 替代原有的 -test_val5
-        float CLOSE_CURRENT = 2000.0f;  // 替代原有的 test_val5
+        float OPEN_CURRENT = -2800.0f;  // 替代原有的 -test_val5
+        float CLOSE_CURRENT = 2800.0f;  // 替代原有的 test_val5
         
         // 根据原有注释 (开:-1.3713, 合:0.6222, 有武器头:1.5134) 预设的有效范围
         float PICK_MIN_POS = 1.4f;      // 最小有效位置 (需根据实际情况调整)

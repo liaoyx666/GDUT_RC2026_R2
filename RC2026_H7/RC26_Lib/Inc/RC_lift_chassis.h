@@ -113,7 +113,7 @@ namespace chassis
 		
 		void Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig);
 		bool Is_End() const {return (state == LIFT_RESET_CHECK);}
-	
+		
 		/*------------------------------------*/
 		
 		inline void Auto_Lift()
@@ -169,7 +169,7 @@ namespace chassis
 			else
 				R_lift.Set_Pos(pos * R_LIFT_POL);
 		}
-	
+		
 		void Set_Back_Lift_Pos(float pos)
 		{
 			if (d == LIFT_L)

@@ -143,7 +143,7 @@ namespace gantry
         Computer_Side computer_side; // 蓝区/红区标志
 
         // 龙门架三轴位置
-        static constexpr float GET_Z = 0.317129f;  
+        static constexpr float GET_Z = (0.317129f - 0.028f + 0.03f); // 取武器头z轴位置
         static constexpr float LIFT_UP_Z = 0.01f;//取到武器头后上升距离
         static constexpr float LIFT_UP_Z_ = 0.03f;//取到武器头后上升距离
 
