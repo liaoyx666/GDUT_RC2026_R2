@@ -213,7 +213,7 @@ StickEdge stick_edge(
 IR::IRCmd combine_ready_cmd(2);
 IR::IRCmd combine_cmd(3);
 IR::IRCmd put_3L_cmd(4);
-
+ 
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid

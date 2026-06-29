@@ -348,7 +348,7 @@ void GetWeaponHead::UpdateSideParam()
 {
     if(computer_side == Computer_Side::BLUE_SIDE) {
         target_yaw = - PI / 2.f;
-        TARGET_WEAPON_Y = -6.0f;
+        TARGET_WEAPON_Y = -6.02f;
         READY_POINT_Y = TARGET_WEAPON_Y + READY_CHASSIS_DIST + HALF_CHASSIS_Y;
     } else {
         target_yaw = PI / 2.f;

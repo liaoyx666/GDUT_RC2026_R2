@@ -96,7 +96,7 @@ public:
 				{
 					user.Set_Y(-0.09);
 				}
-				user.Set_Z(0.05);
+				user.Set_Z(0.06);
 				user.Set_P_Max_T(3);
 				user.Set_P(0.2);
 				
