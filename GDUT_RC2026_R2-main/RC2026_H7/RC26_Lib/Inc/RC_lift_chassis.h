@@ -15,28 +15,42 @@ namespace chassis
     constexpr float DOWN_20_POS = -295.f + ZERO_POS;
     constexpr float DOWN_40_POS = -590.f + ZERO_POS;
     constexpr float RESET_POS   = 100.f;
+	
+	constexpr float DELTA_H 	= 16.f;
+	constexpr float DELTA_H_BIG	= 25.f;
 
     constexpr float L_LIFT_POL  = -1.f;
     constexpr float R_LIFT_POL  = -1.f;
 	
+	
+	/*
+	a2
+	d14
+	c12
+	g1
+	d15
+	f9
+	*/
+	
+	
 	const static GPIO_TypeDef* SENSER_GPIO_PORT[6] =
 	{
+		GPIOA,
+		GPIOD,
 		GPIOC,
-		GPIOA,
 		GPIOG,
-		GPIOG,
-		GPIOA,
-		GPIOD
+		GPIOD,
+		GPIOF
 	};
 	
 	constexpr static uint16_t SENSER_GPIO_PIN[6] =
 	{
+		GPIO_PIN_2,
+		GPIO_PIN_14,
 		GPIO_PIN_12,
-		GPIO_PIN_9,
 		GPIO_PIN_1,
-		GPIO_PIN_0,
-		GPIO_PIN_8,
-		GPIO_PIN_2
+		GPIO_PIN_15,
+		GPIO_PIN_9
 	};
 	
 	enum LiftState : uint8_t
@@ -99,7 +113,7 @@ namespace chassis
 		
 		void Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig);
 		bool Is_End() const {return (state == LIFT_RESET_CHECK);}
-	
+		
 		/*------------------------------------*/
 		
 		inline void Auto_Lift()
@@ -155,7 +169,7 @@ namespace chassis
 			else
 				R_lift.Set_Pos(pos * R_LIFT_POL);
 		}
-	
+		
 		void Set_Back_Lift_Pos(float pos)
 		{
 			if (d == LIFT_L)
@@ -222,9 +236,9 @@ namespace chassis
 			if (n > 6 || n == 0) return false; 
 			
 			if (d == LIFT_L)
-				return senser_value[n - 1];
+				return !senser_value[n - 1];
 			else
-				return senser_value[7 - n - 1];
+				return !senser_value[7 - n - 1];
 		}
 		
 		

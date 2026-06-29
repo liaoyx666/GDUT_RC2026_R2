@@ -31,12 +31,6 @@ namespace ros
 		cdc->CDC_Send_Pkg(id, &data, 1, 0); 
 	}
 
-	void Camera::Send_QR_Req2()
-	{
-		uint8_t data = 2;
-		cdc->CDC_Send_Pkg(id, &data, 1, 0); 
-	}
-
 	void Camera::Send_QR_Close()
 	{
 		uint8_t data = 0;
@@ -45,13 +39,6 @@ namespace ros
 	bool Camera::QR_Enable()
 	{
 		Send_QR_Req();
-		
-		return is_qr_enabled;
-	}
-
-	bool Camera::QR_Enable2()
-	{
-		Send_QR_Req2();
 		
 		return is_qr_enabled;
 	}

@@ -22,11 +22,7 @@ GetWeaponHead::GetWeaponHead(
     gripper(gripper_),
     computer_side(computer_side_),
     chassis_npid_(
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Src/RC_get_weapon_head.cpp
-        1.5f,// kp
-=======
         1.9f,// kp
->>>>>>> main:RC2026_H7/RC26_Gantry/Src/RC_get_weapon_head.cpp
         0.0f,// kd
         4.0f,// acc
         0.05f,// delta
@@ -46,10 +42,7 @@ GetWeaponHead::GetWeaponHead(
     chassis_target_yaw = 0.0f; 
 
     UpdateSideParam();
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Src/RC_get_weapon_head.cpp
-=======
     Set_Ctrl_Mode(SpeedMode::FAST);
->>>>>>> main:RC2026_H7/RC26_Gantry/Src/RC_get_weapon_head.cpp
 
 }
 
@@ -206,7 +199,7 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         if(PICK_SUCCESS_FLAG) {
             gantry_state = GANTRY_STATE::Gantry_Restoration_X;
             weapon_event.Finish();
-             path_plan.Enable();
+              path_plan.Enable();
             // head_ctrl.Disable();
             chassis_state = CHASSIS_STATE::Chassis_Idle;
         }
@@ -363,8 +356,6 @@ void GetWeaponHead::UpdateSideParam()
         READY_POINT_Y = TARGET_WEAPON_Y - READY_CHASSIS_DIST - HALF_CHASSIS_Y;
     }
 }
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Src/RC_get_weapon_head.cpp
-=======
 
 void GetWeaponHead::Set_Ctrl_Mode(SpeedMode mode_)
 {
@@ -382,7 +373,6 @@ void GetWeaponHead::Set_Ctrl_Mode(SpeedMode mode_)
     user.Set_Z_Td(2000.f * scale, 8000.f * scale);
     user.Set_P_Td(24.f   * scale, 12.f    * scale);
 }
->>>>>>> main:RC2026_H7/RC26_Gantry/Src/RC_get_weapon_head.cpp
 
 
 }

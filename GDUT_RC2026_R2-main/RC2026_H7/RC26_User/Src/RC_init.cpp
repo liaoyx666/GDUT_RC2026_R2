@@ -27,8 +27,8 @@ motor::M2006D m2006d_can1_3_4(
 	36, motor::POL_REV, true
 );
 motor::M3508D m3508d_can1_1_2(
-	1, can2, &tim13_500hz, 
-	2, can2, &tim13_500hz, 
+	1, can3, &tim13_500hz, 
+	2, can3, &tim13_500hz, 
 	3591.f / 187.f, motor::POL_REV, true
 );
 motor::M2006 m2006_can1_5(5, can2, &tim13_500hz);
@@ -40,8 +40,8 @@ motor::M3508 m3508_can3_5(5, can3, &tim13_500hz, 51, true);
 motor::M3508 m3508_can3_6(6, can3, &tim13_500hz, 51, true);	
 
 // 辅助轮电机
-motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);
-motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);
+motor::M2006 m2006_can3_7(7, can3, &tim13_500hz);// 
+motor::M2006 m2006_can3_8(8, can3, &tim13_500hz);// 前
 
 /*====================数据池====================*/
 // 机器人位姿
@@ -54,11 +54,7 @@ chassis::Omni4Chassis omni_4_chassis(
 	m3508_1_can1, m3508_2_can1,
 	m3508_3_can1, m3508_4_can1,
 	2.8, 4, 4,
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-	5, 6, 7,
-=======
 	5, 8, 8,
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 	robot_pose
 );
 
@@ -82,11 +78,7 @@ path::TrajTrack3 track(
 // 路径规划
 path::PathPlan3 path_plan(
 	path::LonConstr3(2.8, 2.5),
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-	path::HeadConstr3(0, 5, 5.5, false),
-=======
 	path::HeadConstr3(0, 5, 7, false),
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 	track
 );
 
@@ -227,11 +219,7 @@ IR::IRCmd put_3L_cmd(4);
 //float target = 0;
 //float a = 0;
 
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-bool auto_flag = 0;
-=======
 //bool auto_flag = 0;
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 
 
 
@@ -249,6 +237,15 @@ void Main_Task(void *argument)
 		imu_fusion.Fusion();
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
+		
+		uart_printf("%f,%f\n", fusion_yaw, radar.Yaw());
+		
+//		m2006d_can1_3_4.Set_Current(0);
+//		m3508d_can1_1_2.Set_Current(0);
+//		m2006_can1_5.Set_Current(0);
+
+//		m3508_can3_5.Set_Current(0);
+//		m3508_can3_6.Set_Current(0);
 		
 		
 		get_weapon_head.Auto_Get_Weapon_Head();
@@ -281,13 +278,9 @@ void Main_Task(void *argument)
 			{
 				radar.Reposition(); /*雷达重定位*/
 			}
-		} 
+		}
 		
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-		if (/*remote_ctrl.swa*/auto_flag == 1)
-=======
 		if (remote_ctrl.swa)
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 		{
 			dis_flag = false;
 			
@@ -358,11 +351,7 @@ AutoState state = STATE_PUT_2L;
 
 void Plan_Task(void *argument)
 {
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-	while(!data::AllData::Is_All_Init())
-=======
 	while (!data::AllData::Is_All_Init())
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 	{
 		osDelay(10);
 	}
@@ -370,35 +359,9 @@ void Plan_Task(void *argument)
 	osDelay(200);
 	ir_com.Clear_All_Cmd();
 	
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-	
 	get_weapon_head.Set_Side(data::Side::Is_Blue_Left_Side());
 	get_weapon_head.Set_Pick_Num(data::PickWeaponNum::Get_Pick_Num()); /*夹第4个武器（靠内小）*/
 	
-	
-	// 初始化全局起点
-	if (data::BootArea::Is_Boot_At_Mc())
-	{
-		if (data::Side::Is_Blue_Left_Side())
-		{
-			navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
-		}
-		else
-		{
-			navigation.Add_Start(vector2d::Vector2D(0.42, 4.53), 0);
-		}
-	}
-	else
-	{
-		navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);
-	}
-	
-	
-=======
-	get_weapon_head.Set_Side(data::Side::Is_Blue_Left_Side());
-	get_weapon_head.Set_Pick_Num(data::PickWeaponNum::Get_Pick_Num()); /*夹第4个武器（靠内小）*/
-	
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 	
 	// 初始化全局起点
 	if (data::BootArea::Is_Boot_At_Mc())
@@ -439,16 +402,6 @@ void Plan_Task(void *argument)
 		navigation.Go_To_Stick_Edge();// 贴边对接
 	}
 	
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-	navigation.Go_To_Dock();
-
-//	navigation.Go_To_Stick_Edge();
-	
-	
-//	best_path.Generate_Path();
-
-//	navigation.Go_To_Put_KFS_2L(2);
-=======
 
 	// 规划梅林
 	if (data::BootArea::Is_Boot_At_Mc())
@@ -458,80 +411,10 @@ void Plan_Task(void *argument)
 
 	// 放中间
 	navigation.Go_To_Put_KFS_2L(2);
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 
 	for (;;)
 	{
 		
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-//		putKFS.Put_First_Fail_Navi();
-		
-		
-//		switch (state)
-//		{
-//			case 0:
-//			{
-//				if (1)
-//				{
-//					state = 1;
-//				}
-//				break;
-//			}
-//			
-//			
-//			case 1:
-//			{
-//				if (combine_ready_cmd.Get_Cmd() && !com.Is_Combine())
-//				{
-//					navigation.Go_To_Combine_Ready();
-//					
-//					state = 2;
-//				}
-//				break;
-//			}
-//			
-//			
-//			case 2:
-//			{
-//				if (combine_cmd.Get_Cmd() && !com.Is_Combine())
-//				{
-//					navigation.Go_To_Combine();
-//					
-//					state = 3;
-//				}
-//				break;
-//			}
-//			
-//			
-//			case 3:
-//			{
-//				if (put_3L_cmd.Get_Cmd())
-//				{
-//					path::Event3::Trig_Event(EVENT_PUT_KFS_3L_READY | EVENT_PUT_KFS_PUT);
-//					
-//					state = 4;
-//				}
-//				break;
-//			}
-//			
-//			
-//			default:
-//			{
-//				state = 0;
-//				break;
-//			}
-//			
-//		}
-		
-		
-		
-		
-		
-		
-		
-		
-
-=======
 		switch (state)
 		{
 			case STATE_PUT_2L:
@@ -602,7 +485,6 @@ void Plan_Task(void *argument)
 		}
 		
 		
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 		osDelay(1);
 	}
 }
@@ -620,22 +502,18 @@ void Motor_Config()
 {
 	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12); /* (rad / s^2), (rad / s) */
 	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12);
-	m3508_can3_5.Set_Pos_limit(620.f, -600.f);
-	m3508_can3_6.Set_Pos_limit(620.f, -600.f);
+	m3508_can3_5.Set_Pos_limit(630.598022f, -599.155273f);
+	m3508_can3_6.Set_Pos_limit(624.f, -606.26532f);
 	
 	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 3000, 1000, 500, 500, 500, 1000, 314.16);
-=======
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 4000, 1000, 500, 500, 500, 1000, 314.16);
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
-	m2006_can1_5.		pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(140, 0, 2, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
 	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
-	m2006d_can1_3_4 .Set_Pos_limit(940.14f, 0.f);
-	m3508d_can1_1_2 .Set_Pos_limit(524.95f, 0.f);
-	m2006_can1_5    .Set_Pos_limit(486.15f, 0.f);
+	m2006d_can1_3_4 .Set_Pos_limit(874.770203f, 0.f);
+	m3508d_can1_1_2 .Set_Pos_limit(0.f, -541.696167f);
+	m2006_can1_5    .Set_Pos_limit(511.869476f, 0.f);
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 }
 
@@ -672,21 +550,12 @@ void All_Init()
 	ir_com.Uart_Rx_Start();
 
 	// 初始化数据
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_User/Src/RC_init.cpp
-	data::Side::Init_Is_Blue_Left_Side(true);
-	data::KFSNum::Init_KFS_Num(0);
-	data::HaveWeapon::Init_Have_Weapon(false);
-	data::IsDock::Init_Is_Dock(true);
-	data::BootArea::Init_Is_Boot_At_Mc(true);
-	data::PickWeaponNum::Init_Pick_Num(1);
-=======
 //	data::Side::Init_Is_Blue_Left_Side(false);
 //	data::KFSNum::Init_KFS_Num(0);
 //	data::HaveWeapon::Init_Have_Weapon(false);
 //	data::IsDock::Init_Is_Dock(true);
 //	data::BootArea::Init_Is_Boot_At_Mc(true);
 //	data::PickWeaponNum::Init_Pick_Num(1);
->>>>>>> main:RC2026_H7/RC26_User/Src/RC_init.cpp
 	
 	gan.Init();
 }

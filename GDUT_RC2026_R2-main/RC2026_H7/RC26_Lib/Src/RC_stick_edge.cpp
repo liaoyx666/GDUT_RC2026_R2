@@ -6,7 +6,7 @@ StickEdge::StickEdge(
 		gantry::Gantry& gan_,
 		gantry::Gripper& gripper_
 	)
-: 	stick_l_event(26, 0.02f, true, true),
+: 	stick_l_event(26, 0.01f, true, true),
 	c(c_),
 	p(p_),
 	user(gan_),

@@ -151,7 +151,7 @@ namespace gantry
 	
 	constexpr float PUTKFS_PUT_KFS_IN_X_3L = 0.42;
 	constexpr float PUTKFS_PUT_KFS_IN_P_3L = 2.6;
-	constexpr float PUTKFS_PUT_KFS_IN_Z_3L = 0.86;
+	constexpr float PUTKFS_PUT_KFS_IN_Z_3L = 0.89;
 	
 	bool PutKFS::Get_KFS_Phase()
 	{
@@ -218,6 +218,23 @@ namespace gantry
 				if (
 					fabsf(user.Get_X() - PUTKFS_GET_KFS_WITHDRAW_X) < PUTKFS_POS_THRESTHOLD_SMALL &&
 					timer::Timer::Get_DeltaTime(last_time) > 1000000
+				)
+				{
+					get_state = PUTKFS_GET_OUT;
+				}
+				break;
+			}
+			
+			case PUTKFS_GET_OUT:
+			{
+				user.Set_X(0.03);
+				get_state = PUTKFS_GET_OUT_CHECK;
+				break;
+			}
+			case PUTKFS_GET_OUT_CHECK:
+			{
+				if (
+					fabsf(user.Get_X() - 0.03f) < PUTKFS_POS_THRESTHOLD_SMALL
 				)
 				{
 					get_state = PUTKFS_GET_KFS_OUT;
@@ -293,7 +310,7 @@ namespace gantry
 			case PUTKFS_PUT_CHECK_SUDOKU_CHECK:
 			{
 				// 小于阈值更新
-				if (laser.distance < 350)
+				if (laser.distance < 250)
 				{
 					last_check_time = timer::Timer::Get_TimeStamp();
 				}
@@ -428,10 +445,7 @@ namespace gantry
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
 					data::KFSNum::KFS_Sub_One();// 放成功
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
-=======
 					success_num++;
->>>>>>> main:RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
 					user.Give_Control();
 					return true;
 				}
@@ -488,10 +502,7 @@ namespace gantry
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
 					data::KFSNum::KFS_Sub_One();// 放成功
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
-=======
 					success_num++;
->>>>>>> main:RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
 					user.Give_Control();
 					return true;
 				}

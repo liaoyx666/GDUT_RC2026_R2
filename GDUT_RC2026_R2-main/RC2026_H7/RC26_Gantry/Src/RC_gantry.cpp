@@ -41,13 +41,13 @@ namespace gantry
 	
 	
 	/*------------------------------------------------------*/
-	constexpr float GANTRY_X_MAX = 0.64f;
+	constexpr float GANTRY_X_MAX = 0.60f;
 	constexpr float GANTRY_X_MIN = 0.f;
 	
-	constexpr float GANTRY_Y_MAX = 0.2f;
+	constexpr float GANTRY_Y_MAX = 0.212f;
 	constexpr float GANTRY_Y_MIN = 0.f;
 	
-	constexpr float GANTRY_Z_MAX = 0.86f;
+	constexpr float GANTRY_Z_MAX = 0.895f;
 	constexpr float GANTRY_Z_MIN = 0.f;
 	
 	constexpr float GANTRY_P_MAX = TWO_THIRD_PI; // 270度
@@ -227,6 +227,6 @@ namespace gantry
 		
 		/*---------------------------------z-------------------------------------*/
 
-		motor_z.Set_Out_Pos( target_z * GANTRY_Z_M_TO_RAD);
+		motor_z.Set_Out_Pos(-target_z * GANTRY_Z_M_TO_RAD);
 	}
 }

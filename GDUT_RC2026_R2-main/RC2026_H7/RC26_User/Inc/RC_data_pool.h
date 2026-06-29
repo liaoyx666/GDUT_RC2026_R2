@@ -186,10 +186,10 @@ namespace data
 		}
 		
 		static bool Is_Pick_Num_Init() { return is_init; }
-		static bool Get_Pick_Num() { return pick_num; }
+		static uint8_t Get_Pick_Num() { return pick_num; }
 		
     private:
-		static inline bool pick_num = false;
+		static inline uint8_t pick_num = false;
 		static inline bool is_init = false;
 	
 		friend class AllData;

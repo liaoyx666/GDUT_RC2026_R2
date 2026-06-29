@@ -484,11 +484,7 @@ namespace path
 			
 			lon.v = 2.0;
 			
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Path/Src/RC_graph_plan.cpp
-			if (!Add_Point_Wait(high, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
-=======
 			if (!Add_Point_Wait(high, 0.5f, &lon, NULL, EVENT3_NULL, false)) return false;
->>>>>>> main:RC2026_H7/RC26_Path/Src/RC_graph_plan.cpp
 			
 			
 			lon = plan.plan.lon_m;
@@ -501,11 +497,7 @@ namespace path
 			{
 				head.yaw = HALF_PI;
 			}
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Path/Src/RC_graph_plan.cpp
-			if (!Add_Point_Wait(high + offset, 0.6f, &lon, &head, EVENT3_NULL, false)) return false;
-=======
 			if (!Add_Point_Wait(high + offset, 1.2f, &lon, &head, EVENT3_NULL, false)) return false;
->>>>>>> main:RC2026_H7/RC26_Path/Src/RC_graph_plan.cpp
 		}
 		else
 		{

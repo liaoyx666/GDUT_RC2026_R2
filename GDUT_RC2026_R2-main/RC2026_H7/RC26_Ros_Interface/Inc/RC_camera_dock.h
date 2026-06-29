@@ -23,14 +23,12 @@ namespace ros
 			return false;
 		}
 
-		bool QR_Enable();                     // 发送 QR 请求(data=1)，返回 Is_QR_Enabled()
-		bool QR_Enable2();                    // 发送 QR 请求(data=2)，返回 Is_QR_Enabled()
+		bool QR_Enable();                     // 发送 QR 请求，返回 Is_QR_Enabled()
 		bool QR_Disable();                    // 发送 QR 关闭，返回 !Is_QR_Enabled()
 		bool Is_QR_Enabled() const { return is_qr_enabled; }
 
-		void Send_QR_Req();         // data=1 → 二维码识别（第一组二维码）
-		void Send_QR_Req2();        // data=2 → 二维码识别（第二组二维码）
-		void Send_QR_Close();       // data=0 → 相机通道关闭
+		void Send_QR_Req();         // id=c → 二维码识别，相机开启
+		void Send_QR_Close();       // id=d → 相机通道关闭
 
 	protected:
 		void CDC_Receive_Process(uint8_t *buf, uint16_t len) override;

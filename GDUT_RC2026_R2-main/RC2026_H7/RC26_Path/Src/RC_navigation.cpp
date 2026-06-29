@@ -48,11 +48,13 @@ namespace path
 		
 		uint8_t chassis_node = MapGraph::Get_Node_On_Pos(chassis_pos);
 		
+		int8_t h = MapGraph::height[kfs_node] - MapGraph::height[chassis_node];// 夹取高度
+		
 		if (chassis_node == GRAPH_INVALID) return false;
 
 		Event3_t event = 0;
 		
-		switch (MapGraph::height[kfs_node] - MapGraph::height[chassis_node])
+		switch (h)
 		{
 			case 4:
 				event = GET_HIGH_40_KFS_READY_EVENT;
@@ -64,6 +66,7 @@ namespace path
 			
 			case -2:
 				event = GET_LOW_20_KFS_READY_EVENT;
+				chassis_pos = MapGraph::Offset_On_Dir(chassis_pos, get_dir, -0.02);
 				break;
 			
 			default:
@@ -137,38 +140,15 @@ namespace path
 		float yaw;
 		vector2d::Vector2D p;
 		
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Path/Src/RC_navigation.cpp
-		Event3_t event;
-		
-=======
->>>>>>> main:RC2026_H7/RC26_Path/Src/RC_navigation.cpp
 		if (data::Side::Is_Blue_Left_Side())
 		{
-			event = EVENT_HEAD_CHECK_L;
 			yaw = HALF_PI;
-			p = vector2d::Vector2D(0.8, -5.2);
+			p = vector2d::Vector2D(1, -4);
 		}
 		else
 		{
-			event = EVENT_HEAD_CHECK_R;
 			yaw = -HALF_PI;
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Path/Src/RC_navigation.cpp
-			p = vector2d::Vector2D(0.8, 5.2);
-		}
-		
-		if (!Pass_Do(p, yaw, event))
-			return false;
-		
-		if (data::Side::Is_Blue_Left_Side())
-		{
-			p = vector2d::Vector2D(0.46, -5.2);
-		}
-		else
-		{
-			p = vector2d::Vector2D(0.46, 5.2);
-=======
 			p = vector2d::Vector2D(1, 4);
->>>>>>> main:RC2026_H7/RC26_Path/Src/RC_navigation.cpp
 		}
 		
 		return Go_To_Do(p, yaw, EVENT_DOCK);
@@ -259,11 +239,7 @@ namespace path
 			p = vector2d::Vector2D(0.8, 5.2);
 		}
 		
-<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Path/Src/RC_navigation.cpp
-		if (!Pass_Do(p, yaw, event))
-=======
 		if (!Go_To_Do(p, yaw, event))
->>>>>>> main:RC2026_H7/RC26_Path/Src/RC_navigation.cpp
 			return false;
 		
 		if (data::Side::Is_Blue_Left_Side())

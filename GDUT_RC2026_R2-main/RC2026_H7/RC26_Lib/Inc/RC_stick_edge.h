@@ -72,7 +72,7 @@ public:
 				{
 					user.Set_Y(-0.09);
 				}
-				user.Set_Z(0.033);
+				user.Set_Z(0.05);
 				user.Set_P_Max_T(3);
 				user.Set_P(0.2);
 				
@@ -126,7 +126,7 @@ public:
 				{
 					//user.Set_P_Max_T(27);
 					user.Set_P(0.5);
-					 
+					
 					user.Set_Z(0);
 					
 					gripper.Open();
