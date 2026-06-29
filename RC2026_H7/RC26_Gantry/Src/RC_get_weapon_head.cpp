@@ -120,8 +120,8 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
 
     case GANTRY_STATE::Gantry_Ready_X:
         {
-            float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y - READY_GANTRY_DIST;
-            
+            //float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y - READY_GANTRY_DIST;
+            float gantry_ready_x = READY_GANTRY_DIST;
             if( Set_Gantry_X(gantry_ready_x) ) {
                 gantry_state = GANTRY_STATE::Gantry_Down_Z;
             }

@@ -28,7 +28,7 @@ namespace fusion
 
 		bool is_init;  
 		
-		const float kp = 0.005f;
+		
 	
 		float last_radar_yaw;
 	

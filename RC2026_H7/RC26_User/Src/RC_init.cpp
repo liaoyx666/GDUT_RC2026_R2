@@ -204,7 +204,8 @@ StickEdge stick_edge(
 	omni_4_chassis, 
 	path_plan, 
 	gan,
-	gripper
+	gripper,
+	robot_pose
 );
 
 
@@ -238,7 +239,7 @@ void Main_Task(void *argument)
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
-		uart_printf("%f,%f\n", fusion_yaw, radar.Yaw());
+		//uart_printf("%f,%f,%f\n", fusion_yaw, radar.Yaw(), hwt101ct.Delay_Yaw());
 		
 //		m2006d_can1_3_4.Set_Current(0);
 //		m3508d_can1_1_2.Set_Current(0);

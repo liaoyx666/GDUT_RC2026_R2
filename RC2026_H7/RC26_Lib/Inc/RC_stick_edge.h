@@ -8,7 +8,7 @@
 #include "RC_gantry.h"
 #include "RC_gripper.h"
 #include "RC_IR_communication.h"
-
+#include "RC_data_pool.h"
 
 enum StickDockState : uint8_t 
 {
@@ -31,7 +31,8 @@ public:
 		chassis::Omni4Chassis& c_, 
 		path::PathPlan3& p_, 
 		gantry::Gantry& gan_,
-		gantry::Gripper& gripper_
+		gantry::Gripper& gripper_,
+		data::RobotPose& pose_
 	);
 	~StickEdge() = default;
 
@@ -50,7 +51,30 @@ public:
 			
 			case STICK_DOCK_TAKE_CTRL:
 			{
-				if (user.Take_Control())
+				float tar_yaw;
+				
+				if (data::Side::Is_Blue_Left_Side())
+				{
+					tar_yaw = HALF_PI;
+				}
+				else
+				{
+					tar_yaw = -HALF_PI;
+				}
+				
+				float delta = tar_yaw - pose.Yaw();
+				
+				if (delta > PI)
+					delta -= TWO_PI;
+				else if (delta < -PI)
+					delta += TWO_PI;
+				
+				
+				
+				if (
+					user.Take_Control() &&
+					fabsf(delta) < (2.f / 180.f * PI)
+				)
 				{
 					state = STICK_DOCK_DIS_PATH;
 				}
@@ -179,6 +203,7 @@ private:
 	path::PathPlan3& p;
 	uint32_t last_time;
 	gantry::Gripper& gripper;
+	data::RobotPose& pose;
 	gantry::GantryUser user;
 
 	IR::IRCmd ir_cmd;

@@ -30,9 +30,19 @@ namespace fusion
 				last_radar_yaw = radar_yaw;
 			
 				float imu_yaw   = imu.Yaw();
-				float imu_delay_yaw = imu.Delay_Yaw();
-				float imu_w = imu.W();
+				float imu_delay_yaw = imu.Yaw();//imu.Delay_Yaw();
+				float fabs_imu_w = fabsf(imu.W());
 
+				float kp;
+				
+				if (fabs_imu_w < 0.05f)
+				{
+					kp = 0.01f;
+				}
+				else
+				{
+					kp = 0.005f;
+				}
 				
 				
 				float error = radar_yaw - imu_delay_yaw;
@@ -60,7 +70,7 @@ namespace fusion
 					imu.Set_Yaw(radar_yaw);
 				}
 				
-				if (!reset_flag && fabsf(error) > (float)(4.0 / 180.0 * PI) && fabsf(imu_w) < 0.05f)
+				if (!reset_flag && fabsf(error) > (float)(4.0 / 180.0 * PI) && fabs_imu_w < 0.05f)
 				{
 					reset_flag = true;
 					last_time = timer::Timer::Get_TimeStamp();
@@ -68,7 +78,7 @@ namespace fusion
 				
 				if (reset_flag && timer::Timer::Get_DeltaTime(last_time) > 1000000) // 100ms
 				{
-					if (fabsf(error) > (float)(4.0 / 180.0 * PI) && fabsf(imu_w) < 0.05f)
+					if (fabsf(error) > (float)(4.0 / 180.0 * PI) && fabs_imu_w < 0.05f)
 					{
 						imu.Set_Yaw(radar_yaw);
 					}
