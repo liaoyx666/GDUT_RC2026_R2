@@ -9,8 +9,8 @@ namespace path
 	{
 		path = nullptr;
 
-		tan_pid.Init(2.3, 0, 3, 0.03, 2.5, deadzone_);
-		nor_pid.Init(2.3, 0, 3, 0.03, 2.5, 0);
+		tan_pid.Init(2.6, 0, 3, 0.03, 2.8, deadzone_);
+		nor_pid.Init(2.6, 0, 3, 0.03, 2.8, 0);
 		
 		ld_kf = 0.3f;
 		ld_min = 0.03f;

@@ -25,6 +25,16 @@ namespace gantry
             BLUE_SIDE = 1,
             RED_SIDE = 0
         };
+<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Inc/RC_get_weapon_head.h
+=======
+
+        enum class SpeedMode : uint8_t
+        {
+            SLOW = 0,
+            NORMAL,
+            FAST
+        };
+>>>>>>> main:RC2026_H7/RC26_Gantry/Inc/RC_get_weapon_head.h
 
         enum class CHASSIS_STATE : uint8_t {
             Chassis_Idle,    // 等待触发
@@ -91,6 +101,11 @@ namespace gantry
         void Set_Gantry_Pitch(float target_pitch);
 
         void UpdateSideParam();
+<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Inc/RC_get_weapon_head.h
+=======
+        void Set_Ctrl_Mode(SpeedMode mode_);
+
+>>>>>>> main:RC2026_H7/RC26_Gantry/Inc/RC_get_weapon_head.h
 
         data::RobotPose& pose;
         chassis::Chassis& omni4chassis;
@@ -134,8 +149,10 @@ namespace gantry
         Computer_Side computer_side; // 蓝区/红区标志
 
         // 龙门架三轴位置
-        static constexpr float GET_Z = 0.327129f;  
-        static constexpr float LIFT_UP_Z = 0.05f;//取到武器头后上升距离
+        static constexpr float GET_Z = 0.317129f;  
+        static constexpr float LIFT_UP_Z = 0.01f;//取到武器头后上升距离
+        static constexpr float LIFT_UP_Z_ = 0.03f;//取到武器头后上升距离
+
         static constexpr float GANTRY_RETRACT_X = 0.03f;//龙门架复位后X轴位置
 
         static constexpr float READY_GANTRY_DIST = 0.16f;
@@ -143,8 +160,13 @@ namespace gantry
 
         // 停止阈值
         static constexpr float GANTRY_POS_TOLERANCE = 0.01f;
+<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Inc/RC_get_weapon_head.h
         static constexpr float CHASSIS_POS_TOLERANCE = 0.06f;
         static constexpr uint32_t WAIT_GANTRY_GRAB_TIME =  1000000U ; // 单位：us
+=======
+        static constexpr float CHASSIS_POS_TOLERANCE = 0.1f;
+        static constexpr uint32_t WAIT_GANTRY_GRAB_TIME =  350000U ; // 单位：us
+>>>>>>> main:RC2026_H7/RC26_Gantry/Inc/RC_get_weapon_head.h
 
         uint8_t detect_cnt = 0;
         static constexpr float GRAB_DETECT_THRESH = 100.0f;

@@ -62,6 +62,7 @@ namespace path
 		bool Go_To_Combine();
 		bool Go_To_Combine_Ready();
 		bool Uncombine(vector2d::Vector2D p, float yaw);
+		bool Go_To_Avoid_R1_In_ARENA();
 		
 		bool Go_To_Stick_Edge();
 		/*------------------------------------------------------------*/

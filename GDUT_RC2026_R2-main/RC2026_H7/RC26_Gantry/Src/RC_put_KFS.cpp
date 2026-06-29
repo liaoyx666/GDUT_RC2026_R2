@@ -31,6 +31,7 @@ namespace gantry
 		ready_trig = false;
 		is_fail = false;
 		fail_num = 0;
+		success_num = 0;
 		is_check = false;
 		height = PUTKFS_2L;
 	}
@@ -427,6 +428,10 @@ namespace gantry
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
 					data::KFSNum::KFS_Sub_One();// 放成功
+<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
+=======
+					success_num++;
+>>>>>>> main:RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
 					user.Give_Control();
 					return true;
 				}
@@ -483,6 +488,10 @@ namespace gantry
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
 					data::KFSNum::KFS_Sub_One();// 放成功
+<<<<<<< HEAD:GDUT_RC2026_R2-main/RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
+=======
+					success_num++;
+>>>>>>> main:RC2026_H7/RC26_Gantry/Src/RC_put_KFS.cpp
 					user.Give_Control();
 					return true;
 				}

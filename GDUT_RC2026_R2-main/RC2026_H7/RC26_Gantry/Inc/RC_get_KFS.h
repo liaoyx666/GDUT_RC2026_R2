@@ -23,7 +23,7 @@ enum  ARM_TASK
 		PICK_UP_KFS_20CM_4_step1,
 	
 		PICK_UP_KFS_40CM_1_step1,
-	
+		PICK_UP_KFS_40CM_2_step1,
 		PICK_DOWN_KFS_1_step1,
     PICK_DOWN_KFS_2_step1,
 		PICK_DOWN_KFS_3_step1,
@@ -41,6 +41,8 @@ enum  ARM_TASK
 		PICK_UP_KFS_20CM_4_step2,
 	
 		PICK_UP_KFS_40CM_1_step2,
+		PICK_UP_KFS_40CM_2_step2,
+		
 		PICK_DOWN_KFS_1_step2,
     PICK_DOWN_KFS_2_step2,
 		PICK_DOWN_KFS_3_step2,
@@ -76,7 +78,7 @@ class GetKFS
 					OPEN_LOOP,
 					CLOSE_LOOP_LASER,
 					Y_LOCK,
-					CLOSE_LOOP_CAM,
+					Check,
 			};
 		
 			void Set_Task(ARM_TASK task_);
