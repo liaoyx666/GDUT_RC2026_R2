@@ -501,8 +501,8 @@ task::TaskCreator plan_task("Plan_Task", 19, 256, Plan_Task, NULL);
 
 void Motor_Config()
 {
-	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12); /* (rad / s^2), (rad / s) */
-	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 8500, 1000, 500, 500, 500, 150, 890.12);
+	m3508_can3_5.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 9000, 1000, 500, 500, 500, 150, 890.12); /* (rad / s^2), (rad / s) */
+	m3508_can3_6.pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 9000, 1000, 500, 500, 500, 150, 890.12);
 	m3508_can3_5.Set_Pos_limit(630.598022f, -599.155273f);
 	m3508_can3_6.Set_Pos_limit(624.f, -606.26532f);
 	

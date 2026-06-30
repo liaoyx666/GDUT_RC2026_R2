@@ -44,11 +44,11 @@ namespace chassis
 	
 	
 	
-	constexpr float LIFT_RESET_R          = 4500;
-	constexpr float LIFT_RESET_V_MAX      = 680;
+	constexpr float LIFT_RESET_R          = 5000;
+	constexpr float LIFT_RESET_V_MAX      = 940;
 	
-	constexpr float LIFT_LOAD_R           = 2800;
-	constexpr float LIFT_LOAD_V_MAX       = 680;
+	constexpr float LIFT_LOAD_R           = 3000;
+	constexpr float LIFT_LOAD_V_MAX       = 750;
 	
 	
 	

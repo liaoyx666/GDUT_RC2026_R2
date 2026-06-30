@@ -66,7 +66,7 @@ namespace path
 			
 			case -2:
 				event = GET_LOW_20_KFS_READY_EVENT;
-				chassis_pos = MapGraph::Offset_On_Dir(chassis_pos, get_dir, -0.02);
+				chassis_pos = MapGraph::Offset_On_Dir(chassis_pos, get_dir, -0.03);
 				break;
 			
 			default:

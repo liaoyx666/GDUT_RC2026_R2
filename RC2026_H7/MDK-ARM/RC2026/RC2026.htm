@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Tue Jun 30 00:31:27 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Tue Jun 30 12:36:19 2026
 <BR><P>
 <H3>Maximum Stack Usage =        480 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3216,7 +3216,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32h723xx.o(RESET)
 </UL>
-<P><STRONG><a name="[121]"></a>Motor_Config()</STRONG> (Thumb, 560 bytes, Stack size 88 bytes, rc_init.o(.text._Z12Motor_Configv))
+<P><STRONG><a name="[121]"></a>Motor_Config()</STRONG> (Thumb, 556 bytes, Stack size 88 bytes, rc_init.o(.text._Z12Motor_Configv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = Motor_Config()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid::Pid::Pid_Param_Init(float, float, float, float, float, float, float, float, float, float, float, float, float)
@@ -4820,7 +4820,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2d7]"></a>gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)</STRONG> (Thumb, 196 bytes, Stack size 32 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS13Set_Ctrl_ModeENS0_9SpeedModeE))
+<P><STRONG><a name="[2d7]"></a>gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)</STRONG> (Thumb, 200 bytes, Stack size 32 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS13Set_Ctrl_ModeENS0_9SpeedModeE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float, float)
@@ -4855,7 +4855,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2d6]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 4012 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<P><STRONG><a name="[2d6]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 4028 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
@@ -5034,7 +5034,7 @@ Global Symbols
 <LI><a href="#[22e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWT101CT::HWT101CT(__UART_HandleTypeDef&, unsigned char*)
 </UL>
 
-<P><STRONG><a name="[256]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3344 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
+<P><STRONG><a name="[256]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3352 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin
