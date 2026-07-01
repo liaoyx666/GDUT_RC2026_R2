@@ -1,5 +1,7 @@
 #include "RC_gantry.h"
 
+volatile bool lllll = false;
+
 namespace gantry
 {
 	uint8_t GantryUser::user_num = 0;
@@ -146,10 +148,20 @@ namespace gantry
 	
 	// P_MAX2
 	constexpr float GANTRY_P_MAX_X_CONSTR_X_START_2 = 0.3;
-	constexpr float GANTRY_P_MAX_X_CONSTR_X_END_2 = 0.56;
+	constexpr float GANTRY_P_MAX_X_CONSTR_X_END_2 = 0.45;
 				
 	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_START_2 = PI;
-	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_END_2 = TWO_THIRD_PI;
+	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_END_2 = 4.1;
+	
+	
+	// P_MAX3
+	constexpr float GANTRY_P_MAX_X_CONSTR_X_START_3 = 0.45;
+	constexpr float GANTRY_P_MAX_X_CONSTR_X_END_3 = 0.47;
+	
+	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_START_3 = 4.1;
+	constexpr float GANTRY_P_MAX_X_CONSTR_P_MAX_END_3 = 4.72;
+	
+	
 	
 	void Gantry::Gantry_Base()
 	{
@@ -194,6 +206,22 @@ namespace gantry
 					(x_pos - GANTRY_P_MAX_X_CONSTR_X_START_2) + 
 					GANTRY_P_MAX_X_CONSTR_P_MAX_START_2;
 		}
+		else if (x_pos >= GANTRY_P_MAX_X_CONSTR_X_START_3 && x_pos <= GANTRY_P_MAX_X_CONSTR_X_END_3)
+		{
+			p_max = (GANTRY_P_MAX_X_CONSTR_P_MAX_END_3 - GANTRY_P_MAX_X_CONSTR_P_MAX_START_3) / 
+					(GANTRY_P_MAX_X_CONSTR_X_END_3 - GANTRY_P_MAX_X_CONSTR_X_START_3) * 
+					(x_pos - GANTRY_P_MAX_X_CONSTR_X_START_3) + 
+					GANTRY_P_MAX_X_CONSTR_P_MAX_START_3;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		/*-------------------------------p---------------------------------------*/
 		
@@ -207,6 +235,12 @@ namespace gantry
 		{
 			constr_p = p_min;// + 0.1f;
 		}
+		
+		if (constr_p > 3.2f)
+		{
+			lllll = true;
+		}
+		
 		
 		motor_p.Set_Out_Mit_Pos(-constr_p);
 		

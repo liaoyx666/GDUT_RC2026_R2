@@ -5,7 +5,7 @@ namespace motor
 	DM4340::DM4340(uint8_t id_, can::Can &can_, tim::Tim *tim_, bool use_mit_, float k_spd_, float k_pos_, bool is_reset_pos_)
 		: DmMotor(
 			id_, can_, tim_, use_mit_, k_spd_, k_pos_, is_reset_pos_,
-			10.0f, 28.0f, 100, 1000, 0.707
+			10.0f, 28.0f, 130, 1000, 0.707
 		)
 	{
 		// dm4310默认参数

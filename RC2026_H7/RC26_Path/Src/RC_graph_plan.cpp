@@ -463,7 +463,7 @@ namespace path
 			high = MapGraph::Offset_On_Dir(MapGraph::ARENA[dx].Get_A() + MapGraph::ARENA[dx].Get_AB(), DIR_B, 0.6f);
 			high = MapGraph::Offset_On_Dir(high, DIR_R, 0.75f);
 			
-			offset = vector2d::Vector2D(0, -3);
+			offset = vector2d::Vector2D(0, -1);
 		}
 		else
 		{
@@ -473,7 +473,7 @@ namespace path
 			high = MapGraph::Offset_On_Dir(MapGraph::ARENA[dx].Get_A() + MapGraph::EXIT[dx].Get_AC() + MapGraph::ARENA[dx].Get_AB(), DIR_B, 0.6f);
 			high = MapGraph::Offset_On_Dir(high, DIR_L, 0.75f);
 			
-			offset = vector2d::Vector2D(0, 3);
+			offset = vector2d::Vector2D(0, 1);
 		}
 		
 		LonConstr3 lon = plan.plan.lon_m;
@@ -497,25 +497,26 @@ namespace path
 			{
 				head.yaw = HALF_PI;
 			}
-			if (!Add_Point_Wait(high + offset, 1.2f, &lon, &head, EVENT3_NULL, false)) return false;
-		}
-		else
-		{
-			if (!Add_Point_Wait(high, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
 			
-			lon.v = 2.0;
-			
-			HeadConstr3 head = plan.plan.head_m;
-			if (dx)
-			{
-				head.yaw = -HALF_PI;
-			}
-			else
-			{
-				head.yaw = HALF_PI;
-			}
-			if (!Add_Point_Wait(low, 0.35f, &lon, &head, EVENT3_NULL, false)) return false;
+			if (!Add_Point_Wait(high + offset, 0.4f, &lon, &head, EVENT3_NULL, false)) return false;
 		}
+//		else
+//		{
+//			if (!Add_Point_Wait(high, 0.35f, &lon, NULL, EVENT3_NULL, false)) return false;
+//			
+//			lon.v = 2.0;
+//			
+//			HeadConstr3 head = plan.plan.head_m;
+//			if (dx)
+//			{
+//				head.yaw = -HALF_PI;
+//			}
+//			else
+//			{
+//				head.yaw = HALF_PI;
+//			}
+//			if (!Add_Point_Wait(low, 0.35f, &lon, &head, EVENT3_NULL, false)) return false;
+//		}
 		
 		return true;
 	}

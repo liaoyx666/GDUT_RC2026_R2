@@ -13,6 +13,7 @@ namespace gantry
 	
 	constexpr float PUTKFS_GET_KFS_LOW_Z = 0.1;
 	constexpr float PUTKFS_GET_KFS_HIGH_Z = 0.45;
+	constexpr float PUTKFS_GET_KFS_TOP_Z = 0.80;
 	
 	PutKFS::PutKFS(Gantry& gan_, Suction& suck_, mini_laser::MiniLaser& laser_, path::Navigation& navi_)
 	 : 	user(gan_), 
@@ -63,30 +64,66 @@ namespace gantry
 					
 					ready_trig = false;
 					
-					if (data::KFSNum::Get_KFS_Num() == 0)
+					if (data::HaveOutKFS::Have_Out_KFS())
 					{
-						return;
-					}
-					else if (data::KFSNum::Get_KFS_Num() == 1)
-					{
-						get_z = PUTKFS_GET_KFS_LOW_Z;
-						get_state = PUTKFS_GET_STRETCH;
-						
-						phase = PUTKFS_GET_PHASE;
-					}
-					else if (data::KFSNum::Get_KFS_Num() == 2)
-					{
-						get_z = PUTKFS_GET_KFS_HIGH_Z;
-						get_state = PUTKFS_GET_STRETCH;
+						// 体外方块
+						get_state = PUTKFS_GET_KFS_OUT;
 						
 						phase = PUTKFS_GET_PHASE;
 					}
 					else
 					{
-						get_state = PUTKFS_GET_KFS_OUT;
-						
-						phase = PUTKFS_GET_PHASE;
+						if (data::KFSNum::Get_KFS_Num() == 0)
+						{
+							return;
+						}
+						else if (data::KFSNum::Get_KFS_Num() == 1)
+						{
+							get_z = PUTKFS_GET_KFS_LOW_Z;
+							get_state = PUTKFS_GET_STRETCH;
+							
+							phase = PUTKFS_GET_PHASE;
+						}
+						else if (data::KFSNum::Get_KFS_Num() == 2)
+						{
+							get_z = PUTKFS_GET_KFS_HIGH_Z;
+							get_state = PUTKFS_GET_STRETCH;
+							
+							phase = PUTKFS_GET_PHASE;
+						}
+						else if (data::KFSNum::Get_KFS_Num() == 3)
+						{
+							get_z = PUTKFS_GET_KFS_TOP_Z;
+							get_state = PUTKFS_GET_STRETCH;
+							
+							phase = PUTKFS_GET_PHASE;
+						}
 					}
+					
+//					if (data::KFSNum::Get_KFS_Num() == 0)
+//					{
+//						return;
+//					}
+//					else if (data::KFSNum::Get_KFS_Num() == 1)
+//					{
+//						get_z = PUTKFS_GET_KFS_LOW_Z;
+//						get_state = PUTKFS_GET_STRETCH;
+//						
+//						phase = PUTKFS_GET_PHASE;
+//					}
+//					else if (data::KFSNum::Get_KFS_Num() == 2)
+//					{
+//						get_z = PUTKFS_GET_KFS_HIGH_Z;
+//						get_state = PUTKFS_GET_STRETCH;
+//						
+//						phase = PUTKFS_GET_PHASE;
+//					}
+//					else
+//					{
+//						get_state = PUTKFS_GET_KFS_OUT;
+//						
+//						phase = PUTKFS_GET_PHASE;
+//					}
 					
 					// 上次放失败
 					if (put_state == PUTKFS_PUT_CHECK_SUDOKU_FAIL)
@@ -481,8 +518,6 @@ namespace gantry
 			}
 		
 			
-			
-			
 			case PUTKFS_PUT_RELESE_3L:
 			{
 				suck.Off();
@@ -502,8 +537,17 @@ namespace gantry
 					user.Set_Defualt_Td();
 					user.Set_Reset_Pos();
 					data::KFSNum::KFS_Sub_One();// 放成功
+					
+					if (data::HaveOutKFS::Have_Out_KFS())
+					{
+						data::HaveOutKFS::Set_Have_Out_KFS(false);
+					}
+					
 					success_num++;
 					user.Give_Control();
+					
+					
+					
 					return true;
 				}
 				break;

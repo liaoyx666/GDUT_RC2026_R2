@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Tue Jun 30 23:08:35 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Jul  1 21:59:00 2026
 <BR><P>
 <H3>Maximum Stack Usage =        480 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3269,7 +3269,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp)
 </UL>
-<P><STRONG><a name="[b7]"></a>Plan_Task(void*)</STRONG> (Thumb, 716 bytes, Stack size 8 bytes, rc_init.o(.text._Z9Plan_TaskPv))
+<P><STRONG><a name="[b7]"></a>Plan_Task(void*)</STRONG> (Thumb, 932 bytes, Stack size 8 bytes, rc_init.o(.text._Z9Plan_TaskPv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = Plan_Task(void*) &rArr; ros::BestPath::Generate_Path() &rArr; path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction) &rArr; path::MapGraph::Get_Node_On_Pos(vector2d::Vector2D) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
@@ -3701,7 +3701,7 @@ Global Symbols
 <P><STRONG><a name="[365]"></a>path::LonConstr3::LonConstr3__sub_object()</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, rc_path3.o(.text._ZN4path10LonConstr3C2Ev), UNUSED)
 
 <P><STRONG><a name="[ca]"></a>path::Navigation::Task_Process()</STRONG> (Thumb, 192 bytes, Stack size 32 bytes, rc_navigation.o(.text._ZN4path10Navigation12Task_ProcessEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 384<LI>Call Chain = path::Navigation::Task_Process() &rArr; path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Up_Down_Hill(signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = path::Navigation::Task_Process() &rArr; path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Plan(path::NavPoint, path::Destination)
 </UL>
@@ -4013,7 +4013,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[29c]"></a>path::GraphPlan::Action_Plan(unsigned char, unsigned char)</STRONG> (Thumb, 110 bytes, Stack size 8 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan11Action_PlanEhh))
-<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Up_Down_Hill(signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[29a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char)
 <LI><a href="#[29e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Up_Stair(unsigned char, unsigned char, signed char)
@@ -4022,8 +4022,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Plan(path::NavPoint, path::Destination)
 </UL>
 
-<P><STRONG><a name="[29d]"></a>path::GraphPlan::Up_Down_Hill(signed char)</STRONG> (Thumb, 968 bytes, Stack size 128 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan12Up_Down_HillEa))
-<BR><BR>[Stack]<UL><LI>Max Depth = 232<LI>Call Chain = path::GraphPlan::Up_Down_Hill(signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[29d]"></a>path::GraphPlan::Up_Down_Hill(signed char)</STRONG> (Thumb, 724 bytes, Stack size 112 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan12Up_Down_HillEa))
+<BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = path::GraphPlan::Up_Down_Hill(signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[295]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;arm_add_f32
@@ -4038,7 +4038,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[280]"></a>path::GraphPlan::Plan(path::NavPoint, path::Destination)</STRONG> (Thumb, 308 bytes, Stack size 112 bytes, rc_graph_plan.o(.text._ZN4path9GraphPlan4PlanENS_8NavPointENS_11DestinationE))
-<BR><BR>[Stack]<UL><LI>Max Depth = 352<LI>Call Chain = path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Up_Down_Hill(signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = path::GraphPlan::Plan(path::NavPoint, path::Destination) &rArr; path::GraphPlan::Action_Plan(unsigned char, unsigned char) &rArr; path::GraphPlan::Down_Stair(unsigned char, unsigned char, signed char) &rArr; osDelay &rArr; vTaskDelay &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
 <LI><a href="#[29c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::GraphPlan::Action_Plan(unsigned char, unsigned char)
@@ -4722,7 +4722,7 @@ Global Symbols
 
 <P><STRONG><a name="[37d]"></a>gantry::GetWeaponHead::GetWeaponHead__sub_object(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, gantry::GetWeaponHead::Computer_Side)</STRONG> (Thumb, 220 bytes, Stack size 40 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERN10mini_laser9MiniLaserERNS_7GripperERN4path9PathPlan3ERNSE_8HeadCtrlENS0_13Computer_SideE), UNUSED)
 
-<P><STRONG><a name="[24f]"></a>gantry::Gantry::Gantry_Base()</STRONG> (Thumb, 460 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry11Gantry_BaseEv))
+<P><STRONG><a name="[24f]"></a>gantry::Gantry::Gantry_Base()</STRONG> (Thumb, 532 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry11Gantry_BaseEv))
 <BR><BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
@@ -4810,7 +4810,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[2d5]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 154 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
+<P><STRONG><a name="[2d5]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 156 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
@@ -4820,7 +4820,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2d7]"></a>gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)</STRONG> (Thumb, 200 bytes, Stack size 32 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS13Set_Ctrl_ModeENS0_9SpeedModeE))
+<P><STRONG><a name="[2d7]"></a>gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)</STRONG> (Thumb, 204 bytes, Stack size 32 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS13Set_Ctrl_ModeENS0_9SpeedModeE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float, float)
@@ -4855,7 +4855,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2d6]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 4028 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<P><STRONG><a name="[2d6]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 6598 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
@@ -4886,7 +4886,7 @@ Global Symbols
 
 <P><STRONG><a name="[37f]"></a>gantry::GetKFS::GetKFS__sub_object(gantry::Gantry&, gantry::Suction&, mini_laser::MiniLaser&)</STRONG> (Thumb, 256 bytes, Stack size 40 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFSC2ERNS_6GantryERNS_7SuctionERN10mini_laser9MiniLaserE), UNUSED)
 
-<P><STRONG><a name="[24b]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 208 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
+<P><STRONG><a name="[24b]"></a>gantry::PutKFS::Auto_Put_KFS()</STRONG> (Thumb, 232 bytes, Stack size 16 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS12Auto_Put_KFSEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = gantry::PutKFS::Auto_Put_KFS() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[255]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Is_Trig()
@@ -4911,7 +4911,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::PutKFS::Auto_Put_KFS()
 </UL>
 
-<P><STRONG><a name="[2d9]"></a>gantry::PutKFS::Put_KFS_Phase()</STRONG> (Thumb, 1136 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS13Put_KFS_PhaseEv))
+<P><STRONG><a name="[2d9]"></a>gantry::PutKFS::Put_KFS_Phase()</STRONG> (Thumb, 1300 bytes, Stack size 24 bytes, rc_put_kfs.o(.text._ZN6gantry6PutKFS13Put_KFS_PhaseEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::PutKFS::Put_KFS_Phase() &rArr; gantry::GantryUser::Set_Defualt_Td()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -5034,7 +5034,7 @@ Global Symbols
 <LI><a href="#[22e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWT101CT::HWT101CT(__UART_HandleTypeDef&, unsigned char*)
 </UL>
 
-<P><STRONG><a name="[256]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3352 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
+<P><STRONG><a name="[256]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3212 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin

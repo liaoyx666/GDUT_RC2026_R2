@@ -276,6 +276,73 @@ namespace path
 		return Go_To_Do(p, yaw, EVENT3_NULL);
 	}
 	
+	bool Navigation::Challenge_Go_To_Get_KFS_Ground(uint8_t num)
+	{
+		if (num == 0 || num > 3) return false;
+		
+		float yaw;
+		vector2d::Vector2D p;
+		
+		yaw = 0;
+		p = vector2d::Vector2D(11.825f - 0.375f - 0.35f, -(6.f - 0.6f - 0.175f) - (num - 1) * 0.7f);
+		
+		return Go_To_Do(p, yaw, GET_LOW_0_KFS_READY_EVENT | GET_PICK_KFS_EVENT);
+	}
+	
+	
+	bool Navigation::Challenge_Go_To_Combine_Ready()
+	{
+		float yaw;
+		vector2d::Vector2D p;
+		
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			yaw = PI;
+			p = vector2d::Vector2D(12 - 0.98 - 0.8, -4.9);
+		}
+		else
+		{
+			yaw = HALF_PI;
+			p = vector2d::Vector2D(12 - 0.98 - 0.8, 4.9);
+		}
+		
+		return Go_To_Do(p, yaw, EVENT_UP_4_READY_L);
+	}
+	
+	
+	bool Navigation::Challenge_Go_To_Combine()
+	{
+		float yaw;
+		vector2d::Vector2D p;
+		
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(12 - 0.98 + 0.41, -4.9);
+		}
+		else
+		{
+			yaw = -HALF_PI;
+			p = vector2d::Vector2D(12 - 0.98 + 0.41, 4.9);
+		}
+
+		bool success = Go_To_Do(p, yaw, EVENT_COMBINE);
+		
+		Close(); // 禁止添加目的地
+		
+		return success;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	void Navigation::Task_Process()
 	{

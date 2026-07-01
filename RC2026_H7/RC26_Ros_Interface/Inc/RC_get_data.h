@@ -24,7 +24,7 @@ namespace ros
 					weapon_num      = (bool)buf[2];
 					is_dock         = (bool)buf[3];
 					pick_weapon_num = buf[4];
-					boot_area       = (bool)buf[5];
+					boot_area       = buf[5];
 					
 					if (kfs_num > 4) kfs_num = 4;
 					if (pick_weapon_num > 6) pick_weapon_num = 6;

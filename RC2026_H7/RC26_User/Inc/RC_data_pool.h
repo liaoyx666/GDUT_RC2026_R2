@@ -13,7 +13,7 @@ namespace data
 		~BootArea() = delete;
 
 		// 初始化启动区
-		static void Init_Is_Boot_At_Mc(bool is_boot_at_mc_)
+		static void Init_Is_Boot_At_Mc(uint8_t is_boot_at_mc_)
 		{
 			if (!is_init)
 			{
@@ -23,9 +23,9 @@ namespace data
 		}
 		
 		static bool Is_Boot_Area_Init() { return is_init; }
-		static bool Is_Boot_At_Mc() { return is_boot_at_mc; }
+		static uint8_t Is_Boot_At_Mc() { return is_boot_at_mc; }
     private:
-		static inline bool is_boot_at_mc = true;// 是否在武馆启动（默认启动区）
+		static inline uint8_t is_boot_at_mc = 1;// 是否在武馆启动（默认启动区）
 		static inline bool is_init = false;
     };
 	/*================启动区===================*/
@@ -162,6 +162,26 @@ namespace data
     };
 	/*==============是否对接=====================*/
 	
+	
+	
+	/*==============是否有体外方块=====================*/
+	class HaveOutKFS
+    {
+    public:
+		HaveOutKFS() = delete;
+		~HaveOutKFS() = delete;
+
+		static void Set_Have_Out_KFS(bool have_out_kfs_) { have_out_kfs = have_out_kfs_; }
+		
+		static bool Have_Out_KFS() { return have_out_kfs; }
+		
+    private:
+		static inline bool have_out_kfs = false;
+    };
+	/*==============是否有体外方块=====================*/
+	
+	
+	
 
 	
 	/*==============取武器编号=====================*/
@@ -197,6 +217,20 @@ namespace data
 	/*==============取武器编号=====================*/
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*===================================*/
 	class AllData
     {
     public:
@@ -215,7 +249,7 @@ namespace data
 			);
 		}
     };
-	
+	/*===================================*/
 	
 	
 	

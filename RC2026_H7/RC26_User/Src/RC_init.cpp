@@ -365,7 +365,7 @@ void Plan_Task(void *argument)
 	
 	
 	// 初始化全局起点
-	if (data::BootArea::Is_Boot_At_Mc())
+	if (data::BootArea::Is_Boot_At_Mc() == 1)
 	{
 		// 默认启动区
 		if (data::Side::Is_Blue_Left_Side())
@@ -377,42 +377,53 @@ void Plan_Task(void *argument)
 			navigation.Add_Start(vector2d::Vector2D(0.42, 4.53), 0);// 红
 		}
 	}
-	else
+	else if (data::BootArea::Is_Boot_At_Mc() == 0)
 	{
-		// 对抗区启动区
+		// 挑战赛启动区
 		if (data::Side::Is_Blue_Left_Side())
 		{
-			navigation.Add_Start(vector2d::Vector2D(0.42, -4.53), 0);// 蓝
+			navigation.Add_Start(vector2d::Vector2D(7.61, -0.7), -HALF_PI);// 蓝
 		}
 		else
 		{
-			navigation.Add_Start(vector2d::Vector2D(0.42, 4.53), 0);// 红
+			navigation.Add_Start(vector2d::Vector2D(7.61, 0.7), HALF_PI);// 红
 		}
 	}
 	
 	
 	
-	// 规划夹武器和对接
-	if (data::IsDock::Is_Dock())
+	if (data::BootArea::Is_Boot_At_Mc() == 1)
 	{
-		if (!data::HaveWeapon::Have_Weapon())
+		// 规划夹武器和对接
+		if (data::IsDock::Is_Dock())
 		{
-			navigation.Go_To_Get_Weapon_Head();// 取武器头
+			if (!data::HaveWeapon::Have_Weapon())
+			{
+				navigation.Go_To_Get_Weapon_Head();// 取武器头
+			}
+			
+			navigation.Go_To_Stick_Edge();// 贴边对接
 		}
 		
-		navigation.Go_To_Stick_Edge();// 贴边对接
+
+		// 规划梅林
+		if (data::BootArea::Is_Boot_At_Mc())
+		{
+			best_path.Generate_Path();
+		}
+
+		// 放中间
+		navigation.Go_To_Put_KFS_2L(2);
+	}
+	else if (data::BootArea::Is_Boot_At_Mc() == 0)
+	{
+		//navigation.Pass_Do(vector2d::Vector2D(), );
+		
 	}
 	
 
-	// 规划梅林
-	if (data::BootArea::Is_Boot_At_Mc())
-	{
-		best_path.Generate_Path();
-	}
-
-	// 放中间
-	navigation.Go_To_Put_KFS_2L(2);
-
+	
+	
 	for (;;)
 	{
 		

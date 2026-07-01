@@ -16,8 +16,8 @@ namespace chassis
     constexpr float DOWN_40_POS = -590.f + ZERO_POS;
     constexpr float RESET_POS   = 100.f;
 	
-	constexpr float DELTA_H 	= 14.f;
-	constexpr float DELTA_H_BIG	= 25.f;
+	constexpr float DELTA_H 	= 15.f;
+	constexpr float DELTA_H_BIG	= 40.f;
 
     constexpr float L_LIFT_POL  = -1.f;
     constexpr float R_LIFT_POL  = -1.f;

@@ -199,8 +199,8 @@ namespace chassis
 				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
 				
-				Set_Front_Lift_Pos(ZERO_POS - DELTA_H);
-				Set_Back_Lift_Pos(down_pos - DELTA_H);
+				///Set_Front_Lift_Pos(ZERO_POS - DELTA_H);
+				///Set_Back_Lift_Pos(down_pos - DELTA_H);
 				
 				state = LIFT_UP_FORWARD_CHECK;
 				break;

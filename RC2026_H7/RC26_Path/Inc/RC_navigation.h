@@ -65,6 +65,12 @@ namespace path
 		bool Go_To_Avoid_R1_In_ARENA();
 		
 		bool Go_To_Stick_Edge();
+		
+		
+		
+		bool Challenge_Go_To_Get_KFS_Ground(uint8_t num);
+		bool Challenge_Go_To_Combine_Ready();
+		bool Challenge_Go_To_Combine();
 		/*------------------------------------------------------------*/
 		
     private:
