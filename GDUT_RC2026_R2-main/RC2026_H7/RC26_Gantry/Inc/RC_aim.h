@@ -100,10 +100,10 @@ namespace gantry
 
 		filter::SecondOrderLPF y_lpf;
 
-		// Stick 对接姿态（与 StickEdge 一致）
+		// 对接姿态（参考 StickEdge）
 		static constexpr float DOCK_POS_X         = 0.0f;
-		static constexpr float DOCK_POS_Y         = 0.09f;
-		static constexpr float DOCK_POS_Z         = 0.033f;
+		static constexpr float DOCK_POS_Y         = 0.05f;
+		static constexpr float DOCK_POS_Z         = 0.05f;
 		static constexpr float DOCK_POS_P         = 0.2f;
 		static constexpr float DOCK_P_MAX_T       = 3.0f;
 		static constexpr float RESTORE_P_MAX_T    = 27.0f;

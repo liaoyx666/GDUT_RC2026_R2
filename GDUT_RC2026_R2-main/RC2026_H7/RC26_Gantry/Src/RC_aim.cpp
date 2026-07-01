@@ -141,7 +141,8 @@ namespace gantry
 	case Phase_Release:
 		
 		gripper.Open();
-
+		user.Set_Z(0);
+		user.Set_P(0.5);
 		last_time = timer::Timer::Get_TimeStamp();
 		phase = Phase_Done;
 	

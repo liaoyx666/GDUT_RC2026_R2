@@ -140,15 +140,31 @@ namespace path
 		float yaw;
 		vector2d::Vector2D p;
 		
+		Event3_t event;
+		
 		if (data::Side::Is_Blue_Left_Side())
 		{
+			event = EVENT_HEAD_CHECK_L;
 			yaw = HALF_PI;
-			p = vector2d::Vector2D(1, -4);
+			p = vector2d::Vector2D(0.8, -5.2);
 		}
 		else
 		{
+			event = EVENT_HEAD_CHECK_R;
 			yaw = -HALF_PI;
-			p = vector2d::Vector2D(1, 4);
+			p = vector2d::Vector2D(0.8, 5.2);
+		}
+		
+		if (!Go_To_Do(p, yaw, event))
+			return false;
+		
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			p = vector2d::Vector2D(0.46, -5.2);
+		}
+		else
+		{
+			p = vector2d::Vector2D(0.46, 5.2);
 		}
 		
 		return Go_To_Do(p, yaw, EVENT_DOCK);
