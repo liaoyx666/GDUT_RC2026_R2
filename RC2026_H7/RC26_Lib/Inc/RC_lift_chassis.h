@@ -9,15 +9,37 @@
 #ifdef __cplusplus
 namespace chassis
 {
-	constexpr float ZERO_POS    = 0.f;
-    constexpr float UP_20_POS   = 295.f + ZERO_POS;
-    constexpr float UP_40_POS   = 590.f + ZERO_POS;
-    constexpr float DOWN_20_POS = -295.f + ZERO_POS;
-    constexpr float DOWN_40_POS = -590.f + ZERO_POS;
-    constexpr float RESET_POS   = 100.f;
+//	constexpr float ZERO_POS    = 0.f;
+//    constexpr float UP_20_POS   = 295.f + ZERO_POS;
+//    constexpr float UP_40_POS   = 590.f + ZERO_POS;
+//    constexpr float DOWN_20_POS = -295.f + ZERO_POS;
+//    constexpr float DOWN_40_POS = -590.f + ZERO_POS;
+//    constexpr float RESET_POS   = 100.f;
+//	
+//	constexpr float DELTA_H 	= 15.f;
+//	constexpr float DELTA_H_BIG	= 40.f;
 	
-	constexpr float DELTA_H 	= 15.f;
-	constexpr float DELTA_H_BIG	= 40.f;
+	
+	constexpr float ZERO_POS    = 0.f;
+    constexpr float UP_20_POS   = 157.f + ZERO_POS;
+    constexpr float UP_40_POS   = 314.f + ZERO_POS;
+    constexpr float DOWN_20_POS = -157.f + ZERO_POS;
+    constexpr float DOWN_40_POS = -314.f + ZERO_POS;
+    constexpr float RESET_POS   = 53.f;
+	
+	constexpr float DELTA_H 	= 4.f;
+	constexpr float DELTA_H_BIG	= 6.f;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
     constexpr float L_LIFT_POL  = -1.f;
     constexpr float R_LIFT_POL  = -1.f;

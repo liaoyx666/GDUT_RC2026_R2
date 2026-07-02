@@ -257,27 +257,27 @@ namespace gantry
 					timer::Timer::Get_DeltaTime(last_time) > 1000000
 				)
 				{
-					get_state = PUTKFS_GET_OUT;
-				}
-				break;
-			}
-			
-			case PUTKFS_GET_OUT:
-			{
-				user.Set_X(0.03);
-				get_state = PUTKFS_GET_OUT_CHECK;
-				break;
-			}
-			case PUTKFS_GET_OUT_CHECK:
-			{
-				if (
-					fabsf(user.Get_X() - 0.03f) < PUTKFS_POS_THRESTHOLD_SMALL
-				)
-				{
 					get_state = PUTKFS_GET_KFS_OUT;
 				}
 				break;
 			}
+			
+//			case PUTKFS_GET_OUT:
+//			{
+//				user.Set_X(0.03);
+//				get_state = PUTKFS_GET_OUT_CHECK;
+//				break;
+//			}
+//			case PUTKFS_GET_OUT_CHECK:
+//			{
+//				if (
+//					fabsf(user.Get_X() - 0.03f) < PUTKFS_POS_THRESTHOLD_SMALL
+//				)
+//				{
+//					get_state = PUTKFS_GET_KFS_OUT;
+//				}
+//				break;
+//			}
 			
 			case PUTKFS_GET_KFS_OUT:
 			{
@@ -434,29 +434,6 @@ namespace gantry
 					fabsf(user.Get_P() - PI)                      < PUTKFS_ANG_THRESTHOLD_SMALL
 				)
 				{
-					put_state = PUTKFS_PUT_DOWN;
-				}
-				break;
-			}
-			
-			
-			
-			
-			case PUTKFS_PUT_DOWN:
-			{
-				user.Set_Z(put_z - PUTKFS_PUT_KFS_DOWN_DELTA_Z);
-				
-				put_state = PUTKFS_PUT_DOWN_CHECK;
-				break;
-			}
-			
-			case PUTKFS_PUT_DOWN_CHECK:
-			{
-				if (
-					fabsf(user.Get_Z() - (put_z - PUTKFS_PUT_KFS_DOWN_DELTA_Z)) < PUTKFS_POS_THRESTHOLD_SMALL
-				)
-				{
-					last_time = timer::Timer::Get_TimeStamp();
 					put_state = PUTKFS_PUT_RELESE;
 				}
 				break;
@@ -465,10 +442,33 @@ namespace gantry
 			
 			
 			
+//			case PUTKFS_PUT_DOWN:
+//			{
+//				user.Set_Z(put_z - PUTKFS_PUT_KFS_DOWN_DELTA_Z);
+//				
+//				put_state = PUTKFS_PUT_DOWN_CHECK;
+//				break;
+//			}
+//			
+//			case PUTKFS_PUT_DOWN_CHECK:
+//			{
+//				if (
+//					fabsf(user.Get_Z() - (put_z - PUTKFS_PUT_KFS_DOWN_DELTA_Z)) < PUTKFS_POS_THRESTHOLD_SMALL
+//				)
+//				{
+//					last_time = timer::Timer::Get_TimeStamp();
+//					put_state = PUTKFS_PUT_RELESE;
+//				}
+//				break;
+//			}
+			
+			
+			
+			
 			case PUTKFS_PUT_RELESE:
 			{
 				suck.Off();
-				
+				last_time = timer::Timer::Get_TimeStamp();
 				put_state = PUTKFS_PUT_RELESE_CHECK;
 				break;
 			}
