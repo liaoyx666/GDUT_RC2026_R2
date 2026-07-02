@@ -34,7 +34,7 @@ namespace gantry
 		// 获取位置
 		constexpr float Get_X() { return  motor_x.Get_Out_Pos() * GANTRY_X_RAD_TO_M; }
 		constexpr float Get_Y() { return  motor_y.Get_Out_Pos() * GANTRY_Y_RAD_TO_M - GANTRY_Y_OFFSET; }
-		constexpr float Get_Z() { return -motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M; }
+		constexpr float Get_Z() { return  motor_z.Get_Out_Pos() * GANTRY_Z_RAD_TO_M; }
 		constexpr float Get_P() { return -motor_p.Get_Out_Pos(); }
 	
 	

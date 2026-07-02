@@ -524,7 +524,7 @@ void Motor_Config()
 	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	
 	m2006d_can1_3_4 .Set_Pos_limit(874.770203f, 0.f);
-	m3508d_can1_1_2 .Set_Pos_limit(0.f, -541.696167f);
+	m3508d_can1_1_2 .Set_Pos_limit(541.696167f, 0.f);
 	m2006_can1_5    .Set_Pos_limit(511.869476f, 0.f);
 	dm4310_can1_0x12.Set_Pos_limit(0, -4.9324f);
 }

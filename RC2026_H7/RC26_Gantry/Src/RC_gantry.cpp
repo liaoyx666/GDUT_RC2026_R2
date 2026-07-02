@@ -1,7 +1,5 @@
 #include "RC_gantry.h"
 
-volatile bool lllll = false;
-
 namespace gantry
 {
 	uint8_t GantryUser::user_num = 0;
@@ -236,12 +234,6 @@ namespace gantry
 			constr_p = p_min;// + 0.1f;
 		}
 		
-		if (constr_p > 3.2f)
-		{
-			lllll = true;
-		}
-		
-		
 		motor_p.Set_Out_Mit_Pos(-constr_p);
 		
 		/*---------------------------------x-------------------------------------*/
@@ -261,6 +253,6 @@ namespace gantry
 		
 		/*---------------------------------z-------------------------------------*/
 
-		motor_z.Set_Out_Pos(-target_z * GANTRY_Z_M_TO_RAD);
+		motor_z.Set_Out_Pos(target_z * GANTRY_Z_M_TO_RAD);
 	}
 }
