@@ -17,7 +17,7 @@
 #define WS2812B_AMOUNT     28
 
 // ws2812b 全局亮度 (0x00~0xFF)，修改此值统一控制所有颜色亮度
-#define WS2812B_BRIGHTNESS  0x20//0x3F
+#define WS2812B_BRIGHTNESS  0x2f//0x3F
 
 // C 兼容颜色枚举
 typedef enum

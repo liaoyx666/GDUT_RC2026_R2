@@ -30,8 +30,11 @@ namespace gantry
 		PUTKFS_GET_OUT,
 		PUTKFS_GET_OUT_CHECK,
 		
+		PUTKFS_GET_TOP,
+		PUTKFS_GET_TOP_CHECK,
+		
 		PUTKFS_GET_KFS_OUT,
-		PUTKFS_GET_KFS_OUT_CHECK,
+	//	PUTKFS_GET_KFS_OUT_CHECK,
 	};
 	
 	
@@ -41,21 +44,14 @@ namespace gantry
 		PUTKFS_RESET = 0,
 		PUTKFS_GET_PHASE,
 		PUTKFS_PUT_PHASE,
+		PUTKFS_END_PHASE,
 	};
 	
 	
 	enum PutKFSPutState : uint8_t 
 	{
-		PUTKFS_PUT_CHECK_SUDOKU = 0,
-		PUTKFS_PUT_CHECK_SUDOKU_CHECK,
-		
-		/*--------------------------*/
-		
-		PUTKFS_PUT_CHECK_SUDOKU_FAIL,
-		
-		/*--------------------------*/
-		
-		PUTKFS_PUT_DROP,
+
+		PUTKFS_PUT_DROP = 0,
 		PUTKFS_PUT_DROP_CHECK,
 		
 		/*--------------------------*/
@@ -87,34 +83,7 @@ namespace gantry
 	
 		void Auto_Put_KFS();
 	
-		bool Put_First_Fail_Navi()
-		{
-			bool is_end = false;
-			
-			if (success_num) return true;
-			
-			if (fail_num == 3) return true;
-			
-			if (is_fail)
-			{
-				if (fail_num == 1)
-				{
-					navi.Go_To_Put_KFS_2L(1);
-				}
-				else if (fail_num == 2)
-				{
-					navi.Go_To_Put_KFS_2L(3);
-				}
-				else if (fail_num == 3)
-				{
-					is_end = true;
-				}
-				
-				is_fail = false;
-			}
-			
-			return is_end;
-		}
+
     private:
 		
 		bool Get_KFS_Phase();
@@ -122,7 +91,6 @@ namespace gantry
 	
 		PutKFSHeight height;
 	
-		
 		PutKFSPhase phase;
 		PutKFSGetState get_state;
 		PutKFSPutState put_state;
@@ -142,9 +110,11 @@ namespace gantry
 		path::Event3 put_event[3];
 		path::Navigation& navi;
 		
-		bool is_fail;
-		uint8_t fail_num;
-		uint8_t success_num;
+		
+		bool put_flag;
+		//bool is_fail;
+		//uint8_t fail_num;
+		//uint8_t success_num;
 		
 		bool is_check;
 	

@@ -9,6 +9,7 @@
 #include "RC_gripper.h"
 #include "RC_IR_communication.h"
 #include "RC_data_pool.h"
+#include "RC_ws2812.h"
 
 enum StickDockState : uint8_t 
 {
@@ -44,7 +45,8 @@ public:
 		path::PathPlan3& p_, 
 		gantry::Gantry& gan_,
 		gantry::Gripper& gripper_,
-		data::RobotPose& pose_
+		data::RobotPose& pose_,
+		ws2812::Ws2812B& led_
 	);
 	~StickEdge() = default;
 

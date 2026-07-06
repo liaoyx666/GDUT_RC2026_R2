@@ -219,21 +219,22 @@ StickEdge stick_edge(
 	path_plan, 
 	gan,
 	gripper,
-	robot_pose
+	robot_pose,
+	led
 );
 
 
 /*==================IR====================*/
-IR::IRCmd combine_ready_cmd(2);
-IR::IRCmd combine_cmd(3);
-IR::IRCmd put_3L_cmd(4);
-IR::IRCmd uncombine_cmd(8);
+IR::IRCmd combine_ready_cmd(2, led);
+IR::IRCmd combine_cmd(3, led);
+IR::IRCmd put_3L_cmd(4, led);
+IR::IRCmd uncombine_cmd(8, led);
 
-IR::IRCmd put_2L_1(6);
-IR::IRCmd put_2L_2(7);
-IR::IRCmd put_2L_3(5);
+IR::IRCmd put_2L_1(6, led);
+IR::IRCmd put_2L_2(7, led);
+IR::IRCmd put_2L_3(5, led);
 
-IR::IRCmd home(10);
+IR::IRCmd home(10, led);
 
 
 /*==================Main_Task==================*/
@@ -280,14 +281,7 @@ void Main_Task(void *argument)
 			CDC_HS.CDC_Send_Pkg(2, feedback_data, 10, 0);
 			feedback_count = 0;
 		}
-		
-		//led.SetRed();
-		
-//		if (remote_ctrl.signal_swd())
-//		{
-//			led.FlashOnce(ws2812::Color::GREEN, ws2812::Color::NONE);
-//		}
-		
+
 		imu_fusion.Fusion();
 		float fusion_yaw = hwt101ct.Yaw();
 		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
@@ -432,6 +426,7 @@ void Plan_Task(void *argument)
 	{
 		data::HaveOutKFS::Set_Have_Out_KFS(false);
 	}
+
 	
 	/*-----------------------------初始化全局起点-----------------------------------*/
 	
@@ -703,7 +698,7 @@ void Motor_Config()
 	
 	m2006d_can1_3_4.	pid_pos.Pid_Param_Init(200, 0, 3, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	m3508d_can1_1_2.	pid_pos.Pid_Param_Init(100, 0, 0.005, 	0, 0.002, 0, 4000, 1000, 500, 500, 500, 1000, 314.16);
-	m2006_can1_5.		pid_pos.Pid_Param_Init(110, 0, 1.5, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
+	m2006_can1_5.		pid_pos.Pid_Param_Init(100, 0, 1.5, 		0, 0.002, 0, 9000, 500, 500, 500, 500, 	2000, 837.76f);
 	//dm4310_can1_0x12.	pid_pos.Pid_Param_Init(15, 0, 0.055, 0, 0.001, 0, 7, 5, 5, 5, 5, 20, 7);
 	dm4310_can1_0x12.	pid_pos.Pid_Param_Init(20, 0, 1.4, 		0, 0.001, 0, 27, 5, 5, 5, 5, 20, 5);
 	

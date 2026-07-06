@@ -6,6 +6,7 @@
 #include "RC_timer.h"
 #include "RC_ws2812.h"
 
+
 constexpr uint8_t IR_COM_RX_BUFFER_SIZE = 32;
 
 namespace IR
@@ -13,11 +14,14 @@ namespace IR
 	constexpr uint8_t IR_MAX_CMD = 10;
 	constexpr uint8_t IR_INVALID_CMD = 0;
 	
+	
+	
+	
 	// 红外命令
 	class IRCmd
     {
     public:
-		IRCmd(uint8_t id_);
+		IRCmd(uint8_t id_, ws2812::Ws2812B& led_);
 		~IRCmd() = default;
 
 		bool Get_Cmd()
@@ -30,6 +34,7 @@ namespace IR
 				
 				if (timer::Timer::Get_DeltaTime(time_stamp) < 200000) // 100ms
 				{
+					led.FlashOnce(ws2812::Color::GREEN, ws2812::Color::NONE);
 					return true;
 				}
 				else
@@ -47,6 +52,8 @@ namespace IR
 		static IRCmd* cmd_list[IR_MAX_CMD];
 		volatile bool new_cmd;
 		volatile uint32_t time_stamp;
+	
+		ws2812::Ws2812B& led;
 		
 		friend class IRCom;
     };

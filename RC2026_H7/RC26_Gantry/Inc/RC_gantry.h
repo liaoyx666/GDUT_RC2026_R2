@@ -46,10 +46,10 @@ namespace gantry
 		
 		void Have_Out_KFS_Pos()
 		{
-			Set_X(0.04);
+			Set_X(0.08);
 			Set_Y(0);
-			Set_Z(0);
-			Set_P(0);
+			Set_Z(0.4);
+			Set_P(2.6);
 		}
 		
 		void Gantry_Base();

@@ -30,9 +30,8 @@ namespace gantry
 		last_time = 0;
 		last_check_time = 0;
 		ready_trig = false;
-		is_fail = false;
-		fail_num = 0;
-		success_num = 0;
+
+		put_flag = false;
 		is_check = false;
 		height = PUTKFS_2L;
 	}
@@ -45,19 +44,16 @@ namespace gantry
 		{
 			case PUTKFS_RESET:
 			{
-				
 				if (put_event[0].Is_Trig())
 				{
 					ready_trig = true;
 					put_z = PUTKFS_2L_Z;
-					is_check = true;
 					height = PUTKFS_2L;
 				}
 				else if (put_event[1].Is_Trig())
 				{
 					ready_trig = true;
 					put_z = PUTKFS_3L_Z;
-					is_check = false;
 					height = PUTKFS_3L;
 				}
 				
@@ -67,62 +63,49 @@ namespace gantry
 					
 					ready_trig = false;
 					
-					if (data::HaveOutKFS::Have_Out_KFS())
+					if (data::KFSNum::Get_KFS_Num() == 0)
 					{
-						// 体外方块
-						get_state = PUTKFS_GET_KFS_OUT;
-						
-						phase = PUTKFS_GET_PHASE;
+						return;
 					}
 					else
 					{
-						if (data::KFSNum::Get_KFS_Num() == 0)
+						if (data::HaveOutKFS::Have_Out_KFS())
 						{
-							return;
+							// 体外方块
+							get_state = PUTKFS_GET_KFS_OUT;
 						}
-						else if (data::KFSNum::Get_KFS_Num() == 1)
+						else
 						{
-							get_z = PUTKFS_GET_KFS_LOW_Z;
 							get_state = PUTKFS_GET_STRETCH;
-							
-							phase = PUTKFS_GET_PHASE;
 						}
-						else if (data::KFSNum::Get_KFS_Num() == 2)
-						{
-							get_z = PUTKFS_GET_KFS_HIGH_Z;
-							get_state = PUTKFS_GET_STRETCH;
-							
-							phase = PUTKFS_GET_PHASE;
-						}
-						else if (data::KFSNum::Get_KFS_Num() == 3)
-						{
-							get_z = PUTKFS_GET_KFS_TOP_Z;
-							get_state = PUTKFS_GET_STRETCH;
-							
-							phase = PUTKFS_GET_PHASE;
-						}
+						
+						put_flag = true;
+						phase = PUTKFS_GET_PHASE;
+						put_state = PUTKFS_PUT_DROP;
 					}
-					
-					// 上次放失败
-					if (put_state == PUTKFS_PUT_CHECK_SUDOKU_FAIL)
-					{
-						get_state = PUTKFS_GET_KFS_OUT;
-					}
-					
-					put_state = PUTKFS_PUT_CHECK_SUDOKU;
-					
 				}
+				
 				break;
 			}
 			
 			case PUTKFS_GET_PHASE:
 			{
 				if (
-					Get_KFS_Phase() &&
-					put_event[2].Is_Trig()
+					Get_KFS_Phase()
 				)
 				{
-					phase = PUTKFS_PUT_PHASE;
+					if (put_flag == true)
+					{
+						if (put_event[2].Is_Trig())
+						{
+							phase = PUTKFS_PUT_PHASE;
+							put_state = PUTKFS_PUT_DROP;
+						}
+					}
+					else
+					{
+						phase = PUTKFS_END_PHASE;
+					}
 				}
 				break;
 			}
@@ -131,10 +114,32 @@ namespace gantry
 			{
 				if (Put_KFS_Phase())
 				{
+					data::HaveOutKFS::Set_Have_Out_KFS(false);
 					put_event[2].Finish();
 
-					phase = PUTKFS_RESET;
+					data::KFSNum::KFS_Sub_One();// 放成功
+					
+					put_flag = false;
+					
+					if (data::KFSNum::Get_KFS_Num() > 0)
+					{
+						phase = PUTKFS_GET_PHASE;
+						get_state = PUTKFS_GET_STRETCH;
+					}
+					else
+					{
+						user.Set_Reset_Pos();
+						phase = PUTKFS_END_PHASE;
+					}
 				}
+				break;
+			}
+			
+			
+			case PUTKFS_END_PHASE:
+			{
+				user.Give_Control();
+				phase = PUTKFS_RESET;
 				break;
 			}
 			
@@ -147,14 +152,13 @@ namespace gantry
 	}
 	/*----------------------------------------------------*/
 
-
 	constexpr float PUTKFS_GET_KFS_STRETCH_X = 0.05;
 	constexpr float PUTKFS_GET_KFS_WITHDRAW_X = 0.0;
 	constexpr float PUTKFS_GET_KFS_OUT_X = 0.27;
 	constexpr float PUTKFS_PUT_KFS_OUT_DELTA_Z = 0.06;
 	
 	
-	constexpr float PUTKFS_PUT_KFS_CLOSE_X = 0.2;
+	constexpr float PUTKFS_PUT_KFS_CLOSE_X = 0.15;
 	constexpr float PUTKFS_PUT_KFS_IN_X = 0.43;
 	constexpr float PUTKFS_PUT_KFS_DOWN_DELTA_Z = 0.03;
 	constexpr float PUTKFS_PUT_KFS_OUT_X = 0.32;
@@ -176,7 +180,26 @@ namespace gantry
 		{
 			case PUTKFS_GET_STRETCH:
 			{
+				if (data::KFSNum::Get_KFS_Num() == 1)
+				{
+					get_z = PUTKFS_GET_KFS_LOW_Z;
+				}
+				else if (data::KFSNum::Get_KFS_Num() == 2)
+				{
+					get_z = PUTKFS_GET_KFS_HIGH_Z;
+				}
+				else if (data::KFSNum::Get_KFS_Num() == 3)
+				{
+					get_z = PUTKFS_GET_KFS_TOP_Z;
+				}
+				else
+				{
+					return true;
+				}
+				
 				suck.Off();
+				
+				user.Set_Defualt_Td();
 				
 				user.Set_X(PUTKFS_GET_KFS_STRETCH_X);
 				user.Set_Y(0);
@@ -204,7 +227,6 @@ namespace gantry
 				get_state = PUTKFS_GET_TO_KFS_CHECK;
 				break;
 			}
-			
 			
 			case PUTKFS_GET_TO_KFS_CHECK:
 			{
@@ -237,8 +259,38 @@ namespace gantry
 					timer::Timer::Get_DeltaTime(last_time) > 1000000
 				)
 				{
+					user.Set_X_Td(500, 837.76);
+					user.Set_P_Td(4, 5);
+				
+					if (get_z == PUTKFS_GET_KFS_TOP_Z)
+					{
+						get_state = PUTKFS_GET_TOP;
+					}
+					else
+					{
+						get_state = PUTKFS_GET_KFS_OUT;
+					}
+				}
+				break;
+			}
+			
+			case PUTKFS_GET_TOP:
+			{
+				user.Set_X(PUTKFS_PUT_KFS_CLOSE_X);
+				user.Set_P(PUTKFS_PUT_KFS_CLOSE_P);
+				
+				get_state = PUTKFS_GET_TOP_CHECK;
+				
+				break;
+			}
+			
+			case PUTKFS_GET_TOP_CHECK:
+			{
+				if (user.Get_P() > 1.f)
+				{
 					get_state = PUTKFS_GET_KFS_OUT;
 				}
+				
 				break;
 			}
 			
@@ -247,37 +299,18 @@ namespace gantry
 				user.Set_X_Td(500, 837.76);
 				user.Set_P_Td(4, 5);
 				
-				if (is_check)
-				{
-					user.Set_X(PUTKFS_GET_KFS_OUT_X);
-					user.Set_Z(put_z - PUTKFS_PUT_KFS_OUT_DELTA_Z);
-					user.Set_P(HALF_PI);
-					
-					get_state = PUTKFS_GET_KFS_OUT_CHECK;
-				}
-				else
-				{
-					user.Set_X(PUTKFS_PUT_KFS_CLOSE_X);
-					user.Set_Z(put_z - PUTKFS_PUT_KFS_CLOSE_DELTA_Z);
-					user.Set_P(PUTKFS_PUT_KFS_CLOSE_P);
+				
+				user.Set_X(PUTKFS_PUT_KFS_CLOSE_X);
+				user.Set_Z(put_z - PUTKFS_PUT_KFS_CLOSE_DELTA_Z);
+				user.Set_P(PUTKFS_PUT_KFS_CLOSE_P);
 
-					return true;
-				}
+				data::HaveOutKFS::Set_Have_Out_KFS(true);
+				
+				return true;
+			
 				break;
 			}
 			
-			case PUTKFS_GET_KFS_OUT_CHECK:
-			{
-				if (
-					fabsf(user.Get_X() - PUTKFS_GET_KFS_OUT_X) < PUTKFS_POS_THRESTHOLD_SMALL && 
-					fabsf(user.Get_Z() - (put_z - PUTKFS_PUT_KFS_OUT_DELTA_Z)) < PUTKFS_POS_THRESTHOLD_SMALL && 
-					fabsf(user.Get_P() - HALF_PI) < PUTKFS_ANG_THRESTHOLD_SMALL
-				)
-				{
-					return true;
-				}
-				break;
-			}
 			
 			default:
 			{
@@ -297,54 +330,6 @@ namespace gantry
 	{
 		switch (put_state)
 		{
-			case PUTKFS_PUT_CHECK_SUDOKU:
-			{
-				last_time = last_time = timer::Timer::Get_TimeStamp();
-				last_check_time = last_time = timer::Timer::Get_TimeStamp();
-				put_state = PUTKFS_PUT_CHECK_SUDOKU_CHECK;
-				break;
-			}
-			
-			
-			
-			case PUTKFS_PUT_CHECK_SUDOKU_CHECK:
-			{
-				// 小于阈值更新
-				if (laser.distance < 250)
-				{
-					last_check_time = timer::Timer::Get_TimeStamp();
-				}
-				
-				if (!is_check)
-				{
-					put_state = PUTKFS_PUT_DROP;
-				}
-				else if (timer::Timer::Get_DeltaTime(last_check_time) > 400000) // 0.4s没检测到就成功
-				{
-					put_state = PUTKFS_PUT_DROP;
-				}
-				else if (timer::Timer::Get_DeltaTime(last_time) > 1000000) // 2s超时
-				{
-					put_state = PUTKFS_PUT_CHECK_SUDOKU_FAIL;
-				}
-				break;
-			}
-
-			/*--------------------------------------------*/
-			
-			case PUTKFS_PUT_CHECK_SUDOKU_FAIL:
-			{
-				is_fail = true;
-				fail_num++;
-				return true;
-				break;
-			}
-			
-			/*--------------------------------------------*/
-			
-			
-			
-			
 			case PUTKFS_PUT_DROP:
 			{
 				user.Set_X(PUTKFS_PUT_KFS_CLOSE_X);
@@ -402,10 +387,6 @@ namespace gantry
 				break;
 			}
 			
-			
-			
-			
-			
 			case PUTKFS_PUT_RELESE:
 			{
 				suck.Off();
@@ -421,25 +402,12 @@ namespace gantry
 				)
 				{
 					user.Set_Defualt_Td();
-					user.Set_Reset_Pos();
-					data::KFSNum::KFS_Sub_One();// 放成功
-					success_num++;
-					user.Give_Control();
-					
-					if (data::HaveOutKFS::Have_Out_KFS())
-					{
-						data::HaveOutKFS::Set_Have_Out_KFS(false);
-					}
-					
-					
-					
 					return true;
 				}
 				break;
 			}
 			
 			/*--------------------------------------------*/
-			
 			
 			case PUTKFS_PUT_IN_3L:
 			{
@@ -483,17 +451,6 @@ namespace gantry
 				)
 				{
 					user.Set_Defualt_Td();
-					user.Set_Reset_Pos();
-					data::KFSNum::KFS_Sub_One();// 放成功
-					
-					if (data::HaveOutKFS::Have_Out_KFS())
-					{
-						data::HaveOutKFS::Set_Have_Out_KFS(false);
-					}
-					
-					success_num++;
-					user.Give_Control();
-					
 					return true;
 				}
 				break;
@@ -502,7 +459,7 @@ namespace gantry
 			/*--------------------------------------------*/
 			default:
 			{
-				put_state = PUTKFS_PUT_CHECK_SUDOKU;
+				put_state = PUTKFS_PUT_DROP;
 				break;
 			}
 		}

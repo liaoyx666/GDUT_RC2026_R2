@@ -72,7 +72,7 @@ namespace IR
 	IRCmd* IRCmd::cmd_list[IR_MAX_CMD] = { nullptr };
 	
 	
-	IRCmd::IRCmd(uint8_t id_)
+	IRCmd::IRCmd(uint8_t id_, ws2812::Ws2812B& led_) : led(led_)
 	{
 		if (id_ <= IR_MAX_CMD && id_ != 0)
 		{

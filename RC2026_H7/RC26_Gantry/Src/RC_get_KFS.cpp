@@ -136,8 +136,8 @@ bool GetKFS::Configure_Current_Step()
 				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          		Set_Step_Target(0.2f,  0.00f, 0.14f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
                 case 4: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);      Set_Step_Target(0.2f,  0.00f, 0.14f, 1.57f, CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
                 case 5: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.10f,  0.00f, 0.14f, 1.57f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-                case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);        	  Set_Step_Target(0.02f, 0.00f, 0.07f, 0.6f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);        	  Set_Step_Target(0.00f, 0.00f, 0.01f ,0.2f,  CtrlMode::Y_LOCK);          Set_Step_Act(0);  return true;
+                case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);        	  Set_Step_Target(0.05f, 0.00f, 0.07f, 0.6f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
+				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);        	  Set_Step_Target(0.02f, 0.00f, 0.01f ,0.2f,  CtrlMode::Y_LOCK);          Set_Step_Act(0);  return true;
 				case 8: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(500000);         Set_Step_Target(0.00f, 0.00f, 0.01f ,0.2f,  CtrlMode::Y_LOCK);          Set_Step_Act(0);  return true;
 				
 				case 9: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(100000);        	  Set_Step_Target(0.03f, 0.00f, 0.00f ,0.0f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
@@ -162,8 +162,8 @@ default: return false;
 				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);         	  Set_Step_Target(0.2f,  0.00f, 0.36f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
                 case 4: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);    Set_Step_Target(0.2f,  0.00f, 0.36f, 1.57f, CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
                 case 5: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);        Set_Step_Target(0.12f,  0.00f, 0.36f, 1.57f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-                case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.11f, 0.00f, 0.36f, 0.2f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
-				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(500000);          Set_Step_Target(0.00f, 0.00f, 0.36f, 0.2f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
+                case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.05f, 0.00f, 0.36f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
+				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(500000);          Set_Step_Target(0.01f, 0.00f, 0.36f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				case 8: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(500000);          Set_Step_Target(0.04f, 0.00f, 0.36f, 0.0f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
                 default: return false;
             }
@@ -181,11 +181,11 @@ default: return false;
             {
 				case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);       		     Set_Step_Target(0.35f, 0.00f, 0.14f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 case 1: Set_Ctrl_Mode(SpeedMode::FAST); Set_Step_Delay(300000);     		 Set_Step_Target(0.52f+retry_x, 0.00f, 0.14f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);     				 Set_Step_Target(0.20f,  0.00f, 0.4f, 2.0f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);     				 Set_Step_Target(0.20f,  0.00f, 0.4f, 2.0f, CtrlMode::Check);        Set_Step_Act(1); return true;
-				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);         	 	 Set_Step_Target(0.20f,  0.00f, 0.4f, 2.0f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1);data::HaveOutKFS::Set_Have_Out_KFS(true); return true;							
+				case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);     				 Set_Step_Target(0.25f,  0.00f, 0.4f, 1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);     				 Set_Step_Target(0.25f,  0.00f, 0.4f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
+				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);         	 	 Set_Step_Target(0.25f,  0.00f, 0.4f, 1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1);data::HaveOutKFS::Set_Have_Out_KFS(true); return true;							
 				
-				case 5: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);         	  Set_Step_Target(0.08f,  0.00f, 0.4f, 2.6f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
+				case 5: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);         	  Set_Step_Target(0.25f,  0.00f, 0.4f, 1.57f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
 				default: return false;
         
             }
@@ -231,8 +231,8 @@ default: return false;
 				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);    		  Set_Step_Target(0.2f, 0.00f, 0.36f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
                 case 4: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);    		  Set_Step_Target(0.20f, 0.00f, 0.36f, 1.57f, CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
                 case 5: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.1f,  0.00f, 0.36f, 1.57f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-                case 6: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.00f, 0.00f, 0.06f, 0.6f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.00f, 0.00f, 0.00f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
+                case 6: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.05f, 0.00f, 0.06f, 0.6f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
+				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.02f, 0.00f, 0.00f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				case 8: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(800000);          Set_Step_Target(0.00f, 0.00f, 0.00f, 0.0f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				
 				case 9: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(100000);          Set_Step_Target(0.03f, 0.00f, 0.00f, 0.0f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
@@ -256,8 +256,8 @@ default: return false;
 				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);    		  Set_Step_Target(0.20f, 0.00f, 0.36f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
                 case 4: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);    		  Set_Step_Target(0.20f, 0.00f, 0.36f, 1.57f, CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
                 case 5: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.1f,  0.00f, 0.36f, 1.57f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-                case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.00f, 0.00f, 0.36f, 0.6f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(500000);          Set_Step_Target(0.00f, 0.00f, 0.36f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
+                case 6: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.05f, 0.00f, 0.36f, 0.6f,  CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
+				case 7: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(500000);          Set_Step_Target(0.02f, 0.00f, 0.36f, 0.1f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				case 8: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(000000);          Set_Step_Target(0.02f, 0.00f, 0.36f, 0.0f,  CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				default: return false;
             }
@@ -273,7 +273,7 @@ default: return false;
             switch (seq_idx)
             {
 			    case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);      Set_Step_Target(0.60f, 0.00f, 0.1f,  4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-                case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(300000);     Set_Step_Target(0.60f, 0.00f, 0.04f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(300000);     Set_Step_Target(0.60f, 0.00f, 0.045f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          Set_Step_Target(0.60f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 case 3: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.30f, 0.00f, 0.35f, 1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
 				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.30f, 0.00f, 0.35f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
@@ -299,14 +299,14 @@ default: return false;
             switch (seq_idx)
             {
 				case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.60f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-                case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(300000);     Set_Step_Target(0.60f, 0.00f, 0.04f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(300000);     Set_Step_Target(0.60f, 0.00f, 0.045f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.60f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          Set_Step_Target(0.40f, 0.00f, 0.35f, 1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          Set_Step_Target(0.40f, 0.00f, 0.35f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
-                case 5: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);      Set_Step_Target(0.40f,  0.00f, 0.35f, 1.57f, CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
+				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          Set_Step_Target(0.35f, 0.00f, 0.35f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
+                case 5: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);      Set_Step_Target(0.35f,  0.00f, 0.35f, 1.57f, CtrlMode::CLOSE_LOOP_LASER); Set_Step_Act(1); return true;
                 case 6: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.10f,  0.00f, 0.50f, 1.57f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-				case 7: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.06f,  0.00f, 0.50f, 0.05f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
-				case 8: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.02f,  0.00f, 0.50f, 0.05f, CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
+				case 7: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.06f,  0.00f, 0.50f, 0.6f, CtrlMode::Y_LOCK);           Set_Step_Act(1); return true;
+				case 8: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.02f,  0.00f, 0.50f, 0.1f, CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				case 9: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.02f,  0.00f, 0.4f, 0.1f, CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				case 10: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(500000);          Set_Step_Target(0.0f,  0.00f, 0.4f, 0.0f, CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
 				case 11: Set_Ctrl_Mode(SpeedMode::NORMAL);   Set_Step_Delay(0);          Set_Step_Target(0.04f,  0.00f, 0.4f, 0.0f, CtrlMode::Y_LOCK);           Set_Step_Act(0); return true;
@@ -332,13 +332,13 @@ default: return false;
             switch (seq_idx)
             {
 				case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.60f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(300000);     Set_Step_Target(0.60f, 0.00f, 0.04f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+				case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(300000);     Set_Step_Target(0.60f, 0.00f, 0.045f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
 				case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.60f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.20f, 0.00f, 0.40f, 2.0f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.20f, 0.00f, 0.40f, 2.0f, CtrlMode::Check);        Set_Step_Act(1); return true;
+				case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.28f, 0.00f, 0.30f, 1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.28f, 0.00f, 0.30f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
 				//
-				case 5: Set_Ctrl_Mode(SpeedMode::FAST); Set_Step_Delay(0);        Set_Step_Target(0.20f, 0.00f, 0.40f, 2.0f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); data::HaveOutKFS::Set_Have_Out_KFS(true);return true;
-                case 6: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);          Set_Step_Target(0.08f, 0.00f, 0.40f, 2.6f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
+				case 5: Set_Ctrl_Mode(SpeedMode::FAST); Set_Step_Delay(0);        Set_Step_Target(0.28f, 0.00f, 0.30f, 1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); data::HaveOutKFS::Set_Have_Out_KFS(true);return true;
+                case 6: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);          Set_Step_Target(0.22f, 0.00f, 0.30f, 1.57f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
 
                 default: return false;    
             }
@@ -360,11 +360,11 @@ default: return false;
             switch (seq_idx)
             {
 				case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.60f, 0.00f, 0.10f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-                case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);     Set_Step_Target(0.60f, 0.00f, 0.02f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.20f, 0.00f, 0.30f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); data::HaveOutKFS::Set_Have_Out_KFS(true);return true;
-                case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);          Set_Step_Target(0.15f, 0.00f, 0.40f, 2.0f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          Set_Step_Target(0.15f, 0.00f, 0.40f, 2.0f, CtrlMode::Check);        Set_Step_Act(1); return true;
-               case 5: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);          Set_Step_Target(0.08f, 0.00f, 0.40f, 2.6f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);     Set_Step_Target(0.60f, 0.00f, 0.045f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+				case 2: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);        Set_Step_Target(0.32f, 0.00f, 0.30f, 3.14f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); data::HaveOutKFS::Set_Have_Out_KFS(true);return true;
+                case 3: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);          Set_Step_Target(0.32f, 0.00f, 0.40f, 1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);          Set_Step_Target(0.32, 0.00f, 0.40f, 1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
+               case 5: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);          Set_Step_Target(0.32f, 0.00f, 0.40f, 1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
                
 				default: return false;    
             }
@@ -496,7 +496,9 @@ default: return false;
             if (seq_idx == 5) Finish_Event_Early();
             break;
 		
-		
+		case ARM_TASK::PICK_DOWN_KFS_4_step2:
+            if (seq_idx == 5) Finish_Event_Early();
+            break;
 								
         default:
             break;

@@ -47,8 +47,8 @@ namespace chassis
 	constexpr float LIFT_RESET_R          = 5000;
 	constexpr float LIFT_RESET_V_MAX      = 940;
 	
-	constexpr float LIFT_LOAD_R           = 1000;
-	constexpr float LIFT_LOAD_V_MAX       = 400;
+	constexpr float LIFT_LOAD_R           = 900;
+	constexpr float LIFT_LOAD_V_MAX       = 350;
 	
 	
 	
@@ -61,8 +61,8 @@ namespace chassis
 
 	
 	
-	constexpr float LIFT_CHASSIS_UP_DIS = 0.35f;
-	constexpr float LIFT_CHASSIS_DOWN_DIS = 0.3f;
+	constexpr float LIFT_CHASSIS_UP_DIS = 0.40f;
+	constexpr float LIFT_CHASSIS_DOWN_DIS = 0.35f;
 
 	void LiftChassis::Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig)
 	{
