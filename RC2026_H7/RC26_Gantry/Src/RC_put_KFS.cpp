@@ -359,12 +359,10 @@ namespace gantry
 				break;
 			}
 			
-			
-			
 			case PUTKFS_PUT_IN:
 			{
 				user.Set_Z_Td(500.f, 314.16);
-				user.Set_P_Td(3, 5);
+				user.Set_P_Td(4, 5);
 				
 				user.Set_X(PUTKFS_PUT_KFS_IN_X);
 				user.Set_Z(put_z);
