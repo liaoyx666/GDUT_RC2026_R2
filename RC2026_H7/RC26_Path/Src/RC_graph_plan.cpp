@@ -303,7 +303,7 @@ namespace path
 		
 		/*-------*/
 		//lon.v = UP_STAIR_SLOW_VEL;
-		lon.a = UP_STAIR_SLOW_ACC;
+		//lon.a = UP_STAIR_SLOW_ACC;
 		//head.w = 0; /*禁止转向*/
 		p = MapGraph::Offset_On_Dir(e_center, move_dir, UP_STAIR_FINISH_OFFSET); /*完成点坐标*/
 		if (!Add_Point_Wait(
@@ -402,7 +402,7 @@ namespace path
 		if (!Add_Point_Wait(
 			p, 
 			0, 
-			&lon, 
+			NULL, 
 			NULL, 
 			EVENT3_NULL, 
 			false
@@ -416,7 +416,7 @@ namespace path
 		if (!Add_Point_Wait(
 			p, 
 			0, 
-			&lon, 
+			NULL, 
 			NULL, 
 			EVENT3_NULL, 
 			false
@@ -437,7 +437,7 @@ namespace path
 		if (!Add_Point_Wait(
 			p, 
 			0, 
-			&lon, 
+			NULL, 
 			&head, 
 			EVENT3_NULL, 
 			false

@@ -237,7 +237,7 @@ namespace path
 		}
 		else
 		{
-			yaw = -HALF_PI;
+			yaw = HALF_PI;
 			p = vector2d::Vector2D(12 - 0.98 + 0.41, 4.9);
 		}
 
@@ -330,8 +330,15 @@ namespace path
 		vector2d::Vector2D p;
 		
 		yaw = 0;
-		p = vector2d::Vector2D(11.825f - 0.375f - 0.35f - 0.175f + 0.04f, -(6.f - 0.6f - 0.175f) + (get_num) * 0.7f);
 		
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			p = vector2d::Vector2D(11.825f - 0.375f - 0.35f - 0.175f + 0.04f, -(6.f - 0.6f - 0.175f) + (get_num) * 0.7f);
+		}
+		else
+		{
+			p = vector2d::Vector2D(11.825f - 0.375f - 0.35f - 0.175f + 0.04f, -(-(6.f - 0.6f - 0.175f) + (get_num) * 0.7f));
+		}
 		
 		if (fabsf(p.y() - just_nav.p.y()) > 0.1f && just_nav.p.x() < 11.f)
 		{
@@ -356,8 +363,8 @@ namespace path
 		}
 		else
 		{
-			yaw = HALF_PI;
-			p = vector2d::Vector2D(12 - 0.98 - 0.8, 4.9);
+			yaw = PI;
+			p = vector2d::Vector2D(10.17, -(-6 + 0.365 + 0.4 + 1.2));
 		}
 		
 		return Go_To_Do(p, yaw, EVENT_UP_4_READY_L);
@@ -376,8 +383,8 @@ namespace path
 		}
 		else
 		{
-			yaw = -HALF_PI;
-			p = vector2d::Vector2D(12 - 0.98 + 0.41, 4.9);
+			yaw = PI;
+			p = vector2d::Vector2D(10.17, -(-6 + 0.365 + 0.4));
 		}
 
 		bool success = Go_To_Do(p, yaw, EVENT_COMBINE);
@@ -395,7 +402,14 @@ namespace path
 		
 		if (just_nav.p.x() < 11)
 		{
-			Pass_Do(vector2d::Vector2D(11.13, just_nav.p.y()), -HALF_PI, EVENT3_NULL);
+			if (data::Side::Is_Blue_Left_Side())
+			{
+				Pass_Do(vector2d::Vector2D(11.13, just_nav.p.y()), -HALF_PI, EVENT3_NULL);
+			}
+			else
+			{
+				Pass_Do(vector2d::Vector2D(11.13, just_nav.p.y()), HALF_PI, EVENT3_NULL);
+			}
 		}
 		
 		if (data::Side::Is_Blue_Left_Side())
@@ -420,7 +434,7 @@ namespace path
 		vector2d::Vector2D p;
 		float yaw;
 		
-		if (just_nav.p.y() < -5)
+		if (fabsf(just_nav.p.y()) > 4.4)
 		{
 			// 直线到达
 		}
@@ -429,14 +443,31 @@ namespace path
 			if (last_navp.p.x() > 11)
 			{
 				// 先向左
-				Pass_Do(vector2d::Vector2D(11.13, -5.13), -HALF_PI, EVENT3_NULL);
+				if (data::Side::Is_Blue_Left_Side())
+				{
+					Pass_Do(vector2d::Vector2D(11.13, -5.13), -HALF_PI, EVENT3_NULL);
+				}
+				else
+				{
+					Pass_Do(vector2d::Vector2D(11.13, 5.13), HALF_PI, EVENT3_NULL);
+				}
 			}
 			else
 			{
-				// 先向前再向左
-				Pass_Do(vector2d::Vector2D(11.13, just_nav.p.y()), -HALF_PI, EVENT3_NULL);
-				
-				Pass_Do(vector2d::Vector2D(11.13, -5.13), -HALF_PI, EVENT3_NULL);
+				if (data::Side::Is_Blue_Left_Side())
+				{
+					// 先向前再向左
+					Pass_Do(vector2d::Vector2D(11.13, just_nav.p.y()), -HALF_PI, EVENT3_NULL);
+					
+					Pass_Do(vector2d::Vector2D(11.13, -5.13), -HALF_PI, EVENT3_NULL);
+				}
+				else
+				{
+					// 先向前再向左
+					Pass_Do(vector2d::Vector2D(11.13, just_nav.p.y()), HALF_PI, EVENT3_NULL);
+					
+					Pass_Do(vector2d::Vector2D(11.13, 5.13), HALF_PI, EVENT3_NULL);
+				}
 			}
 		}
 		

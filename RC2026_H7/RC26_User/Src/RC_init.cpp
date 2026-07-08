@@ -281,9 +281,9 @@ void Main_Task(void *argument)
 			feedback_count = 0;
 		}
 
-		imu_fusion.Fusion();
-		float fusion_yaw = hwt101ct.Yaw();
-		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
+//		imu_fusion.Fusion();
+//		float fusion_yaw = hwt101ct.Yaw();
+//		robot_pose.Update_Orientation(&fusion_yaw, NULL, NULL);
 		
 		get_weapon_head.Auto_Get_Weapon_Head();
 		
@@ -457,7 +457,17 @@ void Plan_Task(void *argument)
 	}
 	else if (data::BootArea::Is_Boot_At_Mc() == 2) // 三区启动区
 	{
+		state = STATE_COMBINE_READY;
 		
+		// 挑战赛启动区
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			navigation.Add_Start(vector2d::Vector2D(11.57, -0.43), -HALF_PI);// 蓝
+		}
+		else
+		{
+			navigation.Add_Start(vector2d::Vector2D(11.57, 0.43), -HALF_PI);// 红
+		}
 	}
 	
 	/*----------------------------硬编码路径------------------------------------*/
@@ -507,12 +517,29 @@ void Plan_Task(void *argument)
 			best_path.Generate_Path();
 		}
 
-		// 放中间
-		navigation.Go_To_Put_KFS_2L(2);
+		// 
+		//navigation.Go_To_Put_KFS_2L(2);
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			navigation.Go_To_Do(vector2d::Vector2D(8 + 0.725, -3.1), 0, EVENT3_NULL);
+		}
+		else
+		{
+			navigation.Go_To_Do(vector2d::Vector2D(8 + 0.725, 3.1), 0, EVENT3_NULL);
+		}
 	}
 	else if (data::MatchType::Get_Match_Type() == 2) // 三区挑战赛
 	{
-		navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
+		if (data::Side::Is_Blue_Left_Side())
+		{
+			navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
+		}
+		else
+		{
+			navigation.Pass_Do(vector2d::Vector2D(11, 2.5), 0, EVENT3_NULL);
+		}
+		
+		
 		navigation.Challenge_Go_To_Get_KFS_Ground();
 		navigation.Challenge_Go_To_Get_KFS_Ground();
 		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();

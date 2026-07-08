@@ -201,7 +201,7 @@ public:
 			
 			case STICK_DOCK_WAIT:
 			{
-				if (timer::Timer::Get_DeltaTime(last_time) > 2000000)
+				if (timer::Timer::Get_DeltaTime(last_time) > 500000) //0.5s
 				{
 					state = STICK_DOCK_FINISH;
 				}
@@ -228,7 +228,16 @@ public:
 				if (user.Take_Control())
 				{
 					user.Set_X(0.0);
-					user.Set_Y(-0.05);
+					
+					if (data::Side::Is_Blue_Left_Side())
+					{
+						user.Set_Y(-0.05);
+					}
+					else
+					{
+						user.Set_Y(0.05);
+					}
+					
 					user.Set_Z(0.06);
 					user.Set_P_Max_T(3);
 					user.Set_P(0.2);
@@ -266,7 +275,7 @@ public:
 			
 			case DOCK_WAIT:
 			{
-				if (timer::Timer::Get_DeltaTime(last_time) > 2000000)
+				if (timer::Timer::Get_DeltaTime(last_time) > 500000) // 0.5s
 				{
 					state = DOCK_FINISH;
 				}
