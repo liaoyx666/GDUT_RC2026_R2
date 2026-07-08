@@ -11,7 +11,7 @@ constexpr uint8_t IR_COM_RX_BUFFER_SIZE = 32;
 
 namespace IR
 {
-	constexpr uint8_t IR_MAX_CMD = 10;
+	constexpr uint8_t IR_MAX_CMD = 15;
 	constexpr uint8_t IR_INVALID_CMD = 0;
 	
 	

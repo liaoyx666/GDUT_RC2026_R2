@@ -72,7 +72,7 @@ namespace combine
 				{
 					if (qeo.Y() > target_y)
 					{
-						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, -0.15));
+						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, -0.2));
 					}
 					else
 					{

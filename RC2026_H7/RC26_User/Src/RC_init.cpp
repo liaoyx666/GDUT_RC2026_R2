@@ -236,13 +236,12 @@ IR::IRCmd put_2L_3(5, led);
 
 IR::IRCmd home(10, led);
 
-
+IR::IRCmd get_gnd_kfs(11, led);
 /*==================Main_Task==================*/
 // 方波发生
 //SquareWave wave(1000, 3000);// 用于调pid
 //float target = 0;
 //float a = 0;
-
 
 bool en_flag = false;
 bool dis_flag = false;
@@ -514,8 +513,8 @@ void Plan_Task(void *argument)
 	else if (data::MatchType::Get_Match_Type() == 2) // 三区挑战赛
 	{
 		navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
-		navigation.Challenge_Go_To_Get_KFS_Ground(3);
-		navigation.Challenge_Go_To_Get_KFS_Ground(2);
+		navigation.Challenge_Go_To_Get_KFS_Ground();
+		navigation.Challenge_Go_To_Get_KFS_Ground();
 		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
 		
 	}
@@ -634,6 +633,10 @@ void Plan_Task(void *argument)
 					else if (home.Get_Cmd())
 					{
 						navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
+					}
+					else if (get_gnd_kfs.Get_Cmd())
+					{
+						navigation.Challenge_Go_To_Get_KFS_Ground();
 					}
 					
 					break;

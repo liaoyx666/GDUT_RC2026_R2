@@ -296,7 +296,6 @@ namespace path
 			p = vector2d::Vector2D(0.46, 5.2);
 		}
 		
-		
 		return Go_To_Do(p, yaw, EVENT_STICK_L_EDGE_1);
 	}
 
@@ -321,17 +320,25 @@ namespace path
 		return Go_To_Do(p, yaw, EVENT3_NULL);
 	}
 	
-	bool Navigation::Challenge_Go_To_Get_KFS_Ground(uint8_t num)
+	bool Navigation::Challenge_Go_To_Get_KFS_Ground()
 	{
+		static uint8_t get_num = 3;
 		
+		if (get_num == 0 || get_num > 3) return false;
 		
-		if (num == 0 || num > 3) return false;
-		num++;
 		float yaw;
 		vector2d::Vector2D p;
 		
 		yaw = 0;
-		p = vector2d::Vector2D(11.825f - 0.375f - 0.35f - 0.175f, -(6.f - 0.6f - 0.175f) + (num - 1) * 0.7f);
+		p = vector2d::Vector2D(11.825f - 0.375f - 0.35f - 0.175f + 0.04f, -(6.f - 0.6f - 0.175f) + (get_num) * 0.7f);
+		
+		
+		if (fabsf(p.y() - just_nav.p.y()) > 0.1f && just_nav.p.x() < 11.f)
+		{
+			Pass_Do(vector2d::Vector2D(11.13, p.y()), yaw, EVENT3_NULL);
+		}
+		
+		get_num--;
 		
 		return Go_To_Do(p, yaw, GET_LOW_0_KFS_READY_EVENT | GET_PICK_KFS_EVENT);
 	}
@@ -345,7 +352,7 @@ namespace path
 		if (data::Side::Is_Blue_Left_Side())
 		{
 			yaw = PI;
-			p = vector2d::Vector2D(/*9.5 + 0.41 + 0.2*/10.17, -6 + 0.365 + 0.4 + 1.2);
+			p = vector2d::Vector2D(10.17, -6 + 0.365 + 0.4 + 1.2);
 		}
 		else
 		{
@@ -365,7 +372,7 @@ namespace path
 		if (data::Side::Is_Blue_Left_Side())
 		{
 			yaw = PI;
-			p = vector2d::Vector2D(/*9.5 + 0.41 + 0.2*/10.17, -6 + 0.365 + 0.4);
+			p = vector2d::Vector2D(10.17, -6 + 0.365 + 0.4);
 		}
 		else
 		{
@@ -450,6 +457,12 @@ namespace path
 		{
 			p.y() = (MapGraph::FIELD_WIDTH - PUT_KFS_DIS);
 			yaw = HALF_PI;
+		}
+		
+		if (just_nav.p == p)
+		{
+			Event3::Trig_Event(EVENT_PUT_KFS_2L_READY | EVENT_PUT_KFS_PUT);
+			return true;
 		}
 		
 		return Go_To_Do(p, yaw, EVENT_PUT_KFS_2L_READY | EVENT_PUT_KFS_PUT);

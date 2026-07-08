@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Tue Jul  7 22:02:52 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Wed Jul  8 14:39:19 2026
 <BR><P>
 <H3>Maximum Stack Usage =        520 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3350,7 +3350,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp)
 </UL>
-<P><STRONG><a name="[b8]"></a>Plan_Task(void*)</STRONG> (Thumb, 1816 bytes, Stack size 24 bytes, rc_init.o(.text._Z9Plan_TaskPv))
+<P><STRONG><a name="[b8]"></a>Plan_Task(void*)</STRONG> (Thumb, 1916 bytes, Stack size 24 bytes, rc_init.o(.text._Z9Plan_TaskPv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = Plan_Task(void*) &rArr; ros::BestPath::Generate_Path() &rArr; path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction) &rArr; path::MapGraph::Get_Node_On_Pos(vector2d::Vector2D) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -3373,7 +3373,7 @@ Global Symbols
 <LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Challenge_Go_To_Avoid_R1_In_ARENA()
 <LI><a href="#[280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Challenge_Go_To_Combine()
 <LI><a href="#[282]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Challenge_Go_To_Combine_Ready()
-<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Challenge_Go_To_Get_KFS_Ground(unsigned char)
+<LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Challenge_Go_To_Get_KFS_Ground()
 <LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Avoid_R1_In_ARENA()
 <LI><a href="#[274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Stick_Edge()
 <LI><a href="#[278]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Go_To_Dock_2()
@@ -3861,8 +3861,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
 
-<P><STRONG><a name="[27f]"></a>path::Navigation::Challenge_Go_To_Put_KFS_2L(unsigned char)</STRONG> (Thumb, 652 bytes, Stack size 16 bytes, rc_navigation.o(.text._ZN4path10Navigation26Challenge_Go_To_Put_KFS_2LEh))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = path::Navigation::Challenge_Go_To_Put_KFS_2L(unsigned char)
+<P><STRONG><a name="[27f]"></a>path::Navigation::Challenge_Go_To_Put_KFS_2L(unsigned char)</STRONG> (Thumb, 756 bytes, Stack size 24 bytes, rc_navigation.o(.text._ZN4path10Navigation26Challenge_Go_To_Put_KFS_2LEh))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = path::Navigation::Challenge_Go_To_Put_KFS_2L(unsigned char)
+</UL>
+<BR>[Calls]<UL><LI><a href="#[281]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Event3::Trig_Once()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
@@ -3873,8 +3875,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
 
-<P><STRONG><a name="[27b]"></a>path::Navigation::Challenge_Go_To_Get_KFS_Ground(unsigned char)</STRONG> (Thumb, 212 bytes, Stack size 16 bytes, rc_navigation.o(.text._ZN4path10Navigation30Challenge_Go_To_Get_KFS_GroundEh))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = path::Navigation::Challenge_Go_To_Get_KFS_Ground(unsigned char)
+<P><STRONG><a name="[27b]"></a>path::Navigation::Challenge_Go_To_Get_KFS_Ground()</STRONG> (Thumb, 396 bytes, Stack size 20 bytes, rc_navigation.o(.text._ZN4path10Navigation30Challenge_Go_To_Get_KFS_GroundEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = path::Navigation::Challenge_Go_To_Get_KFS_Ground()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
@@ -4030,6 +4032,7 @@ Global Symbols
 <P><STRONG><a name="[281]"></a>path::Event3::Trig_Once()</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, rc_event3.o(.text._ZN4path6Event39Trig_OnceEv))
 <BR><BR>[Called By]<UL><LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;combine::Combine::Auto_Combine()
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
+<LI><a href="#[27f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Navigation::Challenge_Go_To_Put_KFS_2L(unsigned char)
 <LI><a href="#[2a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::Path3::Trig_Event_On_Len(float, float)
 </UL>
 
@@ -4984,7 +4987,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[2f3]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 156 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
+<P><STRONG><a name="[2f3]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 158 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
@@ -5029,7 +5032,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[25b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2f5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 6406 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<P><STRONG><a name="[2f5]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 6800 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
@@ -6874,7 +6877,7 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_combine.o(.init_array)
 </UL>
-<P><STRONG><a name="[fe]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1764 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
+<P><STRONG><a name="[fe]"></a>_GLOBAL__sub_I_RC_init.cpp</STRONG> (Thumb, 1780 bytes, Stack size 88 bytes, rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp))
 <BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
 <LI>Call Chain = _GLOBAL__sub_I_RC_init.cpp &rArr; chassis::Omni4Chassis::Omni4Chassis(motor::Motor&, motor::Motor&, motor::Motor&, motor::Motor&, float, float, float, float, float, float, data::RobotPose&) &rArr; chassis::Chassis::Chassis__sub_object(float, float, float, float, float, float, data::RobotPose&) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
