@@ -261,17 +261,17 @@ namespace path
 		}
 		
 		Event3_t wait_R1_event = EVENT3_NULL;
-		if (ros::BestPath::Is_Wait_R1_Pos(e))
-		{
-			if (L_or_R == DIR_L)
-			{
-				wait_R1_event = EVENT_WAIT_R1_L;
-			}
-			else
-			{
-				wait_R1_event = EVENT_WAIT_R1_R;
-			}
-		}
+//		if (ros::BestPath::Is_Wait_R1_Pos(e))
+//		{
+//			if (L_or_R == DIR_L)
+//			{
+//				wait_R1_event = EVENT_WAIT_R1_L;
+//			}
+//			else
+//			{
+//				wait_R1_event = EVENT_WAIT_R1_R;
+//			}
+//		}
 		
 		/*-------*/
 		if (!Add_Point_Wait(
@@ -368,17 +368,17 @@ namespace path
 		}
 		
 		Event3_t wait_R1_event = EVENT3_NULL;
-		if (ros::BestPath::Is_Wait_R1_Pos(e))
-		{
-			if (L_or_R == DIR_L)
-			{
-				wait_R1_event = EVENT_WAIT_R1_L;
-			}
-			else
-			{
-				wait_R1_event = EVENT_WAIT_R1_R;
-			}
-		}
+//		if (ros::BestPath::Is_Wait_R1_Pos(e))
+//		{
+//			if (L_or_R == DIR_L)
+//			{
+//				wait_R1_event = EVENT_WAIT_R1_L;
+//			}
+//			else
+//			{
+//				wait_R1_event = EVENT_WAIT_R1_R;
+//			}
+//		}
 		
 		
 		/*-------*/

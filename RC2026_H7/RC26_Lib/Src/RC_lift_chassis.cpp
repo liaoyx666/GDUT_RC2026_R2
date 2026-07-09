@@ -42,14 +42,15 @@ namespace chassis
 	
 	constexpr float LIFT_POS_THRESHOLD    = 9.f;
 	
-	
-	
 	constexpr float LIFT_RESET_R          = 5000;
 	constexpr float LIFT_RESET_V_MAX      = 940;
 	
 	constexpr float LIFT_LOAD_R           = 900;
 	constexpr float LIFT_LOAD_V_MAX       = 350;
 	
+	
+	constexpr float LIFT_LOAD_DOWN_R           = 1100;
+	constexpr float LIFT_LOAD_DOWN_V_MAX       = 500;
 	
 	
 	constexpr float LIFT_CHASSIS_UP_VEL   = 0.36f;
@@ -62,7 +63,7 @@ namespace chassis
 	
 	
 	constexpr float LIFT_CHASSIS_UP_DIS = 0.40f;
-	constexpr float LIFT_CHASSIS_DOWN_DIS = 0.35f;
+	constexpr float LIFT_CHASSIS_DOWN_DIS = 0.38f;
 
 	void LiftChassis::Lift(LiftAction a_, LiftHeigth h_, LiftDir d_, bool trig)
 	{
@@ -196,9 +197,9 @@ namespace chassis
 				
 				chassis.Set_Lin_Accel(LIFT_CHASSIS_SLOW_ACC); // 限制加速度
 				
-				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
-				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
-				
+//				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
+//				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
+//				
 				///Set_Front_Lift_Pos(ZERO_POS - DELTA_H);
 				///Set_Back_Lift_Pos(down_pos - DELTA_H);
 				
@@ -362,8 +363,8 @@ namespace chassis
 				
 				Chassis_Stop(); // 停车
 				
-				Set_Front_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
-				Set_Back_Lift_Td(LIFT_LOAD_R, LIFT_LOAD_V_MAX);
+				Set_Front_Lift_Td(LIFT_LOAD_DOWN_R, LIFT_LOAD_DOWN_V_MAX);
+				Set_Back_Lift_Td(LIFT_LOAD_DOWN_R, LIFT_LOAD_DOWN_V_MAX);
 				
 				Set_Front_Lift_Pos(ZERO_POS + DELTA_H);
 				Set_Back_Lift_Pos(up_pos);

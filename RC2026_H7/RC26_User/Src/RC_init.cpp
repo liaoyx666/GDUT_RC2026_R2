@@ -124,8 +124,8 @@ uint8_t check_laser_buffer[MINI_LASER_RX_BUFFER_SIZE] __attribute__((section(".D
 mini_laser::MiniLaser check_laser(huart2, check_laser_buffer);
 
 // imu
-uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
-HWT101CT hwt101ct(huart8, hwt101ct_buffer);
+//uint8_t hwt101ct_buffer[HWT101CT_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
+//HWT101CT hwt101ct(huart8, hwt101ct_buffer);
 
 uint8_t ir_buffer[IR_COM_RX_BUFFER_SIZE] __attribute__((section(".D2RAM"))) ;
 IR::IRCom ir_com(huart6, ir_buffer);
@@ -134,7 +134,7 @@ IR::IRCom ir_com(huart6, ir_buffer);
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
 // imu雷达融合
-fusion::ImuFusion imu_fusion(radar, hwt101ct);
+//fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
 // 底盘里程计
 fusion::QEO chassis_qeo(
@@ -474,21 +474,24 @@ void Plan_Task(void *argument)
 	
 	if (data::MatchType::Get_Match_Type() == 0) // 正赛
 	{
-		// 规划夹武器和对接
-		if (data::IsDock::Is_Dock())
+		if (data::BootArea::Is_Boot_At_Mc() == 1)
 		{
-			if (!data::HaveWeapon::Have_Weapon())
+			// 规划夹武器和对接
+			if (data::IsDock::Is_Dock())
 			{
-				navigation.Go_To_Get_Weapon_Head(1);// 取武器头
+				if (!data::HaveWeapon::Have_Weapon())
+				{
+					navigation.Go_To_Get_Weapon_Head(1);// 取武器头
+				}
+				
+				navigation.Go_To_Stick_Edge();// 贴边对接
 			}
 			
-			navigation.Go_To_Stick_Edge();// 贴边对接
-		}
-		
-		// 规划梅林
-		if (data::BootArea::Is_Boot_At_Mc())
-		{
-			best_path.Generate_Path();
+			// 规划梅林
+			if (data::BootArea::Is_Boot_At_Mc())
+			{
+				best_path.Generate_Path();
+			}
 		}
 
 		navigation.Go_To_Avoid_R1_In_ARENA();
@@ -530,6 +533,7 @@ void Plan_Task(void *argument)
 	}
 	else if (data::MatchType::Get_Match_Type() == 2) // 三区挑战赛
 	{
+		
 		if (data::Side::Is_Blue_Left_Side())
 		{
 			navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
@@ -542,8 +546,9 @@ void Plan_Task(void *argument)
 		
 		navigation.Challenge_Go_To_Get_KFS_Ground();
 		navigation.Challenge_Go_To_Get_KFS_Ground();
-		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
 		
+		
+		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
 	}
 	
 	/*------------------------------循环----------------------------------*/
@@ -767,7 +772,7 @@ void All_Init()
 	// 串口接收初始化
 	cali_laser.Uart_Rx_Start();
 	check_laser.Uart_Rx_Start();
-	hwt101ct.Uart_Rx_Start();
+//	hwt101ct.Uart_Rx_Start();
 	ir_com.Uart_Rx_Start();
 
 	// 初始化数据

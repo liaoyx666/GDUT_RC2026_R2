@@ -152,7 +152,7 @@ namespace gantry
 	}
 	/*----------------------------------------------------*/
 
-	constexpr float PUTKFS_GET_KFS_STRETCH_X = 0.05;
+	constexpr float PUTKFS_GET_KFS_STRETCH_X = 0.1;
 	constexpr float PUTKFS_GET_KFS_WITHDRAW_X = 0.0;
 	constexpr float PUTKFS_GET_KFS_OUT_X = 0.27;
 	constexpr float PUTKFS_PUT_KFS_OUT_DELTA_Z = 0.06;
