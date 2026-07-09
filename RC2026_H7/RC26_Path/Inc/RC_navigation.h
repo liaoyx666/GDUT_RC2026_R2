@@ -99,6 +99,8 @@ namespace path
 		NavPoint last_navp; /*储存上次终点作为下次起点*/
 		NavPoint just_nav;
 		
+		
+		uint8_t get_ground_num = 3;
 	
 		bool is_start; /*是否添加全局起点*/
 		bool is_close; /*禁止添加目标点*/

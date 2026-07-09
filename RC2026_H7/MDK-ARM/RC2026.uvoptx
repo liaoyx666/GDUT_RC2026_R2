@@ -195,6 +195,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>path_plan</ItemText>
         </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>get_data</ItemText>
+        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>

@@ -58,7 +58,7 @@ namespace combine
 				
 				case UNCOMBINE_RESET:
 				{
-					if (timer::Timer::Get_DeltaTime(last_time) > 2000000)
+					if (timer::Timer::Get_DeltaTime(last_time) > 1000000)
 					{
 						unc_state = UNCOMBINE_MOVE;
 					}
@@ -72,7 +72,7 @@ namespace combine
 				{
 					if (qeo.Y() > target_y)
 					{
-						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, -0.2));
+						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, -0.3));
 					}
 					else
 					{

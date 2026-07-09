@@ -466,7 +466,7 @@ void Plan_Task(void *argument)
 		}
 		else
 		{
-			navigation.Add_Start(vector2d::Vector2D(11.57, 0.43), -HALF_PI);// 红
+			navigation.Add_Start(vector2d::Vector2D(11.57, 0.43), HALF_PI);// 红
 		}
 	}
 	
@@ -508,6 +508,8 @@ void Plan_Task(void *argument)
 			
 			navigation.Go_To_Stick_Edge();// 贴边对接
 			
+			
+			
 			navigation.Go_To_Get_Weapon_Head(2);// 取武器头
 			navigation.Go_To_Dock();
 			navigation.Go_To_Get_Weapon_Head(3);// 取武器头
@@ -534,6 +536,7 @@ void Plan_Task(void *argument)
 	else if (data::MatchType::Get_Match_Type() == 2) // 三区挑战赛
 	{
 		
+		
 		if (data::Side::Is_Blue_Left_Side())
 		{
 			navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
@@ -546,7 +549,7 @@ void Plan_Task(void *argument)
 		
 		navigation.Challenge_Go_To_Get_KFS_Ground();
 		navigation.Challenge_Go_To_Get_KFS_Ground();
-		
+		//navigation.Challenge_Go_To_Get_KFS_Ground();
 		
 		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
 	}

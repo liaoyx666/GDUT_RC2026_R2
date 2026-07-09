@@ -52,10 +52,10 @@ namespace ros
 		
 		bool 	is_blue_side;
 		uint8_t kfs_num;
-		bool weapon_num;
+		bool 	weapon_num;
 		bool 	is_dock;
 		uint8_t pick_weapon_num;
-		bool 	boot_area;
+		uint8_t boot_area;
 		uint8_t match_type;
 		bool 	have_out_kfs;
     };

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu Jul  9 14:46:31 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Thu Jul  9 22:43:23 2026
 <BR><P>
 <H3>Maximum Stack Usage =        512 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3696,8 +3696,8 @@ Global Symbols
 
 <P><STRONG><a name="[37b]"></a>ros::WaitR1::WaitR1__sub_object(cdc::CDC&, unsigned char, chassis::Chassis&, path::HeadCtrl&)</STRONG> (Thumb, 108 bytes, Stack size 40 bytes, rc_wait_r1.o(.text._ZN3ros6WaitR1C2ERN3cdc3CDCEhRN7chassis7ChassisERN4path8HeadCtrlE), UNUSED)
 
-<P><STRONG><a name="[c8]"></a>ros::GetData::CDC_Receive_Process(unsigned char*, unsigned short)</STRONG> (Thumb, 500 bytes, Stack size 64 bytes, rc_get_data.o(.text._ZN3ros7GetData19CDC_Receive_ProcessEPht))
-<BR><BR>[Stack]<UL><LI>Max Depth = 240<LI>Call Chain = ros::GetData::CDC_Receive_Process(unsigned char*, unsigned short) &rArr; cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short) &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
+<P><STRONG><a name="[c8]"></a>ros::GetData::CDC_Receive_Process(unsigned char*, unsigned short)</STRONG> (Thumb, 502 bytes, Stack size 48 bytes, rc_get_data.o(.text._ZN3ros7GetData19CDC_Receive_ProcessEPht))
+<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = ros::GetData::CDC_Receive_Process(unsigned char*, unsigned short) &rArr; cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short) &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cdc::CDC::CDC_Send_Pkg(unsigned char, unsigned char*, unsigned short, unsigned short)
 </UL>
@@ -3868,8 +3868,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
 
-<P><STRONG><a name="[275]"></a>path::Navigation::Challenge_Go_To_Get_KFS_Ground()</STRONG> (Thumb, 420 bytes, Stack size 20 bytes, rc_navigation.o(.text._ZN4path10Navigation30Challenge_Go_To_Get_KFS_GroundEv))
-<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = path::Navigation::Challenge_Go_To_Get_KFS_Ground()
+<P><STRONG><a name="[275]"></a>path::Navigation::Challenge_Go_To_Get_KFS_Ground()</STRONG> (Thumb, 420 bytes, Stack size 16 bytes, rc_navigation.o(.text._ZN4path10Navigation30Challenge_Go_To_Get_KFS_GroundEv))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = path::Navigation::Challenge_Go_To_Get_KFS_Ground()
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
@@ -3887,7 +3887,7 @@ Global Symbols
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
 
-<P><STRONG><a name="[234]"></a>path::Navigation::Navigation(path::GraphPlan&)</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, rc_navigation.o(.text._ZN4path10NavigationC2ERNS_9GraphPlanE))
+<P><STRONG><a name="[234]"></a>path::Navigation::Navigation(path::GraphPlan&)</STRONG> (Thumb, 92 bytes, Stack size 24 bytes, rc_navigation.o(.text._ZN4path10NavigationC2ERNS_9GraphPlanE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 256<LI>Call Chain = path::Navigation::Navigation(path::GraphPlan&) &rArr; task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char) &rArr; osThreadNew &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;task::ManagedTask::ManagedTask__sub_object(char const*, unsigned char, unsigned short, task::TaskType, unsigned char)
@@ -3895,7 +3895,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[381]"></a>path::Navigation::Navigation__sub_object(path::GraphPlan&)</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, rc_navigation.o(.text._ZN4path10NavigationC2ERNS_9GraphPlanE), UNUSED)
+<P><STRONG><a name="[381]"></a>path::Navigation::Navigation__sub_object(path::GraphPlan&)</STRONG> (Thumb, 92 bytes, Stack size 24 bytes, rc_navigation.o(.text._ZN4path10NavigationC2ERNS_9GraphPlanE), UNUSED)
 
 <P><STRONG><a name="[2bc]"></a>path::TrajTrack3::Load_Path(path::Path3*)</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, rc_traj_track3.o(.text._ZN4path10TrajTrack39Load_PathEPNS_5Path3E))
 <BR><BR>[Called By]<UL><LI><a href="#[255]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path::PathPlan3::Plan()
@@ -4970,7 +4970,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
 </UL>
 
-<P><STRONG><a name="[2ee]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 158 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
+<P><STRONG><a name="[2ee]"></a>gantry::GetKFS::Go_Next_Step()</STRONG> (Thumb, 168 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS12Go_Next_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = gantry::GetKFS::Go_Next_Step() &rArr; gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
@@ -4980,7 +4980,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2f1]"></a>gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)</STRONG> (Thumb, 196 bytes, Stack size 32 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS13Set_Ctrl_ModeENS0_9SpeedModeE))
+<P><STRONG><a name="[2f1]"></a>gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)</STRONG> (Thumb, 188 bytes, Stack size 32 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS13Set_Ctrl_ModeENS0_9SpeedModeE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[290]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;filter::TD::TD_Init(float, float, float)
@@ -4988,7 +4988,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Configure_Current_Step()
 </UL>
 
-<P><STRONG><a name="[2ec]"></a>gantry::GetKFS::Finish_Current_Task()</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS19Finish_Current_TaskEv))
+<P><STRONG><a name="[2ec]"></a>gantry::GetKFS::Finish_Current_Task()</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS19Finish_Current_TaskEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = gantry::GetKFS::Finish_Current_Task()
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GantryUser::Give_Control()
@@ -5015,7 +5015,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[256]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Auto_Get_KFS()
 </UL>
 
-<P><STRONG><a name="[2f0]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 6678 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
+<P><STRONG><a name="[2f0]"></a>gantry::GetKFS::Configure_Current_Step()</STRONG> (Thumb, 6652 bytes, Stack size 16 bytes, rc_get_kfs.o(.text._ZN6gantry6GetKFS22Configure_Current_StepEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = gantry::GetKFS::Configure_Current_Step() &rArr; gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetKFS::Set_Ctrl_Mode(gantry::GetKFS::SpeedMode)
