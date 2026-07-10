@@ -13,6 +13,7 @@ namespace combine
 	{
 		is_combine = false;
 		uncombine_flag = false;
+		combine_flag = false;
 		
 		last_time = 0;
 		
@@ -21,19 +22,74 @@ namespace combine
 	
 	void Combine::Auto_Combine()
 	{
-		if (combine_event.Is_Trig())
+		if ( !combine_flag && !uncombine_flag && combine_event.Is_Trig() )
 		{
 			if (!is_combine)
 			{
-				chassis.Chassis_Disable();
-				is_combine = true;
+				combine_flag = true;
 				uncombine_flag = false;
 			}
 			else
 			{
 				uncombine_flag = true;
+				combine_flag = false;
 			}
 		}
+		
+		
+		if (combine_flag)
+		{
+			switch (c_state)
+			{
+				case COMBINE_WAIT:
+				{
+					if (lift.Get_State() == chassis::LIFT_UP_WITHDRAW_CHECK)
+					{
+						c_state = COMBINE_RESET_DIS;
+					}
+					
+					break;
+				}
+				
+				case COMBINE_RESET_DIS:
+				{
+					qeo.Set_X(0);
+					qeo.Set_Y(0);
+					plan.Disable();
+					
+					c_state = COMBINE_MOVE;
+					break;
+				}
+				
+				case COMBINE_MOVE:
+				{
+					if (qeo.Y() < c_target_y)
+					{
+						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.2));
+					}
+					else
+					{
+						c_state = COMBINE_END;
+					}
+					
+					break;
+				}
+				
+				case COMBINE_END:
+				{
+					chassis.Chassis_Disable();
+					
+					combine_flag = false;
+					is_combine = true;
+					
+					c_state = COMBINE_WAIT;
+					break;
+				}	
+			}
+		}
+		
+		
+		
 		
 		
 		
@@ -70,7 +126,7 @@ namespace combine
 				
 				case UNCOMBINE_MOVE:
 				{
-					if (qeo.Y() > target_y)
+					if (qeo.Y() > uc_target_y)
 					{
 						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, -0.3));
 					}

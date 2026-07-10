@@ -133,6 +133,8 @@ IR::IRCom ir_com(huart6, ir_buffer);
 // 遥控
 flysky::FlySky remote_ctrl(GPIO_PIN_8);
 
+StartSwitch start_switch(GPIOD, GPIO_PIN_13);
+
 // imu雷达融合
 //fusion::ImuFusion imu_fusion(radar, hwt101ct);
 
@@ -246,6 +248,8 @@ IR::IRCmd get_gnd_kfs(11, led);
 bool en_flag = false;
 bool dis_flag = false;
 
+bool start_switch_value = false;
+
 void Main_Task(void *argument)
 {
 	remote_ctrl.signal_swa();
@@ -257,6 +261,8 @@ void Main_Task(void *argument)
 	
 	for (;;)
 	{
+		start_switch_value = start_switch.Get_Start_Switch();
+		
 		feedback_count++;
 		if (feedback_count > 1000)
 		{
@@ -305,19 +311,19 @@ void Main_Task(void *argument)
 		
 		gan.Gantry_Base();
 		
-		if (remote_ctrl.swc == 0)
-		{
-			
-		}
-		else if (remote_ctrl.swc == 1)
-		{
-			if (remote_ctrl.signal_swd())
-			{
-				radar.Reposition(); /*雷达重定位*/
-			}
-		}
+//		if (remote_ctrl.swc == 0)
+//		{
+//			
+//		}
+//		else if (remote_ctrl.swc == 1)
+//		{
+//			if (remote_ctrl.signal_swd())
+//			{
+//				radar.Reposition(); /*雷达重定位*/
+//			}
+//		}
 		
-		if (remote_ctrl.swa)
+		if (/*remote_ctrl.swa*/start_switch_value)
 		{
 			dis_flag = false;
 			
@@ -337,7 +343,7 @@ void Main_Task(void *argument)
 				dis_flag = true;
 			}
 			
-			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
+			//omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
 		osDelay(1);
@@ -382,9 +388,11 @@ AutoState state = STATE_PUT_2L; // 状态机
 
 void Plan_Task(void *argument)
 {
+	osDelay(200);
+	
 	led.SetYellow();
 	
-	while (!data::AllData::Is_All_Init())
+	while (!data::AllData::Is_All_Init() || start_switch_value)
 	{
 		osDelay(10); // 等待上位机发送
 	}
@@ -426,6 +434,10 @@ void Plan_Task(void *argument)
 		data::HaveOutKFS::Set_Have_Out_KFS(false);
 	}
 
+	if (data::HaveWeapon::Have_Weapon())
+	{
+		gripper.Close();
+	}
 	
 	/*-----------------------------初始化全局起点-----------------------------------*/
 	
@@ -501,19 +513,43 @@ void Plan_Task(void *argument)
 		// 规划夹武器和对接
 		if (data::IsDock::Is_Dock())
 		{
-			if (!data::HaveWeapon::Have_Weapon())
+			int8_t pick_num = data::PickWeaponNum::Get_Pick_Num();
+			
+			if (data::Side::Is_Blue_Left_Side())
 			{
-				navigation.Go_To_Get_Weapon_Head(1);// 取武器头
+				pick_num = pick_num - 3;
+			}
+			else
+			{
+				
 			}
 			
-			navigation.Go_To_Stick_Edge();// 贴边对接
-			
-			
-			
-			navigation.Go_To_Get_Weapon_Head(2);// 取武器头
-			navigation.Go_To_Dock();
-			navigation.Go_To_Get_Weapon_Head(3);// 取武器头
-			navigation.Go_To_Dock_2();
+			if (pick_num <= 1)
+			{
+				if (!data::HaveWeapon::Have_Weapon())
+				{
+					navigation.Go_To_Get_Weapon_Head(1);// 取武器头
+				}
+				
+				navigation.Go_To_Stick_Edge();// 贴边对接
+				
+				navigation.Go_To_Get_Weapon_Head(2);// 取武器头
+				navigation.Go_To_Dock();
+				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+				navigation.Go_To_Dock_2();
+			}
+			else if (pick_num == 2)
+			{
+				navigation.Go_To_Get_Weapon_Head(2);// 取武器头
+				navigation.Go_To_Dock();
+				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+				navigation.Go_To_Dock_2();
+			}
+			else
+			{
+				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+				navigation.Go_To_Dock_2();
+			}
 		}
 		
 		// 规划梅林

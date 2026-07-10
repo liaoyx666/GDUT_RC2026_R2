@@ -21,7 +21,13 @@ namespace combine
 	};
 	
 	
-	
+	enum CombineState : uint8_t
+	{
+		COMBINE_WAIT = 0,
+		COMBINE_RESET_DIS,
+		COMBINE_MOVE,
+		COMBINE_END,
+	};
 	
 	
 	
@@ -48,7 +54,10 @@ namespace combine
 		
 		bool uncombine_flag;
 	
+		bool combine_flag;
+	
 		UncombineState unc_state;
+		CombineState c_state;
 	
 		path::PathPlan3& plan;
 	
@@ -60,7 +69,9 @@ namespace combine
 	
 		uint32_t last_time;
 	
-		const float target_y = -0.95f;
+		const float uc_target_y = -0.95f;
+		
+		const float c_target_y = 0.1f;
 	
 		bool is_combine;
     };

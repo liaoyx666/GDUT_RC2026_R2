@@ -60,6 +60,8 @@ void Error_Handler(void);
 #define flysky_Pin GPIO_PIN_8
 #define flysky_GPIO_Port GPIOF
 #define flysky_EXTI_IRQn EXTI9_5_IRQn
+#define start_switch_Pin GPIO_PIN_13
+#define start_switch_GPIO_Port GPIOD
 #define suction_pin_1_Pin GPIO_PIN_7
 #define suction_pin_1_GPIO_Port GPIOG
 

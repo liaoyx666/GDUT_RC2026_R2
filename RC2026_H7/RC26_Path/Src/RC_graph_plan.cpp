@@ -295,7 +295,7 @@ namespace path
 		if (!Add_Point_Wait(
 			p, 
 			0, 
-			&lon, 
+			NULL, 
 			NULL, 
 			EVENT3_NULL, 
 			false
@@ -309,7 +309,7 @@ namespace path
 		if (!Add_Point_Wait(
 			p, 
 			0, 
-			&lon, 
+			NULL, 
 			NULL, 
 			EVENT3_NULL, 
 			false
@@ -323,7 +323,7 @@ namespace path
 		if (!Add_Point_Wait(
 			p, 
 			0, 
-			&lon, 
+			NULL, 
 			&head, 
 			EVENT3_NULL, 
 			false

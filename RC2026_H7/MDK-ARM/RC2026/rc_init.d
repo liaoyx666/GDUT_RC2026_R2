@@ -103,6 +103,7 @@ rc2026/rc_init.o: ..\RC26_User\Src\RC_init.cpp ..\RC26_User\Inc\RC_init.h \
   ..\RC26_Path\Inc\RC_path_plan3.h ..\RC26_Path\Inc\RC_path3.h \
   ..\RC26_Path\Inc\RC_curve.h ..\RC26_Path\Inc\RC_traj_plan3.h \
   ..\RC26_Lib\Inc\RC_ws2812.h ..\Core\Inc\spi.h \
+  ..\RC26_Lib\Inc\RC_start_switch.h \
   ..\RC26_Lib\Inc\RC_IR_communication.h ..\RC26_Gantry\Inc\RC_gantry.h \
   ..\RC26_Gantry\Inc\RC_suction.h ..\RC26_Gantry\Inc\RC_get_KFS.h \
   ..\RC26_Gantry\Inc\RC_put_KFS.h \

@@ -91,6 +91,7 @@
 "rc2026\rc_stick_edge.o"
 "rc2026\rc_qeo_mini.o"
 "rc2026\rc_ws2812.o"
+"rc2026\rc_start_switch.o"
 "rc2026\rc_motor.o"
 "rc2026\rc_dm_motor.o"
 "rc2026\rc_dji_motor.o"

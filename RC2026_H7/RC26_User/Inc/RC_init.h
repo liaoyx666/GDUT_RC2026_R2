@@ -35,6 +35,7 @@
 #include "RC_fusion_ctrl.h"
 #include "RC_combine.h"
 #include "RC_ws2812.h"
+#include "RC_start_switch.h"
 
 /* path */
 #include "RC_traj_plan3.h"

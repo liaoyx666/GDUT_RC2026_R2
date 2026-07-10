@@ -228,6 +228,11 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         break;
 
     case GANTRY_STATE::Gantry_Result:
+		
+		if(computer_mode == Computer_Mode::Challenge)
+		{
+			PICK_SUCCESS_FLAG = true;
+		}
       
         if(PICK_SUCCESS_FLAG) {
             gantry_state = GANTRY_STATE::Gantry_Restoration_X;
@@ -494,7 +499,7 @@ void GetWeaponHead::UpdateSideParam()
 {
     if(computer_side == Computer_Side::BLUE_SIDE) {
         target_yaw = - PI / 2.f;
-        TARGET_WEAPON_Y = -6.055f;
+        TARGET_WEAPON_Y = -6.04f;
         READY_POINT_Y = TARGET_WEAPON_Y + READY_CHASSIS_DIST + HALF_CHASSIS_Y;
     } else {
         target_yaw = PI / 2.f;

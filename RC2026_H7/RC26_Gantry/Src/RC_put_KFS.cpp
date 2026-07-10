@@ -19,8 +19,8 @@ namespace gantry
 	 : 	user(gan_), 
 		suck(suck_), 
 		put_event{
-			path::Event3(17, 1.f, false, false),		//EVENT_PUT_KFS_2L_READY
-			path::Event3(18, 1.f, false, false),   		//EVENT_PUT_KFS_3L_READY
+			path::Event3(17, 0.1f, false, false),		//EVENT_PUT_KFS_2L_READY
+			path::Event3(18, 0.1f, false, false),   		//EVENT_PUT_KFS_3L_READY
 			path::Event3(19, 0.03f, true, true) 	 	//EVENT_PUT_KFS_PUT
 		},
 		laser(laser_),
@@ -256,8 +256,38 @@ namespace gantry
 			{
 				if (
 					fabsf(user.Get_X() - PUTKFS_GET_KFS_WITHDRAW_X) < PUTKFS_POS_THRESTHOLD_SMALL &&
-					timer::Timer::Get_DeltaTime(last_time) > 1000000
+					timer::Timer::Get_DeltaTime(last_time) > 1500000
 				)
+				{
+//					user.Set_X_Td(500, 837.76);
+//					user.Set_P_Td(4, 5);
+//				
+//					if (get_z == PUTKFS_GET_KFS_TOP_Z)
+//					{
+//						get_state = PUTKFS_GET_TOP;
+//					}
+//					else
+//					{
+//						get_state = PUTKFS_GET_KFS_OUT;
+//					}
+					get_state = PUTKFS_GET_OUT;
+				}
+				break;
+			}
+			
+			
+			
+			
+			case PUTKFS_GET_OUT:
+			{
+				user.Set_X(0.015);
+				get_state = PUTKFS_GET_OUT_CHECK;
+				break;
+			}
+			
+			case PUTKFS_GET_OUT_CHECK:
+			{
+				if (fabsf(user.Get_X() - 0.015f) < PUTKFS_POS_THRESTHOLD_SMALL)
 				{
 					user.Set_X_Td(500, 837.76);
 					user.Set_P_Td(4, 5);
@@ -273,6 +303,11 @@ namespace gantry
 				}
 				break;
 			}
+			
+			
+			
+			
+			
 			
 			case PUTKFS_GET_TOP:
 			{

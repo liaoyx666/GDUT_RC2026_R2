@@ -14,7 +14,7 @@ namespace gantry
 	constexpr float KFS_LASER_P = 0.5f;
 	constexpr float KFS_LASER_I = 0.002f;
 	constexpr float LASER_LPF_ALPHA = 0.08f;
-	constexpr float KFS_LASER_ERR_TH = 0.0061f;   // 激光允许误差
+	constexpr float KFS_LASER_ERR_TH = 0.0041f;   // 激光允许误差
 
 	// 激光数据有效范围
 	constexpr float raw_data_low_limit  = 0.00f;
@@ -350,12 +350,12 @@ default: return false;
         case ARM_TASK::PICK_DOWN_KFS_4_step1:
             switch (seq_idx)
             {
-                case 0: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.08f, 0.00f, 0.4f,  2.6f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
-                case 1: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.15f, 0.00f, 0.60f, 2.6f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
-				case 2: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.2f, 0.00f, 0.80f, 1.57f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
+                case 0: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.20f, 0.00f, 0.4f,  1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
+                case 1: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.15f, 0.00f, 0.60f, 1.57f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
+				case 2: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.10f, 0.00f, 0.80f,1.0f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
 			    case 3: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.05f, 0.00f, 0.80f, 0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
-				case 4: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(500000);     Set_Step_Target(0.00f, 0.00f, 0.80f, 0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
-				case 5: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.03f, 0.00f, 0.80f, 0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
+				case 4: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(500000);     Set_Step_Target(0.04f, 0.00f, 0.80f, 0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
+				case 5: Set_Ctrl_Mode(SpeedMode::SLOW);   Set_Step_Delay(0);          Set_Step_Target(0.06f, 0.00f, 0.80f, 0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
 				
 				default: return false;
             }
@@ -392,15 +392,16 @@ default: return false;
 				case 3: Set_Ctrl_Mode(SpeedMode::SLOW); Set_Step_Delay(0);            Set_Step_Target(0.20f,  0.00f, 0.3f,1.57f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
 				
 				case 4: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.20f,  0.00f, 0.3f,1.57f, CtrlMode::Check);        Set_Step_Act(1); return true;
-				case 5: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.15f,  0.00f, 0.2f,1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
+				case 5: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.20f,  0.00f, 0.2f,1.57f, CtrlMode::CLOSE_LOOP_LASER);        Set_Step_Act(1); return true;
+				case 6: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.15f,  0.00f, 0.2f,1.57f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
 				
-				case 6: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.07f,  0.00f, 0.2f,0.6f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
+				case 7: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.07f,  0.00f, 0.2f,0.6f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
 				
-				case 7: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.03f,  0.00f, 0.13f,0.2f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
+				case 8: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.03f,  0.00f, 0.13f,0.2f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
 				
-				case 8: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.01f,  0.00f, 0.13f,0.1f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
-				case 9: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);            Set_Step_Target(0.0f,  0.00f, 0.13f,0.1f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
-				case 10: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.03f,  0.00f, 0.0f,0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
+				case 9: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.01f,  0.00f, 0.13f,0.1f, CtrlMode::Y_LOCK);        Set_Step_Act(1); return true;
+				case 10: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(500000);            Set_Step_Target(0.0f,  0.00f, 0.13f,0.1f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
+				case 11: Set_Ctrl_Mode(SpeedMode::NORMAL); Set_Step_Delay(0);            Set_Step_Target(0.03f,  0.00f, 0.0f,0.0f, CtrlMode::Y_LOCK);        Set_Step_Act(0); return true;
  
 				
 				default: return false;
@@ -478,15 +479,15 @@ default: return false;
     switch (cur_task)
     {
         case ARM_TASK::PICK_UP_KFS_20CM_1_step2:
-           if (seq_idx == 5) Finish_Event_Early();
+           if (seq_idx == 4) Finish_Event_Early();
             break;
 
        case ARM_TASK::PICK_UP_KFS_20CM_2_step2:
-            if (seq_idx == 5) Finish_Event_Early();
+            if (seq_idx == 4) Finish_Event_Early();
             break;
 
 	   case ARM_TASK::PICK_UP_KFS_20CM_3_step2:
-            if (seq_idx == 5) Finish_Event_Early();
+            if (seq_idx == 4) Finish_Event_Early();
             break;
 			  
         case ARM_TASK::PICK_UP_KFS_40CM_1_step2:
@@ -926,10 +927,10 @@ if (mode == CtrlMode::CLOSE_LOOP_LASER)
 			cnt = 1;
 		}
 		
-		if((timer::Timer::Get_DeltaTime(start_time) >=5000000) && ((laser_target_m - laser_distance_m)>=0.00611f) && (cnt == 1))
+		if((timer::Timer::Get_DeltaTime(start_time) >=3000000) && (fabs(laser_target_m - laser_distance_m) >= 0.00411f) && (cnt == 1))
 		{
 			is_re = true;
-			cmd_y = laser_target_m - laser_distance_m;
+			cmd_y = current_y + (laser_target_m - laser_distance_m);
 		    get_time = 0;
 			//cmd_y = laser_target_m - laser_distance_m;
 		}
