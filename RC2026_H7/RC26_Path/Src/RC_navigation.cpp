@@ -311,12 +311,12 @@ namespace path
 		if (data::Side::Is_Blue_Left_Side())
 		{
 			yaw = -HALF_PI;
-			p = vector2d::Vector2D(11.13, -3.7);
+			p = vector2d::Vector2D(11.13, -3.2);
 		}
 		else
 		{
 			yaw = HALF_PI;
-			p = vector2d::Vector2D(11.13, 3.7);
+			p = vector2d::Vector2D(11.13, 3.2);
 		}
 		
 		return Go_To_Do(p, yaw, EVENT3_NULL);
@@ -363,8 +363,8 @@ namespace path
 		}
 		else
 		{
-			yaw = PI;
-			p = vector2d::Vector2D(10.17, -(-6 + 0.365 + 0.4 + 1.2));
+			yaw = 0;
+			p = vector2d::Vector2D(10.82, -(-6 + 0.365 + 0.4 + 1.2));
 		}
 		
 		return Go_To_Do(p, yaw, EVENT_UP_4_READY_L | EVENT_COMBINE);
@@ -383,8 +383,8 @@ namespace path
 		}
 		else
 		{
-			yaw = PI;
-			p = vector2d::Vector2D(10.17, -(-6 + 0.365 + 0.4));
+			yaw = 0;
+			p = vector2d::Vector2D(10.82, -(-6 + 0.365 + 0.4));
 		}
 
 		bool success = Go_To_Do(p, yaw, /*EVENT_COMBINE*/EVENT3_NULL);
