@@ -444,6 +444,8 @@ namespace gantry
 			
 			case PUTKFS_PUT_IN_3L:
 			{
+				user.Set_P_Td(5, 5);
+				
 				user.Set_X(PUTKFS_PUT_KFS_IN_X_3L);
 				user.Set_Z(PUTKFS_PUT_KFS_IN_Z_3L);
 				user.Set_P(PUTKFS_PUT_KFS_IN_P_3L);

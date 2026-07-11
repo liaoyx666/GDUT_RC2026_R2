@@ -161,7 +161,7 @@ namespace gantry
         Computer_Mode computer_mode;
 
         // 龙门架三轴位置
-        static constexpr float GET_Z = (0.317129f - 0.028f + 0.01f + 0.02); // 取武器头z轴位置
+        static constexpr float GET_Z = (0.317129f - 0.028f + 0.01f + 0.015); // 取武器头z轴位置
         static constexpr float LIFT_UP_Z = 0.03f;//取到武器头后上升距离
         static constexpr float LIFT_UP_Z_ = 0.05f;//取到武器头后上升距离
 
