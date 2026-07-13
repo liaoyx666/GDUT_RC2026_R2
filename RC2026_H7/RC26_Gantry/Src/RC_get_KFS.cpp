@@ -42,10 +42,10 @@ namespace gantry
 		: gantry(gantry_),
 		  gantry_event
 		{
-				path::Event3(13, 0.50f, true, true, 2.9f),//20
-				path::Event3(14, 0.80f, true, true, 2.9f),//40
-				path::Event3(15, 0.50f, true, true, 2.9f),//-20
-				path::Event3(16, 0.50f, true, true, 2.9f),//0
+				path::Event3(13, 0.30f, true, true, 2.9f),//20
+				path::Event3(14, 0.70f, true, true, 2.9f),//40
+				path::Event3(15, 0.30f, true, true, 2.9f),//-20
+				path::Event3(16, 0.30f, true, true, 2.9f),//0
 				path::Event3(25, 0.02f, true, true)//pick
 		  },
 		  suction_(suction_),

@@ -65,7 +65,7 @@ namespace combine
 				{
 					if (qeo.Y() < c_target_y)
 					{
-						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.2));
+						chassis.Set_Robot_Lin_Vel(vector2d::Vector2D(0, 0.25));
 					}
 					else
 					{

@@ -340,7 +340,7 @@ namespace path
 			p = vector2d::Vector2D(11.825f - 0.375f - 0.35f - 0.175f + 0.04f, -(-(6.f - 0.6f - 0.175f) + (get_ground_num) * 0.7f));
 		}
 		
-		if (fabsf(p.y() - just_nav.p.y()) > 0.4f && just_nav.p.x() < 11.f)
+		if (fabsf(p.y() - just_nav.p.y()) > 0.6f && just_nav.p.x() < 11.f)
 		{
 			Pass_Do(vector2d::Vector2D(11.13, p.y()), yaw, EVENT3_NULL);
 		}

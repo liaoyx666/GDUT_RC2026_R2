@@ -3,7 +3,7 @@
 <title>Static Call Graph - [RC2026\RC2026.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image RC2026\RC2026.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat Jul 11 20:05:33 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Mon Jul 13 21:58:51 2026
 <BR><P>
 <H3>Maximum Stack Usage =        488 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3348,7 +3348,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rc_init.o(.text._GLOBAL__sub_I_RC_init.cpp)
 </UL>
-<P><STRONG><a name="[b8]"></a>Plan_Task(void*)</STRONG> (Thumb, 2276 bytes, Stack size 16 bytes, rc_init.o(.text._Z9Plan_TaskPv))
+<P><STRONG><a name="[b8]"></a>Plan_Task(void*)</STRONG> (Thumb, 2300 bytes, Stack size 16 bytes, rc_init.o(.text._Z9Plan_TaskPv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = Plan_Task(void*) &rArr; ros::BestPath::Generate_Path() &rArr; path::Navigation::Go_To_Get_KFS(unsigned char, path::Direction) &rArr; path::MapGraph::Get_Node_On_Pos(vector2d::Vector2D) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -4829,7 +4829,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[247]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, gantry::GetWeaponHead::Computer_Side, gantry::GetWeaponHead::Computer_Mode)
 </UL>
 
-<P><STRONG><a name="[255]"></a>gantry::GetWeaponHead::Auto_Get_Weapon_Head()</STRONG> (Thumb, 2212 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHead20Auto_Get_Weapon_HeadEv))
+<P><STRONG><a name="[255]"></a>gantry::GetWeaponHead::Auto_Get_Weapon_Head()</STRONG> (Thumb, 2312 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHead20Auto_Get_Weapon_HeadEv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = gantry::GetWeaponHead::Auto_Get_Weapon_Head() &rArr; gantry::GantryUser::Take_Control() &rArr; xQueueSemaphoreTake &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::Set_Current(float)
@@ -4861,7 +4861,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Plan_Task(void*)
 </UL>
 
-<P><STRONG><a name="[247]"></a>gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, gantry::GetWeaponHead::Computer_Side, gantry::GetWeaponHead::Computer_Mode)</STRONG> (Thumb, 300 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERN10mini_laser9MiniLaserERNS_7GripperERN4path9PathPlan3ERNSE_8HeadCtrlENS0_13Computer_SideENS0_13Computer_ModeE))
+<P><STRONG><a name="[247]"></a>gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, gantry::GetWeaponHead::Computer_Side, gantry::GetWeaponHead::Computer_Mode)</STRONG> (Thumb, 308 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERN10mini_laser9MiniLaserERNS_7GripperERN4path9PathPlan3ERNSE_8HeadCtrlENS0_13Computer_SideENS0_13Computer_ModeE))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = gantry::GetWeaponHead::GetWeaponHead(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, gantry::GetWeaponHead::Computer_Side, gantry::GetWeaponHead::Computer_Mode) &rArr; pid::NonlinearPid::NonlinearPid(float, float, float, float, float, float) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor::DjiMotor::Set_Current(float)
@@ -4873,7 +4873,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_GLOBAL__sub_I_RC_init.cpp
 </UL>
 
-<P><STRONG><a name="[399]"></a>gantry::GetWeaponHead::GetWeaponHead__sub_object(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, gantry::GetWeaponHead::Computer_Side, gantry::GetWeaponHead::Computer_Mode)</STRONG> (Thumb, 300 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERN10mini_laser9MiniLaserERNS_7GripperERN4path9PathPlan3ERNSE_8HeadCtrlENS0_13Computer_SideENS0_13Computer_ModeE), UNUSED)
+<P><STRONG><a name="[399]"></a>gantry::GetWeaponHead::GetWeaponHead__sub_object(chassis::Chassis&, data::RobotPose&, gantry::Gantry&, mini_laser::MiniLaser&, gantry::Gripper&, path::PathPlan3&, path::HeadCtrl&, gantry::GetWeaponHead::Computer_Side, gantry::GetWeaponHead::Computer_Mode)</STRONG> (Thumb, 308 bytes, Stack size 56 bytes, rc_get_weapon_head.o(.text._ZN6gantry13GetWeaponHeadC2ERN7chassis7ChassisERN4data9RobotPoseERNS_6GantryERN10mini_laser9MiniLaserERNS_7GripperERN4path9PathPlan3ERNSE_8HeadCtrlENS0_13Computer_SideENS0_13Computer_ModeE), UNUSED)
 
 <P><STRONG><a name="[25d]"></a>gantry::Gantry::Gantry_Base()</STRONG> (Thumb, 504 bytes, Stack size 0 bytes, rc_gantry.o(.text._ZN6gantry6Gantry11Gantry_BaseEv))
 <BR><BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Main_Task(void*)
@@ -5274,7 +5274,7 @@ Global Symbols
 
 <P><STRONG><a name="[3a0]"></a>ws2812::Ws2812B::Ws2812B__sub_object(__SPI_HandleTypeDef*)</STRONG> (Thumb, 108 bytes, Stack size 24 bytes, rc_ws2812.o(.text._ZN6ws28127Ws2812BC2EP19__SPI_HandleTypeDef), UNUSED)
 
-<P><STRONG><a name="[263]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3108 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
+<P><STRONG><a name="[263]"></a>chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool)</STRONG> (Thumb, 3128 bytes, Stack size 56 bytes, rc_lift_chassis.o(.text._ZN7chassis11LiftChassis4LiftENS_10LiftActionENS_10LiftHeigthENS_7LiftDirEb))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = chassis::LiftChassis::Lift(chassis::LiftAction, chassis::LiftHeigth, chassis::LiftDir, bool) &rArr; __hardfp_sqrtf &rArr; __set_errno
 </UL>
 <BR>[Calls]<UL><LI><a href="#[253]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_ReadPin

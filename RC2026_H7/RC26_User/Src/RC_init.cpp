@@ -342,7 +342,7 @@ void Main_Task(void *argument)
 				path_plan.Disable();
 				dis_flag = true;
 			}
-			
+				
 			omni_4_chassis.Set_World_Vel(vector2d::Vector2D(remote_ctrl.left_y / 150.f, -remote_ctrl.left_x / 150.f), -remote_ctrl.right_x / 100.f);
 		}
 		
@@ -530,24 +530,31 @@ void Plan_Task(void *argument)
 				{
 					navigation.Go_To_Get_Weapon_Head(1);// 取武器头
 				}
-				
 				navigation.Go_To_Stick_Edge();// 贴边对接
 				
 				navigation.Go_To_Get_Weapon_Head(2);// 取武器头
 				navigation.Go_To_Dock();
+				
 				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
 				navigation.Go_To_Dock_2();
 			}
 			else if (pick_num == 2)
 			{
-				navigation.Go_To_Get_Weapon_Head(2);// 取武器头
+				if (!data::HaveWeapon::Have_Weapon())
+				{
+					navigation.Go_To_Get_Weapon_Head(2);// 取武器头
+				}
 				navigation.Go_To_Dock();
+				
 				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
 				navigation.Go_To_Dock_2();
 			}
 			else
 			{
-				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+				if (!data::HaveWeapon::Have_Weapon())
+				{
+					navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+				}
 				navigation.Go_To_Dock_2();
 			}
 		}

@@ -69,7 +69,7 @@ namespace combine
 	
 		uint32_t last_time;
 	
-		const float uc_target_y = -0.95f;
+		const float uc_target_y = -1.0f;
 		
 		const float c_target_y = 0.1f;
 	

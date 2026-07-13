@@ -41,6 +41,7 @@ GetWeaponHead::GetWeaponHead(
     gripper.Stop();
 
     grab_start_time = 0;
+	delay_1 = 0;
     pick_num = 1;
 
     chassis_target_x = 0.0f;
@@ -153,7 +154,6 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
 
     case GANTRY_STATE::Gantry_Ready_X:
         {
-            //float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y - READY_GANTRY_DIST;
             float gantry_ready_x = READY_GANTRY_DIST;
             if( Set_Gantry_X(gantry_ready_x) ) {
                 gantry_state = GANTRY_STATE::Gantry_Down_Z;
@@ -173,11 +173,21 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
         {
         float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y;
         if( Set_Gantry_X( gantry_ready_x ) ) {
-            gantry_state = GANTRY_STATE::Gantry_Grab;
+			delay_1 = timer::Timer::Get_TimeStamp();
+            gantry_state = GANTRY_STATE::DELAY_1;
         }
         break;
         }
 
+	case GANTRY_STATE::DELAY_1:
+	{
+		float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y;
+		Set_Gantry_X( gantry_ready_x );
+        if (timer::Timer::Get_DeltaTime(delay_1) >= 350000U ) {
+            gantry_state = GANTRY_STATE::Gantry_Grab;
+        }
+        break;
+	}
     case GANTRY_STATE::Gantry_Grab:
         gripper.Close();
         grab_start_time = timer::Timer::Get_TimeStamp();
@@ -200,8 +210,8 @@ void GetWeaponHead::Auto_Get_Weapon_Head() {
     case GANTRY_STATE::Gantry_Re_Ready_X:
         {
             Set_Gantry_Pitch(0.0f);
-            float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y - READY_GANTRY_DIST;
-            
+            //float gantry_ready_x = fabs(TARGET_WEAPON_Y - curr_y) - HALF_CHASSIS_Y - READY_GANTRY_DIST;
+            float gantry_ready_x = READY_GANTRY_DIST;
             if( Set_Gantry_X(gantry_ready_x) ) {
                 gantry_state = GANTRY_STATE::Judge_Grab;
             }
@@ -499,11 +509,11 @@ void GetWeaponHead::UpdateSideParam()
 {
     if(computer_side == Computer_Side::BLUE_SIDE) {
         target_yaw = - PI / 2.f;
-        TARGET_WEAPON_Y = -6.04f;
+        TARGET_WEAPON_Y = -6.037f;
         READY_POINT_Y = TARGET_WEAPON_Y + READY_CHASSIS_DIST + HALF_CHASSIS_Y;
     } else {
         target_yaw = PI / 2.f;
-        TARGET_WEAPON_Y = 6.04f;
+        TARGET_WEAPON_Y = 6.037f;
         READY_POINT_Y = TARGET_WEAPON_Y - READY_CHASSIS_DIST - HALF_CHASSIS_Y;
     }
 }

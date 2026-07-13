@@ -61,6 +61,9 @@ namespace gantry
             Gantry_Ready_X,  // x轴伸出到预设位置
             Gantry_Down_Z,   // Chssis_Ready以及Gantry_Y就位后，下降z轴到预设位置
             Gantry_Grab_X,
+			
+			DELAY_1,
+			
             Gantry_Grab,
             Wait_Gantry_Grab, 
 
@@ -155,23 +158,23 @@ namespace gantry
 		float curr_yaw;
 
         uint32_t grab_start_time;
-
+uint32_t delay_1;
         int pick_num;
         Computer_Side computer_side; // 蓝区/红区标志
         Computer_Mode computer_mode;
 
         // 龙门架三轴位置
-        static constexpr float GET_Z = (0.317129f - 0.028f + 0.01f + 0.015); // 取武器头z轴位置
-        static constexpr float LIFT_UP_Z = 0.03f;//取到武器头后上升距离
+        static constexpr float GET_Z = (0.317129f - 0.028f + 0.01f + 0.002); // 取武器头z轴位置
+        static constexpr float LIFT_UP_Z = 0.02f;//取到武器头后上升距离
         static constexpr float LIFT_UP_Z_ = 0.05f;//取到武器头后上升距离
 
         static constexpr float GANTRY_RETRACT_X = 0.03f;//龙门架复位后X轴位置
 
-        static constexpr float READY_GANTRY_DIST = 0.17f;
-        static constexpr float READY_CHASSIS_DIST = 0.24f;
+        static constexpr float READY_GANTRY_DIST = 0.175f; // 龙门架预备时伸出的X轴距离
+        static constexpr float READY_CHASSIS_DIST = 0.25f; // 就位时夹爪与武器头的距离
 
         // 停止阈值
-        static constexpr float GANTRY_POS_TOLERANCE = 0.01f;
+        static constexpr float GANTRY_POS_TOLERANCE = 0.005f;
         static constexpr float CHASSIS_POS_TOLERANCE = 0.1f;
         static constexpr uint32_t WAIT_GANTRY_GRAB_TIME =  350000U ; // 单位：us
 

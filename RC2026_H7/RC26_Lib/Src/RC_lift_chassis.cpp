@@ -213,7 +213,7 @@ namespace chassis
 				
 				if (dis < LIFT_CHASSIS_UP_DIS)
 				{
-					max_vel = sqrtf((LIFT_CHASSIS_UP_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC + (LIFT_CHASSIS_UP_VEL * LIFT_CHASSIS_UP_VEL));
+					max_vel = sqrtf((LIFT_CHASSIS_UP_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC * 0.8f + (LIFT_CHASSIS_UP_VEL * LIFT_CHASSIS_UP_VEL));
 					
 					max_vel = fminf(max_vel, LIFT_CHASSIS_FAST_VEL);
 					max_vel = fmaxf(max_vel, LIFT_CHASSIS_UP_VEL);
@@ -336,7 +336,7 @@ namespace chassis
 				
 				if (dis < LIFT_CHASSIS_DOWN_DIS)
 				{
-					max_vel = sqrtf((LIFT_CHASSIS_DOWN_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC + (LIFT_CHASSIS_DOWN_VEL * LIFT_CHASSIS_DOWN_VEL));
+					max_vel = sqrtf((LIFT_CHASSIS_DOWN_DIS - dis) * 2.f * LIFT_CHASSIS_SLOW_ACC * 0.8f + (LIFT_CHASSIS_DOWN_VEL * LIFT_CHASSIS_DOWN_VEL));
 					
 					max_vel = fminf(max_vel, LIFT_CHASSIS_FAST_VEL);
 					max_vel = fmaxf(max_vel, LIFT_CHASSIS_DOWN_VEL);
