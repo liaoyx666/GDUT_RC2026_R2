@@ -579,7 +579,8 @@ void Plan_Task(void *argument)
 	else if (data::MatchType::Get_Match_Type() == 2) // 三区挑战赛
 	{
 		
-		
+//		if (data::BootArea::Is_Boot_At_Mc() == 0)
+//		{
 		if (data::Side::Is_Blue_Left_Side())
 		{
 			navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
@@ -595,6 +596,11 @@ void Plan_Task(void *argument)
 		//navigation.Challenge_Go_To_Get_KFS_Ground();
 		
 		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
+//		}
+//		else
+//		{
+//			navigation.Go_To_Avoid_R1_In_ARENA();
+//		}
 	}
 	
 	/*------------------------------循环----------------------------------*/
@@ -714,6 +720,7 @@ void Plan_Task(void *argument)
 					}
 					else if (get_gnd_kfs.Get_Cmd())
 					{
+						navigation.Set_Get_Ground_Num(1);
 						navigation.Challenge_Go_To_Get_KFS_Ground();
 					}
 					

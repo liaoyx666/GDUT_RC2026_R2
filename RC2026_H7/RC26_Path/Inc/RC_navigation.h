@@ -77,6 +77,14 @@ namespace path
 		bool Challenge_Go_To_Combine();
 		bool Challenge_Go_To_Put_KFS_2L(uint8_t col); /*放二层， 1 ~ 3 列，靠近梅林小*/
 		
+		
+		void Set_Get_Ground_Num(uint8_t num)
+		{
+			if (get_ground_num == 0 || get_ground_num > 3) return;
+			
+			get_ground_num = num;
+		}
+		
 		/*------------------------------------------------------------*/
 		
 		

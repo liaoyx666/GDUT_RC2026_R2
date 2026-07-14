@@ -511,7 +511,7 @@ default: return false;
             break;				
 				
 		case ARM_TASK::PICK_UP_KFS_0CM_1_step2:
-            if (seq_idx == 4) Finish_Event_Early();
+            if (seq_idx == 5) Finish_Event_Early();
             break;
 		
 		case ARM_TASK::PICK_UP_KFS_0CM_2_step2:
