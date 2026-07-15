@@ -230,6 +230,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>ir_buffer</ItemText>
         </Ww>
+        <Ww>
+          <count>15</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>lift</ItemText>
+        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>

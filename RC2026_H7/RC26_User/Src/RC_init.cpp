@@ -414,14 +414,14 @@ void Plan_Task(void *argument)
 		led.FlashContinuous(ws2812::Color::RED, ws2812::Color::NONE); // 红色闪烁
 	}
 	
-	if (data::MatchType::Get_Match_Type() == 1)
-	{
-		get_weapon_head.Set_Mode(0); // 挑战赛
-	}
-	else
-	{
+//	if (data::MatchType::Get_Match_Type() == 1)
+//	{
+//		get_weapon_head.Set_Mode(0); // 挑战赛
+//	}
+//	else
+//	{
 		get_weapon_head.Set_Mode(1);
-	}
+//	}
 	
 	if (( data::HaveOutKFS::Have_Out_KFS() && data::KFSNum::Get_KFS_Num() != 0 ) || (data::KFSNum::Get_KFS_Num() == 4))
 	{
@@ -453,20 +453,20 @@ void Plan_Task(void *argument)
 			navigation.Add_Start(vector2d::Vector2D(0.42, 4.53), 0);// 红
 		}
 	}
-	else if (data::BootArea::Is_Boot_At_Mc() == 0) // 斜坡启动区
-	{
-		state = STATE_COMBINE_READY;
-		
-		// 挑战赛启动区
-		if (data::Side::Is_Blue_Left_Side())
-		{
-			navigation.Add_Start(vector2d::Vector2D(7.61, -0.7), -HALF_PI);// 蓝
-		}
-		else
-		{
-			navigation.Add_Start(vector2d::Vector2D(7.61, 0.7), HALF_PI);// 红
-		}
-	}
+//	else if (data::BootArea::Is_Boot_At_Mc() == 0) // 斜坡启动区
+//	{
+//		state = STATE_COMBINE_READY;
+//		
+//		// 挑战赛启动区
+//		if (data::Side::Is_Blue_Left_Side())
+//		{
+//			navigation.Add_Start(vector2d::Vector2D(7.61, -0.7), -HALF_PI);// 蓝
+//		}
+//		else
+//		{
+//			navigation.Add_Start(vector2d::Vector2D(7.61, 0.7), HALF_PI);// 红
+//		}
+//	}
 	else if (data::BootArea::Is_Boot_At_Mc() == 2) // 三区启动区
 	{
 		state = STATE_COMBINE_READY;
@@ -508,100 +508,100 @@ void Plan_Task(void *argument)
 
 		navigation.Go_To_Avoid_R1_In_ARENA();
 	}
-	else if (data::MatchType::Get_Match_Type() == 1) // 一二区挑战赛
-	{
-		// 规划夹武器和对接
-		if (data::IsDock::Is_Dock())
-		{
-			int8_t pick_num = data::PickWeaponNum::Get_Pick_Num();
-			
-			if (data::Side::Is_Blue_Left_Side())
-			{
-				pick_num = pick_num - 3;
-			}
-			else
-			{
-				
-			}
-			
-			if (pick_num <= 1)
-			{
-				if (!data::HaveWeapon::Have_Weapon())
-				{
-					navigation.Go_To_Get_Weapon_Head(1);// 取武器头
-				}
-				navigation.Go_To_Stick_Edge();// 贴边对接
-				
-				navigation.Go_To_Get_Weapon_Head(2);// 取武器头
-				navigation.Go_To_Dock();
-				
-				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
-				navigation.Go_To_Dock_2();
-			}
-			else if (pick_num == 2)
-			{
-				if (!data::HaveWeapon::Have_Weapon())
-				{
-					navigation.Go_To_Get_Weapon_Head(2);// 取武器头
-				}
-				navigation.Go_To_Dock();
-				
-				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
-				navigation.Go_To_Dock_2();
-			}
-			else
-			{
-				if (!data::HaveWeapon::Have_Weapon())
-				{
-					navigation.Go_To_Get_Weapon_Head(3);// 取武器头
-				}
-				navigation.Go_To_Dock_2();
-			}
-		}
-		
-		// 规划梅林
-		if (data::BootArea::Is_Boot_At_Mc())
-		{
-			best_path.Generate_Path();
-		}
-
-		// 
-		//navigation.Go_To_Put_KFS_2L(2);
-		if (data::Side::Is_Blue_Left_Side())
-		{
-			navigation.Go_To_Do(vector2d::Vector2D(8 + 0.725, -3.1), 0, EVENT3_NULL);
-		}
-		else
-		{
-			navigation.Go_To_Do(vector2d::Vector2D(8 + 0.725, 3.1), 0, EVENT3_NULL);
-		}
-	}
-	else if (data::MatchType::Get_Match_Type() == 2) // 三区挑战赛
-	{
-		
-//		if (data::BootArea::Is_Boot_At_Mc() == 0)
+//	else if (data::MatchType::Get_Match_Type() == 1) // 一二区挑战赛
+//	{
+//		// 规划夹武器和对接
+//		if (data::IsDock::Is_Dock())
 //		{
-		if (data::Side::Is_Blue_Left_Side())
-		{
-			navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
-		}
-		else
-		{
-			navigation.Pass_Do(vector2d::Vector2D(11, 2.5), 0, EVENT3_NULL);
-		}
-		
-		
-		navigation.Challenge_Go_To_Get_KFS_Ground();
-		navigation.Challenge_Go_To_Get_KFS_Ground();
-		//navigation.Challenge_Go_To_Get_KFS_Ground();
-		
-		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
+//			int8_t pick_num = data::PickWeaponNum::Get_Pick_Num();
+//			
+//			if (data::Side::Is_Blue_Left_Side())
+//			{
+//				pick_num = pick_num - 3;
+//			}
+//			else
+//			{
+//				
+//			}
+//			
+//			if (pick_num <= 1)
+//			{
+//				if (!data::HaveWeapon::Have_Weapon())
+//				{
+//					navigation.Go_To_Get_Weapon_Head(1);// 取武器头
+//				}
+//				navigation.Go_To_Stick_Edge();// 贴边对接
+//				
+//				navigation.Go_To_Get_Weapon_Head(2);// 取武器头
+//				navigation.Go_To_Dock();
+//				
+//				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+//				navigation.Go_To_Dock_2();
+//			}
+//			else if (pick_num == 2)
+//			{
+//				if (!data::HaveWeapon::Have_Weapon())
+//				{
+//					navigation.Go_To_Get_Weapon_Head(2);// 取武器头
+//				}
+//				navigation.Go_To_Dock();
+//				
+//				navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+//				navigation.Go_To_Dock_2();
+//			}
+//			else
+//			{
+//				if (!data::HaveWeapon::Have_Weapon())
+//				{
+//					navigation.Go_To_Get_Weapon_Head(3);// 取武器头
+//				}
+//				navigation.Go_To_Dock_2();
+//			}
+//		}
+//		
+//		// 规划梅林
+//		if (data::BootArea::Is_Boot_At_Mc())
+//		{
+//			best_path.Generate_Path();
+//		}
+
+//		// 
+//		//navigation.Go_To_Put_KFS_2L(2);
+//		if (data::Side::Is_Blue_Left_Side())
+//		{
+//			navigation.Go_To_Do(vector2d::Vector2D(8 + 0.725, -3.1), 0, EVENT3_NULL);
 //		}
 //		else
 //		{
-//			navigation.Go_To_Avoid_R1_In_ARENA();
+//			navigation.Go_To_Do(vector2d::Vector2D(8 + 0.725, 3.1), 0, EVENT3_NULL);
 //		}
-	}
+//	}
+//	else if (data::MatchType::Get_Match_Type() == 2) // 三区挑战赛
+//	{
+//		
+////		if (data::BootArea::Is_Boot_At_Mc() == 0)
+////		{
+//		if (data::Side::Is_Blue_Left_Side())
+//		{
+//			navigation.Pass_Do(vector2d::Vector2D(11, -2.5), 0, EVENT3_NULL);
+//		}
+//		else
+//		{
+//			navigation.Pass_Do(vector2d::Vector2D(11, 2.5), 0, EVENT3_NULL);
+//		}
+//		
+//		
+//		navigation.Challenge_Go_To_Get_KFS_Ground();
+//		navigation.Challenge_Go_To_Get_KFS_Ground();
+//		//navigation.Challenge_Go_To_Get_KFS_Ground();
+//		
+//		navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
+////		}
+////		else
+////		{
+////			navigation.Go_To_Avoid_R1_In_ARENA();
+////		}
+//	}
 	
 	/*------------------------------循环----------------------------------*/
 
@@ -718,11 +718,11 @@ void Plan_Task(void *argument)
 					{
 						navigation.Challenge_Go_To_Avoid_R1_In_ARENA();
 					}
-					else if (get_gnd_kfs.Get_Cmd())
-					{
-						navigation.Set_Get_Ground_Num(1);
-						navigation.Challenge_Go_To_Get_KFS_Ground();
-					}
+//					else if (get_gnd_kfs.Get_Cmd())
+//					{
+//						navigation.Set_Get_Ground_Num(1);
+//						navigation.Challenge_Go_To_Get_KFS_Ground();
+//					}
 					
 					break;
 				}

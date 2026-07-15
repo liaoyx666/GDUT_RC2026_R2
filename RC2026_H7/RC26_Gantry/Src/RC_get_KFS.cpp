@@ -379,7 +379,7 @@ default: return false;
             switch (seq_idx)
             {
              //   case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.05f, 0.00f, 0.1f,  0.00f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
-                case 00: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.51f, 0.00f, 0.30f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
+                case 0: Set_Ctrl_Mode(SpeedMode::FAST);   Set_Step_Delay(0);          Set_Step_Target(0.51f, 0.00f, 0.30f, 4.71f, CtrlMode::OPEN_LOOP);        Set_Step_Act(1); return true;
                 default: return false;
             }
         
@@ -478,8 +478,16 @@ default: return false;
     seq_idx++;
     switch (cur_task)
     {
+		
         case ARM_TASK::PICK_UP_KFS_20CM_1_step2:
-           if (seq_idx == 4) Finish_Event_Early();
+			if(data::KFSNum::Get_KFS_Num() == 1)
+			{
+				if (seq_idx == 7) Finish_Event_Early();
+			}
+			else
+			{
+				if (seq_idx == 4) Finish_Event_Early();
+			}
             break;
 
        case ARM_TASK::PICK_UP_KFS_20CM_2_step2:
